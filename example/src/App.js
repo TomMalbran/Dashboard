@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from "react";
+import { Html } from "dashboard";
+import { Download } from "dashboard";
 
-import ExampleComponent from 'dashboard'
 
-export default class App extends Component {
-  render () {
-    return (
-      <div>
-        <ExampleComponent text='Modern React component module' />
-      </div>
-    )
-  }
+export default class App extends React.Component {
+    render () {
+        return <div>
+            <Html>{"<b>Hola</b><br><i>Como estas</i>"}</Html>
+            <Download src="" />
+        </div>;
+    }
 }
