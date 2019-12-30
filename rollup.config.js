@@ -5,7 +5,8 @@ import resolve          from "@rollup/plugin-node-resolve";
 import babel            from "rollup-plugin-babel";
 import external         from "rollup-plugin-peer-deps-external";
 import postcss          from "rollup-plugin-postcss";
-// import pkg              from "./package.json";
+import cleaner          from "rollup-plugin-cleaner";
+// import copy             from "rollup-plugin-copy"
 
 
 
@@ -36,7 +37,15 @@ export default [
             dir    : "dist",
             format : "cjs",
         },
-        plugins,
+        plugins : [
+            cleaner({
+                targets : [ "./dist/" ],
+            }),
+            // copy({
+            //     targets : [{ src : "package.json", dest : "dist" }],
+            // }),
+            ...plugins,
+        ],
     },
 
     // Core Functions
@@ -45,7 +54,7 @@ export default [
             NLS : "src/Core/NLS.js",
         },
         output : {
-            dir    : "dist/core",
+            dir    : "dist/Core",
             format : "cjs",
         },
         plugins,
@@ -60,7 +69,7 @@ export default [
             HyperLink : "src/Common/HyperLink.js",
         },
         output : {
-            dir    : "dist/components",
+            dir    : "dist/Components",
             format : "cjs",
         },
         plugins,
@@ -73,7 +82,7 @@ export default [
             Href      : "src/Utils/Href.js",
         },
         output : {
-            dir    : "dist/utils",
+            dir    : "dist/Utils",
             format : "cjs",
         },
         plugins,

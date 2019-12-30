@@ -4,7 +4,7 @@
     "description": "My personal Dashboard",
     "author": "TomMalbran",
     "license": "MIT",
-    "repository": "TomMalbran/dashboard",
+    "repository": "TomMalbran/Dashboard",
     "main": "dist/index.js",
     "module": "dist/index.es.js",
     "jsnext:main": "dist/index.es.js",
@@ -19,7 +19,8 @@
         "start": "rollup -c -w",
         "prepare": "npm run build",
         "predeploy": "cd example && npm install && npm run build",
-        "deploy": "gh-pages -d example/build"
+        "deploy": "gh-pages -d example/build",
+        "dist": "npm publish dist"
     },
     "peerDependencies": {
         "prop-types": "^15.5.4",
@@ -35,7 +36,7 @@
         "@rollup/plugin-commonjs": "^11.0.0",
         "@rollup/plugin-node-resolve": "^6.0.0",
         "@rollup/plugin-url": "^4.0.0",
-        "@svgr/rollup": "^5.0.0",
+        "@svgr/rollup": "^5.0.1",
         "babel-eslint": "^10.0.3",
         "cross-env": "^6.0.3",
         "eslint": "^6.8.0",
@@ -53,6 +54,8 @@
         "react-scripts": "^3.3.0",
         "rollup": "^1.27.14",
         "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-cleaner": "^1.0.0",
+        "rollup-plugin-copy": "^3.1.0",
         "rollup-plugin-peer-deps-external": "^2.2.0",
         "rollup-plugin-postcss": "^2.0.3"
     },
