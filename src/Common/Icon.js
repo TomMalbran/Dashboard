@@ -7,7 +7,7 @@ import "Styles/Icon.css";
 
 
 /**
- * The Icon
+ * The Icon Component
  * @param {Object} props
  * @returns {Object}
  */

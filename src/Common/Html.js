@@ -25,7 +25,7 @@ function linkifyContent(content) {
 
 
 /**
- * The Html
+ * The Html Component
  * @param {Object} props
  * @returns {Object}
  */
@@ -56,7 +56,7 @@ function Html(props) {
         />;
     }
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

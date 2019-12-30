@@ -4,7 +4,7 @@ import PropTypes            from "prop-types";
 
 
 /**
- * Downloads the Source
+ * The Download Component
  * @param {Object} props
  * @returns {Object}
  */

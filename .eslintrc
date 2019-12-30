@@ -118,7 +118,7 @@
         "react/no-find-dom-node": 0,
         "react/boolean-prop-naming": 2,
         "react/default-props-match-prop-types": 2,
-        "react/no-unused-prop-types": 2,
+        "react/no-unused-prop-types": 0,
         "react/no-unused-state": 2,
         "react/prefer-es6-class": 2,
         "react/self-closing-comp": 2,
