@@ -2,15 +2,175 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import { withRouter }       from "react-router";
 import Styled               from "styled-components";
+
 import NLS                  from "Core/NLS";
-import ClassList            from "Utils/ClassList";
 import Href                 from "Utils/Href";
 
 // Components
 import Icon                 from "./Icon";
 import Html                 from "./Html";
 
+
+
 // Styles
+const Link = Styled.a`
+    position: relative;
+    color: var(--link-color);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        outline: none;
+    }
+`;
+
+const ColoredLink = Styled(Link)`
+    &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        visibility: hidden;
+        transform: scaleX(0);
+        transition: all 0.2s ease-in-out;
+        background-color: var(--link-color);
+    }
+    &:hover:before,
+    &:focus:before {
+        visibility: visible;
+        transform: scaleX(1);
+    }
+
+    &.primary {
+        --link-color: var(--primary-color);
+    }
+    &.accent {
+        --link-color: var(--accent-color);
+    }
+    &.black {
+        --link-color: var(--black-color);
+    }
+    &.white {
+        --link-color: white;
+        font-weight: 200;
+    }
+    &.gray {
+        --link-color: var(--gray-color);
+        font-weight: 400;
+    }
+    &.red {
+        --link-color: var(--red-color);
+        font-weight: 600;
+    }
+    &.green {
+        --link-color: var(--green-color);
+        font-weight: 600;
+    }
+`;
+
+const MenuLink = Styled(Link)`
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    
+    &.light-menu {
+        color: var(--title-color);
+    }
+    &.light-menu:hover,
+    &.light-menu.selected {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    &.dark-menu {
+        color: var(--lightest-color);
+    }
+    &.dark-menu:hover,
+    &.dark-menu.selected {
+        color: white;
+        background-color: var(--primary-color);
+    }
+
+    & > .link-preicon {
+        font-size: 1.2em;
+        margin-right: 12px;
+    }
+    & > .link-aftericon {
+        font-size: 1.2em;
+        margin-left: 12px;
+    }
+`;
+
+const ImageLink = Styled(Link)`
+    display: block;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        filter: grayscale(1);
+        color: #666;
+    }
+`;
+
+const OpacityLink = Styled(Link)`
+    display: block;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+        opacity: 0.5;
+    }
+`;
+
+const OutlinedLink = Styled(Link)`
+    display: flex;
+    align-items: center;
+    padding: 4px 16px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    text-transform: uppercase;
+    font-size: 12px;
+    
+    &:hover,
+    &.selected {
+        border-color: white;
+    }
+    & > .link-preicon,
+    & > .link-aftericon {
+        font-size: 20px;
+    }
+`;
+
+const UnderlineLink = Styled(Link)`
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+const IconLink = Styled(Link)`
+    --link-color: var(--primary-color);
+    display: block;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 50%;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+`;
+const DisabledIconLink = Styled(IconLink)`
+    color: var(--darker-gray);
+    cursor: not-allowed;
+    &:hover {
+        background-color: transparent;
+    }
+`;
+
 const Badge = Styled.span`
     position: absolute;
     top: -2px;
@@ -55,6 +215,40 @@ function handleClick(props, e) {
 }
 
 /**
+ * Returns the Styled Component based on the Variant
+ * @param {String}  variant
+ * @param {Boolean} isDisabled
+ * @returns {Object}
+ */
+function getComponent(variant, isDisabled) {
+    switch (variant) {
+    case "primary":
+    case "accent":
+    case "black":
+    case "white":
+    case "gray":
+    case "red":
+    case "green":
+        return ColoredLink;
+    case "menu-light":
+    case "menu-dark":
+        return MenuLink;
+    case "image":
+        return ImageLink;
+    case "opacity":
+        return OpacityLink;
+    case "underline":
+        return UnderlineLink;
+    case "outlined":
+        return OutlinedLink;
+    case "icon":
+        return isDisabled ? DisabledIconLink : IconLink;
+    default:
+        return Link;
+    }
+}
+
+/**
  * Returns the Url
  * @param {Object} props
  * @returns {String}
@@ -74,27 +268,6 @@ function getUrl(props) {
     return result;
 }
 
-/**
- * Returns the ClassName
- * @param {Object}  props
- * @param {String}  url
- * @param {Boolean} hasContent
- * @returns {String}
- */
-function getClassName(props, url, hasContent) {
-    const { variant, icon, path, isDisabled, className } = props;
-    const result  = new ClassList("link", `link-${variant}`);
-    const colored = [ "primary", "accent", "black", "white", "gray", "red", "green" ];
-
-    result.addIf("link-colored",  colored.includes(variant));
-    result.addIf("link-with",     icon && variant !== "icon" && hasContent);
-    result.addIf("link-selected", path && url === path);
-    result.addIf("link-disabled", isDisabled);
-    result.add(className);
-
-    return result.get();
-}
-
 
 
 /**
@@ -104,18 +277,21 @@ function getClassName(props, url, hasContent) {
  */
 function HyperLink(props) {
     const {
-        passedRef, target, message, html, children, icon, afterIcon, badge,
+        passedRef, variant, className, path, isDisabled,
+        target, message, html, children, icon, afterIcon, badge,
         onMouseEnter, onMouseLeave,
     } = props;
 
+    const Component  = getComponent(variant, isDisabled);
+    const url        = getUrl(props);
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
-    const url        = getUrl(props);
-    const className  = getClassName(props, url, hasContent);
+    const selClass   = path && url === path ? "selected" : "";
+    const classes    = `link ${variant} ${className} ${selClass}`;
     
-    return <a
+    return <Component
         ref={passedRef}
-        className={className}
+        className={classes}
         href={url}
         target={target}
         onClick={(e) => handleClick(props, e)}
@@ -127,7 +303,7 @@ function HyperLink(props) {
         {hasContent  && <span className="link-content">{content}</span>}
         {!!afterIcon && <Icon className="link-aftericon" variant={afterIcon} />}
         {badge > 0   && <Badge>{badge}</Badge>}
-    </a>;
+    </Component>;
 }
 
 /**
