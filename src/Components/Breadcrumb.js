@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import HyperLink            from "Components/HyperLink";
+import HyperLink            from "./HyperLink";
 
 
 
@@ -34,8 +34,8 @@ const BreadcrumbItem = Styled.li`
         background: var(--lighter-gray);
         transition: all 0.2s ease-in-out;
     }
-    & > a:after,
-    & > a:before {
+    & > a::after,
+    & > a::before {
         content: "";
         position: absolute;
         top: 0;
@@ -45,19 +45,19 @@ const BreadcrumbItem = Styled.li`
         border-color: transparent transparent transparent #fff;
         transition: all 0.2s ease-in-out;
     }
-    & > a:after {
+    & > a::after {
         right: -8px;
         left: auto;
         z-index: 1;
         border-left-color: var(--lighter-gray);
     }
-    &:first-child > a:before {
+    &:first-child > a::before {
         display: none;
     }
     & > a:hover {
         background: var(--dark-gray);
     }
-    & > a:hover:after {
+    & > a:hover::after {
         border-left-color: var(--dark-gray);
     }
 `;

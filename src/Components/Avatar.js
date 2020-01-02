@@ -1,10 +1,12 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
-import MD5                  from "Utils/MD5";
+
+// Utils
+import MD5                  from "../Utils/MD5";
 
 // Components
-import HyperLink            from "Components/HyperLink";
+import HyperLink            from "./HyperLink";
 
 
 

@@ -6,7 +6,7 @@ import Styled               from "styled-components";
 
 // Styles
 const IconContent = Styled.span`
-    &:before {
+    &::before {
         display: inline-block;
         padding: 0;
         font-family: "icomoon";

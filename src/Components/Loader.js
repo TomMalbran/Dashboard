@@ -1,7 +1,9 @@
 import React                 from "react";
 import PropTypes             from "prop-types";
 import Styled, { keyframes } from "styled-components";
-import NLS                   from "Core/NLS";
+
+// Core
+import NLS                   from "../Core/NLS";
 
 
 
@@ -27,7 +29,7 @@ const LoaderContent = Styled.div`
     white-space: nowrap;
     overflow: hidden;
 
-    &:after {
+    &::after {
         content: "";
         animation-name: ${loading};
         animation-duration: ${(props) => props.open ? "5s" : "0s"};

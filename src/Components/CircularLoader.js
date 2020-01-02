@@ -1,7 +1,9 @@
 import React                 from "react";
 import PropTypes             from "prop-types";
 import Styled, { keyframes } from "styled-components";
-import NLS                   from "Core/NLS";
+
+// Core
+import NLS                   from "../Core/NLS";
 
 
 
@@ -83,7 +85,7 @@ const CircularRing = Styled.div`
 const CircularText = Styled.div`
     padding-top: 32px;
     color: var(--loader-font);
-    &:after {
+    &::after {
         content: " .";
         font-size: 1.5em;
         animation: ${loaderDots} 1s steps(5, end) infinite;

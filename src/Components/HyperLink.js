@@ -3,8 +3,9 @@ import PropTypes            from "prop-types";
 import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-import NLS                  from "Core/NLS";
-import Href                 from "Utils/Href";
+// Core/Utils
+import NLS                  from "../Core/NLS";
+import Href                 from "../Utils/Href";
 
 // Components
 import Icon                 from "./Icon";
@@ -27,7 +28,7 @@ const Link = Styled.a`
 `;
 
 const ColoredLink = Styled(Link)`
-    &:before {
+    &::before {
         content: "";
         position: absolute;
         width: 100%;
@@ -39,34 +40,34 @@ const ColoredLink = Styled(Link)`
         transition: all 0.2s ease-in-out;
         background-color: var(--link-color);
     }
-    &:hover:before,
-    &:focus:before {
+    &:hover::before,
+    &:focus::before {
         visibility: visible;
         transform: scaleX(1);
     }
 
-    &.primary {
+    &.link-primary {
         --link-color: var(--primary-color);
     }
-    &.accent {
+    &.link-accent {
         --link-color: var(--accent-color);
     }
-    &.black {
+    &.link-black {
         --link-color: var(--black-color);
     }
-    &.white {
+    &.link-white {
         --link-color: white;
         font-weight: 200;
     }
-    &.gray {
+    &.link-gray {
         --link-color: var(--gray-color);
         font-weight: 400;
     }
-    &.red {
+    &.link-red {
         --link-color: var(--red-color);
         font-weight: 600;
     }
-    &.green {
+    &.link-green {
         --link-color: var(--green-color);
         font-weight: 600;
     }
@@ -77,23 +78,6 @@ const MenuLink = Styled(Link)`
     align-items: center;
     padding: 8px 12px;
     border-radius: var(--border-radius);
-    
-    &.light-menu {
-        color: var(--title-color);
-    }
-    &.light-menu:hover,
-    &.light-menu.selected {
-        background-color: rgba(0, 0, 0, 0.08);
-    }
-
-    &.dark-menu {
-        color: var(--lightest-color);
-    }
-    &.dark-menu:hover,
-    &.dark-menu.selected {
-        color: white;
-        background-color: var(--primary-color);
-    }
 
     & > .link-preicon {
         font-size: 1.2em;
@@ -104,6 +88,25 @@ const MenuLink = Styled(Link)`
         margin-left: 12px;
     }
 `;
+
+const LightMenuLink = Styled(MenuLink)`
+    color: var(--title-color);
+    
+    &:hover, &.selected {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+`;
+
+const DarkMenuLink = Styled(MenuLink)`
+    &.dark-menu {
+        color: var(--lightest-color);
+    }
+    &:hover, &.selected {
+        color: white;
+        background-color: var(--primary-color);
+    }
+`;
+
 
 const ImageLink = Styled(Link)`
     display: block;
@@ -231,8 +234,9 @@ function getComponent(variant, isDisabled) {
     case "green":
         return ColoredLink;
     case "menu-light":
+        return LightMenuLink;
     case "menu-dark":
-        return MenuLink;
+        return DarkMenuLink;
     case "image":
         return ImageLink;
     case "opacity":
@@ -287,7 +291,7 @@ function HyperLink(props) {
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
     const selClass   = path && url === path ? "selected" : "";
-    const classes    = `link ${variant} ${className} ${selClass}`;
+    const classes    = `link link-${variant} ${className} ${selClass}`;
     
     return <Component
         ref={passedRef}
