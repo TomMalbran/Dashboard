@@ -1,8 +1,19 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
+
+
 
 // Styles
-import "Styles/Icon.css";
+const IconContent = Styled.span`
+    &:before {
+        display: inline-block;
+        padding: 0;
+        font-family: "icomoon";
+        font-weight: 400;
+        text-align: center;
+    }
+`;
 
 
 
@@ -14,8 +25,8 @@ import "Styles/Icon.css";
 function Icon(props) {
     const { variant, className, onClick } = props;
 
-    return <span
-        className={`icon icon-${variant} ${className}`}
+    return <IconContent
+        className={`icon-${variant} ${className}`}
         onClick={onClick}
     />;
 }

@@ -56,10 +56,14 @@
         "rollup-plugin-babel": "^4.3.3",
         "rollup-plugin-cleaner": "^1.0.0",
         "rollup-plugin-copy": "^3.1.0",
+        "rollup-plugin-multi-input": "^1.0.3",
         "rollup-plugin-peer-deps-external": "^2.2.0",
         "rollup-plugin-postcss": "^2.0.3"
     },
     "files": [
         "dist"
-    ]
+    ],
+    "dependencies": {
+        "styled-components": "^4.4.1"
+    }
 }

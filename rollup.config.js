@@ -4,18 +4,16 @@ import url              from "@rollup/plugin-url";
 import resolve          from "@rollup/plugin-node-resolve";
 import babel            from "rollup-plugin-babel";
 import external         from "rollup-plugin-peer-deps-external";
-import postcss          from "rollup-plugin-postcss";
 import cleaner          from "rollup-plugin-cleaner";
+import multiInput       from "rollup-plugin-multi-input";
+
 // import copy             from "rollup-plugin-copy"
 
 
 
 const plugins = [
+    multiInput(),
     external(),
-    postcss({
-        modules    : true,
-        extensions : [ "css" ],
-    }),
     url(),
     svgr(),
     babel({ exclude : "node_modules/**" }),
@@ -23,7 +21,7 @@ const plugins = [
     commonjs({
         include      : "node_modules/**",
         namedExports : {
-            "node_modules/react-is/index.js" : [ "isValidElementType" ],
+            "node_modules/react-is/index.js" : [ "ForwardRef", "isValidElementType", "isElement" ],
         },
     }),
 ];
@@ -31,7 +29,7 @@ const plugins = [
 export default [
     {
         input  : {
-            index    : "src/index.js",
+            index  : "src/index.js",
         },
         output : {
             dir    : "dist",
@@ -47,42 +45,10 @@ export default [
             ...plugins,
         ],
     },
-
-    // Core Functions
     {
-        input  : {
-            NLS : "src/Core/NLS.js",
-        },
+        input  : [ "src/**/*.js" ],
         output : {
-            dir    : "dist/Core",
-            format : "cjs",
-        },
-        plugins,
-    },
-
-    // Components Functions
-    {
-        input  : {
-            Download  : "src/Common/Download.js",
-            Icon      : "src/Common/Icon.js",
-            Html      : "src/Common/Html.js",
-            HyperLink : "src/Common/HyperLink.js",
-        },
-        output : {
-            dir    : "dist/Components",
-            format : "cjs",
-        },
-        plugins,
-    },
-
-    // Utils Functions
-    {
-        input  : {
-            ClassList : "src/Utils/ClassList.js",
-            Href      : "src/Utils/Href.js",
-        },
-        output : {
-            dir    : "dist/Utils",
+            dir    : "dist",
             format : "cjs",
         },
         plugins,

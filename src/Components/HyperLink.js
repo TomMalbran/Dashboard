@@ -1,6 +1,7 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 import { withRouter }       from "react-router";
+import Styled               from "styled-components";
 import NLS                  from "Core/NLS";
 import ClassList            from "Utils/ClassList";
 import Href                 from "Utils/Href";
@@ -10,7 +11,18 @@ import Icon                 from "./Icon";
 import Html                 from "./Html";
 
 // Styles
-import "Styles/HyperLink.css";
+const Badge = Styled.span`
+    position: absolute;
+    top: -2px;
+    right: 2px;
+    min-width: 14px;
+    line-height: 14px;
+    font-size: 10px;
+    text-align: center;
+    border-radius: 999px;
+    background-color: var(--white-color);
+    color: var(--primary-color);
+`;
 
 
 
@@ -114,7 +126,7 @@ function HyperLink(props) {
         {!!html      && <Html className="link-content" variant="span">{html}</Html>}
         {hasContent  && <span className="link-content">{content}</span>}
         {!!afterIcon && <Icon className="link-aftericon" variant={afterIcon} />}
-        {badge > 0   && <span className="badge">{badge}</span>}
+        {badge > 0   && <Badge>{badge}</Badge>}
     </a>;
 }
 
