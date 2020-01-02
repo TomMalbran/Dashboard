@@ -6,6 +6,7 @@ const actionsData  = {};
 const sectionsData = {};
 
 // The Current Strings
+let language = null;
 let strings  = null;
 let urls     = null;
 let actions  = null;
@@ -21,7 +22,7 @@ let sections = null;
  * @param {Object} actions
  * @returns {Void}
  */
-function initLang(lang, strings) {
+function initLang(lang, strings, urls, actions) {
     stringsData[lang]  = strings;
     urlsData[lang]     = urls;
     actionsData[lang]  = actions.ACTIONS;
@@ -38,7 +39,7 @@ function initLang(lang, strings) {
  * @returns {Void}
  */
 function setLang(lang) {
-    const language = lang || (navigator.languages && navigator.languages[0]) || navigator.language;
+    language = lang || (navigator.languages && navigator.languages[0]) || navigator.language || defaultLang;
 
     strings  = loadLang(language, stringsData);
     urls     = loadLang(language, urlsData);
@@ -74,9 +75,6 @@ function loadLang(lang, data) {
  * @returns {String}
  */
 function get(id, elem = null) {
-    if (!strings) {
-        setLang();
-    }
     const message = strings[id] || id;
     return elem !== null ? message[elem] : message;
 }
@@ -160,9 +158,6 @@ function pluralize(id, ...args) {
  * @returns {String}
  */
 function url(id, path = "", elemID = 0) {
-    if (!urls) {
-        setLang();
-    }
     const url    = urls[id] !== undefined ? urls[id] : id;
     const suffix = elemID ? `/${elemID}` : "";
     return `${path}/${url}${suffix}`;
