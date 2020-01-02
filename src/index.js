@@ -1,4 +1,10 @@
-export { default as Icon } from "Components/Icon";
-export { default as Html } from "Components/Html";
-export { default as HyperLink } from "Components/HyperLink";
-export { default as Download } from "Components/Download";
+export { default as Avatar }            from "Components/Avatar";
+export { default as Breadcrumb }        from "Components/Breadcrumb";
+export { default as CircularLoader }    from "Components/CircularLoader";
+export { default as Download }          from "Components/Download";
+export { default as Html }              from "Components/Html";
+export { default as HyperLink }         from "Components/HyperLink";
+export { default as Icon }              from "Components/Icon";
+export { default as Loader }            from "Components/Loader";
+export { default as NoneAvailable }     from "Components/NoneAvailable";
+export { default as Video }             from "Components/Video";
