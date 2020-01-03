@@ -12,7 +12,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li`
+const Div = Styled.div`
     position: relative;
     margin-bottom: 6px;
 
@@ -57,25 +57,30 @@ function handleClick(props, e) {
  */
 function NavigationItem(props) {
     const {
-        variant, className, path, baseUrl, message, url, href, icon,
-        canDelete, onDelete,
+        variant, className, path, baseUrl, message, html, url, href, icon,
+        isSelected, canDelete, onDelete, children,
     } = props;
     
-    return <Li>
-        <HyperLink
-            variant={`menu-${variant}`}
-            className={className}
-            message={message}
-            href={url ? NLS.url(url, baseUrl) : (href || "")}
-            onClick={(e) => handleClick(props, e)}
-            path={path}
-            icon={icon}
-        />
-        {canDelete && <Icon
-            variant="delete"
-            onClick={onDelete}
-        />}
-    </Li>;
+    return <li>
+        <Div>
+            <HyperLink
+                variant={`menu-${variant}`}
+                className={className}
+                message={message}
+                html={html}
+                href={url ? NLS.url(url, baseUrl) : (href || "")}
+                onClick={(e) => handleClick(props, e)}
+                path={path}
+                icon={icon}
+                isSelected={isSelected}
+            />
+            {canDelete && <Icon
+                variant="delete"
+                onClick={onDelete}
+            />}
+        </Div>
+        {children}
+    </li>;
 }
 
 /**
@@ -83,19 +88,22 @@ function NavigationItem(props) {
  * @type {Object} propTypes
  */
 NavigationItem.propTypes = {
-    variant   : PropTypes.string,
-    className : PropTypes.string,
-    path      : PropTypes.string,
-    baseUrl   : PropTypes.string,
-    message   : PropTypes.string,
-    url       : PropTypes.string,
-    href      : PropTypes.string,
-    icon      : PropTypes.string,
-    onClose   : PropTypes.func,
-    onClick   : PropTypes.func,
-    canDelete : PropTypes.bool,
-    onDelete  : PropTypes.func,
-    isHidden  : PropTypes.bool,
+    variant    : PropTypes.string,
+    className  : PropTypes.string,
+    path       : PropTypes.string,
+    baseUrl    : PropTypes.string,
+    message    : PropTypes.string,
+    html       : PropTypes.string,
+    url        : PropTypes.string,
+    href       : PropTypes.string,
+    icon       : PropTypes.string,
+    onClose    : PropTypes.func,
+    onClick    : PropTypes.func,
+    canDelete  : PropTypes.bool,
+    onDelete   : PropTypes.func,
+    isSelected : PropTypes.bool,
+    isHidden   : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**

@@ -18,6 +18,25 @@ const Header = Styled.header`
     box-sizing: border-box;
     min-height: var(--header-height);
     padding: 18px 12px 10px 8px;
+
+    .navigation-add {
+        color: white;
+    }
+`;
+
+const Div = Styled.div`
+    margin-left: 8px;
+    font-weight: 400;
+`;
+const Span1 = Styled.span`
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: var(--main-font);
+`;
+const Span2 = Styled.span`
+    display: block;
+    font-size: 20px;
 `;
 
 
@@ -33,15 +52,14 @@ function NavigationTitle(props) {
     return <Header className={className}>
         <h2 className={`title title-${variant}`}>
             <HyperLink
-                className="navigation-back"
                 variant="icon"
                 icon="back"
                 href={href}
             />
-            {message ? <div className="title-content">
-                <span>{NLS.get(fallback)}</span>
-                <span>{NLS.get(message)}</span>
-            </div> : NLS.get(fallback)}
+            {message ? <Div className="title-content">
+                <Span1>{NLS.get(fallback)}</Span1>
+                <Span2>{NLS.get(message)}</Span2>
+            </Div> : NLS.get(fallback)}
         </h2>
         {canAdd && <HyperLink
             className="navigation-add"
