@@ -7,6 +7,7 @@ import resolve          from "@rollup/plugin-node-resolve";
 import babel            from "rollup-plugin-babel";
 import external         from "rollup-plugin-peer-deps-external";
 import cleaner          from "rollup-plugin-cleaner";
+import cleanup          from "rollup-plugin-cleanup";
 
 
 
@@ -27,7 +28,7 @@ export default function makeConfig(commandOptions) {
             input[`${dst}/${name}`] = filePath;
         });
         if (!isDist) {
-            targets.push(isDist ? `./dist/${dst}` : `./${dst}`);
+            targets.push(`./${dst}`);
         }
     });
     
@@ -54,6 +55,7 @@ export default function makeConfig(commandOptions) {
                     ],
                 },
             }),
+            cleanup(),
         ],
     };
 }
