@@ -146,9 +146,13 @@ const OutlinedLink = Styled(Link)`
     &:hover {
         border-color: white;
     }
-    .link-preicon,
+    .link-preicon {
+        font-size: 1.2em;
+        margin-right: 12px;
+    }
     .link-aftericon {
-        font-size: 20px;
+        font-size: 1.2em;
+        margin-left: 12px;
     }
 `;
 const OutlinedSelected = Styled(OutlinedLink)`

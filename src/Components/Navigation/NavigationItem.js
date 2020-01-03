@@ -63,7 +63,7 @@ function NavigationItem(props) {
     
     return <Li>
         <HyperLink
-            variant={variant}
+            variant={`menu-${variant}`}
             className={className}
             message={message}
             href={url ? NLS.url(url, baseUrl) : (href || "")}

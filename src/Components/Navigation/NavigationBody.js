@@ -46,8 +46,7 @@ function getChildren(props) {
             addList = false;
         }
         const clone = React.cloneElement(child, {
-            key, path, baseUrl, onClose,
-            variant : `${variant}-menu`,
+            key, path, baseUrl, onClose, variant,
         });
         children.push(clone);
         key += 1;

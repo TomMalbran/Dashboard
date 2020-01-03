@@ -53,7 +53,7 @@ function NavigationHeader(props) {
  */
 NavigationHeader.propTypes = {
     className : PropTypes.string,
-    logo      : PropTypes.object,
+    logo      : PropTypes.string,
 };
 
 /**
