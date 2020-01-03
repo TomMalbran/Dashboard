@@ -73,17 +73,18 @@ const ColoredLink = Styled(Link)`
     }
 `;
 
+
 const MenuLink = Styled(Link)`
     display: flex;
     align-items: center;
     padding: 8px 12px;
     border-radius: var(--border-radius);
 
-    & > .link-preicon {
+    .link-preicon {
         font-size: 1.2em;
         margin-right: 12px;
     }
-    & > .link-aftericon {
+    .link-aftericon {
         font-size: 1.2em;
         margin-left: 12px;
     }
@@ -91,20 +92,24 @@ const MenuLink = Styled(Link)`
 
 const LightMenuLink = Styled(MenuLink)`
     color: var(--title-color);
-    
-    &:hover, &.selected {
+    &:hover {
         background-color: rgba(0, 0, 0, 0.08);
     }
 `;
+const LightMenuSelected = Styled(LightMenuLink)`
+    background-color: rgba(0, 0, 0, 0.08);
+`;
 
 const DarkMenuLink = Styled(MenuLink)`
-    &.dark-menu {
-        color: var(--lightest-color);
-    }
-    &:hover, &.selected {
+    color: var(--lightest-color);
+    &:hover {
         color: white;
         background-color: var(--primary-color);
     }
+`;
+const DarkMenuSelected = Styled(DarkMenuLink)`
+    color: white;
+    background-color: var(--primary-color);
 `;
 
 
@@ -118,6 +123,7 @@ const ImageLink = Styled(Link)`
     }
 `;
 
+
 const OpacityLink = Styled(Link)`
     display: block;
     transition: all 0.2s ease-in-out;
@@ -126,6 +132,7 @@ const OpacityLink = Styled(Link)`
         opacity: 0.5;
     }
 `;
+
 
 const OutlinedLink = Styled(Link)`
     display: flex;
@@ -136,21 +143,25 @@ const OutlinedLink = Styled(Link)`
     text-transform: uppercase;
     font-size: 12px;
     
-    &:hover,
-    &.selected {
+    &:hover {
         border-color: white;
     }
-    & > .link-preicon,
-    & > .link-aftericon {
+    .link-preicon,
+    .link-aftericon {
         font-size: 20px;
     }
 `;
+const OutlinedSelected = Styled(OutlinedLink)`
+    border-color: white;
+`;
+
 
 const UnderlineLink = Styled(Link)`
     &:hover {
         text-decoration: underline;
     }
 `;
+
 
 const IconLink = Styled(Link)`
     --link-color: var(--primary-color);
@@ -166,13 +177,14 @@ const IconLink = Styled(Link)`
         background-color: rgba(0, 0, 0, 0.1);
     }
 `;
-const DisabledIconLink = Styled(IconLink)`
+const IconDisabled = Styled(IconLink)`
     color: var(--darker-gray);
     cursor: not-allowed;
     &:hover {
         background-color: transparent;
     }
 `;
+
 
 const Badge = Styled.span`
     position: absolute;
@@ -220,10 +232,11 @@ function handleClick(props, e) {
 /**
  * Returns the Styled Component based on the Variant
  * @param {String}  variant
+ * @param {Boolean} isSelected
  * @param {Boolean} isDisabled
  * @returns {Object}
  */
-function getComponent(variant, isDisabled) {
+function getComponent(variant, isSelected, isDisabled) {
     switch (variant) {
     case "primary":
     case "accent":
@@ -234,9 +247,9 @@ function getComponent(variant, isDisabled) {
     case "green":
         return ColoredLink;
     case "menu-light":
-        return LightMenuLink;
+        return isSelected ? LightMenuSelected : LightMenuLink;
     case "menu-dark":
-        return DarkMenuLink;
+        return isSelected ? DarkMenuSelected : DarkMenuLink;
     case "image":
         return ImageLink;
     case "opacity":
@@ -244,9 +257,9 @@ function getComponent(variant, isDisabled) {
     case "underline":
         return UnderlineLink;
     case "outlined":
-        return OutlinedLink;
+        return isSelected ? OutlinedSelected : OutlinedLink;
     case "icon":
-        return isDisabled ? DisabledIconLink : IconLink;
+        return isDisabled ? IconDisabled : IconLink;
     default:
         return Link;
     }
@@ -286,12 +299,12 @@ function HyperLink(props) {
         onMouseEnter, onMouseLeave,
     } = props;
 
-    const Component  = getComponent(variant, isDisabled);
     const url        = getUrl(props);
+    const isSelected = path && url === path;
+    const Component  = getComponent(variant, isSelected, isDisabled);
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
-    const selClass   = path && url === path ? "selected" : "";
-    const classes    = `link link-${variant} ${className} ${selClass}`;
+    const classes    = `link link-${variant} ${className}`;
     
     return <Component
         ref={passedRef}

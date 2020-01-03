@@ -26,7 +26,7 @@ function Icon(props) {
     const { variant, className, onClick } = props;
 
     return <IconContent
-        className={`icon-${variant} ${className}`}
+        className={`icon icon-${variant} ${className}`}
         onClick={onClick}
     />;
 }
