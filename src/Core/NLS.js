@@ -1,16 +1,13 @@
 // The Languages Data
-let   defaultLang  = "";
-const stringsData  = {};
-const urlsData     = {};
-const actionsData  = {};
-const sectionsData = {};
+const langsData   = {};
+let   defaultLang = "";
 
 // The Current Strings
-let language = null;
-let strings  = null;
-let urls     = null;
-let actions  = null;
-let sections = null;
+let language    = null;
+let stringData  = {};
+let urlData     = {};
+let actionData  = {};
+let sectionData = {};
 
 
 
@@ -23,11 +20,11 @@ let sections = null;
  * @returns {Void}
  */
 function initLang(lang, strings, urls, actions) {
-    stringsData[lang]  = strings;
-    urlsData[lang]     = urls;
-    actionsData[lang]  = actions.ACTIONS;
-    sectionsData[lang] = actions.SECTIONS;
-
+    langsData[lang] = {
+        strings, urls,
+        actions  : actions.ACTIONS,
+        sections : actions.SECTIONS,
+    };
     if (!defaultLang) {
         defaultLang = lang;
     }
@@ -41,22 +38,22 @@ function initLang(lang, strings, urls, actions) {
 function setLang(lang) {
     language = lang || (navigator.languages && navigator.languages[0]) || navigator.language || defaultLang;
 
-    strings  = loadLang(language, stringsData);
-    urls     = loadLang(language, urlsData);
-    actions  = loadLang(language, actionsData);
-    sections = loadLang(language, sectionsData);
+    stringData  = loadLang("strings");
+    urlData     = loadLang("urls");
+    actionData  = loadLang("actions");
+    sectionData = loadLang("sections");
 }
 
 /**
  * Loads the Language Strings
- * @param {String} lang
- * @param {Object} data
+ * @param {String} key
  * @returns {Object}
  */
-function loadLang(lang, data) {
-    const langNoRegion    = lang.toLowerCase().split(/[_-]+/)[0];
-    const messages        = data[langNoRegion] || data[lang] || data.es;
-    const defaultMessages = data[defaultLang];
+function loadLang(key) {
+    const langNoRegion    = language.toLowerCase().split(/[_-]+/)[0];
+    const data            = langsData[langNoRegion] || langsData[language] || langsData[defaultLang];
+    const messages        = data[key];
+    const defaultMessages = langsData[defaultLang][key];
 
     for (const key of Object.keys(defaultMessages)) {
         if (!messages[key]) {
@@ -75,7 +72,7 @@ function loadLang(lang, data) {
  * @returns {String}
  */
 function get(id, elem = null) {
-    const message = strings[id] || id;
+    const message = stringData[id] || id;
     return elem !== null ? message[elem] : message;
 }
 
@@ -158,7 +155,7 @@ function pluralize(id, ...args) {
  * @returns {String}
  */
 function url(id, path = "", elemID = 0) {
-    const url    = urls[id] !== undefined ? urls[id] : id;
+    const url    = urlData[id] !== undefined ? urlData[id] : id;
     const suffix = elemID ? `/${elemID}` : "";
     return `${path}/${url}${suffix}`;
 }
@@ -181,7 +178,7 @@ function href(id, elemID) {
  * @returns {String}
  */
 function getSection(id) {
-    return sections[id] || id;
+    return sectionData[id] || id;
 }
 
 /**
@@ -190,7 +187,7 @@ function getSection(id) {
  * @returns {String}
  */
 function getAction(id) {
-    return actions[id] || id;
+    return actionData[id] || id;
 }
 
 
