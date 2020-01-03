@@ -28,9 +28,9 @@ const Header = Styled.header`
  * @returns {React.ReactElement}
  */
 function NavigationTitle(props) {
-    const { variant, href, message, fallback, canAdd, onAdd } = props;
+    const { className, variant, href, message, fallback, canAdd, onAdd } = props;
     
-    return <Header>
+    return <Header className={className}>
         <h2 className={`title title-${variant}`}>
             <HyperLink
                 className="navigation-back"
@@ -57,12 +57,13 @@ function NavigationTitle(props) {
  * @typedef {Object} propTypes
  */
 NavigationTitle.propTypes = {
-    variant  : PropTypes.string,
-    href     : PropTypes.string.isRequired,
-    message  : PropTypes.string,
-    fallback : PropTypes.string,
-    canAdd   : PropTypes.bool,
-    onAdd    : PropTypes.func,
+    className : PropTypes.string,
+    variant   : PropTypes.string,
+    href      : PropTypes.string.isRequired,
+    message   : PropTypes.string,
+    fallback  : PropTypes.string,
+    canAdd    : PropTypes.bool,
+    onAdd     : PropTypes.func,
 };
 
 /**
@@ -70,8 +71,9 @@ NavigationTitle.propTypes = {
  * @type {Object} defaultProps
  */
 NavigationTitle.defaultProps = {
-    variant : "light",
-    canAdd  : false,
+    className : "",
+    variant   : "light",
+    canAdd    : false,
 };
 
 export default NavigationTitle;

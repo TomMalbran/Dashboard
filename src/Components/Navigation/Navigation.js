@@ -36,7 +36,7 @@ const LightSection = Styled(Section)`
 function getChildren(props) {
     const { variant } = props;
 
-    const childs   = Utils.toArray(this.props.children);
+    const childs   = Utils.toArray(props.children);
     const children = [];
     let   key      = 0;
 
