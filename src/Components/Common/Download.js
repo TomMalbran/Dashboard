@@ -6,7 +6,7 @@ import PropTypes            from "prop-types";
 /**
  * The Download Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Download(props) {
     const { src } = props;

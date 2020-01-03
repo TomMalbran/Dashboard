@@ -3,7 +3,7 @@ import PropTypes             from "prop-types";
 import Styled, { keyframes } from "styled-components";
 
 // Core
-import NLS                   from "../Core/NLS";
+import NLS                   from "../../Core/NLS";
 
 
 
@@ -52,7 +52,7 @@ const LoaderContent = Styled.div`
 /**
  * The Loader Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Loader(props) {
     const { open } = props;

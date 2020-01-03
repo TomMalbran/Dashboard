@@ -4,8 +4,8 @@ import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core/Utils
-import NLS                  from "../Core/NLS";
-import Href                 from "../Utils/Href";
+import NLS                  from "../../Core/NLS";
+import Href                 from "../../Utils/Href";
 
 // Components
 import Icon                 from "./Icon";
@@ -277,7 +277,7 @@ function getUrl(props) {
 /**
  * The HyperLink Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function HyperLink(props) {
     const {

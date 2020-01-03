@@ -20,7 +20,7 @@ const IconContent = Styled.span`
 /**
  * The Icon Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Icon(props) {
     const { variant, className, onClick } = props;

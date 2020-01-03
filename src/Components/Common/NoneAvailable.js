@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import NLS                  from "../Core/NLS";
+import NLS                  from "../../Core/NLS";
 
 
 
@@ -19,7 +19,7 @@ const NoneContent = Styled.h3`
 /**
  * The None Available Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function NoneAvailable(props) {
     const { className, message } = props;

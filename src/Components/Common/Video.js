@@ -46,7 +46,7 @@ function getEmbed(source) {
 /**
  * The YouTube Video Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Video(props) {
     const { className, title, source, width, height } = props;

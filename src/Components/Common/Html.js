@@ -27,7 +27,7 @@ function linkifyContent(content) {
 /**
  * The Html Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Html(props) {
     const { variant, linkify, className, children } = props;

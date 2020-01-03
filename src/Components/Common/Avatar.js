@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Utils
-import MD5                  from "../Utils/MD5";
+import MD5                  from "../../Utils/MD5";
 
 // Components
 import HyperLink            from "./HyperLink";
@@ -55,7 +55,7 @@ function getAvatar(data) {
 /**
  * The Avatar Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Avatar(props) {
     const { className, size, url, alt, data } = props;

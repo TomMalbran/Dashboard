@@ -67,7 +67,7 @@ const BreadcrumbItem = Styled.li`
 /**
  * The Breadcrumb Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function Breadcrumb(props) {
     const { className, route } = props;

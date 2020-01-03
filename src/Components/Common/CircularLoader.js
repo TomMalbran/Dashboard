@@ -3,7 +3,7 @@ import PropTypes             from "prop-types";
 import Styled, { keyframes } from "styled-components";
 
 // Core
-import NLS                   from "../Core/NLS";
+import NLS                   from "../../Core/NLS";
 
 
 
@@ -97,7 +97,7 @@ const CircularText = Styled.div`
 /**
  * The Circular Loader Component
  * @param {Object} props
- * @returns {Object}
+ * @returns {React.ReactElement}
  */
 function CircularLoader(props) {
     const { className, variant } = props;
