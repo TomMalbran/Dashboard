@@ -298,14 +298,14 @@ function getUrl(props) {
  */
 function HyperLink(props) {
     const {
-        passedRef, variant, className, path, isDisabled,
+        passedRef, variant, className, path, isSelected, isDisabled,
         target, message, html, children, icon, afterIcon, badge,
         onMouseEnter, onMouseLeave,
     } = props;
 
     const url        = getUrl(props);
-    const isSelected = path && url === path;
-    const Component  = getComponent(variant, isSelected, isDisabled);
+    const selected   = isSelected || path && url === path;
+    const Component  = getComponent(variant, selected, isDisabled);
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
     const classes    = `link link-${variant} ${className}`;
@@ -350,6 +350,7 @@ HyperLink.propTypes = {
     onClick      : PropTypes.func,
     onMouseEnter : PropTypes.func,
     onMouseLeave : PropTypes.func,
+    isSelected   : PropTypes.bool,
     isDisabled   : PropTypes.bool,
     dontStop     : PropTypes.bool,
     passedRef    : PropTypes.any,
@@ -368,6 +369,7 @@ HyperLink.defaultProps = {
     badge      : 0,
     path       : "",
     className  : "",
+    isSelected : false,
     isDisabled : false,
     dontStop   : false,
 };
