@@ -17,7 +17,7 @@ const loading = keyframes`
 `;
 
 // Styles
-const LoaderContent = Styled.div`
+const Div = Styled.div`
     display: ${(props) => props.open ? "block" : "none"};
     position: fixed;
     top: 0;
@@ -57,9 +57,9 @@ const LoaderContent = Styled.div`
 function Loader(props) {
     const { open } = props;
     
-    return <LoaderContent open={open}>
+    return <Div open={open}>
         {NLS.get("GENERAL_LOADING")}
-    </LoaderContent>;
+    </Div>;
 }
 
 /**

@@ -5,14 +5,14 @@ import Styled               from "styled-components";
 
 
 // Styles
-const VideoContent = Styled.div`
+const Div = Styled.div`
     position: relative;
     overflow: hidden;
     width: 100%;
     padding-top: 56.25%;
 `;
 
-const VideoFrame = Styled.iframe`
+const Frame = Styled.iframe`
     position: absolute;
     top: 0;
     left: 0;
@@ -55,8 +55,8 @@ function Video(props) {
     if (!src) {
         return <React.Fragment />;
     }
-    return <VideoContent className={className}>
-        <VideoFrame
+    return <Div className={className}>
+        <Frame
             width={width}
             height={height}
             title={title}
@@ -65,7 +65,7 @@ function Video(props) {
             allow="encrypted-media;"
             allowFullScreen
         />
-    </VideoContent>;
+    </Div>;
 }
 
 /**

@@ -8,7 +8,7 @@ import HyperLink            from "./HyperLink";
 
 
 // Styles
-const BreadcrumbList = Styled.ul`
+const Ul = Styled.ul`
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -17,7 +17,7 @@ const BreadcrumbList = Styled.ul`
     list-style: none;
 `;
 
-const BreadcrumbItem = Styled.li`
+const Li = Styled.li`
     display: flex;
     align-items: center;
     font-size: 10px;
@@ -84,11 +84,11 @@ function Breadcrumb(props) {
         }
     }
 
-    return <BreadcrumbList className={className}>
-        {items.map((elem, index) => <BreadcrumbItem key={index}>
+    return <Ul className={className}>
+        {items.map((elem, index) => <Li key={index}>
             <HyperLink variant="none" href={elem.href} message={elem.message} />
-        </BreadcrumbItem>)}
-    </BreadcrumbList>;
+        </Li>)}
+    </Ul>;
 }
     
 /**

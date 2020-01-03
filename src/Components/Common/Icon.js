@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 
 
 // Styles
-const IconContent = Styled.span`
+const Span = Styled.span`
     &::before {
         display: inline-block;
         padding: 0;
@@ -25,7 +25,7 @@ const IconContent = Styled.span`
 function Icon(props) {
     const { variant, className, onClick } = props;
 
-    return <IconContent
+    return <Span
         className={`icon icon-${variant} ${className}`}
         onClick={onClick}
     />;

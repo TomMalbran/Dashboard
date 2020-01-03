@@ -8,7 +8,7 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const NoneContent = Styled.h3`
+const H3 = Styled.h3`
     margin: 0;
     padding-top: 8px;
     color: var(--title-color);
@@ -24,9 +24,9 @@ const NoneContent = Styled.h3`
 function NoneAvailable(props) {
     const { className, message } = props;
 
-    return <NoneContent className={className}>
+    return <H3 className={className}>
         {NLS.get(message)}
-    </NoneContent>;
+    </H3>;
 }
 
 /**

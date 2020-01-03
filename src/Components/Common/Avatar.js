@@ -11,25 +11,25 @@ import HyperLink            from "./HyperLink";
 
 
 // Styles
-const AvatarContent = Styled.div`
+const Div = Styled.div`
     display: block;
     width: ${(props) => `${props.size}px`};
     height: ${(props) => `${props.size}px`};
     padding: 2px;
     overflow: hidden;
 
-    & img {
-        box-sizing: border-box;
-        max-width: 100%;
-        max-height: 100%;
-        border: 2px solid var(--border-color);
-        box-shadow: 0 0 4px transparent;
-        border-radius: 100%;
-        transition: all 0.5s;
-    }
     &:hover img {
         box-shadow: 0 0 4px var(--lightest-color);
     }
+`;
+
+const Img = Styled.img`
+    box-sizing: border-box;
+    width: 100%;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 4px transparent;
+    border-radius: 100%;
+    transition: all 0.5s;
 `;
 
 
@@ -61,9 +61,9 @@ function Avatar(props) {
     const { className, size, url, alt, data } = props;
 
     const avatar  = getAvatar(data);
-    const content = <AvatarContent className={className} size={size}>
-        <img alt={alt} src={avatar} />
-    </AvatarContent>;
+    const content = <Div className={className} size={size}>
+        <Img alt={alt} src={avatar} />
+    </Div>;
 
     if (url) {
         return <HyperLink variant="none" url={url}>

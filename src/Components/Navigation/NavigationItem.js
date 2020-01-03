@@ -95,6 +95,7 @@ NavigationItem.propTypes = {
     onClick   : PropTypes.func,
     canDelete : PropTypes.bool,
     onDelete  : PropTypes.func,
+    isHidden  : PropTypes.bool,
 };
 
 /**

@@ -31,7 +31,7 @@ const loaderDots = keyframes`
 `;
 
 // Styles
-const CircularContent = Styled.div`
+const Div = Styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -48,7 +48,7 @@ const CircularContent = Styled.div`
     }
 `;
 
-const CircularRing = Styled.div`
+const Ring = Styled.div`
     flex-grow: 2;
     display: flex;
     justify-content: center;
@@ -82,7 +82,7 @@ const CircularRing = Styled.div`
     }
 `;
 
-const CircularText = Styled.div`
+const Text = Styled.div`
     padding-top: 32px;
     color: var(--loader-font);
     &::after {
@@ -102,17 +102,15 @@ const CircularText = Styled.div`
 function CircularLoader(props) {
     const { className, variant } = props;
 
-    return <CircularContent className={`${variant} ${className}`}>
-        <CircularRing>
+    return <Div className={`${variant} ${className}`}>
+        <Ring>
             <div />
             <div />
             <div />
             <div />
-        </CircularRing>
-        <CircularText>
-            {NLS.get("GENERAL_LOADING")}
-        </CircularText>
-    </CircularContent>;
+        </Ring>
+        <Text>{NLS.get("GENERAL_LOADING")}</Text>
+    </Div>;
 }
     
 /**

@@ -147,11 +147,11 @@ const OutlinedLink = Styled(Link)`
         border-color: white;
     }
     .link-preicon {
-        font-size: 1.2em;
+        font-size: 1.7em;
         margin-right: 12px;
     }
     .link-aftericon {
-        font-size: 1.2em;
+        font-size: 1.7em;
         margin-left: 12px;
     }
 `;
