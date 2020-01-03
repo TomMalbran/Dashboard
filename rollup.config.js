@@ -11,56 +11,49 @@ import cleaner          from "rollup-plugin-cleaner";
 
 
 export default function makeConfig(commandOptions) {
-    const isDist  = commandOptions["config-dist"];
-    const plugins = [
-        external(),
-        url(),
-        svgr(),
-        babel({ exclude : "node_modules/**" }),
-        resolve(),
-        commonjs({
-            include      : "node_modules/**",
-            namedExports : {
-                "node_modules/react-is/index.js" : [ "ForwardRef", "isValidElementType", "isElement" ],
-            },
-        }),
-    ];
-
-    const exporter = (src, dst) => {
-        const inputs = fastGlob.sync([ `src/${src}` ]).map((filePath) => {
-            const fileName = path.basename(filePath);
-            return [ fileName.replace(/\.[^/.]+$/, ""), filePath ];
-        });
-        
-        return {
-            input  : Object.fromEntries(inputs),
-            output : {
-                dir    : isDist ? `dist/${dst}` : dst,
-                format : "cjs",
-            },
-            plugins,
-        };
+    const isDist  = true; //commandOptions["config-dist"];
+    const targets = isDist ? [ "./dist" ] : [];
+    const input   = {};
+    const dirs    = {
+        Utils      : "Utils/*.js",
+        Core       : "Core/*.js",
+        Components : "Components/**/*.js",
     };
 
-    return [
-        {
-            input  : {
-                index  : "src/index.js",
-            },
-            output : {
-                dir    : "dist",
-                format : "cjs",
-            },
-            plugins : [
-                cleaner({
-                    targets : [ "./dist/", "./Components", "./Core", "./Utils" ],
-                }),
-                ...plugins,
-            ],
+    Object.entries(dirs).forEach(([ dst, src ]) => {
+        fastGlob.sync([ `src/${src}` ]).map((filePath) => {
+            const fileName = path.basename(filePath);
+            const name     = fileName.replace(/\.[^/.]+$/, "");
+            input[`${dst}/${name}`] = filePath;
+        });
+        if (!isDist) {
+            targets.push(isDist ? `./dist/${dst}` : `./${dst}`);
+        }
+    });
+    
+    return {
+        input,
+        output : {
+            dir    : isDist ? "dist" : "",
+            format : "cjs",
         },
-
-        exporter("Components/**/*.js", "Components"),
-        exporter("Core/*.js", "Core"),
-        exporter("Utils/*.js", "Utils"),
-    ];
+        plugins : [
+            cleaner({ targets }),
+            external(),
+            url(),
+            svgr(),
+            babel({ exclude : "node_modules/**" }),
+            resolve({ preferBuiltins : true }),
+            commonjs({
+                include      : "node_modules/**",
+                namedExports : {
+                    "node_modules/react-is/index.js" : [
+                        "ForwardRef",
+                        "isValidElementType",
+                        "isElement",
+                    ],
+                },
+            }),
+        ],
+    };
 }
