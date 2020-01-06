@@ -112,7 +112,7 @@ const MenuBtn = Styled(Btn)`
     .icon {
         color: var(--lightest-color);
     }
-    
+
     &:disabled,
     &:disabled:hover,
     &:disabled:focus,
@@ -157,7 +157,7 @@ function handleClick(props, e) {
     if (onClick) {
         onClick(e);
     }
-    Href.handleUrl(uri, target, history);
+    Href.handle(uri, target, history);
     e.stopPropagation();
     e.preventDefault();
 }
