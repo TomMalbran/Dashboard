@@ -87,6 +87,22 @@ function createSlug(value) {
 
 
 /**
+ * Concats the Values
+ * @param {String}    glue
+ * @param {...String} values
+ * @returns {Object}
+ */
+function concat(glue, ...values) {
+    const result = [];
+    for (const value of values) {
+        if (value) {
+            result.push(value);
+        }
+    }
+    return result.join(glue);
+}
+
+/**
  * Removes the Prefix
  * @param {Object}   data
  * @param {String}   prefix
@@ -147,6 +163,33 @@ function toSelect(data) {
 }
 
 /**
+ * Converts an Array of strings to a Select
+ * @param {String[]} data
+ * @returns {{key: Number, value: String}[]}
+ */
+function stringsToSelect(data) {
+    const result = [];
+    for (const [ key, value ] of data.entries()) {
+        result.push({ key, value });
+    }
+    return result;
+}
+
+/**
+ * Creates an Array of N numbers
+ * @param {Number}  amount
+ * @param {Number=} start
+ * @returns {Number[]}
+ */
+function createArrayOf(amount, start = 1) {
+    const result = [];
+    for (let i = start; i < amount + start; i++) {
+        result.push(i);
+    }
+    return result;
+}
+
+/**
  * Uses the keys from primary and sets the secondary values if are set
  * @param {Object}   primary
  * @param {Object}   secondary
@@ -188,6 +231,22 @@ function getValue(data, idKey, idValue, key) {
 }
 
 
+
+/**
+ * Parses the Given List
+ * @param {Object[]} list
+ * @param {Function} callback
+ * @returns {Object[]}
+ */
+function parseList(list, callback) {
+    if (!list) {
+        return [];
+    }
+    for (const elem of list) {
+        callback(elem);
+    }
+    return list;
+}
 
 /**
  * Returns an ID depeding on the type
@@ -237,13 +296,17 @@ export default {
     unselectAll,
     createSlug,
 
+    concat,
     removePrefix,
     toArray,
     toMap,
     toSelect,
+    stringsToSelect,
+    createArrayOf,
     extend,
     getValue,
 
+    parseList,
     hasError,
     hasFormError,
 
