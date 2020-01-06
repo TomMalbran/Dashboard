@@ -1,5 +1,5 @@
 // All the options
-const INITIAL = {
+const OPTIONS = {
     icon      : "",
     message   : "",
 
@@ -19,14 +19,13 @@ const INITIAL = {
     isCE      : false,
 };
 
-
-// The public API
+// All the Actions
 const ACTIONS = {
-    "NULL" : { ...INITIAL },
+    "NULL" : { ...OPTIONS },
 
     // General Actions
     "VIEW" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "view",
         message   : "GENERAL_VIEW",
         isView    : true,
@@ -34,13 +33,13 @@ const ACTIONS = {
         isVE      : true,
     },
     "ADD" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "create",
         message   : "GENERAL_ADD",
         isAdd     : true,
     },
     "CREATE" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "create",
         message   : "GENERAL_CREATE",
         isCreate  : true,
@@ -49,7 +48,7 @@ const ACTIONS = {
         isCE      : true,
     },
     "EDIT" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "edit",
         message   : "GENERAL_EDIT",
         isEdit    : true,
@@ -59,31 +58,31 @@ const ACTIONS = {
         isCE      : true,
     },
     "DELETE" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "delete",
         message   : "GENERAL_DELETE",
         isDelete  : true,
         isCED     : true,
     },
     "IMPORT" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "import",
         message   : "GENERAL_IMPORT",
         isImport  : true,
     },
     "EXPORT" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "export",
         message   : "GENERAL_EXPORT",
         isExport  : true,
     },
     "TAB" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "tab",
         isTab     : true,
     },
     "FILTER" : {
-        ...INITIAL,
+        ...OPTIONS,
         icon      : "filter",
         message   : "GENERAL_FILTER",
         isFilter  : true,
@@ -92,24 +91,55 @@ const ACTIONS = {
 
 
 
+
+/**
+ * Returns the Action with the given name
+ * @param {String=} name
+ * @returns {Object}
+ */
+function get(name) {
+    if (!name) {
+        return ACTIONS.NULL;
+    }
+    if (ACTIONS[name]) {
+        return ACTIONS[name];
+    }
+    return create(name);
+}
+
 /**
  * Sets a New Action
  * @param {String}  name
  * @param {String=} icon
  * @param {String=} message
- * @returns {Void}
+ * @returns {Object}
  */
-function setAction(name, icon, message) {
+function add(name, icon = "", message = "") {
+    ACTIONS[name] = create(name, icon, message);
+    return ACTIONS[name];
+}
+
+/**
+ * Sets a New Action
+ * @param {String}  name
+ * @param {String=} icon
+ * @param {String=} message
+ * @returns {Object}
+ */
+function create(name, icon = "", message = "") {
     const is = `is${name[0]}${name.toLocaleLowerCase().substr(1)}`;
-    ACTIONS[name] = {
-        ...INITIAL,
+    return {
+        ...OPTIONS,
         icon, message,
         [is] : true,
     };
 }
-ACTIONS.setAction = setAction;
 
 
 
 // The public API
-export default ACTIONS;
+export default {
+    get,
+    add,
+    create,
+};
