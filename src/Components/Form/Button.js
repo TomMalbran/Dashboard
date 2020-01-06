@@ -64,6 +64,10 @@ const Btn = Styled.button.attrs(({ isSmall, fullWidth, withIcon }) => ({ isSmall
         font-size: 19px;
         margin-right: 4px;
     }
+
+    & + & {
+        ${(props) => props.fullWidth ? "margin-top: 8px;" : "margin-left: 8px;"}
+    }
 `;
 
 const PrimaryBtn = Styled(Btn)`
@@ -91,6 +95,14 @@ const AccentBtn = Styled(Btn)`
     --button-background: var(--accent-color);
 `;
 
+const WhiteBtn = Styled(Btn)`
+    --button-font: black;
+    --button-border: var(--primary-color);
+    --button-background: white;
+    --button-color: white;
+    --button-shadow: var(--primary-color);
+`;
+
 const MenuBtn = Styled(Btn)`
     text-transform: none;
     --button-font: var(--lightest-color);
@@ -100,6 +112,7 @@ const MenuBtn = Styled(Btn)`
     .icon {
         color: var(--lightest-color);
     }
+    
     &:disabled,
     &:disabled:hover,
     &:disabled:focus,
@@ -164,6 +177,8 @@ function getComponent(variant) {
         return ErrorBtn;
     case "accent":
         return AccentBtn;
+    case "white":
+        return WhiteBtn;
     case "menu":
         return MenuBtn;
     case "outlined":
