@@ -51,9 +51,7 @@ function DetailList(props) {
 
     return <Div>
         <H3>{NLS.get(message)}</H3>
-        <Ul>
-            {children}
-        </Ul>
+        <Ul>{children}</Ul>
     </Div>;
 }
 

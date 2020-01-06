@@ -96,11 +96,10 @@ function DetailActions(props) {
  * @typedef {Object} propTypes
  */
 DetailActions.propTypes = {
-    closeDetails : PropTypes.func.isRequired,
-    onClick      : PropTypes.func,
-    onClose      : PropTypes.func,
-    canEdit      : PropTypes.bool,
-    children     : PropTypes.any,
+    onClick  : PropTypes.func,
+    onClose  : PropTypes.func,
+    canEdit  : PropTypes.bool,
+    children : PropTypes.any,
 };
 
 export default DetailActions;

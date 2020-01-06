@@ -22,4 +22,12 @@ DetailAction.propTypes = {
     isHidden : PropTypes.func,
 };
 
+/**
+ * The Default Properties
+ * @typedef {Object} defaultProps
+ */
+DetailAction.defaultProps = {
+    isHidden : false,
+};
+
 export default DetailAction;

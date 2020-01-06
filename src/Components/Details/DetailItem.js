@@ -14,7 +14,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li`
+const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
     align-items: flex-start;
     padding: 8px;
     border-bottom: 1px solid var(--lighter-gray);
@@ -81,13 +81,13 @@ function handleClick(props, e) {
  * @returns {React.ReactElement}
  */
 function DetailItem(props) {
-    const { className, message, icon, tooltip, prefix, withTip, showAlways, topBorder } = props;
-    let content = message;
-
-    if (!message && !showAlways) {
+    const { className, isHidden, message, icon, tooltip, prefix, withTip, showAlways, topBorder } = props;
+    
+    if (isHidden || (!message && !showAlways)) {
         return <React.Fragment />;
     }
-
+    
+    let content = message;
     if (prefix) {
         content = `${NLS.get(prefix)}: ${message}`;
     } else if (withTip) {
@@ -121,8 +121,9 @@ DetailItem.propTypes = {
     target     : PropTypes.string,
     onClick    : PropTypes.func,
     withTip    : PropTypes.bool,
-    showAlways : PropTypes.bool,
     topBorder  : PropTypes.bool,
+    showAlways : PropTypes.bool,
+    isHidden   : PropTypes.bool,
     isLink     : PropTypes.bool,
     isEmail    : PropTypes.bool,
     isPhone    : PropTypes.bool,
