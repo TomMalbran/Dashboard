@@ -1,12 +1,16 @@
-import React                 from "react";
-import PropTypes             from "prop-types";
-import Styled, { keyframes } from "styled-components";
+import React                from "react";
+import PropTypes            from "prop-types";
 
 // Core
-import NLS                   from "../../Core/NLS";
+import NLS                  from "../../Core/NLS";
 
 // Components
-import Icon                  from "../Common/Icon";
+import Icon                 from "../Common/Icon";
+
+// Styled
+import Styled, {
+    keyframes, css,
+} from "styled-components";
 
 
 
@@ -40,7 +44,7 @@ const Content = Styled.div.attrs(({ closing }) => ({ closing }))`
     z-index: 1000;
     transform: translateX(200px);
     opacity: 0;
-    animation: ${(props) => props.closing ? `${close} 0.3s` : `${open} 0.1s`};
+    animation: ${(props) => props.closing ? css`${close} 0.3s` : css`${open} 0.1s`};
     animation-timing-function: linear;
     animation-fill-mode: both;
     animation-iteration-count: 1;

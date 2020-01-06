@@ -7,7 +7,7 @@ import NLS                   from "../../Core/NLS";
 
 
 
-// Keyframes
+// Animations
 const loading = keyframes`
     0%   { width:   0%; }
     25%  { width:  22%; }

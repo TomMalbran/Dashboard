@@ -19,7 +19,7 @@ DetailAction.propTypes = {
     action   : PropTypes.string.isRequired,
     icon     : PropTypes.string,
     message  : PropTypes.string,
-    isHidden : PropTypes.func,
+    isHidden : PropTypes.bool,
 };
 
 /**
