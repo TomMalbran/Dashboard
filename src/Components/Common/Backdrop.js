@@ -19,9 +19,9 @@ const close = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({ open, closing }) => ({ open, closing }))`
-    display: ${(props) => props.open ? "flex" : "none"};
-    animation: ${(props) => props.closing ? css`${close} 0.3s ease-out both` : css`${open} 0.3s ease-in both`};
+const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))`
+    display: ${(props) => props.isOpen ? "flex" : "none"};
+    animation: ${(props) => props.isClosing ? css`${close} 0.3s ease-out both` : css`${open} 0.3s ease-in both`};
     box-sizing: border-box;
     position: fixed;
     top: 0;
@@ -44,9 +44,8 @@ const Div = Styled.div.attrs(({ open, closing }) => ({ open, closing }))`
  * @returns {Void}
  */
 function handleClick(props, e) {
-    const node = props.contentRef.current;
-    if (node) {
-        const bounds = node.getBoundingClientRect();
+    if (props.contentRef && props.contentRef.current) {
+        const bounds = props.contentRef.current.getBoundingClientRect();
         if (e.clientX > 0 && e.clientY > 0 && (
             e.clientX < bounds.left || e.clientX > bounds.right ||
             e.clientY < bounds.top  || e.clientY > bounds.bottom
@@ -67,9 +66,8 @@ function Backdrop(props) {
     const { open, closing, children } = props;
 
     return <Div
-        className="backdrop"
-        open={open}
-        closing={closing}
+        isOpen={open}
+        isClosing={closing}
         onMouseDown={(e) => handleClick(props, e)}
     >
         {children}

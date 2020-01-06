@@ -6,7 +6,8 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import Backdrop             from "../Common/Backdrop";
-import Icon                 from "../Common/Icon";
+import BarLogo              from "../Bar/BarLogo";
+import BarIcon              from "../Bar/BarIcon";
 
 // Styled
 import Styled, {
@@ -29,8 +30,8 @@ const close = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({ closing }) => ({ closing }))`
-    animation: ${(props) => props.closing ? css`${close} 0.3s ease-out both` : css`${open} 0.3s ease-in both`};
+const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
+    animation: ${(props) => props.isClosing ? css`${close} 0.3s ease-out both` : css`${open} 0.3s ease-in both`};
     position: fixed;
     display: flex;
     top: 0;
@@ -38,7 +39,6 @@ const Div = Styled.div.attrs(({ closing }) => ({ closing }))`
     bottom: 0;
     width: var(--drawer-width);
     background-color: white;
-    animation: drawer-open 0.3s ease-in;
 `;
 
 const Nav = Styled.nav`
@@ -47,21 +47,13 @@ const Nav = Styled.nav`
     flex-shrink: 0;
     flex-direction: column;
     align-items: center;
-    width: var(--mainbar-width);
+    width: var(--sidebar-width);
     padding: 16px 0;
-    
-    .mainbar-icon {
-        color: var(--primary-color);
-        background-color: white;
-    }
-    .mainbar-icon:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
 `;
 
 const Section = Styled.section`
     box-sizing: border-box;
-    width: calc(var(--drawer-width) - var(--mainbar-width));
+    width: calc(var(--drawer-width) - var(--sidebar-width));
     padding: 18px 32px 32px 16px;
 `;
 
@@ -111,16 +103,13 @@ function Drawer(props) {
         closing={closing}
         onClose={handleClose}
     >
-        <Div className={className} ref={contentRef}>
+        <Div className={className} ref={contentRef} isClosing={closing}>
             <Nav>
-                <h2 className="app-logo">
-                    <img src={logo} alt={NLS.get("TITLE")} />
-                </h2>
-                <Icon
-                    variant="back"
-                    className="mainbar-icon"
+                <BarLogo logo={logo} />
+                <BarIcon
+                    variant="light"
+                    icon="back"
                     onClick={handleClose}
-                    message="GENERAL_SEARCH"
                 />
             </Nav>
             <Section className="drawer-content">

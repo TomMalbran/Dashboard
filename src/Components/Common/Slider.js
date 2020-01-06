@@ -131,14 +131,13 @@ const Dots = Styled.ul`
 `;
 
 const Dot = Styled.button.attrs(({ isActive }) => ({ isActive }))`
-    background-color: ${(props) => props.isActive ? "white" : "transparent"};
+    background-color: ${(props) => props.isActive ? "white" : "rgba(0, 0, 0, 0.7)"};
     appearance: none;
     display: block;
     height: var(--slider-box);
     width: var(--slider-box);
     padding: 0;
     margin: 2px var(--slider-dot-gap);
-    background-color: rgba(0, 0, 0, 0.7);
     border: none;
     overflow: hidden;
     text-indent: 100%;
@@ -206,7 +205,7 @@ function Slider(props) {
     }
 
 
-    const dots     = Utils.createArrayOf(data.length);
+    const dots     = Utils.createArrayOf(data.length, 0);
     const showNav  = data.length > 1;
     const showDots = withDots && data.length > 1;
     const slStyle  = { width : `calc(100% / ${data.length})` };
@@ -241,10 +240,10 @@ function Slider(props) {
         {showDots && <Dots className="slider-dots">
             {dots.map((elem) => <li key={elem}>
                 <Dot
-                    isActive={index === elem - 1}
-                    onClick={() => gotoIndex(elem - 1)}
+                    isActive={Number(index) === Number(elem)}
+                    onClick={() => gotoIndex(elem)}
                 >
-                    {elem}
+                    {elem + 1}
                 </Dot>
             </li>)}
         </Dots>}
