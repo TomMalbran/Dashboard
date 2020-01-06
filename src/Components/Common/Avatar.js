@@ -11,10 +11,12 @@ import HyperLink            from "./HyperLink";
 
 
 // Styles
-const Div = Styled.div`
+const Div = Styled.div.attrs((props) => ({
+    size : `${props.size}px`,
+}))`
     display: block;
-    width: ${(props) => `${props.size}px`};
-    height: ${(props) => `${props.size}px`};
+    width: ${(props) => props.size};
+    height: ${(props) => props.size};
     padding: 2px;
     overflow: hidden;
 

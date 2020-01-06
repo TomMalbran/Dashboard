@@ -17,7 +17,7 @@ const loading = keyframes`
 `;
 
 // Styles
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ open }) => ({ open }))`
     display: ${(props) => props.open ? "block" : "none"};
     position: fixed;
     top: 0;
@@ -45,7 +45,7 @@ const Div = Styled.div`
         z-index: 9999;
         user-select: none;
     }
-}`;
+`;
 
 
 

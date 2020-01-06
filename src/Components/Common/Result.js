@@ -21,7 +21,7 @@ const close = keyframes`
 `;
 
 // Styles
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ open }) => ({ open }))`
     display: ${(props) => props.open ? "block" : "none"};
     position: absolute;
     top: 20px;
@@ -31,7 +31,7 @@ const Div = Styled.div`
     z-index: var(--z-result);
 `;
 
-const Content = Styled.div`
+const Content = Styled.div.attrs(({ closing }) => ({ closing }))`
     position: relative;
     padding: 12px 40px 12px 24px;
     color: white;
