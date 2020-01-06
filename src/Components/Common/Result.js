@@ -14,7 +14,7 @@ import Styled, {
 
 
 
-// Keyframes
+// Animations
 const open = keyframes`
     from { transform: translateX(200px); opacity: 0; }
     to   { transform: translateX(0px);   opacity: 1; }
@@ -85,21 +85,21 @@ const Content = Styled.div.attrs(({ closing }) => ({ closing }))`
  * @returns {React.ReactElement}
  */
 function Result(props) {
-    const { open, variant, message, onClose } = props;
+    const { open, variant, message, time, onClose } = props;
 
     // The State
     const [ timer,   setTimer   ] = React.useState(null);
     const [ closing, setClosing ] = React.useState(false);
 
     // The Close Function
-    const closeResult = () => {
+    const handleClose = () => {
         if (closing) {
             return;
         }
         if (timer) {
             window.clearTimeout(timer);
+            setTimeout(null);
         }
-        setTimeout(null);
         setClosing(true);
         window.setTimeout(() => {
             setClosing(false);
@@ -108,15 +108,19 @@ function Result(props) {
     };
 
     // Set the Initial Timeout
-    React.useEffect(() => {
-        if (open) {
+    if (open) {
+        React.useEffect(() => {
             if (timer) {
                 window.clearTimeout(timer);
             }
-            const timeout = window.setTimeout(closeResult, 5000);
-            setTimer(timeout);
-        }
-    });
+            setTimer(window.setTimeout(handleClose, time * 1000));
+            return () => {
+                if (timer) {
+                    window.clearTimeout(timer);
+                }
+            };
+        }, []);
+    }
 
 
     return <Div className="result" open={open}>
@@ -125,7 +129,7 @@ function Result(props) {
             <Icon
                 variant="close"
                 className="result-close"
-                onClick={closeResult}
+                onClick={handleClose}
             />
         </Content>
     </Div>;
@@ -140,6 +144,15 @@ Result.propTypes = {
     variant : PropTypes.string.isRequired,
     message : PropTypes.string.isRequired,
     onClose : PropTypes.func.isRequired,
+    time    : PropTypes.number,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+Result.defaultProps = {
+    time : 10,
 };
 
 export default Result;
