@@ -2,11 +2,12 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Utils
+// Core & Utils
+import Action               from "../../Core/Action";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import Button               from "Components/Utils/Form/Button";
+import Button               from "../Form/Button";
 
 
 
@@ -35,8 +36,12 @@ const Div = Styled.div`
  * @returns {Void}
  */
 function handleClick(props, action) {
-    props.onClick(action);
-    // props.closeDetails();
+    if (props.onClick) {
+        props.onClick(action);
+    }
+    if (props.onClose) {
+        props.onClose();
+    }
 }
 
 /**
@@ -51,12 +56,13 @@ function getChildren(props) {
 
     for (const child of childs) {
         if (child && !child.props.isHidden) {
-            const clone = <Button
+            const action = Action.get(child.props.action);
+            const clone  = <Button
                 key={key}
                 variant="outlined"
-                icon={child.props.action.icon}
-                message={child.props.message}
-                onClick={() => handleClick(props, child.props.action)}
+                icon={child.props.icon || action.icon}
+                message={child.props.message || action.message}
+                onClick={() => handleClick(props, action)}
             />;
             children.push(clone);
             key += 1;
@@ -92,6 +98,7 @@ function DetailActions(props) {
 DetailActions.propTypes = {
     closeDetails : PropTypes.func.isRequired,
     onClick      : PropTypes.func,
+    onClose      : PropTypes.func,
     canEdit      : PropTypes.bool,
     children     : PropTypes.any,
 };

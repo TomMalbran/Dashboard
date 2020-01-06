@@ -4,7 +4,6 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
-import Action               from "../../Core/Action";
 
 // Components
 import DetailActions        from "./DetailActions";
@@ -47,7 +46,7 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { hasData, hasError, error, canEdit, button, onClick, children } = props;
+    const { hasData, hasError, error, canEdit, button, onClick, onClose, children } = props;
     
     const isLoading = hasData    && !hasError;
     const withError = !isLoading && hasError;
@@ -58,8 +57,8 @@ function Details(props) {
         {isLoading && <Loading><CircularLoader /></Loading>}
         {withError && <Error>{NLS.get(error)}</Error>}
         {showCnt   && children}
-        {showActs  && <DetailActions canEdit={canEdit} onClick={onClick}>
-            <DetailAction action={Action.EDIT} message={button} />
+        {showActs  && <DetailActions canEdit={canEdit} onClick={onClick} onClose={onClose}>
+            <DetailAction action="EDIT" message={button} />
         </DetailActions>}
     </Section>;
 }
@@ -76,6 +75,7 @@ Details.propTypes = {
     canEdit      : PropTypes.bool,
     button       : PropTypes.string,
     onClick      : PropTypes.func,
+    onClose      : PropTypes.func,
     children     : PropTypes.any,
 };
 

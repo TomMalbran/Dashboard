@@ -16,8 +16,9 @@ function DetailAction() {
  * @typedef {Object} propTypes
  */
 DetailAction.propTypes = {
-    action   : PropTypes.object.isRequired,
-    message  : PropTypes.string.isRequired,
+    action   : PropTypes.string.isRequired,
+    icon     : PropTypes.string,
+    message  : PropTypes.string,
     isHidden : PropTypes.func,
 };
 
