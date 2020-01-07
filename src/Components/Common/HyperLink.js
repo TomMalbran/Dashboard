@@ -8,8 +8,8 @@ import NLS                  from "../../Core/NLS";
 import Href                 from "../../Utils/Href";
 
 // Components
-import Icon                 from "./Icon";
-import Html                 from "./Html";
+import Icon                 from "../Common/Icon";
+import Html                 from "../Common/Html";
 
 
 

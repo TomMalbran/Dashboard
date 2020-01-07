@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import HyperLink            from "./HyperLink";
+import HyperLink            from "../Common/HyperLink";
 
 
 

@@ -6,7 +6,7 @@ import Styled               from "styled-components";
 import MD5                  from "../../Utils/MD5";
 
 // Components
-import HyperLink            from "./HyperLink";
+import HyperLink            from "../Common/HyperLink";
 
 
 

@@ -6,7 +6,7 @@ import Styled               from "styled-components";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import Video                from "./Video";
+import Video                from "../Common/Video";
 
 
 

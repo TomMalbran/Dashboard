@@ -7,9 +7,9 @@ import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import DetailActions        from "./DetailActions";
-import DetailAction         from "./DetailAction";
 import CircularLoader       from "../Common/CircularLoader";
+import DetailActions        from "../Details/DetailActions";
+import DetailAction         from "../Details/DetailAction";
 
 
 
