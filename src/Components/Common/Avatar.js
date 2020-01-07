@@ -60,9 +60,10 @@ function getAvatar(data) {
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { className, size, url, alt, data } = props;
+    const { className, size, url, name, data } = props;
 
     const avatar  = getAvatar(data);
+    const alt     = name || data.name;
     const content = <Div className={className} size={size}>
         <Img alt={alt} src={avatar} />
     </Div>;
@@ -81,10 +82,10 @@ function Avatar(props) {
  */
 Avatar.propTypes = {
     className : PropTypes.string,
-    size      : PropTypes.string,
+    size      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     url       : PropTypes.string,
-    alt       : PropTypes.string.isRequired,
     data      : PropTypes.object.isRequired,
+    name      : PropTypes.string,
 };
 
 /**

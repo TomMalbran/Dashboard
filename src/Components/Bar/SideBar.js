@@ -42,6 +42,10 @@ const Name = Styled.div`
     transform-origin: left center;
 `;
 
+const Image = Styled.div`
+    margin-top: 6px;
+`;
+
 
 
 /**
@@ -50,9 +54,9 @@ const Name = Styled.div`
  * @returns {React.ReactElement}
  */
 function SideBar(props) {
-    const { logo, onSearch, onNew, onLogout, name, credential } = props;
+    const { className, logo, onSearch, onCreate, onLogout, name, avatarData, avatarUrl } = props;
 
-    return <Nav>
+    return <Nav className={className}>
         <Div>
             <BarLogo logo={logo} withLink />
             {!!onSearch && <BarIcon
@@ -60,10 +64,10 @@ function SideBar(props) {
                 icon="search"
                 onClick={onSearch}
             />}
-            {!!onNew && <BarIcon
+            {!!onCreate && <BarIcon
                 variant="dark"
                 icon="add"
-                onClick={onNew}
+                onClick={onCreate}
             />}
         </Div>
         <Div>
@@ -73,12 +77,13 @@ function SideBar(props) {
                 icon="logout"
                 onClick={onLogout}
             />}
-            <Avatar
-                className="app-avatar"
-                url="PROFILE"
-                alt={credential.name}
-                data={credential}
-            />
+            {!!avatarUrl && <Image>
+                <Avatar
+                    size="36"
+                    url={avatarUrl}
+                    data={avatarData}
+                />
+            </Image>}
         </Div>
     </Nav>;
 }
@@ -88,12 +93,22 @@ function SideBar(props) {
  * @typedef {Object} propTypes
  */
 SideBar.propTypes = {
+    className  : PropTypes.string,
     logo       : PropTypes.string.isRequired,
     onSearch   : PropTypes.func,
-    onNew      : PropTypes.func,
+    onCreate   : PropTypes.func,
     onLogout   : PropTypes.func,
     name       : PropTypes.string,
-    credential : PropTypes.object.isRequired,
+    avatarUrl  : PropTypes.string,
+    avatarData : PropTypes.object,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+SideBar.defaultProps = {
+    className : "",
 };
 
 export default SideBar;

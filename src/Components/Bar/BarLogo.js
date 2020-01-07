@@ -30,10 +30,10 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
-    const { logo, withLink } = props;
+    const { className, logo, withLink } = props;
     const image = <img src={logo} alt={NLS.get("TITLE")} />;
 
-    return <H2>
+    return <H2 className={className}>
         {withLink ? <HyperLink href="/" variant="none">
             {image}
         </HyperLink> : image}
@@ -45,8 +45,9 @@ function BarLogo(props) {
  * @type {Object} propTypes
  */
 BarLogo.propTypes = {
-    logo     : PropTypes.string,
-    withLink : PropTypes.bool,
+    className : PropTypes.string,
+    logo      : PropTypes.string.isRequired,
+    withLink  : PropTypes.bool,
 };
 
 /**
@@ -54,7 +55,8 @@ BarLogo.propTypes = {
  * @type {Object} defaultProps
  */
 BarLogo.defaultProps = {
-    withLink : false,
+    className : "",
+    withLink  : false,
 };
 
 export default BarLogo;
