@@ -108,19 +108,19 @@ function Result(props) {
     };
 
     // Set the Initial Timeout
-    if (open) {
-        React.useEffect(() => {
+    React.useEffect(() => {
+        if (timer) {
+            window.clearTimeout(timer);
+        }
+        if (open) {
+            setTimer(window.setTimeout(handleClose, time * 1000));
+        }
+        return () => {
             if (timer) {
                 window.clearTimeout(timer);
             }
-            setTimer(window.setTimeout(handleClose, time * 1000));
-            return () => {
-                if (timer) {
-                    window.clearTimeout(timer);
-                }
-            };
-        }, []);
-    }
+        };
+    }, [ open ]);
 
 
     return <Div className="result" open={open}>
