@@ -15,6 +15,7 @@ const H2 = Styled.h2`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 0;
     margin-bottom: 8px;
 
     img {

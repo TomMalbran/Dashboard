@@ -19,7 +19,7 @@ const Nav = Styled.nav`
     align-items: center;
     box-sizing: border-box;
     width: var(--sidebar-width);
-    padding: 16px 8px 8px;
+    padding: 16px 0;
     background-color: var(--secondary-color);
     border-right: 1px solid var(--border-color);
 `;
