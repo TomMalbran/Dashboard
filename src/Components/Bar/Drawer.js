@@ -16,7 +16,6 @@ import Styled, {
 
 
 
-
 // Animations
 const open = keyframes`
     from { opacity: 0; transform: translateX(calc(0px - var(--drawer-width))); }
@@ -41,7 +40,7 @@ const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
     background-color: white;
 `;
 
-const Nav = Styled.nav`
+const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     box-sizing: border-box;
     display: flex;
     flex-shrink: 0;
@@ -49,6 +48,13 @@ const Nav = Styled.nav`
     align-items: center;
     width: var(--sidebar-width);
     padding: 16px 0;
+    ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
+`;
+
+const Logo = Styled.div`
+    margin-bottom: 8px;
+    margin-top: var(--sidebar-top);
+    height: var(--sidebar-logo);
 `;
 
 const Section = Styled.section`
@@ -74,7 +80,7 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function Drawer(props) {
-    const { open, className, logo, message, onClose, children } = props;
+    const { open, className, withBorder, logo, message, onClose, children } = props;
     
     if (!open) {
         return <React.Fragment />;
@@ -104,8 +110,10 @@ function Drawer(props) {
         onClose={handleClose}
     >
         <Div className={className} ref={contentRef} isClosing={closing}>
-            <Nav>
-                <BarLogo logo={logo} />
+            <Nav withBorder={withBorder}>
+                <Logo>
+                    <BarLogo logo={logo} />
+                </Logo>
                 <BarIcon
                     variant="light"
                     icon="back"
@@ -125,12 +133,13 @@ function Drawer(props) {
  * @type {Object} propTypes
  */
 Drawer.propTypes = {
-    open      : PropTypes.bool.isRequired,
-    className : PropTypes.string,
-    message   : PropTypes.string.isRequired,
-    logo      : PropTypes.string,
-    onClose   : PropTypes.func.isRequired,
-    children  : PropTypes.any,
+    open       : PropTypes.bool.isRequired,
+    className  : PropTypes.string,
+    withBorder : PropTypes.bool,
+    message    : PropTypes.string.isRequired,
+    logo       : PropTypes.string,
+    onClose    : PropTypes.func.isRequired,
+    children   : PropTypes.any,
 };
 
 /**
@@ -138,7 +147,8 @@ Drawer.propTypes = {
  * @type {Object} defaultProps
  */
 Drawer.defaultProps = {
-    className : "",
+    className  : "",
+    withBorder : false,
 };
 
 export default Drawer;

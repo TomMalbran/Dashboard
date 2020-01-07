@@ -15,12 +15,11 @@ const H2 = Styled.h2`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0;
-    margin-bottom: 8px;
-
-    img {
-        width: 32px;
-    }
+    margin: 0;
+`;
+    
+const Img = Styled.img`
+    width: 32px;
 `;
 
 
@@ -32,7 +31,7 @@ const H2 = Styled.h2`
  */
 function BarLogo(props) {
     const { className, logo, withLink } = props;
-    const image = <img src={logo} alt={NLS.get("TITLE")} />;
+    const image = <Img src={logo} alt={NLS.get("TITLE")} />;
 
     return <H2 className={className}>
         {withLink ? <HyperLink href="/" variant="none">

@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import NLS                  from "../../Core/NLS";
+
 // Components
 import Avatar               from "../Common/Avatar";
 import BarLogo              from "../Bar/BarLogo";
@@ -10,7 +13,7 @@ import BarIcon              from "../Bar/BarIcon";
 
 
 // Styles
-const Nav = Styled.nav`
+const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     box-sizing: border-box;
     display: flex;
     flex-shrink: 0;
@@ -19,9 +22,9 @@ const Nav = Styled.nav`
     align-items: center;
     box-sizing: border-box;
     width: var(--sidebar-width);
-    padding: 16px 0;
     background-color: var(--secondary-color);
-    border-right: 1px solid var(--border-color);
+    padding: 16px 0;
+    ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
 `;
 
 const Div = Styled.div`
@@ -42,6 +45,12 @@ const Name = Styled.div`
     transform-origin: left center;
 `;
 
+const Logo = Styled.div`
+    margin-bottom: 8px;
+    margin-top: var(--sidebar-top);
+    height: var(--sidebar-logo);
+`;
+
 const Image = Styled.div`
     margin-top: 6px;
 `;
@@ -54,11 +63,16 @@ const Image = Styled.div`
  * @returns {React.ReactElement}
  */
 function SideBar(props) {
-    const { className, logo, onSearch, onCreate, onLogout, name, avatarData, avatarUrl } = props;
+    const {
+        className, withBorder,
+        logo, onSearch, onCreate, onLogout, message, avatarData, avatarUrl,
+    } = props;
 
-    return <Nav className={className}>
+    return <Nav className={className} withBorder={withBorder}>
         <Div>
-            <BarLogo logo={logo} withLink />
+            <Logo>
+                <BarLogo logo={logo} withLink />
+            </Logo>
             {!!onSearch && <BarIcon
                 variant="dark"
                 icon="search"
@@ -71,7 +85,7 @@ function SideBar(props) {
             />}
         </Div>
         <Div>
-            {!!name && <Name>{name}</Name>}
+            {!!message && <Name>{NLS.get(message)}</Name>}
             {!!onLogout && <BarIcon
                 variant="dark"
                 icon="logout"
@@ -98,9 +112,10 @@ SideBar.propTypes = {
     onSearch   : PropTypes.func,
     onCreate   : PropTypes.func,
     onLogout   : PropTypes.func,
-    name       : PropTypes.string,
+    message    : PropTypes.string,
     avatarUrl  : PropTypes.string,
     avatarData : PropTypes.object,
+    withBorder : PropTypes.bool,
 };
 
 /**
@@ -108,7 +123,8 @@ SideBar.propTypes = {
  * @type {Object} defaultProps
  */
 SideBar.defaultProps = {
-    className : "",
+    className  : "",
+    withBorder : false,
 };
 
 export default SideBar;
