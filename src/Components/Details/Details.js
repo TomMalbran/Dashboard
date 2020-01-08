@@ -42,45 +42,30 @@ const Error = Styled.div`
 
 
 /**
- * Creates the Children
- * @param {Object} props
- * @returns {React.ReactElement[]}
- */
-function getChildren(props) {
-    const { onClose } = props;
-
-    const childs   = Utils.toArray(props.children);
-    const children = [];
-    let   key      = 0;
-
-    for (const child of childs) {
-        const clone = React.cloneElement(child, {
-            key, onClose,
-        });
-        children.push(clone);
-        key += 1;
-    }
-    return children;
-}
-
-
-
-/**
  * The Details Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, isLoading, hasError, error, canEdit, button, onClick, onClose } = props;
+    const { className, isLoading, hasError, error, canEdit, button, onClick, onClose, children } = props;
     
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError;
     const showActions = Boolean(showContent && button);
+    const items       = [];
+
+    if (showContent) {
+        for (const [ key, child ] of Utils.toEntries(children)) {
+            items.push(React.cloneElement(child, {
+                key, onClose,
+            }));
+        }
+    }
 
     return <Section className={`details ${className}`}>
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
-        {showContent && getChildren(props)}
+        {showContent && items}
         {showActions && <DetailActions canEdit={canEdit} onClick={onClick} onClose={onClose}>
             <DetailAction action="EDIT" message={button} />
         </DetailActions>}

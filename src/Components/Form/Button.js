@@ -12,9 +12,8 @@ import Icon                 from "../Common/Icon";
 
 
 
-
 // Styles
-const Btn = Styled.button.attrs(({ isSmall, fullWidth, withIcon }) => ({ isSmall, fullWidth, withIcon }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => ({ variant, isSmall, fullWidth, withIcon }))`
     display: inline-block;
     box-sizing: border-box;
     margin: 0;
@@ -68,127 +67,77 @@ const Btn = Styled.button.attrs(({ isSmall, fullWidth, withIcon }) => ({ isSmall
     & + & {
         ${(props) => props.fullWidth ? "margin-top: 8px;" : "margin-left: 8px;"}
     }
-`;
-
-const PrimaryBtn = Styled(Btn)`
-    --button-font: white;
-    --button-border: var(--primary-color);
-    --button-background: var(--primary-color);
-`;
-
-const CancelBtn = Styled(Btn)`
-    --button-font: var(--black-color);
-    --button-border: rgb(225, 225, 225);
-    --button-background: rgb(225, 225, 225);
-    --button-shadow: #ededed;
-`;
-
-const ErrorBtn = Styled(Btn)`
-    --button-font: white;
-    --button-border: var(--red-color);
-    --button-background: var(--red-color);
-`;
-
-const AccentBtn = Styled(Btn)`
-    --button-font: white;
-    --button-border: var(--accent-color);
-    --button-background: var(--accent-color);
-`;
-
-const WhiteBtn = Styled(Btn)`
-    --button-font: black;
-    --button-border: var(--primary-color);
-    --button-background: white;
-    --button-color: white;
-    --button-shadow: var(--primary-color);
-`;
-
-const MenuBtn = Styled(Btn)`
-    text-transform: none;
-    --button-font: var(--lightest-color);
-    --button-color: white;
-    --button-shadow: rgba(255, 255, 255, 0.05);
     
-    .icon {
-        color: var(--lightest-color);
-    }
-
-    &:disabled,
-    &:disabled:hover,
-    &:disabled:focus,
-    &:disabled:active {
-        color: var(--light-color);
-        border-color: transparent;
-        background-color: transparent;
-    }
-    &:disabled .icon {
-        color: var(--light-color);
-    }
-`;
-
-const OutlinedBtn = Styled(Btn)`
-    --button-background: transparent;
-    --button-font: var(--primary-color);
-    --button-border: var(--primary-color);
-    --button-color: white;
-    --button-shadow: var(--primary-color);
-`;
-
-const OutlinedWhiteBtn = Styled(Btn)`
-    --button-background: transparent;
-    --button-font: white;
-    --button-border: white;
-    --button-color: var(--font-dark);
-    --button-shadow: white;
-`;
-
-
-
-/**
- * Handles the Click
- * @param {Object} props
- * @param {React.MouseEvent} e
- * @returns {Void}
- */
-function handleClick(props, e) {
-    const { onClick, href, url, target, history } = props;
-    const uri = url ? NLS.url(url) : href;
+    ${(props) => {
+        switch (props.variant) {
+        case "primary": return `
+            --button-font: white;
+            --button-border: var(--primary-color);
+            --button-background: var(--primary-color);
+        `;
+        case "cancel": return `
+            --button-font: var(--black-color);
+            --button-border: rgb(225, 225, 225);
+            --button-background: rgb(225, 225, 225);
+            --button-shadow: #ededed;
+        `;
+        case "error": return `
+            --button-font: white;
+            --button-border: var(--red-color);
+            --button-background: var(--red-color);
+        `;
+        case "accent": return `
+            --button-font: white;
+            --button-border: var(--accent-color);
+            --button-background: var(--accent-color);
+        `;
+        case "white": return `
+            --button-font: black;
+            --button-border: var(--primary-color);
+            --button-background: white;
+            --button-color: white;
+            --button-shadow: var(--primary-color);
+        `;
+        case "outlined": return `
+            --button-background: transparent;
+            --button-font: var(--primary-color);
+            --button-border: var(--primary-color);
+            --button-color: white;
+            --button-shadow: var(--primary-color);
+        `;
+        case "outlinedWhite": return `
+            --button-background: transparent;
+            --button-font: white;
+            --button-border: white;
+            --button-color: var(--font-dark);
+            --button-shadow: white;
+        `;
+        case "menu": return `
+            text-transform: none;
+            --button-font: var(--lightest-color);
+            --button-color: white;
+            --button-shadow: rgba(255, 255, 255, 0.05);
+            
+            .icon {
+                color: var(--lightest-color);
+            }
     
-    if (onClick) {
-        onClick(e);
-    }
-    Href.handle(uri, target, history);
-    e.stopPropagation();
-    e.preventDefault();
-}
-
-/**
- * Returns the Styled Component based on the Variant
- * @param {String} variant
- * @returns {Object}
- */
-function getComponent(variant) {
-    switch (variant) {
-    case "primary":
-        return PrimaryBtn;
-    case "cancel":
-        return CancelBtn;
-    case "error":
-        return ErrorBtn;
-    case "accent":
-        return AccentBtn;
-    case "white":
-        return WhiteBtn;
-    case "menu":
-        return MenuBtn;
-    case "outlined":
-        return OutlinedBtn;
-    case "outlinedWhite":
-        return OutlinedWhiteBtn;
-    default:
-        return Btn;
-    }
-}
+            &:disabled,
+            &:disabled:hover,
+            &:disabled:focus,
+            &:disabled:active {
+                color: var(--light-color);
+                border-color: transparent;
+                background-color: transparent;
+            }
+            &:disabled .icon {
+                color: var(--light-color);
+            }
+        `;
+        default: return "";
+        }
+    }};
+`;
 
 
 
@@ -198,23 +147,36 @@ function getComponent(variant) {
  * @returns {React.ReactElement}
  */
 function Button(props) {
-    const { className, message, variant, isDisabled, isSmall, fullWidth, icon, children } = props;
+    const {
+        className, message, variant, isDisabled, isSmall, fullWidth, icon,
+        onClick, target, history, children,
+    } = props;
 
-    const Component = getComponent(variant);
-    const content   = children || NLS.get(message);
-    const withIcon  = Boolean(icon && variant !== "icon" && !!content);
+    const url      = Href.getUrl(props);
+    const content  = children || NLS.get(message);
+    const withIcon = Boolean(icon && variant !== "icon" && !!content);
 
-    return <Component
-        className={`btn btn-${variant} ${className}`}
+    const handleClick = (e) => {
+        if (onClick) {
+            onClick(e);
+        }
+        Href.handle(url, target, history);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+    return <Btn
+        className={`btn ${className}`}
+        variant={variant}
         disabled={isDisabled}
         isSmall={isSmall}
         fullWidth={fullWidth}
         withIcon={withIcon}
-        onClick={(e) => handleClick(props, e)}
+        onClick={handleClick}
     >
         {!!icon    && <Icon variant={icon} className="btn-preicon" />}
         {!!content && <span className="btn-content">{content}</span>}
-    </Component>;
+    </Btn>;
 }
     
 /**

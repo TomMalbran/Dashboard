@@ -38,37 +38,29 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
 
 
 /**
- * Handles the Click
- * @param {Object}           props
- * @param {React.MouseEvent} e
- * @returns {Void}
- */
-function handleClick(props, e) {
-    if (props.contentRef && props.contentRef.current) {
-        const bounds = props.contentRef.current.getBoundingClientRect();
-        if (e.clientX > 0 && e.clientY > 0 && (
-            e.clientX < bounds.left || e.clientX > bounds.right ||
-            e.clientY < bounds.top  || e.clientY > bounds.bottom
-        )) {
-            props.onClose();
-        }
-    }
-}
-
-
-
-/**
  * The Drawer Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
 function Backdrop(props) {
-    const { open, closing, children } = props;
+    const { open, closing, contentRef, onClose, children } = props;
+
+    const handleClick = (e) => {
+        if (contentRef.current) {
+            const bounds = contentRef.current.getBoundingClientRect();
+            if (e.clientX > 0 && e.clientY > 0 && (
+                e.clientX < bounds.left || e.clientX > bounds.right ||
+                e.clientY < bounds.top  || e.clientY > bounds.bottom
+            )) {
+                onClose();
+            }
+        }
+    };
 
     return <Div
         isOpen={open}
         isClosing={closing}
-        onMouseDown={(e) => handleClick(props, e)}
+        onMouseDown={handleClick}
     >
         {children}
     </Div>;

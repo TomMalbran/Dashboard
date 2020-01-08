@@ -31,21 +31,22 @@ const loaderDots = keyframes`
 `;
 
 // Styles
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
     z-index: 200;
-    
-    --loader-border: var(--primary-color, black);
-    --loader-font: var(--font-dark, black);
 
-    &.white {
+    ${(props) => props.variant === "primary" && `
+        --loader-border: var(--primary-color, black);
+        --loader-font: var(--font-dark, black);
+    `}
+    ${(props) => props.variant === "white" && `
         --loader-border: white;
         --loader-font: white;
-    }
+    `}
 `;
 
 const Ring = Styled.div`
@@ -102,7 +103,7 @@ const Text = Styled.div`
 function CircularLoader(props) {
     const { className, variant } = props;
 
-    return <Div className={`${variant} ${className}`}>
+    return <Div className={className} variant={variant}>
         <Ring>
             <div />
             <div />
@@ -127,7 +128,7 @@ CircularLoader.propTypes = {
  * @type {Object} defaultProps
  */
 CircularLoader.defaultProps = {
-    variant   : "main",
+    variant   : "primary",
     className : "",
 };
 

@@ -21,41 +21,24 @@ const Ul = Styled.ul`
 
 
 /**
- * Creates the Children
- * @param {Object} props
- * @returns {React.ReactElement[]}
- */
-function getChildren(props) {
-    const { variant, path, baseUrl, onClose } = props;
-
-    const childs   = Utils.toArray(props.children);
-    const children = [];
-    let   key      = 0;
-
-    for (const child of childs) {
-        if (!child.props.isHidden) {
-            const clone = React.cloneElement(child, {
-                key, variant, path, baseUrl, onClose,
-            });
-            children.push(clone);
-            key += 1;
-        }
-    }
-    return children;
-}
-
-
-
-/**
  * The Navigation List Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { className } = props;
+    const { className, variant, path, baseUrl, onClose, children } = props;
+
+    const items = [];
+    for (const [ key, child ] of Utils.toEntries(children)) {
+        if (!child.props.isHidden) {
+            items.push(React.cloneElement(child, {
+                key, variant, path, baseUrl, onClose,
+            }));
+        }
+    }
 
     return <Ul className={className}>
-        {getChildren(props)}
+        {items}
     </Ul>;
 }
 

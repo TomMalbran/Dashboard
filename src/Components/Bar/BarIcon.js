@@ -8,35 +8,34 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 8px;
     width: 32px;
     height: 32px;
-    background-color: var(--primary-color);
+    color: var(--bicon-color);
+    background-color: var(--bicon-background);
     border-radius: var(--border-radius);
-    color: white;
     font-size: 16px;
     cursor: pointer;
     transition: all 0.5s;
-`;
 
-const DarkIcon = Styled(Div)`
-    color: white;
-    background-color: var(--primary-color);
     &:hover {
-        background-color: var(--secondary-color);
+        background-color: var(--bicon-hover);
     }
-`;
 
-const LightIcon = Styled(Div)`
-    color: var(--primary-color);
-    background-color: rgba(0, 0, 0, 0.1);
-    &:hover {
-        background-color: white;
-    }
+    ${(props) => props.variant === "dark" && `
+        --bicon-color: white;
+        --bicon-background: var(--primary-color);
+        --bicon-hover: var(--secondary-color);
+    `}
+    ${(props) => props.variant === "light" && `
+        --bicon-color: var(--primary-color);
+        --bicon-background: rgba(0, 0, 0, 0.1);
+        --bicon-hover: white;
+    `}
 `;
 
 
@@ -48,14 +47,13 @@ const LightIcon = Styled(Div)`
  */
 function BarIcon(props) {
     const { variant, className, icon, onClick } = props;
-    const Component = variant === "dark" ? DarkIcon : LightIcon;
 
-    return <Component className={className}>
+    return <Div className={className} variant={variant}>
         <Icon
             variant={icon}
             onClick={onClick}
         />
-    </Component>;
+    </Div>;
 }
 
 /**

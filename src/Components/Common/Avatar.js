@@ -37,24 +37,6 @@ const Img = Styled.img`
 
 
 /**
- * Returns the Avatar for the given data
- * @param {Object} data
- * @returns {String}
- */
-function getAvatar(data) {
-    if (data.avatar) {
-        return data.avatar;
-    }
-    if (data.email) {
-        const avatar = MD5(data.email.toLowerCase().trim());
-        return `https://gravatar.com/avatar/${avatar}?default=identicon`;
-    }
-    return "";
-}
-
-
-
-/**
  * The Avatar Component
  * @param {Object} props
  * @returns {React.ReactElement}
@@ -62,10 +44,17 @@ function getAvatar(data) {
 function Avatar(props) {
     const { className, size, url, name, data } = props;
 
-    const avatar  = getAvatar(data);
-    const alt     = name || data.name;
+    let avatar = data.avatar;
+    if (!avatar && data.email) {
+        const username = MD5(data.email.toLowerCase().trim());
+        avatar = `https://gravatar.com/avatar/${username}?default=identicon`;
+    }
+    if (!avatar) {
+        return <React.Component />;
+    }
+
     const content = <Div className={className} size={size}>
-        <Img alt={alt} src={avatar} />
+        <Img alt={name || data.name} src={avatar} />
     </Div>;
 
     if (url) {

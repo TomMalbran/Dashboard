@@ -212,8 +212,8 @@ const Badge = Styled.span`
  * @returns {Void}
  */
 function handleClick(props, e) {
-    const { isDisabled, onClick, href, url, tel, mail, whatsapp, dontStop, history } = props;
-    const uri     = url ? NLS.url(url) : href;
+    const { isDisabled, onClick, tel, mail, whatsapp, dontStop, history } = props;
+    const url     = Href.getUrl(props);
     let   handled = false;
 
     if (isDisabled) {
@@ -223,7 +223,7 @@ function handleClick(props, e) {
             onClick(e);
             handled = true;
         }
-        if (!tel && !mail && !whatsapp && Href.handleInternal(uri, history)) {
+        if (!tel && !mail && !whatsapp && Href.handleInternal(url, history)) {
             handled = true;
         }
     }
@@ -269,26 +269,6 @@ function getComponent(variant, isSelected, isDisabled) {
     }
 }
 
-/**
- * Returns the Url
- * @param {Object} props
- * @returns {String}
- */
-function getUrl(props) {
-    const { href, url, message, tel, mail, whatsapp } = props;
-    let result = href;
-    if (url) {
-        result = NLS.url(url);
-    } else if (tel) {
-        result = `tel:${href || message}`;
-    } else if (mail) {
-        result = `mailto:${href || message}`;
-    } else if (whatsapp) {
-        result = `https://api.whatsapp.com/send?phone=549${href || message}`;
-    }
-    return result;
-}
-
 
 
 /**
@@ -303,16 +283,15 @@ function HyperLink(props) {
         onMouseEnter, onMouseLeave,
     } = props;
 
-    const url        = getUrl(props);
-    const selected   = isSelected || path && url === path;
+    const url        = Href.getUrl(props);
+    const selected   = isSelected || (path && url === path);
     const Component  = getComponent(variant, selected, isDisabled);
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
-    const classes    = `link link-${variant} ${className}`;
     
     return <Component
         ref={passedRef}
-        className={classes}
+        className={`link link-${variant} ${className}`}
         href={url}
         target={target}
         onClick={(e) => handleClick(props, e)}

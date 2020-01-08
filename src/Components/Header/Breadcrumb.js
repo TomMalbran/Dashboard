@@ -73,20 +73,20 @@ function Breadcrumb(props) {
     const { className, route } = props;
 
     const parts = route.split("/");
-    const items = [{ href : "/", message : "GENERAL_START" }];
+    const items = [{ key : 0, href : "/", message : "GENERAL_START" }];
     const href  = [];
 
     for (let i = 0; i < parts.length; i++) {
         const message = parts[i];
         href.push(message);
         if (isNaN(message)) {
-            items.push({ href : href.join("/"), message });
+            items.push({ key : i + 1, href : href.join("/"), message });
         }
     }
 
     return <Ul className={className}>
-        {items.map((elem, index) => <Li key={index}>
-            <HyperLink variant="none" href={elem.href} message={elem.message} />
+        {items.map(({ key, href, message }) => <Li key={key}>
+            <HyperLink variant="none" href={href} message={message} />
         </Li>)}
     </Ul>;
 }

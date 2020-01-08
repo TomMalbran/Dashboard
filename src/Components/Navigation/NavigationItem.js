@@ -33,24 +33,6 @@ const Div = Styled.div`
 
 
 /**
- * Handles the Click Event
- * @param {Object}     props
- * @param {MouseEvent} e
- * @returns {Void}
- */
-function handleClick(props, e) {
-    const { onClose, onClick } = props;
-    if (onClose) {
-        onClose(e);
-    }
-    if (onClick) {
-        onClick(e);
-    }
-}
-
-
-
-/**
  * The Navigation Item Component
  * @param {Object} props
  * @returns {React.ReactElement}
@@ -58,8 +40,17 @@ function handleClick(props, e) {
 function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
-        isSelected, canDelete, onDelete, children,
+        isSelected, onClick, onClose, canDelete, onDelete, children,
     } = props;
+
+    const handleClick = (e) => {
+        if (onClose) {
+            onClose(e);
+        }
+        if (onClick) {
+            onClick(e);
+        }
+    };
     
     return <li>
         <Div>
@@ -69,7 +60,7 @@ function NavigationItem(props) {
                 message={message}
                 html={html}
                 href={url ? NLS.url(url, baseUrl) : (href || "")}
-                onClick={(e) => handleClick(props, e)}
+                onClick={handleClick}
                 path={path}
                 icon={icon}
                 isSelected={isSelected}

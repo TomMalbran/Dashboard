@@ -8,10 +8,16 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const H3 = Styled.h3`
+const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     margin: 0;
     padding-top: 8px;
-    color: var(--title-color);
+    
+    ${(props) => props.variant === "primary" && `
+        color: var(--title-color);
+    `}
+    ${(props) => props.variant === "white" && `
+        color: rgba(255, 255, 255, 0.8);
+    `}
 `;
 
 
@@ -22,9 +28,9 @@ const H3 = Styled.h3`
  * @returns {React.ReactElement}
  */
 function NoneAvailable(props) {
-    const { className, message } = props;
+    const { className, variant, message } = props;
 
-    return <H3 className={className}>
+    return <H3 className={className} variant={variant}>
         {NLS.get(message)}
     </H3>;
 }
@@ -35,6 +41,7 @@ function NoneAvailable(props) {
  */
 NoneAvailable.propTypes = {
     message   : PropTypes.string.isRequired,
+    variant   : PropTypes.string,
     className : PropTypes.string,
 };
 
@@ -43,6 +50,7 @@ NoneAvailable.propTypes = {
  * @type {Object} defaultProps
  */
 NoneAvailable.defaultProps = {
+    variant   : "primary",
     className : "",
 };
 

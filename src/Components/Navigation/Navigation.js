@@ -8,49 +8,22 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Section = Styled.section`
+const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     box-sizing: border-box;
     width: var(--navigation-width);
+
+    ${(props) => props.variant === "dark" && `
+        background-color: var(--secondary-color);
+        color: white;
+    `}
+    ${(props) => props.variant === "light" && `
+        background-color: var(--lighter-gray);
+        color: var(--font-light);
+    `}
 `;
-
-const DarkSection = Styled(Section)`
-    background-color: var(--secondary-color);
-    color: white;
-`;
-
-const LightSection = Styled(Section)`
-    background-color: var(--lighter-gray);
-    color: var(--font-light);
-`;
-
-
-
-/**
- * Creates the Children
- * @param {Object} props
- * @returns {React.ReactElement[]}
- */
-function getChildren(props) {
-    const { variant } = props;
-
-    const childs   = Utils.toArray(props.children);
-    const children = [];
-    let   key      = 0;
-
-    for (const child of childs) {
-        if (!child.props.isHidden) {
-            const clone = React.cloneElement(child, {
-                key, variant,
-            });
-            children.push(clone);
-            key += 1;
-        }
-    }
-    return children;
-}
 
 
 
@@ -60,12 +33,20 @@ function getChildren(props) {
  * @returns {React.ReactElement}
  */
 function Navigation(props) {
-    const { className, variant } = props;
-    const Component = variant === "dark" ? DarkSection : LightSection;
+    const { className, variant, none, isLoading, children } = props;
 
-    return <Component className={className}>
-        {getChildren(props)}
-    </Component>;
+    const items = [];
+    for (const [ key, child ] of Utils.toEntries(children)) {
+        if (!child.props.isHidden) {
+            items.push(React.cloneElement(child, {
+                key, variant, none, isLoading,
+            }));
+        }
+    }
+
+    return <Section className={className} variant={variant}>
+        {items}
+    </Section>;
 }
 
 /**
@@ -75,6 +56,8 @@ function Navigation(props) {
 Navigation.propTypes = {
     variant   : PropTypes.string.isRequired,
     className : PropTypes.string,
+    none      : PropTypes.string,
+    isLoading : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -84,6 +67,8 @@ Navigation.propTypes = {
  */
 Navigation.defaultProps = {
     className : "",
+    none      : "",
+    isLoading : false,
 };
 
 export default Navigation;

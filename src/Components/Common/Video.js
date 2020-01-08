@@ -24,11 +24,13 @@ const Frame = Styled.iframe`
 
 
 /**
- * Returns the Youtube Embed link
- * @param {String} source
- * @returns {String}
+ * The YouTube Video Component
+ * @param {Object} props
+ * @returns {React.ReactElement}
  */
-function getEmbed(source) {
+function Video(props) {
+    const { className, title, source, width, height } = props;
+
     let videoID = "";
     if (source.startsWith("https://youtu.be/")) {
         videoID = source.replace("https://youtu.be/", "");
@@ -36,25 +38,10 @@ function getEmbed(source) {
         videoID = source.replace("https://www.youtube.com/watch?v=", "");
     }
     if (!videoID) {
-        return "";
-    }
-    return `https://www.youtube-nocookie.com/embed/${videoID}?version=3&modestbranding=1&rel=0&showinfo=0`;
-}
-
-
-
-/**
- * The YouTube Video Component
- * @param {Object} props
- * @returns {React.ReactElement}
- */
-function Video(props) {
-    const { className, title, source, width, height } = props;
-    const src = getEmbed(source);
-
-    if (!src) {
         return <React.Fragment />;
     }
+    
+    const src = `https://www.youtube-nocookie.com/embed/${videoID}?version=3&modestbranding=1&rel=0&showinfo=0`;
     return <Div className={className}>
         <Frame
             width={width}

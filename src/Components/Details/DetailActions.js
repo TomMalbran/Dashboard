@@ -30,64 +30,42 @@ const Div = Styled.div`
 
 
 /**
- * Handle the Button Clicks
- * @param {Object} props
- * @param {Object} action
- * @returns {Void}
- */
-function handleClick(props, action) {
-    if (props.onClick) {
-        props.onClick(action);
-    }
-    if (props.onClose) {
-        props.onClose();
-    }
-}
-
-/**
- * Creates the Children
- * @param {Object} props
- * @returns {React.ReactElement[]}
- */
-function getChildren(props) {
-    const childs   = Utils.toArray(props.children);
-    const children = [];
-    let   key      = 0;
-
-    for (const child of childs) {
-        if (child && !child.props.isHidden) {
-            const action = Action.get(child.props.action);
-            const clone  = <Button
-                key={key}
-                variant="outlined"
-                icon={child.props.icon || action.icon}
-                message={child.props.message || action.message}
-                onClick={() => handleClick(props, action)}
-            />;
-            children.push(clone);
-            key += 1;
-        }
-    }
-    return children;
-}
-
-
-
-/**
  * The Detail Actions Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
 function DetailActions(props) {
-    const { canEdit } = props;
-    const children = getChildren(props);
+    const { canEdit, onClick, onClose, children } = props;
 
-    if (!canEdit || !children.length) {
+    const handleClick = (action) => () => {
+        if (onClick) {
+            onClick(action);
+        }
+        if (onClose) {
+            onClose();
+        }
+    };
+
+    const items = [];
+    for (const [ key, child ] of Utils.toEntries(children)) {
+        if (child && !child.props.isHidden) {
+            const action = Action.get(child.props.action);
+            items.push(<Button
+                key={key}
+                variant="outlined"
+                icon={child.props.icon || action.icon}
+                message={child.props.message || action.message}
+                onClick={handleClick(action)}
+            />);
+        }
+    }
+    
+
+    if (!canEdit || !items.length) {
         return <React.Fragment />;
     }
-
     return <Div>
-        {children}
+        {items}
     </Div>;
 }
 
