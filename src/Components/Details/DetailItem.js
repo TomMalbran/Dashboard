@@ -100,7 +100,7 @@ function DetailItem(props) {
         title={NLS.get(tooltip)}
         onClick={(e) => handleClick(props, e)}
     >
-        <Icon variant={icon} />
+        <Icon icon={icon} />
         {content}
     </Li>;
 }

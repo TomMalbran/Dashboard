@@ -8,6 +8,12 @@ import Utils                from "../../Utils/Utils";
 // Components
 import Video                from "../Common/Video";
 
+// Variants
+const Variant = {
+    IMAGE : "image",
+    VIDEO : "video",
+};
+
 
 
 // Styles
@@ -219,12 +225,12 @@ function Slider(props) {
         <Div className="slider-content" style={cntStyle}>
             {Object.entries(data).map(([ type, elem ]) => (
                 <div key={type} style={slStyle}>
-                    {variant === "image" && <Img
+                    {variant === Variant.IMAGE && <Img
                         alt={elem.name}
                         src={elem.source}
                         onClick={onClick(elem)}
                     />}
-                    {variant === "video" && <Video
+                    {variant === Variant.VIDEO && <Video
                         title={elem.name}
                         source={elem.source}
                     />}
@@ -273,7 +279,7 @@ Slider.propTypes = {
  */
 Slider.defaultProps = {
     onClick   : (() => {}),
-    variant   : "image",
+    variant   : Variant.IMAGE,
     className : "",
     height    : 0,
     index     : 0,

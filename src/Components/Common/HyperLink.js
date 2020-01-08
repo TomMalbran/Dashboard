@@ -11,10 +11,30 @@ import Href                 from "../../Utils/Href";
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
 
+// Variants
+const Variant = {
+    NONE       : "none",
+    PRIMARY    : "primary",
+    ACCENT     : "accent",
+    BLACK      : "black",
+    WHITE      : "white",
+    GRAY       : "gray",
+    RED        : "red",
+    GREEN      : "green",
+    IMAGE      : "image",
+    OPACITY    : "opacity",
+    UNDERLINE  : "underline",
+    MENU_LIGHT : "menu-light",
+    MENU_DARK  : "menu-dark",
+    OUTLINED   : "outlined",
+    ICON_LIGHT : "icon-light",
+    ICON_DARK  : "icon-dark",
+};
+
 
 
 // Styles
-const Link = Styled.a`
+const Link = Styled.a.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
     position: relative;
     color: var(--link-color);
     text-decoration: none;
@@ -73,6 +93,31 @@ const ColoredLink = Styled(Link)`
     }
 `;
 
+const ImageLink = Styled(Link)`
+    display: block;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        filter: grayscale(1);
+        color: #666;
+    }
+`;
+
+const OpacityLink = Styled(Link)`
+    display: block;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+        opacity: 0.5;
+    }
+`;
+
+const UnderlineLink = Styled(Link)`
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
 
 const MenuLink = Styled(Link)`
     display: flex;
@@ -95,9 +140,7 @@ const LightMenuLink = Styled(MenuLink)`
     &:hover {
         background-color: rgba(0, 0, 0, 0.08);
     }
-`;
-const LightMenuSelected = Styled(LightMenuLink)`
-    background-color: rgba(0, 0, 0, 0.08);
+    ${(props) => props.isSelected && "background-color: rgba(0, 0, 0, 0.08);"}
 `;
 
 const DarkMenuLink = Styled(MenuLink)`
@@ -106,31 +149,10 @@ const DarkMenuLink = Styled(MenuLink)`
         color: white;
         background-color: var(--primary-color);
     }
-`;
-const DarkMenuSelected = Styled(DarkMenuLink)`
-    color: white;
-    background-color: var(--primary-color);
-`;
-
-
-const ImageLink = Styled(Link)`
-    display: block;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        filter: grayscale(1);
-        color: #666;
-    }
-`;
-
-
-const OpacityLink = Styled(Link)`
-    display: block;
-    transition: all 0.2s ease-in-out;
-    
-    &:hover {
-        opacity: 0.5;
-    }
+    ${(props) => props.isSelected && `
+        color: white;
+        background-color: var(--primary-color);
+    `}
 `;
 
 
@@ -154,16 +176,8 @@ const OutlinedLink = Styled(Link)`
         font-size: 1.7em;
         margin-left: 12px;
     }
-`;
-const OutlinedSelected = Styled(OutlinedLink)`
-    border-color: white;
-`;
 
-
-const UnderlineLink = Styled(Link)`
-    &:hover {
-        text-decoration: underline;
-    }
+    ${(props) => props.isSelected && "border-color: white;"}
 `;
 
 
@@ -180,12 +194,19 @@ const IconLink = Styled(Link)`
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
     }
+
+    ${(props) => props.isDisabled && `
+        color: var(--darker-gray);
+        cursor: not-allowed;
+        &:hover {
+            background-color: transparent;
+        }
+    `}
 `;
-const IconDisabled = Styled(IconLink)`
-    color: var(--darker-gray);
-    cursor: not-allowed;
+
+const IconDark = Styled(IconLink)`
     &:hover {
-        background-color: transparent;
+        background-color: var(--primary-color);;
     }
 `;
 
@@ -235,35 +256,35 @@ function handleClick(props, e) {
 
 /**
  * Returns the Styled Component based on the Variant
- * @param {String}  variant
- * @param {Boolean} isSelected
- * @param {Boolean} isDisabled
+ * @param {String} variant
  * @returns {Object}
  */
-function getComponent(variant, isSelected, isDisabled) {
+function getComponent(variant) {
     switch (variant) {
-    case "primary":
-    case "accent":
-    case "black":
-    case "white":
-    case "gray":
-    case "red":
-    case "green":
+    case Variant.PRIMARY:
+    case Variant.ACCENT:
+    case Variant.BLACK:
+    case Variant.WHITE:
+    case Variant.GRAY:
+    case Variant.RED:
+    case Variant.GREEN:
         return ColoredLink;
-    case "menu-light":
-        return isSelected ? LightMenuSelected : LightMenuLink;
-    case "menu-dark":
-        return isSelected ? DarkMenuSelected : DarkMenuLink;
-    case "image":
+    case Variant.IMAGE:
         return ImageLink;
-    case "opacity":
+    case Variant.OPACITY:
         return OpacityLink;
-    case "underline":
+    case Variant.UNDERLINE:
         return UnderlineLink;
-    case "outlined":
-        return isSelected ? OutlinedSelected : OutlinedLink;
-    case "icon":
-        return isDisabled ? IconDisabled : IconLink;
+    case Variant.MENU_LIGHT:
+        return LightMenuLink;
+    case Variant.MENU_DARK:
+        return DarkMenuLink;
+    case Variant.OUTLINED:
+        return OutlinedLink;
+    case Variant.ICON_LIGHT:
+        return IconLink;
+    case Variant.ICON_DARK:
+        return IconDark;
     default:
         return Link;
     }
@@ -278,20 +299,21 @@ function getComponent(variant, isSelected, isDisabled) {
  */
 function HyperLink(props) {
     const {
-        passedRef, variant, className, path, isSelected, isDisabled,
+        passedRef, variant, className, isSelected, isDisabled,
         target, message, html, children, icon, afterIcon, badge,
         onMouseEnter, onMouseLeave,
     } = props;
 
     const url        = Href.getUrl(props);
-    const selected   = isSelected || (path && url === path);
-    const Component  = getComponent(variant, selected, isDisabled);
+    const Component  = getComponent(variant);
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
     
     return <Component
         ref={passedRef}
         className={`link link-${variant} ${className}`}
+        isSelected={isSelected}
+        isDisabled={isDisabled}
         href={url}
         target={target}
         onClick={(e) => handleClick(props, e)}
@@ -324,7 +346,6 @@ HyperLink.propTypes = {
     icon         : PropTypes.string,
     afterIcon    : PropTypes.string,
     badge        : PropTypes.number,
-    path         : PropTypes.string,
     className    : PropTypes.string,
     onClick      : PropTypes.func,
     onMouseEnter : PropTypes.func,
@@ -341,12 +362,11 @@ HyperLink.propTypes = {
  * @type {Object} defaultProps
  */
 HyperLink.defaultProps = {
-    variant    : "primary",
+    variant    : Variant.PRIMARY,
     href       : "#",
     url        : "",
     target     : "_self",
     badge      : 0,
-    path       : "",
     className  : "",
     isSelected : false,
     isDisabled : false,

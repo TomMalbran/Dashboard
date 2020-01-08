@@ -5,6 +5,12 @@ import Styled               from "styled-components";
 // Utils
 import Utils                from "../../Utils/Utils";
 
+// Variants
+const Variant = {
+    DARK  : "dark",
+    LIGHT : "light",
+};
+
 
 
 // Styles
@@ -15,11 +21,11 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     box-sizing: border-box;
     width: var(--navigation-width);
 
-    ${(props) => props.variant === "dark" && `
+    ${(props) => props.variant === Variant.DARK && `
         background-color: var(--secondary-color);
         color: white;
     `}
-    ${(props) => props.variant === "light" && `
+    ${(props) => props.variant === Variant.LIGHT && `
         background-color: var(--lighter-gray);
         color: var(--font-light);
     `}

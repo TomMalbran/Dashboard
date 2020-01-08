@@ -43,6 +43,8 @@ function NavigationItem(props) {
         isSelected, onClick, onClose, canDelete, onDelete, children,
     } = props;
 
+    const uri = url ? NLS.url(url, baseUrl) : (href || "");
+
     const handleClick = (e) => {
         if (onClose) {
             onClose(e);
@@ -57,16 +59,15 @@ function NavigationItem(props) {
             <HyperLink
                 variant={`menu-${variant}`}
                 className={className}
+                isSelected={isSelected || path === uri}
                 message={message}
                 html={html}
-                href={url ? NLS.url(url, baseUrl) : (href || "")}
+                href={uri}
                 onClick={handleClick}
-                path={path}
                 icon={icon}
-                isSelected={isSelected}
             />
             {canDelete && <Icon
-                variant="delete"
+                icon="delete"
                 onClick={onDelete}
             />}
         </Div>

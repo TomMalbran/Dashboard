@@ -10,6 +10,12 @@ import CircularLoader       from "../Common/CircularLoader";
 import NoneAvailable        from "../Common/NoneAvailable";
 import NavigationList       from "../Navigation/NavigationList";
 
+// Variants
+const Variant = {
+    DARK  : "dark",
+    LIGHT : "light",
+};
+
 
 
 // Styles
@@ -38,7 +44,7 @@ const Ul = Styled.ul`
 function NavigationBody(props) {
     const { className, variant, path, baseUrl, onClose, none, isLoading, children } = props;
 
-    const scrollbars = variant === "dark" ? "dark-scrollbars" : "";
+    const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "";
     const items      = [];
     let   addList    = true;
 

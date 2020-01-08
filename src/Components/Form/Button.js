@@ -10,6 +10,20 @@ import Href                 from "../../Utils/Href";
 // Components
 import Icon                 from "../Common/Icon";
 
+// Variants
+const Variant = {
+    NONE           : "none",
+    PRIMARY        : "primary",
+    CANCEL         : "cancel",
+    ERROR          : "error",
+    ACCENT         : "accent",
+    WHITE          : "white",
+    OUTLINED       : "outlined",
+    OUTLINED_WHITE : "outlined-white",
+    MENU           : "menu",
+    ICON           : "icon",
+};
+
 
 
 // Styles
@@ -70,49 +84,49 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     
     ${(props) => {
         switch (props.variant) {
-        case "primary": return `
+        case Variant.PRIMARY: return `
             --button-font: white;
             --button-border: var(--primary-color);
             --button-background: var(--primary-color);
         `;
-        case "cancel": return `
+        case Variant.CANCEL: return `
             --button-font: var(--black-color);
             --button-border: rgb(225, 225, 225);
             --button-background: rgb(225, 225, 225);
             --button-shadow: #ededed;
         `;
-        case "error": return `
+        case Variant.ERROR: return `
             --button-font: white;
             --button-border: var(--red-color);
             --button-background: var(--red-color);
         `;
-        case "accent": return `
+        case Variant.ACCENT: return `
             --button-font: white;
             --button-border: var(--accent-color);
             --button-background: var(--accent-color);
         `;
-        case "white": return `
+        case Variant.WHITE: return `
             --button-font: black;
             --button-border: var(--primary-color);
             --button-background: white;
             --button-color: white;
             --button-shadow: var(--primary-color);
         `;
-        case "outlined": return `
+        case Variant.OUTLINED: return `
             --button-background: transparent;
             --button-font: var(--primary-color);
             --button-border: var(--primary-color);
             --button-color: white;
             --button-shadow: var(--primary-color);
         `;
-        case "outlinedWhite": return `
+        case Variant.OUTLINED_WHITE: return `
             --button-background: transparent;
             --button-font: white;
             --button-border: white;
             --button-color: var(--font-dark);
             --button-shadow: white;
         `;
-        case "menu": return `
+        case Variant.MENU: return `
             text-transform: none;
             --button-font: var(--lightest-color);
             --button-color: white;
@@ -154,7 +168,7 @@ function Button(props) {
 
     const url      = Href.getUrl(props);
     const content  = children || NLS.get(message);
-    const withIcon = Boolean(icon && variant !== "icon" && !!content);
+    const withIcon = Boolean(icon && variant !== Variant.ICON && !!content);
 
     const handleClick = (e) => {
         if (onClick) {
@@ -174,7 +188,7 @@ function Button(props) {
         withIcon={withIcon}
         onClick={handleClick}
     >
-        {!!icon    && <Icon variant={icon} className="btn-preicon" />}
+        {!!icon    && <Icon className="btn-preicon" icon={icon} />}
         {!!content && <span className="btn-content">{content}</span>}
     </Btn>;
 }

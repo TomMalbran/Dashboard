@@ -72,10 +72,10 @@ function AccordionItem(props) {
             isDisabled={isDisabled}
         >
             <H2>
-                {!!icon && <Icon variant={icon} />}
+                {!!icon && <Icon icon={icon} />}
                 {NLS.get(message)}
             </H2>
-            {!isDisabled && <Icon variant={isSelected ? "down" : "up"} />}
+            {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
         </Header>
         <Section isSelected={isSelected}>
             {children}

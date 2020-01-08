@@ -5,6 +5,12 @@ import Styled, { keyframes } from "styled-components";
 // Core
 import NLS                   from "../../Core/NLS";
 
+// Variants
+const Variant = {
+    PRIMARY : "primary",
+    WHITE   : "white",
+};
+
 
 
 // Animations
@@ -39,11 +45,11 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
     box-sizing: border-box;
     z-index: 200;
 
-    ${(props) => props.variant === "primary" && `
+    ${(props) => props.variant === Variant.PRIMARY && `
         --loader-border: var(--primary-color, black);
         --loader-font: var(--font-dark, black);
     `}
-    ${(props) => props.variant === "white" && `
+    ${(props) => props.variant === Variant.WHITE && `
         --loader-border: white;
         --loader-font: white;
     `}
@@ -128,7 +134,7 @@ CircularLoader.propTypes = {
  * @type {Object} defaultProps
  */
 CircularLoader.defaultProps = {
-    variant   : "primary",
+    variant   : Variant.PRIMARY,
     className : "",
 };
 

@@ -12,6 +12,13 @@ import Styled, {
     keyframes, css,
 } from "styled-components";
 
+// Variants
+const Variant = {
+    SUCCESS : "success",
+    WARNING : "warning",
+    ERROR   : "error",
+};
+
 
 
 // Animations
@@ -35,7 +42,7 @@ const Div = Styled.div.attrs(({ open }) => ({ open }))`
     z-index: var(--z-result);
 `;
 
-const Content = Styled.div.attrs(({ closing }) => ({ closing }))`
+const Content = Styled.div.attrs(({ variant, closing }) => ({ variant, closing }))`
     position: relative;
     padding: 12px 40px 12px 24px;
     color: white;
@@ -51,17 +58,17 @@ const Content = Styled.div.attrs(({ closing }) => ({ closing }))`
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     margin: 4px;
 
-    &.result-success {
+    ${(props) => props.variant === Variant.SUCCESS && `
         background-color: var(--success-color);
-    }
-    &.result-error {
-        background-color: var(--error-color);
-    }
-    &.result-warning {
+    `}
+    ${(props) => props.variant === Variant.WARNING && `
         background-color: var(--warning-color);
-    }
+    `}
+    ${(props) => props.variant === Variant.ERROR && `
+        background-color: var(--error-color);
+    `}
 
-    .result-close {
+    .icon {
         position: absolute;
         top: calc(50% - 10px);
         right: 16px;
@@ -71,7 +78,7 @@ const Content = Styled.div.attrs(({ closing }) => ({ closing }))`
         transition: all 0.5s;
         cursor: pointer;
     }
-    .result-close:hover {
+    .icon:hover {
         color: var(--black-color);
         text-decoration: none;
     }
@@ -124,13 +131,9 @@ function Result(props) {
 
 
     return <Div className="result" open={open}>
-        <Content className={`result-${variant}`} closing={closing}>
+        <Content variant={variant} closing={closing}>
             {NLS.get(message)}
-            <Icon
-                variant="close"
-                className="result-close"
-                onClick={handleClose}
-            />
+            <Icon icon="close" onClick={handleClose} />
         </Content>
     </Div>;
 }

@@ -5,6 +5,12 @@ import Styled               from "styled-components";
 // Core
 import NLS                  from "../../Core/NLS";
 
+// Variants
+const Variant = {
+    PRIMARY : "primary",
+    WHITE   : "white",
+};
+
 
 
 // Styles
@@ -12,10 +18,10 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     margin: 0;
     padding-top: 8px;
     
-    ${(props) => props.variant === "primary" && `
+    ${(props) => props.variant === Variant.PRIMARY && `
         color: var(--title-color);
     `}
-    ${(props) => props.variant === "white" && `
+    ${(props) => props.variant === Variant.WHITE && `
         color: rgba(255, 255, 255, 0.8);
     `}
 `;
@@ -50,7 +56,7 @@ NoneAvailable.propTypes = {
  * @type {Object} defaultProps
  */
 NoneAvailable.defaultProps = {
-    variant   : "primary",
+    variant   : Variant.PRIMARY,
     className : "",
 };
 

@@ -47,8 +47,8 @@ function TopBar(props) {
     return <Nav className={className}>
         <Div>
             {!!onMenu && <Icon
-                variant="menu"
                 className="topbar-icon"
+                icon="menu"
                 onClick={onMenu}
             />}
             <Logo>
@@ -61,8 +61,8 @@ function TopBar(props) {
                 data={avatarData}
             />}
             {showDetails && <Icon
-                variant="details"
                 className="topbar-icon"
+                icon="details"
                 onClick={onDetails}
             />}
         </Div>

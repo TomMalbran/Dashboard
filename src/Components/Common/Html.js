@@ -1,6 +1,15 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Variants
+const Variant = {
+    H2   : "h2",
+    H3   : "h3",
+    P    : "p",
+    SPAN : "span",
+    DIV  : "div",
+};
+
 
 
 // http://, https://, ftp://
@@ -27,17 +36,22 @@ function Html(props) {
     }
 
     switch (variant) {
-    case "h3":
+    case Variant.H2:
+        return <h2
+            className={className}
+            dangerouslySetInnerHTML={{ __html }}
+        />;
+    case Variant.H3:
         return <h3
             className={className}
             dangerouslySetInnerHTML={{ __html }}
         />;
-    case "p":
+    case Variant.P:
         return <p
             className={className}
             dangerouslySetInnerHTML={{ __html }}
         />;
-    case "span":
+    case Variant.SPAN:
         return <span
             className={className}
             dangerouslySetInnerHTML={{ __html }}
@@ -59,6 +73,15 @@ Html.propTypes = {
     className : PropTypes.string,
     children  : PropTypes.string,
     linkify   : PropTypes.bool,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+Html.defaultProps = {
+    variant   : Variant.DIV,
+    className : "",
 };
 
 export default Html;
