@@ -1,3 +1,27 @@
+import NLS                  from "../Core/NLS";
+
+
+
+/**
+ * Returns the Url
+ * @param {Object} data
+ * @returns {String}
+ */
+function getUrl(data) {
+    const { href, url, message, tel, mail, whatsapp } = data;
+    let result = href;
+    if (url) {
+        result = NLS.url(url);
+    } else if (tel) {
+        result = `tel:${href || message}`;
+    } else if (mail) {
+        result = `mailto:${href || message}`;
+    } else if (whatsapp) {
+        result = `https://api.whatsapp.com/send?phone=549${href || message}`;
+    }
+    return result;
+}
+
 /**
  * Returns true if the given URL is Internal
  * @param {String} url
@@ -67,6 +91,7 @@ function handle(url, target, history) {
 
 // The public API
 export default {
+    getUrl,
     isInternal,
     getInternal,
     handleInternal,

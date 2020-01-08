@@ -125,11 +125,20 @@ function removePrefix(data, prefix, lower = false) {
 
 /**
  * Creates an Array
- * @param {(any[]|any)} data
- * @returns {any[]}
+ * @param {(Array|any)} data
+ * @returns {Array}
  */
 function toArray(data) {
     return Array.isArray(data) ? data : [ data ];
+}
+
+/**
+ * Creates an Array Entries
+ * @param {(Array|any)} data
+ * @returns {Array}
+ */
+function toEntries(data) {
+    return toArray(data).entries();
 }
 
 /**
@@ -299,6 +308,7 @@ export default {
     concat,
     removePrefix,
     toArray,
+    toEntries,
     toMap,
     toSelect,
     stringsToSelect,
