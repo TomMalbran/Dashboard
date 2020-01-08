@@ -320,10 +320,10 @@ function HyperLink(props) {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >
-        {!!icon      && <Icon className="link-preicon" variant={icon} />}
+        {!!icon      && <Icon className="link-preicon" icon={icon} />}
         {!!html      && <Html className="link-content" variant="span">{html}</Html>}
         {hasContent  && <span className="link-content">{content}</span>}
-        {!!afterIcon && <Icon className="link-aftericon" variant={afterIcon} />}
+        {!!afterIcon && <Icon className="link-aftericon" icon={afterIcon} />}
         {badge > 0   && <Badge>{badge}</Badge>}
     </Component>;
 }
