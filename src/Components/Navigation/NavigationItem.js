@@ -16,7 +16,7 @@ const Div = Styled.div`
     position: relative;
     margin-bottom: 6px;
 
-    .icon {
+    & > .icon {
         display: none;
         position: absolute;
         top: 50%;
@@ -25,7 +25,7 @@ const Div = Styled.div`
         padding: 4px;
         cursor: pointer;
     }
-    &:hover .icon {
+    &:hover > .icon {
         display: block;
     }
 `;

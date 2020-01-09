@@ -119,43 +119,6 @@ const UnderlineLink = Styled(Link)`
 `;
 
 
-const MenuLink = Styled(Link)`
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: var(--border-radius);
-
-    .link-preicon {
-        font-size: 1.2em;
-        margin-right: 12px;
-    }
-    .link-aftericon {
-        font-size: 1.2em;
-        margin-left: 12px;
-    }
-`;
-
-const LightMenuLink = Styled(MenuLink)`
-    color: var(--title-color);
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.08);
-    }
-    ${(props) => props.isSelected && "background-color: rgba(0, 0, 0, 0.08);"}
-`;
-
-const DarkMenuLink = Styled(MenuLink)`
-    color: var(--lightest-color);
-    &:hover {
-        color: white;
-        background-color: var(--primary-color);
-    }
-    ${(props) => props.isSelected && `
-        color: white;
-        background-color: var(--primary-color);
-    `}
-`;
-
-
 const OutlinedLink = Styled(Link)`
     display: flex;
     align-items: center;
@@ -181,19 +144,51 @@ const OutlinedLink = Styled(Link)`
 `;
 
 
-const IconLink = Styled(Link)`
-    --link-color: var(--primary-color);
-    display: block;
-    width: 32px;
-    height: 32px;
-    font-size: 24px;
-    line-height: 32px;
-    text-align: center;
-    border-radius: 50%;
+const MenuLink = Styled(Link)`
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
 
+    .link-preicon {
+        font-size: 1.2em;
+        margin-right: 12px;
+    }
+    .link-aftericon {
+        font-size: 1.2em;
+        margin-left: 12px;
+    }
+`;
+
+const MenuLight = Styled(MenuLink)`
+    color: var(--title-color);
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
     }
+    ${(props) => props.isSelected && "background-color: rgba(0, 0, 0, 0.1);"}
+`;
+
+const MenuDark = Styled(MenuLink)`
+    color: var(--lightest-color);
+    &:hover {
+        color: white;
+        background-color: var(--primary-color);
+    }
+    ${(props) => props.isSelected && `
+        color: white;
+        background-color: var(--primary-color);
+    `}
+`;
+
+
+const IconLink = Styled(Link)`
+    display: block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 24px;
+    text-align: center;
+    border-radius: 50%;
 
     ${(props) => props.isDisabled && `
         color: var(--darker-gray);
@@ -204,7 +199,15 @@ const IconLink = Styled(Link)`
     `}
 `;
 
+const IconLight = Styled(IconLink)`
+    --link-color: var(--primary-color);
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+`;
+
 const IconDark = Styled(IconLink)`
+    --link-color: white;
     &:hover {
         background-color: var(--primary-color);;
     }
@@ -275,14 +278,14 @@ function getComponent(variant) {
         return OpacityLink;
     case Variant.UNDERLINE:
         return UnderlineLink;
-    case Variant.MENU_LIGHT:
-        return LightMenuLink;
-    case Variant.MENU_DARK:
-        return DarkMenuLink;
     case Variant.OUTLINED:
         return OutlinedLink;
+    case Variant.MENU_LIGHT:
+        return MenuLight;
+    case Variant.MENU_DARK:
+        return MenuDark;
     case Variant.ICON_LIGHT:
-        return IconLink;
+        return IconLight;
     case Variant.ICON_DARK:
         return IconDark;
     default:
