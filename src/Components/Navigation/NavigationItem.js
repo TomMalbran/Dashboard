@@ -16,7 +16,7 @@ const Div = Styled.div`
     position: relative;
     margin-bottom: 6px;
 
-    & > .icon {
+    .icon {
         display: none;
         position: absolute;
         top: 50%;
@@ -25,7 +25,7 @@ const Div = Styled.div`
         padding: 4px;
         cursor: pointer;
     }
-    &:hover > .icon {
+    &:hover .icon {
         display: block;
     }
 `;
@@ -40,7 +40,7 @@ const Div = Styled.div`
 function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
-        isSelected, onClick, onClose, canDelete, onDelete, children,
+        isSelected, onClick, onClose, canEdit, onEdit, canDelete, onDelete, children,
     } = props;
 
     const uri = url ? NLS.url(url, baseUrl) : (href || "");
@@ -66,6 +66,10 @@ function NavigationItem(props) {
                 onClick={handleClick}
                 icon={icon}
             />
+            {canEdit && <Icon
+                icon="edit"
+                onClick={onEdit}
+            />}
             {canDelete && <Icon
                 icon="delete"
                 onClick={onDelete}
@@ -91,6 +95,8 @@ NavigationItem.propTypes = {
     icon       : PropTypes.string,
     onClose    : PropTypes.func,
     onClick    : PropTypes.func,
+    canEdit    : PropTypes.bool,
+    onEdit     : PropTypes.func,
     canDelete  : PropTypes.bool,
     onDelete   : PropTypes.func,
     isSelected : PropTypes.bool,
@@ -103,7 +109,11 @@ NavigationItem.propTypes = {
  * @type {Object} defaultProps
  */
 NavigationItem.defaultProps = {
-    className : "",
+    className  : "",
+    canEdit    : false,
+    canDelete  : false,
+    isSelected : false,
+    isHidden   : false,
 };
 
 export default NavigationItem;

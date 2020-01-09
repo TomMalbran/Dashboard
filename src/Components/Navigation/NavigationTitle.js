@@ -86,13 +86,15 @@ const Span2 = Styled.span.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function NavigationTitle(props) {
-    const { className, variant, href, message, fallback, canAdd, onAdd } = props;
+    const {
+        className, variant, href, message, fallback,
+        canAdd, onAdd, canManage, onManage,
+    } = props;
     
     return <Header className={className} variant={variant}>
         <H2>
             <HyperLink
-                className="navigation-back"
-                variant="icon"
+                variant={`icon-${variant}`}
                 icon="back"
                 href={href}
             />
@@ -102,10 +104,14 @@ function NavigationTitle(props) {
             </Div> : NLS.get(fallback)}
         </H2>
         {canAdd && <HyperLink
-            className="navigation-add"
-            variant="icon"
+            variant={`icon-${variant}`}
             icon="add"
             onClick={onAdd}
+        />}
+        {canManage && <HyperLink
+            variant={`icon-${variant}`}
+            icon="settings"
+            onClick={onManage}
         />}
     </Header>;
 }
@@ -122,6 +128,8 @@ NavigationTitle.propTypes = {
     fallback  : PropTypes.string,
     canAdd    : PropTypes.bool,
     onAdd     : PropTypes.func,
+    canManage : PropTypes.bool,
+    onManage  : PropTypes.func,
 };
 
 /**
@@ -132,6 +140,7 @@ NavigationTitle.defaultProps = {
     className : "",
     variant   : Variant.DARK,
     canAdd    : false,
+    canManage : false,
 };
 
 export default NavigationTitle;
