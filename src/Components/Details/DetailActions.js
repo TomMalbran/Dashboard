@@ -49,13 +49,13 @@ function DetailActions(props) {
     const items = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (child && !child.props.isHidden) {
-            const action = Action.get(child.props.action);
+            const act = Action.get(child.props.action);
             items.push(<Button
                 key={key}
                 variant="outlined"
-                icon={child.props.icon || action.icon}
-                message={child.props.message || action.message}
-                onClick={handleClick(action)}
+                icon={child.props.icon || act.icon}
+                message={child.props.message || act.message}
+                onClick={handleClick(act)}
             />);
         }
     }

@@ -51,7 +51,7 @@ ActionItem.propTypes = {
     message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon     : PropTypes.string,
     isHidden : PropTypes.bool,
-    onClick  : PropTypes.func.isRequired,
+    onClick  : PropTypes.func,
 };
 
 export default ActionItem;

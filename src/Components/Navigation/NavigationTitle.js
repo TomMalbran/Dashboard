@@ -26,25 +26,24 @@ const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
     padding: 18px 12px 10px 8px;
 
     ${(props) => props.variant === Variant.DARK && `
-        .icon {
-            color: var(--lightest-color);
-        }
-        .icon:hover {
-            background-color:
-        }
+        --navtitle-color: white;
+        --navsubtitle-color: var(--lightest-color);
+    `}
+    ${(props) => props.variant === Variant.LIGHT && `
+        --navtitle-color: var(--title-color);
+        --navsubtitle-color: var(--subtitle-color);
     `}
 `;
 
 const H2 = Styled.h2`
     display: flex;
     align-items: center;
-    font-size: 26px;
-    line-height: 1.2;
-    color: var(--title-color);
-    letter-spacing: 1px;
     margin: 0;
     font-family: var(--title-font);
     font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    color: var(--navtitle-color);
 `;
 
 const Div = Styled.div`
@@ -52,30 +51,18 @@ const Div = Styled.div`
     font-weight: 400;
 `;
 
-const Span1 = Styled.span.attrs(({ variant }) => ({ variant }))`
+const Span1 = Styled.span`
     display: block;
+    font-family: var(--main-font);
     font-size: 14px;
     font-weight: 400;
-    font-family: var(--main-font);
-
-    ${(props) => props.variant === Variant.DARK && `
-        color: var(--lightest-color);
-    `}
-    ${(props) => props.variant === Variant.LIGHT && `
-        color: var(--subtitle-color);
-    `}
+    color: var(--navsubtitle-color);
 `;
 
-const Span2 = Styled.span.attrs(({ variant }) => ({ variant }))`
+const Span2 = Styled.span`
     display: block;
     font-size: 20px;
-
-    ${(props) => props.variant === Variant.DARK && `
-        color: white;
-    `}
-    ${(props) => props.variant === Variant.LIGHT && `
-        color: var(--font-light);
-    `}
+    color: var(--navtitle-color);
 `;
 
 
@@ -90,26 +77,30 @@ function NavigationTitle(props) {
         className, variant, href, message, fallback,
         canAdd, onAdd, canManage, onManage,
     } = props;
+
+    const showMessage = !!message;
+    const iconVariant = `icon-${variant}`;
     
     return <Header className={className} variant={variant}>
         <H2>
             <HyperLink
-                variant={`icon-${variant}`}
+                variant={iconVariant}
                 icon="back"
                 href={href}
             />
-            {message ? <Div>
-                <Span1 variant={variant}>{NLS.get(fallback)}</Span1>
-                <Span2 variant={variant}>{NLS.get(message)}</Span2>
-            </Div> : NLS.get(fallback)}
+            {showMessage && <Div>
+                <Span1>{NLS.get(fallback)}</Span1>
+                <Span2>{NLS.get(message)}</Span2>
+            </Div>}
+            {!showMessage && NLS.get(fallback)}
         </H2>
         {canAdd && <HyperLink
-            variant={`icon-${variant}`}
+            variant={iconVariant}
             icon="add"
             onClick={onAdd}
         />}
         {canManage && <HyperLink
-            variant={`icon-${variant}`}
+            variant={iconVariant}
             icon="settings"
             onClick={onManage}
         />}
