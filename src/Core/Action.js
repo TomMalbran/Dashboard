@@ -13,7 +13,10 @@ const OPTIONS = {
     isExport : false,
     isTab    : false,
     isFilter : false,
+
+    isLogin  : false,
     isUpload : false,
+    isManage : false,
     
     isVCE    : false,
     isVE     : false,
@@ -25,7 +28,6 @@ const OPTIONS = {
 const ACTIONS = {
     "NULL" : { ...OPTIONS },
 
-    // General Actions
     "VIEW" : {
         ...OPTIONS,
         icon     : "view",
@@ -91,11 +93,25 @@ const ACTIONS = {
         message  : "GENERAL_FILTER",
         isFilter : true,
     },
+
+
+    "LOGIN" : {
+        ...OPTIONS,
+        icon     : "login",
+        message  : "GENERAL_LOGIN_AS",
+        isLogin  : true,
+    },
     "UPLOAD" : {
         ...OPTIONS,
         icon     : "create",
         message  : "GENERAL_UPLOAD",
         isUpload : true,
+    },
+    "MANAGE" : {
+        ...OPTIONS,
+        icon     : "settings",
+        message  : "GENERAL_MANAGE",
+        isManage : true,
     },
 };
 
