@@ -45,13 +45,13 @@ const Name = Styled.div`
     transform-origin: left center;
 `;
 
-const Logo = Styled.div`
+const SideLogo = Styled(BarLogo)`
     margin-bottom: 8px;
     margin-top: var(--sidebar-top);
     height: var(--sidebar-logo);
 `;
 
-const Image = Styled.div`
+const SideAvatar = Styled(Avatar)`
     margin-top: 6px;
 `;
 
@@ -65,14 +65,17 @@ const Image = Styled.div`
 function SideBar(props) {
     const {
         className, withBorder,
-        logo, onSearch, onCreate, onLogout, message, avatarData, avatarUrl,
+        logo, logoSize,
+        onSearch, onCreate, onLogout, message, avatarData, avatarUrl,
     } = props;
 
     return <Nav className={className} withBorder={withBorder}>
         <Div>
-            <Logo>
-                <BarLogo logo={logo} withLink />
-            </Logo>
+            <SideLogo
+                logo={logo}
+                size={logoSize}
+                withLink
+            />
             {!!onSearch && <BarIcon
                 variant="dark"
                 icon="search"
@@ -91,13 +94,11 @@ function SideBar(props) {
                 icon="logout"
                 onClick={onLogout}
             />}
-            {!!avatarUrl && <Image>
-                <Avatar
-                    size="36"
-                    url={avatarUrl}
-                    data={avatarData}
-                />
-            </Image>}
+            {!!avatarUrl && <SideAvatar
+                url={avatarUrl}
+                data={avatarData}
+                size={36}
+            />}
         </Div>
     </Nav>;
 }
@@ -109,6 +110,7 @@ function SideBar(props) {
 SideBar.propTypes = {
     className  : PropTypes.string,
     logo       : PropTypes.string.isRequired,
+    logoSize   : PropTypes.number,
     onSearch   : PropTypes.func,
     onCreate   : PropTypes.func,
     onLogout   : PropTypes.func,

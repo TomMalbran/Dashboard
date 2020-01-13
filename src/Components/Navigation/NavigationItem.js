@@ -100,7 +100,7 @@ NavigationItem.propTypes = {
     className  : PropTypes.string,
     path       : PropTypes.string,
     baseUrl    : PropTypes.string,
-    message    : PropTypes.string,
+    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     html       : PropTypes.string,
     url        : PropTypes.string,
     href       : PropTypes.string,

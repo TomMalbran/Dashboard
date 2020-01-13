@@ -31,7 +31,7 @@ const Actions = Styled.div`
  * @returns {React.ReactElement}
  */
 function InfoList(props) {
-    const { className, onClick, children } = props;
+    const { className, onAction, children } = props;
 
     const items   = [];
     const actions = [];
@@ -39,7 +39,7 @@ function InfoList(props) {
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (!child.props.isHidden) {
             if (child.type === InfoAction) {
-                actions.push(React.cloneElement(child, { key, onClick }));
+                actions.push(React.cloneElement(child, { key, onAction }));
             } else {
                 items.push(React.cloneElement(child, { key }));
             }
@@ -58,7 +58,7 @@ function InfoList(props) {
  */
 InfoList.propTypes = {
     className : PropTypes.string,
-    onClick   : PropTypes.func,
+    onAction  : PropTypes.func.isRequired,
     children  : PropTypes.any,
 };
 

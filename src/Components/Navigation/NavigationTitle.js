@@ -82,6 +82,13 @@ function NavigationTitle(props) {
     const showMessage = !!message;
     const iconVariant = `icon-${variant}`;
     
+    // Handles the Action
+    const handleAction = (action, e) => {
+        onAction(Action.get(action));
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
     return <Header className={className} variant={variant}>
         <H2>
             <HyperLink
@@ -98,12 +105,12 @@ function NavigationTitle(props) {
         {canAdd && <HyperLink
             variant={iconVariant}
             icon="add"
-            onClick={onAction(Action.get("ADD"))}
+            onClick={(e) => handleAction("ADD", e)}
         />}
         {canManage && <HyperLink
             variant={iconVariant}
             icon="settings"
-            onClick={onAction(Action.get("MANAGE"))}
+            onClick={(e) => handleAction("MANAGE", e)}
         />}
     </Header>;
 }

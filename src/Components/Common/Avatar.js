@@ -71,10 +71,10 @@ function Avatar(props) {
  */
 Avatar.propTypes = {
     className : PropTypes.string,
-    size      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     url       : PropTypes.string,
     data      : PropTypes.object.isRequired,
     name      : PropTypes.string,
+    size      : PropTypes.number,
 };
 
 /**
@@ -83,7 +83,7 @@ Avatar.propTypes = {
  */
 Avatar.defaultProps = {
     className : "",
-    size      : "36",
+    size      : 36,
 };
 
 export default Avatar;

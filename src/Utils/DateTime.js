@@ -51,17 +51,6 @@ const FORMATS = {
 
 
 /**
- * Returns number as a String with a 0 infront
- * @param {Number} time
- * @returns {String}
- */
-function parseTime(time) {
-    return time < 10 ? `0${time}` : String(time);
-}
-
-
-
-/**
  * The DateTime class, a Date object with lots of added functions
  * @constructor
  * @param {(Number|Date)} date
@@ -751,7 +740,7 @@ class DateTime {
      * @returns {String}
      */
     getDayName(amount) {
-        const name = DateTime.dayToName(this.weekDay);
+        const name = dayToName(this.weekDay);
         return amount ? name.substr(0, amount) : name;
     }
     
@@ -813,7 +802,7 @@ class DateTime {
      * @returns {String}
      */
     getMonthName(amount) {
-        const name = DateTime.monthToName(this.month);
+        const name = monthToName(this.month);
         return amount ? name.substr(0, amount) : name;
     }
     
@@ -840,7 +829,7 @@ class DateTime {
      * @returns {Number}
      */
     getMonthDays() {
-        return DateTime.getMonthDays(this.month, this.year);
+        return getMonthDays(this.month, this.year);
     }
     
     
@@ -985,233 +974,157 @@ class DateTime {
         
         return result;
     }
+}
+
+
+
+
+/**
+ * Creates a new DateTime
+ * @constructor
+ * @param {(Number|Date)} date
+ * @param {Boolean=}      inMiliseconds
+ */
+function create(date, inMiliseconds) {
+    return new DateTime(date, inMiliseconds);
+}
+
+/**
+ * Creates a new DateTime from a slash separated string (YYYY/MM/DD or DD/MM/YYYY or DD/MM)
+ * @param {String} string
+ * @param {String} separator
+ * @returns {DateTime}
+ */
+function fromString(string, separator = "-") {
+    const parts = string.split(separator);
+    let   date  = new Date();
     
-    
-    
-    
-    /**
-     * Creates a new DateTime from a slash separated string (YYYY/MM/DD or DD/MM/YYYY or DD/MM)
-     * @param {String} string
-     * @param {String} separator
-     * @returns {DateTime}
-     */
-    static fromString(string, separator = "-") {
-        const parts = string.split(separator);
-        let   date  = new Date();
-        
-        if (parts.length === 3) {
-            const part0 = parseInt(parts[0], 10);
-            const part1 = parseInt(parts[1], 10);
-            const part2 = parseInt(parts[2], 10);
-            if (parts[0].length === 4) {
-                date = new Date(part0, part1 - 1, part2);
-            } else {
-                date = new Date(part2, part1, part0);
-            }
-        } else if (parts.length === 2) {
-            const part0 = parseInt(parts[0], 10);
-            const part1 = parseInt(parts[1], 10);
-            date = new Date(date.getFullYear(), part1, part0);
+    if (parts.length === 3) {
+        const part0 = parseInt(parts[0], 10);
+        const part1 = parseInt(parts[1], 10);
+        const part2 = parseInt(parts[2], 10);
+        if (parts[0].length === 4) {
+            date = new Date(part0, part1 - 1, part2);
+        } else {
+            date = new Date(part2, part1, part0);
         }
-        return new DateTime(date);
+    } else if (parts.length === 2) {
+        const part0 = parseInt(parts[0], 10);
+        const part1 = parseInt(parts[1], 10);
+        date = new Date(date.getFullYear(), part1, part0);
     }
-    
-    /**
-     * Formats the give date
-     * @param {(Number|Date)} date
-     * @param {String}        format
-     * @returns {String}
-     */
-    static formatDate(date, format) {
+    return new DateTime(date);
+}
+
+/**
+ * Formats the give date
+ * @param {(Number|Date)} date
+ * @param {String}        format
+ * @returns {String}
+ */
+function formatDate(date, format) {
+    return new DateTime(date).toString(format);
+}
+
+/**
+ * Formats the give date
+ * @param {(Number|Date)} date
+ * @param {String}        format
+ * @returns {String}
+ */
+function formatIf(date, format) {
+    if (date) {
         return new DateTime(date).toString(format);
     }
+    return "";
+}
 
-    /**
-     * Formats the give date
-     * @param {(Number|Date)} date
-     * @param {String}        format
-     * @returns {String}
-     */
-    static formatIf(date, format) {
-        if (date) {
-            return new DateTime(date).toString(format);
-        }
-        return "";
-    }
+/**
+ * Formats the give date as a String
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatString(date) {
+    return new DateTime(date).toDateString();
+}
 
-    /**
-     * Formats the give date as a String
-     * @param {(Number|Date)} date
-     * @returns {String}
-     */
-    static formatString(date) {
-        return new DateTime(date).toDateString();
-    }
+/**
+ * Formats the give date as a String
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatTime(date) {
+    return new DateTime(date).toTimeString();
+}
 
-    /**
-     * Formats the give date as a String
-     * @param {(Number|Date)} date
-     * @returns {String}
-     */
-    static formatTime(date) {
-        return new DateTime(date).toTimeString();
-    }
-    
-    /**
-     * Returns the Week Day as a Name
-     * @param {Number} day
-     * @returns {String}
-     */
-    static dayToName(day) {
-        const days = NLS.get("DATE_DAY_NAMES");
-        return days[day] || "";
-    }
+/**
+ * Returns the Week Day as a Name
+ * @param {Number} day
+ * @returns {String}
+ */
+function dayToName(day) {
+    const days = NLS.get("DATE_DAY_NAMES");
+    return days[day] || "";
+}
 
-    /**
-     * Returns the Week Day as a Name
-     * @param {Number} day
-     * @returns {String}
-     */
-    static dayToShortName(day) {
-        const days = NLS.get("DATE_DAY_SHORTS");
-        return days[day] || "";
-    }
+/**
+ * Returns the Week Day as a Name
+ * @param {Number} day
+ * @returns {String}
+ */
+function dayToShortName(day) {
+    const days = NLS.get("DATE_DAY_SHORTS");
+    return days[day] || "";
+}
 
-    /**
-     * Returns the month name for a given month
-     * @param {Number=} month - A possible month number (starting from 1)
-     * @returns {String}
-     */
-    static monthToName(month) {
-        const months = NLS.get("DATE_MONTH_NAMES");
-        return months[month - 1] || "";
-    }
+/**
+ * Returns the month name for a given month
+ * @param {Number=} month - A possible month number (starting from 1)
+ * @returns {String}
+ */
+function monthToName(month) {
+    const months = NLS.get("DATE_MONTH_NAMES");
+    return months[month - 1] || "";
+}
 
-    /**
-     * Returns the amount of Days in the month of the saved date
-     * @param {Number} month
-     * @param {Number} year
-     * @returns {Number}
-     */
-    static getMonthDays(month, year) {
-        const days   = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
-        let   result = days[month - 1] || null;
-        
-        // If month is February, check Leap Years
-        if (month === 2 && (((year % 4) === 0 && (year % 100) !== 0) || (year % 400) === 0)) {
-            result = 29;
-        }
-        return result;
+/**
+ * Returns the amount of Days in the month of the saved date
+ * @param {Number} month
+ * @param {Number} year
+ * @returns {Number}
+ */
+function getMonthDays(month, year) {
+    const days   = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+    let   result = days[month - 1] || null;
+    
+    // If month is February, check Leap Years
+    if (month === 2 && (((year % 4) === 0 && (year % 100) !== 0) || (year % 400) === 0)) {
+        result = 29;
     }
-    
-    
-    
-    
-    /**
-     * Returns a list of days for templates
-     * @param {Number=} dayInit
-     * @returns {{id: String, name: String, isSelected: Boolean}[]}
-     */
-    static createDaySelect(dayInit) {
-        const day    = dayInit || new DateTime().day;
-        const result = [];
+    return result;
+}
 
-        for (let i = 1; i <= 31; i += 1) {
-            result.push({
-                id         : String(i),
-                name       : String(i),
-                isSelected : i === day,
-            });
-        }
-        return result;
-    }
-    
-    /**
-     * Returns a list of month names for templates
-     * @param {Number=} monthInit
-     * @returns {{id: String, name: String, isSelected: Boolean}[]}
-     */
-    static createMonthSelect(monthInit) {
-        const month  = monthInit || new DateTime().month;
-        const result = [];
-        
-        for (let i = 0; i < 12; i += 1) {
-            result.push({
-                id         : String(i + 1),
-                name       : DateTime.monthToName(i),
-                isSelected : i === month,
-            });
-        }
-        return result;
-    }
-    
-    /**
-     * Returns a list of the last 100 years for templates
-     * @param {Number=} yearInit
-     * @param {Number=} yearDiff
-     * @returns {{id: String, name: String, isSelected: Boolean}[]}
-     */
-    static createYearSelect(yearInit, yearDiff) {
-        const thisYear  = new DateTime().year;
-        const startYear = yearDiff !== undefined ? thisYear - yearDiff        : thisYear - 5;
-        const endYear   = yearDiff !== undefined ? thisYear + (10 - yearDiff) : thisYear + 5;
-        const year      = yearInit || thisYear;
-        const result    = [];
-
-        for (let i = startYear; i <= endYear; i += 1) {
-            result.push({
-                id         : String(i),
-                name       : String(i),
-                isSelected : i === year,
-            });
-        }
-        return result;
-    }
-    
-    /**
-     * Returns a list of years to be used in year selects with an all option
-     * @param {(Number|String)=} yearInit
-     * @param {Number=}          yearDiff
-     * @returns {{id: String, name: String, isSelected: Boolean}[]}
-     */
-    static createYearSelectWithAll(yearInit, yearDiff) {
-        const result = DateTime.createYearSelect(Number(yearInit), yearDiff);
-        result.unshift({ id : "all", name : NLS.get("GENERAL_ALL"), isSelected : yearInit === "all" });
-        return result;
-    }
-    
-    /**
-     * Returns a list of days, months and years to be used in date selects
-     * @param {Number=} dayInit
-     * @param {Number=} monthInit
-     * @param {Number=} yearInit
-     * @param {Number=} yearDiff
-     * @returns {{days: Object[], months: Object[], years: Object[]}}
-     */
-    static createDateSelects(dayInit, monthInit, yearInit, yearDiff) {
-        return {
-            days   : this.createDaySelect(dayInit),
-            months : this.createMonthSelect(monthInit),
-            years  : this.createYearSelect(yearInit, yearDiff),
-        };
-    }
-    
-    /**
-     * Returns a list of months and years to be used in date selects
-     * @param {Number=} month
-     * @param {Number=} year
-     * @param {Number=} yearDiff
-     * @returns {{months: Object[], years: Object[]}}
-     */
-    static createMYSelects(month, year, yearDiff) {
-        return {
-            months : this.createMonthSelect(month),
-            years  : this.createYearSelect(year, yearDiff),
-        };
-    }
+/**
+ * Returns number as a String with a 0 infront
+ * @param {Number} time
+ * @returns {String}
+ */
+function parseTime(time) {
+    return time < 10 ? `0${time}` : String(time);
 }
 
 
 
 // The Public API
-export default DateTime;
+export default {
+    create,
+    fromString,
+    formatDate,
+    formatIf,
+    formatString,
+    formatTime,
+    dayToName,
+    dayToShortName,
+    monthToName,
+    getMonthDays,
+};

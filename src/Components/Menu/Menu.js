@@ -42,7 +42,7 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
 function Menu(props) {
     const {
         className, open, variant, direction, top, left, right,
-        value, onClose, children,
+        value, onAction, onClose, children,
     } = props;
 
     const menuRef   = React.useRef();
@@ -85,7 +85,7 @@ function Menu(props) {
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, onClose,
+                key, onAction, onClose,
                 index      : key,
                 isSelected : key === value,
             }));
@@ -129,6 +129,7 @@ Menu.propTypes = {
     top       : PropTypes.number,
     left      : PropTypes.number,
     right     : PropTypes.number,
+    onAction  : PropTypes.func,
     onClose   : PropTypes.func.isRequired,
     value     : PropTypes.number,
     children  : PropTypes.any,

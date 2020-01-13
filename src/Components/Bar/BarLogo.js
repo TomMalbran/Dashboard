@@ -18,8 +18,8 @@ const H2 = Styled.h2`
     margin: 0;
 `;
     
-const Img = Styled.img`
-    width: 32px;
+const Img = Styled.img.attrs(({ size }) => ({ size }))`
+    width: ${(props) => props.size}px;
 `;
 
 
@@ -30,8 +30,8 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
-    const { className, logo, withLink } = props;
-    const image = <Img src={logo} alt={NLS.get("TITLE")} />;
+    const { className, logo, withLink, size } = props;
+    const image = <Img src={logo} alt={NLS.get("TITLE")} size={size} />;
 
     return <H2 className={className}>
         {withLink ? <HyperLink href="/" variant="none">
@@ -48,6 +48,7 @@ BarLogo.propTypes = {
     className : PropTypes.string,
     logo      : PropTypes.string.isRequired,
     withLink  : PropTypes.bool,
+    size      : PropTypes.number,
 };
 
 /**
@@ -57,6 +58,7 @@ BarLogo.propTypes = {
 BarLogo.defaultProps = {
     className : "",
     withLink  : false,
+    size      : 32,
 };
 
 export default BarLogo;

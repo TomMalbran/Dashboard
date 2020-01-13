@@ -20,7 +20,8 @@ function EditDialog(props) {
     const {
         open, title, icon, message, children,
         isLoading, isNarrow, isWide, withSpacing,
-        isDisabled, error, primary, onSubmit, onClose,
+        error, isDisabled, primary, onSubmit, onClose,
+        secondary, onSecondary,
     } = props;
 
     return <Dialog
@@ -38,9 +39,11 @@ function EditDialog(props) {
             </Form>
         </DialogBody>
         <DialogFooter
-            primary={primary || "GENERAL_SAVE"}
             isDisabled={isLoading || isDisabled}
+            primary={primary || "GENERAL_SAVE"}
             onSubmit={onSubmit}
+            secondary={secondary}
+            onSecondary={onSecondary}
         />
     </Dialog>;
 }
@@ -56,7 +59,9 @@ EditDialog.propTypes = {
     message     : PropTypes.string,
     error       : PropTypes.string,
     primary     : PropTypes.string,
+    secondary   : PropTypes.string,
     onSubmit    : PropTypes.func.isRequired,
+    onSecondary : PropTypes.func,
     onClose     : PropTypes.func.isRequired,
     isLoading   : PropTypes.bool,
     isDisabled  : PropTypes.bool,

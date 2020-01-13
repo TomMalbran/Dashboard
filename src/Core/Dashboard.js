@@ -15,7 +15,7 @@ function isDialogAt(level) {
  * Increases the Dialog Level and returns it
  * @returns {Number}
  */
-function opnDialog() {
+function openDialog() {
     dialogLevel += 1;
     return dialogLevel;
 }
@@ -34,6 +34,6 @@ function closeDialog() {
 // The public API
 export default {
     isDialogAt,
-    opnDialog,
+    openDialog,
     closeDialog,
 };

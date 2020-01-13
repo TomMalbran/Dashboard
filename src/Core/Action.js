@@ -3,6 +3,11 @@ const OPTIONS = {
     icon     : "",
     message  : "",
 
+    isVCE    : false,
+    isVE     : false,
+    isCED    : false,
+    isCE     : false,
+
     isView   : false,
     isAdd    : false,
     isCreate : false,
@@ -17,11 +22,6 @@ const OPTIONS = {
     isLogin  : false,
     isUpload : false,
     isManage : false,
-    
-    isVCE    : false,
-    isVE     : false,
-    isCED    : false,
-    isCE     : false,
 };
 
 // All the Actions
@@ -41,6 +41,9 @@ const ACTIONS = {
         icon     : "create",
         message  : "GENERAL_ADD",
         isAdd    : true,
+        isVCE    : true,
+        isCED    : true,
+        isCE     : true,
     },
     "CREATE" : {
         ...OPTIONS,

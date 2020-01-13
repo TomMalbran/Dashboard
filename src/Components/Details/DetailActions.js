@@ -37,7 +37,8 @@ const Div = Styled.div`
 function DetailActions(props) {
     const { canEdit, onAction, onClose, children } = props;
 
-    const handleClick = (action) => () => {
+    // Handles the Click
+    const handleClick = (action) => {
         if (onAction) {
             onAction(action);
         }
@@ -55,7 +56,7 @@ function DetailActions(props) {
                 variant="outlined"
                 icon={child.props.icon || act.icon}
                 message={child.props.message || act.message}
-                onClick={handleClick(act)}
+                onClick={() => handleClick(act)}
             />);
         }
     }

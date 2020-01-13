@@ -4,9 +4,8 @@ import Styled               from "styled-components";
 
 // Components
 import Avatar               from "../Common/Avatar";
-import Icon                 from "../Common/Icon";
+import BarIcon              from "../Bar/BarIcon";
 import BarLogo              from "../Bar/BarLogo";
-// import BarIcon              from "../Bar/BarIcon";
 
 
 
@@ -26,12 +25,26 @@ const Div = Styled.div`
     align-items: center;
 `;
 
-const Logo = Styled.div`
+const TopLogo = Styled(BarLogo)`
     margin-left: 12px;
-
     .link-content {
         display: block;
     }
+`;
+
+const TopIcon = Styled(BarIcon)`
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 0;
+`;
+
+const DetailIcon = Styled(BarIcon)`
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 0;
+    margin-left: 12px;
 `;
 
 
@@ -42,26 +55,31 @@ const Logo = Styled.div`
  * @returns {React.ReactElement}
  */
 function TopBar(props) {
-    const { className, logo, onMenu, onDetails, showDetails, avatarUrl, avatarData } = props;
+    const {
+        className, logo, logoSize, onMenu,
+        onDetails, showDetails, avatarUrl, avatarData,
+    } = props;
 
     return <Nav className={className}>
         <Div>
-            {!!onMenu && <Icon
-                className="topbar-icon"
+            {!!onMenu && <TopIcon
+                variant="dark"
                 icon="menu"
                 onClick={onMenu}
             />}
-            <Logo>
-                <BarLogo logo={logo} withLink />
-            </Logo>
+            <TopLogo
+                logo={logo}
+                size={logoSize}
+                withLink
+            />
         </Div>
         <Div>
             {!!avatarUrl && <Avatar
                 url={avatarUrl}
                 data={avatarData}
             />}
-            {showDetails && <Icon
-                className="topbar-icon"
+            {showDetails && <DetailIcon
+                variant="dark"
                 icon="details"
                 onClick={onDetails}
             />}
@@ -76,6 +94,7 @@ function TopBar(props) {
 TopBar.propTypes = {
     className   : PropTypes.string,
     logo        : PropTypes.string.isRequired,
+    logoSize    : PropTypes.number,
     showDetails : PropTypes.bool.isRequired,
     onMenu      : PropTypes.func.isRequired,
     onDetails   : PropTypes.func.isRequired,

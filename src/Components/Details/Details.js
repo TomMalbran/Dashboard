@@ -47,7 +47,7 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, isLoading, hasError, error, canEdit, button, onClick, onClose, children } = props;
+    const { className, isLoading, hasError, error, canEdit, button, onAction, onClose, children } = props;
     
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError;
@@ -66,7 +66,7 @@ function Details(props) {
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
         {showContent && items}
-        {showActions && <DetailActions canEdit={canEdit} onClick={onClick} onClose={onClose}>
+        {showActions && <DetailActions canEdit={canEdit} onAction={onAction} onClose={onClose}>
             <DetailAction action="EDIT" message={button} />
         </DetailActions>}
     </Section>;
@@ -83,7 +83,7 @@ Details.propTypes = {
     error     : PropTypes.string,
     canEdit   : PropTypes.bool,
     button    : PropTypes.string,
-    onClick   : PropTypes.func,
+    onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
 };

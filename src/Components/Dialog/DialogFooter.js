@@ -55,13 +55,13 @@ function DialogFooter(props) {
     };
 
     for (const [ key, child ] of Utils.toEntries(children)) {
-        if (child.type === DialogAction) {
+        if (child && child.type === DialogAction) {
             if (!child.props.isHidden) {
                 actions.push(React.cloneElement(child, {
                     key, onAction,
                 }));
             }
-        } else {
+        } else if (child) {
             items.push(React.cloneElement(child, { key }));
         }
     }

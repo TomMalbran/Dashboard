@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import Action               from "../../Core/Action";
+import Status               from "../../Core/Status";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -18,7 +19,7 @@ const Variant = {
 
 
 // Styles
-const Div = Styled.div.attrs(({ variant, isSelected, isDisabled }) => ({ variant, isSelected, isDisabled }))`
+const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
     position: relative;
     flex-grow: 1;
     box-sizing: border-box;
@@ -31,62 +32,62 @@ const Div = Styled.div.attrs(({ variant, isSelected, isDisabled }) => ({ variant
         cursor: not-allowed;
     `}
 
-    ${(props) => props.variant === Variant.DIALOG && `
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: var(--tabs-dialog);
-        color: var(--white-color);
-        border: 1px solid var(--primary-color);
-        border-bottom: 1px solid var(--border-color);
-        line-height: 1;
-        
-        ${(props) => (!props.isSelected && !props.isDisabled) && `
-            &:hover {
-                box-shadow: inset 0 -2px var(--primary-color);
-            }
-        `}
-        ${(props) => props.isSelected && `
-            color: var(--white-color);
-            background-color: var(--secondary-color);
-            border-color: var(--border-color);
-            border-bottom-color: var(--secondary-color);
-
-            &:first-child {
-                border-left-color: var(--secondary-color);
-            }
-        `}
-    `}
-
-    ${(props) => props.variant === Variant.TABLE && `
-        height: var(--tabs-table);
-        padding: 6px 12px;
-        color: var(--title-color);
-        background-color: var(--lighter-gray);
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
-
-        ${(props) => (!props.isSelected && !props.isDisabled) && `
-            &:hover {
-                box-shadow: inset 0 -8px var(--border-color);
-            }
-        `}
-        ${(props) => props.isSelected && `
-            box-shadow: inset 0 -3em var(--primary-color);
-            color: var(--white-color);
-        `}
-    `}
-
-    .tabs-delete {
+    .icon {
         position: absolute;
         top: 50%;
         right: 2px;
         transform: translateY(-50%);
         transition: 0.5 all;
     }
-    .tabs-delete:hover {
+    .icon:hover {
         opacity: 0.8;
     }
+`;
+
+const TableItem = Styled(Item)`
+    height: var(--tabs-table);
+    padding: 6px 12px;
+    color: var(--title-color);
+    background-color: var(--lighter-gray);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+
+    ${(props) => (!props.isSelected && !props.isDisabled) && `
+        &:hover {
+            box-shadow: inset 0 -2px var(--primary-color);
+        }
+    `}
+    ${(props) => props.isSelected && `
+        box-shadow: inset 0 -3em var(--primary-color);
+        color: var(--white-color);
+    `}
+`;
+
+const DialogItem = Styled(Item)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--tabs-dialog);
+    color: var(--white-color);
+    border: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    line-height: 1;
+    
+    ${(props) => (!props.isSelected && !props.isDisabled) && `
+        &:hover {
+            box-shadow: inset 0 -4px var(--border-color);
+        }
+    `}
+    ${(props) => props.isSelected && `
+        color: var(--white-color);
+        background-color: var(--secondary-color);
+        border-color: var(--border-color);
+        border-bottom-color: var(--secondary-color);
+
+        &:first-child {
+            border-left-color: var(--secondary-color);
+        }
+    `}
 `;
 
 
@@ -97,7 +98,10 @@ const Div = Styled.div.attrs(({ variant, isSelected, isDisabled }) => ({ variant
  * @returns {React.ReactElement}
  */
 function TabItem(props) {
-    const { className, variant, message, value, index, isDisabled, isSelected, canDelete, onAction } = props;
+    const { className, variant, message, status, value, index, isDisabled, isSelected, canDelete, onAction } = props;
+    
+    const Component = variant === Variant.TABLE ? TableItem : DialogItem;
+    const id        = status ? Status.getId(status) : value || index;
 
     // Handle the Click
     const handleClick = () => {
@@ -114,25 +118,23 @@ function TabItem(props) {
     // Handles the Action
     const handleAction = (action) => {
         if (!isDisabled && onAction) {
-            onAction(Action.get(action), value || index);
+            onAction(Action.get(action), id);
         }
     };
     
-
-    return <Div
+    
+    return <Component
         className={className}
-        variant={variant}
         isSelected={!isDisabled && isSelected}
         isDisabled={isDisabled}
         onClick={handleClick}
     >
         {NLS.get(message)}
         {canDelete && isSelected && <Icon
-            className="tabs-delete"
             icon="close"
             onClick={handleDelete}
         />}
-    </Div>;
+    </Component>;
 }
 
 /**
@@ -142,6 +144,7 @@ function TabItem(props) {
 TabItem.propTypes = {
     className  : PropTypes.string,
     variant    : PropTypes.string,
+    status     : PropTypes.string,
     value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     index      : PropTypes.number,
     message    : PropTypes.string.isRequired,

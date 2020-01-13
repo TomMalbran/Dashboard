@@ -51,7 +51,7 @@ const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
 `;
 
-const Logo = Styled.div`
+const Logo = Styled(BarLogo)`
     margin-bottom: 8px;
     margin-top: var(--sidebar-top);
     height: var(--sidebar-logo);
@@ -80,7 +80,7 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function Drawer(props) {
-    const { open, className, withBorder, logo, message, onClose, children } = props;
+    const { open, className, withBorder, logo, logoSize, message, onClose, children } = props;
     
     if (!open) {
         return <React.Fragment />;
@@ -111,9 +111,7 @@ function Drawer(props) {
     >
         <Div className={className} ref={contentRef} isClosing={closing}>
             <Nav withBorder={withBorder}>
-                <Logo>
-                    <BarLogo logo={logo} />
-                </Logo>
+                <Logo logo={logo} size={logoSize} />
                 <BarIcon
                     variant="light"
                     icon="back"
@@ -138,6 +136,7 @@ Drawer.propTypes = {
     withBorder : PropTypes.bool,
     message    : PropTypes.string.isRequired,
     logo       : PropTypes.string,
+    logoSize   : PropTypes.number,
     onClose    : PropTypes.func.isRequired,
     children   : PropTypes.any,
 };

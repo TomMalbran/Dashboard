@@ -18,7 +18,7 @@ const Variant = {
 
 
 // Styles
-const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
+const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -29,14 +29,14 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
         margin-left: 32px;
         background-color: var(--primary-color);
 
-        .tabs-add {
+        & > .icon {
             color: white;
             margin-right: 16px;
         }
     `}
 `;
 
-const Content = Styled.div.attrs(({ variant }) => ({ variant }))`
+const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
     ${(props) => props.variant === Variant.TABLE  && "display: flex;"}
     ${(props) => props.variant === Variant.DIALOG && `
         display: grid;
@@ -63,22 +63,21 @@ function TabList(props) {
             items.push(React.cloneElement(child, {
                 key, variant, onAction,
                 index      : key,
-                isSelected : child.props.value ? child.props.value === value : key === value,
+                isSelected : child.props.value ? String(child.props.value) === String(value) : key === value,
             }));
         }
     }
 
-    return <Div className={className} variant={variant}>
-        <Content variant={variant}>
+    return <Section className={`tabs ${className}`} variant={variant}>
+        <Div variant={variant}>
             {items}
-        </Content>
+        </Div>
         {showAdd && <HyperLink
-            className="tabs-add"
             variant={linkVariant}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
         />}
-    </Div>;
+    </Section>;
 }
 
 /**

@@ -1,6 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Core
+import Action               from "../../Core/Action";
+
 // Components
 import Button               from "../Form/Button";
 
@@ -12,15 +15,22 @@ import Button               from "../Form/Button";
  * @returns {React.ReactElement}
  */
 function InfoAction(props) {
-    const { isHidden, message, action, onClick } = props;
+    const { isHidden, message, action, onAction } = props;
     
     if (isHidden) {
         return <React.Fragment />;
     }
+
+    // Handles the Click
+    const handleClick = () => {
+        const act = Action.get(action);
+        onAction(act);
+    };
+
     return <Button
         variant="accent"
         message={message}
-        onClick={() => onClick(action)}
+        onClick={handleClick}
     />;
 }
 
@@ -30,9 +40,9 @@ function InfoAction(props) {
  */
 InfoAction.propTypes = {
     message  : PropTypes.string.isRequired,
-    action   : PropTypes.object,
+    action   : PropTypes.string.isRequired,
     isHidden : PropTypes.bool,
-    onClick  : PropTypes.func,
+    onAction : PropTypes.func,
 };
 
 export default InfoAction;

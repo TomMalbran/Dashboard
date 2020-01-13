@@ -337,7 +337,7 @@ function HyperLink(props) {
  */
 HyperLink.propTypes = {
     history      : PropTypes.object.isRequired,
-    message      : PropTypes.string,
+    message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     html         : PropTypes.string,
     variant      : PropTypes.string,
     href         : PropTypes.string,
