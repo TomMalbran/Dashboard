@@ -26,13 +26,13 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { className, variant, path, baseUrl, onClose, children } = props;
+    const { className, variant, path, baseUrl, onAction, onClose, children } = props;
 
     const items = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, variant, path, baseUrl, onClose,
+                key, variant, path, baseUrl, onAction, onClose,
             }));
         }
     }
@@ -51,6 +51,7 @@ NavigationList.propTypes = {
     variant   : PropTypes.string,
     path      : PropTypes.string,
     baseUrl   : PropTypes.string,
+    onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
 };

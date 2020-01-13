@@ -28,13 +28,13 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function ActionList(props) {
-    const { className, data, onClick, useAdd, useAssign, children } = props;
+    const { className, data, onAction, useAdd, useAssign, children } = props;
 
     const items = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (child && !child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, onClick,
+                key, onAction,
             }));
         }
     }
@@ -52,19 +52,19 @@ function ActionList(props) {
         {data.canCreate && <ActionItem
             action="CREATE"
             message={createText}
-            onClick={onClick}
+            onAction={onAction}
         />}
         {data.canImport && <ActionItem
             action="IMPORT"
-            onClick={onClick}
+            onAction={onAction}
         />}
         {canExport && <ActionItem
             action="EXPORT"
-            onClick={onClick}
+            onAction={onAction}
         />}
         {canFilter && <ActionItem
             action="FILTER"
-            onClick={onClick}
+            onAction={onAction}
         />}
         {items}
     </Ul>;
@@ -77,7 +77,7 @@ function ActionList(props) {
 ActionList.propTypes = {
     data      : PropTypes.object.isRequired,
     className : PropTypes.string,
-    onClick   : PropTypes.func,
+    onAction  : PropTypes.func,
     useAdd    : PropTypes.bool,
     useAssign : PropTypes.bool,
     children  : PropTypes.any,

@@ -42,14 +42,14 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
  * @returns {React.ReactElement}
  */
 function MenuItem(props) {
-    const { className, action, icon, message, isDisabled, isSelected, onClick, onClose } = props;
+    const { className, action, icon, message, isDisabled, isSelected, onAction, onClick, onClose } = props;
     const act = Action.get(action);
     const icn = action ? act.icon : icon;
 
     const handleClick = (e) => {
-        if (action) {
-            onClick(act);
-        } else {
+        if (onAction) {
+            onAction(act);
+        } else if (onClick) {
             onClick(e);
         }
         onClose(e);
@@ -63,7 +63,7 @@ function MenuItem(props) {
         isDisabled={isDisabled}
         onClick={handleClick}
     >
-        {icn && <Icon icon={icn} />}
+        {!!icn && <Icon icon={icn} />}
         {NLS.get(message)}
     </Li>;
 }
@@ -79,6 +79,7 @@ MenuItem.propTypes = {
     message    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
+    onAction   : PropTypes.func,
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
 };

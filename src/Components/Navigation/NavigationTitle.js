@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import Action               from "../../Core/Action";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -75,7 +76,7 @@ const Span2 = Styled.span`
 function NavigationTitle(props) {
     const {
         className, variant, href, message, fallback,
-        canAdd, onAdd, canManage, onManage,
+        onAction, canAdd, canManage,
     } = props;
 
     const showMessage = !!message;
@@ -97,12 +98,12 @@ function NavigationTitle(props) {
         {canAdd && <HyperLink
             variant={iconVariant}
             icon="add"
-            onClick={onAdd}
+            onClick={onAction(Action.get("ADD"))}
         />}
         {canManage && <HyperLink
             variant={iconVariant}
             icon="settings"
-            onClick={onManage}
+            onClick={onAction(Action.get("MANAGE"))}
         />}
     </Header>;
 }
@@ -117,10 +118,9 @@ NavigationTitle.propTypes = {
     href      : PropTypes.string.isRequired,
     message   : PropTypes.string,
     fallback  : PropTypes.string,
+    onAction  : PropTypes.func,
     canAdd    : PropTypes.bool,
-    onAdd     : PropTypes.func,
     canManage : PropTypes.bool,
-    onManage  : PropTypes.func,
 };
 
 /**

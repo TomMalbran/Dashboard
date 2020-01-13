@@ -39,13 +39,13 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function Navigation(props) {
-    const { className, variant, none, isLoading, children } = props;
+    const { className, variant, none, isLoading, onAction, children } = props;
 
     const items = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, variant, none, isLoading,
+                key, variant, none, isLoading, onAction,
             }));
         }
     }
@@ -64,6 +64,7 @@ Navigation.propTypes = {
     className : PropTypes.string,
     none      : PropTypes.string,
     isLoading : PropTypes.bool,
+    onAction  : PropTypes.func,
     children  : PropTypes.any,
 };
 

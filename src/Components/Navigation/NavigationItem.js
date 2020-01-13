@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import Action               from "../../Core/Action";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -40,19 +41,30 @@ const Div = Styled.div`
 function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
-        isSelected, onClick, onClose, canEdit, onEdit, canDelete, onDelete, children,
+        elemID, isSelected, onAction, onClick, onClose, canEdit, canDelete, children,
     } = props;
 
     const uri = url ? NLS.url(url, baseUrl) : (href || "");
 
+    // Handles the Click
     const handleClick = (e) => {
         if (onClose) {
             onClose(e);
         }
         if (onClick) {
             onClick(e);
+        } else if (onAction) {
+            handleAction("VIEW", e);
         }
     };
+
+    // Handles the Action
+    const handleAction = (action, e) => {
+        onAction(Action.get(action), elemID);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
     
     return <li>
         <Div>
@@ -68,11 +80,11 @@ function NavigationItem(props) {
             />
             {canEdit && <Icon
                 icon="edit"
-                onClick={onEdit}
+                onClick={(e) => handleAction("EDIT", e)}
             />}
             {canDelete && <Icon
                 icon="delete"
-                onClick={onDelete}
+                onClick={(e) => handleAction("DELETE", e)}
             />}
         </Div>
         {children}
@@ -93,12 +105,12 @@ NavigationItem.propTypes = {
     url        : PropTypes.string,
     href       : PropTypes.string,
     icon       : PropTypes.string,
-    onClose    : PropTypes.func,
+    elemID     : PropTypes.number,
     onClick    : PropTypes.func,
+    onAction   : PropTypes.func,
+    onClose    : PropTypes.func,
     canEdit    : PropTypes.bool,
-    onEdit     : PropTypes.func,
     canDelete  : PropTypes.bool,
-    onDelete   : PropTypes.func,
     isSelected : PropTypes.bool,
     isHidden   : PropTypes.bool,
     children   : PropTypes.any,

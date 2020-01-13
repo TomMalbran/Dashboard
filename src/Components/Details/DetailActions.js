@@ -35,11 +35,11 @@ const Div = Styled.div`
  * @returns {React.ReactElement}
  */
 function DetailActions(props) {
-    const { canEdit, onClick, onClose, children } = props;
+    const { canEdit, onAction, onClose, children } = props;
 
     const handleClick = (action) => () => {
-        if (onClick) {
-            onClick(action);
+        if (onAction) {
+            onAction(action);
         }
         if (onClose) {
             onClose();
@@ -74,7 +74,7 @@ function DetailActions(props) {
  * @typedef {Object} propTypes
  */
 DetailActions.propTypes = {
-    onClick  : PropTypes.func,
+    onAction : PropTypes.func,
     onClose  : PropTypes.func,
     canEdit  : PropTypes.bool,
     children : PropTypes.any,

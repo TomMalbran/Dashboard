@@ -42,7 +42,7 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function NavigationBody(props) {
-    const { className, variant, path, baseUrl, onClose, none, isLoading, children } = props;
+    const { className, variant, path, baseUrl, onAction, onClose, none, isLoading, children } = props;
 
     const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "";
     const items      = [];
@@ -53,7 +53,7 @@ function NavigationBody(props) {
             addList = false;
         }
         items.push(React.cloneElement(child, {
-            key, variant, path, baseUrl, onClose,
+            key, variant, path, baseUrl, onAction, onClose,
         }));
     }
 
@@ -79,6 +79,7 @@ NavigationBody.propTypes = {
     baseUrl   : PropTypes.string,
     none      : PropTypes.string,
     isLoading : PropTypes.bool,
+    onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
 };

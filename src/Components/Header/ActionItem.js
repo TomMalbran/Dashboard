@@ -29,7 +29,7 @@ const Li = Styled.li`
  * @returns {React.ReactElement}
  */
 function ActionItem(props) {
-    const { action, message, icon, onClick } = props;
+    const { action, message, icon, onAction } = props;
     const act = Action.get(action);
 
     return <Li>
@@ -37,7 +37,7 @@ function ActionItem(props) {
             variant="outlined"
             message={NLS.get(message || act.message)}
             icon={icon || act.icon}
-            onClick={() => onClick(act)}
+            onClick={() => onAction(act)}
         />
     </Li>;
 }
@@ -51,7 +51,7 @@ ActionItem.propTypes = {
     message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon     : PropTypes.string,
     isHidden : PropTypes.bool,
-    onClick  : PropTypes.func,
+    onAction : PropTypes.func,
 };
 
 export default ActionItem;
