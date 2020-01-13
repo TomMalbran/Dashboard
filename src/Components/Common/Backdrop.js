@@ -45,6 +45,7 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
 function Backdrop(props) {
     const { open, closing, contentRef, onClose, children } = props;
 
+    // Handles the Click
     const handleClick = (e) => {
         if (contentRef.current) {
             const bounds = contentRef.current.getBoundingClientRect();

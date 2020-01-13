@@ -90,7 +90,7 @@ function Drawer(props) {
     const [ closing, setClosing ] = React.useState(false);
     const contentRef = React.useRef();
 
-    // The Close Function
+    // Handles the Close
     const handleClose = () => {
         if (closing) {
             return;
