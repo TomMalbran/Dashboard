@@ -9,6 +9,7 @@ import NLS                  from "../../Core/NLS";
 const Variant = {
     PRIMARY : "primary",
     WHITE   : "white",
+    DIALOG  : "dialog",
 };
 
 
@@ -23,6 +24,12 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     `}
     ${(props) => props.variant === Variant.WHITE && `
         color: rgba(255, 255, 255, 0.8);
+    `}
+    ${(props) => props.variant === Variant.DIALOG && `
+        margin: 32px;
+        text-align: center;
+        font-weight: 400;
+        color: var(--title-color);
     `}
 `;
 
