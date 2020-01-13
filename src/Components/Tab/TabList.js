@@ -1,80 +1,106 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import Action               from "Utils/Common/Action";
-import Utils                from "Utils/Common/Utils";
+import Styled               from "styled-components";
+
+// Core & Utils
+import Action               from "../../Core/Action";
+import Utils                from "../../Utils/Utils";
 
 // Components
-import HyperLink            from "dashboard/dist/Components/HyperLink";
+import HyperLink            from "../Common/HyperLink";
+
+// Variants
+const Variant = {
+    TABLE  : "table",
+    DIALOG : "dialog",
+};
+
+
 
 // Styles
-import "Styles/Components/Utils/Tabs.css";
+const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ${(props) => props.variant === Variant.DIALOG && `
+        flex-grow: 2;
+        margin-top: calc(var(--dialog-header) - var(--tabs-dialog));
+        margin-left: 32px;
+        background-color: var(--primary-color);
+
+        .tabs-add {
+            color: white;
+            margin-right: 16px;
+        }
+    `}
+`;
+
+const Content = Styled.div.attrs(({ variant }) => ({ variant }))`
+    ${(props) => props.variant === Variant.TABLE  && "display: flex;"}
+    ${(props) => props.variant === Variant.DIALOG && `
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        flex-grow: 2;
+    `}
+`;
 
 
 
 /**
- * The Tab List
+ * The Tab List Component
+ * @param {Object} props
+ * @returns {React.ReactElement}
  */
-class TabList extends React.Component {
-    /**
-     * Creates the Children
-     * @returns {React.ReactElement[]}
-     */
-    getChildren() {
-        const { value, onClick } = this.props;
+function TabList(props) {
+    const { className, variant, value, onAction, showAdd, children } = props;
 
-        const childs   = Utils.toArray(this.props.children);
-        const children = [];
-        let   key      = 0;
+    const linkVariant = variant === "dialog" ? "icon-dark" : "icon-light";
+    const items       = [];
 
-        for (const child of childs) {
-            if (!child.props.isHidden) {
-                const clone = React.cloneElement(child, {
-                    key, onClick,
-                    index      : key,
-                    isSelected : child.props.value ? child.props.value === value : key === value,
-                });
-                children.push(clone);
-                key += 1;
-            }
+    for (const [ key, child ] of Utils.toEntries(children)) {
+        if (!child.props.isHidden) {
+            items.push(React.cloneElement(child, {
+                key, variant, onAction,
+                index      : key,
+                isSelected : child.props.value ? child.props.value === value : key === value,
+            }));
         }
-        return children;
     }
 
-    /**
-     * Do the Render
-     * @returns {Object}
-     */
-    render() {
-        const { variant, onClick, showAdd } = this.props;
-
-        const iconVariant = variant === "dialog" ? "icon-dark" : "icon-light";
-
-        return <div className={`tabs-container tabs-${variant}`}>
-            <div className="tabs-content">
-                {this.getChildren()}
-            </div>
-            {!!showAdd && <HyperLink
-                className="tabs-add"
-                variant={iconVariant}
-                icon="add"
-                onClick={() => onClick(Action.ADD)}
-            />}
-        </div>;
-    }
-
-
-
-    /**
-     * The Property Types
-     * @type {Object} propTypes
-     */
-    static propTypes = {
-        variant  : PropTypes.string.isRequired,
-        value    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
-        onClick  : PropTypes.func.isRequired,
-        showAdd  : PropTypes.bool,
-        children : PropTypes.any,
-    }
+    return <Div className={className} variant={variant}>
+        <Content variant={variant}>
+            {items}
+        </Content>
+        {showAdd && <HyperLink
+            className="tabs-add"
+            variant={linkVariant}
+            icon="add"
+            onClick={() => onAction(Action.get("ADD"))}
+        />}
+    </Div>;
 }
+
+/**
+ * The Property Types
+ * @type {Object} propTypes
+ */
+TabList.propTypes = {
+    className : PropTypes.string,
+    variant   : PropTypes.string.isRequired,
+    value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
+    onAction  : PropTypes.func.isRequired,
+    showAdd   : PropTypes.bool,
+    children  : PropTypes.any,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+TabList.defaultProps = {
+    className : "",
+    showAdd   : false,
+};
 
 export default TabList;
