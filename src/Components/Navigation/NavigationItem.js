@@ -105,7 +105,7 @@ NavigationItem.propTypes = {
     url        : PropTypes.string,
     href       : PropTypes.string,
     icon       : PropTypes.string,
-    elemID     : PropTypes.number,
+    elemID     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onClick    : PropTypes.func,
     onAction   : PropTypes.func,
     onClose    : PropTypes.func,

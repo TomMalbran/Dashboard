@@ -36,8 +36,8 @@ function init(values, groups) {
 function createSelect(type, isFem) {
     const group  = statusGroups[type] || [];
     const result = [];
-    for (const name of group) {
-        const status = statusNames[name];
+    for (const statusName of group) {
+        const status = statusNames[statusName];
         const value  = getName(status.id, isFem);
         result.push({ key : status.id, value });
     }
@@ -73,9 +73,8 @@ function getFemSelect(type = "GENERAL") {
  */
 function is(name, id) {
     const status = statusNames[name];
-    return status.id === id;
+    return status && status.id === id;
 }
-
 
 /**
  * Returns the Status Value
@@ -83,7 +82,8 @@ function is(name, id) {
  * @returns {Object}
  */
 function getID(name) {
-    return statusNames[name].id;
+    const status = statusNames[name];
+    return status ? status.id : 0;
 }
 
 /**
@@ -95,7 +95,7 @@ function getID(name) {
 function getName(id, isFem = false) {
     const status = statusIDs[id];
     const suffix = isFem ? "_FEM" : "";
-    return NLS.get(`${status.name}${suffix}`);
+    return status ? NLS.get(`${status.message}${suffix}`) : "";
 }
 
 /**
@@ -114,7 +114,7 @@ function getFemName(id) {
  */
 function getTextClass(id) {
     const status = statusIDs[id];
-    return `text-${status.color}`;
+    return status ? `text-${status.color}` : "";
 }
 
 /**
@@ -124,7 +124,7 @@ function getTextClass(id) {
  */
 function getCircleClass(id) {
     const status = statusIDs[id];
-    return Utils.getCircleClass(status.color);
+    return status ? Utils.getCircleClass(status.color) : "";
 }
 
 
