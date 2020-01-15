@@ -20,6 +20,7 @@ const OPTIONS = {
     isFilter : false,
 
     isLogin  : false,
+    isSelect : false,
     isUpload : false,
     isManage : false,
 };
@@ -103,6 +104,12 @@ const ACTIONS = {
         icon     : "login",
         message  : "GENERAL_LOGIN_AS",
         isLogin  : true,
+    },
+    "SELECT" : {
+        ...OPTIONS,
+        icon     : "select",
+        message  : "GENERAL_SELECT",
+        isSelect : true,
     },
     "UPLOAD" : {
         ...OPTIONS,
