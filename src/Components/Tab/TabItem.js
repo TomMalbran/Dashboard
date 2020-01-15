@@ -101,7 +101,7 @@ function TabItem(props) {
     const { className, variant, message, status, value, index, isDisabled, isSelected, canDelete, onAction } = props;
     
     const Component = variant === Variant.TABLE ? TableItem : DialogItem;
-    const id        = status ? Status.getId(status) : value || index;
+    const id        = status ? Status.getID(status) : value || index;
 
     // Handle the Click
     const handleClick = () => {
@@ -150,6 +150,7 @@ TabItem.propTypes = {
     message    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
+    isHidden   : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onAction   : PropTypes.func,
 };
