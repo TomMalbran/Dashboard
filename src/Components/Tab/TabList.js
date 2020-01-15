@@ -11,8 +11,8 @@ import HyperLink            from "../Common/HyperLink";
 
 // Variants
 const Variant = {
-    TABLE  : "table",
-    DIALOG : "dialog",
+    LIGHT : "light",
+    DARK  : "dark",
 };
 
 
@@ -22,23 +22,20 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-right: 16px;
 
-    ${(props) => props.variant === Variant.DIALOG && `
+    ${(props) => props.variant === Variant.DARK && `
         flex-grow: 2;
-        margin-top: calc(var(--dialog-header) - var(--tabs-dialog));
-        margin-left: 32px;
         background-color: var(--primary-color);
-
-        & > .icon {
-            color: white;
-            margin-right: 16px;
+        & > .link-icon-dark:hover {
+            background-color: var(--secondary-color);
         }
     `}
 `;
 
 const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
-    ${(props) => props.variant === Variant.TABLE  && "display: flex;"}
-    ${(props) => props.variant === Variant.DIALOG && `
+    ${(props) => props.variant === Variant.LIGHT && "display: flex;"}
+    ${(props) => props.variant === Variant.DARK  && `
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         flex-grow: 2;
@@ -55,9 +52,7 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
 function TabList(props) {
     const { className, variant, value, onAction, showAdd, children } = props;
 
-    const linkVariant = variant === "dialog" ? "icon-dark" : "icon-light";
-    const items       = [];
-
+    const items = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
@@ -73,7 +68,7 @@ function TabList(props) {
             {items}
         </Div>
         {showAdd && <HyperLink
-            variant={linkVariant}
+            variant={`icon-${variant}`}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
         />}
@@ -86,7 +81,7 @@ function TabList(props) {
  */
 TabList.propTypes = {
     className : PropTypes.string,
-    variant   : PropTypes.string.isRequired,
+    variant   : PropTypes.string,
     value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
     onAction  : PropTypes.func.isRequired,
     showAdd   : PropTypes.bool,
@@ -99,6 +94,7 @@ TabList.propTypes = {
  */
 TabList.defaultProps = {
     className : "",
+    variant   : Variant.LIGHT,
     showAdd   : false,
 };
 

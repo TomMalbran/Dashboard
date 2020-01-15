@@ -40,6 +40,10 @@ const Div = Styled.div`
         font-size: 24px;
         margin-right: 8px;
     }
+    .tabs {
+        margin-top: calc(var(--dialog-header) - var(--tabs-dialog));
+        margin-left: 32px;
+    }
 `;
 
 const H2 = Styled.h2`
