@@ -1,5 +1,5 @@
 // All the params
-const PARAMS = {};
+const paramTypes = {};
 
 
 
@@ -10,7 +10,7 @@ const PARAMS = {};
  */
 function init(params) {
     for (const [ key, value ] of Object.entries(params)) {
-        PARAMS[key.toLocaleUpperCase()] = value;
+        paramTypes[key] = value;
     }
 }
 
@@ -26,13 +26,23 @@ function getFrom(route) {
 }
 
 /**
+ * Returns the Parent Route
+ * @param {String} route
+ * @returns {String}
+ */
+function getParent(route) {
+    const parent = route.split("/").slice(0, -1).join("/");
+    return parent || "/";
+}
+
+/**
  * Returns all the params
  * @param {Object} params
  * @returns {Object}
  */
 function getAll(params) {
     const result = {};
-    for (const key of Object.values(PARAMS)) {
+    for (const key of Object.values(paramTypes)) {
         result[key] = Number(params[key] || 0);
     }
     return result;
@@ -45,8 +55,10 @@ function getAll(params) {
  * @returns {Number}
  */
 function getOne(params, type) {
-    const key = `${type}ID`;
-    return params[key] || 0;
+    if (paramTypes[type]) {
+        return params[paramTypes[type]] || 0;
+    }
+    return 0;
 }
 
 /**
@@ -55,7 +67,7 @@ function getOne(params, type) {
  * @returns {Object}
  */
 function unset(params) {
-    for (const key of Object.values(PARAMS)) {
+    for (const key of Object.values(paramTypes)) {
         params[key] = 0;
     }
     return params;
@@ -68,6 +80,7 @@ function unset(params) {
 export default {
     init,
     getFrom,
+    getParent,
     getAll,
     getOne,
     unset,

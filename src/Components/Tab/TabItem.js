@@ -104,10 +104,11 @@ const Components = {
  * @returns {React.ReactElement}
  */
 function TabItem(props) {
-    const { className, variant, message, status, value, index, isDisabled, isSelected, canDelete, onAction } = props;
+    const { className, variant, message, status, value, index, selected, isDisabled, canDelete, onAction } = props;
     
-    const Component = Components[variant];
-    const id        = status ? Status.getID(status) : value || index;
+    const Component  = Components[variant];
+    const id         = status ? Status.getID(status) : (value || index);
+    const isSelected = String(selected) === String(id);
 
     // Handle the Click
     const handleClick = () => {
@@ -151,8 +152,9 @@ TabItem.propTypes = {
     className  : PropTypes.string,
     variant    : PropTypes.string,
     status     : PropTypes.string,
-    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     index      : PropTypes.number,
+    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     message    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,

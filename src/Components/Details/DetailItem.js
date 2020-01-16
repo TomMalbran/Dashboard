@@ -51,7 +51,7 @@ function handleClick(props, e) {
         onClick(e);
         handled = true;
     }
-    if (Href.handle(uri, target, history)) {
+    if (Href.handleUrl(uri, target, history)) {
         handled = true;
     }
 
@@ -65,11 +65,7 @@ function handleClick(props, e) {
         }
         if (uri) {
             window.open(uri);
-            handled = true;
         }
-    }
-    if (handled) {
-        e.preventDefault();
     }
 }
 

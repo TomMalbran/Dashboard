@@ -34,7 +34,7 @@ function BarLogo(props) {
     // Handles the Click
     const handleClick = (e) => {
         if (withLink) {
-            Href.handle("/", "_self", history);
+            Href.handleUrl("/", "_self", history);
             e.stopPropagation();
             e.preventDefault();
         }

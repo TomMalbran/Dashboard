@@ -50,7 +50,7 @@ function Avatar(props) {
     // Handles the Click
     const handleClick = (e) => {
         if (url) {
-            Href.handle(url, target, history);
+            Href.handleUrl(url, target, history);
             e.stopPropagation();
             e.preventDefault();
         }

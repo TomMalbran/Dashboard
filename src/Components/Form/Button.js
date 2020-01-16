@@ -175,7 +175,7 @@ function Button(props) {
         if (onClick) {
             onClick(e);
         }
-        Href.handle(url, target, history);
+        Href.handleUrl(url, target, history);
         e.stopPropagation();
         e.preventDefault();
     };

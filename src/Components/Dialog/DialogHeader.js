@@ -63,7 +63,7 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function DialogHeader(props) {
-    const { className, message, icon, closeDialog, children } = props;
+    const { className, message, icon, onClose, children } = props;
 
     return <Header className={className}>
         <Div>
@@ -74,7 +74,7 @@ function DialogHeader(props) {
         <IconLink
             variant="darker"
             icon="close"
-            onClick={closeDialog}
+            onClick={onClose}
             isSmall
         />
     </Header>;
@@ -85,11 +85,11 @@ function DialogHeader(props) {
  * @type {Object} propTypes
  */
 DialogHeader.propTypes = {
-    className   : PropTypes.string,
-    message     : PropTypes.string,
-    icon        : PropTypes.string,
-    closeDialog : PropTypes.func,
-    children    : PropTypes.any,
+    className : PropTypes.string,
+    message   : PropTypes.string,
+    icon      : PropTypes.string,
+    onClose   : PropTypes.func,
+    children  : PropTypes.any,
 };
 
 /**

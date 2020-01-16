@@ -50,7 +50,7 @@ function Navigation(props) {
         }
     }
 
-    return <Section className={className} variant={variant}>
+    return <Section className={`navigation ${className}`} variant={variant}>
         {items}
     </Section>;
 }

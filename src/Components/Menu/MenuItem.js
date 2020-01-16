@@ -27,7 +27,7 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
     
     &:hover {
         background-color: var(--light-gray);
-
+    }
     .icon {
         margin-right: 6px;
         font-size: 20px;
@@ -44,15 +44,19 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
 function MenuItem(props) {
     const { className, action, icon, message, isDisabled, isSelected, onAction, onClick, onClose } = props;
     const act = Action.get(action);
-    const icn = action ? act.icon : icon;
+    const icn = icon    || act.icon;
+    const cnt = message || act.message;
 
+    // Handles the Click
     const handleClick = (e) => {
         if (onAction) {
             onAction(act);
         } else if (onClick) {
             onClick(e);
         }
-        onClose(e);
+        if (onClose) {
+            onClose(e);
+        }
         e.preventDefault();
         e.stopPropagation();
     };
@@ -64,7 +68,7 @@ function MenuItem(props) {
         onClick={handleClick}
     >
         {!!icn && <Icon icon={icn} />}
-        {NLS.get(message)}
+        {NLS.get(cnt)}
     </Li>;
 }
 

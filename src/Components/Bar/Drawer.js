@@ -61,10 +61,14 @@ const Section = Styled.section`
     box-sizing: border-box;
     width: calc(var(--drawer-width) - var(--sidebar-width));
     padding: 18px 32px 32px 16px;
+
+    .navigation {
+        padding: 0;
+    }
 `;
 
 const H2 = Styled.h2`
-    margin: 0;
+    margin: 0 0 12px 0;
     color: var(--title-color);
     font-size: 24px;
     font-family: var(--title-font);
@@ -118,7 +122,7 @@ function Drawer(props) {
                     onClick={handleClose}
                 />
             </Nav>
-            <Section className="drawer-content">
+            <Section>
                 <H2>{NLS.get(message)}</H2>
                 {children}
             </Section>

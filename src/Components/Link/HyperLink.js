@@ -134,7 +134,6 @@ const Components = {
 
 
 
-
 /**
  * The HyperLink Component
  * @param {Object} props
@@ -147,6 +146,7 @@ function HyperLink(props) {
     } = props;
 
     const Component = Components[variant];
+    const content   = children || NLS.get(message);
     
     return <Component
         ref={passedRef}
@@ -156,9 +156,9 @@ function HyperLink(props) {
         target={target}
         onClick={(e) => Href.handleClick(props, e)}
     >
-        <Html className="link-content" variant="span">
-            {html || children || NLS.get(message)}
-        </Html>
+        {html ? <Html className="link-content" variant="span">
+            {html}
+        </Html> : content}
     </Component>;
 }
 

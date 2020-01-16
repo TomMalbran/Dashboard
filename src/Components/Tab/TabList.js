@@ -47,15 +47,14 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function TabList(props) {
-    const { className, variant, value, onAction, showAdd, children } = props;
+    const { className, variant, selected, onAction, showAdd, children } = props;
 
     const items = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, variant, onAction,
-                index      : key,
-                isSelected : child.props.value ? String(child.props.value) === String(value) : key === value,
+                key, variant, onAction, selected,
+                index : key,
             }));
         }
     }
@@ -79,7 +78,7 @@ function TabList(props) {
 TabList.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
-    value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
+    selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
     onAction  : PropTypes.func.isRequired,
     showAdd   : PropTypes.bool,
     children  : PropTypes.any,

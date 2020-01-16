@@ -46,14 +46,14 @@ function DialogFooter(props) {
         isLoading, isDisabled, children,
     } = props;
 
-    const items   = [];
-    const actions = [];
-
+    // Handles the Submit
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit();
     };
 
+    const items   = [];
+    const actions = [];
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (child && child.type === DialogAction) {
             if (!child.props.isHidden) {

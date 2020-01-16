@@ -19,12 +19,12 @@ const Variant = {
 
 
 // Styles
-const Nav = Styled.nav`
+const Nav = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0 12px 16px;
+    padding: ${(props) => props.withSpacing && "0 12px 16px"};
     overflow: auto;
 `;
 
@@ -42,12 +42,10 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function NavigationBody(props) {
-    const { className, variant, path, baseUrl, onAction, onClose, none, isLoading, children } = props;
+    const { className, variant, path, baseUrl, onAction, onClose, none, isLoading, withSpacing, children } = props;
 
-    const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "";
-    const items      = [];
-    let   addList    = true;
-
+    const items   = [];
+    let   addList = true;
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (child.type === NavigationList) {
             addList = false;
@@ -60,8 +58,9 @@ function NavigationBody(props) {
     const showLoader = isLoading;
     const showNone   = Boolean(!isLoading && !items.length && none);
     const showItems  = Boolean(!isLoading && items.length);
+    const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "";
 
-    return <Nav className={`${scrollbars} ${className}`}>
+    return <Nav className={`${scrollbars} ${className}`} withSpacing={withSpacing}>
         {showLoader && <CircularLoader variant="white" />}
         {showNone   && <NoneAvailable  variant="white" message={none} />}
         {showItems  && (addList ? <Ul>{items}</Ul> : items)}
@@ -73,15 +72,16 @@ function NavigationBody(props) {
  * @type {Object} propTypes
  */
 NavigationBody.propTypes = {
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    path      : PropTypes.string,
-    baseUrl   : PropTypes.string,
-    none      : PropTypes.string,
-    isLoading : PropTypes.bool,
-    onAction  : PropTypes.func,
-    onClose   : PropTypes.func,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    variant     : PropTypes.string,
+    path        : PropTypes.string,
+    baseUrl     : PropTypes.string,
+    none        : PropTypes.string,
+    isLoading   : PropTypes.bool,
+    withSpacing : PropTypes.bool,
+    onAction    : PropTypes.func,
+    onClose     : PropTypes.func,
+    children    : PropTypes.any,
 };
 
 /**
@@ -89,10 +89,11 @@ NavigationBody.propTypes = {
  * @typedef {Object} defaultProps
  */
 NavigationBody.defaultProps = {
-    className : "",
-    baseUrl   : "",
-    none      : "",
-    isLoading : false,
+    className   : "",
+    baseUrl     : "",
+    none        : "",
+    isLoading   : false,
+    withSpacing : true,
 };
 
 export default NavigationBody;

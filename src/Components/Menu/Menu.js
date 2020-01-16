@@ -42,7 +42,7 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
 function Menu(props) {
     const {
         className, open, variant, direction, top, left, right,
-        value, onAction, onClose, children,
+        selected, onAction, onClose, children,
     } = props;
 
     const menuRef   = React.useRef();
@@ -67,18 +67,15 @@ function Menu(props) {
         }
     };
 
-    // Close the Menu when clicking outside
-    React.useEffect(() => {
-        window.addEventListener("click", handleClose);
-        return () => window.removeEventListener("click", handleClose);
-    }, []);
-
-    // Save the Width to calculate the Style
+    // Save the Width and add the Close handler
     React.useEffect(() => {
         if (open) {
             const bounds = Utils.getBounds(menuRef);
             setWidth(bounds.width);
+            window.addEventListener("click", handleClose);
+            return () => window.removeEventListener("click", handleClose);
         }
+        return () => {};
     }, [ open ]);
 
 
@@ -87,7 +84,7 @@ function Menu(props) {
             items.push(React.cloneElement(child, {
                 key, onAction, onClose,
                 index      : key,
-                isSelected : key === value,
+                isSelected : key === selected,
             }));
         }
     }
@@ -129,9 +126,9 @@ Menu.propTypes = {
     top       : PropTypes.number,
     left      : PropTypes.number,
     right     : PropTypes.number,
+    selected  : PropTypes.number,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func.isRequired,
-    value     : PropTypes.number,
     children  : PropTypes.any,
 };
 

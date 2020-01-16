@@ -14,13 +14,14 @@ import InfoAction           from "../Info/InfoAction";
 const Section = Styled.section`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 12px 24px;
     border-bottom: 1px solid var(--light-gray);
     color: var(--black-color);
 `;
 
 const Actions = Styled.div`
-    padding: 12px 12px 12px 24px;
+    padding: 0 0 0 24px;
 `;
 
 

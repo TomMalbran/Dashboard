@@ -73,34 +73,19 @@ const Container = Styled.dialog.attrs(({ isWide, isNarrow, hasTabs, isClosing })
  * @returns {React.ReactElement}
  */
 function Dialog(props) {
-    const { onClose } = props;
-    const { open, className, isLoading, isWide, isNarrow, fullHeight, noTab, children } = props;
-    const items   = [];
-    let   hasTabs = false;
-    
-    if (!open) {
-        return <React.Fragment />;
-    }
+    const { open, className, isLoading, isWide, isNarrow, fullHeight, noTab, onClose, children } = props;
     
     const [ level,   setLevel   ] = React.useState(0);
+    const [ opened,  setOpened  ] = React.useState(false);
     const [ closing, setClosing ] = React.useState(false);
-    const contentRef = React.useRef();
 
-    // Handle the Level and key event whrn open changes
-    React.useEffect(() => {
-        if (open) {
-            setLevel(Dashboard.openDialog());
-            window.addEventListener("keyup", handleTab);
-        } else {
-            setLevel(Dashboard.closeDialog());
-            window.removeEventListener("keyup", handleTab);
-        }
-        return () => window.removeEventListener("keyup", handleTab);
-    }, [ open ]);
+    const contentRef              = React.useRef();
+    const savedHandler            = React.useRef();
+
 
     // Handles the Dialog Close
     const handleClose = () => {
-        if (closing || !Dashboard.isDialogAt(level)) {
+        if (closing) {
             return;
         }
         setClosing(true);
@@ -110,15 +95,13 @@ function Dialog(props) {
         }, 300);
     };
 
-    // Handle the Tab
-    const handleTab = (e) => {
+    // Handle the Key
+    const handleKey = (e) => {
         if (!open || closing || !Dashboard.isDialogAt(level)) {
             return;
         }
-
         const node = contentRef.current;
         if (!noTab && e.which === KeyCode.DOM_VK_TAB) {
-            // @ts-ignore
             if (e.target.closest(".dialog-container") === null) {
                 const focusables = node.querySelectorAll("input, a");
                 const backward   = e.shiftKey;
@@ -133,16 +116,46 @@ function Dialog(props) {
     };
 
 
+    // Update the Handler if the function changes
+    React.useEffect(() => {
+        // @ts-ignore
+        savedHandler.current = handleKey;
+    }, [ handleKey ]);
+
+    // Handle the Level and Key event when open changes
+    React.useEffect(() => {
+        // @ts-ignore
+        const eventListener = (e) => savedHandler.current(e);
+
+        if (open) {
+            setOpened(true);
+            setLevel(Dashboard.openDialog());
+            window.addEventListener("keyup", eventListener);
+        } else if (opened) {
+            setOpened(false);
+            setLevel(Dashboard.closeDialog());
+            window.removeEventListener("keyup", eventListener);
+        }
+        return () => window.removeEventListener("keyup", eventListener);
+    }, [ open ]);
+
+
+    // No need to continue
+    if (!open) {
+        return <React.Fragment />;
+    }
+
+    const items   = [];
+    let   hasTabs = false;
     for (const [ key, child ] of Utils.toEntries(children)) {
         if (child.type === TabList) {
             hasTabs = true;
         }
         items.push(React.cloneElement(child, {
-            key, onClose, isLoading, fullHeight,
-            closeDialog : handleClose,
+            key, isLoading, fullHeight,
+            onClose : handleClose,
         }));
     }
-        
 
     return <Backdrop
         contentRef={contentRef}
