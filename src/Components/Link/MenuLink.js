@@ -74,11 +74,11 @@ const DarkLink = Styled(NavLink)`
 `;
 
 const OutlinedLink = Styled(Link)`
+    --link-color: white;
     padding: 4px 16px;
     border: 1px solid transparent;
     text-transform: uppercase;
     font-size: 12px;
-    --link-color: var(white);
     
     &:hover {
         border-color: white;
@@ -146,9 +146,10 @@ function MenuLink(props) {
  */
 MenuLink.propTypes = {
     history      : PropTypes.object.isRequired,
+    className    : PropTypes.string,
+    variant      : PropTypes.string,
     message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     html         : PropTypes.string,
-    variant      : PropTypes.string,
     href         : PropTypes.string,
     url          : PropTypes.string,
     target       : PropTypes.string,
@@ -158,7 +159,6 @@ MenuLink.propTypes = {
     icon         : PropTypes.string,
     afterIcon    : PropTypes.string,
     badge        : PropTypes.number,
-    className    : PropTypes.string,
     onClick      : PropTypes.func,
     onMouseEnter : PropTypes.func,
     onMouseLeave : PropTypes.func,
@@ -174,12 +174,12 @@ MenuLink.propTypes = {
  * @type {Object} defaultProps
  */
 MenuLink.defaultProps = {
-    variant    : Variant.PRIMARY,
+    className  : "",
+    variant    : Variant.NONE,
     href       : "#",
     url        : "",
     target     : "_self",
     badge      : 0,
-    className  : "",
     isSelected : false,
     isDisabled : false,
     dontStop   : false,

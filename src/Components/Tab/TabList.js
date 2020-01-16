@@ -18,16 +18,16 @@ const Variant = {
 
 
 // Styles
-const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
+const Section = Styled.section.attrs(({ variant, canAdd }) => ({ variant, canAdd }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-right: 16px;
 
     ${(props) => props.variant === Variant.DARK && `
         flex-grow: 2;
         background-color: var(--primary-color);
     `}
+    ${(props) => props.canAdd && "padding-right: 16px;"}
 `;
 
 const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
@@ -47,23 +47,21 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function TabList(props) {
-    const { className, variant, selected, onAction, showAdd, children } = props;
+    const { className, variant, selected, onAction, canAdd, children } = props;
 
     const items = [];
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (!child.props.isHidden) {
-            items.push(React.cloneElement(child, {
-                key, variant, onAction, selected,
-                index : key,
-            }));
-        }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        items.push(React.cloneElement(child, {
+            key, variant, onAction, selected,
+            index : key,
+        }));
     }
 
-    return <Section className={`tabs ${className}`} variant={variant}>
+    return <Section className={`tabs ${className}`} variant={variant} canAdd={canAdd}>
         <Div variant={variant}>
             {items}
         </Div>
-        {showAdd && <IconLink
+        {canAdd && <IconLink
             variant={variant === Variant.DARK ? "darker" : "light"}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
@@ -80,7 +78,7 @@ TabList.propTypes = {
     variant   : PropTypes.string,
     selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
     onAction  : PropTypes.func.isRequired,
-    showAdd   : PropTypes.bool,
+    canAdd    : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -91,7 +89,7 @@ TabList.propTypes = {
 TabList.defaultProps = {
     className : "",
     variant   : Variant.LIGHT,
-    showAdd   : false,
+    canAdd    : false,
 };
 
 export default TabList;

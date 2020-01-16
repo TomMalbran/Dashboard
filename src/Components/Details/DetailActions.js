@@ -48,17 +48,15 @@ function DetailActions(props) {
     };
 
     const items = [];
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (child && !child.props.isHidden) {
-            const act = Action.get(child.props.action);
-            items.push(<Button
-                key={key}
-                variant="outlined"
-                icon={child.props.icon || act.icon}
-                message={child.props.message || act.message}
-                onClick={() => handleClick(act)}
-            />);
-        }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        const act = Action.get(child.props.action);
+        items.push(<Button
+            key={key}
+            variant="outlined"
+            icon={child.props.icon || act.icon}
+            message={child.props.message || act.message}
+            onClick={() => handleClick(act)}
+        />);
     }
     
 

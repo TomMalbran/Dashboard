@@ -31,12 +31,10 @@ function ActionList(props) {
     const { className, data, onAction, useAdd, useAssign, children } = props;
 
     const items = [];
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (child && !child.props.isHidden) {
-            items.push(React.cloneElement(child, {
-                key, onAction,
-            }));
-        }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        items.push(React.cloneElement(child, {
+            key, onAction,
+        }));
     }
 
     const createText = useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE");

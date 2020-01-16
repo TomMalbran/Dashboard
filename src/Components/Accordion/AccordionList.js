@@ -29,15 +29,13 @@ function AccordionList(props) {
     };
 
     const items = [];
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (child && !child.props.isHidden) {
-            items.push(React.cloneElement(child, {
-                key,
-                isFist     : !items.length,
-                isSelected : key === selected,
-                onClick    : handleClick(key, child.props.isDisabled),
-            }));
-        }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        items.push(React.cloneElement(child, {
+            key,
+            isFist     : !items.length,
+            isSelected : key === selected,
+            onClick    : handleClick(key, child.props.isDisabled),
+        }));
     }
 
     

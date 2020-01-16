@@ -20,7 +20,6 @@ function Form(props) {
 
     const items   = [];
     let   isFirst = false;
-
     for (const [ key, child ] of Utils.toEntries(children)) {
         items.push(React.cloneElement(child, {
             key, onSubmit,

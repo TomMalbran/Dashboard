@@ -37,13 +37,11 @@ function InfoList(props) {
     const items   = [];
     const actions = [];
 
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (!child.props.isHidden) {
-            if (child.type === InfoAction) {
-                actions.push(React.cloneElement(child, { key, onAction }));
-            } else {
-                items.push(React.cloneElement(child, { key }));
-            }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        if (child.type === InfoAction) {
+            actions.push(React.cloneElement(child, { key, onAction }));
+        } else {
+            items.push(React.cloneElement(child, { key }));
         }
     }
 

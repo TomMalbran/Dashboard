@@ -135,7 +135,7 @@ function toArray(data) {
 /**
  * Creates an Array Entries
  * @param {(Array|any)} data
- * @returns {Array}
+ * @returns {IterableIterator}
  */
 function toEntries(data) {
     return toArray(data).entries();
@@ -242,6 +242,21 @@ function getValue(data, idKey, idValue, key) {
 
 
 /**
+ * Returns the Active Children
+ * @param {(Array|any)} children
+ * @returns {IterableIterator}
+ */
+function getChildren(children) {
+    const result = [];
+    for (const child of toArray(children)) {
+        if (child && child.props && !child.props.isHidden) {
+            result.push(child);
+        }
+    }
+    return result.entries();
+}
+
+/**
  * Parses the Given List
  * @param {Object[]} list
  * @param {Function} callback
@@ -304,6 +319,7 @@ export default {
     extend,
     getValue,
 
+    getChildren,
     parseList,
     hasError,
     hasFormError,

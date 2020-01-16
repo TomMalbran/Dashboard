@@ -42,12 +42,10 @@ function Navigation(props) {
     const { className, variant, none, isLoading, onAction, children } = props;
 
     const items = [];
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (!child.props.isHidden) {
-            items.push(React.cloneElement(child, {
-                key, variant, none, isLoading, onAction,
-            }));
-        }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        items.push(React.cloneElement(child, {
+            key, variant, none, isLoading, onAction,
+        }));
     }
 
     return <Section className={`navigation ${className}`} variant={variant}>

@@ -2,12 +2,23 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import Action               from "../../Core/Action";
+
 // Components
 import MenuLink             from "../Link/MenuLink";
 
 
 
 // Styles
+const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
+    ${(props) => props.topBorder && `
+        border-top: 1px solid var(--border-color);
+        padding-top: 4px;
+        margin-top: 4px;
+    `}
+`;
+
 const NavigationLink = Styled(MenuLink)`
     padding: 4px;
     font-size: 13px;
@@ -31,19 +42,36 @@ const NavigationLink = Styled(MenuLink)`
  * @returns {React.ReactElement}
  */
 function SubNavigationItem(props) {
-    const { isSelected, message, icon, afterIcon, onClick, children } = props;
+    const { variant, action, isSelected, message, icon, afterIcon, topBorder, onAction, onClick, onClose, children } = props;
+    const act = Action.get(action);
+    const icn = icon    || act.icon;
+    const cnt = message || act.message;
 
-    return <li>
+    // Handles the Click
+    const handleClick = (e) => {
+        if (onAction) {
+            onAction(act);
+        } else if (onClick) {
+            onClick(e);
+        }
+        if (onClose) {
+            onClose(e);
+        }
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    return <Li topBorder={topBorder}>
         <NavigationLink
-            variant="menu-dark"
+            variant={variant}
             isSelected={isSelected}
-            message={message}
-            icon={icon}
+            message={cnt}
+            icon={icn}
             afterIcon={afterIcon}
-            onClick={onClick}
+            onClick={handleClick}
         />
         {children}
-    </li>;
+    </Li>;
 }
 
 /**
@@ -52,11 +80,15 @@ function SubNavigationItem(props) {
  */
 SubNavigationItem.propTypes = {
     variant    : PropTypes.string,
+    action     : PropTypes.string,
     className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon       : PropTypes.string,
     afterIcon  : PropTypes.string,
+    topBorder  : PropTypes.bool,
+    onAction   : PropTypes.func,
     onClick    : PropTypes.func,
+    onClose    : PropTypes.func,
     isSelected : PropTypes.bool,
     isHidden   : PropTypes.bool,
     children   : PropTypes.any,
@@ -68,6 +100,7 @@ SubNavigationItem.propTypes = {
  */
 SubNavigationItem.defaultProps = {
     className  : "",
+    topBorder  : false,
     isSelected : false,
     isHidden   : false,
 };

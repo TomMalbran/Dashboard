@@ -79,14 +79,12 @@ function Menu(props) {
     }, [ open ]);
 
 
-    for (const [ key, child ] of Utils.toEntries(children)) {
-        if (!child.props.isHidden) {
-            items.push(React.cloneElement(child, {
-                key, onAction, onClose,
-                index      : key,
-                isSelected : key === selected,
-            }));
-        }
+    for (const [ key, child ] of Utils.getChildren(children)) {
+        items.push(React.cloneElement(child, {
+            key, onAction, onClose,
+            index      : key,
+            isSelected : key === selected,
+        }));
     }
 
     if (hasStyles) {
