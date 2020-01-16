@@ -1,22 +1,19 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Utils
+import Href                 from "../../Utils/Href";
 import MD5                  from "../../Utils/MD5";
-
-// Components
-import HyperLink            from "../Common/HyperLink";
 
 
 
 // Styles
-const Div = Styled.div.attrs((props) => ({
-    size : `${props.size}px`,
-}))`
+const Div = Styled.div.attrs(({ size }) => ({ size }))`
     display: block;
-    width: ${(props) => props.size};
-    height: ${(props) => props.size};
+    width: ${(props) => `${props.size}px`};
+    height: ${(props) => `${props.size}px`};
     padding: 2px;
     overflow: hidden;
 
@@ -42,36 +39,45 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { className, size, url, name, data } = props;
+    const { history, className, size, url, target, name, data } = props;
 
     let avatar = data.avatar;
     if (!avatar && data.email) {
         const username = MD5(data.email.toLowerCase().trim());
         avatar = `https://gravatar.com/avatar/${username}?default=identicon`;
     }
+
+    // Handles the Click
+    const handleClick = (e) => {
+        if (url) {
+            Href.handle(url, target, history);
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    };
+
+
     if (!avatar) {
         return <React.Component />;
     }
-
-    const content = <Div className={className} size={size}>
+    return <Div
+        className={className}
+        size={size}
+        onClick={handleClick}
+    >
         <Img alt={name || data.name} src={avatar} />
     </Div>;
-
-    if (url) {
-        return <HyperLink variant="none" url={url}>
-            {content}
-        </HyperLink>;
-    }
-    return content;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes
  */
 Avatar.propTypes = {
+    history   : PropTypes.object.isRequired,
     className : PropTypes.string,
     url       : PropTypes.string,
+    target    : PropTypes.string,
     data      : PropTypes.object.isRequired,
     name      : PropTypes.string,
     size      : PropTypes.number,
@@ -83,7 +89,8 @@ Avatar.propTypes = {
  */
 Avatar.defaultProps = {
     className : "",
+    target    : "_self",
     size      : 36,
 };
 
-export default Avatar;
+export default withRouter(Avatar);

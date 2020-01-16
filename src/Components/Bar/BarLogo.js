@@ -1,12 +1,11 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Core
-import NLS                   from "../../Core/NLS";
-
-// Components
-import HyperLink            from "../Common/HyperLink";
+// Core & Utils
+import NLS                  from "../../Core/NLS";
+import Href                 from "../../Utils/Href";
 
 
 
@@ -30,13 +29,19 @@ const Img = Styled.img.attrs(({ size }) => ({ size }))`
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
-    const { className, logo, withLink, size } = props;
-    const image = <Img src={logo} alt={NLS.get("TITLE")} size={size} />;
+    const { history, className, logo, withLink, size } = props;
 
-    return <H2 className={className}>
-        {withLink ? <HyperLink href="/" variant="none">
-            {image}
-        </HyperLink> : image}
+    // Handles the Click
+    const handleClick = (e) => {
+        if (withLink) {
+            Href.handle("/", "_self", history);
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    };
+
+    return <H2 className={className} onClick={handleClick}>
+        <Img src={logo} alt={NLS.get("TITLE")} size={size} />
     </H2>;
 }
 
@@ -45,6 +50,7 @@ function BarLogo(props) {
  * @type {Object} propTypes
  */
 BarLogo.propTypes = {
+    history   : PropTypes.object.isRequired,
     className : PropTypes.string,
     logo      : PropTypes.string.isRequired,
     withLink  : PropTypes.bool,
@@ -61,4 +67,4 @@ BarLogo.defaultProps = {
     size      : 32,
 };
 
-export default BarLogo;
+export default withRouter(BarLogo);
