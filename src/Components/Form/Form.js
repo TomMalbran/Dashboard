@@ -23,7 +23,7 @@ function Form(props) {
     for (const [ key, child ] of Utils.toEntries(children)) {
         items.push(React.cloneElement(child, {
             key, onSubmit,
-            autoFocus : (child.type === Columns || !child.props.isHidden) && isFirst,
+            autoFocus : child && (child.type === Columns || !child.props.isHidden) && isFirst,
         }));
         isFirst = false;
     }
