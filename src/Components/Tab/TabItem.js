@@ -12,8 +12,8 @@ import Icon                 from "../Common/Icon";
 
 // Variants
 const Variant = {
-    TABLE  : "table",
-    DIALOG : "dialog",
+    LIGHT : "light",
+    DARK  : "dark",
 };
 
 
@@ -44,7 +44,7 @@ const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isD
     }
 `;
 
-const TableItem = Styled(Item)`
+const LightItem = Styled(Item)`
     height: var(--tabs-table);
     padding: 6px 12px;
     color: var(--title-color);
@@ -63,7 +63,7 @@ const TableItem = Styled(Item)`
     `}
 `;
 
-const DialogItem = Styled(Item)`
+const DarkItem = Styled(Item)`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -90,6 +90,12 @@ const DialogItem = Styled(Item)`
     `}
 `;
 
+// Components
+const Components = {
+    [Variant.LIGHT] : LightItem,
+    [Variant.DARK]  : DarkItem,
+};
+
 
 
 /**
@@ -100,7 +106,7 @@ const DialogItem = Styled(Item)`
 function TabItem(props) {
     const { className, variant, message, status, value, index, isDisabled, isSelected, canDelete, onAction } = props;
     
-    const Component = variant === Variant.TABLE ? TableItem : DialogItem;
+    const Component = Components[variant];
     const id        = status ? Status.getID(status) : value || index;
 
     // Handle the Click
@@ -161,7 +167,7 @@ TabItem.propTypes = {
  */
 TabItem.defaultProps = {
     className  : "",
-    variant    : Variant.TABLE,
+    variant    : Variant.LIGHT,
     value      : "",
     index      : 0,
     isDisabled : false,
