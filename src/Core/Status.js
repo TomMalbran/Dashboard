@@ -1,5 +1,4 @@
 import NLS                  from "../Core/NLS";
-import Utils                from "../Utils/Utils";
 
 // The Current Data
 let statusIDs    = {};
@@ -108,13 +107,13 @@ function getFemName(id) {
 }
 
 /**
- * Returns a String with the Text Class
+ * Returns a String with the Color
  * @param {Number} id
  * @returns {String}
  */
-function getTextClass(id) {
+function getColor(id) {
     const status = statusIDs[id];
-    return status ? `text-${status.color}` : "";
+    return status ? status.color : "gray";
 }
 
 /**
@@ -122,9 +121,9 @@ function getTextClass(id) {
  * @param {Number} id
  * @returns {String}
  */
-function getCircleClass(id) {
+function getTextClass(id) {
     const status = statusIDs[id];
-    return status ? Utils.getCircleClass(status.color) : "";
+    return status ? `text-${status.color}` : "";
 }
 
 
@@ -140,6 +139,6 @@ export default {
     getID,
     getName,
     getFemName,
+    getColor,
     getTextClass,
-    getCircleClass,
 };

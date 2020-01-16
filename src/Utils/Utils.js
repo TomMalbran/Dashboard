@@ -283,18 +283,6 @@ function hasFormError(errors) {
 
 
 
-/**
- * Returns the Circle Classes for the given color
- * @param {String} color
- * @returns {String}
- */
-function getCircleClass(color) {
-    return `circle circle-${color}`;
-}
-
-
-
-
 // The public API
 export default {
     isEmpty,
@@ -319,6 +307,4 @@ export default {
     parseList,
     hasError,
     hasFormError,
-
-    getCircleClass,
 };

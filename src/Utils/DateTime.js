@@ -1,5 +1,4 @@
 import NLS          from "../Core/NLS";
-import Utils        from "../Utils/Utils";
 
 
 
@@ -392,35 +391,10 @@ class DateTime {
     
     
     /**
-     * Adds color to the string depending on the Date
-     * @param {String} string
-     * @returns {String}
-     */
-    addColor(string) {
-        const days = this.getExpiredDays();
-        if (days < 0) {
-            return `<span class="error-result">${string}</span>`;
-        }
-        if (days < 3) {
-            return `<span class="warning-result">${string}</span>`;
-        }
-        return `<span class="success-result">${string}</span>`;
-    }
-    
-    /**
-     * Returns a circle with a color depending on the Date
-     * @param {String} string
-     * @returns {String}
-     */
-    addCircle(string) {
-        return `<span class="${this.getCircleClass()}"></span> ${string}`;
-    }
-    
-    /**
      * Returns a circle class depending on the Date
      * @returns {String}
      */
-    getCircleClass() {
+    getColor() {
         const days  = this.getExpiredDays();
         let   color = "green";
 
@@ -430,7 +404,7 @@ class DateTime {
         if (days < 3) {
             color = "yellow";
         }
-        return Utils.getCircleClass(color);
+        return color;
     }
 
     /**
