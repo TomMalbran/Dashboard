@@ -7,7 +7,7 @@ import Action               from "../../Core/Action";
 import NLS                  from "../../Core/NLS";
 
 // Components
-import HyperLink            from "../Common/HyperLink";
+import MenuLink             from "../Link/MenuLink";
 import Icon                 from "../Common/Icon";
 
 
@@ -68,8 +68,8 @@ function NavigationItem(props) {
     
     return <li>
         <Div>
-            <HyperLink
-                variant={`menu-${variant}`}
+            <MenuLink
+                variant={variant}
                 className={className}
                 isSelected={isSelected || path === uri}
                 message={message}

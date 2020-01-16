@@ -7,7 +7,7 @@ import Action               from "../../Core/Action";
 import NLS                  from "../../Core/NLS";
 
 // Components
-import HyperLink            from "../Common/HyperLink";
+import IconLink             from "../Link/IconLink";
 
 // Variants
 const Variant = {
@@ -80,7 +80,6 @@ function NavigationTitle(props) {
     } = props;
 
     const showMessage = !!message;
-    const iconVariant = `icon-${variant}`;
     
     // Handles the Action
     const handleAction = (action, e) => {
@@ -91,8 +90,8 @@ function NavigationTitle(props) {
 
     return <Header className={className} variant={variant}>
         <H2>
-            <HyperLink
-                variant={iconVariant}
+            <IconLink
+                variant={variant}
                 icon="back"
                 href={href}
             />
@@ -102,13 +101,13 @@ function NavigationTitle(props) {
             </Div>}
             {!showMessage && NLS.get(fallback)}
         </H2>
-        {canAdd && <HyperLink
-            variant={iconVariant}
+        {canAdd && <IconLink
+            variant={variant}
             icon="add"
             onClick={(e) => handleAction("ADD", e)}
         />}
-        {canManage && <HyperLink
-            variant={iconVariant}
+        {canManage && <IconLink
+            variant={variant}
             icon="settings"
             onClick={(e) => handleAction("MANAGE", e)}
         />}

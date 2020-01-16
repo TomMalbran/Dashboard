@@ -6,7 +6,7 @@ import Styled               from "styled-components";
 import NLS                  from "../../Core/NLS";
 
 // Components
-import HyperLink            from "../Common/HyperLink";
+import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 
 
@@ -55,16 +55,6 @@ const H2 = Styled.h2`
     letter-spacing: 1px;
 `;
 
-const CloseLink = Styled(HyperLink)`
-    .icon {
-        font-size: 16px;
-        color: white;
-    }
-    &:hover {
-        background-color: var(--secondary-color);
-    }
-`;
-
 
 
 /**
@@ -81,10 +71,11 @@ function DialogHeader(props) {
             <H2>{NLS.get(message)}</H2>
             {children}
         </Div>
-        <CloseLink
-            variant="icon-dark"
+        <IconLink
+            variant="darker"
             icon="close"
             onClick={closeDialog}
+            isSmall
         />
     </Header>;
 }

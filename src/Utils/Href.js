@@ -68,7 +68,7 @@ function handleInternal(url, history) {
  * @param {Object} history
  * @returns {Boolean}
  */
-function handle(url, target, history) {
+function handleUrl(url, target, history) {
     if (!url || url === "#") {
         return false;
     }
@@ -86,6 +86,33 @@ function handle(url, target, history) {
     return false;
 }
 
+/**
+ * Handles the Click
+ * @param {Object} props
+ * @param {Object} e
+ * @returns {Void}
+ */
+function handleClick(props, e) {
+    const { isDisabled, onClick, tel, mail, whatsapp, dontStop, history } = props;
+    const url     = getUrl(props);
+    let   handled = false;
+
+    if (isDisabled) {
+        handled = true;
+    } else {
+        if (onClick) {
+            onClick(e);
+            handled = true;
+        }
+        if (!tel && !mail && !whatsapp && handleInternal(url, history)) {
+            handled = true;
+        }
+    }
+    if (handled && !dontStop) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+}
 
 
 
@@ -95,5 +122,6 @@ export default {
     isInternal,
     getInternal,
     handleInternal,
-    handle,
+    handleUrl,
+    handleClick,
 };

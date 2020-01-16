@@ -7,7 +7,7 @@ import Action               from "../../Core/Action";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import HyperLink            from "../Common/HyperLink";
+import IconLink             from "../Link/IconLink";
 
 // Variants
 const Variant = {
@@ -27,9 +27,6 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     ${(props) => props.variant === Variant.DARK && `
         flex-grow: 2;
         background-color: var(--primary-color);
-        & > .link-icon-dark:hover {
-            background-color: var(--secondary-color);
-        }
     `}
 `;
 
@@ -67,8 +64,8 @@ function TabList(props) {
         <Div variant={variant}>
             {items}
         </Div>
-        {showAdd && <HyperLink
-            variant={`icon-${variant}`}
+        {showAdd && <IconLink
+            variant={variant === Variant.DARK ? "darker" : "light"}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
         />}

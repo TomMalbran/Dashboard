@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import HyperLink            from "../Common/HyperLink";
+import HyperLink            from "../Link/HyperLink";
 
 
 
@@ -24,18 +24,23 @@ const Li = Styled.li`
     text-transform: uppercase;
     margin-right: 4px;
     
-    & > a {
-        position: relative;
-        display: block;
-        padding: 0 5px 0 15px;
-        height: 16px;
-        line-height: 16px;
-        color: var(--title-color);
-        background: var(--lighter-gray);
-        transition: all 0.2s ease-in-out;
+    &:first-child > a::before {
+        display: none;
     }
-    & > a::after,
-    & > a::before {
+`;
+
+const Link = Styled(HyperLink)`
+    position: relative;
+    display: block;
+    padding: 0 5px 0 15px;
+    height: 16px;
+    line-height: 16px;
+    color: var(--title-color);
+    background: var(--lighter-gray);
+    transition: all 0.2s ease-in-out;
+    
+    &::after,
+    &::before {
         content: "";
         position: absolute;
         top: 0;
@@ -45,19 +50,17 @@ const Li = Styled.li`
         border-color: transparent transparent transparent #fff;
         transition: all 0.2s ease-in-out;
     }
-    & > a::after {
+    &::after {
         right: -8px;
         left: auto;
         z-index: 1;
         border-left-color: var(--lighter-gray);
     }
-    &:first-child > a::before {
-        display: none;
-    }
-    & > a:hover {
+    
+    &:hover {
         background: var(--dark-gray);
     }
-    & > a:hover::after {
+    &:hover::after {
         border-left-color: var(--dark-gray);
     }
 `;
@@ -86,7 +89,7 @@ function Breadcrumb(props) {
 
     return <Ul className={className}>
         {items.map(({ key, href, message }) => <Li key={key}>
-            <HyperLink variant="none" href={href} message={message} />
+            <Link variant="none" href={href} message={message} />
         </Li>)}
     </Ul>;
 }
