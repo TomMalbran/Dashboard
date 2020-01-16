@@ -170,6 +170,7 @@ function Button(props) {
     const content  = children || NLS.get(message);
     const withIcon = Boolean(icon && variant !== Variant.ICON && !!content);
 
+    // Handles the Click
     const handleClick = (e) => {
         if (onClick) {
             onClick(e);

@@ -23,7 +23,7 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function Icon(props) {
-    const { icon, className, onClick } = props;
+    const { className, icon, onClick } = props;
 
     return <Span
         className={`icon icon-${icon} ${className}`}
@@ -36,8 +36,8 @@ function Icon(props) {
  * @type {Object} propTypes
  */
 Icon.propTypes = {
-    icon      : PropTypes.string.isRequired,
     className : PropTypes.string,
+    icon      : PropTypes.string.isRequired,
     onClick   : PropTypes.func,
 };
 
