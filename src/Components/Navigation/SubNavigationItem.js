@@ -3,17 +3,14 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import HyperLink            from "../Common/HyperLink";
+import MenuLink             from "../Link/MenuLink";
 
 
 
 // Styles
-const NavigationLink = Styled(HyperLink)`
-    display: flex;
-    align-items: center;
+const NavigationLink = Styled(MenuLink)`
     padding: 4px;
     font-size: 13px;
-    border-radius: var(--border-radius);
 
     & > .link-preicon {
         margin-right: 4px;
