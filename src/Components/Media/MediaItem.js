@@ -70,7 +70,7 @@ function MediaItem(props) {
     const { isFile, isImage, icon, source, thumb, name } = elem;
 
     // Handles the Action
-    const handleAction = (action, e) => {
+    const handleAction = (e, action) => {
         if (onAction) {
             onAction(Action.get(action), elem);
         }
@@ -81,7 +81,7 @@ function MediaItem(props) {
     return <Div
         isSelected={isSelected}
         hasActions={hasActions}
-        onClick={(e) => handleAction("SELECT", e)}
+        onClick={(e) => handleAction(e, "SELECT")}
     >
         {isFile && <MediaIcon className="media-icon">
             <Icon icon={icon} />
@@ -96,15 +96,15 @@ function MediaItem(props) {
         {hasActions && <div className="media-actions">
             <Icon
                 icon={Action.get("VIEW").icon}
-                onClick={(e) => handleAction("VIEW", e)}
+                onClick={(e) => handleAction(e, "VIEW")}
             />
             <Icon
                 icon={Action.get("EDIT").icon}
-                onClick={(e) => handleAction("EDIT", e)}
+                onClick={(e) => handleAction(e, "EDIT")}
             />
             <Icon
                 icon={Action.get("DELETE").icon}
-                onClick={(e) => handleAction("DELETE", e)}
+                onClick={(e) => handleAction(e, "DELETE")}
             />
         </div>}
     </Div>;

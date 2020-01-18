@@ -33,11 +33,11 @@ const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
 
 /**
  * Handles the Click
- * @param {Object} props
  * @param {React.MouseEvent} e
+ * @param {Object} props
  * @returns {Void}
  */
-function handleClick(props, e) {
+function handleClick(e, props) {
     e.preventDefault();
     if (Utils.hasSelection()) {
         return;
@@ -94,7 +94,7 @@ function DetailItem(props) {
         className={className}
         topBorder={topBorder}
         title={NLS.get(tooltip)}
-        onClick={(e) => handleClick(props, e)}
+        onClick={(e) => handleClick(e, props)}
     >
         <Icon icon={icon} />
         {content}
@@ -119,10 +119,10 @@ DetailItem.propTypes = {
     withTip    : PropTypes.bool,
     topBorder  : PropTypes.bool,
     showAlways : PropTypes.bool,
-    isHidden   : PropTypes.bool,
     isLink     : PropTypes.bool,
     isEmail    : PropTypes.bool,
     isPhone    : PropTypes.bool,
+    isHidden   : PropTypes.bool,
 };
 
 /**
@@ -132,6 +132,7 @@ DetailItem.propTypes = {
 DetailItem.defaultProps = {
     className : "",
     target    : "_self",
+    isHidden  : false,
 };
 
 export default withRouter(DetailItem);

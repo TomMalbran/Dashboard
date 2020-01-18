@@ -128,7 +128,7 @@ function MenuLink(props) {
         isDisabled={isDisabled}
         href={Href.getUrl(props)}
         target={target}
-        onClick={(e) => Href.handleClick(props, e)}
+        onClick={(e) => Href.handleClick(e, props)}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >

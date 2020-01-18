@@ -46,12 +46,14 @@ const H2 = Styled.h2`
     letter-spacing: 1px;
     color: var(--navtitle-color);
 `;
+const Link = Styled(IconLink)`
+    flex-shrink: 0;
+`;
 
 const Div = Styled.div`
     margin-left: 8px;
     font-weight: 400;
 `;
-
 const Span1 = Styled.span`
     display: block;
     font-family: var(--main-font);
@@ -59,7 +61,6 @@ const Span1 = Styled.span`
     font-weight: 400;
     color: var(--navsubtitle-color);
 `;
-
 const Span2 = Styled.span`
     display: block;
     font-size: 20px;
@@ -79,37 +80,37 @@ function NavigationTitle(props) {
         onAction, canAdd, canManage,
     } = props;
 
-    const showMessage = !!message;
-    
     // Handles the Action
-    const handleAction = (action, e) => {
-        onAction(Action.get(action));
+    const handleAction = (e, action) => {
+        if (onAction) {
+            onAction(Action.get(action));
+        }
         e.stopPropagation();
         e.preventDefault();
     };
 
+
     return <Header className={className} variant={variant}>
         <H2>
-            <IconLink
+            <Link
                 variant={variant}
                 icon="back"
                 href={href}
             />
-            {showMessage && <Div>
+            {!message ? NLS.get(fallback) : <Div>
                 <Span1>{NLS.get(fallback)}</Span1>
                 <Span2>{NLS.get(message)}</Span2>
             </Div>}
-            {!showMessage && NLS.get(fallback)}
         </H2>
         {canAdd && <IconLink
             variant={variant}
             icon="add"
-            onClick={(e) => handleAction("ADD", e)}
+            onClick={(e) => handleAction(e, "ADD")}
         />}
         {canManage && <IconLink
             variant={variant}
             icon="settings"
-            onClick={(e) => handleAction("MANAGE", e)}
+            onClick={(e) => handleAction(e, "MANAGE")}
         />}
     </Header>;
 }

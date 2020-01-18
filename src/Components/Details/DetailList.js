@@ -43,13 +43,13 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function DetailList(props) {
-    const { isHidden, message, children } = props;
+    const { className, isHidden, message, children } = props;
     
     if (isHidden) {
         return <React.Fragment />;
     }
 
-    return <Div>
+    return <Div className={className}>
         <H3>{NLS.get(message)}</H3>
         <Ul>{children}</Ul>
     </Div>;
@@ -60,9 +60,19 @@ function DetailList(props) {
  * @typedef {Object} propTypes
  */
 DetailList.propTypes = {
-    isHidden : PropTypes.bool,
-    message  : PropTypes.string.isRequired,
-    children : PropTypes.any,
+    className : PropTypes.string,
+    message   : PropTypes.string.isRequired,
+    isHidden  : PropTypes.bool,
+    children  : PropTypes.any,
+};
+
+/**
+ * The Default Properties
+ * @typedef {Object} defaultProps
+ */
+DetailList.defaultProps = {
+    className : "",
+    isHidden  : false,
 };
 
 export default DetailList;

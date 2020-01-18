@@ -48,4 +48,12 @@ InfoItem.propTypes = {
     isHidden : PropTypes.bool,
 };
 
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+InfoItem.defaultProps = {
+    isHidden : false,
+};
+
 export default InfoItem;

@@ -75,7 +75,7 @@ function IconLink(props) {
         isSmall={isSmall}
         href={Href.getUrl(props)}
         target={target}
-        onClick={(e) => Href.handleClick(props, e)}
+        onClick={(e) => Href.handleClick(e, props)}
     >
         <Icon icon={icon} />
     </Link>;

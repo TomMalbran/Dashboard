@@ -36,8 +36,16 @@ function InfoAction(props) {
 InfoAction.propTypes = {
     action   : PropTypes.string.isRequired,
     message  : PropTypes.string,
-    isHidden : PropTypes.bool,
     onAction : PropTypes.func,
+    isHidden : PropTypes.bool,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+InfoAction.defaultProps = {
+    isHidden : false,
 };
 
 export default InfoAction;

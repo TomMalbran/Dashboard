@@ -158,9 +158,9 @@ TabItem.propTypes = {
     message    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
-    isHidden   : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onAction   : PropTypes.func,
+    isHidden   : PropTypes.bool,
 };
 
 /**
@@ -175,6 +175,7 @@ TabItem.defaultProps = {
     isDisabled : false,
     isSelected : false,
     canDelete  : false,
+    isHidden   : false,
 };
 
 export default TabItem;

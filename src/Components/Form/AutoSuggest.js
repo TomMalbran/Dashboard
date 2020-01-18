@@ -50,7 +50,7 @@ const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
  * @returns {React.ReactElement}
  */
 function AutoSuggest(props) {
-    const { ref, open, id, name, params, onChange, onFetch } = props;
+    const { ref, open, id, name, params, fetch, onChange } = props;
 
     // The State
     const [ value,       setValue       ] = React.useState("");
@@ -62,7 +62,7 @@ function AutoSuggest(props) {
     const changeValue = (newValue) => {
         if (newValue && value !== newValue && selectedVal !== newValue) {
             if (newValue.length > 1) {
-                fetch(newValue);
+                fetchValue(newValue);
             } else {
                 setValue(newValue);
                 setSuggestions([]);
@@ -72,9 +72,8 @@ function AutoSuggest(props) {
     };
 
     // Does the Actual Fetch
-    const fetch = async (value) => {
-        const newSuggestions = await onFetch({ value, ...params || {} });
-
+    const fetchValue = async (value) => {
+        const newSuggestions = await fetch({ value, ...params || {} });
         setValue(value);
         setSelectedIdx(0);
         setSuggestions(newSuggestions);
@@ -147,8 +146,8 @@ function AutoSuggest(props) {
 AutoSuggest.propTypes = {
     ref      : PropTypes.object.isRequired,
     open     : PropTypes.bool.isRequired,
+    fetch    : PropTypes.func.isRequired,
     onChange : PropTypes.func.isRequired,
-    onFetch  : PropTypes.func.isRequired,
     id       : PropTypes.string.isRequired,
     name     : PropTypes.string.isRequired,
     params   : PropTypes.object,

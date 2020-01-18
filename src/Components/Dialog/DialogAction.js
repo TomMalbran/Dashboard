@@ -37,4 +37,12 @@ DialogAction.propTypes = {
     isHidden : PropTypes.bool,
 };
 
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+DialogAction.defaultProps = {
+    isHidden : false,
+};
+
 export default DialogAction;

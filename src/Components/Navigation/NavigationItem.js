@@ -59,8 +59,10 @@ function NavigationItem(props) {
     };
 
     // Handles the Action
-    const handleAction = (action, e) => {
-        onAction(Action.get(action), elemID);
+    const handleAction = (e, action) => {
+        if (onAction) {
+            onAction(Action.get(action), elemID);
+        }
         e.stopPropagation();
         e.preventDefault();
     };
@@ -80,11 +82,11 @@ function NavigationItem(props) {
             />
             {canEdit && <Icon
                 icon="edit"
-                onClick={(e) => handleAction("EDIT", e)}
+                onClick={(e) => handleAction(e, "EDIT")}
             />}
             {canDelete && <Icon
                 icon="delete"
-                onClick={(e) => handleAction("DELETE", e)}
+                onClick={(e) => handleAction(e, "DELETE")}
             />}
         </Div>
         {children}

@@ -54,4 +54,12 @@ ActionItem.propTypes = {
     onAction : PropTypes.func,
 };
 
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+ActionItem.defaultProps = {
+    isHidden : false,
+};
+
 export default ActionItem;

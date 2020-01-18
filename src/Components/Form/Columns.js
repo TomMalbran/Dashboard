@@ -33,7 +33,6 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
     .text-margin:last-child {
         margin-bottom: 20px;
     }
-    
 
     ${(props) => props.amount === 2 && `
         &:last-child .text-margin:nth-last-child(-n+2) {
@@ -87,7 +86,7 @@ function Columns(props) {
     const items   = [];
     let   isFirst = false;
 
-    for (const [ key, child ] of Utils.toEntries(children)) {
+    for (const [ key, child ] of Utils.getChildren(children)) {
         items.push(React.cloneElement(child, {
             key, onSubmit,
             autoFocus : autoFocus && isFirst,
@@ -119,6 +118,7 @@ Columns.propTypes = {
 Columns.defaultProps = {
     className : "",
     amount    : 2,
+    autoFocus : false,
 };
 
 export default Columns;

@@ -88,11 +88,11 @@ function handleUrl(url, target, history) {
 
 /**
  * Handles the Click
- * @param {Object} props
  * @param {Object} e
+ * @param {Object} props
  * @returns {Void}
  */
-function handleClick(props, e) {
+function handleClick(e, props) {
     const { isDisabled, onClick, tel, mail, whatsapp, dontStop, history } = props;
     const url     = getUrl(props);
     let   handled = false;
