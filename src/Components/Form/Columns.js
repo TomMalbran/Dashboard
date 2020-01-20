@@ -83,16 +83,10 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
 function Columns(props) {
     const { className, amount, onSubmit, autoFocus, children } = props;
 
-    const items   = [];
-    let   isFirst = false;
-
-    for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key, onSubmit,
-            autoFocus : autoFocus && isFirst,
-        }));
-        isFirst = false;
-    }
+    const items = Utils.cloneChildren(children, (child, key) => ({
+        onSubmit,
+        autoFocus : autoFocus && key === 0,
+    }));
 
     return <Div className={className} amount={amount}>
         {items}

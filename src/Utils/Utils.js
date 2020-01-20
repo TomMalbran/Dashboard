@@ -1,3 +1,7 @@
+import React                from "react";
+
+
+
 /**
  * Returns true if the Object is empty
  * @param {Object} object
@@ -242,11 +246,26 @@ function getValue(data, idKey, idValue, key) {
 
 
 /**
- * Returns the Active Children
+ * Returns the Children
  * @param {(Array|any)} children
  * @returns {IterableIterator}
  */
 function getChildren(children) {
+    const result = [];
+    for (const child of toArray(children)) {
+        if (child && child.props) {
+            result.push(child);
+        }
+    }
+    return result.entries();
+}
+
+/**
+ * Returns the Visible Children
+ * @param {(Array|any)} children
+ * @returns {IterableIterator}
+ */
+function getVisibleChildren(children) {
     const result = [];
     for (const child of toArray(children)) {
         if (child && child.props && !child.props.isHidden) {
@@ -255,6 +274,28 @@ function getChildren(children) {
     }
     return result.entries();
 }
+
+/**
+ * Returns an array of Cloned Visible Children
+ * @param {(Array|any)} children
+ * @param {Function}    callback
+ * @returns {Object[]}
+ */
+function cloneChildren(children, callback) {
+    const result = [];
+    let   key    = 0;
+    for (const child of toArray(children)) {
+        if (child && child.props && !child.props.isHidden) {
+            const values = callback(child, key);
+            result.push(React.cloneElement(child, {
+                key, ...values,
+            }));
+            key += 1;
+        }
+    }
+    return result;
+}
+
 
 /**
  * Parses the Given List
@@ -320,6 +361,9 @@ export default {
     getValue,
 
     getChildren,
+    getVisibleChildren,
+    cloneChildren,
+
     parseList,
     hasError,
     hasFormError,

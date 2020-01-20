@@ -49,13 +49,10 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
 function TabList(props) {
     const { className, variant, selected, onAction, canAdd, children } = props;
 
-    const items = [];
-    for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key, variant, onAction, selected,
-            index : key,
-        }));
-    }
+    const items = Utils.cloneChildren(children, (child, key) => ({
+        variant, onAction, selected,
+        index : key,
+    }));
 
     return <Section className={`tabs ${className}`} variant={variant} canAdd={canAdd}>
         <Div variant={variant}>

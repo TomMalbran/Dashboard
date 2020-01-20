@@ -47,7 +47,6 @@ function Menu(props) {
 
     const menuRef   = React.useRef();
     const hasStyles = top && (left || right);
-    const items     = [];
     const style     = {};
     
     // The State
@@ -79,14 +78,6 @@ function Menu(props) {
     }, [ open ]);
 
 
-    for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key, onAction, onClose,
-            index      : key,
-            isSelected : key === selected,
-        }));
-    }
-
     if (hasStyles) {
         style.top =`${top}px`;
         if (left) {
@@ -97,7 +88,12 @@ function Menu(props) {
             style.right = `${right}px`;
         }
     }
-    
+
+    const items = Utils.cloneChildren(children, (child, key) => ({
+        onAction, onClose,
+        index      : key,
+        isSelected : key === selected,
+    }));
 
     return <Ul
         ref={menuRef}

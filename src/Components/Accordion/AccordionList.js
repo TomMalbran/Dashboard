@@ -28,16 +28,11 @@ function AccordionList(props) {
         }
     };
 
-    const items = [];
-    for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key,
-            isFist     : !items.length,
-            isSelected : key === selected,
-            onClick    : handleClick(key, child.props.isDisabled),
-        }));
-    }
-
+    const items = Utils.cloneChildren(children, (child, key) => ({
+        isFist     : key === 0,
+        isSelected : key === selected,
+        onClick    : handleClick(key, child.props.isDisabled),
+    }));
     
     return <div className={`accordion ${className}`}>
         {items}

@@ -28,12 +28,9 @@ const Ul = Styled.ul`
 function NavigationList(props) {
     const { className, variant, path, baseUrl, onAction, onClose, children } = props;
 
-    const items = [];
-    for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key, variant, path, baseUrl, onAction, onClose,
-        }));
-    }
+    const items = Utils.cloneChildren(children, () => ({
+        variant, path, baseUrl, onAction, onClose,
+    }));
 
     return <Ul className={className}>
         {items}

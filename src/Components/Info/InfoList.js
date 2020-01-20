@@ -37,7 +37,7 @@ function InfoList(props) {
     const items   = [];
     const actions = [];
 
-    for (const [ key, child ] of Utils.getChildren(children)) {
+    for (const [ key, child ] of Utils.getVisibleChildren(children)) {
         if (child.type === InfoAction) {
             actions.push(React.cloneElement(child, { key, onAction }));
         } else {

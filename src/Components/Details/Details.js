@@ -52,14 +52,10 @@ function Details(props) {
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError;
     const showActions = Boolean(showContent && button);
-    const items       = [];
+    let   items       = [];
 
     if (showContent) {
-        for (const [ key, child ] of Utils.toEntries(children)) {
-            items.push(React.cloneElement(child, {
-                key, onClose,
-            }));
-        }
+        items = Utils.cloneChildren(children, () => ({ onClose }));
     }
 
     return <Section className={`details ${className}`}>

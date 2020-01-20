@@ -48,7 +48,7 @@ function DetailActions(props) {
     };
 
     const items = [];
-    for (const [ key, child ] of Utils.getChildren(children)) {
+    for (const [ key, child ] of Utils.getVisibleChildren(children)) {
         const act = Action.get(child.props.action);
         items.push(<Button
             key={key}

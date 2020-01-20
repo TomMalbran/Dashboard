@@ -30,13 +30,7 @@ const Ul = Styled.ul`
 function ActionList(props) {
     const { className, data, onAction, useAdd, useAssign, children } = props;
 
-    const items = [];
-    for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key, onAction,
-        }));
-    }
-
+    const items      = Utils.cloneChildren(children, () => ({ onAction }));
     const createText = useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE");
     const canExport  = data.canExport && data.total > 0;
     const canFilter  = data.canFilter && data.total > 0;
