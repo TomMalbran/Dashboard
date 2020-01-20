@@ -135,7 +135,8 @@ function Table(props) {
                 if (!action.props.isHidden || !action.props.isHidden(menuID)) {
                     const item = { ...action.props };
                     if (!item.route && !item.onClick) {
-                        item.onClick = child.props.onClick;
+                        item.onClick  = child.props.onClick;
+                        item.onAction = child.props.onAction;
                     }
                     if ((item.action.isCED && child.props.canEdit) || !item.action.isCED) {
                         actions.push(item);

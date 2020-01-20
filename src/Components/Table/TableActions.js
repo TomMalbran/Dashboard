@@ -16,8 +16,9 @@ function TableActions() {
  * @typedef {Object} propTypes
  */
 TableActions.propTypes = {
-    onClick : PropTypes.func,
-    canEdit : PropTypes.bool,
+    onClick  : PropTypes.func,
+    onAction : PropTypes.func,
+    canEdit  : PropTypes.bool,
 };
 
 export default TableActions;
