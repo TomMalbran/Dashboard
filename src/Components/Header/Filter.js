@@ -113,7 +113,6 @@ function Filter(props) {
             value={data.search}
             error={errors.search}
             onChange={handleChange}
-            onSuggest={handleSuggest}
             shrink
         />
         <FilterField
@@ -126,6 +125,7 @@ function Filter(props) {
             value={data.credentialName}
             error={errors.credentialID}
             onChange={handleChange}
+            onSuggest={handleSuggest}
             shrink
         />
         <FilterField
