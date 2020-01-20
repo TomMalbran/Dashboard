@@ -10,13 +10,14 @@ import MD5                  from "../../Utils/MD5";
 
 
 // Styles
-const Div = Styled.div.attrs(({ size }) => ({ size }))`
+const Div = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
     display: block;
     width: ${(props) => `${props.size}px`};
     height: ${(props) => `${props.size}px`};
     padding: 2px;
     overflow: hidden;
-
+    ${(props) => props.hasClick && "cursor: pointer;"}
+    
     &:hover img {
         box-shadow: 0 0 4px var(--lightest-color);
     }
@@ -63,6 +64,7 @@ function Avatar(props) {
     return <Div
         className={className}
         size={size}
+        hasClick={!!url}
         onClick={handleClick}
     >
         <Img alt={name || data.name} src={avatar} />

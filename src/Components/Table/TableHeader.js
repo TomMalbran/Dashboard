@@ -12,15 +12,11 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const TH = Styled.th.attrs(({ flexGrow, align, hasSorting, isSmall }) => ({ flexGrow, align, hasSorting, isSmall }))`
-    flex: 1 0 0;
     border: none;
     padding: 6px 0 6px 12px;
     color: var(--title-color);
     font-weight: bold;
     font-size: 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     flex-grow: ${(props) => props.flexGrow};
     text-align: ${(props) => props.align};
 

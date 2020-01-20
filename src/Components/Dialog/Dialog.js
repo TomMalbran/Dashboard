@@ -85,7 +85,7 @@ function Dialog(props) {
 
     // Handles the Dialog Close
     const handleClose = () => {
-        if (closing) {
+        if (closing || !Dashboard.isDialogAt(level)) {
             return;
         }
         setClosing(true);

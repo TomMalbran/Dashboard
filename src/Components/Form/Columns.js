@@ -30,17 +30,17 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         margin-top: 0;
     }
 
-    .text-margin:last-child {
+    .inputview:last-child {
         margin-bottom: 20px;
     }
 
     ${(props) => props.amount === 2 && `
-        &:last-child .text-margin:nth-last-child(-n+2) {
+        &:last-child .inputview:nth-last-child(-n+2) {
             margin-bottom: 0;
         }
     `}
     ${(props) => props.amount === 3 && `
-        &:last-child .text-margin:nth-last-child(-n+3) {
+        &:last-child .inputview:nth-last-child(-n+3) {
             margin-bottom: 0;
         }
 

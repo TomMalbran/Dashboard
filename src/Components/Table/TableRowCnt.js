@@ -9,6 +9,14 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
     display: flex;
     height: auto;
     
+    td, th {
+        flex: 1 0 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        border: none;
+    }
+
     ${(props) => props.hasHover && `
         &:hover td {
             background-color: var(--lighter-gray);
@@ -29,6 +37,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
             white-space: nowrap;
             position: relative;
             overflow: visible;
+            border-bottom: 2px solid var(--light-gray);
         }
     `}
 

@@ -4,6 +4,7 @@ import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Action               from "../../Core/Action";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -131,15 +132,16 @@ function Table(props) {
             hasPaging = true;
         }
         if (child.type === TableActions) {
-            for (const action of Utils.toArray(child.props.children)) {
-                if (!action.props.isHidden || !action.props.isHidden(menuID)) {
-                    const item = { ...action.props };
-                    if (!item.route && !item.onClick) {
-                        item.onClick  = child.props.onClick;
-                        item.onAction = child.props.onAction;
+            for (const tableAction of Utils.toArray(child.props.children)) {
+                if (!tableAction.props.isHidden || !tableAction.props.isHidden(menuID)) {
+                    const action = { ...tableAction.props };
+                    action.act = Action.get(action.action);
+                    if (!action.route && !action.onClick) {
+                        action.onClick  = child.props.onClick;
+                        action.onAction = child.props.onAction;
                     }
-                    if ((item.action.isCED && child.props.canEdit) || !item.action.isCED) {
-                        actions.push(item);
+                    if ((action.act.isCED && child.props.canEdit) || !action.act.isCED) {
+                        actions.push(action);
                     }
                 }
             }
@@ -192,11 +194,11 @@ function Table(props) {
             direction={menuDir}
             onClose={handleMenuClose}
         >
-            {actions.map(({ action, message, onClick, route }, index) => <MenuItem
+            {actions.map(({ act, icon, message, onClick, route }, index) => <MenuItem
                 key={index}
-                icon={action.icon}
-                message={message}
-                onClick={handleMenuClick(action, menuID, onClick, route)}
+                icon={icon || act.icon}
+                message={message || act.message}
+                onClick={handleMenuClick(act, menuID, onClick, route)}
             />)}
         </Menu>
     </>;

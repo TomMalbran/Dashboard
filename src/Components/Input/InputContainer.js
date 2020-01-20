@@ -23,14 +23,14 @@ const Container = Styled.div.attrs(
     `}
     ${(props) => props.hasLabel && `
         padding-top: 6px;
-        .inputfield-input.inputfield-input {
+        .input {
             min-height: var(--input-height);
-            padding-top: 8px;
-            width: 100%;
+            padding-top: 8px !important;
         }
-        inputarea {
-            padding-top: 10px;
-            padding-bottom: 8px;
+        .input-textarea {
+            height: var(--input-height);
+            padding-top: 10px !important;
+            padding-bottom: 8px !important;
         }
     `}
     ${(props) => props.hasError && `

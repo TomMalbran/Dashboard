@@ -11,12 +11,8 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.th.attrs(({ flexGrow, align, isTitle, isSmall }) => ({ flexGrow, align, isTitle, isSmall }))`
-    flex: 1 0 0;
+const TD = Styled.td.attrs(({ flexGrow, align, isTitle, isSmall }) => ({ flexGrow, align, isTitle, isSmall }))`
     padding: 12px 0 12px 12px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
     border: none;
     font-size: 13px;
     flex-grow: ${(props) => props.flexGrow};
@@ -88,7 +84,7 @@ TableCell.propTypes = {
 TableCell.defaultProps = {
     className : "",
     colSpan   : "1",
-    grow      : "0",
+    grow      : "1",
     align     : "left",
     isFull    : false,
     isHidden  : false,

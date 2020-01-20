@@ -17,7 +17,7 @@ const InputContent = Styled.div`
 
     .inputview-value {
         width: 100%;
-        padding: 5px 8px;
+        padding: 8px 8px 0 8px;
         line-height: 1.5;
         box-sizing: border-box;
         min-height: var(--input-height);

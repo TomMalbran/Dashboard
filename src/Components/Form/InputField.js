@@ -35,7 +35,6 @@ const InputHelper = Styled.p`
 
 const InputInput = Styled(Input)`
     box-sizing: border-box;
-    min-height: var(--input-height);
     color: var(--black-color);
     background-color: white;
     transition: all 0.2s;
@@ -46,6 +45,7 @@ const InputInput = Styled(Input)`
         width: 100%;
         margin: 0;
         padding: 4px 8px;
+        min-height: var(--input-height);
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
     }
@@ -70,8 +70,19 @@ const InputIcon = Styled(Icon)`
     align-items: center;
     justify-content: center;
     height: calc(var(--input-height) - 2px);
-    width: calc(var(--input-height) - 2px);
+    padding: 0 4px;
     font-size: 16px;
+    border: 1px solid var(--lighter-color);
+    border-right: none;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+
+    & + .input {
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        padding-left: 0;
+    }
 `;
 const InputButton = Styled(Button)`
     margin-left: 16px;
@@ -215,7 +226,7 @@ InputField.propTypes = {
     onKeyUp       : PropTypes.func,
     onMedia       : PropTypes.func,
     suggestID     : PropTypes.string,
-    suggestFetch  : PropTypes.string,
+    suggestFetch  : PropTypes.func,
     suggestParams : PropTypes.object,
     fieldButton   : PropTypes.string,
     error         : PropTypes.string,

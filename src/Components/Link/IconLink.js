@@ -39,10 +39,6 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
         background-color: var(--link-background, transparent);
     }
 
-    ${(props) => props.isDisabled && `
-        --link-color: var(--darker-gray);
-        cursor: not-allowed;
-    `}
     ${(props) => props.variant === Variant.LIGHT && `
         --link-color: var(--primary-color);
         --link-background: rgba(0, 0, 0, 0.1);
@@ -54,6 +50,11 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     ${(props) => props.variant === Variant.DARKER && `
         --link-color: white;
         --link-background: var(--secondary-color);;
+    `}
+
+    ${(props) => props.isDisabled && `
+        --link-color: var(--darker-gray);
+        cursor: not-allowed;
     `}
 `;
 

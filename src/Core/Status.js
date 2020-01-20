@@ -35,10 +35,9 @@ function init(values, groups) {
 function createSelect(type, isFem) {
     const group  = statusGroups[type] || [];
     const result = [];
-    for (const statusName of group) {
-        const status = statusNames[statusName];
-        const value  = getName(status.id, isFem);
-        result.push({ key : status.id, value });
+    for (const statusID of group) {
+        const value  = getName(statusID, isFem);
+        result.push({ key : statusID, value });
     }
     return result;
 }

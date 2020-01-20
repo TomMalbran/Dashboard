@@ -15,7 +15,8 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
-    align-items: flex-start;
+    display: flex;
+    align-items: center;
     padding: 8px;
     border-bottom: 1px solid var(--lighter-gray);
     transition: all 0.2s;

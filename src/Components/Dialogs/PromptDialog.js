@@ -23,7 +23,7 @@ import InputField           from "../Form/InputField";
 function PromptDialog(props) {
     const {
         open, title, message, content, icon,
-        inputType, inputLabel, placeholder, initialValue, spellCheck,
+        inputType, inputLabel, inputIcon, placeholder, initialValue, spellCheck,
         isOptional, onSubmit, onClose,
     } = props;
 
@@ -41,6 +41,11 @@ function PromptDialog(props) {
         }
     };
 
+    // Update the Initial Value
+    React.useEffect(() => {
+        setValue(initialValue);
+    }, [ initialValue ]);
+
 
     const isDisabled = !isOptional && !value;
     const hasMessage = !!message;
@@ -49,13 +54,14 @@ function PromptDialog(props) {
     return <Dialog open={open} onClose={onClose} isNarrow>
         <DialogHeader message={title} icon={icon} />
         <DialogBody withSpacing>
-            {hasMessage && <Html variant="h3" className="dialog-prompt">
+            {hasMessage && <Html variant="h3">
                 {body}
             </Html>}
             <InputField
                 name="prompt"
                 type={inputType}
                 label={inputLabel}
+                icon={inputIcon}
                 placeholder={placeholder}
                 value={value}
                 autoFocus={open}
@@ -68,7 +74,7 @@ function PromptDialog(props) {
         </DialogBody>
         <DialogFooter
             primary="GENERAL_SAVE"
-            onSubmit={this.handleSubmit}
+            onSubmit={handleSubmit}
             isDisabled={isDisabled}
         />
     </Dialog>;
@@ -87,6 +93,7 @@ PromptDialog.propTypes = {
     icon         : PropTypes.string,
     inputType    : PropTypes.string,
     inputLabel   : PropTypes.string,
+    inputIcon    : PropTypes.string,
     initialValue : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onSubmit     : PropTypes.func.isRequired,
     onClose      : PropTypes.func.isRequired,
