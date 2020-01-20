@@ -20,14 +20,19 @@ function TextInput(props) {
         inputRef, suggestRef,
     } = props;
 
+    const hasAutoSuggest = Boolean(suggestRef && suggestRef.current);
+
+    // Handles the Input Change
+    const handleChange = (e) => {
+        onChange(name, e.target.value);
+    };
+
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        const hasSuggestion = !!suggestRef.current;
-        
-        if (e.keyCode === KeyCode.DOM_VK_DOWN && hasSuggestion) {
+        if (e.keyCode === KeyCode.DOM_VK_DOWN && hasAutoSuggest) {
             suggestRef.current.selectNext();
             e.preventDefault();
-        } else if (e.keyCode === KeyCode.DOM_VK_UP && hasSuggestion) {
+        } else if (e.keyCode === KeyCode.DOM_VK_UP && hasAutoSuggest) {
             suggestRef.current.selectPrev();
             e.preventDefault();
         }
@@ -38,14 +43,12 @@ function TextInput(props) {
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        const hasSuggestion = !!suggestRef.current;
-        
-        if (hasSuggestion) {
+        if (hasAutoSuggest) {
             suggestRef.current.setValue(e.target.value);
         }
         if (e.keyCode === KeyCode.DOM_VK_RETURN) {
             let handled = false;
-            if (hasSuggestion) {
+            if (hasAutoSuggest) {
                 const suggestVal = suggestRef.current.apply();
                 if (suggestVal) {
                     handled = true;
@@ -70,7 +73,7 @@ function TextInput(props) {
         value={value}
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
-        onChange={onChange}
+        onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
         onKeyDown={handleKeyDown}
@@ -112,7 +115,6 @@ TextInput.propTypes = {
  */
 TextInput.defaultProps = {
     className    : "",
-    id           : "",
     autoComplete : "off",
     isDisabled   : false,
 };

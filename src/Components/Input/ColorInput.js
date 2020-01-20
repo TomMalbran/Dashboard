@@ -20,6 +20,12 @@ const Input = Styled.input`
 function ColorInput(props) {
     const { className, id, name, value, isDisabled, tabIndex, onChange, inputRef } = props;
 
+    // Handles the Input Change
+    const handleChange = (e) => {
+        onChange(name, e.target.value);
+    };
+
+
     return <Input
         className={`input input-color ${className}`}
         type="color"
@@ -28,7 +34,7 @@ function ColorInput(props) {
         name={name}
         value={value}
         disabled={isDisabled}
-        onChange={onChange}
+        onChange={handleChange}
         tabIndex={tabIndex}
     />;
 }
@@ -54,7 +60,6 @@ ColorInput.propTypes = {
  */
 ColorInput.defaultProps = {
     className  : "",
-    id         : "",
     isDisabled : false,
 };
 

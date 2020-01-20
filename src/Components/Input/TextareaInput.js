@@ -17,8 +17,13 @@ function TextareaInput(props) {
         tabIndex, onChange, onFocus, onBlur, inputRef,
     } = props;
 
+    // Handles the Input Change
+    const handleChange = (e) => {
+        onChange(name, e.target.value);
+    };
+
     // Handles the TextArea autogrow
-    const handleChange = () => {
+    const handleInput = () => {
         if (inputRef.current) {
             const node = inputRef.current;
             if (node && node.offsetHeight < node.scrollHeight + 2) {
@@ -36,8 +41,8 @@ function TextareaInput(props) {
         value={value}
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
-        onInput={handleChange}
-        onChange={onChange}
+        onInput={handleInput}
+        onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
         tabIndex={tabIndex}
@@ -68,7 +73,6 @@ TextareaInput.propTypes = {
  */
 TextareaInput.defaultProps = {
     className : "",
-    id        : "",
 };
 
 export default TextareaInput;

@@ -12,35 +12,35 @@ const Container = Styled.div.attrs(
     position: relative;
     display: block;
 
-    ${(props) => props.fullWidth && "width: 100%;"}
+    ${(props) => props.fullWidth && `
+        width: 100%;
+    `}
     ${(props) => !props.noMargin && `
         margin-bottom: 20px;
         &:last-child {
             margin-bottom: 0;
         }
     `}
-    
     ${(props) => props.hasLabel && `
         padding-top: 6px;
-        .textfield-input.textfield-input {
-            padding-top: 8px;
+        .inputfield-input.inputfield-input {
             min-height: var(--input-height);
+            padding-top: 8px;
             width: 100%;
         }
-        textarea {
-            min-height: var(--input-height);
+        inputarea {
             padding-top: 10px;
             padding-bottom: 8px;
         }
     `}
     ${(props) => props.hasError && `
-        .textfield-input, textarea,
-        .textfield-cnt > .icon {
+        .inputfield-input,
+        .inputfield-cnt > .icon {
             border-color: var(--error-color);
         }
     `}
     ${(props) => props.isFocused && `
-        .textfield-input {
+        .inputfield-input {
             border-color: var(--border-color);
             box-shadow: 0 0 0 1px var(--border-color);
         }

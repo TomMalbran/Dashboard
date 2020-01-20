@@ -33,6 +33,11 @@ function SelectInput(props) {
         onChange, onFocus, onBlur, inputRef,
     } = props;
 
+    // Handles the Input Change
+    const handleChange = (e) => {
+        onChange(name, e.target.value);
+    };
+
     // Stop other Events
     const handleClick = (e) => {
         e.stopPropagation();
@@ -48,7 +53,7 @@ function SelectInput(props) {
         value={value}
         disabled={isDisabled}
         onClick={handleClick}
-        onChange={onChange}
+        onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
         tabIndex={tabIndex}
@@ -97,7 +102,6 @@ SelectInput.propTypes = {
  */
 SelectInput.defaultProps = {
     className : "",
-    id        : "",
 };
 
 export default SelectInput;

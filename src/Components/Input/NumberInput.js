@@ -82,7 +82,6 @@ NumberInput.propTypes = {
  */
 NumberInput.defaultProps = {
     className : "",
-    id        : "",
 };
 
 export default NumberInput;

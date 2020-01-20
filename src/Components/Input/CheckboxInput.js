@@ -99,7 +99,6 @@ CheckboxInput.propTypes = {
  */
 CheckboxInput.defaultProps = {
     className : "",
-    id        : "",
     isChecked : false,
 };
 

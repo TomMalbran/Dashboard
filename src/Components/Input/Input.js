@@ -62,6 +62,7 @@ function Input(props) {
  */
 Input.propTypes = {
     className    : PropTypes.string,
+    id           : PropTypes.string,
     type         : PropTypes.string,
     name         : PropTypes.string,
     label        : PropTypes.string,
@@ -96,7 +97,7 @@ Input.propTypes = {
  */
 Input.defaultProps = {
     className    : "",
-    type         : "text",
+    type         : InputType.TEXT,
     autoComplete : "off",
     isDisabled   : false,
     options      : [],

@@ -45,7 +45,7 @@ function FieldInput(props) {
     const parts = value ? JSON.parse(String(value)) : [ "" ];
 
     // Handles a Field Change
-    const handleField = (e, index) => {
+    const handleChange = (e, index) => {
         const newValue = e.target.value;
         parts.splice(index, 1, newValue);
         fieldChanged(parts);
@@ -75,7 +75,7 @@ function FieldInput(props) {
                 type="text"
                 name={`key-${index}`}
                 value={elem}
-                onChange={(e) => handleField(e, index)}
+                onChange={(e) => handleChange(e, index)}
             />
             {parts.length > 1 && <Link
                 variant="light"

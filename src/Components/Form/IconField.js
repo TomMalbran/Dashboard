@@ -4,27 +4,43 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import InputType            from "../../Core/InputType";
 
 // Components
-import Input                from "../Input/Input";
 import InputContainer       from "../Input/InputContainer";
+import TextInput            from "../Input/TextInput";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const InputContent = Styled.div`
+const InputContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
     display: flex;
     align-items: center;
+    ${(props) => props.hasError && `
+        .icon {
+            border-bottom-left-radius: 0;
+        }
+        .input {
+            border-bottom-right-radius: 0;
+        }
+    `}
 `;
 
 const InputError = Styled.p`
+    margin: 0;
+    padding: 4px;
+    color: white;
     font-size: 0.8em;
-    margin: 4px 0 0 4px;
-    color: #ff0033;
+    text-align: center
+    background-color: var(--error-color);
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    border-top: none;
 `;
 
-const InputInput = Styled(Input)`
+const InputInput = Styled(TextInput)`
     box-sizing: border-box;
     min-height: var(--input-height);
     color: var(--black-color);
@@ -84,12 +100,12 @@ const InputIcon = Styled(Icon)`
 function IconField(props) {
     const {
         isHidden, className, type, icon, autoFocus,
-        error, onChange, fullWidth,
+        isRequired, error, fullWidth, onChange,
     } = props;
 
-    const inputRef = React.useRef();
+    const inputRef    = React.useRef();
+    const placeholder = NLS.get(props.placeholder) + (isRequired ? " *" : "");
 
-    const [ timer,     setTimer ] = React.useState(null);
     const [ isFocused, setFocus ] = React.useState(false);
 
     // The Input got Focus
@@ -99,7 +115,7 @@ function IconField(props) {
 
     // The Input lost Focus
     const handleBlur = () => {
-        setTimer(window.setTimeout(() => setFocus(false), 300));
+        setFocus(false);
     };
 
 
@@ -109,11 +125,6 @@ function IconField(props) {
             const node = inputRef.current;
             node.focus();
         }
-        return () => {
-            if (timer) {
-                window.clearTimeout(timer);
-            }
-        };
     }, []);
 
 
@@ -127,11 +138,12 @@ function IconField(props) {
         isFocused={isFocused}
         noMargin
     >
-        <InputContent className="inputfield-cnt">
+        <InputContent className="inputfield-cnt" hasError={!!error}>
             <InputIcon icon={icon} />
             <InputInput
                 {...props}
                 className="inputfield-input"
+                placeholder={placeholder}
                 inputRef={inputRef}
                 onChange={onChange}
                 onFocus={handleFocus}
@@ -148,6 +160,7 @@ function IconField(props) {
  */
 IconField.propTypes = {
     className    : PropTypes.string,
+    id           : PropTypes.string,
     type         : PropTypes.string,
     name         : PropTypes.string,
     placeholder  : PropTypes.string,
@@ -180,7 +193,7 @@ IconField.propTypes = {
  */
 IconField.defaultProps = {
     className    : "",
-    type         : "text",
+    type         : InputType.TEXT,
     autoComplete : "off",
     isRequired   : false,
     isDisabled   : false,

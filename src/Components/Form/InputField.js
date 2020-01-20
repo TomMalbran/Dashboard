@@ -38,19 +38,18 @@ const InputInput = Styled(Input)`
     min-height: var(--input-height);
     color: var(--black-color);
     background-color: white;
-    border: 1px solid var(--lighter-color);
-    border-radius: var(--border-radius);
     transition: all 0.2s;
-
+    
     &.input {
         appearance: none;
         font-size: 13px;
         width: 100%;
         margin: 0;
         padding: 4px 8px;
+        border: 1px solid var(--lighter-color);
+        border-radius: var(--border-radius);
     }
     &.input-textarea {
-        min-height: var(--input-height);
         resize: none;
     }
     &.input:focus {
@@ -119,7 +118,7 @@ function InputField(props) {
     };
 
     // Handles the Input Change
-    const handleChange = (e, value = e.target.value) => {
+    const handleChange = (name, value) => {
         setValue(Boolean(value));
         onChange(name, value);
     };
@@ -197,6 +196,7 @@ function InputField(props) {
  */
 InputField.propTypes = {
     className     : PropTypes.string,
+    id            : PropTypes.string,
     type          : PropTypes.string,
     name          : PropTypes.string,
     label         : PropTypes.string,
@@ -217,8 +217,6 @@ InputField.propTypes = {
     suggestID     : PropTypes.string,
     suggestFetch  : PropTypes.string,
     suggestParams : PropTypes.object,
-    mediaPath     : PropTypes.string,
-    mediaType     : PropTypes.string,
     fieldButton   : PropTypes.string,
     error         : PropTypes.string,
     helperText    : PropTypes.string,
@@ -243,7 +241,7 @@ InputField.propTypes = {
  */
 InputField.defaultProps = {
     className     : "",
-    type          : "text",
+    type          : InputType.TEXT,
     autoComplete  : "off",
     isRequired    : false,
     isDisabled    : false,
