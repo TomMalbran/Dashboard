@@ -15,6 +15,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
         overflow: hidden;
         white-space: nowrap;
         border: none;
+        border-bottom: 2px solid var(--light-gray);
     }
 
     ${(props) => props.hasHover && `
@@ -37,7 +38,6 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
             white-space: nowrap;
             position: relative;
             overflow: visible;
-            border-bottom: 2px solid var(--light-gray);
         }
     `}
 

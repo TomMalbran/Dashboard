@@ -4,10 +4,10 @@ import PropTypes            from "prop-types";
 
 
 /**
- * The Table Actions Component
+ * The Table Action List Component
  * @returns {React.ReactElement}
  */
-function TableActions() {
+function TableActionList() {
     return <React.Fragment />;
 }
 
@@ -15,11 +15,11 @@ function TableActions() {
  * The Property Types
  * @typedef {Object} propTypes
  */
-TableActions.propTypes = {
+TableActionList.propTypes = {
     onClick  : PropTypes.func,
     onAction : PropTypes.func,
     canEdit  : PropTypes.bool,
     children : PropTypes.any,
 };
 
-export default TableActions;
+export default TableActionList;

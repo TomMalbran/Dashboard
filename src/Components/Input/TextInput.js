@@ -17,10 +17,8 @@ function TextInput(props) {
         className, id, type, name, value, placeholder, isDisabled,
         tabIndex, autoComplete, spellCheck,
         onChange, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
-        inputRef, suggestRef,
+        inputRef, suggestRef, autoSuggest,
     } = props;
-
-    const hasAutoSuggest = Boolean(suggestRef && suggestRef.current);
 
     // Handles the Input Change
     const handleChange = (e) => {
@@ -29,10 +27,10 @@ function TextInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_DOWN && hasAutoSuggest) {
+        if (e.keyCode === KeyCode.DOM_VK_DOWN && autoSuggest) {
             suggestRef.current.selectNext();
             e.preventDefault();
-        } else if (e.keyCode === KeyCode.DOM_VK_UP && hasAutoSuggest) {
+        } else if (e.keyCode === KeyCode.DOM_VK_UP && autoSuggest) {
             suggestRef.current.selectPrev();
             e.preventDefault();
         }
@@ -43,12 +41,12 @@ function TextInput(props) {
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (hasAutoSuggest) {
+        if (autoSuggest) {
             suggestRef.current.setValue(e.target.value);
         }
         if (e.keyCode === KeyCode.DOM_VK_RETURN) {
             let handled = false;
-            if (hasAutoSuggest) {
+            if (autoSuggest) {
                 const suggestVal = suggestRef.current.apply();
                 if (suggestVal) {
                     handled = true;
@@ -107,6 +105,7 @@ TextInput.propTypes = {
     onSubmit     : PropTypes.func,
     inputRef     : PropTypes.object,
     suggestRef   : PropTypes.object,
+    autoSuggest  : PropTypes.bool,
 };
 
 /**

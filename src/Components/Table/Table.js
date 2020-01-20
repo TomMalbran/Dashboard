@@ -9,8 +9,9 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import TableHead            from "../Table/TableHead";
+import TableBody            from "../Table/TableBody";
 import TablePaging          from "../Table/TablePaging";
-import TableActions         from "../Table/TableActions";
+import TableActionList      from "../Table/TableActionList";
 import Menu                 from "../Menu/Menu";
 import MenuItem             from "../Menu/MenuItem";
 import CircularLoader       from "../Common/CircularLoader";
@@ -51,8 +52,8 @@ const TableLoader = Styled(CircularLoader)`
  */
 function Table(props) {
     const {
-        sort, fetch, history, onClick, route, cantClick,
-        className, isLoading, hasContent, none, hasStats, hasTabs, hasFilter,
+        sort, fetch, history,
+        className, isLoading, none, hasStats, hasTabs, hasFilter,
         noSorting, hasIDs, children,
     } = props;
 
@@ -61,31 +62,24 @@ function Table(props) {
     const [ menuLeft, setMenuLeft ] = React.useState(null);
     const [ menuDir,  setMenuDir  ] = React.useState(null);
 
-    // Creates a Sort handler to handle Sorting
-    const handleSort = (orderBy, orderAsc = null) => {
-        let params = sort;
-        if (orderAsc !== null) {
-            params = { ...sort, orderBy, orderAsc };
-        } else if (sort.orderBy === orderBy) {
-            params = { ...sort, orderAsc : sort.orderAsc ? 0 : 1 };
-        } else {
-            params = { ...sort, orderBy, orderAsc : 1 };
+
+    // Handles the Click
+    const handleClick = (elem, elemID) => {
+        if (elem.onClick) {
+            elem.onClick(elemID);
+        } else if (elem.onAction) {
+            elem.onAction(elem.act, elemID);
+        } else if (elem.route) {
+            history.push(`${elem.route}/${elemID}`);
         }
-        fetch(params);
     };
 
-    // Handles the Page Change
-    const handlePage = (page) => {
-        const params = { ...sort, page };
-        fetch(params);
+    // Handles the Row Click
+    const handleRowClick = (elemID) => {
+        if (firstAction.action && menuID === null && !Utils.hasSelection()) {
+            handleClick(firstAction, elemID);
+        }
     };
-
-    // Handles the Amount Change
-    const handleAmount = (amount) => {
-        const params = { ...sort, amount };
-        fetch(params);
-    };
-
 
     // Handles the Menu Open
     const handleMenuOpen = (menuID, menuTop, menuLeft, menuDir = "right") => {
@@ -100,15 +94,6 @@ function Table(props) {
         setMenuID(null);
     };
 
-    // Handles the Menu Click
-    const handleMenuClick = (action, elemID, onClick, route) => () => {
-        if (onClick) {
-            onClick(action, elemID);
-        } else if (route) {
-            history.push(`${route}/${elemID}`);
-        }
-    };
-
     // Close the Menu if the Filter Changes
     React.useEffect(() => {
         if (sort && sort.filter && menuID) {
@@ -119,19 +104,24 @@ function Table(props) {
 
 
     // Get the Actions and ColSpan
-    const actions   = [];
-    const items     = [];
-    let   colSpan   = 0;
-    let   hasPaging = false;
+    const actions     = [];
+    const items       = [];
+    let   firstAction = {};
+    let   colSpan     = 0;
+    let   hasContent  = false;
+    let   hasPaging   = false;
 
     for (const child of Utils.toArray(children)) {
         if (child.type === TableHead) {
             colSpan = child.props.children.length;
         }
+        if (child.type === TableBody) {
+            hasContent = child.props.children && child.props.children.length > 0;
+        }
         if (child.type === TablePaging) {
             hasPaging = true;
         }
-        if (child.type === TableActions) {
+        if (child.type === TableActionList) {
             for (const tableAction of Utils.toArray(child.props.children)) {
                 if (!tableAction.props.isHidden || !tableAction.props.isHidden(menuID)) {
                     const action = { ...tableAction.props };
@@ -142,6 +132,9 @@ function Table(props) {
                     }
                     if ((action.act.isCED && child.props.canEdit) || !action.act.isCED) {
                         actions.push(action);
+                        if (!firstAction.action) {
+                            firstAction = action;
+                        }
                     }
                 }
             }
@@ -158,11 +151,11 @@ function Table(props) {
     
     // Get the Children
     for (const [ key, child ] of Utils.getChildren(children)) {
-        if (child.type !== TableActions) {
+        if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
-                key, onClick, route, cantClick, sort, colSpan, menuID,
+                key, fetch, sort, colSpan,
                 hasIDs, hasActions, hasSorting,
-                handleSort, handlePage, handleAmount, handleMenuOpen,
+                handleRowClick, handleMenuOpen,
             }));
         }
     }
@@ -171,7 +164,7 @@ function Table(props) {
     if (isLoading) {
         return <TableLoader />;
     }
-    if (!hasContent) {
+    if (!hasContent && none) {
         return <NoneAvailable message={none} />;
     }
     return <>
@@ -194,11 +187,11 @@ function Table(props) {
             direction={menuDir}
             onClose={handleMenuClose}
         >
-            {actions.map(({ act, icon, message, onClick, route }, index) => <MenuItem
+            {actions.map((elem, index) => <MenuItem
                 key={index}
-                icon={icon || act.icon}
-                message={message || act.message}
-                onClick={handleMenuClick(act, menuID, onClick, route)}
+                icon={elem.icon || elem.act.icon}
+                message={elem.message || elem.act.message}
+                onClick={() => handleClick(elem, menuID)}
             />)}
         </Menu>
     </>;
@@ -209,24 +202,19 @@ function Table(props) {
  * @typedef {Object} propTypes
  */
 Table.propTypes = {
-    history    : PropTypes.object.isRequired,
-    fetch      : PropTypes.func,
-    sort       : PropTypes.object.isRequired,
-    none       : PropTypes.string.isRequired,
-    className  : PropTypes.string,
-    onClick    : PropTypes.func,
-    cantClick  : PropTypes.func,
-    route      : PropTypes.string,
-    showLoader : PropTypes.bool,
-    isLoading  : PropTypes.bool,
-    hasContent : PropTypes.bool,
-    hasStats   : PropTypes.bool,
-    hasTabs    : PropTypes.bool,
-    hasFilter  : PropTypes.bool,
-    hasIDs     : PropTypes.bool,
-    noSorting  : PropTypes.bool,
-    notFixed   : PropTypes.bool,
-    children   : PropTypes.any,
+    history   : PropTypes.object.isRequired,
+    fetch     : PropTypes.func,
+    sort      : PropTypes.object.isRequired,
+    none      : PropTypes.string.isRequired,
+    className : PropTypes.string,
+    isLoading : PropTypes.bool,
+    hasStats  : PropTypes.bool,
+    hasTabs   : PropTypes.bool,
+    hasFilter : PropTypes.bool,
+    hasIDs    : PropTypes.bool,
+    noSorting : PropTypes.bool,
+    notFixed  : PropTypes.bool,
+    children  : PropTypes.any,
 };
 
 /**
@@ -234,8 +222,14 @@ Table.propTypes = {
  * @typedef {Object} defaultProps
  */
 Table.defaultProps = {
-    className  : "",
-    hasContent : false,
+    className : "",
+    isLoading : false,
+    hasStats  : false,
+    hasTabs   : false,
+    hasFilter : false,
+    hasIDs    : false,
+    noSorting : false,
+    notFixed  : false,
 };
 
 export default withRouter(Table);

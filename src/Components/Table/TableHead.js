@@ -26,10 +26,10 @@ const THead = Styled.thead`
  * @returns {React.ReactElement}
  */
 function TableHead(props) {
-    const { hasIDs, hasActions, hasSorting, sort, handleSort, children } = props;
+    const { hasIDs, hasActions, hasSorting, sort, fetch, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        hasSorting, sort, handleSort,
+        hasSorting, sort, fetch,
     }));
 
     return <THead>
@@ -48,7 +48,7 @@ TableHead.propTypes = {
     hasIDs     : PropTypes.bool,
     hasActions : PropTypes.bool,
     hasSorting : PropTypes.bool,
-    handleSort : PropTypes.func,
+    fetch      : PropTypes.func,
     sort       : PropTypes.object,
     children   : PropTypes.any,
 };

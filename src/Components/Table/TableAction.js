@@ -16,7 +16,7 @@ function TableAction() {
  * @typedef {Object} propTypes
  */
 TableAction.propTypes = {
-    action   : PropTypes.object.isRequired,
+    action   : PropTypes.string.isRequired,
     icon     : PropTypes.string,
     message  : PropTypes.string.isRequired,
     route    : PropTypes.string,

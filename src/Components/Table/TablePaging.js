@@ -35,7 +35,8 @@ const Pages = Styled.p`
 `;
 
 const PagingInput = Styled(InputField)`
-    .inputfield-input {
+    margin-bottom: 0;
+    .input-select {
         margin-right: 16px;
         min-height: 28px;
         line-height: 1;
@@ -53,7 +54,26 @@ const PagingInput = Styled(InputField)`
  * @returns {React.ReactElement}
  */
 function TablePaging(props) {
-    const { colSpan, sort, total, handlePage, handleAmount } = props;
+    const { colSpan, sort, total, fetch } = props;
+
+    const rowOptions   = [ 10, 25, 50, 100, 250, 500 ].map((value) => ({ key : value, value }));
+    const from         = total === 0 ? 0 : sort.page * sort.amount + 1;
+    const to           = Math.min(total, (sort.page + 1) * sort.amount);
+    const lastPage     = Math.ceil(total / sort.amount) - 1;
+    const prevDisabled = sort.page === 0;
+    const nextDisabled = sort.page >= lastPage;
+
+
+    // Handles the Amount Change
+    const handleAmount = (name, amount) => {
+        fetch({ ...sort, amount });
+    };
+
+    // Handles the Page Change
+    const handlePage = (page) => {
+        fetch({ ...sort, page });
+    };
+
 
     // Handles the First Page button
     const handleFirstPage = () => {
@@ -72,16 +92,9 @@ function TablePaging(props) {
 
     // Handles the Last Page button
     const handleLastPage = () => {
-        const page = Math.max(0, Math.ceil(total / sort.amount) - 1);
-        handlePage(page);
+        handlePage(lastPage);
     };
 
-
-    const rowOptions   = [ 10, 25, 50, 100, 250, 500 ].map((value) => ({ key : value, value }));
-    const from         = total === 0 ? 0 : sort.page * sort.amount + 1;
-    const to           = Math.min(total, (sort.page + 1) * sort.amount);
-    const prevDisabled = sort.page === 0;
-    const nextDisabled = sort.page >= Math.ceil(total / sort.amount) - 1;
 
     return <tfoot>
         <TR>
@@ -91,9 +104,8 @@ function TablePaging(props) {
                     type="select"
                     name="amount"
                     value={sort.amount}
-                    onChange={(name, value) => handleAmount(value)}
+                    onChange={handleAmount}
                     options={rowOptions}
-                    noMargin
                 />
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 
@@ -131,11 +143,10 @@ function TablePaging(props) {
  * @typedef {Object} propTypes
  */
 TablePaging.propTypes = {
-    handlePage   : PropTypes.func,
-    handleAmount : PropTypes.func,
-    colSpan      : PropTypes.number,
-    sort         : PropTypes.object,
-    total        : PropTypes.number.isRequired,
+    fetch   : PropTypes.func,
+    colSpan : PropTypes.number,
+    sort    : PropTypes.object,
+    total   : PropTypes.number.isRequired,
 };
 
 export default TablePaging;

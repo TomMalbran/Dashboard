@@ -85,6 +85,12 @@ function Filter(props) {
         setErrors({ ...errors, [name] : "" });
     };
 
+    // Handles the Input Suggest
+    const handleSuggest = (id, idValue, name, value) => {
+        setData({ ...data, [id] : idValue, [name] : value });
+        setErrors({ ...errors, [id] : "" });
+    };
+
     // Handles the On Click event
     const handleClick = async () => {
         setLoading(true);
@@ -107,6 +113,7 @@ function Filter(props) {
             value={data.search}
             error={errors.search}
             onChange={handleChange}
+            onSuggest={handleSuggest}
             shrink
         />
         <FilterField

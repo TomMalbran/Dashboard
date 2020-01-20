@@ -37,11 +37,10 @@ const TBody = Styled.tbody`
  * @returns {React.ReactElement}
  */
 function TableBody(props) {
-    const { onClick, route, menuID, cantClick, hasIDs, hasActions, handleMenuOpen, children } = props;
+    const { hasIDs, hasActions, handleRowClick, handleMenuOpen, children } = props;
 
-    const items = Utils.cloneChildren(children, (child) => ({
-        menuID, onClick, route, cantClick,
-        hasIDs, hasActions, handleMenuOpen,
+    const items = Utils.cloneChildren(children, () => ({
+        hasIDs, hasActions, handleRowClick, handleMenuOpen,
     }));
 
     return <TBody>
@@ -54,12 +53,9 @@ function TableBody(props) {
  * @typedef {Object} propTypes
  */
 TableBody.propTypes = {
-    onClick        : PropTypes.func,
-    cantClick      : PropTypes.func,
-    route          : PropTypes.string,
     hasIDs         : PropTypes.bool,
     hasActions     : PropTypes.bool,
-    menuID         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     children       : PropTypes.node,
 };

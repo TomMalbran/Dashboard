@@ -41,14 +41,20 @@ const TH = Styled.th.attrs(({ flexGrow, align, hasSorting, isSmall }) => ({ flex
 function TableHeader(props) {
     const {
         isHidden, className, message,
-        hasSorting, sort, field, handleSort,
+        fetch, hasSorting, sort, field,
         colSpan, grow, align, isSmall, children,
     } = props;
 
     // Handles the Sorting
     const handleClick = () => {
         if (hasSorting) {
-            handleSort(field);
+            let params = sort;
+            if (sort.orderBy === field) {
+                params = { ...sort, orderAsc : sort.orderAsc ? 0 : 1 };
+            } else {
+                params = { ...sort, orderBy : field, orderAsc : 1 };
+            }
+            fetch(params);
         }
     };
 
@@ -78,7 +84,7 @@ function TableHeader(props) {
  */
 TableHeader.propTypes = {
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    handleSort : PropTypes.func,
+    fetch      : PropTypes.func,
     hasSorting : PropTypes.bool,
     sort       : PropTypes.object,
     field      : PropTypes.string,

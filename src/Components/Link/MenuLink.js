@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Core/Utils
+// Utils/Side
 import NLS                  from "../../Core/NLS";
 import Href                 from "../../Utils/Href";
 

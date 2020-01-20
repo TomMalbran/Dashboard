@@ -32,10 +32,11 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     cursor: pointer;
     color: var(--link-color, black);
 
-    &:hover, &:focus {
+    &:focus {
         outline: none;
     }
     &:hover {
+        outline: none;
         background-color: var(--link-background, transparent);
     }
 
@@ -54,6 +55,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
 
     ${(props) => props.isDisabled && `
         --link-color: var(--darker-gray);
+        --link-background: transparent;
         cursor: not-allowed;
     `}
 `;

@@ -1,9 +1,7 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 
 // Core & Utils
-import Action               from "../../Core/Action";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -18,33 +16,18 @@ import IconLink             from "../Link/IconLink";
  * @returns {React.ReactElement}
  */
 function TableRow(props) {
-    const {
-        history, elemID, menuID, route, onClick, onAction, cantClick,
-        hasIDs, hasActions, handleMenuOpen, children,
-    } = props;
+    const { hasIDs, hasActions, elemID, handleRowClick, handleMenuOpen, children } = props;
 
     // References
     const linkRef = React.useRef();
 
     // Handles the Row Click
-    const handleRowClick = (e) => {
-        if (menuID !== null || Utils.hasSelection() || (cantClick && cantClick(elemID))) {
-            return;
-        }
-        if (onClick) {
-            onClick(elemID);
-            e.preventDefault();
-        } else if (onAction) {
-            onClick(Action.get("VIEW"), elemID);
-            e.preventDefault();
-        } else if (route) {
-            history.push(`${route}/${elemID}`);
-            e.preventDefault();
-        }
+    const handleClick = (e) => {
+        handleRowClick(elemID);
     };
 
-    // Handles the Action Click
-    const handleActionClick = (e) => {
+    // Handles the Menu Click
+    const handleMenuClick = (e) => {
         const bounds = Utils.getBounds(linkRef);
         handleMenuOpen(elemID, bounds.top, bounds.right, "left");
         e.stopPropagation();
@@ -60,7 +43,7 @@ function TableRow(props) {
 
 
     return <TableRowCnt
-        onClick={handleRowClick}
+        onClick={handleClick}
         onContextMenu={handleContextMenu}
         hasIDs={hasIDs}
         hasActions={hasActions}
@@ -71,7 +54,7 @@ function TableRow(props) {
             <IconLink
                 variant="light"
                 icon="more"
-                onClick={handleActionClick}
+                onClick={handleMenuClick}
                 dontStop
             />
         </td>}
@@ -83,15 +66,10 @@ function TableRow(props) {
  * @typedef {Object} propTypes
  */
 TableRow.propTypes = {
-    history        : PropTypes.object.isRequired,
     hasIDs         : PropTypes.bool,
     hasActions     : PropTypes.bool,
     elemID         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    menuID         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    route          : PropTypes.string,
-    onClick        : PropTypes.func,
-    onAction       : PropTypes.func,
-    cantClick      : PropTypes.func,
+    handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     children       : PropTypes.any,
 };
@@ -105,4 +83,4 @@ TableRow.defaultProps = {
     hasActions : false,
 };
 
-export default withRouter(TableRow);
+export default TableRow;

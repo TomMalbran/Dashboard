@@ -99,7 +99,7 @@ const InputButton = Styled(Button)`
 function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
-        button, onClick, error, helperText, withLabel, onChange,
+        button, onClick, error, helperText, withLabel, onChange, onSuggest,
         fullWidth, noMargin, isRequired, withNone, shrink,
         suggestFetch, suggestID, suggestParams,
     } = props;
@@ -116,7 +116,7 @@ function InputField(props) {
     const withValue     = isFocused || hasValue || Boolean(value);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
-    const hasSuggestion = Boolean(suggestFetch && suggestID);
+    const autoSuggest   = Boolean(suggestFetch && suggestID);
     
     // The Input got Focus
     const handleFocus = () => {
@@ -125,7 +125,10 @@ function InputField(props) {
 
     // The Input lost Focus
     const handleBlur = () => {
-        setTimer(window.setTimeout(() => setFocus(false), 300));
+        setTimer(window.setTimeout(() => {
+            setFocus(false);
+            setTimer(null);
+        }, 300));
     };
 
     // Handles the Input Change
@@ -176,6 +179,7 @@ function InputField(props) {
                 className="inputfield-input"
                 inputRef={inputRef}
                 suggestRef={suggestRef}
+                autoSuggest={autoSuggest}
                 onChange={handleChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
@@ -189,14 +193,15 @@ function InputField(props) {
         {hasError  && <InputError>{NLS.get(error)}</InputError>}
         {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
 
-        {hasSuggestion && <AutoSuggest
-            ref={suggestRef}
+        {autoSuggest && <AutoSuggest
+            suggestRef={suggestRef}
             open={isFocused}
             name={name}
             id={suggestID}
             fetch={suggestFetch}
             params={suggestParams}
             onChange={onChange}
+            onSuggest={onSuggest}
         />}
     </InputContainer>;
 }
@@ -225,6 +230,7 @@ InputField.propTypes = {
     onKeyDown     : PropTypes.func,
     onKeyUp       : PropTypes.func,
     onMedia       : PropTypes.func,
+    onSuggest     : PropTypes.func,
     suggestID     : PropTypes.string,
     suggestFetch  : PropTypes.func,
     suggestParams : PropTypes.object,
