@@ -42,8 +42,8 @@ function NumberInput(props) {
 
 
     return <input
+        className={`input input-number ${className}`}
         type="number"
-        className={className}
         id={id}
         name={name}
         value={value}

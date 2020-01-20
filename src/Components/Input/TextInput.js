@@ -62,7 +62,7 @@ function TextInput(props) {
 
 
     return <input
-        className={className}
+        className={`input input-${type} ${className}`}
         id={id}
         ref={inputRef}
         type={type}

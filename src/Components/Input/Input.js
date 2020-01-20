@@ -13,8 +13,9 @@ import ToggleInput          from "./ToggleInput";
 import MultipleInput        from "./MultipleInput";
 import FileInput            from "./FileInput";
 import FieldInput           from "./FieldInput";
-import NumberInput          from "./NumberInput";
 import MediaInput           from "./MediaInput";
+import NumberInput          from "./NumberInput";
+import ColorInput           from "./ColorInput";
 import TextInput            from "./TextInput";
 
 
@@ -44,6 +45,8 @@ function Input(props) {
         return <FieldInput {...props} button={fieldButton} />;
     case InputType.NUMBER:
         return <NumberInput {...props} />;
+    case InputType.COLOR:
+        return <ColorInput {...props} />;
     case InputType.SELECT:
         return <SelectInput {...props} />;
     case InputType.TEXTAREA:

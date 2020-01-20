@@ -41,7 +41,7 @@ function SelectInput(props) {
 
 
     return <Select
-        className={className}
+        className={`input input-select ${className}`}
         id={id}
         ref={inputRef}
         name={name}

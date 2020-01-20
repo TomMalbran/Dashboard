@@ -29,7 +29,7 @@ function TextareaInput(props) {
 
 
     return <textarea
-        className={className}
+        className={`input input-textarea ${className}`}
         id={id}
         ref={inputRef}
         name={name}
