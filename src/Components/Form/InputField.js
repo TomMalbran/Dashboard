@@ -2,12 +2,14 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Utils
+// Core
 import NLS                  from "../../Core/NLS";
 import InputType            from "../../Core/InputType";
 
 // Components
 import Input                from "../Input/Input";
+import InputContainer       from "../Input/InputContainer";
+import InputLabel           from "../Input/InputLabel";
 import AutoSuggest          from "../Form/AutoSuggest";
 import Button               from "../Form/Button";
 import Icon                 from "../Common/Icon";
@@ -15,102 +17,23 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.div.attrs(
-    ({ fullWidth, noMargin, hasLabel, hasError, isFocused }) =>
-        ({ fullWidth, noMargin, hasLabel, hasError, isFocused })
-)`
-    position: relative;
-    display: block;
-
-    ${(props) => props.fullWidth && "width: 100%;"}
-    ${(props) => !props.noMargin && `
-        margin-bottom: 20px;
-        &:last-child {
-            margin-bottom: 0;
-        }
-    `}
-    
-    ${(props) => props.hasLabel && `
-        padding-top: 6px;
-        .textfield-input.textfield-input {
-            padding-top: 8px;
-            min-height: var(--input-height);
-            width: 100%;
-        }
-        textarea {
-            min-height: var(--input-height);
-            padding-top: 10px;
-            padding-bottom: 8px;
-        }
-    `}
-    ${(props) => props.hasError && `
-        .textfield-input, textarea,
-        .textfield-cnt > .icon {
-            border-color: var(--error-color);
-        }
-    `}
-    ${(props) => props.isFocused && `
-        .textfield-input {
-            border-color: var(--border-color);
-            box-shadow: 0 0 0 1px var(--border-color);
-        }
-        .icon {
-            box-shadow: 0 0 0 1px var(--border-color);
-        }
-    `}
-`;
-const Content = Styled.div`
+const InputContent = Styled.div`
     display: flex;
     align-items: center;
 `;
 
-const Label = Styled.p.attrs(
-    ({ isRequired, withTransform, withValue, isFocused }) =>
-        ({ isRequired, withTransform, withValue, isFocused })
-)`
-    position: absolute;
-    top: 0px;
-    left: 8px;
-    margin: 0;
-    padding: 0 4px;
-    font-size: 13px;
-    line-height: 1;
-    background-color: white;
-    color: var(--lighter-color);
-    transition: all 0.2s;
-    pointer-events: none;
-    z-index: 1;
-
-    ${(props) => props.isRequired && `
-        &::after {
-            content: "*";
-            margin-left: 4px;
-        }
-    `}
-    ${(props) => props.withTransform && `
-        transform-origin: top left;
-        transform: translateY(18px) scale(1.1);
-    `}
-    ${(props) => props.withValue && `
-        transform: translateY(0) scale(1);
-    `}
-    ${(props) => props.isFocused && `
-        color: var(--primary-color);
-    `}
-`;
-
-const Error = Styled.p`
+const InputError = Styled.p`
     font-size: 0.8em;
     margin: 4px 0 0 4px;
     color: #ff0033;
 `;
-const Helper = Styled.p`
+const InputHelper = Styled.p`
     font-size: 0.8em;
     margin: 4px 0 0 4px;
     color: var(--lighter-color);
 `;
 
-const TextInput = Styled(Input)`
+const InputInput = Styled(Input)`
     box-sizing: border-box;
     min-height: var(--input-height);
     color: var(--black-color);
@@ -119,13 +42,30 @@ const TextInput = Styled(Input)`
     border-radius: var(--border-radius);
     transition: all 0.2s;
 
-    .icon + & {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        border-color: var(--border-color);
+    &.input {
+        appearance: none;
+        font-size: 13px;
+        width: 100%;
+        margin: 0;
+        padding: 4px 8px;
+    }
+    &.input-textarea {
+        min-height: var(--input-height);
+        resize: none;
+    }
+    &.input:focus {
+        outline: none;
+        border-color: 1px solid var(--border-color);
+        color: var(--secondary-color);
+    }
+    &.input:disabled {
+        color: rgb(175, 175, 175);
+        border-color: rgb(205, 205, 205);
+        box-shadow: none;
     }
 `;
-const TextIcon = Styled(Icon)`
+
+const InputIcon = Styled(Icon)`
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -133,15 +73,8 @@ const TextIcon = Styled(Icon)`
     height: calc(var(--input-height) - 2px);
     width: calc(var(--input-height) - 2px);
     font-size: 16px;
-    color: white;
-    background-color: var(--primary-color);
-    border: 1px solid var(--border-color);
-    border-right: none;
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
-    transition: all 0.2s;
 `;
-const TextButton = Styled(Button)`
+const InputButton = Styled(Button)`
     margin-left: 16px;
     height: var(--input-height);
 `;
@@ -149,11 +82,11 @@ const TextButton = Styled(Button)`
 
 
 /**
- * The Text Field Component
+ * The Input Field Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function TextField(props) {
+function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange,
@@ -210,42 +143,41 @@ function TextField(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Container
-        className={`textfield textfield-${type} ${className}`}
+    return <InputContainer
+        className={`inputfield inputfield-${type} ${className}`}
         fullWidth={fullWidth}
         noMargin={noMargin}
         hasLabel={hasLabel}
-        hasError={!!error}
+        hasError={hasError}
         isFocused={isFocused}
     >
-        {hasLabel && <Label
-            className="textfield-label"
+        {hasLabel && <InputLabel
+            className="inputfield-label"
             isRequired={isRequired}
             withTransform={withTransform}
             withValue={withValue}
             isFocused={isFocused}
-        >
-            {NLS.get(label)}
-        </Label>}
-        <Content className="textfield-cnt">
-            {!!icon && <TextIcon icon={icon} />}
-            <TextInput
+            message={label}
+        />}
+        <InputContent className="inputfield-cnt">
+            {!!icon && <InputIcon icon={icon} />}
+            <InputInput
                 {...props}
-                className="textfield-input"
+                className="inputfield-input"
                 inputRef={inputRef}
                 suggestRef={suggestRef}
                 onChange={handleChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
             />
-            {!!button && <TextButton
+            {!!button && <InputButton
                 variant="outlined"
                 message={button}
                 onClick={onClick}
             />}
-        </Content>
-        {hasError  && <Error>{NLS.get(error)}</Error>}
-        {hasHelper && <Helper>{NLS.get(helperText)}</Helper>}
+        </InputContent>
+        {hasError  && <InputError>{NLS.get(error)}</InputError>}
+        {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
 
         {hasSuggestion && <AutoSuggest
             ref={suggestRef}
@@ -256,14 +188,14 @@ function TextField(props) {
             params={suggestParams}
             onChange={onChange}
         />}
-    </Container>;
+    </InputContainer>;
 }
 
 /**
  * The Property Types
  * @typedef {Object} propTypes
  */
-TextField.propTypes = {
+InputField.propTypes = {
     className     : PropTypes.string,
     type          : PropTypes.string,
     name          : PropTypes.string,
@@ -309,7 +241,7 @@ TextField.propTypes = {
  * The Default Properties
  * @typedef {Object} defaultProps
  */
-TextField.defaultProps = {
+InputField.defaultProps = {
     className     : "",
     type          : "text",
     autoComplete  : "off",
@@ -329,4 +261,4 @@ TextField.defaultProps = {
     autoFocus     : false,
 };
 
-export default TextField;
+export default InputField;
