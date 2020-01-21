@@ -2,7 +2,6 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core & Utils
-import Dashboard            from "../../Core/Dashboard";
 import KeyCode              from "../../Utils/KeyCode";
 import Utils                from "../../Utils/Utils";
 
@@ -14,6 +13,9 @@ import TabList              from "../Tab/TabList";
 import Styled, {
     keyframes, css,
 } from "styled-components";
+
+// Module Variables
+let dialogLevel = 1;
 
 
 
@@ -85,7 +87,7 @@ function Dialog(props) {
 
     // Handles the Dialog Close
     const handleClose = () => {
-        if (closing || !Dashboard.isDialogAt(level)) {
+        if (closing || dialogLevel !== level) {
             return;
         }
         setClosing(true);
@@ -97,7 +99,7 @@ function Dialog(props) {
 
     // Handle the Key
     const handleKey = (e) => {
-        if (!open || closing || !Dashboard.isDialogAt(level)) {
+        if (!open || closing || dialogLevel !== level) {
             return;
         }
         const node = contentRef.current;
@@ -129,12 +131,14 @@ function Dialog(props) {
 
         if (open) {
             setOpened(true);
-            setLevel(Dashboard.openDialog());
+            setLevel(dialogLevel);
             window.addEventListener("keyup", eventListener);
+            dialogLevel += 1;
         } else if (opened) {
             setOpened(false);
-            setLevel(Dashboard.closeDialog());
+            setLevel(0);
             window.removeEventListener("keyup", eventListener);
+            dialogLevel -= 0;
         }
         return () => window.removeEventListener("keyup", eventListener);
     }, [ open ]);
