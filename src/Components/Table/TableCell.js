@@ -38,7 +38,7 @@ const TD = Styled.td.attrs(({ flexGrow, align, isTitle, isSmall }) => ({ flexGro
  */
 function TableCell(props) {
     const {
-        isHidden, className, message, circle,
+        isHidden, className, message, circle, hideCircle,
         colSpan, grow, align, isSmall, isTitle, children,
     } = props;
 
@@ -54,7 +54,7 @@ function TableCell(props) {
         isSmall={isSmall}
         colSpan={colSpan}
     >
-        {!!circle && <Circle variant={circle} />}
+        {!!circle && !hideCircle && <Circle variant={circle} />}
         {message !== undefined ? NLS.get(message) : children}
     </TD>;
 }
@@ -64,17 +64,18 @@ function TableCell(props) {
  * @typedef {Object} propTypes
  */
 TableCell.propTypes = {
-    className : PropTypes.string,
-    message   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    colSpan   : PropTypes.string,
-    grow      : PropTypes.string,
-    align     : PropTypes.string,
-    isTitle   : PropTypes.bool,
-    isSmall   : PropTypes.bool,
-    isFull    : PropTypes.bool,
-    circle    : PropTypes.string,
-    isHidden  : PropTypes.bool,
-    children  : PropTypes.any,
+    className  : PropTypes.string,
+    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    colSpan    : PropTypes.string,
+    grow       : PropTypes.string,
+    align      : PropTypes.string,
+    isTitle    : PropTypes.bool,
+    isSmall    : PropTypes.bool,
+    isFull     : PropTypes.bool,
+    circle     : PropTypes.string,
+    hideCircle : PropTypes.bool,
+    isHidden   : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -82,12 +83,13 @@ TableCell.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableCell.defaultProps = {
-    className : "",
-    colSpan   : "1",
-    grow      : "1",
-    align     : "left",
-    isFull    : false,
-    isHidden  : false,
+    className  : "",
+    colSpan    : "1",
+    grow       : "1",
+    align      : "left",
+    isFull     : false,
+    hideCircle : false,
+    isHidden   : false,
 };
 
 export default TableCell;

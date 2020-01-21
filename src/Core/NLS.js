@@ -125,13 +125,14 @@ function format(id, ...args) {
 
 /**
  * Format a string by replacing placeholder symbols with passed in arguments
- * @param {String} id
- * @param {String} value
+ * @param {String}    id
+ * @param {String}    value
+ * @param {...String} args
  * @returns {String}
  */
-function formatIf(id, value) {
+function formatIf(id, value, ...args) {
     if (value) {
-        return format(id, value);
+        return format(id, value, ...args);
     }
     return "";
 }
@@ -145,6 +146,17 @@ function formatIf(id, value) {
 function pluralize(id, ...args) {
     const count = Number(args[0]);
     return format(id + (count === 1 ? "_SINGULAR" : "_PLURAL"), ...args);
+}
+
+/**
+ * Returns a formated string using the correct plural string
+ * @param {String}   id
+ * @param {String[]} list
+ * @returns {String}
+ */
+function pluralizeList(id, list) {
+    const value = list.join(", ");
+    return format(id + (list.length === 1 ? "_SINGULAR" : "_PLURAL"), value);
 }
 
 /**
@@ -201,11 +213,15 @@ export default {
     getClass,
     entries,
     select,
+    
     format,
     formatIf,
     pluralize,
+    pluralizeList,
+
     url,
     href,
+
     getSection,
     getAction,
 };

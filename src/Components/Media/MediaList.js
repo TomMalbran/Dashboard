@@ -41,7 +41,7 @@ function MediaList(props) {
 
     return <Div className={className} withSpacing={withSpacing}>
         {showLoader && <CircularLoader />}
-        {showNone   && <NoneAvailable  message="MEDIA_NONE_AVAILABLE" />}
+        {showNone   && <NoneAvailable message="MEDIA_NONE_AVAILABLE" />}
         {showItems  && <Section>
             {items.map((elem, index) => <MediaItem
                 key={index}

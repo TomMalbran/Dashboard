@@ -1,5 +1,5 @@
-import Store                from "../Core/Store";
 import jwtDecode            from "jwt-decode";
+import Store                from "../Core/Store";
 
 // Module Variables
 let token   = "";

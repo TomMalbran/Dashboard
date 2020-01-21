@@ -33,13 +33,12 @@ function SwitchRoute(props) {
             key, type, path : cpath,
         }));
     }
-
     if (!hasPath && saveRoute) {
         Store.setRedirect(location.pathname);
     }
     
     return <Switch>
-        {children}
+        {items}
         {!!firstUrl && <Redirect from="*" to={NLS.url(firstUrl, baseUrl)} />}
     </Switch>;
 }

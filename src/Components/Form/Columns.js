@@ -81,13 +81,15 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
  * @returns {React.ReactElement}
  */
 function Columns(props) {
-    const { className, amount, onSubmit, autoFocus, children } = props;
+    const { className, amount, onSubmit, autoFocus, isHidden, children } = props;
 
     const items = Utils.cloneChildren(children, (child, key) => ({
-        onSubmit,
-        autoFocus : autoFocus && key === 0,
+        onSubmit, autoFocus : autoFocus && key === 0,
     }));
 
+    if (isHidden || !items.length) {
+        return <React.Fragment />;
+    }
     return <Div className={className} amount={amount}>
         {items}
     </Div>;
@@ -102,6 +104,7 @@ Columns.propTypes = {
     amount    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onSubmit  : PropTypes.func,
     autoFocus : PropTypes.bool,
+    isHidden  : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -113,6 +116,7 @@ Columns.defaultProps = {
     className : "",
     amount    : 2,
     autoFocus : false,
+    isHidden  : false,
 };
 
 export default Columns;

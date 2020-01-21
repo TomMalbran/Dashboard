@@ -41,13 +41,15 @@ const TH = Styled.th.attrs(({ flexGrow, align, hasSorting, isSmall }) => ({ flex
 function TableHeader(props) {
     const {
         isHidden, className, message,
-        fetch, hasSorting, sort, field,
+        fetch, hasSorting, sort, field, noSorting,
         colSpan, grow, align, isSmall, children,
     } = props;
 
+    const withSorting = hasSorting && !noSorting;
+
     // Handles the Sorting
     const handleClick = () => {
-        if (hasSorting) {
+        if (withSorting) {
             let params = sort;
             if (sort.orderBy === field) {
                 params = { ...sort, orderAsc : sort.orderAsc ? 0 : 1 };
@@ -66,13 +68,13 @@ function TableHeader(props) {
         className={className}
         flexGrow={grow}
         align={align}
-        hasSorting={hasSorting}
+        hasSorting={withSorting}
         isSmall={isSmall}
         colSpan={colSpan}
         onClick={handleClick}
     >
         {message ? NLS.get(message) : children}
-        {hasSorting && sort.orderBy === field ? <Icon
+        {withSorting && sort.orderBy === field ? <Icon
             icon={sort.orderAsc ? "up" : "down"}
         /> : null}
     </TH>;
@@ -86,6 +88,7 @@ TableHeader.propTypes = {
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fetch      : PropTypes.func,
     hasSorting : PropTypes.bool,
+    noSorting  : PropTypes.bool,
     sort       : PropTypes.object,
     field      : PropTypes.string,
     className  : PropTypes.string,
@@ -107,6 +110,8 @@ TableHeader.defaultProps = {
     colSpan   : "1",
     grow      : "0",
     align     : "left",
+    noSorting : false,
+    isSmall   : false,
     isFull    : false,
     isHidden  : false,
 };

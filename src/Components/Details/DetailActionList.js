@@ -30,11 +30,11 @@ const Div = Styled.div`
 
 
 /**
- * The Detail Actions Component
+ * The Detail Action List Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function DetailActions(props) {
+function DetailActionList(props) {
     const { canEdit, onAction, onClose, children } = props;
 
     // Handles the Click
@@ -72,11 +72,11 @@ function DetailActions(props) {
  * The Property Types
  * @typedef {Object} propTypes
  */
-DetailActions.propTypes = {
+DetailActionList.propTypes = {
     onAction : PropTypes.func,
     onClose  : PropTypes.func,
     canEdit  : PropTypes.bool,
     children : PropTypes.any,
 };
 
-export default DetailActions;
+export default DetailActionList;

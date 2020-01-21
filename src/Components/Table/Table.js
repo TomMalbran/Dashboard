@@ -30,6 +30,7 @@ const Container = Styled.table.attrs(({ hasStats, hasTabs, hasFilter, hasPaging 
     width: 100%;
     table-layout: fixed;
 
+    --table-topbar-height: 0px;
     --table-header-height: 31px;
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
@@ -37,6 +38,10 @@ const Container = Styled.table.attrs(({ hasStats, hasTabs, hasFilter, hasPaging 
     --table-paging-height: ${(props) => props.hasPaging ? "40px" : "0px"};
 
     ${(props) => props.hasPaging && "border-bottom: none;"}
+
+    @media (max-width: 1000px) {
+        --table-topbar-height: var(--topbar-height);
+    }
 `;
 
 const TableLoader = Styled(CircularLoader)`
@@ -154,7 +159,7 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan,
-                hasIDs, hasActions, hasSorting,
+                hasIDs, hasActions, hasSorting, hasPaging,
                 handleRowClick, handleMenuOpen,
             }));
         }

@@ -18,10 +18,10 @@ import Form                 from "../Form/Form";
  */
 function EditDialog(props) {
     const {
-        open, title, icon, message, children,
+        open, title, icon, message, className,
         isLoading, isNarrow, isWide, withSpacing,
         error, isDisabled, primary, onSubmit, onClose,
-        secondary, onSecondary,
+        secondary, onSecondary, children,
     } = props;
 
     return <Dialog
@@ -32,7 +32,7 @@ function EditDialog(props) {
         isLoading={isLoading}
     >
         <DialogHeader message={title} icon={icon} />
-        <DialogBody withSpacing={withSpacing}>
+        <DialogBody className={className} withSpacing={withSpacing}>
             <DialogMessage variant="h3" message={message} />
             <Form error={error} onSubmit={onSubmit}>
                 {children}
@@ -56,18 +56,19 @@ EditDialog.propTypes = {
     open        : PropTypes.bool.isRequired,
     title       : PropTypes.string.isRequired,
     icon        : PropTypes.string,
+    className   : PropTypes.string,
     message     : PropTypes.string,
     error       : PropTypes.string,
-    primary     : PropTypes.string,
-    secondary   : PropTypes.string,
-    onSubmit    : PropTypes.func.isRequired,
-    onSecondary : PropTypes.func,
     onClose     : PropTypes.func.isRequired,
     isLoading   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
     isNarrow    : PropTypes.bool,
     isWide      : PropTypes.bool,
     withSpacing : PropTypes.bool,
+    primary     : PropTypes.string,
+    secondary   : PropTypes.string,
+    onSubmit    : PropTypes.func.isRequired,
+    onSecondary : PropTypes.func,
     children    : PropTypes.any,
 };
 
@@ -76,10 +77,11 @@ EditDialog.propTypes = {
  * @typedef {Object} defaultProps
  */
 EditDialog.defaultProps = {
+    className   : "",
     isLoading   : false,
-    isDisabled  : false,
     isNarrow    : false,
     isWide      : false,
+    isDisabled  : false,
     withSpacing : true,
 };
 

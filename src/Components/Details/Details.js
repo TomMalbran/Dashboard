@@ -3,13 +3,12 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
 import CircularLoader       from "../Common/CircularLoader";
-import DetailActions        from "../Details/DetailActions";
-import DetailAction         from "../Details/DetailAction";
 
 
 
@@ -47,24 +46,22 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, isLoading, hasError, error, canEdit, button, onAction, onClose, children } = props;
-    
+    const { className, isLoading, hasError, error, onClose, children } = props;
+
+    // Set/Unset the Details on Load/Unload
+    React.useEffect(() => {
+        Store.setDetails(true);
+        return () => Store.setDetails(false);
+    }, []);
+
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError;
-    const showActions = Boolean(showContent && button);
-    let   items       = [];
-
-    if (showContent) {
-        items = Utils.cloneChildren(children, () => ({ onClose }));
-    }
+    const items       = Utils.cloneChildren(children, () => ({ onClose }));
 
     return <Section className={`details ${className}`}>
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
         {showContent && items}
-        {showActions && <DetailActions canEdit={canEdit} onAction={onAction} onClose={onClose}>
-            <DetailAction action="EDIT" message={button} />
-        </DetailActions>}
     </Section>;
 }
 
@@ -77,9 +74,6 @@ Details.propTypes = {
     isLoading : PropTypes.bool,
     hasError  : PropTypes.bool,
     error     : PropTypes.string,
-    canEdit   : PropTypes.bool,
-    button    : PropTypes.string,
-    onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
 };
@@ -92,7 +86,6 @@ Details.defaultProps = {
     className : "",
     isLoading : false,
     hasError  : false,
-    canEdit   : true,
 };
 
 export default Details;

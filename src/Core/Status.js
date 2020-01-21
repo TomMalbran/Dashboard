@@ -27,43 +27,6 @@ function init(values, groups) {
 
 
 /**
- * Creates a Status Select
- * @param {String}  type
- * @param {Boolean} isFem
- * @returns {Object[]}
- */
-function createSelect(type, isFem) {
-    const group  = statusGroups[type] || [];
-    const result = [];
-    for (const statusID of group) {
-        const value  = getName(statusID, isFem);
-        result.push({ key : statusID, value });
-    }
-    return result;
-}
-
-/**
- * Returns the Status Select
- * @param {String=}  type
- * @param {Boolean=} isFem
- * @returns {Object[]}
- */
-function getSelect(type = "GENERAL", isFem = false) {
-    return createSelect(type, isFem);
-}
-
-/**
- * Returns the Female Status Select
- * @param {String=} type
- * @returns {Object[]}
- */
-function getFemSelect(type = "GENERAL") {
-    return createSelect(type, true);
-}
-
-
-
-/**
  * Returns true if the Status with the given name has the give id
  * @param {String} name
  * @param {Number} id
@@ -75,7 +38,7 @@ function is(name, id) {
 }
 
 /**
- * Returns the Status Value
+ * Returns the Status ID
  * @param {String} name
  * @returns {Object}
  */
@@ -127,12 +90,46 @@ function getTextClass(id) {
 
 
 
+/**
+ * Creates a Status Select
+ * @param {String}  type
+ * @param {Boolean} isFem
+ * @returns {Object[]}
+ */
+function createSelect(type, isFem) {
+    const group  = statusGroups[type] || [];
+    const result = [];
+    for (const key of group) {
+        const value  = getName(key, isFem);
+        result.push({ key, value });
+    }
+    return result;
+}
+
+/**
+ * Returns the Status Select
+ * @param {String=}  type
+ * @param {Boolean=} isFem
+ * @returns {Object[]}
+ */
+function getSelect(type = "GENERAL", isFem = false) {
+    return createSelect(type, isFem);
+}
+
+/**
+ * Returns the Female Status Select
+ * @param {String=} type
+ * @returns {Object[]}
+ */
+function getFemSelect(type = "GENERAL") {
+    return createSelect(type, true);
+}
+
+
+
 // The Public API
 export default {
     init,
-
-    getSelect,
-    getFemSelect,
 
     is,
     getID,
@@ -140,4 +137,6 @@ export default {
     getFemName,
     getColor,
     getTextClass,
+    getSelect,
+    getFemSelect,
 };

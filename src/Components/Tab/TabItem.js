@@ -106,7 +106,7 @@ const Components = {
 function TabItem(props) {
     const { className, variant, message, status, value, index, selected, isDisabled, canDelete, onAction } = props;
     
-    const Component  = Components[variant];
+    const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
     const isSelected = String(selected) === String(id);
 

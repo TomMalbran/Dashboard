@@ -29,8 +29,17 @@ function setLoading(loading) {
  * @param {String} redirect
  * @returns {Void}
  */
-export function setRedirect(redirect) {
+function setRedirect(redirect) {
     store.dispatch({ type : "CORE_REDIRECT", redirect });
+}
+
+/**
+ * Sets the Details
+ * @param {Boolean} hasDetails
+ * @returns {Void}
+ */
+function setDetails(hasDetails) {
+    store.dispatch({ type : "CORE_DETAILS_SET", hasDetails });
 }
 
 /**
@@ -60,6 +69,7 @@ export default {
     init,
     setLoading,
     setRedirect,
+    setDetails,
     showResult,
     setCurrentUser,
 };

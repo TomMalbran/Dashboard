@@ -117,7 +117,7 @@ function MenuLink(props) {
         onMouseEnter, onMouseLeave,
     } = props;
 
-    const Component  = Components[variant];
+    const Component  = Components[variant] || Link;
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
     

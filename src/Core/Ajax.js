@@ -151,7 +151,7 @@ async function get(path, params = {}, showLoader = true) {
  * @param {String}   path
  * @param {Object=}  params
  * @param {Boolean=} showLoader
- * @returns {Object}
+ * @returns {Promise}
  */
 function post(path, params = {}, showLoader = true) {
     const url  = createUrl(path);

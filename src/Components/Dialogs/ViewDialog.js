@@ -16,9 +16,9 @@ import DialogFooter         from "../Dialog/DialogFooter";
  */
 function ViewDialog(props) {
     const {
-        open, title, icon, className, children,
+        open, title, icon, className,
         isLoading, isNarrow, isWide, withSpacing,
-        secondary, onSecondary, onClose,
+        secondary, onSecondary, onClose, children,
     } = props;
 
     return <Dialog
@@ -64,10 +64,11 @@ ViewDialog.propTypes = {
  * @typedef {Object} defaultProps
  */
 ViewDialog.defaultProps = {
-    withSpacing : false,
+    className   : "",
+    isLoading   : false,
     isNarrow    : false,
     isWide      : false,
-    isLoading   : false,
+    withSpacing : false,
 };
 
 export default ViewDialog;

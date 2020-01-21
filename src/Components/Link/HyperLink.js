@@ -145,7 +145,7 @@ function HyperLink(props) {
         target, message, html, children,
     } = props;
 
-    const Component = Components[variant];
+    const Component = Components[variant] || Link;
     const content   = children || NLS.get(message);
     
     return <Component

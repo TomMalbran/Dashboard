@@ -57,7 +57,7 @@ function InfoList(props) {
  */
 InfoList.propTypes = {
     className : PropTypes.string,
-    onAction  : PropTypes.func.isRequired,
+    onAction  : PropTypes.func,
     children  : PropTypes.any,
 };
 

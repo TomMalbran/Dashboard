@@ -15,7 +15,7 @@ import Styled, {
 } from "styled-components";
 
 // Module Variables
-let dialogLevel = 1;
+let dialogLevel = 0;
 
 
 
@@ -130,18 +130,18 @@ function Dialog(props) {
         const eventListener = (e) => savedHandler.current(e);
 
         if (open) {
+            dialogLevel += 1;
             setOpened(true);
             setLevel(dialogLevel);
             window.addEventListener("keyup", eventListener);
-            dialogLevel += 1;
         } else if (opened) {
+            dialogLevel -= 1;
             setOpened(false);
             setLevel(0);
             window.removeEventListener("keyup", eventListener);
-            dialogLevel -= 0;
         }
         return () => window.removeEventListener("keyup", eventListener);
-    }, [ open ]);
+    }, [ open, opened ]);
 
 
     // No need to continue

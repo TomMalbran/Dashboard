@@ -17,7 +17,9 @@ const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasA
     border-radius: var(--border-radius);
     background-color: white;
 
-    ${(props) => props.isSelected && "border-color: var(--primary-color);"}
+    ${(props) => props.isSelected && `
+        border-color: var(--primary-color);
+    `}
     ${(props) => props.hasActions && `
         &:hover .media-name {
             transform: translateY(-20px);
@@ -25,7 +27,7 @@ const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasA
     `}
 `;
 
-const MediaElem = Styled.div`
+const MediaElem = Styled.div.attrs(({ isTransparent }) => ({ isTransparent }))`
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -33,16 +35,24 @@ const MediaElem = Styled.div`
     width: 100%;
     height: 100px;
     border-bottom: none;
-`;
-const MediaImage = Styled(MediaElem)`
+    
     img {
         margin: 0 auto;
         max-width: 96px;
         max-height: 96px;
     }
-`;
-const MediaIcon = Styled(MediaElem)`
-    font-size: 48px;
+    .icon {
+        font-size: 48px;
+    }
+
+    ${(props) => props.isTransparent && `
+        --media-dark: rgb(216, 217, 218);
+        background-color: rgb(226, 227, 228);
+        background-size: 20px 20px;
+        background-position: 0 0, 10px 10px;
+        background-image: linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark)),
+                        linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark));
+    `}
 `;
 
 const MediaName = Styled.div`
@@ -58,6 +68,18 @@ const MediaName = Styled.div`
     z-index: 1;
 `;
 
+const MediaActions = Styled.div`
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 4px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: var(--light-gray);
+`;
+
 
 
 /**
@@ -66,47 +88,44 @@ const MediaName = Styled.div`
  * @returns {React.ReactElement}
  */
 function MediaItem(props) {
-    const { isSelected, hasActions, onAction, elem     } = props;
-    const { isFile, isImage, icon, source, thumb, name } = elem;
+    const { isSelected, hasActions, onAction, elem                    } = props;
+    const { isFile, isImage, isTransparent, icon, source, thumb, name } = elem;
+
+    const select = Action.get("SELECT");
+    const view   = Action.get("VIEW");
+    const edit   = Action.get("EDIT");
+    const remove = Action.get("DELETE");
 
     // Handles the Action
     const handleAction = (e, action) => {
         if (onAction) {
-            onAction(Action.get(action), elem);
+            onAction(action, elem);
         }
         e.stopPropagation();
         e.preventDefault();
     };
 
+
     return <Div
         isSelected={isSelected}
         hasActions={hasActions}
-        onClick={(e) => handleAction(e, "SELECT")}
+        onClick={(e) => handleAction(e, select)}
     >
-        {isFile && <MediaIcon className="media-icon">
+        {isFile && <MediaElem className="media-icon">
             <Icon icon={icon} />
-        </MediaIcon>}
-        {isImage && <MediaImage className="media-image">
+        </MediaElem>}
+        {isImage && <MediaElem className="media-image" isTransparent={isTransparent}>
             <img src={thumb || source} alt={name} />
-        </MediaImage>}
+        </MediaElem>}
         <MediaName className="media-name">
             {name}
         </MediaName>
 
-        {hasActions && <div className="media-actions">
-            <Icon
-                icon={Action.get("VIEW").icon}
-                onClick={(e) => handleAction(e, "VIEW")}
-            />
-            <Icon
-                icon={Action.get("EDIT").icon}
-                onClick={(e) => handleAction(e, "EDIT")}
-            />
-            <Icon
-                icon={Action.get("DELETE").icon}
-                onClick={(e) => handleAction(e, "DELETE")}
-            />
-        </div>}
+        {hasActions && <MediaActions className="media-actions">
+            <Icon icon={view.icon}   onClick={(e) => handleAction(e, view)}   />
+            <Icon icon={edit.icon}   onClick={(e) => handleAction(e, edit)}   />
+            <Icon icon={remove.icon} onClick={(e) => handleAction(e, remove)} />
+        </MediaActions>}
     </Div>;
 }
 

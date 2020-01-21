@@ -80,7 +80,7 @@ MenuItem.propTypes = {
     className  : PropTypes.string,
     action     : PropTypes.string,
     icon       : PropTypes.string,
-    message    : PropTypes.string.isRequired,
+    message    : PropTypes.string,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
     onAction   : PropTypes.func,

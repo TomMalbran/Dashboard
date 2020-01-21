@@ -32,21 +32,22 @@ function ActionList(props) {
 
     const items      = Utils.cloneChildren(children, () => ({ onAction }));
     const createText = useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE");
-    const canExport  = data.canExport && data.total > 0;
-    const canFilter  = data.canFilter && data.total > 0;
-    const hasActions = data.canCreate || data.canImport || canExport || canFilter || items.length > 0;
+    const canCreate  = Boolean(data.canCreate);
+    const canImport  = Boolean(data.canImport);
+    const canExport  = Boolean(data.canExport && data.total > 0);
+    const canFilter  = Boolean(data.canFilter && data.total > 0);
+    const hasActions = canCreate || canImport || canExport || canFilter || items.length > 0;
     
     if (!hasActions) {
         return <React.Fragment />;
     }
-
     return <Ul className={className}>
-        {data.canCreate && <ActionItem
+        {canCreate && <ActionItem
             action="CREATE"
             message={createText}
             onAction={onAction}
         />}
-        {data.canImport && <ActionItem
+        {canImport && <ActionItem
             action="IMPORT"
             onAction={onAction}
         />}
@@ -67,7 +68,7 @@ function ActionList(props) {
  * @typedef {Object} propTypes
  */
 ActionList.propTypes = {
-    data      : PropTypes.object.isRequired,
+    data      : PropTypes.object,
     className : PropTypes.string,
     onAction  : PropTypes.func,
     useAdd    : PropTypes.bool,
@@ -81,6 +82,9 @@ ActionList.propTypes = {
  */
 ActionList.defaultProps = {
     className : "",
+    data      : {},
+    useAdd    : false,
+    useAssign : false,
 };
 
 export default ActionList;

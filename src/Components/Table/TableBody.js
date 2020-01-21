@@ -8,13 +8,14 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const TBody = Styled.tbody`
+const TBody = Styled.tbody.attrs(({ hasPaging }) => ({ hasPaging }))`
     box-sizing: border-box;
     overflow-y: scroll;
     overflow-x: auto;
     width: 100%;
     height: calc(
         100vh - 24px
+        - var(--table-topbar-height)
         - var(--header-height)
         - var(--table-header-height)
         - var(--table-paging-height)
@@ -25,8 +26,11 @@ const TBody = Styled.tbody`
     border-left: 2px solid var(--light-gray);
     border-right: 2px solid var(--light-gray);
     border-bottom: 2px solid var(--light-gray);
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+
+    ${(props) => !props.hasPaging && `
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+    `}
 `;
 
 
@@ -37,13 +41,13 @@ const TBody = Styled.tbody`
  * @returns {React.ReactElement}
  */
 function TableBody(props) {
-    const { hasIDs, hasActions, handleRowClick, handleMenuOpen, children } = props;
+    const { hasIDs, hasActions, hasPaging, handleRowClick, handleMenuOpen, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
         hasIDs, hasActions, handleRowClick, handleMenuOpen,
     }));
 
-    return <TBody>
+    return <TBody hasPaging={hasPaging}>
         {items}
     </TBody>;
 }
@@ -55,6 +59,7 @@ function TableBody(props) {
 TableBody.propTypes = {
     hasIDs         : PropTypes.bool,
     hasActions     : PropTypes.bool,
+    hasPaging      : PropTypes.bool,
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     children       : PropTypes.node,

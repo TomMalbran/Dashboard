@@ -18,14 +18,21 @@ function InfoAction(props) {
     const { isHidden, message, action, onAction } = props;
     const act = Action.get(action);
 
+    // Handles the Click
+    const handleClick = () => {
+        if (onAction) {
+            onAction(act);
+        }
+    };
+
+
     if (isHidden) {
         return <React.Fragment />;
     }
-
     return <Button
         variant="accent"
         message={message || act.message}
-        onClick={() => onAction(act)}
+        onClick={handleClick}
     />;
 }
 
