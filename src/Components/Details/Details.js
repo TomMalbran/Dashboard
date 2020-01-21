@@ -46,7 +46,7 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, isLoading, hasError, error, onClose, children } = props;
+    const { className, isLoading, hasError, error, children } = props;
 
     // Set/Unset the Details on Load/Unload
     React.useEffect(() => {
@@ -56,6 +56,7 @@ function Details(props) {
 
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError;
+    const onClose     = Store.closeDetails;
     const items       = Utils.cloneChildren(children, () => ({ onClose }));
 
     return <Section className={`details ${className}`}>
@@ -74,7 +75,6 @@ Details.propTypes = {
     isLoading : PropTypes.bool,
     hasError  : PropTypes.bool,
     error     : PropTypes.string,
-    onClose   : PropTypes.func,
     children  : PropTypes.any,
 };
 
