@@ -17,18 +17,18 @@ const TR = Styled.tr`
     height: auto;
 `;
 const TD = Styled.td`
+    flex: 1 0 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    flex: 1 0 0;
-    padding: 2px;
+    padding: 0 4px 2px 4px;
     background: var(--light-gray);
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
 `;
 
 const Rows = Styled.p`
-    margin: 0 16px 0 0;
+    margin: 0 8px 0 0;
 `;
 const Pages = Styled.p`
     margin: 0 16px 0 0;    
@@ -38,7 +38,7 @@ const PagingInput = Styled(InputField)`
     margin-bottom: 0;
     .input-select {
         margin-right: 16px;
-        min-height: 28px;
+        min-height: 24px;
         line-height: 1;
         font-size: 12px;
         font-weight: normal;

@@ -105,12 +105,12 @@ function AutoSuggest(props) {
     };
 
     // Selects the Elem
-    const selectElem = (newID, newValue) => {
+    const selectElem = async (newID, newValue) => {
         if (onSuggest) {
             onSuggest(id, newID, name, newValue);
         } else {
-            onChange(id, newID);
-            onChange(name, newValue);
+            await onChange(id, newID);
+            await onChange(name, newValue);
         }
         setSuggestions([]);
         setSelectedIdx(0);

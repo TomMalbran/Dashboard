@@ -24,6 +24,10 @@ const Li = Styled.li`
     text-transform: uppercase;
     margin-right: 4px;
     
+    &:first-child > a {
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+    }
     &:first-child > a::before {
         display: none;
     }

@@ -27,11 +27,6 @@ const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isD
     cursor: pointer;
     transition: all 0.2s;
 
-    ${(props) => props.isDisabled && `
-        color: rgba(255, 255, 255, 0.5);
-        cursor: not-allowed;
-    `}
-
     .icon {
         position: absolute;
         top: 50%;
@@ -61,6 +56,10 @@ const LightItem = Styled(Item)`
         box-shadow: inset 0 -3em var(--primary-color);
         color: var(--white-color);
     `}
+    ${(props) => props.isDisabled && `
+        color: rgba(255, 255, 255, 0.5);
+        cursor: not-allowed;
+    `}
 `;
 
 const DarkItem = Styled(Item)`
@@ -88,6 +87,10 @@ const DarkItem = Styled(Item)`
             border-left-color: var(--secondary-color);
         }
     `}
+    ${(props) => props.isDisabled && `
+        color: rgba(255, 255, 255, 0.5);
+        cursor: not-allowed;
+    `}
 `;
 
 // Components
@@ -108,7 +111,7 @@ function TabItem(props) {
     
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
-    const isSelected = String(selected) === String(id);
+    const isSelected = !isDisabled && String(selected) === String(id);
 
     // Handle the Click
     const handleClick = () => {
@@ -131,8 +134,8 @@ function TabItem(props) {
     
     
     return <Component
-        className={className}
-        isSelected={!isDisabled && isSelected}
+        className={`${className} tab-item ${isSelected ? "tab-selected" : ""}`}
+        isSelected={isSelected}
         isDisabled={isDisabled}
         onClick={handleClick}
     >

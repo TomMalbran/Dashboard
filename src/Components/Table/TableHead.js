@@ -11,11 +11,11 @@ import TableRowCnt          from "../Table/TableRowCnt";
 
 
 // Styles
-const THead = Styled.thead`
+const THead = Styled.thead.attrs(({ hasTabs }) => ({ hasTabs }))`
     padding-right: 16px;
     background: var(--light-gray);
-    border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
+    ${(props) => !props.hasTabs && "border-top-left-radius: var(--border-radius);"}
 `;
 
 
@@ -26,13 +26,13 @@ const THead = Styled.thead`
  * @returns {React.ReactElement}
  */
 function TableHead(props) {
-    const { hasIDs, hasActions, hasSorting, sort, fetch, children } = props;
+    const { hasIDs, hasActions, hasSorting, hasTabs, sort, fetch, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
         hasSorting, sort, fetch,
     }));
 
-    return <THead>
+    return <THead hasTabs={hasTabs}>
         <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
             {items}
             {hasActions && <th />}
@@ -48,6 +48,7 @@ TableHead.propTypes = {
     hasIDs     : PropTypes.bool,
     hasActions : PropTypes.bool,
     hasSorting : PropTypes.bool,
+    hasTabs    : PropTypes.bool,
     fetch      : PropTypes.func,
     sort       : PropTypes.object,
     children   : PropTypes.any,

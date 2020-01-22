@@ -24,7 +24,7 @@ const Drop = Styled.div.attrs(({ isOpen }) => ({ isOpen }))`
     font-size: 32px;
     color: white;
     background-color: var(--drop-color);
-    z-index: 1;
+    z-index: var(--z-dropzone);
 `;
 
 const Div = Styled.div`
@@ -176,7 +176,7 @@ function DropZone(props) {
     const prefix = onlyImages ? "DROPZONE_IMAGES_" : "DROPZONE_FILES_";
     return <>
         <Drop ref={containerRef} isOpen={open}>
-            {NLS.get(`${prefix}FILES`)}
+            {NLS.get(`${prefix}DROP`)}
         </Drop>
         <Div className="dropzone-upload">
             <H3>{NLS.get(`${prefix}TITLE`)}</H3>

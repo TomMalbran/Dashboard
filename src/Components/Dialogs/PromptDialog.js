@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
@@ -12,6 +13,15 @@ import DialogBody           from "../Dialog/DialogBody";
 import DialogFooter         from "../Dialog/DialogFooter";
 import Html                 from "../Common/Html";
 import InputField           from "../Form/InputField";
+
+
+
+// Styles
+const Content = Styled(Html)`
+    margin: 0 0 16px 0;
+    color: var(--black-color);
+    font-weight: 400;
+`;
 
 
 
@@ -38,6 +48,7 @@ function PromptDialog(props) {
     const handleSubmit = () => {
         if (isOptional || value) {
             onSubmit(value);
+            setValue("");
         }
     };
 
@@ -54,9 +65,7 @@ function PromptDialog(props) {
     return <Dialog open={open} onClose={onClose} isNarrow>
         <DialogHeader message={title} icon={icon} />
         <DialogBody withSpacing>
-            {hasMessage && <Html variant="h3">
-                {body}
-            </Html>}
+            {hasMessage && <Content variant="h3">{body}</Content>}
             <InputField
                 name="prompt"
                 type={inputType}

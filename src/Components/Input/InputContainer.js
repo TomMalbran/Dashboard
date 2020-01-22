@@ -24,7 +24,6 @@ const Container = Styled.div.attrs(
     ${(props) => props.hasLabel && `
         padding-top: 6px;
         .input {
-            min-height: var(--input-height);
             padding-top: 8px !important;
         }
         .input-textarea {
@@ -41,7 +40,7 @@ const Container = Styled.div.attrs(
     `}
     ${(props) => props.isFocused && `
         .inputfield-input {
-            border-color: var(--border-color);
+            border-color: var(--border-color) !important;
             box-shadow: 0 0 0 1px var(--border-color);
         }
         .icon {

@@ -31,7 +31,6 @@ function InfoItem(props) {
     if (!message) {
         return <React.Fragment />;
     }
-    
     return <Section>
         <H3>{NLS.get(label)}</H3>
         {NLS.get(message)}

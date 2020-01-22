@@ -43,11 +43,14 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
  * @returns {React.ReactElement}
  */
 function Backdrop(props) {
-    const { open, closing, contentRef, onClose, children } = props;
+    const { className, open, closing, contentRef, onClick, onClose, children } = props;
 
     // Handles the Click
     const handleClick = (e) => {
-        if (contentRef.current) {
+        if (onClick) {
+            onClick();
+        }
+        if (onClose && contentRef && contentRef.current) {
             const bounds = contentRef.current.getBoundingClientRect();
             if (e.clientX > 0 && e.clientY > 0 && (
                 e.clientX < bounds.left || e.clientX > bounds.right ||
@@ -58,7 +61,9 @@ function Backdrop(props) {
         }
     };
 
+
     return <Div
+        className={className}
         isOpen={open}
         isClosing={closing}
         onMouseDown={handleClick}
@@ -72,11 +77,23 @@ function Backdrop(props) {
  * @type {Object} propTypes
  */
 Backdrop.propTypes = {
-    contentRef : PropTypes.object.isRequired,
-    open       : PropTypes.bool.isRequired,
-    closing    : PropTypes.bool.isRequired,
-    onClose    : PropTypes.func.isRequired,
+    contentRef : PropTypes.object,
+    className  : PropTypes.string,
+    open       : PropTypes.bool,
+    closing    : PropTypes.bool,
+    onClick    : PropTypes.func,
+    onClose    : PropTypes.func,
     children   : PropTypes.any,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+Backdrop.defaultProps = {
+    className : "",
+    open      : false,
+    closing   : false,
 };
 
 export default Backdrop;

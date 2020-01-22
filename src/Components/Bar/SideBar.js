@@ -66,7 +66,8 @@ function SideBar(props) {
     const {
         className, withBorder,
         logo, logoSize,
-        onSearch, onCreate, onLogout, message, avatarData, avatarUrl,
+        hasSearch, onSearch, hasCreate, onCreate,
+        onLogout, message, avatarData, avatarUrl,
     } = props;
 
     return <Nav className={className} withBorder={withBorder}>
@@ -76,12 +77,12 @@ function SideBar(props) {
                 size={logoSize}
                 withLink
             />
-            {!!onSearch && <BarIcon
+            {hasSearch && <BarIcon
                 variant="dark"
                 icon="search"
                 onClick={onSearch}
             />}
-            {!!onCreate && <BarIcon
+            {hasCreate && <BarIcon
                 variant="dark"
                 icon="add"
                 onClick={onCreate}
@@ -111,6 +112,8 @@ SideBar.propTypes = {
     className  : PropTypes.string,
     logo       : PropTypes.string.isRequired,
     logoSize   : PropTypes.number,
+    hasSearch  : PropTypes.bool,
+    hasCreate  : PropTypes.bool,
     onSearch   : PropTypes.func,
     onCreate   : PropTypes.func,
     onLogout   : PropTypes.func,
@@ -126,6 +129,8 @@ SideBar.propTypes = {
  */
 SideBar.defaultProps = {
     className  : "",
+    hasSearch  : false,
+    hasCreate  : false,
     withBorder : false,
 };
 

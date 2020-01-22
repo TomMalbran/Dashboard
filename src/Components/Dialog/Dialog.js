@@ -75,7 +75,7 @@ const Container = Styled.dialog.attrs(({ isWide, isNarrow, hasTabs, isClosing })
  * @returns {React.ReactElement}
  */
 function Dialog(props) {
-    const { open, className, isLoading, isWide, isNarrow, fullHeight, noTab, onClose, children } = props;
+    const { open, className, isLoading, isWide, isNarrow, noTab, onClose, children } = props;
     
     const [ level,   setLevel   ] = React.useState(0);
     const [ opened,  setOpened  ] = React.useState(false);
@@ -156,8 +156,7 @@ function Dialog(props) {
             hasTabs = true;
         }
         items.push(React.cloneElement(child, {
-            key, isLoading, fullHeight,
-            onClose : handleClose,
+            key, isLoading, onClose : handleClose,
         }));
     }
 
@@ -186,15 +185,14 @@ function Dialog(props) {
  * @type {Object} propTypes
  */
 Dialog.propTypes = {
-    open       : PropTypes.bool,
-    className  : PropTypes.string,
-    onClose    : PropTypes.func.isRequired,
-    isWide     : PropTypes.bool,
-    isNarrow   : PropTypes.bool,
-    fullHeight : PropTypes.bool,
-    noTab      : PropTypes.bool,
-    isLoading  : PropTypes.bool,
-    children   : PropTypes.any,
+    open      : PropTypes.bool,
+    className : PropTypes.string,
+    onClose   : PropTypes.func.isRequired,
+    isWide    : PropTypes.bool,
+    isNarrow  : PropTypes.bool,
+    noTab     : PropTypes.bool,
+    isLoading : PropTypes.bool,
+    children  : PropTypes.any,
 };
 
 /**
@@ -202,13 +200,12 @@ Dialog.propTypes = {
  * @type {Object} defaultProps
  */
 Dialog.defaultProps = {
-    className  : "",
-    open       : false,
-    isWide     : false,
-    isNarrow   : false,
-    fullHeight : false,
-    noTab      : false,
-    isLoading  : false,
+    className : "",
+    open      : false,
+    isWide    : false,
+    isNarrow  : false,
+    noTab     : false,
+    isLoading : false,
 };
 
 export default Dialog;

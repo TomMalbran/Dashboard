@@ -33,7 +33,7 @@ const InputHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
-const InputInput = Styled(Input)`
+const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
     box-sizing: border-box;
     color: var(--black-color);
     background-color: white;
@@ -45,7 +45,7 @@ const InputInput = Styled(Input)`
         width: 100%;
         margin: 0;
         padding: 4px 8px;
-        min-height: var(--input-height);
+        min-height: ${(props) => props.isSmall ? "calc(var(--input-height) - 8px)" : "var(--input-height)"};
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
     }
@@ -54,7 +54,7 @@ const InputInput = Styled(Input)`
     }
     &.input:focus {
         outline: none;
-        border-color: 1px solid var(--border-color);
+        border-color: var(--border-color);
         color: var(--secondary-color);
     }
     &.input:disabled {
@@ -100,7 +100,7 @@ function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onSuggest,
-        fullWidth, noMargin, isRequired, withNone, shrink,
+        fullWidth, noMargin, isRequired, withNone, shrink, isSmall,
         suggestFetch, suggestID, suggestParams,
     } = props;
 
@@ -183,6 +183,7 @@ function InputField(props) {
                 onChange={handleChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                isSmall={isSmall}
             />
             {!!button && <InputButton
                 variant="outlined"
@@ -244,6 +245,7 @@ InputField.propTypes = {
     noMargin      : PropTypes.bool,
     fullWidth     : PropTypes.bool,
     shrink        : PropTypes.bool,
+    isSmall       : PropTypes.bool,
     withNone      : PropTypes.bool,
     noneText      : PropTypes.string,
     withCustom    : PropTypes.bool,
@@ -269,6 +271,7 @@ InputField.defaultProps = {
     noMargin      : false,
     fullWidth     : false,
     shrink        : false,
+    isSmall       : false,
     withNone      : false,
     noneText      : "",
     withCustom    : false,

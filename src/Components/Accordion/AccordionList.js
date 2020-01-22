@@ -34,6 +34,7 @@ function AccordionList(props) {
         onClick    : handleClick(key, child.props.isDisabled),
     }));
     
+    
     return <div className={`accordion ${className}`}>
         {items}
     </div>;

@@ -17,14 +17,32 @@ const Div = Styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 8px;
-    
-    .text-label {
-        top: 1px;
+    margin-bottom: 4px;
+`;
+
+const Input = Styled.input`
+    box-sizing: border-box;
+    appearance: none;
+    font-size: 13px;
+    width: 100%;
+    margin: 0;
+    padding: 4px 8px;
+    min-height: calc(var(--input-height) - 8px);
+    color: var(--black-color);
+    border: 1px solid var(--lighter-color);
+    border-radius: var(--border-radius);
+    background-color: white;
+    transition: all 0.2s;
+
+    &:focus {
+        outline: none;
+        border-color: var(--border-color);
+        color: var(--secondary-color);
     }
-    .text-input {
-        width: 100%;
-        margin-bottom: 0;
+    &:disabled {
+        color: rgb(175, 175, 175);
+        border-color: rgb(205, 205, 205);
+        box-shadow: none;
     }
 `;
 
@@ -71,9 +89,10 @@ function FieldInput(props) {
 
     return <Container className={className}>
         {parts.map((elem, index) => <Div key={index}>
-            <input
+            <Input
+                className="input"
                 type="text"
-                name={`key-${index}`}
+                name={`${name}-${index}`}
                 value={elem}
                 onChange={(e) => handleChange(e, index)}
             />

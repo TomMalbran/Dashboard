@@ -24,20 +24,19 @@ const Wrapper = Styled.div`
     position: relative;
 `;
 
-const Container = Styled.table.attrs(({ hasStats, hasTabs, hasFilter, hasPaging }) => ({ hasStats, hasTabs, hasFilter, hasPaging }))`
+const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, hasPaging }) => ({ inDialog, hasStats, hasTabs, hasFilter, hasPaging }))`
     display: flex;
     flex-direction: column;
     width: 100%;
     table-layout: fixed;
 
+    --table-height: ${(props) => props.inDialog ? "calc(100vh - 32px * 3 - 55px * 2)" : "calc(100vh - 24px)"};
     --table-topbar-height: 0px;
     --table-header-height: 31px;
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 16px)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "40px" : "0px"};
-
-    ${(props) => props.hasPaging && "border-bottom: none;"}
 
     @media (max-width: 1000px) {
         --table-topbar-height: var(--topbar-height);
@@ -57,9 +56,8 @@ const TableLoader = Styled(CircularLoader)`
  */
 function Table(props) {
     const {
-        sort, fetch, history,
-        className, isLoading, none, hasStats, hasTabs, hasFilter,
-        noSorting, hasIDs, children,
+        sort, fetch, history, className, isLoading, none,
+        inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
     } = props;
 
     const [ menuID,   setMenuID   ] = React.useState(null);
@@ -159,7 +157,7 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan,
-                hasIDs, hasActions, hasSorting, hasPaging,
+                hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
                 handleRowClick, handleMenuOpen,
             }));
         }
@@ -176,6 +174,7 @@ function Table(props) {
         <Wrapper>
             <Container
                 className={className}
+                inDialog={inDialog}
                 hasStats={hasStats}
                 hasTabs={hasTabs}
                 hasFilter={hasFilter}
@@ -213,6 +212,7 @@ Table.propTypes = {
     none      : PropTypes.string.isRequired,
     className : PropTypes.string,
     isLoading : PropTypes.bool,
+    inDialog  : PropTypes.bool,
     hasStats  : PropTypes.bool,
     hasTabs   : PropTypes.bool,
     hasFilter : PropTypes.bool,

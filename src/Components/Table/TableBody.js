@@ -14,7 +14,7 @@ const TBody = Styled.tbody.attrs(({ hasPaging }) => ({ hasPaging }))`
     overflow-x: auto;
     width: 100%;
     height: calc(
-        100vh - 24px
+        var(--table-height)
         - var(--table-topbar-height)
         - var(--header-height)
         - var(--table-header-height)
