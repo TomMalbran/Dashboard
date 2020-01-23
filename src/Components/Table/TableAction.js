@@ -17,10 +17,19 @@ function TableAction() {
  */
 TableAction.propTypes = {
     action   : PropTypes.string.isRequired,
-    icon     : PropTypes.string,
     message  : PropTypes.string.isRequired,
+    icon     : PropTypes.string,
     route    : PropTypes.string,
-    isHidden : PropTypes.func,
+    isHidden : PropTypes.bool,
+    hide     : PropTypes.func,
+};
+
+/**
+ * The Default Properties
+ * @typedef {Object} defaultProps
+ */
+TableAction.defaultProps = {
+    isHidden : false,
 };
 
 export default TableAction;

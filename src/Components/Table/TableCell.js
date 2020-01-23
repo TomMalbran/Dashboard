@@ -11,22 +11,24 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.td.attrs(({ flexGrow, align, isTitle, isSmall }) => ({ flexGrow, align, isTitle, isSmall }))`
-    padding: 12px 0 12px 12px;
-    border: none;
-    font-size: 13px;
-    flex-grow: ${(props) => props.flexGrow};
-    text-align: ${(props) => props.align};
-    border-bottom: 2px solid var(--light-gray);
-
-    ${(props) => props.isTitle && `
-        color: var(--title-color);
-        font-weight: bold;
-    `}
-    ${(props) => props.isSmall && `
-        flex: 0 1 150px;
-        width: 150px;
-    `}
+const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle }) => ({ flexGrow, align, isSmall, isTitle }))`
+    & + & {
+        padding: 12px 0 12px 12px;
+        border: none;
+        font-size: 13px;
+        flex-grow: ${(props) => props.flexGrow};
+        text-align: ${(props) => props.align};
+        border-bottom: 2px solid var(--light-gray);
+    
+        ${(props) => props.isSmall && `
+            flex: 0 1 150px;
+            width: 150px;
+        `}
+        ${(props) => props.isTitle && `
+            color: var(--title-color);
+            font-weight: bold;
+        `}
+    }
 `;
 
 
@@ -50,8 +52,8 @@ function TableCell(props) {
         className={className}
         flexGrow={grow}
         align={align}
-        isTitle={isTitle}
         isSmall={isSmall}
+        isTitle={isTitle}
         colSpan={colSpan}
     >
         {!!circle && !hideCircle && <Circle variant={circle} />}

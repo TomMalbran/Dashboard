@@ -11,21 +11,24 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TH = Styled.th.attrs(({ flexGrow, align, hasSorting, isSmall }) => ({ flexGrow, align, hasSorting, isSmall }))`
-    border: none;
-    padding: 6px 0 6px 12px;
-    color: var(--title-color);
-    font-weight: bold;
-    font-size: 12px;
-    flex-grow: ${(props) => props.flexGrow};
-    text-align: ${(props) => props.align};
+const TH = Styled.th.attrs(({ flexGrow, align, isSmall, hasSorting }) => ({ flexGrow, align, isSmall, hasSorting }))`
+    & + & {
+        border: none;
+        padding: 6px 0 6px 12px;
+        color: var(--title-color);
+        font-weight: bold;
+        font-size: 12px;
+        flex-grow: ${(props) => props.flexGrow};
+        text-align: ${(props) => props.align};
 
-    ${(props) => props.hasSorting && "cursor: pointer;"}
-    ${(props) => props.isSmall && `
-        flex: 0 1 150px;
-        width: 150px;
-    `}
-
+        ${(props) => props.isSmall && `
+            flex: 0 1 150px;
+            width: 150px;
+        `}
+        ${(props) => props.hasSorting && `
+            cursor: pointer;
+        `}
+    }
     .icon {
         margin-left: 4px;
     }
@@ -68,8 +71,8 @@ function TableHeader(props) {
         className={className}
         flexGrow={grow}
         align={align}
-        hasSorting={withSorting}
         isSmall={isSmall}
+        hasSorting={withSorting}
         colSpan={colSpan}
         onClick={handleClick}
     >
