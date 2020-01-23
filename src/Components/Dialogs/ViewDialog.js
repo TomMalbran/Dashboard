@@ -31,8 +31,8 @@ function ViewDialog(props) {
         <DialogHeader message={title} icon={icon} />
         <DialogBody
             className={className}
-            withSpacing={withSpacing}
             fullHeight={fullHeight}
+            withSpacing={withSpacing}
         >
             {children}
         </DialogBody>
