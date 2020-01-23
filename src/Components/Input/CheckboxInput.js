@@ -31,11 +31,11 @@ const Input = Styled.input`
         color: var(--border-color);
         outline: none;
     }
-    &:disabled + span {
-        color: rgb(175, 175, 175);
-    }
     &:checked + span::before {
         animation: ${tick} 0.4s cubic-bezier(0.175, 0.885, 0.320, 1.275);
+    }
+    &:disabled + span {
+        color: rgb(175, 175, 175);
     }
 `;
 

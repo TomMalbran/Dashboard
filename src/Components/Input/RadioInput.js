@@ -1,20 +1,29 @@
-import React                from "react";
-import PropTypes            from "prop-types";
-import Styled               from "styled-components";
+import React                 from "react";
+import PropTypes             from "prop-types";
+import Styled, { keyframes } from "styled-components";
 
 // Core
-import NLS                  from "../../Core/NLS";
+import NLS                   from "../../Core/NLS";
 
 
+
+// Animations
+const tick = keyframes`
+    from { transform: scale(0); }
+    to   { transform: scale(1); }
+`;
 
 // Styles
 const Container = Styled.div`
-    margin-top: 8px;
+    --radio-outer: 20px;
+    --radio-inner: 12px;
+    margin-top: 2px;
+    margin-left: 8px;
 `;
 
 const Input = Styled.input`
-    width: 12px;
-    height: 12px;
+    width: var(--radio-outer);
+    height: var(--radio-outer);
     overflow: hidden;
     margin: 0;
     padding: 0;
@@ -27,8 +36,20 @@ const Input = Styled.input`
         outline: none;
     }
     &:checked + span {
+        border-color: var(--primary-color);
+    }
+    &:checked + span::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: calc(50% - var(--radio-inner) / 2);
+        left: calc(50% - var(--radio-inner) / 2);
+        width: var(--radio-inner);
+        height: var(--radio-inner);
+        border-radius: 50%;
         border-color: var(--border-color);
-        background-color: #52cf71;
+        background-color: var(--primary-color);
+        animation: ${tick} 0.4s cubic-bezier(0.175, 0.885, 0.320, 1.275);
     }
     &:disabled + span {
         background-color: rgb(245, 245, 245);
@@ -37,20 +58,20 @@ const Input = Styled.input`
 `;
 
 const Label = Styled.label`
-    display: block;
-    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
 `;
 
 const Span = Styled.span`
     position: relative;
-    display: inline-block;
-    margin: 1px 5px -2px -12px;
-    height: 11px;
-    width: 11px;
-    border: 1px solid var(--lighter-color);
-    border-radius: 100%;
-    font-size: 1px;
-    vertical-align: baseline;
+    box-sizing: border-box;
+    display: block;
+    height: var(--radio-outer);
+    width: var(--radio-outer);
+    margin: 0 8px 0 calc(0px - var(--radio-outer));
+    border: 2px solid var(--lighter-color);
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s;
 `;
