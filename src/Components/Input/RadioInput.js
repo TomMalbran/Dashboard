@@ -5,6 +5,9 @@ import Styled, { keyframes } from "styled-components";
 // Core
 import NLS                   from "../../Core/NLS";
 
+// Components
+import InputInput            from "../Input/InputInput";
+
 
 
 // Animations
@@ -22,6 +25,7 @@ const Container = Styled.div`
 `;
 
 const Input = Styled.input`
+    flex-shrink: 0;
     width: var(--radio-outer);
     height: var(--radio-outer);
     overflow: hidden;
@@ -57,13 +61,14 @@ const Input = Styled.input`
     }
 `;
 
-const Label = Styled.label`
+const Label = Styled.label.attrs(({ isCustom }) => ({ isCustom }))`
     display: flex;
     align-items: center;
-    margin-top: 6px;
+    margin-top: ${(props) => props.isCustom ? "2px" : "6px"};
 `;
 
 const Span = Styled.span`
+    flex-shrink: 0;
     position: relative;
     box-sizing: border-box;
     display: block;
@@ -75,6 +80,10 @@ const Span = Styled.span`
     cursor: pointer;
     transition: all 0.2s;
 `;
+const Text = Styled.span`
+    flex-shrink: 0;
+    margin-right: 16px;
+`;
 
 
 
@@ -84,27 +93,76 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function RadioInput(props) {
-    const { className, name, value, tabIndex, options, onChange } = props;
+    const { className, name, value, tabIndex, options, withCustom, customText, onChange } = props;
 
-    // Handles the Change
-    const handleChange = (e, newValue) => {
-        onChange(name, e.target.checked ? newValue : 0);
+    const inputRef  = React.useRef();
+    const valString = String(value);
+    const valParts  = valString.split("|");
+    const radioVal  = valParts.length > 1 ? valParts[0] : valString;
+    const customVal = valParts.length > 1 ? valParts[1] : "";
+    const customKey = props.customKey || "custom";
+    
+    // Handles the Radio Change
+    const handleCheck = (e, newValue) => {
+        if (withCustom) {
+            if (e.target.checked) {
+                onChange(name, `${newValue}|${customVal}`);
+            } else {
+                onChange(name, `|${customVal}`);
+            }
+        } else {
+            onChange(name, e.target.checked ? newValue : "");
+        }
+    };
+
+    // Handles the Custom Radio Change
+    const handleCustom = (e) => {
+        handleCheck(e, customKey);
+        if (e.target.checked && inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
+
+    // Handles the Custom Input Change
+    const handleChange = (e) => {
+        onChange(name, `${customKey}|${e.target.value}`);
     };
 
 
     return <Container className={className}>
-        {options.map(({ key, value : val }) => <Label key={key}>
+        {options.map(({ key, value }) => <Label key={key}>
             <Input
                 type="radio"
-                name={val}
-                value={key}
-                checked={String(value) === String(key)}
-                onChange={(e) => handleChange(e, key)}
+                name={`${name}-${value}`}
+                value={value}
+                checked={radioVal === String(key)}
+                onChange={(e) => handleCheck(e, key)}
                 tabIndex={tabIndex}
             />
             <Span />
-            {NLS.get(val)}
+            {NLS.get(value)}
         </Label>)}
+        {withCustom && <Label isCustom>
+            <Input
+                type="radio"
+                name={`${name}-${customKey}`}
+                value={customKey}
+                checked={radioVal === customKey}
+                onChange={handleCustom}
+                tabIndex={tabIndex}
+            />
+            <Span />
+            <Text>{NLS.get(customText || "GENERAL_OTHER")}</Text>
+            <InputInput
+                inputRef={inputRef}
+                className="input"
+                type="text"
+                name={`${name}-${customKey}-value`}
+                value={customVal}
+                onChange={handleChange}
+                isSmall
+            />
+        </Label>}
     </Container>;
 }
 
@@ -113,12 +171,15 @@ function RadioInput(props) {
  * @type {Object} propTypes
  */
 RadioInput.propTypes = {
-    className : PropTypes.string,
-    name      : PropTypes.string.isRequired,
-    value     : PropTypes.any,
-    options   : PropTypes.array,
-    tabIndex  : PropTypes.string,
-    onChange  : PropTypes.func.isRequired,
+    className  : PropTypes.string,
+    name       : PropTypes.string.isRequired,
+    value      : PropTypes.any,
+    options    : PropTypes.array,
+    tabIndex   : PropTypes.string,
+    onChange   : PropTypes.func.isRequired,
+    withCustom : PropTypes.bool,
+    customText : PropTypes.string,
+    customKey  : PropTypes.string,
 };
 
 /**
@@ -126,7 +187,10 @@ RadioInput.propTypes = {
  * @type {Object} defaultProps
  */
 RadioInput.defaultProps = {
-    className : "",
+    className  : "",
+    withCustom : false,
+    customText : "",
+    customKey  : "",
 };
 
 export default RadioInput;

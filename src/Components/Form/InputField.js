@@ -250,6 +250,7 @@ InputField.propTypes = {
     noneText      : PropTypes.string,
     withCustom    : PropTypes.bool,
     customText    : PropTypes.string,
+    customKey     : PropTypes.string,
     autoFocus     : PropTypes.bool,
     isHidden      : PropTypes.bool,
 };
@@ -276,6 +277,7 @@ InputField.defaultProps = {
     noneText      : "",
     withCustom    : false,
     customText    : "",
+    customKey     : "",
     autoFocus     : false,
 };
 
