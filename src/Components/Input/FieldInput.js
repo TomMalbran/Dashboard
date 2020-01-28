@@ -2,9 +2,13 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import InputType            from "../../Core/InputType";
+
 // Components
 import Button               from "../Form/Button";
 import IconLink             from "../Link/IconLink";
+import InputInput           from "../Input/InputInput";
 
 
 
@@ -18,32 +22,6 @@ const Div = Styled.div`
     align-items: center;
     justify-content: center;
     margin-bottom: 4px;
-`;
-
-const Input = Styled.input`
-    box-sizing: border-box;
-    appearance: none;
-    font-size: 13px;
-    width: 100%;
-    margin: 0;
-    padding: 4px 8px;
-    min-height: calc(var(--input-height) - 8px);
-    color: var(--black-color);
-    border: 1px solid var(--lighter-color);
-    border-radius: var(--border-radius);
-    background-color: white;
-    transition: all 0.2s;
-
-    &:focus {
-        outline: none;
-        border-color: var(--border-color);
-        color: var(--secondary-color);
-    }
-    &:disabled {
-        color: rgb(175, 175, 175);
-        border-color: rgb(205, 205, 205);
-        box-shadow: none;
-    }
 `;
 
 const Link = Styled(IconLink)`
@@ -89,12 +67,13 @@ function FieldInput(props) {
 
     return <Container className={className}>
         {parts.map((elem, index) => <Div key={index}>
-            <Input
+            <InputInput
                 className="input"
-                type="text"
+                type={InputType.TEXT}
                 name={`${name}-${index}`}
                 value={elem}
                 onChange={(e) => handleChange(e, index)}
+                isSmall
             />
             {parts.length > 1 && <Link
                 variant="light"
