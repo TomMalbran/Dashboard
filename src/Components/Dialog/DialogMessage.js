@@ -32,7 +32,7 @@ function DialogMessage(props) {
     const { variant, html, message } = props;
     const content = message ? NLS.get(message) : html;
 
-    if (!message || !html) {
+    if (!content) {
         return <React.Fragment />;
     }
     return <Content variant={variant}>
