@@ -468,15 +468,7 @@ class DateTime {
     }
     
     /**
-     * Returns true if the saved day comes after today
-     * @returns {Boolean}
-     */
-    get isFutureDay() {
-        return this.toDayStart().isGreaterThan(new DateTime().toDayStart());
-    }
-
-    /**
-     * Returns true if the saved day is during this week
+     * Returns true if the Current Day is during this week
      * @returns {Boolean}
      */
     get isThisWeek() {
@@ -543,7 +535,7 @@ class DateTime {
     }
     
     /**
-     * Returns true if the given day is greater than the saved day
+     * Returns true if the given day is greater than the Current Day
      * @param {DateTime} otherDate
      * @returns {Boolean}
      */
@@ -552,7 +544,7 @@ class DateTime {
     }
 
     /**
-     * Returns true if the Current day is in the Past
+     * Returns true if the Current Day is in the Past
      * @param {Number=} hours
      * @returns {Boolean}
      */
@@ -561,7 +553,16 @@ class DateTime {
     }
 
     /**
-     * Returns true if the saved day is the same as the same date plus the given amount of days
+     * Returns true if the Current Day is in the Future
+     * @param {Number=} hours
+     * @returns {Boolean}
+     */
+    isFutureDay(hours = 0) {
+        return this.time > new DateTime().time + (hours * 3600);
+    }
+
+    /**
+     * Returns true if the Current Day is the same as the same date plus the given amount of days
      * @param {Number} amount
      * @returns {Boolean}
      */
@@ -571,7 +572,7 @@ class DateTime {
     }
     
     /**
-     * Returns max day between the saved and the given one
+     * Returns max day between the Current and the given one
      * @param {DateTime} otherDate
      * @returns {DateTime}
      */
@@ -719,7 +720,7 @@ class DateTime {
     }
     
     /**
-     * Returns the day difference between the saved day and the given one
+     * Returns the day difference between the Current Day and the given one
      * @param {DateTime} otherDate
      * @returns {Number}
      */
