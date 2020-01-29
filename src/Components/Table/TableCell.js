@@ -12,7 +12,7 @@ import Circle               from "../Common/Circle";
 
 // Styles
 const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle }) => ({ flexGrow, align, isSmall, isTitle }))`
-    & + & {
+    && {
         padding: 12px 0 12px 12px;
         border: none;
         font-size: 13px;

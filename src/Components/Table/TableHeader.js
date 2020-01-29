@@ -12,7 +12,7 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const TH = Styled.th.attrs(({ flexGrow, align, isSmall, hasSorting }) => ({ flexGrow, align, isSmall, hasSorting }))`
-    & + & {
+    && {
         border: none;
         padding: 6px 0 6px 12px;
         color: var(--title-color);
@@ -111,7 +111,7 @@ TableHeader.propTypes = {
 TableHeader.defaultProps = {
     className : "",
     colSpan   : "1",
-    grow      : "0",
+    grow      : "1",
     align     : "left",
     noSorting : false,
     isSmall   : false,
