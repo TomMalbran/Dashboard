@@ -145,12 +145,16 @@ function InputField(props) {
             node.focus();
         }
         setValue(Boolean(value));
+    }, []);
+
+    // Clear the Timer
+    React.useEffect(() => {
         return () => {
             if (timer) {
                 window.clearTimeout(timer);
             }
         };
-    }, []);
+    }, [ timer ]);
 
 
     if (isHidden) {
