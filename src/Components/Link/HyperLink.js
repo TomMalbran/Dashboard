@@ -167,21 +167,21 @@ function HyperLink(props) {
  * @type {Object} propTypes
  */
 HyperLink.propTypes = {
-    history   : PropTypes.object.isRequired,
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    message   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    html      : PropTypes.string,
-    href      : PropTypes.string,
-    url       : PropTypes.string,
-    target    : PropTypes.string,
-    tel       : PropTypes.bool,
-    mail      : PropTypes.bool,
-    whatsapp  : PropTypes.bool,
-    onClick   : PropTypes.func,
-    dontStop  : PropTypes.bool,
-    passedRef : PropTypes.any,
-    children  : PropTypes.any,
+    history    : PropTypes.object.isRequired,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
+    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    html       : PropTypes.string,
+    href       : PropTypes.string,
+    url        : PropTypes.string,
+    target     : PropTypes.string,
+    isPhone    : PropTypes.bool,
+    isEmail    : PropTypes.bool,
+    isWhatsapp : PropTypes.bool,
+    onClick    : PropTypes.func,
+    dontStop   : PropTypes.bool,
+    passedRef  : PropTypes.any,
+    children   : PropTypes.any,
 };
 
 /**

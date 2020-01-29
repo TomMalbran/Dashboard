@@ -8,15 +8,17 @@ import NLS                  from "../Core/NLS";
  * @returns {String}
  */
 function getUrl(data) {
-    const { href, url, message, tel, mail, whatsapp } = data;
+    const { href, url, message, isLink, isPhone, isEmail, isWhatsapp } = data;
     let result = href;
     if (url) {
         result = NLS.url(url);
-    } else if (tel) {
+    } else if (isLink) {
+        result = !message.startsWith("http") ? `http://${message}` : message;
+    } else if (isPhone) {
         result = `tel:${href || message}`;
-    } else if (mail) {
+    } else if (isEmail) {
         result = `mailto:${href || message}`;
-    } else if (whatsapp) {
+    } else if (isWhatsapp) {
         result = `https://api.whatsapp.com/send?phone=549${href || message}`;
     }
     return result;
@@ -93,7 +95,7 @@ function handleUrl(url, target, history) {
  * @returns {Void}
  */
 function handleClick(e, props) {
-    const { isDisabled, onClick, tel, mail, whatsapp, dontStop, history } = props;
+    const { isDisabled, onClick, isPhone, isEmail, isWhatsapp, dontStop, history } = props;
     const url     = getUrl(props);
     let   handled = false;
 
@@ -104,7 +106,7 @@ function handleClick(e, props) {
             onClick(e);
             handled = true;
         }
-        if (!tel && !mail && !whatsapp && handleInternal(url, history)) {
+        if (!isPhone && !isEmail && !isWhatsapp && handleInternal(url, history)) {
             handled = true;
         }
     }
