@@ -31,6 +31,7 @@ const Img = Styled.img`
     box-shadow: 0 0 4px transparent;
     border-radius: 100%;
     transition: all 0.5s;
+    overflow: hidden;
 `;
 
 
