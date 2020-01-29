@@ -3,7 +3,8 @@ import PropTypes            from "prop-types";
 import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Utils
+// Core & Utils
+import NLS                  from "../../Core/NLS";
 import Href                 from "../../Utils/Href";
 import MD5                  from "../../Utils/MD5";
 
@@ -40,7 +41,9 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { history, className, size, url, target, name, data } = props;
+    const { history, className, size, url, href, target, name, data } = props;
+
+    const hasClick = Boolean(url || href);
 
     let avatar = data.avatar;
     if (!avatar && data.email) {
@@ -50,8 +53,9 @@ function Avatar(props) {
 
     // Handles the Click
     const handleClick = (e) => {
-        if (url) {
-            Href.handleUrl(url, target, history);
+        if (hasClick) {
+            const uri = url ? NLS.url(url) : href;
+            Href.handleUrl(uri, target, history);
             e.stopPropagation();
             e.preventDefault();
         }
@@ -59,12 +63,12 @@ function Avatar(props) {
 
 
     if (!avatar) {
-        return <React.Component />;
+        return <div />;
     }
     return <Div
         className={className}
         size={size}
-        hasClick={!!url}
+        hasClick={hasClick}
         onClick={handleClick}
     >
         <Img alt={name || data.name} src={avatar} />
@@ -79,6 +83,7 @@ Avatar.propTypes = {
     history   : PropTypes.object.isRequired,
     className : PropTypes.string,
     url       : PropTypes.string,
+    href      : PropTypes.string,
     target    : PropTypes.string,
     data      : PropTypes.object.isRequired,
     name      : PropTypes.string,
