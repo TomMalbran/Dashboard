@@ -18,7 +18,7 @@ const Variant = {
 
 
 // Styles
-const Section = Styled.section.attrs(({ variant, canAdd }) => ({ variant, canAdd }))`
+const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,7 +27,11 @@ const Section = Styled.section.attrs(({ variant, canAdd }) => ({ variant, canAdd
         flex-grow: 2;
         background-color: var(--primary-color);
     `}
-    ${(props) => props.canAdd && "padding-right: 16px;"}
+
+    .icon {
+        font-size: 24px;
+        margin-right: 16px;
+    }
 `;
 
 const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
@@ -54,7 +58,7 @@ function TabList(props) {
         index : key,
     }));
 
-    return <Section className={`tabs ${className}`} variant={variant} canAdd={canAdd}>
+    return <Section className={`tabs ${className}`} variant={variant}>
         <Div variant={variant}>
             {items}
         </Div>
