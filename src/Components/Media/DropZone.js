@@ -93,8 +93,8 @@ function DropZone(props) {
 
     // Handles the Click
     const handleClick = (e) => {
-        if (inputRef.current) {
-            const node = inputRef.current;
+        const node = inputRef.current;
+        if (node) {
             node.click();
         }
     };
@@ -130,6 +130,7 @@ function DropZone(props) {
     // Handles the Submit
     const handleSubmit = (e) => {
         e.preventDefault();
+        const node   = inputRef.current;
         const files  = e.target.files;
         const result = [];
 
@@ -141,8 +142,7 @@ function DropZone(props) {
         if (result.length) {
             onDrop(result);
         }
-        if (inputRef.current) {
-            const node = inputRef.current;
+        if (node) {
             node.value = "";
         }
         onEnd();

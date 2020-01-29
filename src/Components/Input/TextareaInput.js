@@ -24,11 +24,9 @@ function TextareaInput(props) {
 
     // Handles the TextArea autogrow
     const handleInput = () => {
-        if (inputRef.current) {
-            const node = inputRef.current;
-            if (node && node.offsetHeight < node.scrollHeight + 2) {
-                node.style.height = `${node.scrollHeight + 2}px`;
-            }
+        const node = inputRef.current;
+        if (node && node.offsetHeight < node.scrollHeight + 2) {
+            node.style.height = `${node.scrollHeight + 2}px`;
         }
     };
 

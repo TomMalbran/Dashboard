@@ -80,8 +80,8 @@ function FileInput(props) {
 
     // Handles the Click
     const handleClick = (e) => {
-        if (inputRef.current) {
-            const node = inputRef.current;
+        const node = inputRef.current;
+        if (node) {
             node.click();
             e.preventDefault();
         }

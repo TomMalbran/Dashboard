@@ -118,8 +118,9 @@ function RadioInput(props) {
     // Handles the Custom Radio Change
     const handleCustom = (e) => {
         handleCheck(e, customKey);
-        if (e.target.checked && inputRef.current) {
-            inputRef.current.focus();
+        const node = inputRef.current;
+        if (e.target.checked && node) {
+            node.focus();
         }
     };
 

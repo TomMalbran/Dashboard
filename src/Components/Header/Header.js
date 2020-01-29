@@ -22,6 +22,7 @@ const Container = Styled.header`
 `;
 
 const Div = Styled.div`
+    flex-grow: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;

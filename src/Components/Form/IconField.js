@@ -119,8 +119,8 @@ function IconField(props) {
 
     // Autofocus
     React.useEffect(() => {
-        if (autoFocus && inputRef.current) {
-            const node = inputRef.current;
+        const node = inputRef.current;
+        if (autoFocus && node) {
             node.focus();
         }
     }, []);
