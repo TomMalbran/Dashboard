@@ -1,5 +1,6 @@
 // All the options
 const OPTIONS = {
+    name     : "",
     icon     : "",
     message  : "",
 
@@ -154,12 +155,10 @@ function create(name, icon = "", message = "") {
     const isName = `is${name[0]}${name.toLocaleLowerCase().substr(1)}`;
     return {
         ...OPTIONS,
-        icon, message,
+        name, icon, message,
         [isName] : true,
     };
 }
-
-
 
 /**
  * Returns the Action with the given name
