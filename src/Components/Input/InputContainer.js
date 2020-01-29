@@ -33,9 +33,12 @@ const Container = Styled.div.attrs(
         }
     `}
     ${(props) => props.hasError && `
-        .inputfield-input,
+        .inputfield-input.inputfield-input,
         .inputfield-cnt > .icon {
             border-color: var(--error-color);
+        }
+        .inputfield-label.inputfield-label {
+            color: var(--error-color);
         }
     `}
     ${(props) => props.isFocused && `

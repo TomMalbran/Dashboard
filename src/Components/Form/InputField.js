@@ -23,7 +23,7 @@ const InputContent = Styled.div`
 `;
 
 const InputError = Styled.p`
-    font-size: 0.8em;
+    font-size: 12px;
     margin: 4px 0 0 4px;
     color: #ff0033;
 `;
