@@ -141,7 +141,7 @@ function Dialog(props) {
             window.removeEventListener("keyup", eventListener);
         }
         return () => window.removeEventListener("keyup", eventListener);
-    }, [ open, opened ]);
+    }, [ open ]);
 
 
     // No need to continue
