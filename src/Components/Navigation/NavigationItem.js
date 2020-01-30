@@ -21,9 +21,10 @@ const Div = Styled.div`
         display: none;
         position: absolute;
         top: 50%;
-        right: 0;
+        right: 4px;
         transform: translateY(-50%);
         padding: 4px;
+        font-size: 1.2em;
         cursor: pointer;
     }
     &:hover > .icon {
