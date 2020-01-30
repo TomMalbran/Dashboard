@@ -36,11 +36,11 @@ const Div = Styled.div`
     display: flex;
     align-items: center;
 
-    .icon {
+    & > .icon {
         font-size: 24px;
         margin-right: 8px;
     }
-    .tabs {
+    & > .tabs {
         margin-top: calc(var(--dialog-header) - var(--tabs-dialog));
         margin-left: 32px;
     }
