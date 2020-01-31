@@ -50,9 +50,11 @@ function NavigationBody(props) {
         if (child.type === NavigationList) {
             addList = false;
         }
-        items.push(React.cloneElement(child, {
-            key, variant, path, baseUrl, onAction, onClose,
-        }));
+        if (!child.props.isHidden) {
+            items.push(React.cloneElement(child, {
+                key, variant, path, baseUrl, onAction, onClose,
+            }));
+        }
     }
 
     const showLoader = isLoading;

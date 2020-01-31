@@ -48,6 +48,7 @@ NavigationList.propTypes = {
     baseUrl   : PropTypes.string,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
+    isHidden  : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -58,6 +59,7 @@ NavigationList.propTypes = {
 NavigationList.defaultProps = {
     className : "",
     baseUrl   : "",
+    isHidden  : false,
 };
 
 export default NavigationList;

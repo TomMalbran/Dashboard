@@ -130,17 +130,16 @@ function Table(props) {
             for (const tableAction of Utils.toArray(child.props.children)) {
                 const action = { ...tableAction.props };
                 action.act = Action.get(action.action);
-                if (!tableAction.props.isHidden && (action.act.isCED && child.props.canEdit) || !action.act.isCED) {
+                if (!action.isHidden && ((action.act.isCED && child.props.canEdit) || !action.act.isCED)) {
                     hasActions = true;
                     if (!action.route && !action.onClick) {
                         action.onClick  = child.props.onClick;
                         action.onAction = child.props.onAction;
-                        action.hide     = tableAction.props.hide;
                     }
                     if (!firstAction.action) {
                         firstAction = action;
                     }
-                    if (!menuID || !tableAction.props.hide || !tableAction.props.hide(menuID)) {
+                    if (!menuID || !action.hide || !action.hide(menuID)) {
                         actions.push(action);
                     }
                 }

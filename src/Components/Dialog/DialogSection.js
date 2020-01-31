@@ -9,8 +9,11 @@ import PropTypes            from "prop-types";
  * @returns {React.ReactElement}
  */
 function DialogSection(props) {
-    const { className, children } = props;
+    const { className, isHidden, children } = props;
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <section className={className}>
         {children}
     </section>;

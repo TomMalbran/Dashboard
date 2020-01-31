@@ -20,11 +20,11 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
     list-style: none;
     margin: 0;
     padding: 0;
-    z-index: 1;
     transform: translateY(-26px);
     background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.31) 0px 0px 1px;
+    z-index: 1;
 
     ${(props) => props.isOpen  && "display: block;"}
     ${(props) => props.withPos && "transform: none;"}

@@ -32,7 +32,7 @@ function ColorInput(props) {
         id={id}
         ref={inputRef}
         name={name}
-        value={value}
+        value={value || "#FFFFFF"}
         disabled={isDisabled}
         onChange={handleChange}
         tabIndex={tabIndex}
