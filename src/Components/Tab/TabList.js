@@ -30,7 +30,6 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
 
     .icon {
         font-size: 24px;
-        margin-right: 16px;
     }
 `;
 
