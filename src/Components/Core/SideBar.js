@@ -25,6 +25,15 @@ const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     background-color: var(--secondary-color);
     padding: 16px 0;
     ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
+
+    @media (max-width: 1000px) {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: var(--z-sidebar);
+    }
 `;
 const Div = Styled.div`
     display: flex;
@@ -68,7 +77,7 @@ function SideBar(props) {
         onLogout, message, avatarData, avatarUrl,
     } = props;
 
-    return <Nav className={className} withBorder={withBorder}>
+    return <Nav className={`sidebar ${className}`} withBorder={withBorder}>
         <Div>
             <SideLogo
                 logo={logo}

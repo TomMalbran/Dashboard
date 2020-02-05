@@ -61,7 +61,7 @@ function TopBar(props) {
         onDetails, showDetails, avatarUrl, avatarData,
     } = props;
 
-    return <Nav className={className}>
+    return <Nav className={`topbar ${className}`}>
         <Div>
             {!!onMenu && <TopIcon
                 variant="dark"

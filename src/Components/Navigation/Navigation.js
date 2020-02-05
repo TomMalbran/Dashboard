@@ -29,6 +29,15 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
         background-color: var(--lighter-gray);
         color: var(--font-light);
     `}
+
+    @media (max-width: 1000px) {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: var(--sidebar-width);
+        bottom: 0;
+        z-index: var(--z-navigation);
+    }
 `;
 
 
@@ -45,7 +54,7 @@ function Navigation(props) {
         variant, none, isLoading, onAction,
     }));
 
-    return <Nav className={className} variant={variant}>
+    return <Nav className={`navigation ${className}`} variant={variant}>
         {items}
     </Nav>;
 }
