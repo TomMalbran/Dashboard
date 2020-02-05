@@ -14,7 +14,7 @@ import cleanup          from "rollup-plugin-cleanup";
 export default function makeConfig(commandOptions) {
     const isDist  = true; //commandOptions["config-dist"];
     const targets = isDist ? [ "./dist" ] : [];
-    const input   = {};
+    const input   = { Dashboard : "src/Dashboard.js" };
     const dirs    = {
         Utils      : "Utils/*.js",
         Core       : "Core/*.js",
