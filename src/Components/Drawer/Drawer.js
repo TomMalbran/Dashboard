@@ -6,8 +6,8 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import Backdrop             from "../Common/Backdrop";
-import BarLogo              from "../Bar/BarLogo";
-import BarIcon              from "../Bar/BarIcon";
+import BarLogo              from "../Core/BarLogo";
+import BarIcon              from "../Core/BarIcon";
 
 // Styled
 import Styled, {
@@ -61,10 +61,6 @@ const Section = Styled.section`
     box-sizing: border-box;
     width: calc(var(--drawer-width) - var(--sidebar-width));
     padding: 18px 32px 32px 16px;
-
-    .navigation {
-        padding: 0;
-    }
 `;
 
 const H2 = Styled.h2`

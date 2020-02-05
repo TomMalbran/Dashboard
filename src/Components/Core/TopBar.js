@@ -3,9 +3,9 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
+import BarIcon              from "../Core/BarIcon";
+import BarLogo              from "../Core/BarLogo";
 import Avatar               from "../Common/Avatar";
-import BarIcon              from "../Bar/BarIcon";
-import BarLogo              from "../Bar/BarLogo";
 
 
 
@@ -17,8 +17,11 @@ const Nav = Styled.nav`
     height: var(--topbar-height);
     padding: 0 12px;
     background-color: var(--secondary-color);
-`;
 
+    @media (max-width: 1000px) {
+        display: flex;
+    }
+`;
 const Div = Styled.div`
     display: flex;
     flex-direction: row;
@@ -31,14 +34,12 @@ const TopLogo = Styled(BarLogo)`
         display: block;
     }
 `;
-
 const TopIcon = Styled(BarIcon)`
     font-size: 24px;
     color: white;
     cursor: pointer;
     margin-bottom: 0;
 `;
-
 const DetailIcon = Styled(BarIcon)`
     font-size: 24px;
     color: white;

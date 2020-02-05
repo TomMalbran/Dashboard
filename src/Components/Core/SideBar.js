@@ -6,9 +6,9 @@ import Styled               from "styled-components";
 import NLS                  from "../../Core/NLS";
 
 // Components
+import BarLogo              from "../Core/BarLogo";
+import BarIcon              from "../Core/BarIcon";
 import Avatar               from "../Common/Avatar";
-import BarLogo              from "../Bar/BarLogo";
-import BarIcon              from "../Bar/BarIcon";
 
 
 
@@ -26,7 +26,6 @@ const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     padding: 16px 0;
     ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
 `;
-
 const Div = Styled.div`
     display: flex;
     flex-direction: column;
@@ -50,7 +49,6 @@ const SideLogo = Styled(BarLogo)`
     margin-top: var(--sidebar-top);
     height: var(--sidebar-logo);
 `;
-
 const SideAvatar = Styled(Avatar)`
     margin-top: 6px;
 `;
