@@ -14,7 +14,7 @@ const Variant = {
 
 
 // Styles
-const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
+const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
@@ -45,9 +45,9 @@ function Navigation(props) {
         variant, none, isLoading, onAction,
     }));
 
-    return <Section className={`navigation ${className}`} variant={variant}>
+    return <Nav className={className} variant={variant}>
         {items}
-    </Section>;
+    </Nav>;
 }
 
 /**

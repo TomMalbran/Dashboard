@@ -60,7 +60,7 @@ const Title = Styled.span`
  * @returns {React.ReactElement}
  */
 function SearchDrawer(props) {
-    const { history, open, className, message, fetch, onClose, logo, logoSize } = props;
+    const { history, isHidden, open, className, message, fetch, onClose, logo, logoSize } = props;
 
     const [ value,       setValue       ] = React.useState("");
     const [ suggestions, setSuggestions ] = React.useState([]);
@@ -131,7 +131,9 @@ function SearchDrawer(props) {
     };
     
 
-
+    if (!isHidden) {
+        return <React.Fragment />;
+    }
     return <Drawer
         open={open}
         className={className}
@@ -173,6 +175,7 @@ function SearchDrawer(props) {
  */
 SearchDrawer.propTypes = {
     history   : PropTypes.object.isRequired,
+    isHidden  : PropTypes.bool,
     open      : PropTypes.bool.isRequired,
     className : PropTypes.string,
     message   : PropTypes.string,
@@ -187,6 +190,7 @@ SearchDrawer.propTypes = {
  * @type {Object} defaultProps
  */
 SearchDrawer.defaultProps = {
+    isHidden  : false,
     className : "",
 };
 

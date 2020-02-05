@@ -32,7 +32,7 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
     justify-content: center;
     align-items: center;
     background-color: var(--drop-color);
-    z-index: var(--z-drawer);
+    z-index: var(--z-backdrop);
 `;
 
 

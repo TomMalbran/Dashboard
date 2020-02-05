@@ -18,6 +18,15 @@ const Section = Styled.section`
     width: var(--details-width);
     background-color: var(--lighter-gray);
     padding: 16px;
+
+    @media (max-width: 1000px) {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        z-index: var(--z-details);
+    }
 `;
 
 const Loading = Styled.div`
