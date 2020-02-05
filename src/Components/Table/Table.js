@@ -14,8 +14,8 @@ import TablePaging          from "../Table/TablePaging";
 import TableActionList      from "../Table/TableActionList";
 import Menu                 from "../Menu/Menu";
 import MenuItem             from "../Menu/MenuItem";
-import CircularLoader       from "../Common/CircularLoader";
 import NoneAvailable        from "../Common/NoneAvailable";
+import CircularLoader       from "../Loader/CircularLoader";
 
 
 
@@ -32,11 +32,11 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
 
     --table-height: ${(props) => props.inDialog ? "calc(100vh - 32px * 3 - 55px * 2)" : "calc(100vh - 24px)"};
     --table-topbar-height: 0px;
-    --table-header-height: 31px;
+    --table-header-height: 27px;
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 16px)" : "0px"};
-    --table-paging-height: ${(props) => props.hasPaging ? "40px" : "0px"};
+    --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
 
     @media (max-width: 1000px) {
         --table-topbar-height: var(--topbar-height);

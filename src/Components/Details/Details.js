@@ -8,7 +8,7 @@ import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import CircularLoader       from "../Common/CircularLoader";
+import CircularLoader       from "../Loader/CircularLoader";
 
 
 

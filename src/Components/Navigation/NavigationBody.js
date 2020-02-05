@@ -6,8 +6,8 @@ import Styled               from "styled-components";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import CircularLoader       from "../Common/CircularLoader";
 import NoneAvailable        from "../Common/NoneAvailable";
+import CircularLoader       from "../Loader/CircularLoader";
 import NavigationList       from "../Navigation/NavigationList";
 
 // Variants

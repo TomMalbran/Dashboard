@@ -50,11 +50,11 @@ const Div = Styled.div.attrs(({ open }) => ({ open }))`
 
 
 /**
- * The Loader Component
+ * The Linear Loader Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function Loader(props) {
+function LinearLoader(props) {
     const { open } = props;
     
     return <Div open={open}>
@@ -66,8 +66,8 @@ function Loader(props) {
  * The Property Types
  * @typedef {Object} propTypes
  */
-Loader.propTypes = {
+LinearLoader.propTypes = {
     open : PropTypes.bool.isRequired,
 };
 
-export default Loader;
+export default LinearLoader;

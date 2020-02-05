@@ -3,8 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import CircularLoader       from "../Common/CircularLoader";
 import NoneAvailable        from "../Common/NoneAvailable";
+import CircularLoader       from "../Loader/CircularLoader";
 import MediaItem            from "../Media/MediaItem";
 
 
