@@ -48,10 +48,10 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function Navigation(props) {
-    const { className, variant, none, isLoading, onAction, children } = props;
+    const { className, variant, none, isLoading, onAction, onClose, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        variant, none, isLoading, onAction,
+        variant, none, isLoading, onAction, onClose,
     }));
 
     return <Nav className={`navigation ${className}`} variant={variant}>
@@ -69,6 +69,7 @@ Navigation.propTypes = {
     none      : PropTypes.string,
     isLoading : PropTypes.bool,
     onAction  : PropTypes.func,
+    onClose   : PropTypes.func,
     children  : PropTypes.any,
 };
 
