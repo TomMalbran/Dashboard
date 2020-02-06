@@ -30,7 +30,7 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
     width: 100%;
     table-layout: fixed;
 
-    --table-height: ${(props) => props.inDialog ? "calc(100vh - 32px * 3 - 55px * 2)" : "calc(100vh - 24px)"};
+    --table-height: ${(props) => props.inDialog ? "calc(100vh - 32px * 2 - 55px * 2 - 24px * 2 + 72px)" : "calc(100vh - 24px)"};
     --table-topbar-height: 0px;
     --table-header-height: 27px;
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
