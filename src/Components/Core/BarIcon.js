@@ -54,11 +54,8 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
 function BarIcon(props) {
     const { variant, className, icon, onClick } = props;
 
-    return <Div className={className} variant={variant}>
-        <Icon
-            icon={icon}
-            onClick={onClick}
-        />
+    return <Div className={className} variant={variant} onClick={onClick}>
+        <Icon icon={icon} />
     </Div>;
 }
 
