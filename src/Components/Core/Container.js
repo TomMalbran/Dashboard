@@ -36,11 +36,11 @@ const detailsClose = keyframes`
 
 // Styles
 const Div = Styled.div.attrs(({
-    showMenu, openingMenu, closingMenu,
-    showDetails, openingDetails, closingDetails,
+    showingMenu, openingMenu, closingMenu,
+    showingDetails, openingDetails, closingDetails,
 }) => ({
-    showMenu, openingMenu, closingMenu,
-    showDetails, openingDetails, closingDetails,
+    showingMenu, openingMenu, closingMenu,
+    showingDetails, openingDetails, closingDetails,
 }))`
     display: flex;
     height: 100vh;
@@ -49,7 +49,7 @@ const Div = Styled.div.attrs(({
     @media (max-width: 1000px) {
         flex-direction: column;
 
-        ${(props) => props.showMenu && `
+        ${(props) => props.showingMenu && `
             .sidebar, .navigation { display: flex; }
         `}
         ${(props) => props.openingMenu && css`
@@ -59,7 +59,7 @@ const Div = Styled.div.attrs(({
             .sidebar, .navigation { animation: ${menuClose} 0.3s ease-out both; }
         `}
 
-        ${(props) => props.showDetails && `
+        ${(props) => props.showingDetails && `
             .details { display: block; }
         `}
         ${(props) => props.openingDetails && css`
@@ -79,26 +79,109 @@ const Div = Styled.div.attrs(({
  * @returns {React.ReactElement}
  */
 function Container(props) {
-    const {
-        className, onClose, children,
-        showMenu, openingMenu, closingMenu,
-        showDetails, openingDetails, closingDetails,
-    } = props;
+    const { className, children, showMenu, closeMenu, showDetails, closeDetails } = props;
+
+    // The current State
+    const [ showingMenu,    setShowingMenu    ] = React.useState(false);
+    const [ openingMenu,    setOpeningMenu    ] = React.useState(false);
+    const [ closingMenu,    setClosingMenu    ] = React.useState(false);
+
+    const [ showingDetails, setShowingDetails ] = React.useState(false);
+    const [ openingDetails, setOpeningDetails ] = React.useState(false);
+    const [ closingDetails, setClosingDetails ] = React.useState(false);
+
+    // Opens the Menu
+    const handleMenuOpen = () => {
+        if (openingMenu) {
+            return;
+        }
+        setShowingMenu(true);
+        setOpeningMenu(true);
+        window.setTimeout(() => {
+            setOpeningMenu(false);
+        }, 300);
+    };
+
+    // Closes the Menu
+    const handleMenuClose = () => {
+        if (closingMenu) {
+            return;
+        }
+        setClosingMenu(true);
+        window.setTimeout(() => {
+            setClosingMenu(false);
+            setShowingMenu(false);
+        }, 300);
+    };
+
+    // Opens the Details
+    const handleDetailsOpen = () => {
+        if (openingDetails) {
+            return;
+        }
+        setShowingDetails(true);
+        setOpeningDetails(true);
+        window.setTimeout(() => {
+            setOpeningDetails(false);
+        }, 300);
+    };
+
+    // Closes the Details
+    const handleDetailsClose = () => {
+        if (closingDetails) {
+            return;
+        }
+        setClosingDetails(true);
+        window.setTimeout(() => {
+            setClosingDetails(false);
+            setShowingDetails(false);
+        }, 300);
+    };
+
+    // Handles the Menu/Detials Close
+    const handleClose = () => {
+        if (showingMenu) {
+            closeMenu();
+        }
+        if (showingDetails) {
+            closeDetails();
+        }
+    };
+
+
+    // Open or Close the Menu
+    React.useEffect(() => {
+        if (showMenu) {
+            handleMenuOpen();
+        } else {
+            handleMenuClose();
+        }
+    }, [ showMenu ]);
+
+    // Open or Close the Details
+    React.useEffect(() => {
+        if (showDetails) {
+            handleDetailsOpen();
+        } else {
+            handleDetailsClose();
+        }
+    }, [ showDetails ]);
+
 
     return <Div
         className={className}
-        showMenu={showMenu}
+        showingMenu={showingMenu}
         openingMenu={openingMenu}
         closingMenu={closingMenu}
-        showDetails={showDetails}
+        showingDetails={showingDetails}
         openingDetails={openingDetails}
         closingDetails={closingDetails}
     >
         {children}
-        {onClose && <Backdrop
-            open={showMenu || showDetails}
-            onClick={onClose}
-        />}
+        <Backdrop
+            open={showingMenu || showingDetails}
+            onClick={handleClose}
+        />
     </Div>;
 }
 
@@ -107,15 +190,12 @@ function Container(props) {
  * @type {Object} propTypes
  */
 Container.propTypes = {
-    className      : PropTypes.string,
-    showMenu       : PropTypes.bool,
-    openingMenu    : PropTypes.bool,
-    closingMenu    : PropTypes.bool,
-    showDetails    : PropTypes.bool,
-    openingDetails : PropTypes.bool,
-    closingDetails : PropTypes.bool,
-    onClose        : PropTypes.func,
-    children       : PropTypes.any,
+    className    : PropTypes.string,
+    showMenu     : PropTypes.bool,
+    showDetails  : PropTypes.bool,
+    closeMenu    : PropTypes.func,
+    closeDetails : PropTypes.func,
+    children     : PropTypes.any,
 };
 
 /**
@@ -123,13 +203,9 @@ Container.propTypes = {
  * @type {Object} defaultProps
  */
 Container.defaultProps = {
-    className      : "",
-    showMenu       : false,
-    openingMenu    : false,
-    closingMenu    : false,
-    showDetails    : false,
-    openingDetails : false,
-    closingDetails : false,
+    className   : "",
+    showMenu    : false,
+    showDetails : false,
 };
 
 export default Container;
