@@ -42,7 +42,7 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { history, className, size, url, href, target, name, data } = props;
+    const { history, className, size, url, href, target, name, data, reload } = props;
 
     const hasClick = Boolean(url || href);
 
@@ -50,6 +50,8 @@ function Avatar(props) {
     if (!avatar && data.email) {
         const username = MD5(data.email.toLowerCase().trim());
         avatar = `https://gravatar.com/avatar/${username}?default=identicon`;
+    } else if (reload) {
+        avatar += `?rdm=${new Date().getTime()}`;
     }
 
     // Handles the Click
@@ -89,6 +91,7 @@ Avatar.propTypes = {
     data      : PropTypes.object.isRequired,
     name      : PropTypes.string,
     size      : PropTypes.number,
+    reload    : PropTypes.bool,
 };
 
 /**
@@ -99,6 +102,7 @@ Avatar.defaultProps = {
     className : "",
     target    : "_self",
     size      : 36,
+    reload    : false,
 };
 
 export default withRouter(Avatar);
