@@ -66,7 +66,7 @@ function TablePaging(props) {
 
     // Handles the Amount Change
     const handleAmount = (name, amount) => {
-        fetch({ ...sort, amount });
+        fetch({ ...sort, page : 0, amount });
     };
 
     // Handles the Page Change
