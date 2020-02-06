@@ -17,19 +17,29 @@ const Div = Styled.div`
     position: relative;
     margin-bottom: 6px;
 
-    & > .icon {
-        display: none;
-        position: absolute;
-        top: 50%;
-        right: 4px;
-        transform: translateY(-50%);
-        padding: 4px;
-        font-size: 1.2em;
-        cursor: pointer;
-    }
     &:hover > .icon {
         display: block;
     }
+`;
+
+const NavIcon = Styled(Icon)`
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    padding: 4px;
+    font-size: 1.2em;
+    cursor: pointer;
+`;
+
+const Span = Styled.span`
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    padding: 4px;
+    font-size: 1.2em;
 `;
 
 
@@ -42,7 +52,7 @@ const Div = Styled.div`
 function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
-        elemID, isSelected, onAction, onClick, onClose, canEdit, canDelete, children,
+        elemID, isSelected, onAction, onClick, onClose, amount, canEdit, canDelete, children,
     } = props;
 
     const uri = url ? NLS.url(url, baseUrl) : (href || "");
@@ -55,7 +65,7 @@ function NavigationItem(props) {
         if (onClick) {
             onClick(e);
         } else if (onAction) {
-            handleAction("VIEW", e);
+            handleAction(e, "VIEW");
         }
     };
 
@@ -81,11 +91,12 @@ function NavigationItem(props) {
                 onClick={handleClick}
                 icon={icon}
             />
-            {canEdit && <Icon
+            {amount !== undefined && <Span>{amount}</Span>}
+            {canEdit && <NavIcon
                 icon="edit"
                 onClick={(e) => handleAction(e, "EDIT")}
             />}
-            {canDelete && <Icon
+            {canDelete && <NavIcon
                 icon="delete"
                 onClick={(e) => handleAction(e, "DELETE")}
             />}
@@ -112,6 +123,7 @@ NavigationItem.propTypes = {
     onClick    : PropTypes.func,
     onAction   : PropTypes.func,
     onClose    : PropTypes.func,
+    amount     : PropTypes.number,
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     isSelected : PropTypes.bool,
