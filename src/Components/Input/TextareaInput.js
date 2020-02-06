@@ -22,13 +22,18 @@ function TextareaInput(props) {
         onChange(name, e.target.value);
     };
 
-    // Handles the TextArea autogrow
+    // Handles the Textarea autogrow
     const handleInput = () => {
         const node = inputRef.current;
         if (node && node.offsetHeight < node.scrollHeight + 2) {
             node.style.height = `${node.scrollHeight + 2}px`;
         }
     };
+
+    // Resize the Textarea the first time
+    React.useEffect(() => {
+        handleInput();
+    }, []);
 
 
     return <textarea
