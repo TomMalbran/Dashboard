@@ -73,9 +73,26 @@ function SideBar(props) {
     const {
         className, withBorder,
         logo, logoSize,
-        hasSearch, onSearch, hasCreate, onCreate,
+        hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarData, avatarUrl,
     } = props;
+
+    // Handles the Search Click
+    const handleSearch = (e) => {
+        if (onClose) {
+            onClose(e);
+        }
+        onSearch(e);
+    };
+
+    // Handles the Create Click
+    const handleCreate = (e) => {
+        if (onClose) {
+            onClose(e);
+        }
+        onCreate(e);
+    };
+
 
     return <Nav className={`sidebar ${className}`} withBorder={withBorder}>
         <Div>
@@ -87,12 +104,12 @@ function SideBar(props) {
             {hasSearch && <BarIcon
                 variant="dark"
                 icon="search"
-                onClick={onSearch}
+                onClick={handleSearch}
             />}
             {hasCreate && <BarIcon
                 variant="dark"
                 icon="add"
-                onClick={onCreate}
+                onClick={handleCreate}
             />}
         </Div>
         <Div>
@@ -123,6 +140,7 @@ SideBar.propTypes = {
     hasCreate  : PropTypes.bool,
     onSearch   : PropTypes.func,
     onCreate   : PropTypes.func,
+    onClose    : PropTypes.func,
     onLogout   : PropTypes.func,
     message    : PropTypes.string,
     avatarUrl  : PropTypes.string,
