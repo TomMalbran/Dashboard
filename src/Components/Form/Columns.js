@@ -29,17 +29,20 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         margin-left: 8px;
         margin-top: 0;
     }
-
+    
+    .inputfield:last-child,
     .inputview:last-child {
         margin-bottom: 20px;
     }
 
     ${(props) => props.amount === 2 && `
+        &:last-child .inputfield:nth-last-child(-n+2),
         &:last-child .inputview:nth-last-child(-n+2) {
             margin-bottom: 0;
         }
     `}
     ${(props) => props.amount === 3 && `
+        &:last-child .inputfield:nth-last-child(-n+3),
         &:last-child .inputview:nth-last-child(-n+3) {
             margin-bottom: 0;
         }
@@ -69,6 +72,19 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         }
         .columns-btn {
             grid-column-start: 1;
+        }
+        
+        &:last-child .inputfield:nth-last-child(-n+2),
+        &:last-child .inputview:nth-last-child(-n+2) {
+            margin-bottom: 20px;
+        }
+        &:last-child .inputfield:nth-last-child(-n+2),
+        &:last-child .inputview:nth-last-child(-n+2) {
+            margin-bottom: 20px;
+        }
+        &:last-child .inputfield:last-child,
+        &:last-child .inputview:last-child {
+            margin-bottom: 0;
         }
     }
 `;
