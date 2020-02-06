@@ -29,6 +29,9 @@ const close = keyframes`
 `;
 
 // Styles
+const Drawerdrop = Styled(Backdrop)`
+    z-index: var(--z-drawer);
+`;
 const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
     animation: ${(props) => props.isClosing ? css`${close} 0.3s ease-out both` : css`${open} 0.3s ease-in both`};
     position: fixed;
@@ -103,7 +106,7 @@ function Drawer(props) {
     };
 
 
-    return <Backdrop
+    return <Drawerdrop
         contentRef={contentRef}
         open={open}
         closing={closing}
@@ -123,7 +126,7 @@ function Drawer(props) {
                 {children}
             </Section>
         </Div>
-    </Backdrop>;
+    </Drawerdrop>;
 }
 
 /**
