@@ -131,7 +131,7 @@ function SearchDrawer(props) {
     };
     
 
-    if (!isHidden) {
+    if (isHidden) {
         return <React.Fragment />;
     }
     return <Drawer
