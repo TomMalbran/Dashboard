@@ -14,6 +14,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 // Styles
 const Section = Styled.section`
+    flex-shrink: 0;
     box-sizing: border-box;
     width: var(--details-width);
     background-color: var(--lighter-gray);
