@@ -13,9 +13,10 @@ let controller = null;
  * @param {URL}      url
  * @param {Object=}  options
  * @param {Boolean=} showLoader
+ * @param {Boolean=} showResult
  * @returns {Promise}
  */
-async function ajax(url, options = {}, showLoader = true) {
+async function ajax(url, options = {}, showLoader = true, showResult = true) {
     let response   = null;
     let result     = null;
     const defError = { "form" : "GENERAL_ERROR" };
@@ -80,10 +81,10 @@ async function ajax(url, options = {}, showLoader = true) {
     if (!result.data) {
         result.data = {};
     }
-    if (result.success) {
+    if (result.success && showResult) {
         Store.showResult("success", result.success);
         result.data.success = result.success;
-    } else if (result.warning) {
+    } else if (result.warning && showResult) {
         Store.showResult("warning", result.warning);
         result.data.warning = result.warning;
     } else if (result.error) {
