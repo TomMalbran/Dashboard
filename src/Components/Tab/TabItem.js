@@ -27,16 +27,28 @@ const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isD
     cursor: pointer;
     transition: all 0.2s;
 
-    .icon {
-        position: absolute;
-        top: 50%;
-        right: 2px;
-        transform: translateY(-50%);
-        transition: 0.5 all;
+    &:hover .icon {
+        display: block;
     }
-    .icon:hover {
+`;
+
+const ItemIcon = Styled(Icon)`
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.5 all;
+    font-size: 14px;
+
+    &:hover {
         opacity: 0.8;
     }
+`;
+const EditIcon = Styled(ItemIcon)`
+    left: 2px;
+`;
+const DeleteIcon = Styled(ItemIcon)`
+    right: 2px;
 `;
 
 const LightItem = Styled(Item)`
@@ -107,15 +119,23 @@ const Components = {
  * @returns {React.ReactElement}
  */
 function TabItem(props) {
-    const { className, variant, message, status, value, index, selected, isDisabled, canDelete, onAction } = props;
+    const { className, variant, message, status, value, index, selected, isDisabled, canEdit, canDelete, onAction } = props;
     
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
     const isSelected = !isDisabled && String(selected) === String(id);
+    const canAction  = !isDisabled && onAction;
 
     // Handle the Click
     const handleClick = () => {
         handleAction("TAB");
+    };
+
+    // Handle the Edit
+    const handleEdit = (e) => {
+        handleAction("EDIT");
+        e.stopPropagation();
+        e.preventDefault();
     };
 
     // Handle the Delete
@@ -134,13 +154,17 @@ function TabItem(props) {
     
     
     return <Component
-        className={`${className} tab-item ${isSelected ? "tab-selected" : ""}`}
+        className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
         onClick={handleClick}
     >
+        {canEdit && canAction && <EditIcon
+            icon="edit"
+            onClick={handleEdit}
+        />}
         {NLS.get(message)}
-        {canDelete && isSelected && <Icon
+        {canDelete && canAction && <DeleteIcon
             icon="close"
             onClick={handleDelete}
         />}
@@ -161,6 +185,7 @@ TabItem.propTypes = {
     message    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
+    canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onAction   : PropTypes.func,
     isHidden   : PropTypes.bool,
@@ -177,6 +202,7 @@ TabItem.defaultProps = {
     index      : 0,
     isDisabled : false,
     isSelected : false,
+    canEdit    : false,
     canDelete  : false,
     isHidden   : false,
 };

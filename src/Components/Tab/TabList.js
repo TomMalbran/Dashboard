@@ -27,10 +27,6 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
         flex-grow: 2;
         background-color: var(--primary-color);
     `}
-
-    .icon {
-        font-size: 24px;
-    }
 `;
 
 const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
@@ -40,6 +36,12 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         flex-grow: 2;
     `}
+`;
+
+const TabLink = Styled(IconLink)`
+    .icon {
+        font-size: 20px;
+    }
 `;
 
 
@@ -61,7 +63,7 @@ function TabList(props) {
         <Div variant={variant}>
             {items}
         </Div>
-        {canAdd && <IconLink
+        {canAdd && <TabLink
             variant={variant === Variant.DARK ? "darker" : "light"}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
