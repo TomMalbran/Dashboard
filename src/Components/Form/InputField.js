@@ -224,6 +224,8 @@ InputField.propTypes = {
     placeholder   : PropTypes.string,
     icon          : PropTypes.string,
     value         : PropTypes.any,
+    minValue      : PropTypes.number,
+    step          : PropTypes.string,
     autoComplete  : PropTypes.string,
     spellCheck    : PropTypes.string,
     isRequired    : PropTypes.bool,

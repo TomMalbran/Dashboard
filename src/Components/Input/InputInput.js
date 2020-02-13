@@ -39,13 +39,13 @@ const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
 /**
  * The Input Input Component
  * @param {Object} props
- * @param {Object} ref
  * @returns {React.ReactElement}
  */
-function InputInput(props, ref) {
+function InputInput(props) {
     const { inputRef, className, type, name, value, onChange, isSmall } = props;
 
     return <Input
+        {...props}
         ref={inputRef}
         className={className}
         type={type}

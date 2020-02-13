@@ -14,13 +14,13 @@ import KeyCode              from "../../Utils/KeyCode";
  */
 function NumberInput(props) {
     const {
-        className, id, name, value, minValue, placeholder, isDisabled, tabIndex,
+        className, id, name, value, minValue, step, placeholder, isDisabled, tabIndex,
         onChange, onFocus, onBlur,
     } = props;
 
     // Handles a Number
     const handleChange = (e) => {
-        onChange(name, Number(e.target.value));
+        onChange(name, e.target.value);
     };
 
     // Handles the KeyInput
@@ -48,6 +48,7 @@ function NumberInput(props) {
         name={name}
         value={value}
         min={minValue}
+        step={step}
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
         onChange={handleChange}
@@ -66,9 +67,10 @@ NumberInput.propTypes = {
     className   : PropTypes.string,
     id          : PropTypes.string,
     name        : PropTypes.string.isRequired,
+    placeholder : PropTypes.string,
     value       : PropTypes.any,
     minValue    : PropTypes.number,
-    placeholder : PropTypes.string,
+    step        : PropTypes.string,
     isDisabled  : PropTypes.bool,
     tabIndex    : PropTypes.string,
     onChange    : PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ NumberInput.propTypes = {
  */
 NumberInput.defaultProps = {
     className : "",
+    step      : "1",
 };
 
 export default NumberInput;
