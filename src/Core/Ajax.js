@@ -81,14 +81,20 @@ async function ajax(url, options = {}, showLoader = true, showResult = true) {
     if (!result.data) {
         result.data = {};
     }
-    if (result.success && showResult) {
-        Store.showResult("success", result.success);
+    if (result.success) {
+        if (showResult) {
+            Store.showResult("success", result.success);
+        }
         result.data.success = result.success;
-    } else if (result.warning && showResult) {
-        Store.showResult("warning", result.warning);
+    } else if (result.warning) {
+        if (showResult) {
+            Store.showResult("warning", result.warning);
+        }
         result.data.warning = result.warning;
     } else if (result.error) {
-        Store.showResult("error", result.error);
+        if (showResult) {
+            Store.showResult("error", result.error);
+        }
         result.data.error = result.error;
     }
 
@@ -110,13 +116,13 @@ function abort() {
 
 /**
  * Creates a new Url
- * @param {String}   path
+ * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
  * @returns {URL}
  */
-function createUrl(path, params = {}, addToken = true) {
-    const url   = new URL(process.env.REACT_APP_API + path);
+function createUrl(route, params = {}, addToken = true) {
+    const url   = new URL(process.env.REACT_APP_API + route);
     const token = Auth.getToken();
 
     for (const [ key, value ] of Object.entries(params)) {
@@ -130,17 +136,18 @@ function createUrl(path, params = {}, addToken = true) {
 
 /**
  * Does a Get
- * @param {String}   path
+ * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} showLoader
+ * @param {Boolean=} showResult
  * @returns {Promise}
  */
-async function get(path, params = {}, showLoader = true) {
-    const url = createUrl(path, params);
+async function get(route, params = {}, showLoader = true, showResult = true) {
+    const url = createUrl(route, params);
     let result;
 
     try {
-        result = await ajax(url, {}, showLoader);
+        result = await ajax(url, {}, showLoader, showResult);
     } catch(e) {
         result = { error : true };
     }
@@ -149,29 +156,45 @@ async function get(path, params = {}, showLoader = true) {
 
 /**
  * Does a Post
- * @param {String}   path
+ * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} showLoader
+ * @param {Boolean=} showResult
  * @returns {Promise}
  */
-function post(path, params = {}, showLoader = true) {
-    const url  = createUrl(path);
+function post(route, params = {}, showLoader = true, showResult = true) {
+    const url  = createUrl(route);
     const body = new FormData();
     for (const [ key, value ] of Object.entries(params)) {
         body.append(key, value);
     }
-    return ajax(url, { method : "post", body }, showLoader);
+    return ajax(url, { method : "post", body }, showLoader, showResult);
 }
 
 /**
  * Returns the url
- * @param {String}   path
+ * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
  * @returns {String}
  */
-function url(path, params = {}, addToken = true) {
-    return createUrl(path, params, addToken).href;
+function url(route, params = {}, addToken = true) {
+    return createUrl(route, params, addToken).href;
+}
+
+/**
+ * Returns the route
+ * @param {String}  route
+ * @param {Object=} params
+ * @returns {String}
+ */
+function route(route, params = {}) {
+    const url = new URL(process.env.REACT_APP_ROUTE);
+    url.searchParams.append("route", route);
+    for (const [ key, value ] of Object.entries(params)) {
+        url.searchParams.append(key, value);
+    }
+    return url.href;
 }
 
 
@@ -181,5 +204,6 @@ export default {
     get,
     post,
     url,
+    route,
     abort,
 };
