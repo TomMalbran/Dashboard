@@ -5,32 +5,19 @@ import Styled               from "styled-components";
 
 
 // Styles
-const Content = Styled.main`
+const Content = Styled.aside`
+    order: 2;
     display: flex;
-    flex-grow: 2;
-    flex-direction: column;
-    height: 100vh;
-    width: calc(100vw - var(--sidebar-width) - var(--navigation-width));
-
-    aside + & {
-        width: calc(100vw - var(--sidebar-width) - var(--navigation-width) - var(--details-width));
-    }
-
-    @media (max-width: 1000px) {
-        width: 100vw !important;
-        height: calc(100vh - var(--topbar-height)) !important;
-        overflow: auto;
-    }
 `;
 
 
 
 /**
- * The Main Component
+ * The Aside Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function Main(props) {
+function Aside(props) {
     const { className, children } = props;
 
     return <Content className={className}>
@@ -42,7 +29,7 @@ function Main(props) {
  * The Property Types
  * @type {Object} propTypes
  */
-Main.propTypes = {
+Aside.propTypes = {
     className : PropTypes.string,
     children  : PropTypes.any,
 };
@@ -51,8 +38,8 @@ Main.propTypes = {
  * The Default Properties
  * @type {Object} defaultProps
  */
-Main.defaultProps = {
+Aside.defaultProps = {
     className : "",
 };
 
-export default Main;
+export default Aside;
