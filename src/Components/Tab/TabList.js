@@ -29,11 +29,11 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     `}
 `;
 
-const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
+const Div = Styled.div.attrs(({ variant, size }) => ({ variant, size }))`
     ${(props) => props.variant === Variant.LIGHT && "display: flex;"}
     ${(props) => props.variant === Variant.DARK  && `
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(${props.size || 100}px, 1fr));
         flex-grow: 2;
     `}
 `;
@@ -52,15 +52,14 @@ const TabLink = Styled(IconLink)`
  * @returns {React.ReactElement}
  */
 function TabList(props) {
-    const { className, variant, selected, onAction, canAdd, children } = props;
+    const { className, variant, size, selected, onAction, canAdd, children } = props;
 
-    const items = Utils.cloneChildren(children, (child, key) => ({
-        variant, onAction, selected,
-        index : key,
+    const items = Utils.cloneChildren(children, (child, index) => ({
+        index, variant, onAction, selected,
     }));
 
     return <Section className={`tabs ${className}`} variant={variant}>
-        <Div variant={variant}>
+        <Div variant={variant} size={size}>
             {items}
         </Div>
         {canAdd && <TabLink
@@ -78,6 +77,7 @@ function TabList(props) {
 TabList.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
+    size      : PropTypes.number,
     selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
     onAction  : PropTypes.func.isRequired,
     canAdd    : PropTypes.bool,
@@ -91,6 +91,7 @@ TabList.propTypes = {
 TabList.defaultProps = {
     className : "",
     variant   : Variant.LIGHT,
+    size      : 100,
     canAdd    : false,
 };
 
