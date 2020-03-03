@@ -33,6 +33,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     color: var(--link-color, black);
 
     &:focus {
+        background-color: var(--link-background, transparent);
         outline: none;
     }
     &:hover {

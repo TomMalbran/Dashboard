@@ -104,8 +104,8 @@ function Dialog(props) {
         }
         const node = contentRef.current;
         if (!noTab && e.which === KeyCode.DOM_VK_TAB) {
-            if (e.target.closest(".dialog-container") === null) {
-                const focusables = node.querySelectorAll("input, a");
+            if (e.target.closest(".dialog") === null) {
+                const focusables = node.querySelectorAll("input, a, button");
                 const backward   = e.shiftKey;
                 const target     = backward ? focusables[focusables.length - 1] : focusables[0];
                 target.focus();
@@ -167,7 +167,7 @@ function Dialog(props) {
         onClose={handleClose}
     >
         <Container
-            className={className}
+            className={`dialog ${className}`}
             ref={contentRef}
             isWide={isWide}
             isNarrow={isNarrow}
