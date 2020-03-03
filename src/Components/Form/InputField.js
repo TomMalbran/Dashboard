@@ -138,7 +138,7 @@ function InputField(props) {
     };
 
 
-    // Autofocus
+    // AutoFocus
     React.useEffect(() => {
         const node = inputRef.current;
         if (autoFocus && node) {

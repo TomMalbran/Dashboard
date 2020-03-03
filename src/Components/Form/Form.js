@@ -19,13 +19,15 @@ function Form(props) {
     const { className, error, onSubmit, children } = props;
 
     const items   = [];
-    let   isFirst = false;
+    let   isFirst = true;
     for (const [ key, child ] of Utils.getChildren(children)) {
         items.push(React.cloneElement(child, {
             key, onSubmit,
             autoFocus : child && (child.type === Columns || !child.props.isHidden) && isFirst,
         }));
-        isFirst = false;
+        if (child && (child.type === Columns || !child.props.isHidden) && isFirst) {
+            isFirst = false;
+        }
     }
 
 
