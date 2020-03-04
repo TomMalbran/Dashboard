@@ -25,8 +25,8 @@ const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
  * @returns {React.ReactElement}
  */
 function Html(props) {
-    const { variant, linkify, className, children } = props;
-    let __html = String(children);
+    const { variant, linkify, className, content, children } = props;
+    let __html = String(content || children);
 
     if (linkify) {
         __html = __html
@@ -71,6 +71,7 @@ function Html(props) {
 Html.propTypes = {
     variant   : PropTypes.string,
     className : PropTypes.string,
+    content   : PropTypes.string,
     children  : PropTypes.string,
     linkify   : PropTypes.bool,
 };
