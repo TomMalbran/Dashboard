@@ -25,7 +25,7 @@ function UserRoute(props) {
 
         if (!isAuthenticated || !isValid) {
             return <Redirect to={{
-                pathname : NLS.url("LOGIN"),
+                pathname : NLS.baseUrl("LOGIN"),
                 state    : { from : props.location },
             }} />;
         }

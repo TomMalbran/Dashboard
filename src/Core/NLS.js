@@ -160,26 +160,29 @@ function pluralizeList(id, list) {
 }
 
 /**
- * Returns the url with a prefix path
- * @param {String}  id
- * @param {String=} path
- * @param {Number=} elemID
+ * Returns the url with the given arguments
+ * @param {...(String|Number)} args
  * @returns {String}
  */
-function url(id, path = "", elemID = 0) {
-    const url    = urlData[id] !== undefined ? urlData[id] : id;
-    const suffix = elemID ? `/${elemID}` : "";
-    return `${path}/${url}${suffix}`;
+function url(...args) {
+    const result = [];
+    for (const arg of args) {
+        const url = urlData[arg] !== undefined ? urlData[arg] : arg;
+        if (url) {
+            result.push(url);
+        }
+    }
+    return result.join("/");
 }
 
 /**
- * Returns the url with a prefix path
- * @param {String} id
- * @param {Number} elemID
+ * Returns the baseUrl with the given arguments
+ * @param {...(String|Number)} args
  * @returns {String}
  */
-function href(id, elemID) {
-    return url(id, "", elemID);
+function baseUrl(...args) {
+    const result = url(...args);
+    return result[0] !== "/" ? `/${result}` : result;
 }
 
 
@@ -220,7 +223,7 @@ export default {
     pluralizeList,
 
     url,
-    href,
+    baseUrl,
 
     getSection,
     getAction,

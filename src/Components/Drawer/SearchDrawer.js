@@ -124,7 +124,7 @@ function SearchDrawer(props) {
     // Handles the Results Click
     const handleClick = (selected) => {
         const elem = suggestions[selected];
-        const url  = `${NLS.url(elem.url)}/${elem.id}`;
+        const url  = NLS.url(elem.url, elem.id);
         setSelected(selected);
         Href.handleUrl(url, "_self", history);
         onClose();

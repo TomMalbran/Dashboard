@@ -18,11 +18,11 @@ function SwitchRoute(props) {
     const { location, saveRoute, baseUrl, initialUrl, path, type, noFirst, children } = props;
     
     const items    = [];
-    let   firstUrl = initialUrl ? NLS.url(initialUrl) : "";
+    let   firstUrl = initialUrl;
     let   hasPath  = false;
 
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
-        const cpath = NLS.url(child.props.url, path);
+        const cpath = NLS.baseUrl(path, child.props.url);
         if (!firstUrl && !noFirst) {
             firstUrl = child.props.url;
         }
@@ -39,7 +39,7 @@ function SwitchRoute(props) {
     
     return <Switch>
         {items}
-        {!!firstUrl && <Redirect from="*" to={NLS.url(firstUrl, baseUrl)} />}
+        {!!firstUrl && <Redirect from="*" to={NLS.baseUrl(baseUrl, firstUrl)} />}
     </Switch>;
 }
 

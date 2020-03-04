@@ -55,7 +55,7 @@ function NavigationItem(props) {
         elemID, isSelected, onAction, onClick, onClose, amount, canEdit, canDelete, children,
     } = props;
 
-    const uri = url ? NLS.url(url, baseUrl) : (href || "");
+    const uri = url ? NLS.baseUrl(baseUrl, url) : (href || "");
 
     // Handles the Click
     const handleClick = (e) => {
