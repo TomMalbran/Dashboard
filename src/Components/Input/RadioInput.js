@@ -58,6 +58,7 @@ const Input = Styled.input`
     &:disabled + span {
         background-color: rgb(245, 245, 245);
         color: rgb(175, 175, 175);
+        cursor: not-allowed;
     }
 `;
 
@@ -93,7 +94,7 @@ const Text = Styled.span`
  * @returns {React.ReactElement}
  */
 function RadioInput(props) {
-    const { className, name, value, tabIndex, options, withCustom, customText, onChange } = props;
+    const { className, name, value, tabIndex, options, withCustom, customText, isDisabled, onChange } = props;
 
     const inputRef  = React.useRef();
     const valString = String(value);
@@ -134,10 +135,11 @@ function RadioInput(props) {
         {options.map(({ key, value }) => <Label key={key}>
             <Input
                 type="radio"
-                name={`${name}-${value}`}
+                name={`${name}-${key}`}
                 value={value}
                 checked={radioVal === String(key)}
                 onChange={(e) => handleCheck(e, key)}
+                disabled={isDisabled}
                 tabIndex={tabIndex}
             />
             <Span />
@@ -150,6 +152,7 @@ function RadioInput(props) {
                 value={customKey}
                 checked={radioVal === customKey}
                 onChange={handleCustom}
+                disabled={isDisabled}
                 tabIndex={tabIndex}
             />
             <Span />
@@ -161,6 +164,7 @@ function RadioInput(props) {
                 name={`${name}-${customKey}-value`}
                 value={customVal}
                 onChange={handleChange}
+                isDisabled={isDisabled}
                 isSmall
             />
         </Label>}
@@ -181,6 +185,7 @@ RadioInput.propTypes = {
     withCustom : PropTypes.bool,
     customText : PropTypes.string,
     customKey  : PropTypes.string,
+    isDisabled : PropTypes.bool,
 };
 
 /**

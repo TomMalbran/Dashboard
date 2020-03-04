@@ -28,7 +28,6 @@ const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
         color: var(--secondary-color);
     }
     &:disabled {
-        color: rgb(175, 175, 175);
         border-color: rgb(205, 205, 205);
         box-shadow: none;
     }
@@ -42,7 +41,7 @@ const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
  * @returns {React.ReactElement}
  */
 function InputInput(props) {
-    const { inputRef, className, type, name, value, onChange, isSmall } = props;
+    const { inputRef, className, type, name, value, onChange, isDisabled, isSmall } = props;
 
     return <Input
         {...props}
@@ -51,6 +50,7 @@ function InputInput(props) {
         type={type}
         name={name}
         value={value}
+        disabled={isDisabled}
         onChange={onChange}
         isSmall={isSmall}
     />;
@@ -61,13 +61,14 @@ function InputInput(props) {
  * @type {Object} propTypes
  */
 InputInput.propTypes = {
-    inputRef  : PropTypes.object,
-    className : PropTypes.string,
-    type      : PropTypes.string,
-    name      : PropTypes.string.isRequired,
-    value     : PropTypes.any,
-    onChange  : PropTypes.func.isRequired,
-    isSmall   : PropTypes.bool,
+    inputRef   : PropTypes.object,
+    className  : PropTypes.string,
+    type       : PropTypes.string,
+    name       : PropTypes.string.isRequired,
+    value      : PropTypes.any,
+    onChange   : PropTypes.func.isRequired,
+    isDisabled : PropTypes.bool,
+    isSmall    : PropTypes.bool,
 };
 
 /**
@@ -75,8 +76,10 @@ InputInput.propTypes = {
  * @type {Object} defaultProps
  */
 InputInput.defaultProps = {
-    className : "",
-    type      : InputType.TEXT,
+    className  : "",
+    type       : InputType.TEXT,
+    isDisabled : false,
+    isSmall    : false,
 };
 
 export default InputInput;

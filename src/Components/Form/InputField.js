@@ -58,7 +58,6 @@ const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
         color: var(--secondary-color);
     }
     &.input:disabled {
-        color: rgb(175, 175, 175);
         border-color: rgb(205, 205, 205);
         box-shadow: none;
     }
