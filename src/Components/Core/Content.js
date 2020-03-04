@@ -19,9 +19,9 @@ const Section = Styled.section`
  * @returns {React.ReactElement}
  */
 function Content(props) {
-    const { className, children } = props;
+    const { className, children, passedRef } = props;
 
-    return <Section className={className}>
+    return <Section className={className} ref={passedRef}>
         {children}
     </Section>;
 }
@@ -32,6 +32,7 @@ function Content(props) {
  */
 Content.propTypes = {
     className : PropTypes.string,
+    passedRef : PropTypes.any,
     children  : PropTypes.any,
 };
 
