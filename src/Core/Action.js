@@ -12,6 +12,7 @@ const OPTIONS = {
     isView   : false,
     isAdd    : false,
     isCreate : false,
+    isCopy   : false,
     isEdit   : false,
     isDelete : false,
 
@@ -55,6 +56,12 @@ const ACTIONS = {
         isVCE    : true,
         isCED    : true,
         isCE     : true,
+    },
+    "COPY" : {
+        ...OPTIONS,
+        icon     : "copy",
+        message  : "GENERAL_COPY",
+        isCopy   : true,
     },
     "EDIT" : {
         ...OPTIONS,
