@@ -1,10 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Utils
-import Href                 from "../../Utils/Href";
+// Core
+import Href                 from "../../Core/Href";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -90,7 +89,6 @@ function IconLink(props) {
  * @type {Object} propTypes
  */
 IconLink.propTypes = {
-    history    : PropTypes.object.isRequired,
     className  : PropTypes.string,
     variant    : PropTypes.string,
     href       : PropTypes.string,
@@ -120,4 +118,4 @@ IconLink.defaultProps = {
     dontStop   : false,
 };
 
-export default withRouter(IconLink);
+export default IconLink;

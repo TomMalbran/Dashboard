@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Utils/Side
+// Core
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -145,7 +144,6 @@ function MenuLink(props) {
  * @type {Object} propTypes
  */
 MenuLink.propTypes = {
-    history      : PropTypes.object.isRequired,
     className    : PropTypes.string,
     variant      : PropTypes.string,
     message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -185,4 +183,4 @@ MenuLink.defaultProps = {
     dontStop   : false,
 };
 
-export default withRouter(MenuLink);
+export default MenuLink;

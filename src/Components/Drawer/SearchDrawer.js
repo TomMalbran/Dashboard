@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core & Utils
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 import KeyCode              from "../../Utils/KeyCode";
 
 // Components
@@ -60,7 +59,7 @@ const Title = Styled.span`
  * @returns {React.ReactElement}
  */
 function SearchDrawer(props) {
-    const { history, isHidden, open, className, message, fetch, onClose, logo, logoSize } = props;
+    const { isHidden, open, className, message, fetch, onClose, logo, logoSize } = props;
 
     const [ value,       setValue       ] = React.useState("");
     const [ suggestions, setSuggestions ] = React.useState([]);
@@ -124,9 +123,8 @@ function SearchDrawer(props) {
     // Handles the Results Click
     const handleClick = (selected) => {
         const elem = suggestions[selected];
-        const url  = NLS.url(elem.url, elem.id);
         setSelected(selected);
-        Href.handleUrl(url, "_self", history);
+        Href.goto(elem.url, elem.id);
         onClose();
     };
     
@@ -174,7 +172,6 @@ function SearchDrawer(props) {
  * @typedef {Object} propTypes
  */
 SearchDrawer.propTypes = {
-    history   : PropTypes.object.isRequired,
     isHidden  : PropTypes.bool,
     open      : PropTypes.bool.isRequired,
     className : PropTypes.string,
@@ -194,4 +191,4 @@ SearchDrawer.defaultProps = {
     className : "",
 };
 
-export default withRouter(SearchDrawer);
+export default SearchDrawer;

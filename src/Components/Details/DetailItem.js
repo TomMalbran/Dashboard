@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core & Utils
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -44,7 +43,7 @@ function handleClick(e, props) {
         return;
     }
 
-    const { href, url, target, onClick, isLink, isEmail, isPhone, message, history } = props;
+    const { href, url, target, onClick, isLink, isEmail, isPhone, message } = props;
     let uri     = url ? NLS.url(url) : href;
     let handled = false;
     
@@ -52,7 +51,7 @@ function handleClick(e, props) {
         onClick(e);
         handled = true;
     }
-    if (Href.handleUrl(uri, target, history)) {
+    if (Href.handleUrl(uri, target)) {
         handled = true;
     }
 
@@ -107,7 +106,6 @@ function DetailItem(props) {
  * @typedef {Object} propTypes
  */
 DetailItem.propTypes = {
-    history    : PropTypes.object.isRequired,
     className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon       : PropTypes.string.isRequired,
@@ -136,4 +134,4 @@ DetailItem.defaultProps = {
     isHidden  : false,
 };
 
-export default withRouter(DetailItem);
+export default DetailItem;

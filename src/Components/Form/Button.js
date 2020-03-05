@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Core & Utils
+// Core
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -163,7 +162,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
 function Button(props) {
     const {
         className, message, variant, isDisabled, isSmall, fullWidth, icon,
-        onClick, target, history, children,
+        onClick, target, children,
     } = props;
 
     const url      = Href.getUrl(props);
@@ -175,7 +174,7 @@ function Button(props) {
         if (onClick) {
             onClick(e);
         }
-        Href.handleUrl(url, target, history);
+        Href.handleUrl(url, target);
         e.stopPropagation();
         e.preventDefault();
     };
@@ -200,7 +199,6 @@ function Button(props) {
  * @type {Object} propTypes
  */
 Button.propTypes = {
-    history    : PropTypes.object.isRequired,
     className  : PropTypes.string,
     message    : PropTypes.string,
     variant    : PropTypes.string.isRequired,
@@ -229,4 +227,4 @@ Button.defaultProps = {
     target     : "_self",
 };
 
-export default withRouter(Button);
+export default Button;

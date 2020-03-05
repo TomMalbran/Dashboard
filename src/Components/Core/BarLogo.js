@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core & Utils
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 
 
 
@@ -29,12 +28,12 @@ const Img = Styled.img.attrs(({ size }) => ({ size }))`
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
-    const { history, className, logo, withLink, size } = props;
+    const { className, logo, withLink, size } = props;
 
     // Handles the Click
     const handleClick = (e) => {
         if (withLink) {
-            Href.handleUrl("/", "_self", history);
+            Href.handleUrl("/", "_self");
             e.stopPropagation();
             e.preventDefault();
         }
@@ -50,7 +49,6 @@ function BarLogo(props) {
  * @type {Object} propTypes
  */
 BarLogo.propTypes = {
-    history   : PropTypes.object.isRequired,
     className : PropTypes.string,
     logo      : PropTypes.string.isRequired,
     withLink  : PropTypes.bool,
@@ -67,4 +65,4 @@ BarLogo.defaultProps = {
     size      : 32,
 };
 
-export default withRouter(BarLogo);
+export default BarLogo;

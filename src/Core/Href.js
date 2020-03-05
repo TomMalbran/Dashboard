@@ -1,5 +1,19 @@
 import NLS                  from "../Core/NLS";
 
+// Module variables
+let history = null;
+
+
+
+/**
+ * Initialize the Href
+ * @param {Object} theHistory
+ * @returns {Void}
+ */
+function init(theHistory) {
+    history = theHistory;
+}
+
 
 
 /**
@@ -25,35 +39,16 @@ function getUrl(data) {
 }
 
 /**
- * Returns true if the given URL is Internal
- * @param {String} url
- * @returns {Boolean}
- */
-function isInternal(url) {
-    return url.startsWith(process.env.REACT_APP_URL);
-}
-
-/**
- * Returns the URL without the complete path
- * @param {String} url
- * @returns {String}
- */
-function getInternal(url) {
-    return url.replace(process.env.REACT_APP_URL, "");
-}
-
-/**
  * Handles an Internal URL
  * @param {String} url
- * @param {Object} history
  * @returns {Boolean}
  */
-function handleInternal(url, history) {
+function handleInternal(url) {
     if (!url || url === "#") {
         return false;
     }
-    if (isInternal(url)) {
-        history.push(getInternal(url));
+    if (url.startsWith(process.env.REACT_APP_URL)) {
+        history.push(url.replace(process.env.REACT_APP_URL, "/"));
         return true;
     }
     if (!url.startsWith("http")) {
@@ -67,14 +62,13 @@ function handleInternal(url, history) {
  * Handles the given URL
  * @param {String} url
  * @param {String} target
- * @param {Object} history
  * @returns {Boolean}
  */
-function handleUrl(url, target, history) {
+function handleUrl(url, target) {
     if (!url || url === "#") {
         return false;
     }
-    if (handleInternal(url, history)) {
+    if (handleInternal(url)) {
         return true;
     }
     if (target === "_self") {
@@ -95,7 +89,7 @@ function handleUrl(url, target, history) {
  * @returns {Void}
  */
 function handleClick(e, props) {
-    const { isDisabled, onClick, isPhone, isEmail, isWhatsapp, dontStop, history } = props;
+    const { isDisabled, onClick, isPhone, isEmail, isWhatsapp, dontStop } = props;
     const url     = getUrl(props);
     let   handled = false;
 
@@ -106,7 +100,7 @@ function handleClick(e, props) {
             onClick(e);
             handled = true;
         }
-        if (!isPhone && !isEmail && !isWhatsapp && handleInternal(url, history)) {
+        if (!isPhone && !isEmail && !isWhatsapp && handleInternal(url)) {
             handled = true;
         }
     }
@@ -116,14 +110,24 @@ function handleClick(e, props) {
     }
 }
 
+/**
+ * Goes to the given internal URL
+ * @param {...(String|Number)} args
+ * @returns {Void}
+ */
+function goto(...args) {
+    const url = NLS.baseUrl(...args);
+    handleInternal(url);
+}
+
 
 
 // The public API
 export default {
+    init,
     getUrl,
-    isInternal,
-    getInternal,
     handleInternal,
     handleUrl,
     handleClick,
+    goto,
 };

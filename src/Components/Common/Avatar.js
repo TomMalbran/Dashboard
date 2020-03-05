@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core & Utils
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 import MD5                  from "../../Utils/MD5";
 
 
@@ -42,7 +41,7 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { history, className, size, url, href, target, name, data, reload } = props;
+    const { className, size, url, href, target, name, data, reload } = props;
 
     const hasClick = Boolean(url || href);
 
@@ -58,7 +57,7 @@ function Avatar(props) {
     const handleClick = (e) => {
         if (hasClick) {
             const uri = url ? NLS.url(url) : href;
-            Href.handleUrl(uri, target, history);
+            Href.handleUrl(uri, target);
             e.stopPropagation();
             e.preventDefault();
         }
@@ -83,7 +82,6 @@ function Avatar(props) {
  * @typedef {Object} propTypes
  */
 Avatar.propTypes = {
-    history   : PropTypes.object.isRequired,
     className : PropTypes.string,
     url       : PropTypes.string,
     href      : PropTypes.string,
@@ -105,4 +103,4 @@ Avatar.defaultProps = {
     reload    : false,
 };
 
-export default withRouter(Avatar);
+export default Avatar;

@@ -1,10 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
+import Href                 from "../../Core/Href";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -56,7 +56,7 @@ const TableLoader = Styled(CircularLoader)`
  */
 function Table(props) {
     const {
-        sort, fetch, history, className, isLoading, none,
+        sort, fetch, className, isLoading, none,
         inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
     } = props;
 
@@ -73,7 +73,7 @@ function Table(props) {
         } else if (elem.onAction) {
             elem.onAction(elem.act, elemID);
         } else if (elem.route) {
-            history.push(`${elem.route}/${elemID}`);
+            Href.goto(elem.route, elemID);
         }
     };
 
@@ -208,7 +208,6 @@ function Table(props) {
  * @typedef {Object} propTypes
  */
 Table.propTypes = {
-    history   : PropTypes.object.isRequired,
     fetch     : PropTypes.func,
     sort      : PropTypes.object.isRequired,
     none      : PropTypes.string.isRequired,
@@ -239,4 +238,4 @@ Table.defaultProps = {
     notFixed  : false,
 };
 
-export default withRouter(Table);
+export default Table;

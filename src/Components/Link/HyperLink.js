@@ -1,11 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { withRouter }       from "react-router";
 import Styled               from "styled-components";
 
-// Core & Utils
+// Core
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Utils/Href";
+import Href                 from "../../Core/Href";
 
 // Components
 import Html                 from "../Common/Html";
@@ -167,7 +166,6 @@ function HyperLink(props) {
  * @type {Object} propTypes
  */
 HyperLink.propTypes = {
-    history    : PropTypes.object.isRequired,
     className  : PropTypes.string,
     variant    : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -197,4 +195,4 @@ HyperLink.defaultProps = {
     dontStop  : false,
 };
 
-export default withRouter(HyperLink);
+export default HyperLink;
