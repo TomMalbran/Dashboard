@@ -12,6 +12,7 @@ import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import AutoSuggest          from "../Form/AutoSuggest";
 import Button               from "../Form/Button";
+import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 
 
@@ -83,6 +84,15 @@ const InputIcon = Styled(Icon)`
         padding-left: 0;
     }
 `;
+const InputClear = Styled(IconLink)`
+    position: absolute;
+    right: 0;
+    top: calc(50% + 3px);
+    transform: translateY(-50%);
+    .icon {
+        box-shadow: none;
+    }
+`;
 const InputButton = Styled(Button)`
     margin-left: 16px;
     height: var(--input-height);
@@ -99,7 +109,7 @@ function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onSuggest,
-        fullWidth, noMargin, isRequired, withNone, shrink, isSmall,
+        fullWidth, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
         suggestFetch, suggestID, suggestParams,
     } = props;
 
@@ -134,6 +144,15 @@ function InputField(props) {
     const handleChange = (name, value) => {
         setValue(Boolean(value));
         onChange(name, value);
+    };
+
+    // Handles the Clear Click
+    const handleClear = () => {
+        if (suggestRef && suggestRef.current) {
+            suggestRef.current.setValue("");
+        } else {
+            handleChange(name, "");
+        }
     };
 
 
@@ -188,6 +207,12 @@ function InputField(props) {
                 onBlur={handleBlur}
                 isSmall={isSmall}
             />
+            {hasClear && hasValue && <InputClear
+                variant="light"
+                icon="close"
+                onClick={handleClear}
+                isSmall
+            />}
             {!!button && <InputButton
                 variant="outlined"
                 message={button}
@@ -256,6 +281,7 @@ InputField.propTypes = {
     withCustom    : PropTypes.bool,
     customText    : PropTypes.string,
     customKey     : PropTypes.string,
+    hasClear      : PropTypes.bool,
     autoFocus     : PropTypes.bool,
     isHidden      : PropTypes.bool,
 };
@@ -283,6 +309,7 @@ InputField.defaultProps = {
     withCustom    : false,
     customText    : "",
     customKey     : "",
+    hasClear      : false,
     autoFocus     : false,
 };
 

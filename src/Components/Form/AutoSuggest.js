@@ -59,10 +59,10 @@ function AutoSuggest(props) {
     const [ selectedVal, setSelectedVal ] = React.useState("");
 
     // Sets the Value
-    const setNewValue = (newValue) => {
-        if (newValue && value !== newValue && selectedVal !== newValue) {
+    const setNewValue = async (newValue) => {
+        if (value !== newValue && selectedVal !== newValue) {
             setValue(newValue);
-            onChange(name, newValue);
+            await onChange(name, newValue);
             if (newValue.length > 1) {
                 fetchValue(newValue);
             } else {
