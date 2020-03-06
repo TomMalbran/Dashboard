@@ -33,6 +33,9 @@ function SelectInput(props) {
         onChange, onFocus, onBlur, inputRef,
     } = props;
 
+    const items      = Array.isArray(options)      ? options      : NLS.select(options);
+    const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
+
     // Handles the Input Change
     const handleChange = (e) => {
         onChange(name, e.target.value);
@@ -61,10 +64,10 @@ function SelectInput(props) {
         {withNone && <option key="0" value="">
             {NLS.get(noneText || "")}
         </option>}
-        {options.map(({ key, value }) => <option key={key} value={key}>
+        {items.map(({ key, value }) => <option key={key} value={key}>
             {NLS.get(value)}
         </option>)}
-        {extraOptions.map(({ key, value }) => <option key={key} value={key}>
+        {extraItems.map(({ key, value }) => <option key={key} value={key}>
             {NLS.get(value)}
         </option>)}
         {withCustom && <option key="-1" value={-1}>
@@ -84,8 +87,8 @@ SelectInput.propTypes = {
     value        : PropTypes.any,
     isDisabled   : PropTypes.bool,
     tabIndex     : PropTypes.string,
-    options      : PropTypes.array,
-    extraOptions : PropTypes.array,
+    options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     withCustom   : PropTypes.bool,
