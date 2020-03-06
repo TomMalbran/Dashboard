@@ -68,7 +68,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
  * @returns {React.ReactElement}
  */
 function IconLink(props) {
-    const { passedRef, variant, className, isDisabled, isSmall, target, icon } = props;
+    const { passedRef, variant, className, isDisabled, isSmall, target, icon, onTouchEnd } = props;
     
     return <Link
         ref={passedRef}
@@ -79,6 +79,7 @@ function IconLink(props) {
         href={Href.getUrl(props)}
         target={target}
         onClick={(e) => Href.handleClick(e, props)}
+        onTouchEnd={onTouchEnd}
     >
         <Icon icon={icon} />
     </Link>;
@@ -96,6 +97,7 @@ IconLink.propTypes = {
     target     : PropTypes.string,
     icon       : PropTypes.string,
     onClick    : PropTypes.func,
+    onTouchEnd : PropTypes.func,
     isDisabled : PropTypes.bool,
     isSmall    : PropTypes.bool,
     dontStop   : PropTypes.bool,
