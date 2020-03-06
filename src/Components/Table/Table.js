@@ -43,10 +43,6 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
     }
 `;
 
-const TableLoader = Styled(CircularLoader)`
-    padding-top: 40px;
-`;
-
 
 
 /**
@@ -167,7 +163,7 @@ function Table(props) {
 
     
     if (isLoading) {
-        return <TableLoader />;
+        return <CircularLoader top={40} />;
     }
     if (!hasContent && none) {
         return <NoneAvailable message={none} />;

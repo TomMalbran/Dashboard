@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Components
+import CircularLoader       from "../Loader/CircularLoader";
+
 
 
 // Styles
@@ -19,10 +22,11 @@ const Section = Styled.section`
  * @returns {React.ReactElement}
  */
 function Content(props) {
-    const { className, children, passedRef } = props;
+    const { className, isLoading, passedRef, children } = props;
 
     return <Section className={className} ref={passedRef}>
-        {children}
+        {isLoading  && <CircularLoader top={40} />}
+        {!isLoading && children}
     </Section>;
 }
 
@@ -32,6 +36,7 @@ function Content(props) {
  */
 Content.propTypes = {
     className : PropTypes.string,
+    isLoading : PropTypes.bool,
     passedRef : PropTypes.any,
     children  : PropTypes.any,
 };
@@ -42,6 +47,7 @@ Content.propTypes = {
  */
 Content.defaultProps = {
     className : "",
+    isLoading : false,
 };
 
 export default Content;
