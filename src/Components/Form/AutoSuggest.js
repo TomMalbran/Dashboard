@@ -109,7 +109,7 @@ function AutoSuggest(props) {
     const selectElem = async (newID, newValue) => {
         if (onSuggest) {
             onSuggest(id, newID, name, newValue);
-        } else {
+        } else if (onChange) {
             await onChange(id, newID);
             await onChange(name, newValue);
         }
@@ -153,7 +153,7 @@ AutoSuggest.propTypes = {
     suggestRef : PropTypes.object.isRequired,
     open       : PropTypes.bool.isRequired,
     fetch      : PropTypes.func.isRequired,
-    onChange   : PropTypes.func.isRequired,
+    onChange   : PropTypes.func,
     onSuggest  : PropTypes.func,
     id         : PropTypes.string.isRequired,
     name       : PropTypes.string.isRequired,

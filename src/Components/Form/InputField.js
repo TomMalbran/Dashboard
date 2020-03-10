@@ -143,7 +143,9 @@ function InputField(props) {
     // Handles the Input Change
     const handleChange = (name, value) => {
         setValue(Boolean(value));
-        onChange(name, value);
+        if (onChange) {
+            onChange(name, value);
+        }
     };
 
     // Handles the Clear Click
@@ -254,7 +256,7 @@ InputField.propTypes = {
     spellCheck    : PropTypes.string,
     isRequired    : PropTypes.bool,
     isDisabled    : PropTypes.bool,
-    onChange      : PropTypes.func.isRequired,
+    onChange      : PropTypes.func,
     onSubmit      : PropTypes.func,
     button        : PropTypes.string,
     onClick       : PropTypes.func,
