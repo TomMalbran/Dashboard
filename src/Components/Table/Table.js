@@ -205,7 +205,7 @@ function Table(props) {
  */
 Table.propTypes = {
     fetch     : PropTypes.func,
-    sort      : PropTypes.object.isRequired,
+    sort      : PropTypes.object,
     none      : PropTypes.string.isRequired,
     className : PropTypes.string,
     isLoading : PropTypes.bool,
@@ -225,6 +225,7 @@ Table.propTypes = {
  */
 Table.defaultProps = {
     className : "",
+    sort      : {},
     isLoading : false,
     hasStats  : false,
     hasTabs   : false,
