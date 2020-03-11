@@ -28,7 +28,6 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     ${(props) => props.variant === Variant.DIALOG && `
         margin: 32px;
         text-align: center;
-        font-weight: 400;
         color: var(--title-color);
     `}
 `;
