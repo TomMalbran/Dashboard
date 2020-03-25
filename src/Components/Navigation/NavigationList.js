@@ -2,7 +2,8 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Utils
+// Core & Utils
+import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 
@@ -18,6 +19,13 @@ const Ul = Styled.ul`
     }
 `;
 
+const Li = Styled.li`
+    font-size: 16px;
+    padding: 4px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid var(--primary-color);
+`;
+
 
 
 /**
@@ -26,13 +34,14 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { className, variant, path, baseUrl, onAction, onClose, children } = props;
+    const { className, message, variant, path, baseUrl, onAction, onClose, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
         variant, path, baseUrl, onAction, onClose,
     }));
 
     return <Ul className={className}>
+        {!!message && <Li>{NLS.get(message)}</Li>}
         {items}
     </Ul>;
 }
@@ -43,6 +52,7 @@ function NavigationList(props) {
  */
 NavigationList.propTypes = {
     className : PropTypes.string,
+    message   : PropTypes.string,
     variant   : PropTypes.string,
     path      : PropTypes.string,
     baseUrl   : PropTypes.string,
@@ -58,6 +68,7 @@ NavigationList.propTypes = {
  */
 NavigationList.defaultProps = {
     className : "",
+    message   : "",
     baseUrl   : "",
     isHidden  : false,
 };
