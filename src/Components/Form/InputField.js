@@ -151,6 +151,7 @@ function InputField(props) {
     // Handles the Clear Click
     const handleClear = () => {
         if (suggestRef && suggestRef.current) {
+            // @ts-ignore
             suggestRef.current.setValue("");
         } else {
             handleChange(name, "");
