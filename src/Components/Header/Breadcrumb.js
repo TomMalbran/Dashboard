@@ -87,7 +87,11 @@ function Breadcrumb(props) {
         const message = parts[i];
         href.push(message);
         if (isNaN(message)) {
-            items.push({ key : i + 1, href : href.join("/"), message });
+            items.push({
+                key     : i + 1,
+                href    : href.join("/"),
+                message : message.replace(/-/g, " "),
+            });
         }
     }
 
