@@ -60,6 +60,7 @@ const LightLink = Styled(NavLink)`
     --link-hover: var(--title-color);
     --link-background: rgba(0, 0, 0, 0.1);
     ${(props) => props.isSelected && "background-color: rgba(0, 0, 0, 0.1);"}
+    ${(props) => props.isDisabled && "--link-background: transparent;"}
 `;
 
 const DarkLink = Styled(NavLink)`
