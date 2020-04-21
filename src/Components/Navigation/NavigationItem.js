@@ -52,13 +52,16 @@ const Span = Styled.span`
 function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
-        elemID, isSelected, onAction, onClick, onClose, amount, canEdit, canDelete, children,
+        elemID, isSelected, isDisabled, onAction, onClick, onClose, amount, canEdit, canDelete, children,
     } = props;
 
     const uri = url ? NLS.baseUrl(baseUrl, url) : (href || "");
 
     // Handles the Click
     const handleClick = (e) => {
+        if (isDisabled) {
+            return;
+        }
         if (onClose) {
             onClose(e);
         }
@@ -71,7 +74,7 @@ function NavigationItem(props) {
 
     // Handles the Action
     const handleAction = (e, action) => {
-        if (onAction) {
+        if (!isDisabled && onAction) {
             onAction(Action.get(action), elemID);
         }
         e.stopPropagation();
@@ -85,6 +88,7 @@ function NavigationItem(props) {
                 variant={variant}
                 className={className}
                 isSelected={isSelected || path === uri}
+                isDisabled={isDisabled}
                 message={message}
                 html={html}
                 href={uri}
@@ -127,6 +131,7 @@ NavigationItem.propTypes = {
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     isSelected : PropTypes.bool,
+    isDisabled : PropTypes.bool,
     isHidden   : PropTypes.bool,
     children   : PropTypes.any,
 };
