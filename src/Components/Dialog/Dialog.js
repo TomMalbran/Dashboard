@@ -30,7 +30,7 @@ const close = keyframes`
 `;
 
 // Styles
-const Container = Styled.dialog.attrs(({ isWide, isNarrow, hasTabs, isClosing }) => ({ isWide, isNarrow, hasTabs, isClosing }))`
+const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosing }) => ({ width, isWide, isNarrow, hasTabs, isClosing }))`
     --dialog-header  : 55px;
     --dialog-tabs    : 0px;
     --dialog-footer  : 55px;
@@ -54,6 +54,7 @@ const Container = Styled.dialog.attrs(({ isWide, isNarrow, hasTabs, isClosing })
         transition: background-color 0.01s;
     }
     
+    ${(props) => props.width    ?  `max-width: ${props.width}px;` : ""}
     ${(props) => props.isWide   && "max-width: 1000px;"}
     ${(props) => props.isNarrow && "max-width: 400px;"}
     ${(props) => props.hasTabs  && "--dialog-tabs: var(--tabs-dialog);"}
@@ -75,7 +76,7 @@ const Container = Styled.dialog.attrs(({ isWide, isNarrow, hasTabs, isClosing })
  * @returns {React.ReactElement}
  */
 function Dialog(props) {
-    const { open, className, isLoading, isWide, isNarrow, noTab, onClose, children } = props;
+    const { open, className, isLoading, width, isWide, isNarrow, noTab, onClose, children } = props;
     
     const [ level,   setLevel   ] = React.useState(0);
     const [ opened,  setOpened  ] = React.useState(false);
@@ -169,6 +170,7 @@ function Dialog(props) {
         <Container
             className={`dialog ${className}`}
             ref={contentRef}
+            width={width}
             isWide={isWide}
             isNarrow={isNarrow}
             hasTabs={hasTabs}
@@ -188,6 +190,7 @@ Dialog.propTypes = {
     open      : PropTypes.bool,
     className : PropTypes.string,
     onClose   : PropTypes.func.isRequired,
+    width     : PropTypes.number,
     isWide    : PropTypes.bool,
     isNarrow  : PropTypes.bool,
     noTab     : PropTypes.bool,
