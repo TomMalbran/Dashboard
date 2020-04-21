@@ -13,12 +13,14 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section`
+const Section = Styled.section.attrs(({ topSpace }) => ({ topSpace }))`
     flex-shrink: 0;
     box-sizing: border-box;
     width: var(--details-width);
     background-color: var(--lighter-gray);
     padding: 16px;
+
+    ${(props) => props.topSpace ? `padding-top: ${props.topSpace}px` : ""};
 
     @media (max-width: 1000px) {
         display: none;
@@ -56,7 +58,7 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, isLoading, hasError, error, children } = props;
+    const { className, topSpace, isLoading, hasError, error, children } = props;
 
     // Set/Unset the Details on Load/Unload
     React.useEffect(() => {
@@ -69,7 +71,7 @@ function Details(props) {
     const onClose     = Store.closeDetails;
     const items       = Utils.cloneChildren(children, () => ({ onClose }));
 
-    return <Section className={`details ${className}`}>
+    return <Section className={`details ${className}`} topSpace={topSpace}>
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
         {showContent && items}
@@ -82,6 +84,7 @@ function Details(props) {
  */
 Details.propTypes = {
     className : PropTypes.string,
+    topSpace  : PropTypes.number,
     isLoading : PropTypes.bool,
     hasError  : PropTypes.bool,
     error     : PropTypes.string,
