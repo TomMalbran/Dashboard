@@ -38,7 +38,19 @@ const Link = Styled(IconLink)`
  */
 function FieldInput(props) {
     const { className, name, value, button, onChange } = props;
-    const parts = value ? JSON.parse(String(value)) : [ "" ];
+    
+    // Calculate the Parts Array
+    let parts = [ "" ];
+    if (value) {
+        try {
+            parts = JSON.parse(String(value));
+            if (!Array.isArray(parts)) {
+                parts = [ parts ];
+            }
+        } catch(e) {
+            parts = [ "" ];
+        }
+    }
 
     // Handles a Field Change
     const handleChange = (e, index) => {
