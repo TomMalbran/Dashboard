@@ -44,6 +44,8 @@ const Container = Styled.div.attrs(
     ${(props) => props.isFocused && `
         .inputfield-input {
             border-color: var(--border-color) !important;
+        }
+        .inputfield-cnt {
             box-shadow: 0 0 0 1px var(--border-color);
         }
         .icon {

@@ -21,6 +21,7 @@ import Icon                 from "../Common/Icon";
 const InputContent = Styled.div`
     display: flex;
     align-items: center;
+    border-radius: var(--border-radius);
 `;
 
 const InputError = Styled.p`

@@ -17,6 +17,8 @@ import Icon                 from "../Common/Icon";
 const InputContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
     display: flex;
     align-items: center;
+    border-radius: var(--border-radius);
+
     ${(props) => props.hasError && `
         .icon {
             border-bottom-left-radius: 0;
