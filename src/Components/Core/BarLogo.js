@@ -9,11 +9,12 @@ import Href                 from "../../Core/Href";
 
 
 // Styles
-const H2 = Styled.h2`
+const H2 = Styled.h2.attrs(({ withLink }) => ({ withLink }))`
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0;
+    ${(props) => props.withLink ? "cursor: pointer;" : ""}
 `;
     
 const Img = Styled.img.attrs(({ size }) => ({ size }))`
@@ -39,7 +40,7 @@ function BarLogo(props) {
         }
     };
 
-    return <H2 className={className} onClick={handleClick}>
+    return <H2 className={className} onClick={handleClick} withLink>
         <Img src={logo} alt={NLS.get("TITLE")} size={size} />
     </H2>;
 }
