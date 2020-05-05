@@ -56,7 +56,7 @@ function Avatar(props) {
     // Handles the Click
     const handleClick = (e) => {
         if (hasClick) {
-            const uri = url ? NLS.url(url) : href;
+            const uri = url ? NLS.baseUrl(url) : href;
             Href.handleUrl(uri, target);
             e.stopPropagation();
             e.preventDefault();
