@@ -33,7 +33,7 @@ const Content = Styled(Html)`
 function PromptDialog(props) {
     const {
         open, title, message, content, icon,
-        inputType, inputLabel, inputIcon, placeholder, initialValue, spellCheck,
+        inputType, inputLabel, inputIcon, placeholder, initialValue, inputOptions, spellCheck,
         isOptional, onSubmit, onClose,
     } = props;
 
@@ -73,6 +73,7 @@ function PromptDialog(props) {
                 icon={inputIcon}
                 placeholder={placeholder}
                 value={value}
+                options={inputOptions}
                 autoFocus={open}
                 onChange={handleChange}
                 onSubmit={handleSubmit}
@@ -104,6 +105,7 @@ PromptDialog.propTypes = {
     inputLabel   : PropTypes.string,
     inputIcon    : PropTypes.string,
     initialValue : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    inputOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     onSubmit     : PropTypes.func.isRequired,
     onClose      : PropTypes.func.isRequired,
     isOptional   : PropTypes.bool,
