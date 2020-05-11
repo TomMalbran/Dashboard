@@ -7,6 +7,7 @@ import InputLabel           from "../Input/InputLabel";
 import InputContainer       from "../Input/InputContainer";
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
+import MultiLine            from "../Common/MultiLine";
 
 
 
@@ -39,12 +40,10 @@ const InputContent = Styled.div`
 function ViewField(props) {
     const { className, label, value, icon, fullWidth, noMargin, showEmpty, isHidden } = props;
     
-    const isArray  = Array.isArray(value);
-    const hasValue = Boolean(isArray ? value.length > 0 && value[0] : value);
-    const content = !isArray ? String(value) : "";
-    const isHtml  = !isArray && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
+    const content = String(value);
+    const isHtml  = content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
 
-    if (isHidden || (!hasValue && !showEmpty)) {
+    if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
     }
     return <InputContainer
@@ -62,9 +61,7 @@ function ViewField(props) {
         <InputContent className="inputview-cnt">
             {!!icon  && <Icon icon={icon} />}
             {isHtml  && <Html className="inputview-value">{content}</Html>}
-            {!isHtml && <div className="inputview-value">
-                {isArray ? value.map((elem, index) => <div key={index}>{elem}</div>) : content}
-            </div>}
+            {!isHtml && <MultiLine className="inputview-value">{content}</MultiLine>}
         </InputContent>
     </InputContainer>;
 }
