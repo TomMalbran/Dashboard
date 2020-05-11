@@ -110,6 +110,8 @@ function handleClick(e, props) {
     }
 }
 
+
+
 /**
  * Goes to the given internal URL
  * @param {...(String|Number)} args
@@ -118,6 +120,16 @@ function handleClick(e, props) {
 function goto(...args) {
     const url = NLS.baseUrl(...args);
     handleInternal(url);
+}
+
+/**
+ * Goes to the given external URL
+ * @param {...(String|Number)} args
+ * @returns {Void}
+ */
+function gotoBlank(...args) {
+    const url = NLS.baseUrl(...args);
+    window.open(url);
 }
 
 
@@ -129,5 +141,7 @@ export default {
     handleInternal,
     handleUrl,
     handleClick,
+
     goto,
+    gotoBlank,
 };
