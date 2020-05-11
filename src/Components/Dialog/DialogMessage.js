@@ -11,6 +11,12 @@ import Html                 from "../Common/Html";
 
 
 // Styles
+const Div = Styled.div`
+    margin: 0 0 32px 0;
+    color: var(--black-color);
+    font-weight: 400;
+`;
+
 const Content = Styled(Html)`
     margin: 0 0 32px 0;
     color: var(--black-color);
@@ -29,13 +35,16 @@ const Content = Styled(Html)`
  * @returns {React.ReactElement}
  */
 function DialogMessage(props) {
-    const { variant, html, message } = props;
+    const { isHidden, className, variant, html, message, children } = props;
     const content = message ? NLS.get(message) : html;
 
-    if (!content) {
+    if (isHidden || (!content && !children)) {
         return <React.Fragment />;
     }
-    return <Content variant={variant}>
+    if (children) {
+        return <Div className={className}>{children}</Div>;
+    }
+    return <Content variant={variant} className={className}>
         {content}
     </Content>;
 }
@@ -45,9 +54,12 @@ function DialogMessage(props) {
  * @type {Object} propTypes
  */
 DialogMessage.propTypes = {
-    variant : PropTypes.string,
-    message : PropTypes.string,
-    html    : PropTypes.string,
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
+    variant   : PropTypes.string,
+    message   : PropTypes.string,
+    html      : PropTypes.string,
+    children  : PropTypes.any,
 };
 
 /**
@@ -55,7 +67,9 @@ DialogMessage.propTypes = {
  * @type {Object} defaultProps
  */
 DialogMessage.defaultProps = {
-    variant : "p",
+    isHidden  : false,
+    className : "",
+    variant   : "div",
 };
 
 export default DialogMessage;
