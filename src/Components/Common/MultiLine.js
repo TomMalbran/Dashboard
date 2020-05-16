@@ -20,7 +20,7 @@ function MultiLine(props) {
     const lines = cnt.split("\n");
     
     // Nothing to display
-    if (!cnt) {
+    if (!content && !children) {
         return <React.Fragment />;
     }
 
