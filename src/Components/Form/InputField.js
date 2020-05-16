@@ -29,8 +29,9 @@ const InputError = Styled.p`
     margin: 4px 0 0 4px;
     color: #ff0033;
 `;
+
 const InputHelper = Styled.p`
-    font-size: 0.8em;
+    font-size: 0.9em;
     margin: 4px 0 0 4px;
     color: var(--lighter-color);
 `;
