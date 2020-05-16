@@ -17,7 +17,7 @@ const Header = Styled.header.attrs(({ isFirst, isSelected, isDisabled }) => ({ i
     align-items: center;
     box-sizing: border-box; : ""
     width: 100%;
-    padding: 8px 12px;
+    padding: 12px;
     background-color: var(--light-gray);
     border-bottom: 1px solid var(--border-color);
     cursor: pointer;
@@ -37,17 +37,25 @@ const Header = Styled.header.attrs(({ isFirst, isSelected, isDisabled }) => ({ i
     }`}
 `;
 
-const H2 = Styled.h2`
-    margin: 0;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+const Div = Styled.div`
+    display: flex;
 
     .icon {
         font-size: 14px;
         margin-right: 8px;
     }
+    span {
+        margin-right: 8px;
+        font-size: 16px;
+        font-weight: 800;
+    }
+`;
+
+const H2 = Styled.h2`
+    margin: 0 8px 0 0;
+    font-size: 16px;
+    font-weight: 800;
+    font-style: italic;
 `;
 
 const Section = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
@@ -63,7 +71,7 @@ const Section = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
  * @returns {React.ReactElement}
  */
 function AccordionItem(props) {
-    const { className, message, icon, isFirst, isSelected, isDisabled, onClick, children } = props;
+    const { className, message, number, icon, isFirst, isSelected, isDisabled, onClick, children } = props;
 
     return <div className={className} onClick={onClick}>
         <Header
@@ -71,10 +79,11 @@ function AccordionItem(props) {
             isSelected={isSelected}
             isDisabled={isDisabled}
         >
-            <H2>
+            <Div>
                 {!!icon && <Icon icon={icon} />}
-                {NLS.get(message)}
-            </H2>
+                {!!number && <span>{number}.</span>}
+                <H2>{NLS.get(message)}</H2>
+            </Div>
             {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
         </Header>
         <Section isSelected={isSelected}>
@@ -90,6 +99,7 @@ function AccordionItem(props) {
 AccordionItem.propTypes = {
     className  : PropTypes.string,
     message    : PropTypes.string.isRequired,
+    number     : PropTypes.number,
     icon       : PropTypes.string,
     isFirst    : PropTypes.bool,
     isSelected : PropTypes.bool,
