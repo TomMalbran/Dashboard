@@ -17,6 +17,7 @@ const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
     display: flex;
     align-items: center;
     padding: 8px;
+    overflow: hidden;
     border-bottom: 1px solid var(--lighter-gray);
     transition: all 0.2s;
     ${(props) => props.topBorder ? "border-top: 16px solid var(--lighter-gray)" : ""};
