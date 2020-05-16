@@ -37,14 +37,13 @@ const loaderDots = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({ variant, top }) => ({ variant, top }))`
+const Div = Styled.div.attrs(({ variant, withSpacing, top }) => ({ variant, withSpacing, top }))`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
     z-index: 200;
-    padding-top: ${(props) => `${props.top}px`};
 
     ${(props) => props.variant === Variant.PRIMARY && `
         --loader-border: var(--primary-color, black);
@@ -53,6 +52,12 @@ const Div = Styled.div.attrs(({ variant, top }) => ({ variant, top }))`
     ${(props) => props.variant === Variant.WHITE && `
         --loader-border: white;
         --loader-font: white;
+    `}
+
+    ${(props) => props.withSpacing ? `
+        padding: 32px;
+    ` : `
+        padding-top: ${props.top}px;
     `}
 `;
 
@@ -108,9 +113,14 @@ const Text = Styled.div`
  * @returns {React.ReactElement}
  */
 function CircularLoader(props) {
-    const { className, variant, top } = props;
+    const { className, variant, withSpacing, top } = props;
 
-    return <Div className={className} variant={variant} top={top}>
+    return <Div
+        className={className}
+        variant={variant}
+        withSpacing={withSpacing}
+        top={top}
+    >
         <Ring>
             <div />
             <div />
@@ -126,9 +136,10 @@ function CircularLoader(props) {
  * @typedef {Object} propTypes
  */
 CircularLoader.propTypes = {
-    variant   : PropTypes.string,
-    className : PropTypes.string,
-    top       : PropTypes.number,
+    variant     : PropTypes.string,
+    className   : PropTypes.string,
+    withSpacing : PropTypes.bool,
+    top         : PropTypes.number,
 };
 
 /**
@@ -136,9 +147,10 @@ CircularLoader.propTypes = {
  * @type {Object} defaultProps
  */
 CircularLoader.defaultProps = {
-    variant   : Variant.PRIMARY,
-    className : "",
-    top       : 0,
+    variant     : Variant.PRIMARY,
+    className   : "",
+    withSpacing : false,
+    top         : 0,
 };
 
 export default CircularLoader;
