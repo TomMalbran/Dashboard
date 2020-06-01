@@ -51,7 +51,7 @@ const MediaElem = Styled.div.attrs(({ isTransparent }) => ({ isTransparent }))`
         background-size: 20px 20px;
         background-position: 0 0, 10px 10px;
         background-image: linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark)),
-                        linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark));
+                          linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark));
     `}
 `;
 

@@ -82,10 +82,12 @@ function Container(props) {
     const { className, children, showMenu, closeMenu, showDetails, closeDetails } = props;
 
     // The current State
+    const [ menuTimer,      setMenuTimer      ] = React.useState(null);
     const [ showingMenu,    setShowingMenu    ] = React.useState(false);
     const [ openingMenu,    setOpeningMenu    ] = React.useState(false);
     const [ closingMenu,    setClosingMenu    ] = React.useState(false);
-
+    
+    const [ detailsTimer,   setDetailsTimer   ] = React.useState(null);
     const [ showingDetails, setShowingDetails ] = React.useState(false);
     const [ openingDetails, setOpeningDetails ] = React.useState(false);
     const [ closingDetails, setClosingDetails ] = React.useState(false);
@@ -97,9 +99,9 @@ function Container(props) {
         }
         setShowingMenu(true);
         setOpeningMenu(true);
-        window.setTimeout(() => {
+        setMenuTimer(window.setTimeout(() => {
             setOpeningMenu(false);
-        }, 300);
+        }, 300));
     };
 
     // Closes the Menu
@@ -108,10 +110,10 @@ function Container(props) {
             return;
         }
         setClosingMenu(true);
-        window.setTimeout(() => {
+        setMenuTimer(window.setTimeout(() => {
             setClosingMenu(false);
             setShowingMenu(false);
-        }, 300);
+        }, 300));
     };
 
     // Opens the Details
@@ -121,9 +123,9 @@ function Container(props) {
         }
         setShowingDetails(true);
         setOpeningDetails(true);
-        window.setTimeout(() => {
+        setDetailsTimer(window.setTimeout(() => {
             setOpeningDetails(false);
-        }, 300);
+        }, 300));
     };
 
     // Closes the Details
@@ -132,10 +134,10 @@ function Container(props) {
             return;
         }
         setClosingDetails(true);
-        window.setTimeout(() => {
+        setDetailsTimer(window.setTimeout(() => {
             setClosingDetails(false);
             setShowingDetails(false);
-        }, 300);
+        }, 300));
     };
 
     // Handles the Menu/Detials Close
@@ -156,6 +158,11 @@ function Container(props) {
         } else {
             handleMenuClose();
         }
+        return () => {
+            if (menuTimer) {
+                window.clearTimeout(menuTimer);
+            }
+        };
     }, [ showMenu ]);
 
     // Open or Close the Details
@@ -165,6 +172,11 @@ function Container(props) {
         } else {
             handleDetailsClose();
         }
+        return () => {
+            if (detailsTimer) {
+                window.clearTimeout(detailsTimer);
+            }
+        };
     }, [ showDetails ]);
 
 

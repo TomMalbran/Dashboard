@@ -61,18 +61,26 @@ const Title = Styled.span`
 function SearchDrawer(props) {
     const { isHidden, open, className, message, fetch, onClose, logo, logoSize } = props;
 
+    const [ timer,       setTimer       ] = React.useState(null);
     const [ value,       setValue       ] = React.useState("");
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ selected,    setSelected    ] = React.useState(0);
 
     // Handles the Input Change
-    const handleChange = async (name, value) => {
+    const handleChange = (name, value) => {
         setValue(value);
+        if (timer) {
+            window.clearTimeout(timer);
+        }
         if (value.length > 1) {
-            const response = await fetch({ value });
-            setSuggestions(response);
+            const newTimer = window.setTimeout(async () => {
+                const response = await fetch({ value });
+                setSuggestions(response);
+            }, 500);
+            setTimer(newTimer);
         } else {
             setSuggestions([]);
+            setTimer(null);
         }
     };
 
