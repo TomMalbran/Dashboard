@@ -22,10 +22,10 @@ function init(theHistory) {
  * @returns {String}
  */
 function getUrl(data) {
-    const { href, url, message, isLink, isPhone, isEmail, isWhatsapp } = data;
+    const { href, url, message, useBase, isLink, isPhone, isEmail, isWhatsapp } = data;
     let result = href;
     if (url) {
-        result = NLS.url(url);
+        result = useBase ? NLS.baseUrl(url) : NLS.url(url);
     } else if (isLink) {
         result = !message.startsWith("http") ? `http://${message}` : message;
     } else if (isPhone) {

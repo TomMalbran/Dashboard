@@ -173,6 +173,7 @@ HyperLink.propTypes = {
     href       : PropTypes.string,
     url        : PropTypes.string,
     target     : PropTypes.string,
+    useBase    : PropTypes.bool,
     isPhone    : PropTypes.bool,
     isEmail    : PropTypes.bool,
     isWhatsapp : PropTypes.bool,
