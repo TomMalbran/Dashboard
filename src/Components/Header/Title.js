@@ -14,16 +14,20 @@ import Icon                 from "../Common/Icon";
 const H2 = Styled.h2`
     display: flex;
     align-items: center;
-    font-size: 26px;
-    line-height: 1.2;
-    color: var(--title-color);
-    letter-spacing: 1px;
     margin: 0;
+    color: var(--title-color);
     font-family: var(--title-font);
     font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: 1px;
 
     .icon {
         margin-right: 8px;
+    }
+
+    @media (max-width: 500px) {
+        font-size: 20px;
+        line-height: 1;
     }
 `;
 
