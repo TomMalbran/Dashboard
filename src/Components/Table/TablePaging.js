@@ -29,6 +29,9 @@ const TD = Styled.td`
 
 const Rows = Styled.p`
     margin: 0 8px 0 0;
+    @media (max-width: 700px) {
+        display: none;
+    }
 `;
 const Pages = Styled.p`
     margin: 0 16px 0 0;    
@@ -43,6 +46,9 @@ const PagingInput = Styled(InputField)`
         font-size: 12px;
         font-weight: normal;
         background-color: var(--lighter-gray);
+    }
+    @media (max-width: 700px) {
+        display: none;
     }
 `;
 

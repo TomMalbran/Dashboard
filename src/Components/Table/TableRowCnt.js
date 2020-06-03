@@ -41,6 +41,36 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
         }
     `}
 
+    @media (max-width: 700px) {
+        display: grid;
+        position: relative;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        border-bottom: 2px solid var(--dark-gray);
+        min-height: 24px;
+        padding: 8px;
+
+        &:first-child {
+            border-top: 2px solid var(--dark-gray);
+        }
+
+        td, th {
+            border-bottom: none;
+        }
+        ${(props) => props.hasActions && `td:last-child {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            padding: 0;
+            margin-top: -16px;
+            background-color: white;
+        }`}
+    }
+    @media (max-width: 650px) {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    @media (max-width: 400px) {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
 `;
 
 

@@ -16,6 +16,10 @@ const THead = Styled.thead.attrs(({ hasTabs }) => ({ hasTabs }))`
     background: var(--light-gray);
     border-top-right-radius: var(--border-radius);
     ${(props) => !props.hasTabs && "border-top-left-radius: var(--border-radius);"}
+
+    @media (max-width: 700px) {
+        display: none;
+    }
 `;
 
 

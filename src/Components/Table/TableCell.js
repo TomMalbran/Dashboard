@@ -11,14 +11,13 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle }) => ({ flexGrow, align, isSmall, isTitle }))`
+const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle, bigMobile, hideMobile }) => ({ flexGrow, align, isSmall, isTitle, bigMobile, hideMobile }))`
     && {
         padding: 12px 0 12px 12px;
         border: none;
         font-size: 13px;
         flex-grow: ${(props) => props.flexGrow};
         text-align: ${(props) => props.align};
-        border-bottom: 2px solid var(--light-gray);
     
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
@@ -28,6 +27,15 @@ const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle }) => ({ flexGro
             color: var(--title-color);
             font-weight: bold;
         `}
+        
+        @media (max-width: 700px) {
+            && {
+                text-align: left;
+                padding: 4px;
+                ${(props) => props.bigMobile  && "grid-column: 1/-1;"}
+                ${(props) => props.hideMobile && "display: none;"}
+            }
+        }
     }
 `;
 
@@ -41,7 +49,7 @@ const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle }) => ({ flexGro
 function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
-        colSpan, grow, align, isSmall, isTitle, children,
+        colSpan, grow, align, isSmall, isTitle, bigMobile, hideMobile, children,
     } = props;
 
 
@@ -54,6 +62,8 @@ function TableCell(props) {
         align={align}
         isSmall={isSmall}
         isTitle={isTitle}
+        bigMobile={bigMobile}
+        hideMobile={hideMobile}
         colSpan={colSpan}
     >
         {!!circle && !hideCircle && <Circle variant={circle} />}
@@ -73,7 +83,8 @@ TableCell.propTypes = {
     align      : PropTypes.string,
     isTitle    : PropTypes.bool,
     isSmall    : PropTypes.bool,
-    isFull     : PropTypes.bool,
+    bigMobile  : PropTypes.bool,
+    hideMobile : PropTypes.bool,
     circle     : PropTypes.string,
     hideCircle : PropTypes.bool,
     isHidden   : PropTypes.bool,
@@ -89,7 +100,10 @@ TableCell.defaultProps = {
     colSpan    : "1",
     grow       : "1",
     align      : "left",
-    isFull     : false,
+    isTitle    : false,
+    isSmall    : false,
+    bigMobile  : false,
+    hideMobile : false,
     hideCircle : false,
     isHidden   : false,
 };

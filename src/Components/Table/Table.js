@@ -41,6 +41,9 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
     @media (max-width: 1000px) {
         --table-topbar-height: var(--topbar-height);
     }
+    @media (max-width: 700px) {
+        --table-header-height: 0px;
+    }
 `;
 
 
