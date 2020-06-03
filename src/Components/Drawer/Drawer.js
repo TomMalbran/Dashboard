@@ -83,7 +83,11 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function Drawer(props) {
-    const { open, className, withBorder, logo, logoSize, message, onClose, children } = props;
+    const {
+        open, className, withBorder,
+        logo, logoWidth, logoHeight,
+        message, onClose, children,
+    } = props;
     
     if (!open) {
         return <React.Fragment />;
@@ -114,7 +118,11 @@ function Drawer(props) {
     >
         <Div className={className} ref={contentRef} isClosing={closing}>
             <Nav withBorder={withBorder}>
-                <Logo logo={logo} size={logoSize} />
+                <Logo
+                    logo={logo}
+                    logoWidth={logoWidth}
+                    logoHeight={logoHeight}
+                />
                 <BarIcon
                     variant="light"
                     icon="back"
@@ -139,7 +147,8 @@ Drawer.propTypes = {
     withBorder : PropTypes.bool,
     message    : PropTypes.string.isRequired,
     logo       : PropTypes.string,
-    logoSize   : PropTypes.number,
+    logoWidth  : PropTypes.number,
+    logoHeight : PropTypes.number,
     onClose    : PropTypes.func.isRequired,
     children   : PropTypes.any,
 };

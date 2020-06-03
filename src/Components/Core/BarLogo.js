@@ -17,8 +17,9 @@ const H2 = Styled.h2.attrs(({ withLink }) => ({ withLink }))`
     ${(props) => props.withLink ? "cursor: pointer;" : ""}
 `;
     
-const Img = Styled.img.attrs(({ size }) => ({ size }))`
-    width: ${(props) => props.size}px;
+const Img = Styled.img.attrs(({ logoWidth, logoHeight }) => ({ logoWidth, logoHeight }))`
+    ${(props) => props.logoWidth  ? `width: ${props.logoWidth}px`   : ""}
+    ${(props) => props.logoHeight ? `height: ${props.logoHeight}px` : ""}
 `;
 
 
@@ -29,7 +30,7 @@ const Img = Styled.img.attrs(({ size }) => ({ size }))`
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
-    const { className, logo, withLink, size } = props;
+    const { className, logo, withLink, logoWidth, logoHeight } = props;
 
     // Handles the Click
     const handleClick = (e) => {
@@ -39,9 +40,14 @@ function BarLogo(props) {
             e.preventDefault();
         }
     };
-
+    
     return <H2 className={className} onClick={handleClick} withLink>
-        <Img src={logo} alt={NLS.get("TITLE")} size={size} />
+        <Img
+            src={logo}
+            alt={NLS.get("TITLE")}
+            logoWidth={logoWidth}
+            logoHeight={logoHeight}
+        />
     </H2>;
 }
 
@@ -50,10 +56,11 @@ function BarLogo(props) {
  * @type {Object} propTypes
  */
 BarLogo.propTypes = {
-    className : PropTypes.string,
-    logo      : PropTypes.string.isRequired,
-    withLink  : PropTypes.bool,
-    size      : PropTypes.number,
+    className  : PropTypes.string,
+    logo       : PropTypes.string.isRequired,
+    logoWidth  : PropTypes.number,
+    logoHeight : PropTypes.number,
+    withLink   : PropTypes.bool,
 };
 
 /**
@@ -63,7 +70,6 @@ BarLogo.propTypes = {
 BarLogo.defaultProps = {
     className : "",
     withLink  : false,
-    size      : 32,
 };
 
 export default BarLogo;

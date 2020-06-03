@@ -57,7 +57,7 @@ const DetailIcon = Styled(BarIcon)`
  */
 function TopBar(props) {
     const {
-        className, logo, logoSize, onMenu,
+        className, logo, logoWidth, logoHeight, onMenu,
         onDetails, showDetails, avatarUrl, avatarData,
     } = props;
 
@@ -70,7 +70,8 @@ function TopBar(props) {
             />}
             <TopLogo
                 logo={logo}
-                size={logoSize}
+                logoWidth={logoWidth}
+                logoHeight={logoHeight}
                 withLink
             />
         </Div>
@@ -95,7 +96,8 @@ function TopBar(props) {
 TopBar.propTypes = {
     className   : PropTypes.string,
     logo        : PropTypes.string.isRequired,
-    logoSize    : PropTypes.number,
+    logoWidth   : PropTypes.number,
+    logoHeight  : PropTypes.number,
     showDetails : PropTypes.bool.isRequired,
     onMenu      : PropTypes.func.isRequired,
     onDetails   : PropTypes.func.isRequired,

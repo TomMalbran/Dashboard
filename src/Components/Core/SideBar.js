@@ -72,7 +72,7 @@ const SideAvatar = Styled(Avatar)`
 function SideBar(props) {
     const {
         className, withBorder,
-        logo, logoSize,
+        logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarData, avatarUrl,
     } = props;
@@ -98,7 +98,8 @@ function SideBar(props) {
         <Div>
             <SideLogo
                 logo={logo}
-                size={logoSize}
+                logoWidth={logoWidth}
+                logoHeight={logoHeight}
                 withLink
             />
             {hasSearch && <BarIcon
@@ -123,6 +124,7 @@ function SideBar(props) {
                 url={avatarUrl}
                 data={avatarData}
                 size={36}
+                onClick={onClose}
             />}
         </Div>
     </Nav>;
@@ -135,7 +137,8 @@ function SideBar(props) {
 SideBar.propTypes = {
     className  : PropTypes.string,
     logo       : PropTypes.string.isRequired,
-    logoSize   : PropTypes.number,
+    logoWidth  : PropTypes.number,
+    logoHeight : PropTypes.number,
     hasSearch  : PropTypes.bool,
     hasCreate  : PropTypes.bool,
     onSearch   : PropTypes.func,

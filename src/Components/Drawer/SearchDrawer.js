@@ -59,7 +59,10 @@ const Title = Styled.span`
  * @returns {React.ReactElement}
  */
 function SearchDrawer(props) {
-    const { isHidden, open, className, message, fetch, onClose, logo, logoSize } = props;
+    const {
+        isHidden, open, className, message, fetch, onClose,
+        logo, logoWidth, logoHeight,
+    } = props;
 
     const [ timer,       setTimer       ] = React.useState(null);
     const [ value,       setValue       ] = React.useState("");
@@ -146,7 +149,8 @@ function SearchDrawer(props) {
         message={message || "GENERAL_SEARCH"}
         onClose={onClose}
         logo={logo}
-        logoSize={logoSize}
+        logoWidth={logoWidth}
+        logoHeight={logoHeight}
     >
         <InputField
             name="search"
@@ -180,14 +184,15 @@ function SearchDrawer(props) {
  * @typedef {Object} propTypes
  */
 SearchDrawer.propTypes = {
-    isHidden  : PropTypes.bool,
-    open      : PropTypes.bool.isRequired,
-    className : PropTypes.string,
-    message   : PropTypes.string,
-    fetch     : PropTypes.func.isRequired,
-    onClose   : PropTypes.func.isRequired,
-    logo      : PropTypes.string,
-    logoSize  : PropTypes.number,
+    isHidden   : PropTypes.bool,
+    open       : PropTypes.bool.isRequired,
+    className  : PropTypes.string,
+    message    : PropTypes.string,
+    fetch      : PropTypes.func.isRequired,
+    onClose    : PropTypes.func.isRequired,
+    logo       : PropTypes.string,
+    logoWidth  : PropTypes.number,
+    logoHeight : PropTypes.number,
 };
 
 /**

@@ -15,7 +15,10 @@ import Drawer               from "../Drawer/Drawer";
  * @returns {React.ReactElement}
  */
 function CreateDrawer(props) {
-    const { open, className, message, onClose, onAction, logo, logoSize, children } = props;
+    const {
+        open, className, message, onClose, onAction, children,
+        logo, logoWidth, logoHeight,
+    } = props;
 
     const items = Utils.cloneChildren(children, () => ({ onAction }));
 
@@ -25,7 +28,8 @@ function CreateDrawer(props) {
         message={message || "GENERAL_CREATE"}
         onClose={onClose}
         logo={logo}
-        logoSize={logoSize}
+        logoWidth={logoWidth}
+        logoHeight={logoHeight}
     >
         {items}
     </Drawer>;
@@ -36,14 +40,15 @@ function CreateDrawer(props) {
  * @typedef {Object} propTypes
  */
 CreateDrawer.propTypes = {
-    open      : PropTypes.bool.isRequired,
-    className : PropTypes.string,
-    message   : PropTypes.string,
-    onClose   : PropTypes.func.isRequired,
-    onAction  : PropTypes.func.isRequired,
-    logo      : PropTypes.string,
-    logoSize  : PropTypes.number,
-    children  : PropTypes.any,
+    open       : PropTypes.bool.isRequired,
+    className  : PropTypes.string,
+    message    : PropTypes.string,
+    onClose    : PropTypes.func.isRequired,
+    onAction   : PropTypes.func.isRequired,
+    logo       : PropTypes.string,
+    logoWidth  : PropTypes.number,
+    logoHeight : PropTypes.number,
+    children   : PropTypes.any,
 };
 
 /**
