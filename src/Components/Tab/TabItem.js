@@ -24,6 +24,7 @@ const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isD
     flex-grow: 1;
     box-sizing: border-box;
     text-align: center;
+    white-space: nowrap;
     cursor: pointer;
     transition: all 0.2s;
 

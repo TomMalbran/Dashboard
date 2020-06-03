@@ -30,6 +30,9 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
 `;
 
 const Div = Styled.div.attrs(({ variant, size }) => ({ variant, size }))`
+    max-width: 100%;
+    overflow: auto;
+
     ${(props) => props.variant === Variant.LIGHT && "display: flex;"}
     ${(props) => props.variant === Variant.DARK  && `
         display: grid;
