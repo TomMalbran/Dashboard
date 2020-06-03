@@ -41,7 +41,7 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { className, size, url, href, target, name, data, reload } = props;
+    const { className, size, url, href, target, name, data, reload, onClick } = props;
 
     const hasClick = Boolean(url || href);
 
@@ -55,6 +55,9 @@ function Avatar(props) {
 
     // Handles the Click
     const handleClick = (e) => {
+        if (onClick) {
+            onClick(e);
+        }
         if (hasClick) {
             const uri = url ? NLS.baseUrl(url) : href;
             Href.handleUrl(uri, target);
@@ -90,6 +93,7 @@ Avatar.propTypes = {
     name      : PropTypes.string,
     size      : PropTypes.number,
     reload    : PropTypes.bool,
+    onClick   : PropTypes.func,
 };
 
 /**
