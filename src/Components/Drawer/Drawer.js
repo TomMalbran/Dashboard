@@ -40,6 +40,7 @@ const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
     left: 0;
     bottom: 0;
     width: var(--drawer-width);
+    max-width: 100%;
     background-color: white;
 `;
 
