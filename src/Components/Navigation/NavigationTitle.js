@@ -77,15 +77,8 @@ const Span2 = Styled.span`
 function NavigationTitle(props) {
     const {
         className, variant, href, message, fallback,
-        onAction, onClose, canAdd, canManage,
+        onAction, canAdd, canManage,
     } = props;
-
-    // Handles the Click
-    const handleClick = (e) => {
-        if (onClose) {
-            onClose(e);
-        }
-    };
 
     // Handles the Action
     const handleAction = (e, action) => {
@@ -103,7 +96,6 @@ function NavigationTitle(props) {
                 variant={variant}
                 icon="back"
                 href={href}
-                onClick={handleClick}
             />
             {!message ? NLS.get(fallback) : <Div>
                 <Span1>{NLS.get(fallback)}</Span1>
@@ -134,7 +126,6 @@ NavigationTitle.propTypes = {
     message   : PropTypes.string,
     fallback  : PropTypes.string,
     onAction  : PropTypes.func,
-    onClose   : PropTypes.func,
     canAdd    : PropTypes.bool,
     canManage : PropTypes.bool,
 };
