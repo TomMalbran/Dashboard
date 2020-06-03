@@ -34,6 +34,7 @@ const Input = Styled.input`
 const Span = Styled.span`
     position: relative;
     box-sizing: border-box;
+    flex-shrink: 0;
     display: block;
     margin-right: 12px;
     background: var(--primary-color);
