@@ -14,7 +14,7 @@ import InfoAction           from "../Info/InfoAction";
 const Section = Styled.section`
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     padding: 12px 24px;
     border-bottom: 1px solid var(--light-gray);
     color: var(--black-color);
