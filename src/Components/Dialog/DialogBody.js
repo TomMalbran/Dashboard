@@ -8,7 +8,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Main = Styled.main.attrs(({ isLoading, isCentered, withSpacing, fullHeight }) => ({ isLoading, isCentered, withSpacing, fullHeight }))`
+const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, fullHeight }) => ({ isLoading, isCentered, withSpacing, isNarrow, fullHeight }))`
     box-sizing: border-box;
     overflow: auto;
     flex-grow: 2;
@@ -31,9 +31,11 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, withSpacing, fullHeight
     `}
 
     @media (max-width: 500px) {
-        height: calc(100vh - var(--dialog-header) - var(--dialog-footer));
-        max-height: none;
-    }    
+        ${(props) => !props.isNarrow && `
+            height: calc(100vh - var(--dialog-header) - var(--dialog-footer));
+            max-height: none;
+        `}
+    }
 `;
 
 
@@ -44,7 +46,10 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, withSpacing, fullHeight
  * @returns {React.ReactElement}
  */
 function DialogBody(props) {
-    const { className, isLoading, isCentered, withSpacing, fullHeight, onScroll, children } = props;
+    const {
+        className, isLoading, isCentered, isNarrow, withSpacing, fullHeight,
+        onScroll, children,
+    } = props;
 
     const dialogRef = React.useRef();
     
@@ -61,6 +66,7 @@ function DialogBody(props) {
         className={className}
         isLoading={isLoading}
         isCentered={isCentered}
+        isNarrow={isNarrow}
         withSpacing={withSpacing}
         fullHeight={fullHeight}
         onScroll={handleScroll}
@@ -77,6 +83,7 @@ DialogBody.propTypes = {
     className   : PropTypes.string,
     isLoading   : PropTypes.bool,
     isCentered  : PropTypes.bool,
+    isNarrow    : PropTypes.bool,
     withSpacing : PropTypes.bool,
     fullHeight  : PropTypes.bool,
     onScroll    : PropTypes.func,
@@ -91,6 +98,7 @@ DialogBody.defaultProps = {
     className   : "",
     isLoading   : false,
     isCentered  : false,
+    isNarrow    : false,
     withSpacing : false,
     fullHeight  : false,
 };

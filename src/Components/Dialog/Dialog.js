@@ -58,13 +58,19 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     ${(props) => props.isWide   && "max-width: 1000px;"}
     ${(props) => props.isNarrow && "max-width: 400px;"}
     ${(props) => props.hasTabs  && "--dialog-tabs: var(--tabs-dialog);"}
-
+    
     @media (max-width: 500px) {
-        --dialog-spacing: 0;
-        width: 100%;
-        height: 100vh;
-        max-width: none;
-        max-height: none;
+        ${(props) => props.isNarrow ? `
+            width: 95vw;
+            max-width: none;
+        ` : `
+            --dialog-spacing: 0;
+            width: 100%;
+            height: 100vh;
+            max-width: none;
+            max-height: none;
+            border-radius: 0;
+        `}
     }
 `;
 
@@ -157,7 +163,7 @@ function Dialog(props) {
             hasTabs = true;
         }
         items.push(React.cloneElement(child, {
-            key, isLoading, onClose : handleClose,
+            key, isLoading, isNarrow, onClose : handleClose,
         }));
     }
 

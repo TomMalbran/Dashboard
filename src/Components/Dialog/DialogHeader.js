@@ -28,6 +28,7 @@ const Header = Styled.header`
     @media (max-width: 500px) {
         padding-right: 8px;
         padding-left: 8px;
+        border-radius: 0;
     }
 `;
 
