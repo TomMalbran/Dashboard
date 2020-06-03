@@ -19,6 +19,7 @@ const Section = Styled.section.attrs(({ topSpace }) => ({ topSpace }))`
     width: var(--details-width);
     background-color: var(--lighter-gray);
     padding: 16px;
+    overflow: auto;
 
     ${(props) => props.topSpace ? `padding-top: ${props.topSpace}px` : ""};
 
