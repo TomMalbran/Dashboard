@@ -15,7 +15,7 @@ import Button               from "../Form/Button";
  * @returns {React.ReactElement}
  */
 function InfoAction(props) {
-    const { isHidden, message, action, onAction } = props;
+    const { isHidden, className, message, action, onAction } = props;
     const act = Action.get(action);
 
     // Handles the Click
@@ -30,6 +30,7 @@ function InfoAction(props) {
         return <React.Fragment />;
     }
     return <Button
+        className={className}
         variant="accent"
         message={message || act.message}
         onClick={handleClick}
@@ -41,10 +42,11 @@ function InfoAction(props) {
  * @type {Object} propTypes
  */
 InfoAction.propTypes = {
-    action   : PropTypes.string.isRequired,
-    message  : PropTypes.string,
-    onAction : PropTypes.func,
-    isHidden : PropTypes.bool,
+    action    : PropTypes.string.isRequired,
+    className : PropTypes.string,
+    message   : PropTypes.string,
+    onAction  : PropTypes.func,
+    isHidden  : PropTypes.bool,
 };
 
 /**
@@ -52,7 +54,8 @@ InfoAction.propTypes = {
  * @type {Object} defaultProps
  */
 InfoAction.defaultProps = {
-    isHidden : false,
+    className : "",
+    isHidden  : false,
 };
 
 export default InfoAction;
