@@ -18,6 +18,18 @@ const Ul = Styled.ul`
     margin: 0;
     padding: 0;
     list-style: none;
+
+    @media (max-width: 500px) {
+        .btn {
+            padding-right: 8px;
+        }
+        .btn-preicon {
+            margin-right: 0;
+        }
+        .btn-content {
+            display: none;
+        }
+    }
 `;
 
 
