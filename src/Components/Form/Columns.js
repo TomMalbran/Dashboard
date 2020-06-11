@@ -65,14 +65,7 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
     }
     
     @media (max-width: 500px) {
-        grid-template-columns: repeat(1, 1fr);
-        
-        .columns-triple {
-            grid-column-end: span 1;
-        }
-        .columns-btn {
-            grid-column-start: 1;
-        }
+        display: block;
         
         &:last-child .inputfield:nth-last-child(-n+2),
         &:last-child .inputview:nth-last-child(-n+2) {
