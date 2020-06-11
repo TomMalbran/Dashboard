@@ -46,7 +46,9 @@ const InputInput = Styled(TextInput)`
     color: var(--black-color);
     background-color: white;
     border: 1px solid var(--border-color);
+    border-top-left-radius: 0px;
     border-top-right-radius: var(--border-radius);
+    border-bottom-left-radius: 0px;
     border-bottom-right-radius: var(--border-radius);
     transition: all 0.2s;
 
