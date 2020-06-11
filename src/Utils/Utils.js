@@ -87,6 +87,23 @@ function createSlug(value) {
     return result;
 }
 
+/**
+ * Returns the Youtube Embed Url
+ * @param {String} source
+ * @returns {String}
+ */
+function getYoutubeEmbed(source) {
+    let videoID = "";
+    if (source.startsWith("https://youtu.be/")) {
+        videoID = source.replace("https://youtu.be/", "");
+    } else if (source.startsWith("https://www.youtube.com/watch?v=")) {
+        videoID = source.replace("https://www.youtube.com/watch?v=", "");
+    }
+    if (!videoID) {
+        return "";
+    }
+    return `https://www.youtube-nocookie.com/embed/${videoID}?version=3&modestbranding=1&rel=0&showinfo=0`;
+}
 
 
 
@@ -348,6 +365,7 @@ export default {
     hasSelection,
     unselectAll,
     createSlug,
+    getYoutubeEmbed,
 
     concat,
     removePrefix,

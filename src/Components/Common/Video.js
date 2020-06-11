@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Utils
+import Utils                from "../../Utils/Utils";
+
 
 
 // Styles
@@ -31,17 +34,10 @@ const Frame = Styled.iframe`
 function Video(props) {
     const { className, title, source, width, height } = props;
 
-    let videoID = "";
-    if (source.startsWith("https://youtu.be/")) {
-        videoID = source.replace("https://youtu.be/", "");
-    } else if (source.startsWith("https://www.youtube.com/watch?v=")) {
-        videoID = source.replace("https://www.youtube.com/watch?v=", "");
-    }
-    if (!videoID) {
+    const src = Utils.getYoutubeEmbed(source);
+    if (!src) {
         return <React.Fragment />;
     }
-    
-    const src = `https://www.youtube-nocookie.com/embed/${videoID}?version=3&modestbranding=1&rel=0&showinfo=0`;
     return <Div className={className}>
         <Frame
             width={width}
