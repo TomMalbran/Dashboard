@@ -45,16 +45,19 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
         display: grid;
         position: relative;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        border-bottom: 2px solid var(--dark-gray);
+        border-bottom: 2px solid var(--light-gray);
         min-height: 24px;
         padding: 8px;
 
-        &:first-child {
-            border-top: 2px solid var(--dark-gray);
+        &:last-child {
+            border-bottom: none;
         }
-
+        
         td, th {
             border-bottom: none;
+        }
+        &:hover td {
+            background-color: transparent;
         }
         ${(props) => props.hasActions && `td:last-child {
             position: absolute;

@@ -14,7 +14,6 @@ import Circle               from "../Common/Circle";
 const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle, bigMobile, hideMobile }) => ({ flexGrow, align, isSmall, isTitle, bigMobile, hideMobile }))`
     && {
         padding: 12px 0 12px 12px;
-        border: none;
         font-size: 13px;
         flex-grow: ${(props) => props.flexGrow};
         text-align: ${(props) => props.align};
@@ -32,6 +31,7 @@ const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle, bigMobile, hide
             && {
                 text-align: left;
                 padding: 4px;
+                border: none;
                 ${(props) => props.bigMobile  && "grid-column: 1/-1;"}
                 ${(props) => props.hideMobile && "display: none;"}
             }

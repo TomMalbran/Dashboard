@@ -31,6 +31,10 @@ const TBody = Styled.tbody.attrs(({ hasPaging }) => ({ hasPaging }))`
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
     `}
+
+    @media (max-width: 700px) {
+        border-top: 2px solid var(--light-gray);
+    }
 `;
 
 
