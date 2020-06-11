@@ -45,6 +45,12 @@ const Div = Styled.div.attrs(({ open }) => ({ open }))`
         z-index: 9999;
         user-select: none;
     }
+
+    @media (max-width: 1000px) {
+        &::after {
+            background: white;
+        }
+    }
 `;
 
 
