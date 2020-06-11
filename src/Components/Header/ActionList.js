@@ -40,10 +40,10 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function ActionList(props) {
-    const { className, data, onAction, useAdd, useAssign, children } = props;
+    const { className, data, onAction, createText, useAdd, useAssign, children } = props;
 
     const items      = Utils.cloneChildren(children, () => ({ onAction }));
-    const createText = useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE");
+    const createName = createText || (useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE"));
     const canCreate  = Boolean(data.canCreate);
     const canImport  = Boolean(data.canImport);
     const canExport  = Boolean(data.canExport && data.total > 0);
@@ -56,7 +56,7 @@ function ActionList(props) {
     return <Ul className={className}>
         {canCreate && <ActionItem
             action="CREATE"
-            message={createText}
+            message={createName}
             onAction={onAction}
         />}
         {canImport && <ActionItem
@@ -80,12 +80,13 @@ function ActionList(props) {
  * @typedef {Object} propTypes
  */
 ActionList.propTypes = {
-    data      : PropTypes.object,
-    className : PropTypes.string,
-    onAction  : PropTypes.func,
-    useAdd    : PropTypes.bool,
-    useAssign : PropTypes.bool,
-    children  : PropTypes.any,
+    data       : PropTypes.object,
+    className  : PropTypes.string,
+    onAction   : PropTypes.func,
+    createText : PropTypes.string,
+    useAdd     : PropTypes.bool,
+    useAssign  : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -93,10 +94,11 @@ ActionList.propTypes = {
  * @type {Object} defaultProps
  */
 ActionList.defaultProps = {
-    className : "",
-    data      : {},
-    useAdd    : false,
-    useAssign : false,
+    className  : "",
+    data       : {},
+    createText : "",
+    useAdd     : false,
+    useAssign  : false,
 };
 
 export default ActionList;
