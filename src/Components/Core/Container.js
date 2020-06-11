@@ -43,7 +43,7 @@ const Div = Styled.div.attrs(({
     showingDetails, openingDetails, closingDetails,
 }))`
     display: flex;
-    height: 100vh;
+    height: var(--full-height);
     width: 100vw;
 
     @media (max-width: 1000px) {

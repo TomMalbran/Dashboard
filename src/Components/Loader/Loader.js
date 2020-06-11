@@ -10,7 +10,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 // Styles
 const Div = Styled.div`
     display: flex;
-    height: 100vh;
+    height: var(--full-height);
     width: 100vw;
     justify-content: center;
     align-items: center;

@@ -9,7 +9,7 @@ const Content = Styled.main`
     display: flex;
     flex-grow: 2;
     flex-direction: column;
-    height: 100vh;
+    height: var(--full-height);
     width: calc(100vw - var(--sidebar-width) - var(--navigation-width));
 
     aside + & {
@@ -18,7 +18,7 @@ const Content = Styled.main`
 
     @media (max-width: 1000px) {
         width: 100vw !important;
-        height: calc(100vh - var(--topbar-height)) !important;
+        height: calc(var(--full-height) - var(--topbar-height)) !important;
         overflow: auto;
     }
 `;

@@ -35,13 +35,13 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     --dialog-tabs    : 0px;
     --dialog-footer  : 55px;
     --dialog-spacing : 32px;
-    --dialog-body    : calc(100vh - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
+    --dialog-body    : calc(var(--full-height) - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
     position: static;
     margin: var(--dialog-spacing);
     padding: 0;
     width: calc(100% - var(--dialog-spacing) * 2);
-    max-height: calc(100vh - var(--dialog-spacing) * 2);
+    max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     max-width: 600px;
     overflow: auto;
     border: none;
@@ -66,7 +66,7 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
         ` : `
             --dialog-spacing: 0;
             width: 100%;
-            height: 100vh;
+            height: var(--full-height);
             max-width: none;
             max-height: none;
             border-radius: 0;

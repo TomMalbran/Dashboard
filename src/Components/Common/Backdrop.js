@@ -27,7 +27,7 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
     top: 0;
     left: 0;
     right: 0;
-    height: 100vh;
+    height: var(--full-height);
     overflow: hidden;
     justify-content: center;
     align-items: center;

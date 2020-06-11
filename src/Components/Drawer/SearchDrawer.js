@@ -28,7 +28,7 @@ const H3 = Styled.h3`
 `;
 
 const Results = Styled.div`
-    height: calc(100vh - 140px);
+    height: calc(var(--full-height) - 140px);
     overflow: auto;
 
     .link-preicon {

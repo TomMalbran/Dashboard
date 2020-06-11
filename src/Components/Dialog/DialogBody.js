@@ -32,7 +32,7 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
 
     @media (max-width: 500px) {
         ${(props) => !props.isNarrow && `
-            height: calc(100vh - var(--dialog-header) - var(--dialog-footer));
+            height: calc(var(--full-height) - var(--dialog-header) - var(--dialog-footer));
             max-height: none;
         `}
     }
