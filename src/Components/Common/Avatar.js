@@ -41,7 +41,7 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { className, size, url, href, target, name, data, reload, onClick } = props;
+    const { className, size, url, href, target, name, data, edition, withReload, onClick } = props;
 
     const hasClick = Boolean(url || href);
 
@@ -49,7 +49,9 @@ function Avatar(props) {
     if (!avatar && data.email) {
         const username = MD5(data.email.toLowerCase().trim());
         avatar = `https://gravatar.com/avatar/${username}?default=identicon`;
-    } else if (reload) {
+    } else if (edition) {
+        avatar += `?rdm=${edition}`;
+    } else if (withReload) {
         avatar += `?rdm=${new Date().getTime()}`;
     }
 
@@ -85,15 +87,16 @@ function Avatar(props) {
  * @typedef {Object} propTypes
  */
 Avatar.propTypes = {
-    className : PropTypes.string,
-    url       : PropTypes.string,
-    href      : PropTypes.string,
-    target    : PropTypes.string,
-    data      : PropTypes.object.isRequired,
-    name      : PropTypes.string,
-    size      : PropTypes.number,
-    reload    : PropTypes.bool,
-    onClick   : PropTypes.func,
+    className  : PropTypes.string,
+    url        : PropTypes.string,
+    href       : PropTypes.string,
+    target     : PropTypes.string,
+    data       : PropTypes.object.isRequired,
+    name       : PropTypes.string,
+    size       : PropTypes.number,
+    edition    : PropTypes.number,
+    withReload : PropTypes.bool,
+    onClick    : PropTypes.func,
 };
 
 /**
@@ -101,10 +104,10 @@ Avatar.propTypes = {
  * @type {Object} defaultProps
  */
 Avatar.defaultProps = {
-    className : "",
-    target    : "_self",
-    size      : 36,
-    reload    : false,
+    className  : "",
+    target     : "_self",
+    size       : 36,
+    withReload : false,
 };
 
 export default Avatar;

@@ -74,7 +74,7 @@ function SideBar(props) {
         className, withBorder,
         logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
-        onLogout, message, avatarData, avatarUrl,
+        onLogout, message, avatarData, avatarUrl, avatarEdition,
     } = props;
 
     // Handles the Search Click
@@ -123,6 +123,7 @@ function SideBar(props) {
             {!!avatarUrl && <SideAvatar
                 url={avatarUrl}
                 data={avatarData}
+                edition={avatarEdition}
                 size={36}
                 onClick={onClose}
             />}
@@ -135,20 +136,21 @@ function SideBar(props) {
  * @typedef {Object} propTypes
  */
 SideBar.propTypes = {
-    className  : PropTypes.string,
-    logo       : PropTypes.string.isRequired,
-    logoWidth  : PropTypes.number,
-    logoHeight : PropTypes.number,
-    hasSearch  : PropTypes.bool,
-    hasCreate  : PropTypes.bool,
-    onSearch   : PropTypes.func,
-    onCreate   : PropTypes.func,
-    onClose    : PropTypes.func,
-    onLogout   : PropTypes.func,
-    message    : PropTypes.string,
-    avatarUrl  : PropTypes.string,
-    avatarData : PropTypes.object,
-    withBorder : PropTypes.bool,
+    className     : PropTypes.string,
+    logo          : PropTypes.string.isRequired,
+    logoWidth     : PropTypes.number,
+    logoHeight    : PropTypes.number,
+    hasSearch     : PropTypes.bool,
+    hasCreate     : PropTypes.bool,
+    onSearch      : PropTypes.func,
+    onCreate      : PropTypes.func,
+    onClose       : PropTypes.func,
+    onLogout      : PropTypes.func,
+    message       : PropTypes.string,
+    avatarUrl     : PropTypes.string,
+    avatarData    : PropTypes.object,
+    avatarEdition : PropTypes.number,
+    withBorder    : PropTypes.bool,
 };
 
 /**
