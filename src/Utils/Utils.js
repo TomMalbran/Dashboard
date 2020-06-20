@@ -248,6 +248,22 @@ function extend(primary, secondary, noBinary = false) {
  * @param {Object[]}        data
  * @param {String}          idKey
  * @param {(Number|String)} idValue
+ * @returns {?Number}
+ */
+function getIndex(data, idKey, idValue) {
+    for (const [ index, elem ] of Object.entries(data)) {
+        if (String(elem[idKey]) === String(idValue)) {
+            return Number(index);
+        }
+    }
+    return null;
+}
+
+/**
+ * Returns the Value at the given id with the given key
+ * @param {Object[]}        data
+ * @param {String}          idKey
+ * @param {(Number|String)} idValue
  * @param {String=}         key
  * @returns {(Object|String)}
  */
@@ -376,6 +392,7 @@ export default {
     stringsToSelect,
     createArrayOf,
     extend,
+    getIndex,
     getValue,
 
     getChildren,
