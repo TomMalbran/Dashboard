@@ -110,7 +110,7 @@ const InputButton = Styled(Button)`
 function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
-        button, onClick, error, helperText, withLabel, onChange, onSuggest,
+        button, onClick, error, helperText, withLabel, onChange, onSuggest, onBlur,
         fullWidth, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
         suggestFetch, suggestID, suggestParams,
     } = props;
@@ -139,6 +139,9 @@ function InputField(props) {
         setTimer(window.setTimeout(() => {
             setFocus(false);
             setTimer(null);
+            if (onBlur) {
+                onBlur();
+            }
         }, 300));
     };
 
@@ -260,6 +263,7 @@ InputField.propTypes = {
     isRequired    : PropTypes.bool,
     isDisabled    : PropTypes.bool,
     onChange      : PropTypes.func,
+    onBlur        : PropTypes.func,
     onSubmit      : PropTypes.func,
     button        : PropTypes.string,
     onClick       : PropTypes.func,
