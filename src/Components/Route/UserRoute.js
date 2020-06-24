@@ -14,7 +14,7 @@ import NLS                  from "../../Core/NLS";
  * @returns {React.ReactElement}
  */
 function UserRoute(props) {
-    const { isAuthenticated, isValid, type, component : Component, ...rest } = props;
+    const { isAuthenticated, isValid, type, withDetails, component : Component, ...rest } = props;
     
     return <Route {...rest} render={(props) => {
         const route  = props.location.pathname;
@@ -38,6 +38,7 @@ function UserRoute(props) {
             parent={parent}
             params={params}
             elemID={elemID}
+            withDetails={Boolean(withDetails)}
         />;
     }} />;
 }
@@ -57,6 +58,7 @@ UserRoute.propTypes = {
     path            : PropTypes.string,
     location        : PropTypes.object,
     match           : PropTypes.object,
+    withDetails     : PropTypes.bool,
 };
 
 /**

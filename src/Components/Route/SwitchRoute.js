@@ -15,7 +15,10 @@ import Utils                from "../../Utils/Utils";
  * @returns {React.ReactElement}
  */
 function SwitchRoute(props) {
-    const { location, saveRoute, baseUrl, initialUrl, path, type, noFirst, children } = props;
+    const {
+        location, saveRoute, baseUrl, initialUrl, path, type,
+        withDetails, noFirst, children,
+    } = props;
     
     const items    = [];
     let   firstUrl = initialUrl;
@@ -30,7 +33,7 @@ function SwitchRoute(props) {
             hasPath = true;
         }
         items.push(React.cloneElement(child, {
-            key, type, path : cpath,
+            key, type, path : cpath, withDetails,
         }));
     }
     if (!hasPath && saveRoute) {
@@ -48,14 +51,15 @@ function SwitchRoute(props) {
  * @type {Object} propTypes
  */
 SwitchRoute.propTypes = {
-    location   : PropTypes.object,
-    path       : PropTypes.string,
-    baseUrl    : PropTypes.string,
-    initialUrl : PropTypes.string,
-    type       : PropTypes.string,
-    noFirst    : PropTypes.bool,
-    saveRoute  : PropTypes.bool,
-    children   : PropTypes.any,
+    location    : PropTypes.object,
+    path        : PropTypes.string,
+    baseUrl     : PropTypes.string,
+    initialUrl  : PropTypes.string,
+    type        : PropTypes.string,
+    withDetails : PropTypes.bool,
+    noFirst     : PropTypes.bool,
+    saveRoute   : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -63,13 +67,14 @@ SwitchRoute.propTypes = {
  * @typedef {Object} defaultProps
  */
 SwitchRoute.defaultProps = {
-    location   : {},
-    path       : "",
-    baseUrl    : "",
-    initialUrl : "",
-    type       : "",
-    noFirst    : false,
-    saveRoute  : false,
+    location    : {},
+    path        : "",
+    baseUrl     : "",
+    initialUrl  : "",
+    type        : "",
+    withDetails : false,
+    noFirst     : false,
+    saveRoute   : false,
 };
 
 export default SwitchRoute;

@@ -5,16 +5,17 @@ import Styled               from "styled-components";
 
 
 // Styles
-const Content = Styled.main`
+const Content = Styled.main.attrs(({ withDetails }) => ({ withDetails }))`
     display: flex;
     flex-grow: 2;
     flex-direction: column;
     height: var(--full-height);
-    width: calc(100vw - var(--sidebar-width) - var(--navigation-width));
 
-    aside + & {
+    ${(props) => props.withDetails ? `
         width: calc(100vw - var(--sidebar-width) - var(--navigation-width) - var(--details-width));
-    }
+    ` : `
+        width: calc(100vw - var(--sidebar-width) - var(--navigation-width));
+    `};
 
     @media (max-width: 1000px) {
         width: 100vw !important;
@@ -31,9 +32,9 @@ const Content = Styled.main`
  * @returns {React.ReactElement}
  */
 function Main(props) {
-    const { className, children } = props;
+    const { className, withDetails, children } = props;
 
-    return <Content className={className}>
+    return <Content className={className} withDetails={withDetails}>
         {children}
     </Content>;
 }
@@ -43,8 +44,9 @@ function Main(props) {
  * @type {Object} propTypes
  */
 Main.propTypes = {
-    className : PropTypes.string,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    withDetails : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -52,7 +54,8 @@ Main.propTypes = {
  * @type {Object} defaultProps
  */
 Main.defaultProps = {
-    className : "",
+    className   : "",
+    withDetails : false,
 };
 
 export default Main;
