@@ -16,7 +16,7 @@ import IconLink             from "../Link/IconLink";
  * @returns {React.ReactElement}
  */
 function TableRow(props) {
-    const { hasIDs, hasActions, elemID, handleRowClick, handleMenuOpen, children } = props;
+    const { hasIDs, hasActions, elemID, handleRowClick, handleMenuOpen, columns, children } = props;
 
     // References
     const linkRef = React.useRef();
@@ -41,6 +41,7 @@ function TableRow(props) {
         return false;
     };
 
+    const items = Utils.cloneChildren(children, (child, key) => ({ ...columns[key] }));
 
     return <TableRowCnt
         onClick={handleClick}
@@ -49,7 +50,7 @@ function TableRow(props) {
         hasActions={hasActions}
         hasHover
     >
-        {children}
+        {items}
         {hasActions && <td ref={linkRef}>
             <IconLink
                 variant="light"
@@ -71,6 +72,7 @@ TableRow.propTypes = {
     elemID         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
+    columns        : PropTypes.array,
     children       : PropTypes.any,
 };
 

@@ -11,14 +11,16 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TH = Styled.th.attrs(({ flexGrow, align, isSmall, hasSorting }) => ({ flexGrow, align, isSmall, hasSorting }))`
+const TH = Styled.th.attrs(({ flexGrow, maxWidth, align, isSmall, hasSorting }) => ({ flexGrow, maxWidth, align, isSmall, hasSorting }))`
     && {
+        box-sizing: border-box;
         border: none;
         padding: 6px 0 6px 12px;
         color: var(--title-color);
         font-weight: bold;
         font-size: 12px;
         flex-grow: ${(props) => props.flexGrow};
+        max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
 
         ${(props) => props.isSmall && `
@@ -45,7 +47,7 @@ function TableHeader(props) {
     const {
         isHidden, className, message,
         fetch, hasSorting, sort, field, noSorting,
-        colSpan, grow, align, isSmall, children,
+        colSpan, grow, maxWidth, align, isSmall, children,
     } = props;
 
     const withSorting = hasSorting && !noSorting;
@@ -70,6 +72,7 @@ function TableHeader(props) {
     return <TH
         className={className}
         flexGrow={grow}
+        maxWidth={maxWidth}
         align={align}
         isSmall={isSmall}
         hasSorting={withSorting}
@@ -95,12 +98,15 @@ TableHeader.propTypes = {
     sort       : PropTypes.object,
     field      : PropTypes.string,
     className  : PropTypes.string,
-    colSpan    : PropTypes.string,
-    grow       : PropTypes.string,
+    colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    grow       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
     isSmall    : PropTypes.bool,
-    isFull     : PropTypes.bool,
     isHidden   : PropTypes.bool,
+    bigMobile  : PropTypes.bool,
+    hideMobile : PropTypes.bool,
+    hideCircle : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -109,14 +115,16 @@ TableHeader.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableHeader.defaultProps = {
-    className : "",
-    colSpan   : "1",
-    grow      : "1",
-    align     : "left",
-    noSorting : false,
-    isSmall   : false,
-    isFull    : false,
-    isHidden  : false,
+    className  : "",
+    colSpan    : "1",
+    grow       : "1",
+    align      : "left",
+    noSorting  : false,
+    isSmall    : false,
+    bigMobile  : false,
+    hideMobile : false,
+    hideCircle : false,
+    isHidden   : false,
 };
 
 export default TableHeader;

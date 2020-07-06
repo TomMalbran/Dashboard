@@ -11,11 +11,13 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle, bigMobile, hideMobile }) => ({ flexGrow, align, isSmall, isTitle, bigMobile, hideMobile }))`
+const TD = Styled.td.attrs(({ flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile }) => ({ flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile }))`
     && {
+        box-sizing: border-box;
         padding: 12px 0 12px 12px;
         font-size: 13px;
         flex-grow: ${(props) => props.flexGrow};
+        max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
     
         ${(props) => props.isSmall && `
@@ -49,7 +51,8 @@ const TD = Styled.td.attrs(({ flexGrow, align, isSmall, isTitle, bigMobile, hide
 function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
-        colSpan, grow, align, isSmall, isTitle, bigMobile, hideMobile, children,
+        colSpan, grow, maxWidth, align, isSmall, isTitle,
+        bigMobile, hideMobile, children,
     } = props;
 
 
@@ -59,6 +62,7 @@ function TableCell(props) {
     return <TD
         className={className}
         flexGrow={grow}
+        maxWidth={maxWidth}
         align={align}
         isSmall={isSmall}
         isTitle={isTitle}
@@ -78,8 +82,9 @@ function TableCell(props) {
 TableCell.propTypes = {
     className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    colSpan    : PropTypes.string,
-    grow       : PropTypes.string,
+    colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    grow       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
     isTitle    : PropTypes.bool,
     isSmall    : PropTypes.bool,

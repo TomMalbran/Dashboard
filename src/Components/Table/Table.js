@@ -109,6 +109,7 @@ function Table(props) {
     // Get the Actions and ColSpan
     const actions     = [];
     const items       = [];
+    const columns     = [];
     let   firstAction = {};
     let   colSpan     = 0;
     let   hasContent  = false;
@@ -118,6 +119,19 @@ function Table(props) {
     for (const child of Utils.toArray(children)) {
         if (child.type === TableHead) {
             colSpan = child.props.children.length;
+            for (const tableHead of Utils.toArray(child.props.children)) {
+                columns.push({
+                    isHidden   : !!tableHead.props.isHidden,
+                    isTitle    : !!tableHead.props.isTitle,
+                    isSmall    : !!tableHead.props.isSmall,
+                    bigMobile  : !!tableHead.props.bigMobile,
+                    hideMobile : !!tableHead.props.hideMobile,
+                    hideCircle : !!tableHead.props.hideCircle,
+                    grow       : tableHead.props.grow     || "",
+                    maxWidth   : tableHead.props.maxWidth || "",
+                    align      : tableHead.props.align    || "",
+                });
+            }
         }
         if (child.type === TableBody) {
             hasContent = child.props.children && child.props.children.length > 0;
@@ -157,7 +171,7 @@ function Table(props) {
     for (const [ key, child ] of Utils.getChildren(children)) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
-                key, fetch, sort, colSpan,
+                key, fetch, sort, colSpan, columns,
                 hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
                 handleRowClick, handleMenuOpen,
             }));

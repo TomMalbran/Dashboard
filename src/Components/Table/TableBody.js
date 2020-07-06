@@ -45,10 +45,10 @@ const TBody = Styled.tbody.attrs(({ hasPaging }) => ({ hasPaging }))`
  * @returns {React.ReactElement}
  */
 function TableBody(props) {
-    const { hasIDs, hasActions, hasPaging, handleRowClick, handleMenuOpen, children } = props;
+    const { hasIDs, hasActions, hasPaging, handleRowClick, handleMenuOpen, columns, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        hasIDs, hasActions, handleRowClick, handleMenuOpen,
+        hasIDs, hasActions, handleRowClick, handleMenuOpen, columns,
     }));
 
     return <TBody className="table-scrollbars" hasPaging={hasPaging}>
@@ -66,6 +66,7 @@ TableBody.propTypes = {
     hasPaging      : PropTypes.bool,
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
+    columns        : PropTypes.array,
     children       : PropTypes.node,
 };
 
