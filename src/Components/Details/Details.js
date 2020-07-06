@@ -72,7 +72,7 @@ function Details(props) {
     const onClose     = Store.closeDetails;
     const items       = Utils.cloneChildren(children, () => ({ onClose }));
 
-    return <Section className={`details ${className}`} topSpace={topSpace}>
+    return <Section className={`details light-scrollbars ${className}`} topSpace={topSpace}>
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
         {showContent && items}
@@ -85,7 +85,7 @@ function Details(props) {
  */
 Details.propTypes = {
     className : PropTypes.string,
-    topSpace  : PropTypes.number,
+    topSpace  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     isLoading : PropTypes.bool,
     hasError  : PropTypes.bool,
     error     : PropTypes.string,

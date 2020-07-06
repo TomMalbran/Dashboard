@@ -51,7 +51,7 @@ function TableBody(props) {
         hasIDs, hasActions, handleRowClick, handleMenuOpen,
     }));
 
-    return <TBody hasPaging={hasPaging}>
+    return <TBody className="table-scrollbars" hasPaging={hasPaging}>
         {items}
     </TBody>;
 }

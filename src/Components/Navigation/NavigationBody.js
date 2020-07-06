@@ -60,7 +60,7 @@ function NavigationBody(props) {
     const showLoader = isLoading;
     const showNone   = Boolean(!isLoading && !items.length && none);
     const showItems  = Boolean(!isLoading && items.length);
-    const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "";
+    const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "light-scrollbars";
 
     return <Nav className={`${scrollbars} ${className}`} withSpacing={withSpacing}>
         {showLoader && <CircularLoader variant="white" />}
