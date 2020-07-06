@@ -8,7 +8,7 @@ import InputType            from "../../Core/InputType";
 
 // Components
 import InputContainer       from "../Input/InputContainer";
-import TextInput            from "../Input/TextInput";
+import Input                from "../Input/Input";
 import Icon                 from "../Common/Icon";
 
 
@@ -40,7 +40,7 @@ const InputError = Styled.p`
     border-bottom-right-radius: var(--border-radius);
 `;
 
-const InputInput = Styled(TextInput)`
+const InputInput = Styled(Input)`
     box-sizing: border-box;
     min-height: var(--input-height);
     color: var(--black-color);
