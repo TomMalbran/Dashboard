@@ -59,8 +59,15 @@ const LightLink = Styled(NavLink)`
     --link-color: var(--title-color);
     --link-hover: var(--title-color);
     --link-background: rgba(0, 0, 0, 0.1);
-    ${(props) => props.isSelected && "background-color: rgba(0, 0, 0, 0.1);"}
-    ${(props) => props.isDisabled && "--link-background: transparent;"}
+    ${(props) => props.isSelected && `
+        background-color: rgba(0, 0, 0, 0.1);
+    `}
+    ${(props) => props.isDisabled && `
+        cursor: not-allowed;
+        --link-color: rgba(63, 87, 100, 0.7);
+        --link-hover: rgba(63, 87, 100, 0.7);
+        --link-background: transparent;
+    `}
 `;
 
 const DarkLink = Styled(NavLink)`
@@ -70,6 +77,12 @@ const DarkLink = Styled(NavLink)`
     ${(props) => props.isSelected && `
         color: white;
         background-color: var(--primary-color);
+    `}
+    ${(props) => props.isDisabled && `
+        cursor: not-allowed;
+        --link-color: rgba(255, 255, 255, 0.3);
+        --link-hover: rgba(255, 255, 255, 0.3);
+        --link-background: transparent;
     `}
 `;
 
