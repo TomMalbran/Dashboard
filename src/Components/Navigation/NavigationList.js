@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
@@ -19,11 +20,17 @@ const Ul = Styled.ul`
     }
 `;
 
-const Li = Styled.li`
+const Li = Styled.li.attrs(({ variant }) => ({ variant }))`
     font-size: 16px;
     padding: 4px;
     margin-bottom: 8px;
-    border-bottom: 2px solid var(--primary-color);
+
+    ${(props) => props.variant === Brightness.DARK && `
+        border-bottom: 2px solid var(--primary-color);
+    `}
+    ${(props) => props.variant === Brightness.LIGHT && `
+        border-bottom: 2px solid var(--lightest-color);
+    `}
 `;
 
 
@@ -41,7 +48,7 @@ function NavigationList(props) {
     }));
 
     return <Ul className={className}>
-        {!!message && <Li>{NLS.get(message)}</Li>}
+        {!!message && <Li variant={variant}>{NLS.get(message)}</Li>}
         {items}
     </Ul>;
 }
