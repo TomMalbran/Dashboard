@@ -184,6 +184,7 @@ IconField.propTypes = {
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     withCustom   : PropTypes.bool,
+    customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
     autoFocus    : PropTypes.bool,
     isHidden     : PropTypes.bool,
@@ -205,6 +206,7 @@ IconField.defaultProps = {
     withNone     : false,
     noneText     : "",
     withCustom   : false,
+    customFirst  : false,
     customText   : "",
     autoFocus    : false,
 };

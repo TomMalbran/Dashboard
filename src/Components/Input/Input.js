@@ -80,6 +80,7 @@ Input.propTypes = {
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     withCustom   : PropTypes.bool,
+    customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
     customKey    : PropTypes.string,
     onChange     : PropTypes.func.isRequired,
@@ -108,6 +109,7 @@ Input.defaultProps = {
     withNone     : false,
     noneText     : "",
     withCustom   : false,
+    customFirst  : false,
     customText   : "",
     customKey    : "",
 };

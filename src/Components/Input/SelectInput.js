@@ -29,7 +29,7 @@ const Select = Styled.select`
 function SelectInput(props) {
     const {
         className, id, name, value, isDisabled, tabIndex,
-        options, extraOptions, withNone, noneText, withCustom, customText,
+        options, extraOptions, withNone, noneText, withCustom, customFirst, customText,
         onChange, onFocus, onBlur, inputRef,
     } = props;
 
@@ -64,13 +64,16 @@ function SelectInput(props) {
         {withNone && <option key="0" value="">
             {NLS.get(noneText || "")}
         </option>}
+        {(withCustom && customFirst) && <option key="-1" value={-1}>
+            {NLS.get(customText || "GENERAL_CUSTOM")}
+        </option>}
         {items.map(({ key, value }) => <option key={key} value={key}>
             {NLS.get(value)}
         </option>)}
         {extraItems.map(({ key, value }) => <option key={key} value={key}>
             {NLS.get(value)}
         </option>)}
-        {withCustom && <option key="-1" value={-1}>
+        {(withCustom && !customFirst) && <option key="-1" value={-1}>
             {NLS.get(customText || "GENERAL_CUSTOM")}
         </option>}
     </Select>;
@@ -92,6 +95,7 @@ SelectInput.propTypes = {
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     withCustom   : PropTypes.bool,
+    customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
     onChange     : PropTypes.func.isRequired,
     onFocus      : PropTypes.func,
