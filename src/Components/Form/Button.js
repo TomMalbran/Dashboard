@@ -76,6 +76,10 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
         font-size: 19px;
         margin-right: 4px;
     }
+    .btn-aftericon {
+        font-size: 19px;
+        margin-left: 4px;
+    }
 
     & + & {
         ${(props) => props.fullWidth ? "margin-top: 8px;" : "margin-left: 8px;"}
@@ -161,13 +165,13 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
  */
 function Button(props) {
     const {
-        className, message, variant, isDisabled, isSmall, fullWidth, icon,
+        className, message, variant, isDisabled, isSmall, fullWidth, icon, afterIcon,
         onClick, target, children,
     } = props;
 
     const url      = Href.getUrl(props);
     const content  = children || NLS.get(message);
-    const withIcon = Boolean(icon && variant !== Variant.ICON && !!content);
+    const withIcon = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
 
     // Handles the Click
     const handleClick = (e) => {
@@ -189,8 +193,9 @@ function Button(props) {
         withIcon={withIcon}
         onClick={handleClick}
     >
-        {!!icon    && <Icon className="btn-preicon" icon={icon} />}
-        {!!content && <span className="btn-content">{content}</span>}
+        {!!icon      && <Icon className="btn-preicon" icon={icon} />}
+        {!!content   && <span className="btn-content">{content}</span>}
+        {!!afterIcon && <Icon className="btn-aftericon" icon={afterIcon} />}
     </Btn>;
 }
     
@@ -209,6 +214,7 @@ Button.propTypes = {
     url        : PropTypes.string,
     target     : PropTypes.string,
     icon       : PropTypes.string,
+    afterIcon  : PropTypes.string,
     onClick    : PropTypes.func,
     children   : PropTypes.any,
 };
