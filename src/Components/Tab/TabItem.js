@@ -3,18 +3,13 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Status               from "../../Core/Status";
 import NLS                  from "../../Core/NLS";
 
 // Components
 import Icon                 from "../Common/Icon";
-
-// Variants
-const Variant = {
-    LIGHT : "light",
-    DARK  : "dark",
-};
 
 
 
@@ -108,8 +103,8 @@ const DarkItem = Styled(Item)`
 
 // Components
 const Components = {
-    [Variant.LIGHT] : LightItem,
-    [Variant.DARK]  : DarkItem,
+    [Brightness.LIGHT] : LightItem,
+    [Brightness.DARK]  : DarkItem,
 };
 
 
@@ -198,7 +193,7 @@ TabItem.propTypes = {
  */
 TabItem.defaultProps = {
     className  : "",
-    variant    : Variant.LIGHT,
+    variant    : Brightness.LIGHT,
     value      : "",
     index      : 0,
     isDisabled : false,

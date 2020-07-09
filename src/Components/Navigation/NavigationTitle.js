@@ -3,17 +3,12 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import NLS                  from "../../Core/NLS";
 
 // Components
 import IconLink             from "../Link/IconLink";
-
-// Variants
-const Variant = {
-    DARK  : "dark",
-    LIGHT : "light",
-};
 
 
 
@@ -26,11 +21,11 @@ const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
     min-height: var(--header-height);
     padding: 18px 12px 10px 8px;
 
-    ${(props) => props.variant === Variant.DARK && `
+    ${(props) => props.variant === Brightness.DARK && `
         --navtitle-color: white;
         --navsubtitle-color: var(--lightest-color);
     `}
-    ${(props) => props.variant === Variant.LIGHT && `
+    ${(props) => props.variant === Brightness.LIGHT && `
         --navtitle-color: var(--title-color);
         --navsubtitle-color: var(--subtitle-color);
     `}
@@ -136,7 +131,7 @@ NavigationTitle.propTypes = {
  */
 NavigationTitle.defaultProps = {
     className : "",
-    variant   : Variant.DARK,
+    variant   : Brightness.DARK,
     canAdd    : false,
     canManage : false,
 };

@@ -3,17 +3,12 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Utils                from "../../Utils/Utils";
 
 // Components
 import IconLink             from "../Link/IconLink";
-
-// Variants
-const Variant = {
-    LIGHT : "light",
-    DARK  : "dark",
-};
 
 
 
@@ -23,7 +18,7 @@ const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     justify-content: space-between;
     align-items: center;
 
-    ${(props) => props.variant === Variant.DARK && `
+    ${(props) => props.variant === Brightness.DARK && `
         flex-grow: 2;
         background-color: var(--primary-color);
     `}
@@ -33,8 +28,8 @@ const Div = Styled.div.attrs(({ variant, size }) => ({ variant, size }))`
     max-width: 100%;
     overflow: auto;
 
-    ${(props) => props.variant === Variant.LIGHT && "display: flex;"}
-    ${(props) => props.variant === Variant.DARK  && `
+    ${(props) => props.variant === Brightness.LIGHT && "display: flex;"}
+    ${(props) => props.variant === Brightness.DARK  && `
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(${props.size || 100}px, 1fr));
         flex-grow: 2;
@@ -66,7 +61,7 @@ function TabList(props) {
             {items}
         </Div>
         {canAdd && <TabLink
-            variant={variant === Variant.DARK ? "darker" : "light"}
+            variant={variant === Brightness.DARK ? "darker" : "light"}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
         />}
@@ -93,7 +88,7 @@ TabList.propTypes = {
  */
 TabList.defaultProps = {
     className : "",
-    variant   : Variant.LIGHT,
+    variant   : Brightness.LIGHT,
     size      : 100,
     canAdd    : false,
 };

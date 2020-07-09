@@ -3,13 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Utils
+import { Brightness }       from "../../Core/Variants";
 import Utils                from "../../Utils/Utils";
-
-// Variants
-const Variant = {
-    DARK  : "dark",
-    LIGHT : "light",
-};
 
 
 
@@ -21,11 +16,11 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
     box-sizing: border-box;
     width: var(--navigation-width);
 
-    ${(props) => props.variant === Variant.DARK && `
+    ${(props) => props.variant === Brightness.DARK && `
         background-color: var(--secondary-color);
         color: white;
     `}
-    ${(props) => props.variant === Variant.LIGHT && `
+    ${(props) => props.variant === Brightness.LIGHT && `
         background-color: var(--lighter-gray);
         color: var(--font-light);
     `}

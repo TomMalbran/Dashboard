@@ -3,13 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
+import { Brightness }       from "../../Core/Variants";
 import Icon                 from "../Common/Icon";
-
-// Variants
-const Variant = {
-    DARK  : "dark",
-    LIGHT : "light",
-};
 
 
 
@@ -32,12 +27,12 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
         background-color: var(--bicon-hover);
     }
 
-    ${(props) => props.variant === Variant.DARK && `
+    ${(props) => props.variant === Brightness.DARK && `
         --bicon-color: white;
         --bicon-background: var(--primary-color);
         --bicon-hover: var(--secondary-color);
     `}
-    ${(props) => props.variant === Variant.LIGHT && `
+    ${(props) => props.variant === Brightness.LIGHT && `
         --bicon-color: var(--primary-color);
         --bicon-background: rgba(0, 0, 0, 0.1);
         --bicon-hover: white;
@@ -76,7 +71,7 @@ BarIcon.propTypes = {
  */
 BarIcon.defaultProps = {
     className : "",
-    variant   : Variant.LIGHT,
+    variant   : Brightness.LIGHT,
 };
 
 export default BarIcon;

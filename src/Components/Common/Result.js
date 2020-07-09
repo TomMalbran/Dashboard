@@ -2,6 +2,7 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core
+import { Outcome }          from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -11,13 +12,6 @@ import Icon                 from "../Common/Icon";
 import Styled, {
     keyframes, css,
 } from "styled-components";
-
-// Variants
-const Variant = {
-    SUCCESS : "success",
-    WARNING : "warning",
-    ERROR   : "error",
-};
 
 
 
@@ -58,13 +52,13 @@ const Content = Styled.div.attrs(({ variant, closing }) => ({ variant, closing }
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     margin: 4px;
 
-    ${(props) => props.variant === Variant.SUCCESS && `
+    ${(props) => props.variant === Outcome.SUCCESS && `
         background-color: var(--success-color);
     `}
-    ${(props) => props.variant === Variant.WARNING && `
+    ${(props) => props.variant === Outcome.WARNING && `
         background-color: var(--warning-color);
     `}
-    ${(props) => props.variant === Variant.ERROR && `
+    ${(props) => props.variant === Outcome.ERROR && `
         background-color: var(--error-color);
     `}
 

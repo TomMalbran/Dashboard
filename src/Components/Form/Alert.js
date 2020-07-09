@@ -3,18 +3,12 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import { Outcome }          from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
 import Icon                 from "../Common/Icon";
-
-// Variants
-const Variant = {
-    SUCCESS : "success",
-    WARNING : "warning",
-    ERROR   : "error",
-};
 
 
 
@@ -47,9 +41,9 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
 
     ${(props) => props.isClosing && "transform: translateY(-50px);"}
     
-    ${(props) => props.variant === Variant.SUCCESS && "background-color: var(--success-color);"}
-    ${(props) => props.variant === Variant.WARNING && "background-color: var(--warning-color);"}
-    ${(props) => props.variant === Variant.ERROR   && "background-color: var(--error-color);"}
+    ${(props) => props.variant === Outcome.SUCCESS && "background-color: var(--success-color);"}
+    ${(props) => props.variant === Outcome.WARNING && "background-color: var(--warning-color);"}
+    ${(props) => props.variant === Outcome.ERROR   && "background-color: var(--error-color);"}
 `;
 
 

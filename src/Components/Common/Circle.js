@@ -2,14 +2,8 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Variants
-const Variant = {
-    GREEN  : "green",
-    YELLOW : "yellow",
-    RED    : "red",
-    GRAY   : "gray",
-    BLUE   : "blue",
-};
+// Core
+import { Semaphore }        from "../../Core/Variants";
 
 
 
@@ -26,11 +20,11 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
 
     ${(props) => {
         switch (props.variant) {
-        case Variant.GREEN:  return "background-color: green;";
-        case Variant.YELLOW: return "background-color: yellow;";
-        case Variant.RED:    return "background-color: red;";
-        case Variant.GRAY:   return "background-color: gray;";
-        case Variant.BLUE:   return "background-color: #0747a6;";
+        case Semaphore.GREEN:  return "background-color: green;";
+        case Semaphore.YELLOW: return "background-color: yellow;";
+        case Semaphore.RED:    return "background-color: red;";
+        case Semaphore.GRAY:   return "background-color: gray;";
+        case Semaphore.BLUE:   return "background-color: #0747a6;";
         default: return "";
         }
     }}

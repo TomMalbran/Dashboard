@@ -3,17 +3,11 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import { Brightness }       from "../../Core/Variants";
 import Href                 from "../../Core/Href";
 
 // Components
 import Icon                 from "../Common/Icon";
-
-// Variants
-const Variant = {
-    LIGHT  : "light",
-    DARK   : "dark",
-    DARKER : "darker",
-};
 
 
 
@@ -40,15 +34,15 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
         background-color: var(--link-background, transparent);
     }
 
-    ${(props) => props.variant === Variant.LIGHT && `
+    ${(props) => props.variant === Brightness.LIGHT && `
         --link-color: var(--primary-color);
         --link-background: rgba(0, 0, 0, 0.1);
     `}
-    ${(props) => props.variant === Variant.DARK && `
+    ${(props) => props.variant === Brightness.DARK && `
         --link-color: white;
         --link-background: var(--primary-color);;
     `}
-    ${(props) => props.variant === Variant.DARKER && `
+    ${(props) => props.variant === Brightness.DARKER && `
         --link-color: white;
         --link-background: var(--secondary-color);;
     `}
@@ -111,7 +105,7 @@ IconLink.propTypes = {
  */
 IconLink.defaultProps = {
     className  : "",
-    variant    : Variant.LIGHT,
+    variant    : Brightness.LIGHT,
     href       : "#",
     url        : "",
     target     : "_self",

@@ -3,18 +3,13 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Utils
+import { Brightness }       from "../../Core/Variants";
 import Utils                from "../../Utils/Utils";
 
 // Components
 import NoneAvailable        from "../Common/NoneAvailable";
 import CircularLoader       from "../Loader/CircularLoader";
 import NavigationList       from "../Navigation/NavigationList";
-
-// Variants
-const Variant = {
-    DARK  : "dark",
-    LIGHT : "light",
-};
 
 
 
@@ -60,7 +55,7 @@ function NavigationBody(props) {
     const showLoader = isLoading;
     const showNone   = Boolean(!isLoading && !items.length && none);
     const showItems  = Boolean(!isLoading && items.length);
-    const scrollbars = variant === Variant.DARK ? "dark-scrollbars" : "light-scrollbars";
+    const scrollbars = variant === Brightness.DARK ? "dark-scrollbars" : "light-scrollbars";
 
     return <Nav className={`${scrollbars} ${className}`} withSpacing={withSpacing}>
         {showLoader && <CircularLoader variant="white" />}
