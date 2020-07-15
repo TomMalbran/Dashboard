@@ -99,6 +99,9 @@ function Container(props) {
         }
         setShowingMenu(true);
         setOpeningMenu(true);
+        if (menuTimer) {
+            window.clearTimeout(menuTimer);
+        }
         setMenuTimer(window.setTimeout(() => {
             setOpeningMenu(false);
         }, 300));
@@ -110,6 +113,9 @@ function Container(props) {
             return;
         }
         setClosingMenu(true);
+        if (menuTimer) {
+            window.clearTimeout(menuTimer);
+        }
         setMenuTimer(window.setTimeout(() => {
             setClosingMenu(false);
             setShowingMenu(false);
@@ -123,6 +129,9 @@ function Container(props) {
         }
         setShowingDetails(true);
         setOpeningDetails(true);
+        if (detailsTimer) {
+            window.clearTimeout(detailsTimer);
+        }
         setDetailsTimer(window.setTimeout(() => {
             setOpeningDetails(false);
         }, 300));
@@ -134,6 +143,9 @@ function Container(props) {
             return;
         }
         setClosingDetails(true);
+        if (detailsTimer) {
+            window.clearTimeout(detailsTimer);
+        }
         setDetailsTimer(window.setTimeout(() => {
             setClosingDetails(false);
             setShowingDetails(false);
