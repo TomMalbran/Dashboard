@@ -115,6 +115,15 @@ function abort() {
 
 
 /**
+ * Returns the Base URL
+ * @param {String} route
+ * @returns {URL}
+ */
+function baseUrl(route) {
+    return new URL(process.env.REACT_APP_API + route);
+}
+
+/**
  * Creates a new Url
  * @param {String}   route
  * @param {Object=}  params
@@ -122,7 +131,7 @@ function abort() {
  * @returns {URL}
  */
 function createUrl(route, params = {}, addToken = true) {
-    const url   = new URL(process.env.REACT_APP_API + route);
+    const url   = baseUrl(route);
     const token = Auth.getToken();
 
     for (const [ key, value ] of Object.entries(params)) {
@@ -163,10 +172,15 @@ async function get(route, params = {}, showLoader = true, showResult = true) {
  * @returns {Promise}
  */
 function post(route, params = {}, showLoader = true, showResult = true) {
-    const url  = createUrl(route);
-    const body = new FormData();
+    const url   = baseUrl(route);
+    const token = Auth.getToken();
+    const body  = new FormData();
+
     for (const [ key, value ] of Object.entries(params)) {
         body.append(key, value);
+    }
+    if (token) {
+        body.append("jwt", token);
     }
     return ajax(url, { method : "post", body }, showLoader, showResult);
 }
