@@ -30,13 +30,23 @@ const Div = Styled.div`
     padding: 4px 8px;
     border: 1px dashed var(--input-color);
     color: var(--gray-color);
+    white-space: nowrap;
     cursor: pointer;
+`;
+
+const IconDiv = Styled.div`
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    width: 32px;
 `;
 
 const FileIcon = Styled(Icon)`
     position: absolute;
     top: 6px;
-    right: 8px;
+    right: 6px;
     font-size: 20px;
     transform: rotate(45deg);
 `;
@@ -60,7 +70,7 @@ function MediaInput(props) {
             {value ? value : <Placeholder>
                 {NLS.get(placeholder || "GENERAL_SELECT_FILE")}
             </Placeholder>}
-            <FileIcon icon="attachment" />
+            <IconDiv><FileIcon icon="attachment" /></IconDiv>
         </Div>
     </Container>;
 }
