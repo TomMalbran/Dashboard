@@ -3,6 +3,7 @@ const ANY   = "";
 const MEDIA = "media";
 const IMAGE = "image";
 const VIDEO = "video";
+const AUDIO = "audio";
 const PDF   = "pdf";
 const FILE  = "file";
 
@@ -25,6 +26,7 @@ export default {
     MEDIA,
     IMAGE,
     VIDEO,
+    AUDIO,
     PDF,
     FILE,
 
