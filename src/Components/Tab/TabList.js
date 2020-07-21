@@ -15,28 +15,26 @@ import IconLink             from "../Link/IconLink";
 // Styles
 const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
     display: flex;
-    justify-content: space-between;
     align-items: center;
 
     ${(props) => props.variant === Brightness.DARK && `
-        flex-grow: 2;
         background-color: var(--primary-color);
     `}
 `;
 
-const Div = Styled.div.attrs(({ variant, size }) => ({ variant, size }))`
+const Div = Styled.div.attrs(({ size }) => ({ size }))`
     max-width: 100%;
     overflow: auto;
+    display: flex;
 
-    ${(props) => props.variant === Brightness.LIGHT && "display: flex;"}
-    ${(props) => props.variant === Brightness.DARK  && `
+    ${(props) => props.size > 0 ? `
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(${props.size || 100}px, 1fr));
-        flex-grow: 2;
-    `}
+    ` : "display: flex;"}
 `;
 
 const TabLink = Styled(IconLink)`
+    margin-left: 8px;
     .icon {
         font-size: 20px;
     }
@@ -57,7 +55,7 @@ function TabList(props) {
     }));
 
     return <Section className={`tabs ${className}`} variant={variant}>
-        <Div variant={variant} size={size}>
+        <Div size={size}>
             {items}
         </Div>
         {canAdd && <TabLink
@@ -75,10 +73,10 @@ function TabList(props) {
 TabList.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
-    size      : PropTypes.number,
     selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
     onAction  : PropTypes.func.isRequired,
     canAdd    : PropTypes.bool,
+    size      : PropTypes.number,
     children  : PropTypes.any,
 };
 
@@ -89,7 +87,7 @@ TabList.propTypes = {
 TabList.defaultProps = {
     className : "",
     variant   : Brightness.LIGHT,
-    size      : 100,
+    size      : 0,
     canAdd    : false,
 };
 

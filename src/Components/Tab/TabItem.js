@@ -78,6 +78,7 @@ const DarkItem = Styled(Item)`
     color: var(--white-color);
     border: 1px solid var(--primary-color);
     border-bottom: 1px solid var(--border-color);
+    padding: 0 24px;
     line-height: 1;
     
     ${(props) => (!props.isSelected && !props.isDisabled) && `
@@ -90,9 +91,12 @@ const DarkItem = Styled(Item)`
         background-color: var(--secondary-color);
         border-color: var(--border-color);
         border-bottom-color: var(--secondary-color);
+        border-top-left-radius: var(--border-radius);
+        border-top-right-radius: var(--border-radius);
 
         &:first-child {
             border-left-color: var(--secondary-color);
+            border-top-left-radius: 0;
         }
     `}
     ${(props) => props.isDisabled && `
