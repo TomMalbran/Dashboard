@@ -243,6 +243,28 @@ function extend(primary, secondary, noBinary = false) {
     return result;
 }
 
+
+/**
+ * Uses the keys from primary and adds the secondary values if are not set
+ * @param {Object}   primary
+ * @param {Object}   secondary
+ * @param {Boolean=} noBinary
+ * @returns {Object}
+ */
+function merge(primary, secondary, noBinary = false) {
+    const result = { ...primary };
+    for (const [ key, value ] of Object.entries(secondary)) {
+        if (primary[key] === undefined) {
+            if (noBinary) {
+                result[key] = value;
+            } else {
+                result[key] = value === true ? 1 : (value === false ? 0 : value);
+            }
+        }
+    }
+    return result;
+}
+
 /**
  * Returns the Value at the given id with the given key
  * @param {Object[]}        data
@@ -393,6 +415,7 @@ export default {
     stringsToSelect,
     createArrayOf,
     extend,
+    merge,
     getIndex,
     getValue,
 
