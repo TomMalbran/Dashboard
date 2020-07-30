@@ -14,7 +14,7 @@ import NLS                  from "../../Core/NLS";
 function TextareaInput(props) {
     const {
         className, id, name, value, placeholder, isDisabled,
-        tabIndex, onChange, onFocus, onBlur, inputRef,
+        tabIndex, onChange, onInput, onFocus, onBlur, inputRef,
     } = props;
 
     // Handles the Input Change
@@ -23,10 +23,13 @@ function TextareaInput(props) {
     };
 
     // Handles the Textarea autogrow
-    const handleInput = () => {
+    const handleInput = (e) => {
         const node = inputRef.current;
         if (node && node.offsetHeight < node.scrollHeight + 2) {
             node.style.height = `${node.scrollHeight + 2}px`;
+        }
+        if (onInput) {
+            onInput(name, e.target.value);
         }
     };
 
@@ -65,6 +68,7 @@ TextareaInput.propTypes = {
     isDisabled  : PropTypes.bool,
     tabIndex    : PropTypes.string,
     onChange    : PropTypes.func,
+    onInput     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
     inputRef    : PropTypes.object,

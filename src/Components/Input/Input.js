@@ -84,6 +84,7 @@ Input.propTypes = {
     customText   : PropTypes.string,
     customKey    : PropTypes.string,
     onChange     : PropTypes.func.isRequired,
+    onInput      : PropTypes.func,
     onSubmit     : PropTypes.func,
     onKeyDown    : PropTypes.func,
     onKeyUp      : PropTypes.func,

@@ -41,7 +41,7 @@ const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
  * @returns {React.ReactElement}
  */
 function InputInput(props) {
-    const { inputRef, className, type, name, value, onChange, isDisabled, isSmall } = props;
+    const { inputRef, className, type, name, value, onChange, onInput, isDisabled, isSmall } = props;
 
     return <Input
         {...props}
@@ -51,8 +51,9 @@ function InputInput(props) {
         name={name}
         value={value}
         disabled={isDisabled}
-        onChange={onChange}
         isSmall={isSmall}
+        onChange={onChange}
+        onInput={onInput}
     />;
 }
 
@@ -67,6 +68,7 @@ InputInput.propTypes = {
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
     onChange   : PropTypes.func.isRequired,
+    onInput    : PropTypes.func,
     isDisabled : PropTypes.bool,
     isSmall    : PropTypes.bool,
 };

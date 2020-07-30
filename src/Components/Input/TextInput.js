@@ -16,13 +16,20 @@ function TextInput(props) {
     const {
         className, id, type, name, value, placeholder, isDisabled,
         tabIndex, autoComplete, spellCheck,
-        onChange, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
+        onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
         inputRef, suggestRef, autoSuggest,
     } = props;
 
-    // Handles the Input Change
+    // Handles the Change
     const handleChange = (e) => {
         onChange(name, e.target.value);
+    };
+
+    // Handles the Input
+    const handleInput = (e) => {
+        if (onInput) {
+            onInput(name, e.target.value);
+        }
     };
 
     // Handles the Key Down
@@ -72,6 +79,7 @@ function TextInput(props) {
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
         onChange={handleChange}
+        onInput={handleInput}
         onFocus={onFocus}
         onBlur={onBlur}
         onKeyDown={handleKeyDown}
@@ -98,6 +106,7 @@ TextInput.propTypes = {
     isDisabled   : PropTypes.bool,
     tabIndex     : PropTypes.string,
     onChange     : PropTypes.func,
+    onInput      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
     onKeyDown    : PropTypes.func,

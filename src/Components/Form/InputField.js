@@ -98,6 +98,7 @@ const InputClear = Styled(IconLink)`
 const InputButton = Styled(Button)`
     margin-left: 16px;
     height: var(--input-height);
+    white-space: nowrap;
 `;
 
 
@@ -110,7 +111,7 @@ const InputButton = Styled(Button)`
 function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
-        button, onClick, error, helperText, withLabel, onChange, onSuggest, onBlur,
+        button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
         fullWidth, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
         suggestFetch, suggestID, suggestParams,
     } = props;
@@ -145,11 +146,18 @@ function InputField(props) {
         }, 300));
     };
 
-    // Handles the Input Change
+    // Handles the Change
     const handleChange = (name, value) => {
         setValue(Boolean(value));
         if (onChange) {
             onChange(name, value);
+        }
+    };
+
+    // Handles the Input
+    const handleInput = (name, value) => {
+        if (onInput) {
+            onInput(name, value);
         }
     };
 
@@ -211,6 +219,7 @@ function InputField(props) {
                 suggestRef={suggestRef}
                 autoSuggest={autoSuggest}
                 onChange={handleChange}
+                onInput={handleInput}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 isSmall={isSmall}
@@ -263,6 +272,7 @@ InputField.propTypes = {
     isRequired    : PropTypes.bool,
     isDisabled    : PropTypes.bool,
     onChange      : PropTypes.func,
+    onInput       : PropTypes.func,
     onBlur        : PropTypes.func,
     onSubmit      : PropTypes.func,
     button        : PropTypes.string,
