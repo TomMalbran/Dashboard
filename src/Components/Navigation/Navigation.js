@@ -43,10 +43,10 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function Navigation(props) {
-    const { className, variant, none, isLoading, onAction, onClose, children } = props;
+    const { className, variant, none, add, isLoading, canAdd, onAction, onClose, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        variant, none, isLoading, onAction, onClose,
+        variant, none, add, isLoading, canAdd, onAction, onClose,
     }));
 
     return <Nav className={`navigation ${className}`} variant={variant}>
@@ -62,7 +62,9 @@ Navigation.propTypes = {
     variant   : PropTypes.string.isRequired,
     className : PropTypes.string,
     none      : PropTypes.string,
+    add       : PropTypes.string,
     isLoading : PropTypes.bool,
+    canAdd    : PropTypes.bool,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
@@ -75,7 +77,9 @@ Navigation.propTypes = {
 Navigation.defaultProps = {
     className : "",
     none      : "",
+    add       : "",
     isLoading : false,
+    canAdd    : false,
 };
 
 export default Navigation;
