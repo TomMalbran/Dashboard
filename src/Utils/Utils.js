@@ -87,24 +87,6 @@ function createSlug(value) {
     return result;
 }
 
-/**
- * Returns the Youtube Embed Url
- * @param {String} source
- * @returns {String}
- */
-function getYoutubeEmbed(source) {
-    let videoID = "";
-    if (source.startsWith("https://youtu.be/")) {
-        videoID = source.replace("https://youtu.be/", "");
-    } else if (source.startsWith("https://www.youtube.com/watch?v=")) {
-        videoID = source.replace("https://www.youtube.com/watch?v=", "");
-    }
-    if (!videoID) {
-        return "";
-    }
-    return `https://www.youtube-nocookie.com/embed/${videoID}?version=3&modestbranding=1&rel=0&showinfo=0`;
-}
-
 
 
 /**
@@ -395,6 +377,51 @@ function hasFormError(errors) {
 
 
 
+/**
+ * Returns the Youtube Embed Url
+ * @param {String} source
+ * @returns {String}
+ */
+function getYoutubeEmbed(source) {
+    let videoID = "";
+    if (source.startsWith("https://youtu.be/")) {
+        videoID = source.replace("https://youtu.be/", "");
+    } else if (source.startsWith("https://www.youtube.com/watch?v=")) {
+        videoID = source.replace("https://www.youtube.com/watch?v=", "");
+    }
+    if (videoID.includes("&")) {
+        videoID = videoID.split("&")[0];
+    }
+    if (!videoID) {
+        return "";
+    }
+    return `https://www.youtube-nocookie.com/embed/${videoID}?version=3&modestbranding=1&rel=0&showinfo=0`;
+}
+
+/**
+ * Returns the Vimeo Embed Url
+ * @param {String}   source
+ * @param {Boolean=} showInfo
+ * @returns {String}
+ */
+function getVimeoEmbed(source, showInfo = false) {
+    let videoID = "";
+    if (source.startsWith("https://vimeo.com/")) {
+        videoID = source.replace("https://vimeo.com/", "");
+    } else if (source.startsWith("https://www.vimeo.com/")) {
+        videoID = source.replace("https://www.vimeo.com/", "");
+    }
+    if (!videoID) {
+        return "";
+    }
+    let result = `https://player.vimeo.com/video/${videoID}`;
+    result    += showInfo ? `?title=1&byline=1&portrait=1` : `?title=0&byline=0&portrait=0`;
+    return result;
+}
+
+
+
+
 // The public API
 export default {
     isEmpty,
@@ -404,7 +431,6 @@ export default {
     hasSelection,
     unselectAll,
     createSlug,
-    getYoutubeEmbed,
 
     concat,
     removePrefix,
@@ -426,4 +452,7 @@ export default {
     parseList,
     hasError,
     hasFormError,
+
+    getYoutubeEmbed,
+    getVimeoEmbed,
 };
