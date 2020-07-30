@@ -11,16 +11,17 @@ import Icon                 from "../Common/Icon";
 
 // Variants
 const Variant = {
-    NONE           : "none",
-    PRIMARY        : "primary",
-    CANCEL         : "cancel",
-    ERROR          : "error",
-    ACCENT         : "accent",
-    WHITE          : "white",
-    OUTLINED       : "outlined",
-    OUTLINED_WHITE : "outlined-white",
-    MENU           : "menu",
-    ICON           : "icon",
+    NONE            : "none",
+    PRIMARY         : "primary",
+    CANCEL          : "cancel",
+    ERROR           : "error",
+    ACCENT          : "accent",
+    WHITE           : "white",
+    OUTLINED        : "outlined",
+    OUTLINED_WHITE  : "outlined-white",
+    OUTLINED_ACCENT : "outlined-accent",
+    MENU            : "menu",
+    ICON            : "icon",
 };
 
 
@@ -128,6 +129,13 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
             --button-border: white;
             --button-color: var(--font-dark);
             --button-shadow: white;
+        `;
+        case Variant.OUTLINED_ACCENT: return `
+            --button-background: transparent;
+            --button-font: var(--accent-color);
+            --button-border: var(--accent-color);
+            --button-color: white;
+            --button-shadow: var(--accent-color);
         `;
         case Variant.MENU: return `
             text-transform: none;
