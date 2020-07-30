@@ -47,11 +47,11 @@ const NavLink = Styled(Link)`
 
     .link-preicon {
         font-size: 1.2em;
-        margin-right: 12px;
+        margin-right: 8px;
     }
     .link-aftericon {
         font-size: 1.2em;
-        margin-left: 12px;
+        margin-left: 8px;
     }
 `;
 
@@ -98,11 +98,11 @@ const OutlinedLink = Styled(Link)`
     }
     .link-preicon {
         font-size: 1.7em;
-        margin-right: 12px;
+        margin-right: 8px;
     }
     .link-aftericon {
         font-size: 1.7em;
-        margin-left: 12px;
+        margin-left: 8px;
     }
 
     ${(props) => props.isSelected && "border-color: white;"}
