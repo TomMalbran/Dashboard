@@ -28,7 +28,7 @@ function TextareaInput(props) {
         if (node && node.offsetHeight < node.scrollHeight + 2) {
             node.style.height = `${node.scrollHeight + 2}px`;
         }
-        if (onInput) {
+        if (e && onInput) {
             onInput(name, e.target.value);
         }
     };
