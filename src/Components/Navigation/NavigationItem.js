@@ -29,13 +29,14 @@ const NavActions = Styled.div.attrs(({ variant }) => ({ variant }))`
     position: absolute;
     top: 50%;
     right: 4px;
+    border-radius: var(--border-radius);
     transform: translateY(-50%);
 
     ${(props) => props.variant === Brightness.DARK && `
-        background-image: linear-gradient(to right, transparent, var(--primary-color) 10%);
+        background-color: var(--primary-color);
     `}
     ${(props) => props.variant === Brightness.LIGHT && `
-        background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.1) 10%);
+        background-color: rgba(0, 0, 0, 0.1);
     `}
 
     .icon {
