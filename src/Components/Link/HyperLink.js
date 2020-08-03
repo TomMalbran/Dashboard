@@ -12,6 +12,7 @@ import Html                 from "../Common/Html";
 // Variants
 const Variant = {
     NONE      : "none",
+    COLORED   : "colored",
     PRIMARY   : "primary",
     ACCENT    : "accent",
     BLACK     : "black",
@@ -19,10 +20,10 @@ const Variant = {
     GRAY      : "gray",
     RED       : "red",
     GREEN     : "green",
-    IMAGE     : "image",
     OPACITY   : "opacity",
     UNDERLINE : "underline",
     OUTLINED  : "outlined",
+    IMAGE     : "image",
 };
 
 
@@ -37,6 +38,7 @@ const Link = Styled.a.attrs(({ variant }) => ({ variant }))`
 
     &:hover, &:focus {
         outline: none;
+        color: var(--link-hover, var(--link-color));
     }
 `;
 
@@ -51,7 +53,7 @@ const ColoredLink = Styled(Link)`
         visibility: hidden;
         transform: scaleX(0);
         transition: all 0.2s ease-in-out;
-        background-color: var(--link-color);
+        background-color: var(--link-hover, var(--link-color));
     }
     &:hover::before,
     &:focus::before {
@@ -91,16 +93,6 @@ const ColoredLink = Styled(Link)`
     }};
 `;
 
-const ImageLink = Styled(Link)`
-    display: block;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        filter: grayscale(1);
-        color: #666;
-    }
-`;
-
 const OpacityLink = Styled(Link)`
     display: block;
     transition: all 0.2s ease-in-out;
@@ -116,9 +108,22 @@ const UnderlineLink = Styled(Link)`
     }
 `;
 
+const ImageLink = Styled(Link)`
+    display: block;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        filter: grayscale(1);
+        color: #666;
+    }
+`;
+
+
+
 // Components
 const Components = {
     [Variant.NONE]      : Link,
+    [Variant.COLORED]   : ColoredLink,
     [Variant.PRIMARY]   : ColoredLink,
     [Variant.ACCENT]    : ColoredLink,
     [Variant.BLACK]     : ColoredLink,
@@ -126,9 +131,9 @@ const Components = {
     [Variant.GRAY]      : ColoredLink,
     [Variant.RED]       : ColoredLink,
     [Variant.GREEN]     : ColoredLink,
-    [Variant.IMAGE]     : ImageLink,
     [Variant.OPACITY]   : OpacityLink,
     [Variant.UNDERLINE] : UnderlineLink,
+    [Variant.IMAGE]     : ImageLink,
 };
 
 
