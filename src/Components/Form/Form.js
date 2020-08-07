@@ -16,15 +16,16 @@ import Columns              from "../Form/Columns";
  * @returns {React.ReactElement}
  */
 function Form(props) {
-    const { className, error, onSubmit, children } = props;
+    const { className, error, noAutoFocus, onSubmit, children } = props;
 
     const items   = [];
     let   isFirst = true;
     for (const [ key, child ] of Utils.getChildren(children)) {
-        items.push(React.cloneElement(child, {
-            key, onSubmit,
-            autoFocus : child && (child.type === Columns || !child.props.isHidden) && isFirst,
-        }));
+        let autoFocus = child && (child.type === Columns || !child.props.isHidden) && isFirst;
+        if (noAutoFocus) {
+            autoFocus = false;
+        }
+        items.push(React.cloneElement(child, { key, onSubmit, autoFocus }));
         if (child && (child.type === Columns || !child.props.isHidden) && isFirst) {
             isFirst = false;
         }
@@ -42,10 +43,11 @@ function Form(props) {
  * @type {Object} propTypes
  */
 Form.propTypes = {
-    className : PropTypes.string,
-    error     : PropTypes.string,
-    onSubmit  : PropTypes.func,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    error       : PropTypes.string,
+    noAutoFocus : PropTypes.bool,
+    onSubmit    : PropTypes.func,
+    children    : PropTypes.any,
 };
 
 /**
@@ -53,7 +55,8 @@ Form.propTypes = {
  * @typedef {Object} defaultProps
  */
 Form.defaultProps = {
-    className : "",
+    className   : "",
+    noAutoFocus : false,
 };
 
 export default Form;
