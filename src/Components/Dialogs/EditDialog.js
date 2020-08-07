@@ -20,7 +20,7 @@ function EditDialog(props) {
     const {
         open, title, icon, message, className,
         isLoading, isNarrow, isWide, fullHeight, withSpacing,
-        error, isDisabled, primary, onSubmit, onClose,
+        error, isDisabled, hidePrimary, primary, cancel, onSubmit, onClose,
         secondary, onSecondary, children,
     } = props;
 
@@ -44,7 +44,8 @@ function EditDialog(props) {
         </DialogBody>
         <DialogFooter
             isDisabled={isLoading || isDisabled}
-            primary={primary || "GENERAL_SAVE"}
+            primary={hidePrimary ? "" : primary}
+            cancel={cancel}
             onSubmit={onSubmit}
             secondary={secondary}
             onSecondary={onSecondary}
@@ -70,8 +71,10 @@ EditDialog.propTypes = {
     isWide      : PropTypes.bool,
     fullHeight  : PropTypes.bool,
     withSpacing : PropTypes.bool,
+    hidePrimary : PropTypes.bool,
     primary     : PropTypes.string,
     secondary   : PropTypes.string,
+    cancel      : PropTypes.string,
     onSubmit    : PropTypes.func.isRequired,
     onSecondary : PropTypes.func,
     children    : PropTypes.any,
@@ -83,12 +86,15 @@ EditDialog.propTypes = {
  */
 EditDialog.defaultProps = {
     className   : "",
+    primary     : "GENERAL_SAVE",
+    cancel      : "GENERAL_CANCEL",
     isLoading   : false,
     isDisabled  : false,
     isNarrow    : false,
     isWide      : false,
     fullHeight  : false,
     withSpacing : true,
+    hidePrimary : false,
 };
 
 export default EditDialog;
