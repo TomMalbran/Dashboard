@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Components
 import InputLabel           from "../Input/InputLabel";
 import InputContainer       from "../Input/InputContainer";
+import HyperLink            from "../Link/HyperLink";
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
 import MultiLine            from "../Common/MultiLine";
@@ -18,7 +19,7 @@ const InputContent = Styled.div`
 
     .inputview-value {
         width: 100%;
-        padding: 8px 8px 0 8px;
+        padding: 6px 8px;
         line-height: 1.5;
         box-sizing: border-box;
         min-height: var(--input-height);
@@ -27,6 +28,11 @@ const InputContent = Styled.div`
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
         transition: all 0.2s;
+    }
+    .inputview-link {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 `;
 
@@ -40,8 +46,10 @@ const InputContent = Styled.div`
 function ViewField(props) {
     const { className, label, value, icon, fullWidth, noMargin, showEmpty, isHidden } = props;
     
-    const content = String(value);
-    const isHtml  = content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
+    const content = value === undefined ? "" : String(value);
+    const isLink  = content.startsWith("http");
+    const isHtml  = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
+    const isText  = !isLink && !isHtml;
 
     if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
@@ -59,9 +67,12 @@ function ViewField(props) {
             withValue
         />
         <InputContent className="inputview-cnt">
-            {!!icon  && <Icon icon={icon} />}
-            {isHtml  && <Html className="inputview-value">{content}</Html>}
-            {!isHtml && <MultiLine className="inputview-value">{content}</MultiLine>}
+            {!!icon && <Icon icon={icon} />}
+            {isLink && <div className="inputview-value inputview-link">
+                <HyperLink variant="primary" href={content} message={content} target="_blank" />
+            </div>}
+            {isHtml && <Html className="inputview-value">{content}</Html>}
+            {isText && <MultiLine className="inputview-value">{content}</MultiLine>}
         </InputContent>
     </InputContainer>;
 }
