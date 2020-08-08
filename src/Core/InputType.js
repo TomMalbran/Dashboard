@@ -26,7 +26,7 @@ const TIME     = "time";
  * @param {String} type
  * @returns {Boolean}
  */
-function withLabel(type) {
+function hasLabel(type) {
     return ![ CHECKBOX, TOGGLE ].includes(type);
 }
 
@@ -43,7 +43,7 @@ function canShrink(type) {
 
 // The Public API
 export default {
-    withLabel,
+    hasLabel,
     canShrink,
 
     CHECKBOX,

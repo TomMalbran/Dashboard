@@ -123,7 +123,7 @@ function InputField(props) {
     const [ isFocused, setFocus ] = React.useState(false);
     const [ hasValue,  setValue ] = React.useState(false);
 
-    const hasLabel      = Boolean(withLabel && label && InputType.withLabel(type));
+    const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
     const withTransform = !shrink && (!InputType.canShrink(type) || (type === InputType.SELECT && withNone));
     const withValue     = isFocused || hasValue || Boolean(value);
     const hasError      = Boolean(error);
@@ -313,6 +313,7 @@ InputField.propTypes = {
 InputField.defaultProps = {
     className     : "",
     type          : InputType.TEXT,
+    placeholder   : "",
     autoComplete  : "off",
     isRequired    : false,
     isDisabled    : false,

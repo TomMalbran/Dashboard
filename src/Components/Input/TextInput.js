@@ -123,6 +123,7 @@ TextInput.propTypes = {
  */
 TextInput.defaultProps = {
     className    : "",
+    placeholder  : "",
     autoComplete : "off",
     isDisabled   : false,
 };

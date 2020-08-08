@@ -29,10 +29,13 @@ const Select = Styled.select`
 function SelectInput(props) {
     const {
         className, id, name, value, isDisabled, tabIndex,
-        options, extraOptions, withNone, noneText, withCustom, customFirst, customText,
+        placeholder, withNone, noneText,
+        withCustom, customFirst, customText,
+        options, extraOptions,
         onChange, onFocus, onBlur, inputRef,
     } = props;
 
+    const useLabel   = Boolean(placeholder);
     const items      = Array.isArray(options)      ? options      : NLS.select(options);
     const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
 
@@ -61,10 +64,13 @@ function SelectInput(props) {
         onBlur={onBlur}
         tabIndex={tabIndex}
     >
-        {withNone && <option key="0" value="">
+        {useLabel && <option key="placeholder" value="">
+            {NLS.get(placeholder)}
+        </option>}
+        {withNone && <option key="none" value="">
             {NLS.get(noneText || "")}
         </option>}
-        {(withCustom && customFirst) && <option key="-1" value={-1}>
+        {(withCustom && customFirst) && <option key="custom" value={-1}>
             {NLS.get(customText || "GENERAL_CUSTOM")}
         </option>}
         {items.map(({ key, value }) => <option key={key} value={key}>
@@ -73,7 +79,7 @@ function SelectInput(props) {
         {extraItems.map(({ key, value }) => <option key={key} value={key}>
             {NLS.get(value)}
         </option>)}
-        {(withCustom && !customFirst) && <option key="-1" value={-1}>
+        {(withCustom && !customFirst) && <option key="custom" value={-1}>
             {NLS.get(customText || "GENERAL_CUSTOM")}
         </option>}
     </Select>;
@@ -87,6 +93,7 @@ SelectInput.propTypes = {
     className    : PropTypes.string,
     id           : PropTypes.string,
     name         : PropTypes.string.isRequired,
+    placeholder  : PropTypes.string,
     value        : PropTypes.any,
     isDisabled   : PropTypes.bool,
     tabIndex     : PropTypes.string,
@@ -108,7 +115,14 @@ SelectInput.propTypes = {
  * @type {Object} defaultProps
  */
 SelectInput.defaultProps = {
-    className : "",
+    className   : "",
+    placeholder : "",
+    isDisabled  : false,
+    withNone    : false,
+    noneText    : "",
+    withCustom  : false,
+    customFirst : false,
+    customText  : "",
 };
 
 export default SelectInput;

@@ -91,7 +91,8 @@ MediaInput.propTypes = {
  * @type {Object} defaultProps
  */
 MediaInput.defaultProps = {
-    className : "",
+    className   : "",
+    placeholder : "",
 };
 
 export default MediaInput;

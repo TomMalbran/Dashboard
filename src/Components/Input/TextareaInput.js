@@ -79,7 +79,8 @@ TextareaInput.propTypes = {
  * @type {Object} defaultProps
  */
 TextareaInput.defaultProps = {
-    className : "",
+    className   : "",
+    placeholder : "",
 };
 
 export default TextareaInput;

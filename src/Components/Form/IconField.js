@@ -106,7 +106,7 @@ function IconField(props) {
     } = props;
 
     const inputRef    = React.useRef();
-    const placeholder = NLS.get(props.placeholder) + (isRequired ? " *" : "");
+    const placeholder = props.placeholder ? NLS.get(props.placeholder) + (isRequired ? " *" : "") : "";
 
     const [ isFocused, setFocus ] = React.useState(false);
 
@@ -197,6 +197,7 @@ IconField.propTypes = {
 IconField.defaultProps = {
     className    : "",
     type         : InputType.TEXT,
+    placeholder  : "",
     autoComplete : "off",
     isRequired   : false,
     isDisabled   : false,

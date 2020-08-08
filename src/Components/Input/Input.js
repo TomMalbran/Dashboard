@@ -102,6 +102,7 @@ Input.propTypes = {
 Input.defaultProps = {
     className    : "",
     type         : InputType.TEXT,
+    placeholder  : "",
     autoComplete : "off",
     isDisabled   : false,
     options      : [],
