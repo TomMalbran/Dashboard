@@ -27,7 +27,7 @@ function LinkList(props) {
 
     const items = [];
     for (const [ key, child ] of Utils.getChildren(children)) {
-        const isSelected = child.props.isSelected || (child.props.url ? path === NLS.url(child.props.url) : false);
+        const isSelected = child.props.isSelected || (child.props.url ? path === NLS.baseUrl(child.props.url) : false);
         const clone      = React.cloneElement(child, { isSelected });
         items.push(<li key={key}>{clone}</li>);
     }
