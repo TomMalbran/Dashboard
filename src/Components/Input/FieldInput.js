@@ -8,7 +8,7 @@ import InputType            from "../../Core/InputType";
 // Components
 import Button               from "../Form/Button";
 import IconLink             from "../Link/IconLink";
-import InputInput           from "../Input/InputInput";
+import Input                from "../Input/Input";
 
 
 
@@ -37,7 +37,10 @@ const Link = Styled(IconLink)`
  * @returns {React.ReactElement}
  */
 function FieldInput(props) {
-    const { className, name, value, button, onChange } = props;
+    const {
+        className, inputType, name, value, button, onChange,
+        options, withNone, noneText,
+    } = props;
     
     // Calculate the Parts Array
     let parts = [ "" ];
@@ -53,8 +56,7 @@ function FieldInput(props) {
     }
 
     // Handles a Field Change
-    const handleChange = (e, index) => {
-        const newValue = e.target.value;
+    const handleChange = (newValue, index) => {
         parts.splice(index, 1, newValue);
         fieldChanged(parts);
     };
@@ -79,13 +81,15 @@ function FieldInput(props) {
 
     return <Container className={className}>
         {parts.map((elem, index) => <Div key={index}>
-            <InputInput
+            <Input
                 className="input"
-                type={InputType.TEXT}
+                type={inputType}
                 name={`${name}-${index}`}
                 value={elem}
-                onChange={(e) => handleChange(e, index)}
-                isSmall
+                options={options}
+                withNone={withNone}
+                noneText={noneText}
+                onChange={(name, value) => handleChange(value, index)}
             />
             {parts.length > 1 && <Link
                 variant="light"
@@ -95,7 +99,7 @@ function FieldInput(props) {
         </Div>)}
         <Button
             variant="outlined"
-            message={button || "GENERAL_ADD_FIELD"}
+            message={button}
             onClick={addField}
             isSmall
         />
@@ -109,7 +113,11 @@ function FieldInput(props) {
 FieldInput.propTypes = {
     className : PropTypes.string,
     name      : PropTypes.string.isRequired,
+    inputType : PropTypes.string,
     value     : PropTypes.any,
+    options   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone  : PropTypes.bool,
+    noneText  : PropTypes.string,
     button    : PropTypes.string,
     onChange  : PropTypes.func.isRequired,
 };
@@ -120,6 +128,10 @@ FieldInput.propTypes = {
  */
 FieldInput.defaultProps = {
     className : "",
+    inputType : InputType.TEXT,
+    withNone  : false,
+    noneText  : "",
+    button    : "GENERAL_ADD_FIELD",
 };
 
 export default FieldInput;

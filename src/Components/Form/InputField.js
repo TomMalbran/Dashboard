@@ -42,7 +42,7 @@ const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
     background-color: white;
     transition: all 0.2s;
     
-    &.input {
+    &.input, & .input {
         appearance: none;
         font-size: 13px;
         width: 100%;
@@ -52,15 +52,15 @@ const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
     }
-    &.input-textarea {
+    &.input-textarea, & .input-textarea {
         resize: none;
     }
-    &.input:focus {
+    &.input:focus, & .input:focus {
         outline: none;
         border-color: var(--border-color);
         color: var(--secondary-color);
     }
-    &.input:disabled {
+    &.input:disabled, & .input:disabled {
         border-color: rgb(205, 205, 205);
         box-shadow: none;
     }
@@ -260,6 +260,7 @@ InputField.propTypes = {
     className     : PropTypes.string,
     id            : PropTypes.string,
     type          : PropTypes.string,
+    inputType     : PropTypes.string,
     name          : PropTypes.string,
     label         : PropTypes.string,
     placeholder   : PropTypes.string,
@@ -313,6 +314,7 @@ InputField.propTypes = {
 InputField.defaultProps = {
     className     : "",
     type          : InputType.TEXT,
+    inputType     : InputType.TEXT,
     placeholder   : "",
     autoComplete  : "off",
     isRequired    : false,
