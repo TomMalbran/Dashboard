@@ -78,7 +78,7 @@ function handleClick(e, props) {
  * @returns {React.ReactElement}
  */
 function DetailItem(props) {
-    const { className, isHidden, message, icon, tooltip, prefix, withTip, showAlways, topBorder } = props;
+    const { isHidden, className, message, icon, tooltip, prefix, withTip, showAlways, topBorder } = props;
     
     if (isHidden || (!message && !showAlways)) {
         return <React.Fragment />;
@@ -107,6 +107,7 @@ function DetailItem(props) {
  * @typedef {Object} propTypes
  */
 DetailItem.propTypes = {
+    isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon       : PropTypes.string.isRequired,
@@ -122,7 +123,6 @@ DetailItem.propTypes = {
     isLink     : PropTypes.bool,
     isEmail    : PropTypes.bool,
     isPhone    : PropTypes.bool,
-    isHidden   : PropTypes.bool,
 };
 
 /**
@@ -130,9 +130,9 @@ DetailItem.propTypes = {
  * @typedef {Object} defaultProps
  */
 DetailItem.defaultProps = {
+    isHidden  : false,
     className : "",
     target    : "_self",
-    isHidden  : false,
 };
 
 export default DetailItem;

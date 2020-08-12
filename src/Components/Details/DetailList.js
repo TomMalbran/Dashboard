@@ -43,7 +43,7 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function DetailList(props) {
-    const { className, isHidden, message, children } = props;
+    const { isHidden, className, message, children } = props;
     
     if (isHidden) {
         return <React.Fragment />;
@@ -60,9 +60,9 @@ function DetailList(props) {
  * @typedef {Object} propTypes
  */
 DetailList.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     message   : PropTypes.string.isRequired,
-    isHidden  : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -71,8 +71,8 @@ DetailList.propTypes = {
  * @typedef {Object} defaultProps
  */
 DetailList.defaultProps = {
-    className : "",
     isHidden  : false,
+    className : "",
 };
 
 export default DetailList;

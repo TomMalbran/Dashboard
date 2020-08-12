@@ -161,6 +161,7 @@ function IconField(props) {
  * @typedef {Object} propTypes
  */
 IconField.propTypes = {
+    isHidden     : PropTypes.bool,
     className    : PropTypes.string,
     id           : PropTypes.string,
     type         : PropTypes.string,
@@ -187,7 +188,6 @@ IconField.propTypes = {
     customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
     autoFocus    : PropTypes.bool,
-    isHidden     : PropTypes.bool,
 };
 
 /**
@@ -195,6 +195,7 @@ IconField.propTypes = {
  * @typedef {Object} defaultProps
  */
 IconField.defaultProps = {
+    isHidden     : false,
     className    : "",
     type         : InputType.TEXT,
     placeholder  : "",

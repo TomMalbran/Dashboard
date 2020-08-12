@@ -257,6 +257,7 @@ function InputField(props) {
  * @typedef {Object} propTypes
  */
 InputField.propTypes = {
+    isHidden      : PropTypes.bool,
     className     : PropTypes.string,
     id            : PropTypes.string,
     type          : PropTypes.string,
@@ -304,7 +305,6 @@ InputField.propTypes = {
     customKey     : PropTypes.string,
     hasClear      : PropTypes.bool,
     autoFocus     : PropTypes.bool,
-    isHidden      : PropTypes.bool,
 };
 
 /**
@@ -312,6 +312,7 @@ InputField.propTypes = {
  * @typedef {Object} defaultProps
  */
 InputField.defaultProps = {
+    isHidden      : false,
     className     : "",
     type          : InputType.TEXT,
     inputType     : InputType.TEXT,

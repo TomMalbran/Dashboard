@@ -9,7 +9,7 @@ import PropTypes            from "prop-types";
  * @returns {React.ReactElement}
  */
 function DialogSection(props) {
-    const { className, isHidden, children } = props;
+    const { isHidden, className, children } = props;
 
     if (isHidden) {
         return <React.Fragment />;
@@ -24,8 +24,8 @@ function DialogSection(props) {
  * @type {Object} propTypes
  */
 DialogSection.propTypes = {
-    className : PropTypes.string,
     isHidden  : PropTypes.bool,
+    className : PropTypes.string,
     children  : PropTypes.any,
 };
 
@@ -34,8 +34,8 @@ DialogSection.propTypes = {
  * @type {Object} defaultProps
  */
 DialogSection.defaultProps = {
-    className : "",
     isHidden  : false,
+    className : "",
 };
 
 export default DialogSection;

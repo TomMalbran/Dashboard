@@ -139,6 +139,7 @@ function NavigationItem(props) {
  * @type {Object} propTypes
  */
 NavigationItem.propTypes = {
+    isHidden    : PropTypes.bool,
     variant     : PropTypes.string,
     className   : PropTypes.string,
     path        : PropTypes.string,
@@ -159,7 +160,6 @@ NavigationItem.propTypes = {
     isCollapsed : PropTypes.bool,
     isSelected  : PropTypes.bool,
     isDisabled  : PropTypes.bool,
-    isHidden    : PropTypes.bool,
     children    : PropTypes.any,
 };
 
@@ -168,6 +168,7 @@ NavigationItem.propTypes = {
  * @type {Object} defaultProps
  */
 NavigationItem.defaultProps = {
+    isHidden    : false,
     className   : "",
     canEdit     : false,
     canDelete   : false,
@@ -175,7 +176,6 @@ NavigationItem.defaultProps = {
     isCollapsed : false,
     isSelected  : false,
     isDisabled  : false,
-    isHidden    : false,
 };
 
 export default NavigationItem;

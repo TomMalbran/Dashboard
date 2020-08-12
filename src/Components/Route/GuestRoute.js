@@ -25,13 +25,21 @@ function GuestRoute(props) {
  * @typedef {Object} propTypes
  */
 GuestRoute.propTypes = {
+    isHidden        : PropTypes.bool,
     isAuthenticated : PropTypes.bool.isRequired,
     component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
     url             : PropTypes.string,
     path            : PropTypes.string,
-    isHidden        : PropTypes.bool,
     exact           : PropTypes.bool,
     location        : PropTypes.object,
+};
+
+/**
+ * The Default Properties
+ * @typedef {Object} defaultProps
+ */
+GuestRoute.defaultProps = {
+    isHidden : false,
 };
 
 export default GuestRoute;

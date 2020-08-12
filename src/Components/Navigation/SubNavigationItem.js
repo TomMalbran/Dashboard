@@ -79,6 +79,7 @@ function SubNavigationItem(props) {
  * @type {Object} propTypes
  */
 SubNavigationItem.propTypes = {
+    isHidden   : PropTypes.bool,
     variant    : PropTypes.string,
     action     : PropTypes.string,
     className  : PropTypes.string,
@@ -90,7 +91,6 @@ SubNavigationItem.propTypes = {
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
     isSelected : PropTypes.bool,
-    isHidden   : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -99,10 +99,10 @@ SubNavigationItem.propTypes = {
  * @type {Object} defaultProps
  */
 SubNavigationItem.defaultProps = {
+    isHidden   : false,
     className  : "",
     topBorder  : false,
     isSelected : false,
-    isHidden   : false,
 };
 
 export default SubNavigationItem;

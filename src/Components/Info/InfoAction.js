@@ -42,11 +42,11 @@ function InfoAction(props) {
  * @type {Object} propTypes
  */
 InfoAction.propTypes = {
+    isHidden  : PropTypes.bool,
     action    : PropTypes.string.isRequired,
     className : PropTypes.string,
     message   : PropTypes.string,
     onAction  : PropTypes.func,
-    isHidden  : PropTypes.bool,
 };
 
 /**
@@ -54,8 +54,8 @@ InfoAction.propTypes = {
  * @type {Object} defaultProps
  */
 InfoAction.defaultProps = {
-    className : "",
     isHidden  : false,
+    className : "",
 };
 
 export default InfoAction;

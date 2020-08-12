@@ -16,11 +16,11 @@ function TableAction() {
  * @typedef {Object} propTypes
  */
 TableAction.propTypes = {
+    isHidden : PropTypes.bool,
     action   : PropTypes.string.isRequired,
     message  : PropTypes.string.isRequired,
     icon     : PropTypes.string,
     route    : PropTypes.string,
-    isHidden : PropTypes.bool,
     hide     : PropTypes.func,
 };
 

@@ -91,6 +91,7 @@ function TableHeader(props) {
  * @typedef {Object} propTypes
  */
 TableHeader.propTypes = {
+    isHidden   : PropTypes.bool,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fetch      : PropTypes.func,
     hasSorting : PropTypes.bool,
@@ -104,7 +105,6 @@ TableHeader.propTypes = {
     align      : PropTypes.string,
     isTitle    : PropTypes.bool,
     isSmall    : PropTypes.bool,
-    isHidden   : PropTypes.bool,
     bigMobile  : PropTypes.bool,
     hideMobile : PropTypes.bool,
     hideCircle : PropTypes.bool,
@@ -116,6 +116,7 @@ TableHeader.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableHeader.defaultProps = {
+    isHidden   : false,
     className  : "",
     colSpan    : "1",
     grow       : "1",
@@ -126,7 +127,6 @@ TableHeader.defaultProps = {
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
-    isHidden   : false,
 };
 
 export default TableHeader;

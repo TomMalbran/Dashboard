@@ -46,9 +46,9 @@ function InfoItem(props) {
  * @type {Object} propTypes
  */
 InfoItem.propTypes = {
+    isHidden : PropTypes.bool,
     label    : PropTypes.string.isRequired,
     message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    isHidden : PropTypes.bool,
 };
 
 /**

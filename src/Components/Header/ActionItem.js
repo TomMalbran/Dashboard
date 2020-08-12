@@ -47,10 +47,10 @@ function ActionItem(props) {
  * @type {Object} propTypes
  */
 ActionItem.propTypes = {
+    isHidden : PropTypes.bool,
     action   : PropTypes.string.isRequired,
     message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon     : PropTypes.string,
-    isHidden : PropTypes.bool,
     onAction : PropTypes.func,
 };
 

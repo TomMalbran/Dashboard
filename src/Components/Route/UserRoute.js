@@ -48,9 +48,9 @@ function UserRoute(props) {
  * @typedef {Object} propTypes
  */
 UserRoute.propTypes = {
+    isHidden        : PropTypes.bool,
     isAuthenticated : PropTypes.bool.isRequired,
     isValid         : PropTypes.bool,
-    isHidden        : PropTypes.bool,
     component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
     type            : PropTypes.string,
     url             : PropTypes.string,
@@ -66,7 +66,8 @@ UserRoute.propTypes = {
  * @typedef {Object} defaultProps
  */
 UserRoute.defaultProps = {
-    isValid : true,
+    isHidden : false,
+    isValid  : true,
 };
 
 export default UserRoute;

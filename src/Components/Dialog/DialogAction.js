@@ -31,10 +31,10 @@ function DialogAction(props) {
  * @type {Object} propTypes
  */
 DialogAction.propTypes = {
+    isHidden : PropTypes.bool,
     message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     action   : PropTypes.string.isRequired,
     onAction : PropTypes.func,
-    isHidden : PropTypes.bool,
 };
 
 /**

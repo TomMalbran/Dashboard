@@ -58,6 +58,7 @@ function NavigationList(props) {
  * @type {Object} propTypes
  */
 NavigationList.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     message   : PropTypes.string,
     variant   : PropTypes.string,
@@ -65,7 +66,6 @@ NavigationList.propTypes = {
     baseUrl   : PropTypes.string,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
-    isHidden  : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -74,10 +74,10 @@ NavigationList.propTypes = {
  * @typedef {Object} defaultProps
  */
 NavigationList.defaultProps = {
+    isHidden  : false,
     className : "",
     message   : "",
     baseUrl   : "",
-    isHidden  : false,
 };
 
 export default NavigationList;

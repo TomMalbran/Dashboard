@@ -16,10 +16,10 @@ function DetailAction() {
  * @typedef {Object} propTypes
  */
 DetailAction.propTypes = {
+    isHidden : PropTypes.bool,
     action   : PropTypes.string.isRequired,
     icon     : PropTypes.string,
     message  : PropTypes.string,
-    isHidden : PropTypes.bool,
 };
 
 /**

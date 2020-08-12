@@ -176,6 +176,7 @@ function TabItem(props) {
  * @type {Object} propTypes
  */
 TabItem.propTypes = {
+    isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     variant    : PropTypes.string,
     status     : PropTypes.string,
@@ -188,7 +189,6 @@ TabItem.propTypes = {
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onAction   : PropTypes.func,
-    isHidden   : PropTypes.bool,
 };
 
 /**
@@ -196,6 +196,7 @@ TabItem.propTypes = {
  * @type {Object} defaultProps
  */
 TabItem.defaultProps = {
+    isHidden   : false,
     className  : "",
     variant    : Brightness.LIGHT,
     value      : "",
@@ -204,7 +205,6 @@ TabItem.defaultProps = {
     isSelected : false,
     canEdit    : false,
     canDelete  : false,
-    isHidden   : false,
 };
 
 export default TabItem;

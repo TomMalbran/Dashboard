@@ -80,6 +80,7 @@ function TableCell(props) {
  * @typedef {Object} propTypes
  */
 TableCell.propTypes = {
+    isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -92,7 +93,6 @@ TableCell.propTypes = {
     hideMobile : PropTypes.bool,
     circle     : PropTypes.string,
     hideCircle : PropTypes.bool,
-    isHidden   : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -101,6 +101,7 @@ TableCell.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableCell.defaultProps = {
+    isHidden   : false,
     className  : "",
     colSpan    : "1",
     grow       : "1",
@@ -110,7 +111,6 @@ TableCell.defaultProps = {
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
-    isHidden   : false,
 };
 
 export default TableCell;
