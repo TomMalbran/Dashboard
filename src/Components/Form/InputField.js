@@ -48,9 +48,9 @@ const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
         width: 100%;
         margin: 0;
         padding: 4px 8px;
-        min-height: ${(props) => props.isSmall ? "calc(var(--input-height) - 8px)" : "var(--input-height)"};
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
+        min-height: ${(props) => props.isSmall ? "calc(var(--input-height) - 7px)" : "var(--input-height)"};
     }
     &.input-textarea, & .input-textarea {
         resize: none;
@@ -112,7 +112,7 @@ function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
-        fullWidth, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
+        fullWidth, smallMargin, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
         suggestFetch, suggestID, suggestParams,
     } = props;
 
@@ -197,6 +197,7 @@ function InputField(props) {
     return <InputContainer
         className={`inputfield inputfield-${type} ${className}`}
         fullWidth={fullWidth}
+        smallMargin={smallMargin}
         noMargin={noMargin}
         hasLabel={hasLabel}
         hasError={hasError}
@@ -293,6 +294,7 @@ InputField.propTypes = {
     extraOptions  : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex      : PropTypes.string,
     withLabel     : PropTypes.bool,
+    smallMargin   : PropTypes.bool,
     noMargin      : PropTypes.bool,
     fullWidth     : PropTypes.bool,
     shrink        : PropTypes.bool,
@@ -324,6 +326,7 @@ InputField.defaultProps = {
     extraOptions  : [],
     suggestParams : {},
     withLabel     : true,
+    smallMargin   : false,
     noMargin      : false,
     fullWidth     : false,
     shrink        : false,

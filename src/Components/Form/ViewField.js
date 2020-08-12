@@ -13,21 +13,28 @@ import MultiLine            from "../Common/MultiLine";
 
 
 // Styles
-const InputContent = Styled.div`
+const InputContent = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
     display: flex;
     align-items: center;
 
     .inputview-value {
         width: 100%;
-        padding: 6px 8px;
-        line-height: 1.5;
         box-sizing: border-box;
-        min-height: var(--input-height);
         color: var(--black-color);
         background-color: white;
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
         transition: all 0.2s;
+        
+        ${(props) => props.isSmall ? `
+            min-height: calc(var(--input-height) - 7px);
+            padding: 8px 8px 4px 8px;
+            line-height: 1;
+        ` : `
+            min-height: var(--input-height);
+            padding: 8px 8px 6px 8px;
+            line-height: 1.5;
+        `}
     }
     .inputview-link {
         white-space: nowrap;
@@ -44,12 +51,16 @@ const InputContent = Styled.div`
  * @returns {React.ReactElement}
  */
 function ViewField(props) {
-    const { className, label, value, icon, fullWidth, noMargin, showEmpty, isHidden } = props;
+    const {
+        isHidden, showEmpty, className, label, value, icon,
+        fullWidth, smallMargin, noMargin, isSmall,
+    } = props;
     
-    const content = value === undefined ? "" : String(value);
-    const isLink  = content.startsWith("http");
-    const isHtml  = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
-    const isText  = !isLink && !isHtml;
+    const content  = value === undefined ? "" : String(value);
+    const isLink   = content.startsWith("http");
+    const isHtml   = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
+    const isText   = !isLink && !isHtml;
+    const hasLabel = !!label;
 
     if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
@@ -57,16 +68,17 @@ function ViewField(props) {
     return <InputContainer
         className={`inputview ${className}`}
         fullWidth={fullWidth}
+        smallMargin={smallMargin}
         noMargin={noMargin}
         hasLabel
     >
-        <InputLabel
+        {hasLabel && <InputLabel
             className="inputview-label"
             message={label}
             withTransform
             withValue
-        />
-        <InputContent className="inputview-cnt">
+        />}
+        <InputContent className="inputview-cnt" isSmall={isSmall}>
             {!!icon && <Icon icon={icon} />}
             {isLink && <div className="inputview-value inputview-link">
                 <HyperLink variant="primary" href={content} message={content} target="_blank" />
@@ -82,14 +94,16 @@ function ViewField(props) {
  * @typedef {Object} propTypes
  */
 ViewField.propTypes = {
-    className : PropTypes.string,
-    label     : PropTypes.string,
-    icon      : PropTypes.string,
-    value     : PropTypes.any,
-    noMargin  : PropTypes.bool,
-    fullWidth : PropTypes.bool,
-    showEmpty : PropTypes.bool,
-    isHidden  : PropTypes.bool,
+    isHidden    : PropTypes.bool,
+    showEmpty   : PropTypes.bool,
+    className   : PropTypes.string,
+    label       : PropTypes.string,
+    icon        : PropTypes.string,
+    value       : PropTypes.any,
+    smallMargin : PropTypes.bool,
+    noMargin    : PropTypes.bool,
+    fullWidth   : PropTypes.bool,
+    isSmall     : PropTypes.bool,
 };
 
 /**
@@ -97,10 +111,13 @@ ViewField.propTypes = {
  * @typedef {Object} defaultProps
  */
 ViewField.defaultProps = {
-    className : "",
-    noMargin  : false,
-    fullWidth : false,
-    showEmpty : false,
+    isHidden    : false,
+    showEmpty   : false,
+    className   : "",
+    smallMargin : false,
+    noMargin    : false,
+    fullWidth   : false,
+    isSmall     : false,
 };
 
 export default ViewField;

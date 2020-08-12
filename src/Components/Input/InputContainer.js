@@ -6,8 +6,8 @@ import Styled               from "styled-components";
 
 // Styles
 const Container = Styled.div.attrs(
-    ({ fullWidth, noMargin, hasLabel, hasError, isFocused }) =>
-        ({ fullWidth, noMargin, hasLabel, hasError, isFocused })
+    ({ fullWidth, smallMargin, noMargin, hasLabel, hasError, isFocused }) =>
+        ({ fullWidth, smallMargin, noMargin, hasLabel, hasError, isFocused })
 )`
     position: relative;
     display: block;
@@ -15,8 +15,9 @@ const Container = Styled.div.attrs(
     ${(props) => props.fullWidth && `
         width: 100%;
     `}
+
+    margin-bottom: ${(props) => props.noMargin ? "0px" : (props.smallMargin ? "10px" : "20px")};
     ${(props) => !props.noMargin && `
-        margin-bottom: 20px;
         &:last-child {
             margin-bottom: 0;
         }
@@ -62,11 +63,12 @@ const Container = Styled.div.attrs(
  * @returns {React.ReactElement}
  */
 function InputContainer(props) {
-    const { className, fullWidth, noMargin, hasLabel, hasError, isFocused, children } = props;
+    const { className, fullWidth, smallMargin, noMargin, hasLabel, hasError, isFocused, children } = props;
 
     return <Container
         className={className}
         fullWidth={fullWidth}
+        smallMargin={smallMargin}
         noMargin={noMargin}
         hasLabel={hasLabel}
         hasError={hasError}
@@ -81,13 +83,14 @@ function InputContainer(props) {
  * @type {Object} propTypes
  */
 InputContainer.propTypes = {
-    className : PropTypes.string,
-    fullWidth : PropTypes.bool,
-    noMargin  : PropTypes.bool,
-    hasLabel  : PropTypes.bool,
-    hasError  : PropTypes.bool,
-    isFocused : PropTypes.bool,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    fullWidth   : PropTypes.bool,
+    smallMargin : PropTypes.bool,
+    noMargin    : PropTypes.bool,
+    hasLabel    : PropTypes.bool,
+    hasError    : PropTypes.bool,
+    isFocused   : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -95,12 +98,13 @@ InputContainer.propTypes = {
  * @type {Object} defaultProps
  */
 InputContainer.defaultProps = {
-    className : "",
-    fullWidth : false,
-    noMargin  : false,
-    hasLabel  : false,
-    hasError  : false,
-    isFocused : false,
+    className   : "",
+    fullWidth   : false,
+    smallMargin : false,
+    noMargin    : false,
+    hasLabel    : false,
+    hasError    : false,
+    isFocused   : false,
 };
 
 export default InputContainer;
