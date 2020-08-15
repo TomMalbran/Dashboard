@@ -1,5 +1,6 @@
 import jwtDecode            from "jwt-decode";
 import Store                from "../Core/Store";
+import NLS                  from "../Core/NLS";
 
 // Module Variables
 let token   = "";
@@ -81,6 +82,9 @@ function setUser() {
         }
 
         Store.setCurrentUser(jwt.data);
+        if (jwt.data.language) {
+            NLS.setLang(jwt.data.language);
+        }
         if (timeout) {
             window.clearTimeout(timeout);
         }
