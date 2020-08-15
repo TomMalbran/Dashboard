@@ -43,6 +43,7 @@ const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
     transition: all 0.2s;
     
     &.input, & .input {
+        box-sizing: border-box;
         appearance: none;
         font-size: 13px;
         width: 100%;
