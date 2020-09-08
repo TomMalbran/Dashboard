@@ -68,7 +68,7 @@ function handleUrl(url, target) {
     if (!url || url === "#") {
         return false;
     }
-    if (handleInternal(url) && target !== "_blank") {
+    if (target !== "_blank" && handleInternal(url)) {
         return true;
     }
     if (target === "_self") {
