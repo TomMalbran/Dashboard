@@ -383,6 +383,9 @@ function hasFormError(errors) {
  * @returns {String}
  */
 function getYoutubeEmbed(source) {
+    if (!source) {
+        return "";
+    }
     let videoID = "";
     if (source.startsWith("https://youtu.be/")) {
         videoID = source.replace("https://youtu.be/", "");
@@ -405,6 +408,9 @@ function getYoutubeEmbed(source) {
  * @returns {String}
  */
 function getVimeoEmbed(source, showInfo = false) {
+    if (!source) {
+        return "";
+    }
     let videoID = "";
     if (source.startsWith("https://vimeo.com/")) {
         videoID = source.replace("https://vimeo.com/", "");
