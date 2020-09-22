@@ -25,6 +25,7 @@ const InputContent = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
         transition: all 0.2s;
+        overflow: auto;
         
         ${(props) => props.isSmall ? `
             min-height: calc(var(--input-height) - 7px);
