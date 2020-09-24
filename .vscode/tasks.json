@@ -19,12 +19,12 @@
             "command": "npm run build"
         },
         {
-            "label": "3. Build Dist",
+            "label": "4. Build Dist",
             "type": "shell",
             "command": "npm run dist"
         },
         {
-            "label": "4. Example",
+            "label": "5. Example",
             "type": "shell",
             "command": "npm run example"
         }
