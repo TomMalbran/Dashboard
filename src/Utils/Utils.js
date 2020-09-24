@@ -269,13 +269,17 @@ function getIndex(data, idKey, idValue) {
  * @param {String}          idKey
  * @param {(Number|String)} idValue
  * @param {String=}         key
+ * @param {*=}              defValue
  * @returns {(Object|String)}
  */
-function getValue(data, idKey, idValue, key) {
+function getValue(data, idKey, idValue, key, defValue) {
     for (const elem of data) {
         if (String(elem[idKey]) === String(idValue)) {
             return key ? elem[key] : elem;
         }
+    }
+    if (defValue) {
+        return defValue;
     }
     return key ? "" : {};
 }
