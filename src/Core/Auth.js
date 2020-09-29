@@ -3,8 +3,9 @@ import Store                from "../Core/Store";
 import NLS                  from "../Core/NLS";
 
 // Module Variables
-let token   = "";
-let timeout = null;
+let token    = "";
+let timezone = null;
+let timeout  = null;
 
 
 
@@ -85,6 +86,7 @@ function setUser() {
         if (jwt.data.language) {
             NLS.setLang(jwt.data.language);
         }
+        
         if (timeout) {
             window.clearTimeout(timeout);
         }
@@ -97,6 +99,20 @@ function setUser() {
     }
 }
 
+/**
+ * Returns the Timezone
+ * @returns {?String}
+ */
+function getTimezone() {
+    const newTimezone = new Date().getTimezoneOffset();
+    let result = "";
+    if (timezone !== newTimezone) {
+        result   = String(-newTimezone);
+        timezone = newTimezone;
+    }
+    return result;
+}
+
 
 
 // The public API
@@ -107,4 +123,5 @@ export default {
     unsetToken,
     getUser,
     setUser,
+    getTimezone,
 };

@@ -128,17 +128,26 @@ function baseUrl(route) {
  * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
+ * @param {Boolean=} addTimezone
  * @returns {URL}
  */
-function createUrl(route, params = {}, addToken = true) {
-    const url   = baseUrl(route);
-    const token = Auth.getToken();
-
+function createUrl(route, params = {}, addToken = true, addTimezone = false) {
+    const url = baseUrl(route);
+    
     for (const [ key, value ] of Object.entries(params)) {
         url.searchParams.append(key, value);
     }
-    if (addToken && token) {
-        url.searchParams.append("jwt", token);
+    if (addToken) {
+        const token = Auth.getToken();
+        if (token) {
+            url.searchParams.append("jwt", token);
+        }
+    }
+    if (addTimezone) {
+        const timezone = Auth.getTimezone();
+        if (timezone) {
+            url.searchParams.append("timezone", timezone);
+        }
     }
     return url;
 }
@@ -152,7 +161,7 @@ function createUrl(route, params = {}, addToken = true) {
  * @returns {Promise}
  */
 async function get(route, params = {}, showLoader = true, showResult = true) {
-    const url = createUrl(route, params);
+    const url = createUrl(route, params, true, true);
     let result;
 
     try {
@@ -172,15 +181,19 @@ async function get(route, params = {}, showLoader = true, showResult = true) {
  * @returns {Promise}
  */
 function post(route, params = {}, showLoader = true, showResult = true) {
-    const url   = baseUrl(route);
-    const token = Auth.getToken();
-    const body  = new FormData();
+    const url      = baseUrl(route);
+    const token    = Auth.getToken();
+    const timezone = Auth.getTimezone();
+    const body     = new FormData();
 
     for (const [ key, value ] of Object.entries(params)) {
         body.append(key, value);
     }
     if (token) {
         body.append("jwt", token);
+    }
+    if (timezone) {
+        body.append("timezone", timezone);
     }
     return ajax(url, { method : "post", body }, showLoader, showResult);
 }
@@ -193,7 +206,7 @@ function post(route, params = {}, showLoader = true, showResult = true) {
  * @returns {String}
  */
 function url(route, params = {}, addToken = true) {
-    return createUrl(route, params, addToken).href;
+    return createUrl(route, params, addToken, false).href;
 }
 
 /**

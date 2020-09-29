@@ -3,6 +3,15 @@ import React                from "react";
 
 
 /**
+ * Returns true if the value is a String
+ * @param {*} value
+ * @returns {Boolean}
+ */
+function isString(value) {
+    return typeof value === "string" || value instanceof String;
+}
+
+/**
  * Returns true if the Object is empty
  * @param {Object} object
  * @returns {Boolean}
@@ -434,6 +443,7 @@ function getVimeoEmbed(source, showInfo = false) {
 
 // The public API
 export default {
+    isString,
     isEmpty,
     clone,
     clamp,

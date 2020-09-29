@@ -1,4 +1,5 @@
 import NLS          from "../Core/NLS";
+import Utils        from "../Utils/Utils";
 
 
 
@@ -966,50 +967,89 @@ function create(date, inMiliseconds) {
 
 /**
  * Creates a new DateTime from a slash separated string (YYYY/MM/DD or DD/MM/YYYY or DD/MM)
- * @param {String} string
- * @param {String} separator
+ * @param {String}   date
+ * @param {String=}  time
+ * @param {Boolean=} useTimezone
  * @returns {DateTime}
  */
-function fromString(string, separator = "-") {
-    const parts = string.split(separator);
-    let   date  = new Date();
+function fromString(date, time = "", useTimezone = false) {
+    const separator = date.includes("/") ? "/" : "-";
+    const dateParts = date.split(separator);
+    let   day       = new Date();
     
-    if (parts.length === 3) {
-        const part0 = parseInt(parts[0], 10);
-        const part1 = parseInt(parts[1], 10);
-        const part2 = parseInt(parts[2], 10);
-        if (parts[0].length === 4) {
-            date = new Date(part0, part1 - 1, part2);
+    if (dateParts.length === 3) {
+        const part0 = parseInt(dateParts[0], 10);
+        const part1 = parseInt(dateParts[1], 10);
+        const part2 = parseInt(dateParts[2], 10);
+        if (dateParts[0].length === 4) {
+            day = new Date(part0, part1 - 1, part2);
         } else {
-            date = new Date(part2, part1, part0);
+            day = new Date(part2, part1 - 1, part0);
         }
-    } else if (parts.length === 2) {
-        const part0 = parseInt(parts[0], 10);
-        const part1 = parseInt(parts[1], 10);
-        date = new Date(date.getFullYear(), part1, part0);
+    } else if (dateParts.length === 2) {
+        const part0 = parseInt(dateParts[0], 10);
+        const part1 = parseInt(dateParts[1], 10);
+        day = new Date(day.getFullYear(), part1 - 1, part0);
     }
-    return new DateTime(date);
+
+    if (time) {
+        const timeParts = time.split(":");
+        if (timeParts[0]) {
+            const hours = parseInt(timeParts[0], 10);
+            day.setHours(hours);
+        }
+        if (timeParts[1]) {
+            const minutes = parseInt(timeParts[1], 10);
+            day.setMinutes(minutes);
+        }
+        if (timeParts[2]) {
+            const seconds = parseInt(timeParts[2], 10);
+            day.setSeconds(seconds);
+        }
+
+        if (useTimezone) {
+            const minutes = day.getMinutes() - (day.getTimezoneOffset() - 180);
+            day.setMinutes(minutes);
+        }
+    }
+
+    return new DateTime(day);
 }
 
 /**
  * Formats the give date
- * @param {(Number|Date)} date
- * @param {String}        format
+ * @param {(Number|Date|String)} date
+ * @param {String}               format
  * @returns {String}
  */
 function formatDate(date, format) {
+    if (Utils.isString(date)) {
+        return fromString(String(date)).toString(format);
+    }
     return new DateTime(date).toString(format);
 }
 
 /**
+ * Formats the give date and time
+ * @param {String}   date
+ * @param {String}   time
+ * @param {String}   format
+ * @param {Boolean=} useTimezone
+ * @returns {String}
+ */
+function formatDateTime(date, time, format, useTimezone = false) {
+    return fromString(date, time, useTimezone).toString(format);
+}
+
+/**
  * Formats the give date
- * @param {(Number|Date)} date
- * @param {String}        format
+ * @param {(Number|Date|String)} date
+ * @param {String}               format
  * @returns {String}
  */
 function formatIf(date, format) {
     if (date) {
-        return new DateTime(date).toString(format);
+        return formatDate(date, format);
     }
     return "";
 }
@@ -1095,6 +1135,7 @@ export default {
     create,
     fromString,
     formatDate,
+    formatDateTime,
     formatIf,
     formatString,
     formatTime,
