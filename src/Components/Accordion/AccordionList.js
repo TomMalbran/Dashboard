@@ -19,20 +19,23 @@ function AccordionList(props) {
     const [ selected, setSelected ] = React.useState(0);
 
     // Handle the Click
-    const handleClick = (item, isDisabled) => () => {
+    const handleClick = (id, isDisabled) => () => {
         if (!isDisabled) {
-            setSelected(item);
+            setSelected(id);
             if (onChange) {
-                onChange(item);
+                onChange(id);
             }
         }
     };
 
-    const items = Utils.cloneChildren(children, (child, key) => ({
-        isFist     : key === 0,
-        isSelected : key === selected,
-        onClick    : handleClick(key, child.props.isDisabled),
-    }));
+    const items = Utils.cloneChildren(children, (child, index) => {
+        const id = child.props.value || index;
+        return {
+            isFist     : id === 0,
+            isSelected : id === selected,
+            onClick    : handleClick(id, child.props.isDisabled),
+        };
+    });
     
     
     return <div className={`accordion ${className}`}>

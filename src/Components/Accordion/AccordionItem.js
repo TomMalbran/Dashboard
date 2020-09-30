@@ -99,6 +99,7 @@ function AccordionItem(props) {
 AccordionItem.propTypes = {
     className  : PropTypes.string,
     message    : PropTypes.string.isRequired,
+    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     number     : PropTypes.number,
     icon       : PropTypes.string,
     isFirst    : PropTypes.bool,
@@ -114,6 +115,7 @@ AccordionItem.propTypes = {
  */
 AccordionItem.defaultProps = {
     className  : "",
+    value      : "",
     isFirst    : false,
     isSelected : false,
     isDisabled : false,
