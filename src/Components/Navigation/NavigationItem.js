@@ -69,7 +69,7 @@ const NavAmount = Styled.span`
 function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
-        elemID, isSelected, isDisabled, onAction, onClick, onClose, amount,
+        elemID, isSelected, isDisabled, usePrefix, onAction, onClick, onClose, amount,
         canEdit, canDelete, canCollapse, isCollapsed, children,
     } = props;
 
@@ -100,13 +100,24 @@ function NavigationItem(props) {
         e.preventDefault();
     };
 
+    // Returns true if the Menu should be selected
+    const shouldSelect = () => {
+        if (isSelected) {
+            return isSelected;
+        }
+        if (usePrefix) {
+            return path.startsWith(uri);
+        }
+        return path === uri;
+    }
+
     
     return <li>
         <Div>
             <MenuLink
                 variant={variant}
                 className={className}
-                isSelected={isSelected || path === uri}
+                isSelected={shouldSelect()}
                 isDisabled={isDisabled}
                 message={message}
                 html={html}
@@ -160,6 +171,7 @@ NavigationItem.propTypes = {
     isCollapsed : PropTypes.bool,
     isSelected  : PropTypes.bool,
     isDisabled  : PropTypes.bool,
+    usePrefix   : PropTypes.bool,
     children    : PropTypes.any,
 };
 
