@@ -13,14 +13,15 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
+const Li = Styled.li.attrs(({ topBorder, hasLink }) => ({ topBorder, hasLink }))`
     display: flex;
     align-items: center;
     padding: 8px;
     overflow: hidden;
     border-bottom: 1px solid var(--lighter-gray);
     transition: all 0.2s;
-    ${(props) => props.topBorder ? "border-top: 16px solid var(--lighter-gray)" : ""};
+    ${(props) => props.topBorder ? "border-top: 16px solid var(--lighter-gray);" : ""};
+    ${(props) => props.hasLink ? "cursor: pointer;" : ""};
 
     &:hover {
         background-color: var(--light-gray);
@@ -44,7 +45,7 @@ function handleClick(e, props) {
         return;
     }
 
-    const { href, url, target, onClick, isLink, isEmail, isPhone, message } = props;
+    const { href, url, target, onClick, isLink, isEmail, isPhone, isWhatsApp, message } = props;
     let uri     = url ? NLS.url(url) : href;
     let handled = false;
     
@@ -63,6 +64,8 @@ function handleClick(e, props) {
             uri = `mailto: ${message}`;
         } else if (isPhone) {
             uri = `tel: ${message}`;
+        } else if (isWhatsApp) {
+            uri = `https://api.whatsapp.com/send?phone=${message}`;
         }
         if (uri) {
             window.open(uri);
@@ -78,7 +81,10 @@ function handleClick(e, props) {
  * @returns {React.ReactElement}
  */
 function DetailItem(props) {
-    const { isHidden, className, message, icon, tooltip, prefix, withTip, showAlways, topBorder } = props;
+    const {
+        isHidden, className, message, icon, tooltip, prefix, withTip, showAlways, topBorder,
+        href, url, onClick, isLink, isEmail, isPhone, isWhatsApp,
+    } = props;
     
     if (isHidden || (!message && !showAlways)) {
         return <React.Fragment />;
@@ -91,9 +97,12 @@ function DetailItem(props) {
         content = `${NLS.get(tooltip)}: ${message}`;
     }
 
+    const hasLink = href || url || onClick || isLink || isEmail || isPhone || isWhatsApp
+
     return <Li
         className={className}
         topBorder={topBorder}
+        hasLink={hasLink}
         title={NLS.get(tooltip)}
         onClick={(e) => handleClick(e, props)}
     >
@@ -123,6 +132,7 @@ DetailItem.propTypes = {
     isLink     : PropTypes.bool,
     isEmail    : PropTypes.bool,
     isPhone    : PropTypes.bool,
+    isWhatsApp : PropTypes.bool,
 };
 
 /**
