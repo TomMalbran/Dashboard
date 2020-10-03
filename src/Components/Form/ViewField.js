@@ -6,6 +6,7 @@ import Styled               from "styled-components";
 import InputLabel           from "../Input/InputLabel";
 import InputContainer       from "../Input/InputContainer";
 import HyperLink            from "../Link/HyperLink";
+import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
 import MultiLine            from "../Common/MultiLine";
@@ -44,6 +45,12 @@ const InputContent = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
     }
 `;
 
+const ViewLink = Styled(IconLink)`
+    flex-shrink: 0;
+    font-size: 20px;
+    margin-left: 4px;
+`;
+
 
 
 /**
@@ -55,6 +62,7 @@ function ViewField(props) {
     const {
         isHidden, showEmpty, className, label, value, icon,
         fullWidth, smallMargin, noMargin, isSmall,
+        linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
     
     const content  = value === undefined ? "" : String(value);
@@ -62,6 +70,7 @@ function ViewField(props) {
     const isHtml   = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
     const isText   = !isLink && !isHtml;
     const hasLabel = !!label;
+    const hasLink  = Boolean(linkIcon);
 
     if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
@@ -86,6 +95,17 @@ function ViewField(props) {
             </div>}
             {isHtml && <Html className="inputview-value">{content}</Html>}
             {isText && <MultiLine className="inputview-value">{content}</MultiLine>}
+            {hasLink && <ViewLink
+                variant={linkVariant}
+                icon={linkIcon}
+                url={linkUrl}
+                href={linkHref}
+                target={linkTarget}
+                isEmail={isEmail}
+                isPhone={isPhone}
+                isWhatsApp={isWhatsApp}
+                onClick={onClick}
+            />}
         </InputContent>
     </InputContainer>;
 }
@@ -105,6 +125,15 @@ ViewField.propTypes = {
     noMargin    : PropTypes.bool,
     fullWidth   : PropTypes.bool,
     isSmall     : PropTypes.bool,
+    linkIcon    : PropTypes.string,
+    linkVariant : PropTypes.string,    
+    linkUrl     : PropTypes.string,    
+    linkHref    : PropTypes.string,    
+    linkTarget  : PropTypes.string,    
+    isEmail     : PropTypes.bool,
+    isPhone     : PropTypes.bool,
+    isWhatsApp  : PropTypes.bool,
+    onClick     : PropTypes.func,
 };
 
 /**
@@ -119,6 +148,10 @@ ViewField.defaultProps = {
     noMargin    : false,
     fullWidth   : false,
     isSmall     : false,
+    linkTarget  : "_blank",
+    isEmail     : false,
+    isPhone     : false,
+    isWhatsApp  : false,
 };
 
 export default ViewField;
