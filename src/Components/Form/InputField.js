@@ -36,7 +36,7 @@ const InputHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
-const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
+const InputInput = Styled(Input).attrs(({ isSmall, width }) => ({ isSmall, width }))`
     box-sizing: border-box;
     color: var(--black-color);
     background-color: white;
@@ -64,6 +64,21 @@ const InputInput = Styled(Input).attrs(({ isSmall }) => ({ isSmall }))`
     &.input:disabled, & .input:disabled {
         border-color: rgb(205, 205, 205);
         box-shadow: none;
+    }
+    &.input::placeholder, & .input::placeholder {
+        color: rgb(100, 100, 100);
+    }
+
+    &.inputfield-pre {
+        border-right: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        ${(props) => props.width ? `width: ${props.width}px` : ""};
+    }
+    &.inputfield-pre + .inputfield-input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        ${(props) => props.width ? `width: calc(100% - ${props.width}px)` : ""};
     }
 `;
 
@@ -114,6 +129,7 @@ function InputField(props) {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
         fullWidth, smallMargin, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
+        preType, preName, preValue, preOptions, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams,
     } = props;
 
@@ -214,6 +230,18 @@ function InputField(props) {
         />}
         <InputContent className="inputfield-cnt">
             {!!icon && <InputIcon icon={icon} />}
+            {!!preName && <InputInput
+                className="inputfield-input inputfield-pre"
+                type={preType}
+                name={preName}
+                value={preValue}
+                options={preOptions}
+                placeholder={prePlaceholder}
+                onChange={onChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                width={preWidth}
+            />}
             <InputInput
                 {...props}
                 className="inputfield-input"
@@ -259,55 +287,61 @@ function InputField(props) {
  * @typedef {Object} propTypes
  */
 InputField.propTypes = {
-    isHidden      : PropTypes.bool,
-    className     : PropTypes.string,
-    id            : PropTypes.string,
-    type          : PropTypes.string,
-    inputType     : PropTypes.string,
-    name          : PropTypes.string,
-    label         : PropTypes.string,
-    placeholder   : PropTypes.string,
-    icon          : PropTypes.string,
-    value         : PropTypes.any,
-    minValue      : PropTypes.number,
-    step          : PropTypes.string,
-    autoComplete  : PropTypes.string,
-    spellCheck    : PropTypes.string,
-    isRequired    : PropTypes.bool,
-    isDisabled    : PropTypes.bool,
-    onChange      : PropTypes.func,
-    onInput       : PropTypes.func,
-    onBlur        : PropTypes.func,
-    onSubmit      : PropTypes.func,
-    button        : PropTypes.string,
-    onClick       : PropTypes.func,
-    onKeyDown     : PropTypes.func,
-    onKeyUp       : PropTypes.func,
-    onMedia       : PropTypes.func,
-    onSuggest     : PropTypes.func,
-    suggestID     : PropTypes.string,
-    suggestFetch  : PropTypes.func,
-    suggestParams : PropTypes.object,
-    fieldButton   : PropTypes.string,
-    error         : PropTypes.string,
-    helperText    : PropTypes.string,
-    options       : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    extraOptions  : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    tabIndex      : PropTypes.string,
-    withLabel     : PropTypes.bool,
-    smallMargin   : PropTypes.bool,
-    noMargin      : PropTypes.bool,
-    fullWidth     : PropTypes.bool,
-    shrink        : PropTypes.bool,
-    isSmall       : PropTypes.bool,
-    withNone      : PropTypes.bool,
-    noneText      : PropTypes.string,
-    withCustom    : PropTypes.bool,
-    customFirst   : PropTypes.bool,
-    customText    : PropTypes.string,
-    customKey     : PropTypes.string,
-    hasClear      : PropTypes.bool,
-    autoFocus     : PropTypes.bool,
+    isHidden       : PropTypes.bool,
+    className      : PropTypes.string,
+    id             : PropTypes.string,
+    type           : PropTypes.string,
+    inputType      : PropTypes.string,
+    name           : PropTypes.string,
+    label          : PropTypes.string,
+    placeholder    : PropTypes.string,
+    icon           : PropTypes.string,
+    value          : PropTypes.any,
+    minValue       : PropTypes.number,
+    step           : PropTypes.string,
+    autoComplete   : PropTypes.string,
+    spellCheck     : PropTypes.string,
+    isRequired     : PropTypes.bool,
+    isDisabled     : PropTypes.bool,
+    onChange       : PropTypes.func,
+    onInput        : PropTypes.func,
+    onBlur         : PropTypes.func,
+    onSubmit       : PropTypes.func,
+    button         : PropTypes.string,
+    onClick        : PropTypes.func,
+    onKeyDown      : PropTypes.func,
+    onKeyUp        : PropTypes.func,
+    onMedia        : PropTypes.func,
+    onSuggest      : PropTypes.func,
+    suggestID      : PropTypes.string,
+    suggestFetch   : PropTypes.func,
+    suggestParams  : PropTypes.object,
+    fieldButton    : PropTypes.string,
+    error          : PropTypes.string,
+    helperText     : PropTypes.string,
+    options        : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    extraOptions   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    tabIndex       : PropTypes.string,
+    withLabel      : PropTypes.bool,
+    smallMargin    : PropTypes.bool,
+    noMargin       : PropTypes.bool,
+    fullWidth      : PropTypes.bool,
+    shrink         : PropTypes.bool,
+    isSmall        : PropTypes.bool,
+    withNone       : PropTypes.bool,
+    noneText       : PropTypes.string,
+    withCustom     : PropTypes.bool,
+    customFirst    : PropTypes.bool,
+    customText     : PropTypes.string,
+    customKey      : PropTypes.string,
+    hasClear       : PropTypes.bool,
+    autoFocus      : PropTypes.bool,
+    preType        : PropTypes.string,
+    preName        : PropTypes.string,
+    preValue       : PropTypes.any,
+    preOptions     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    prePlaceholder : PropTypes.string,
+    preWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 };
 
 /**
@@ -315,31 +349,35 @@ InputField.propTypes = {
  * @typedef {Object} defaultProps
  */
 InputField.defaultProps = {
-    isHidden      : false,
-    className     : "",
-    type          : InputType.TEXT,
-    inputType     : InputType.TEXT,
-    placeholder   : "",
-    autoComplete  : "off",
-    isRequired    : false,
-    isDisabled    : false,
-    options       : [],
-    extraOptions  : [],
-    suggestParams : {},
-    withLabel     : true,
-    smallMargin   : false,
-    noMargin      : false,
-    fullWidth     : false,
-    shrink        : false,
-    isSmall       : false,
-    withNone      : false,
-    noneText      : "",
-    withCustom    : false,
-    customFirst   : false,
-    customText    : "",
-    customKey     : "",
-    hasClear      : false,
-    autoFocus     : false,
+    isHidden       : false,
+    className      : "",
+    type           : InputType.TEXT,
+    inputType      : InputType.TEXT,
+    placeholder    : "",
+    autoComplete   : "off",
+    isRequired     : false,
+    isDisabled     : false,
+    options        : [],
+    extraOptions   : [],
+    suggestParams  : {},
+    withLabel      : true,
+    smallMargin    : false,
+    noMargin       : false,
+    fullWidth      : false,
+    shrink         : false,
+    isSmall        : false,
+    withNone       : false,
+    noneText       : "",
+    withCustom     : false,
+    customFirst    : false,
+    customText     : "",
+    customKey      : "",
+    hasClear       : false,
+    autoFocus      : false,
+    preType        : InputType.TEXT,
+    preOptions     : [],
+    prePlaceholder : "",
+
 };
 
 export default InputField;
