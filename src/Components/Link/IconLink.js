@@ -72,7 +72,7 @@ function IconLink(props) {
         isSmall={isSmall}
         href={Href.getUrl(props)}
         target={target}
-        onClick={(e) => Href.handleClick(e, props)}
+        onClick={(e) => Href.handleLink(e, props)}
         onTouchEnd={onTouchEnd}
     >
         <Icon icon={icon} />
@@ -86,10 +86,13 @@ function IconLink(props) {
 IconLink.propTypes = {
     className  : PropTypes.string,
     variant    : PropTypes.string,
+    icon       : PropTypes.string,
     href       : PropTypes.string,
     url        : PropTypes.string,
     target     : PropTypes.string,
-    icon       : PropTypes.string,
+    isEmail    : PropTypes.bool,
+    isPhone    : PropTypes.bool,
+    isWhatsApp : PropTypes.bool,
     onClick    : PropTypes.func,
     onTouchEnd : PropTypes.func,
     isDisabled : PropTypes.bool,
@@ -109,6 +112,9 @@ IconLink.defaultProps = {
     href       : "#",
     url        : "",
     target     : "_self",
+    isEmail    : false,
+    isPhone    : false,
+    isWhatsApp : false,
     isDisabled : false,
     isSmall    : false,
     dontStop   : false,

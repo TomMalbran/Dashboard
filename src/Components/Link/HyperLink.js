@@ -158,7 +158,7 @@ function HyperLink(props) {
         variant={variant}
         href={Href.getUrl(props)}
         target={target}
-        onClick={(e) => Href.handleClick(e, props)}
+        onClick={(e) => Href.handleLink(e, props)}
     >
         {html ? <Html className="link-content" variant="span">
             {html}
@@ -179,9 +179,9 @@ HyperLink.propTypes = {
     url        : PropTypes.string,
     target     : PropTypes.string,
     useBase    : PropTypes.bool,
-    isPhone    : PropTypes.bool,
     isEmail    : PropTypes.bool,
-    isWhatsapp : PropTypes.bool,
+    isPhone    : PropTypes.bool,
+    isWhatsApp : PropTypes.bool,
     onClick    : PropTypes.func,
     dontStop   : PropTypes.bool,
     passedRef  : PropTypes.any,
@@ -193,12 +193,15 @@ HyperLink.propTypes = {
  * @type {Object} defaultProps
  */
 HyperLink.defaultProps = {
-    className : "",
-    variant   : Variant.PRIMARY,
-    href      : "#",
-    url       : "",
-    target    : "_self",
-    dontStop  : false,
+    className  : "",
+    variant    : Variant.PRIMARY,
+    href       : "#",
+    url        : "",
+    target     : "_self",
+    isEmail    : false,
+    isPhone    : false,
+    isWhatsApp : false,
+    dontStop   : false,
 };
 
 export default HyperLink;

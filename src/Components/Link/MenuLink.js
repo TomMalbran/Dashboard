@@ -141,7 +141,7 @@ function MenuLink(props) {
         isDisabled={isDisabled}
         href={Href.getUrl(props)}
         target={target}
-        onClick={(e) => Href.handleClick(e, props)}
+        onClick={(e) => Href.handleLink(e, props)}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >
@@ -161,16 +161,16 @@ MenuLink.propTypes = {
     className    : PropTypes.string,
     variant      : PropTypes.string,
     message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    icon         : PropTypes.string,
+    afterIcon    : PropTypes.string,
+    badge        : PropTypes.number,
     html         : PropTypes.string,
     href         : PropTypes.string,
     url          : PropTypes.string,
     target       : PropTypes.string,
-    tel          : PropTypes.bool,
-    mail         : PropTypes.bool,
-    whatsapp     : PropTypes.bool,
-    icon         : PropTypes.string,
-    afterIcon    : PropTypes.string,
-    badge        : PropTypes.number,
+    isEmail      : PropTypes.bool,
+    isPhone      : PropTypes.bool,
+    isWhatsApp   : PropTypes.bool,
     onClick      : PropTypes.func,
     onMouseEnter : PropTypes.func,
     onMouseLeave : PropTypes.func,
@@ -191,6 +191,9 @@ MenuLink.defaultProps = {
     href       : "#",
     url        : "",
     target     : "_self",
+    isEmail    : false,
+    isPhone    : false,
+    isWhatsApp : false,
     badge      : 0,
     isSelected : false,
     isDisabled : false,

@@ -22,18 +22,18 @@ function init(theHistory) {
  * @returns {String}
  */
 function getUrl(data) {
-    const { href, url, message, useBase, isLink, isPhone, isEmail, isWhatsapp } = data;
+    const { href, url, message, useBase, isLink, isEmail, isPhone, isWhatsApp } = data;
     let result = href;
     if (url) {
         result = useBase ? NLS.baseUrl(url) : NLS.url(url);
     } else if (isLink) {
         result = !message.startsWith("http") ? `http://${message}` : message;
-    } else if (isPhone) {
-        result = `tel:${href || message}`;
     } else if (isEmail) {
         result = `mailto:${href || message}`;
-    } else if (isWhatsapp) {
-        result = `https://api.whatsapp.com/send?phone=549${href || message}`;
+    } else if (isPhone) {
+        result = `tel:${href || message}`;
+    } else if (isWhatsApp) {
+        result = `https://api.whatsapp.com/send?phone=${href || message}`;
     }
     return result;
 }
@@ -89,7 +89,30 @@ function handleUrl(url, target) {
  * @returns {Void}
  */
 function handleClick(e, props) {
-    const { isDisabled, onClick, isPhone, isEmail, isWhatsapp, dontStop } = props;
+    const { target, onClick, isPhone, isEmail, isWhatsApp } = props;
+    const url = getUrl(props);
+    
+    if (onClick) {
+        onClick(e);
+    }
+    if (isEmail || isPhone || isWhatsApp) {
+        window.open(url);
+    } else {
+        handleUrl(url, target);
+    }
+
+    e.stopPropagation();
+    e.preventDefault();
+}
+
+/**
+ * Handles the Link
+ * @param {Object} e
+ * @param {Object} props
+ * @returns {Void}
+ */
+function handleLink(e, props) {
+    const { isDisabled, onClick, isPhone, isEmail, isWhatsApp, dontStop } = props;
     const url     = getUrl(props);
     let   handled = false;
 
@@ -100,7 +123,7 @@ function handleClick(e, props) {
             onClick(e);
             handled = true;
         }
-        if (!isPhone && !isEmail && !isWhatsapp && handleInternal(url)) {
+        if (!isPhone && !isEmail && !isWhatsApp && handleInternal(url)) {
             handled = true;
         }
     }
@@ -141,6 +164,7 @@ export default {
     handleInternal,
     handleUrl,
     handleClick,
+    handleLink,
 
     goto,
     gotoBlank,

@@ -13,7 +13,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li.attrs(({ topBorder, hasLink }) => ({ topBorder, hasLink }))`
+const Li = Styled.li.attrs(({ topBorder, isLink }) => ({ topBorder, isLink }))`
     display: flex;
     align-items: center;
     padding: 8px;
@@ -21,7 +21,7 @@ const Li = Styled.li.attrs(({ topBorder, hasLink }) => ({ topBorder, hasLink }))
     border-bottom: 1px solid var(--lighter-gray);
     transition: all 0.2s;
     ${(props) => props.topBorder ? "border-top: 16px solid var(--lighter-gray);" : ""};
-    ${(props) => props.hasLink ? "cursor: pointer;" : ""};
+    ${(props) => props.isLink ? "cursor: pointer;" : ""};
 
     &:hover {
         background-color: var(--light-gray);
@@ -34,48 +34,6 @@ const Li = Styled.li.attrs(({ topBorder, hasLink }) => ({ topBorder, hasLink }))
 
 
 /**
- * Handles the Click
- * @param {React.MouseEvent} e
- * @param {Object} props
- * @returns {Void}
- */
-function handleClick(e, props) {
-    e.preventDefault();
-    if (Utils.hasSelection()) {
-        return;
-    }
-
-    const { href, url, target, onClick, isLink, isEmail, isPhone, isWhatsApp, message } = props;
-    let uri     = url ? NLS.url(url) : href;
-    let handled = false;
-    
-    if (onClick) {
-        onClick(e);
-        handled = true;
-    }
-    if (Href.handleUrl(uri, target)) {
-        handled = true;
-    }
-
-    if (!handled) {
-        if (isLink) {
-            uri = !message.startsWith("http") ? `http://${message}` : message;
-        } else if (isEmail) {
-            uri = `mailto: ${message}`;
-        } else if (isPhone) {
-            uri = `tel: ${message}`;
-        } else if (isWhatsApp) {
-            uri = `https://api.whatsapp.com/send?phone=${message}`;
-        }
-        if (uri) {
-            window.open(uri);
-        }
-    }
-}
-
-
-
-/**
  * The Detail Item Component
  * @param {Object} props
  * @returns {React.ReactElement}
@@ -83,28 +41,34 @@ function handleClick(e, props) {
 function DetailItem(props) {
     const {
         isHidden, className, message, icon, tooltip, prefix, withTip, showAlways, topBorder,
-        href, url, onClick, isLink, isEmail, isPhone, isWhatsApp,
+        href, url, onClick, isEmail, isPhone, isWhatsApp,
     } = props;
-    
+
     if (isHidden || (!message && !showAlways)) {
         return <React.Fragment />;
     }
+
+    // Handles the Click
+    const handleClick = (e) => {
+        if (!Utils.hasSelection()) {
+            Href.handleClick(e, props);
+        }
+    }
     
-    let content = message;
+    const isLink = href || url || onClick || isEmail || isPhone || isWhatsApp
+    let content  = message;
     if (prefix) {
         content = `${NLS.get(prefix)}: ${message}`;
     } else if (withTip) {
         content = `${NLS.get(tooltip)}: ${message}`;
     }
 
-    const hasLink = href || url || onClick || isLink || isEmail || isPhone || isWhatsApp
-
     return <Li
         className={className}
         topBorder={topBorder}
-        hasLink={hasLink}
+        isLink={isLink}
         title={NLS.get(tooltip)}
-        onClick={(e) => handleClick(e, props)}
+        onClick={handleClick}
     >
         <Icon icon={icon} />
         {content}
@@ -125,14 +89,13 @@ DetailItem.propTypes = {
     href       : PropTypes.string,
     url        : PropTypes.string,
     target     : PropTypes.string,
+    isEmail    : PropTypes.bool,
+    isPhone    : PropTypes.bool,
+    isWhatsApp : PropTypes.bool,
     onClick    : PropTypes.func,
     withTip    : PropTypes.bool,
     topBorder  : PropTypes.bool,
     showAlways : PropTypes.bool,
-    isLink     : PropTypes.bool,
-    isEmail    : PropTypes.bool,
-    isPhone    : PropTypes.bool,
-    isWhatsApp : PropTypes.bool,
 };
 
 /**
@@ -140,9 +103,12 @@ DetailItem.propTypes = {
  * @typedef {Object} defaultProps
  */
 DetailItem.defaultProps = {
-    isHidden  : false,
-    className : "",
-    target    : "_self",
+    isHidden   : false,
+    className  : "",
+    target     : "_self",
+    isEmail    : false,
+    isPhone    : false,
+    isWhatsApp : false,
 };
 
 export default DetailItem;

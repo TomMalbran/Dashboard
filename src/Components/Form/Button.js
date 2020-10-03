@@ -173,23 +173,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
  */
 function Button(props) {
     const {
-        className, message, variant, isDisabled, isSmall, fullWidth, icon, afterIcon,
-        onClick, target, children,
+        className, variant, isDisabled, isSmall, fullWidth,
+        icon, afterIcon, message, children,
     } = props;
 
-    const url      = Href.getUrl(props);
     const content  = children || NLS.get(message);
     const withIcon = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
-
-    // Handles the Click
-    const handleClick = (e) => {
-        if (onClick) {
-            onClick(e);
-        }
-        Href.handleUrl(url, target);
-        e.stopPropagation();
-        e.preventDefault();
-    };
     
 
     return <Btn
@@ -199,7 +188,7 @@ function Button(props) {
         isSmall={isSmall}
         fullWidth={fullWidth}
         withIcon={withIcon}
-        onClick={handleClick}
+        onClick={(e) => Href.handleClick(e, props)}
     >
         {!!icon      && <Icon className="btn-preicon" icon={icon} />}
         {!!content   && <span className="btn-content">{content}</span>}
@@ -221,6 +210,9 @@ Button.propTypes = {
     href       : PropTypes.string,
     url        : PropTypes.string,
     target     : PropTypes.string,
+    isEmail    : PropTypes.bool,
+    isPhone    : PropTypes.bool,
+    isWhatsApp : PropTypes.bool,
     icon       : PropTypes.string,
     afterIcon  : PropTypes.string,
     onClick    : PropTypes.func,
@@ -239,6 +231,9 @@ Button.defaultProps = {
     href       : "",
     url        : "",
     target     : "_self",
+    isEmail    : false,
+    isPhone    : false,
+    isWhatsApp : false,
 };
 
 export default Button;
