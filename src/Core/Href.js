@@ -155,6 +155,15 @@ function gotoBlank(...args) {
     window.open(url);
 }
 
+/**
+ * Reloads to the given internal URL
+ * @param {...(String|Number)} args
+ * @returns {Void}
+ */
+function reload(...args) {
+    window.location.href = NLS.fullUrl(...args);
+}
+
 
 
 // The public API
@@ -168,4 +177,5 @@ export default {
 
     goto,
     gotoBlank,
+    reload,
 };

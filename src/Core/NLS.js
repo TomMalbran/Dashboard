@@ -176,13 +176,22 @@ function url(...args) {
 }
 
 /**
- * Returns the baseUrl with the given arguments
+ * Returns the base Url with the given arguments
  * @param {...(String|Number)} args
  * @returns {String}
  */
 function baseUrl(...args) {
     const result = url(...args);
     return result[0] !== "/" ? `/${result}` : result;
+}
+
+/**
+ * Returns the full Url with the given arguments
+ * @param {...(String|Number)} args
+ * @returns {String}
+ */
+function fullUrl(...args) {
+    return process.env.REACT_APP_URL + url(...args);
 }
 
 
@@ -224,6 +233,7 @@ export default {
 
     url,
     baseUrl,
+    fullUrl,
 
     getSection,
     getAction,
