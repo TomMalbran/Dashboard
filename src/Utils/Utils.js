@@ -96,6 +96,55 @@ function createSlug(value) {
     return result;
 }
 
+/**
+ * Formats a number
+ * @param {Number}  number
+ * @param {Number=} decimals
+ * @returns {String}
+ */
+function formatNumber(number, decimals = 2) {
+    const amount  = Math.pow(10, decimals);
+    const float   = Math.round(number * amount) / amount;
+    const integer = Math.floor(float);
+    let   result  = String(integer);
+    
+    if (float < 1000) {
+        const fraction = Math.round(float * amount - integer * amount);
+        const start    = String(fraction).length;
+
+        result = String(`${integer}.${fraction}`);
+        for (let i = start; i < decimals; i++) {
+            result += "0";
+        }
+    }
+
+    const parts = result.split(".");
+    parts[0]    = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return parts.join(",");
+}
+
+/**
+ * Gives an html format to prices
+ * @param {Number}   price
+ * @param {Boolean=} skipZeros
+ * @param {String=}  zeroStr
+ * @param {String=}  symbol
+ * @returns {String}
+ */
+function formatPrice(price, skipZeros, zeroStr, symbol = "$") {
+    if (skipZeros && price === 0) {
+        return zeroStr || "";
+    }
+    
+    const sign     = price < 0 ? "-" : "";
+    const positive = Math.abs(price);
+    const noCents  = Math.floor(positive);
+    const cents    = Math.round(positive * 100 - noCents * 100);
+    const centsStr = cents < 10 ? "0" + cents : String(cents);
+    
+    return `${symbol} ${sign}${noCents.toLocaleString()}<sup>${centsStr}</sup>`;
+}
+
 
 
 /**
@@ -233,7 +282,6 @@ function extend(primary, secondary, noBinary = false) {
     }
     return result;
 }
-
 
 /**
  * Uses the keys from primary and adds the secondary values if are not set
@@ -451,6 +499,8 @@ export default {
     hasSelection,
     unselectAll,
     createSlug,
+    formatNumber,
+    formatPrice,
 
     concat,
     removePrefix,
