@@ -70,7 +70,7 @@ function DetailItem(props) {
         title={NLS.get(tooltip)}
         onClick={handleClick}
     >
-        <Icon icon={icon} />
+        {!!icon && <Icon icon={icon} />}
         {content}
     </Li>;
 }
@@ -83,7 +83,7 @@ DetailItem.propTypes = {
     isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    icon       : PropTypes.string.isRequired,
+    icon       : PropTypes.string,
     tooltip    : PropTypes.string,
     prefix     : PropTypes.string,
     href       : PropTypes.string,
