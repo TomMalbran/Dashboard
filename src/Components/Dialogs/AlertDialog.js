@@ -53,7 +53,7 @@ AlertDialog.propTypes = {
     open    : PropTypes.bool.isRequired,
     icon    : PropTypes.string,
     title   : PropTypes.string.isRequired,
-    message : PropTypes.string.isRequired,
+    message : PropTypes.string,
     content : PropTypes.string,
     onClose : PropTypes.func.isRequired,
 };
@@ -63,7 +63,8 @@ AlertDialog.propTypes = {
  * @typedef {Object} defaultProps
  */
 AlertDialog.defaultProps = {
-    icon : "view",
+    icon    : "view",
+    message : "",
 };
 
 export default AlertDialog;
