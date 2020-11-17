@@ -70,7 +70,7 @@ function ViewField(props) {
     const isHtml   = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
     const isText   = !isLink && !isHtml;
     const hasLabel = !!label;
-    const hasLink  = Boolean(linkIcon);
+    const hasLink  = Boolean(linkIcon && linkHref);
 
     if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
