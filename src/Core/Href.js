@@ -17,6 +17,33 @@ function init(theHistory) {
 
 
 /**
+ * Returns the Email Url
+ * @param {String} email
+ * @return {String}
+ */
+function getEmail(email) {
+    return `mailto:${email}`;
+}
+
+/**
+ * Returns the Phone Url
+ * @param {String} phone
+ * @return {String}
+ */
+function getPhone(phone) {
+    return `tel:${phone}`;
+}
+
+/**
+ * Returns the WhatsApp Url
+ * @param {String} whatsapp
+ * @return {String}
+ */
+function getWhatsApp(whatsapp) {
+    return `https://api.whatsapp.com/send?phone=${whatsapp}`;
+}
+
+/**
  * Returns the Url
  * @param {Object} data
  * @returns {String}
@@ -29,14 +56,16 @@ function getUrl(data) {
     } else if (isLink) {
         result = !message.startsWith("http") ? `http://${message}` : message;
     } else if (isEmail) {
-        result = `mailto:${href || message}`;
+        result = getEmail(href || message);
     } else if (isPhone) {
-        result = `tel:${href || message}`;
+        result = getPhone(href || message);
     } else if (isWhatsApp) {
-        result = `https://api.whatsapp.com/send?phone=${href || message}`;
+        result = getWhatsApp(href || message);
     }
     return result;
 }
+
+
 
 /**
  * Handles an Internal URL
@@ -136,7 +165,7 @@ function handleLink(e, props) {
 
 
 /**
- * Goes to the given internal URL
+ * Goes to the given URL
  * @param {...(String|Number)} args
  * @returns {Void}
  */
@@ -146,7 +175,7 @@ function goto(...args) {
 }
 
 /**
- * Goes to the given external URL
+ * Goes to the given URL on a new tab
  * @param {...(String|Number)} args
  * @returns {Void}
  */
@@ -156,12 +185,26 @@ function gotoBlank(...args) {
 }
 
 /**
- * Reloads to the given internal URL
+ * Reloads to the given URL reloading the tab
  * @param {...(String|Number)} args
  * @returns {Void}
  */
 function reload(...args) {
     window.location.href = NLS.fullUrl(...args);
+}
+
+/**
+ * Goes to the given external URL
+ * @param {String}  url
+ * @param {Boolean} isBlank
+ * @returns {Void}
+ */
+function gotoUrl(url, isBlank) {
+    if (isBlank) {
+        window.open(url);
+    } else {
+        window.location.href = url;
+    }
 }
 
 
@@ -170,6 +213,10 @@ function reload(...args) {
 export default {
     init,
     getUrl,
+    getEmail,
+    getPhone,
+    getWhatsApp,
+
     handleInternal,
     handleUrl,
     handleClick,
@@ -178,4 +225,5 @@ export default {
     goto,
     gotoBlank,
     reload,
+    gotoUrl,
 };
