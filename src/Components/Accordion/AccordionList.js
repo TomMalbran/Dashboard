@@ -6,7 +6,6 @@ import Utils                from "../../Utils/Utils";
 
 
 
-
 /**
  * The Accordion List Component
  * @param {Object} props

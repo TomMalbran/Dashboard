@@ -45,7 +45,7 @@ const Name = Styled.div`
     margin-bottom: 8px;
     white-space: nowrap;
     letter-spacing: 2px;
-    color: var(--border-color);
+    color: rgba(255, 255, 255, 0.2);
     font-size: 20px;
     font-weight: 800;
     font-family: var(--title-font);
