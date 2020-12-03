@@ -196,6 +196,10 @@ function InputField(props) {
             node.focus();
         }
         setValue(Boolean(value));
+        if (suggestRef && suggestRef.current) {
+            // @ts-ignore
+            suggestRef.current.initValue(value);
+        }
     }, []);
 
     // Clear the Timer

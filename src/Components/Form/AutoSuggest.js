@@ -58,6 +58,12 @@ function AutoSuggest(props) {
     const [ selectedIdx, setSelectedIdx ] = React.useState(0);
     const [ selectedVal, setSelectedVal ] = React.useState("");
 
+    // Initializes the Value
+    const initValue = async (newValue) => {
+        setValue(newValue);
+        setSelectedVal(newValue);
+    }
+
     // Sets the Value
     const setNewValue = async (newValue) => {
         if (value !== newValue && selectedVal !== newValue) {
@@ -123,6 +129,7 @@ function AutoSuggest(props) {
     React.useEffect(() => {
         suggestRef.current = {
             apply      : applySelection,
+            initValue  : initValue,
             setValue   : setNewValue,
             selectNext : selectNext,
             selectPrev : selectPrev,
