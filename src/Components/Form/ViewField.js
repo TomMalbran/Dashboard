@@ -60,7 +60,7 @@ const ViewLink = Styled(IconLink)`
  */
 function ViewField(props) {
     const {
-        isHidden, showEmpty, className, label, value, icon,
+        isHidden, showEmpty, className, viewClass, label, value, icon,
         fullWidth, smallMargin, noMargin, isSmall,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
@@ -94,7 +94,9 @@ function ViewField(props) {
                 <HyperLink variant="primary" href={content} message={content} target="_blank" />
             </div>}
             {isHtml && <Html className="inputview-value">{content}</Html>}
-            {isText && <MultiLine className="inputview-value">{content}</MultiLine>}
+            {isText && <MultiLine className={`inputview-value ${viewClass}`}>
+                {content}
+            </MultiLine>}
             {hasLink && <ViewLink
                 variant={linkVariant}
                 icon={linkIcon}
@@ -118,6 +120,7 @@ ViewField.propTypes = {
     isHidden    : PropTypes.bool,
     showEmpty   : PropTypes.bool,
     className   : PropTypes.string,
+    viewClass   : PropTypes.string,
     label       : PropTypes.string,
     icon        : PropTypes.string,
     value       : PropTypes.any,
@@ -144,6 +147,7 @@ ViewField.defaultProps = {
     isHidden    : false,
     showEmpty   : false,
     className   : "",
+    viewClass   : "",
     smallMargin : false,
     noMargin    : false,
     fullWidth   : false,
