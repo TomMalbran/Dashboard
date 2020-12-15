@@ -9,11 +9,13 @@ import PropTypes            from "prop-types";
  * @returns {React.ReactElement}
  */
 function Downloader(props) {
-    const { download, source } = props;
+    const { download, source, onLoad } = props;
 
     if (!download) {
         return <React.Fragment />;
     }
+    React.useEffect(() => onLoad, [ source ]);
+
     return <iframe
         title="Downloader"
         name="downloader"
@@ -29,6 +31,7 @@ function Downloader(props) {
 Downloader.propTypes = {
     download : PropTypes.bool.isRequired,
     source   : PropTypes.string.isRequired,
+    onLoad   : PropTypes.func.isRequired,
 };
 
 export default Downloader;
