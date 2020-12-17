@@ -1,4 +1,5 @@
 import React                from "react";
+import NLS                  from "../Core/NLS";
 
 
 
@@ -143,6 +144,16 @@ function formatPrice(price, skipZeros, zeroStr, symbol = "$") {
     const centsStr = cents < 10 ? "0" + cents : String(cents);
     
     return `${symbol} ${sign}${noCents.toLocaleString()}<sup>${centsStr}</sup>`;
+}
+
+/**
+ * Returns the Page Text
+ * @param {Number} currentPage
+ * @param {Number} totalPages
+ * @returns {String}
+ */
+function getPageText(currentPage, totalPages) {
+    return NLS.format("GENERAL_PAGE", String(currentPage), String(totalPages));
 }
 
 
@@ -501,6 +512,7 @@ export default {
     createSlug,
     formatNumber,
     formatPrice,
+    getPageText,
 
     concat,
     removePrefix,
