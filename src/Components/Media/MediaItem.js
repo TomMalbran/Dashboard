@@ -80,6 +80,10 @@ const MediaActions = Styled.div`
     background-color: var(--light-gray);
 `;
 
+const Image = Styled.img`
+    pointer-events: none;
+`;
+
 
 
 /**
@@ -88,8 +92,8 @@ const MediaActions = Styled.div`
  * @returns {React.ReactElement}
  */
 function MediaItem(props) {
-    const { isSelected, hasActions, onAction, elem                    } = props;
-    const { isFile, isImage, isTransparent, icon, source, thumb, name } = elem;
+    const { isSelected, hasActions, onAction, elem, className, style, onMouseDown } = props;
+    const { isFile, isImage, isTransparent, icon, source, thumb, name             } = elem;
 
     const select = Action.get("SELECT");
     const view   = Action.get("VIEW");
@@ -107,15 +111,24 @@ function MediaItem(props) {
 
 
     return <Div
+        className={className}
+        style={style}
         isSelected={isSelected}
         hasActions={hasActions}
         onClick={(e) => handleAction(e, select)}
     >
-        {isFile && <MediaElem className="media-icon">
+        {isFile && <MediaElem
+            className="media-icon"
+            onMouseDown={onMouseDown}
+        >
             <Icon icon={icon} />
         </MediaElem>}
-        {isImage && <MediaElem className="media-image" isTransparent={isTransparent}>
-            <img src={thumb || source} alt={name} />
+        {isImage && <MediaElem
+            className="media-image"
+            isTransparent={isTransparent}
+            onMouseDown={onMouseDown}
+        >
+            <Image src={thumb || source} alt={name} />
         </MediaElem>}
         <MediaName className="media-name">
             {name}
@@ -134,10 +147,21 @@ function MediaItem(props) {
  * @type {Object} propTypes
  */
 MediaItem.propTypes = {
-    isSelected : PropTypes.bool,
-    hasActions : PropTypes.bool,
-    elem       : PropTypes.object,
-    onAction   : PropTypes.func,
+    isSelected  : PropTypes.bool,
+    hasActions  : PropTypes.bool,
+    elem        : PropTypes.object,
+    className   : PropTypes.string,
+    style       : PropTypes.object,
+    onAction    : PropTypes.func,
+    onMouseDown : PropTypes.func,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+MediaItem.defaultProps = {
+    className : "",
 };
 
 export default MediaItem;

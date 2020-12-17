@@ -54,6 +54,21 @@ function getBounds(ref) {
 }
 
 /**
+ * Returns true if the given Point is in the Bounds
+ * @param {Number}  x
+ * @param {Number}  y
+ * @param {Object}  bounds
+ * @param {Number=} scrollTop
+ * @returns {Boolean}
+ */
+function inBounds(x, y, bounds, scrollTop = 0) {
+    return (
+        y > bounds.top - scrollTop && y < bounds.bottom &&
+        x > bounds.left && x < bounds.right
+    );
+}
+
+/**
  * Returns true if something is Selected
  * @returns {Boolean}
  */
@@ -507,6 +522,7 @@ export default {
     clone,
     clamp,
     getBounds,
+    inBounds,
     hasSelection,
     unselectAll,
     createSlug,
