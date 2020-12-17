@@ -77,7 +77,20 @@ const Link = Styled(HyperLink)`
  * @returns {React.ReactElement}
  */
 function Breadcrumb(props) {
-    const { className, route } = props;
+    const { className, route, onClick } = props;
+
+    if (!route) {
+        return <React.Fragment />;
+    }
+
+    // Handles the Click
+    const handleClick = (e, href) => {
+        if (onClick) {
+            onClick(href);
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    };
 
     const parts = route.split("/");
     const items = [{ key : 0, href : "/", message : "GENERAL_START" }];
@@ -97,7 +110,12 @@ function Breadcrumb(props) {
 
     return <Ul className={className}>
         {items.map(({ key, href, message }) => <Li key={key}>
-            <Link variant="none" href={href} message={message} />
+            <Link
+                variant="none"
+                href={onClick ? "#" : href}
+                onClick={(e) => handleClick(e, href)}
+                message={message}
+            />
         </Li>)}
     </Ul>;
 }
@@ -108,7 +126,8 @@ function Breadcrumb(props) {
  */
 Breadcrumb.propTypes = {
     className : PropTypes.string,
-    route     : PropTypes.string.isRequired,
+    route     : PropTypes.string,
+    onClick   : PropTypes.func,
 };
 
 /**
