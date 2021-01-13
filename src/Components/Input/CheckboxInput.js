@@ -55,7 +55,7 @@ const Span = Styled(Icon)`
  * @returns {React.ReactElement}
  */
 function CheckboxInput(props) {
-    const { className, id, name, value, label, tabIndex, isChecked, onChange } = props;
+    const { className, id, name, value, label, tabIndex, isChecked, isDisabled, onChange } = props;
 
     // Handles the Change
     const handleChange = (e) => {
@@ -70,6 +70,7 @@ function CheckboxInput(props) {
             name={name}
             value={value}
             checked={isChecked}
+            disabled={isDisabled}
             onChange={handleChange}
             tabIndex={tabIndex}
         />
@@ -83,14 +84,15 @@ function CheckboxInput(props) {
  * @type {Object} propTypes
  */
 CheckboxInput.propTypes = {
-    className : PropTypes.string,
-    id        : PropTypes.string,
-    name      : PropTypes.string.isRequired,
-    value     : PropTypes.any,
-    label     : PropTypes.string.isRequired,
-    tabIndex  : PropTypes.string,
-    isChecked : PropTypes.bool,
-    onChange  : PropTypes.func.isRequired,
+    className  : PropTypes.string,
+    id         : PropTypes.string,
+    name       : PropTypes.string.isRequired,
+    value      : PropTypes.any,
+    label      : PropTypes.string.isRequired,
+    tabIndex   : PropTypes.string,
+    isChecked  : PropTypes.bool,
+    isDisabled : PropTypes.bool,
+    onChange   : PropTypes.func.isRequired,
 };
 
 /**
@@ -98,8 +100,9 @@ CheckboxInput.propTypes = {
  * @type {Object} defaultProps
  */
 CheckboxInput.defaultProps = {
-    className : "",
-    isChecked : false,
+    className  : "",
+    isChecked  : false,
+    isDisabled : false,
 };
 
 export default CheckboxInput;
