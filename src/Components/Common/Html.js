@@ -25,7 +25,7 @@ const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
  * @returns {React.ReactElement}
  */
 function Html(props) {
-    const { variant, linkify, className, content, children } = props;
+    const { variant, linkify, addBreaks, className, content, children } = props;
     let __html = String(content || children);
 
     if (linkify) {
@@ -33,6 +33,9 @@ function Html(props) {
             .replace(urlPattern, '<a href="$&">$&</a>')
             .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
             .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+    }
+    if (addBreaks) {
+        __html = __html.replace(/\n/g, "<br />");
     }
 
     switch (variant) {
@@ -74,6 +77,7 @@ Html.propTypes = {
     content   : PropTypes.string,
     children  : PropTypes.string,
     linkify   : PropTypes.bool,
+    addBreaks : PropTypes.bool,
 };
 
 /**
@@ -83,6 +87,8 @@ Html.propTypes = {
 Html.defaultProps = {
     variant   : Variant.DIV,
     className : "",
+    linkify   : false,
+    addBreaks : false,
 };
 
 export default Html;
