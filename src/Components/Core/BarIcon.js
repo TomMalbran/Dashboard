@@ -47,8 +47,11 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function BarIcon(props) {
-    const { variant, className, icon, onClick } = props;
+    const { isHidden, className, variant, icon, onClick } = props;
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Div className={className} variant={variant} onClick={onClick}>
         <Icon icon={icon} />
     </Div>;
@@ -59,6 +62,7 @@ function BarIcon(props) {
  * @type {Object} propTypes
  */
 BarIcon.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     variant   : PropTypes.string,
     icon      : PropTypes.string.isRequired,
@@ -70,6 +74,7 @@ BarIcon.propTypes = {
  * @type {Object} defaultProps
  */
 BarIcon.defaultProps = {
+    isHidden  : false,
     className : "",
     variant   : Brightness.LIGHT,
 };
