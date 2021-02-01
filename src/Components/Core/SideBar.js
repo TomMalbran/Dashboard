@@ -75,6 +75,7 @@ function SideBar(props) {
         logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarData, avatarUrl, avatarEdition,
+        children,
     } = props;
 
     // Handles the Search Click
@@ -112,6 +113,7 @@ function SideBar(props) {
                 icon="add"
                 onClick={handleCreate}
             />}
+            {children}
         </Div>
         <Div>
             {!!message && <Name>{NLS.get(message)}</Name>}
@@ -151,6 +153,7 @@ SideBar.propTypes = {
     avatarData    : PropTypes.object,
     avatarEdition : PropTypes.number,
     withBorder    : PropTypes.bool,
+    children      : PropTypes.any,
 };
 
 /**
