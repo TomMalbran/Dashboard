@@ -361,7 +361,7 @@ function getValue(data, idKey, idValue, key, defValue) {
             return key ? elem[key] : elem;
         }
     }
-    if (defValue) {
+    if (defValue !== undefined) {
         return defValue;
     }
     return key ? "" : {};
