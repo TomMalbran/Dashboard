@@ -31,7 +31,7 @@ function PDFViewer(props) {
     React.useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
-    });
+    }, []);
 
 
     return <Document
