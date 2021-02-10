@@ -7,7 +7,7 @@ import Styled               from "styled-components";
 // Styles
 const Li = Styled.li.attrs(({ columns }) => ({ columns }))`
     display: grid;
-    grid-template-columns: 3fr ${(props) => "1fr ".repeat(props.columns - 1)};
+    grid-template-columns: 2fr ${(props) => "1fr ".repeat(props.columns - 1)};
     grid-gap: 16px;
     color: var(--black-color);
     
