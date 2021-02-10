@@ -17,10 +17,10 @@ const Div = Styled.div.attrs(({ noSpace }) => ({ noSpace }))`
     ${(props) => props.noSpace ? "margin: 0;" : "margin: 0 0 32px 0;"}
 `;
 
-const Content = Styled(Html)`
-    margin: 0 0 32px 0;
+const Content = Styled(Html).attrs(({ noSpace }) => ({ noSpace }))`
     color: var(--black-color);
     font-weight: 400;
+    ${(props) => props.noSpace ? "margin: 0;" : "margin: 0 0 32px 0;"}
 
     & + & {
         margin-top: -16px;
@@ -46,7 +46,7 @@ function DialogMessage(props) {
             {children}
         </Div>;
     }
-    return <Content variant={variant} className={className}>
+    return <Content variant={variant} className={className} noSpace={noSpace}>
         {content}
     </Content>;
 }
