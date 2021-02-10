@@ -64,7 +64,7 @@ const Input = Styled.input`
  * @returns {React.ReactElement}
  */
 function FileInput(props) {
-    const { className, name, value, placeholder, tabIndex, onChange } = props;
+    const { className, name, value, placeholder, tabIndex, onChange, onlyImages } = props;
 
     const [ fileName, setFileName ] = React.useState(value);
     const inputRef                  = React.useRef();
@@ -101,6 +101,7 @@ function FileInput(props) {
             ref={inputRef}
             onChange={handleChange}
             tabIndex={tabIndex}
+            accept={onlyImages ? "image/*" : ""}
         />
     </Container>;
 }
@@ -116,6 +117,7 @@ FileInput.propTypes = {
     placeholder : PropTypes.string,
     tabIndex    : PropTypes.string,
     onChange    : PropTypes.func.isRequired,
+    onlyImages  : PropTypes.bool,
 };
 
 /**
@@ -123,7 +125,8 @@ FileInput.propTypes = {
  * @type {Object} defaultProps
  */
 FileInput.defaultProps = {
-    className : "",
+    className  : "",
+    onlyImages : false,
 };
 
 export default FileInput;
