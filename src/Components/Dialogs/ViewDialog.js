@@ -18,7 +18,7 @@ function ViewDialog(props) {
     const {
         open, title, icon, className,
         isLoading, isNarrow, isWide, fullHeight, withSpacing,
-        secondary, onSecondary, onClose, children,
+        secondary, onSecondary, cancel, onClose, children,
     } = props;
 
     return <Dialog
@@ -39,7 +39,7 @@ function ViewDialog(props) {
         <DialogFooter
             secondary={secondary}
             onSecondary={onSecondary}
-            cancel="GENERAL_CLOSE"
+            cancel={cancel}
         />
     </Dialog>;
 }
@@ -60,6 +60,7 @@ ViewDialog.propTypes = {
     withSpacing : PropTypes.bool,
     secondary   : PropTypes.string,
     onSecondary : PropTypes.func,
+    cancel      : PropTypes.string,
     onClose     : PropTypes.func.isRequired,
     children    : PropTypes.any,
 };
@@ -70,6 +71,7 @@ ViewDialog.propTypes = {
  */
 ViewDialog.defaultProps = {
     className   : "",
+    cancel      : "GENERAL_CLOSE",
     isLoading   : false,
     isNarrow    : false,
     isWide      : false,
