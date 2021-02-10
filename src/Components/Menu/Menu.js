@@ -78,8 +78,9 @@ function Menu(props) {
     }, [ open ]);
 
 
+    // Set the position
     if (hasStyles) {
-        style.top =`${top}px`;
+        style.top = `${top}px`;
         if (left) {
             const newLeft = (direction === "left") ? left - width : left;
             style.left = `${newLeft}px`;
