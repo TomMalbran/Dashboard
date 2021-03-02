@@ -79,6 +79,7 @@ function PromptDialog(props) {
                 onSubmit={handleSubmit}
                 spellCheck={spellCheck}
                 isRequired
+                withNone
                 noMargin
             />
         </DialogBody>
@@ -89,7 +90,7 @@ function PromptDialog(props) {
         />
     </Dialog>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes
