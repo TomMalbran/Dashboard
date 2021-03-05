@@ -100,7 +100,7 @@ function createSelect(type, isFem) {
     const group  = statusGroups[type] || [];
     const result = [];
     for (const key of group) {
-        const value  = getName(key, isFem);
+        const value = getName(key, isFem);
         result.push({ key, value });
     }
     return result;

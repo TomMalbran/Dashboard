@@ -66,7 +66,7 @@ class DateTime {
             this.date = new Date();
         }
     }
-    
+
     /**
      * Returns a Copy of DateTime
      * @returns {DateTime}
@@ -74,7 +74,7 @@ class DateTime {
     copy() {
         return new DateTime(this.date);
     }
-    
+
     /**
      * Creates a new DateTime with the given data and the current saved date
      * @param {Number=} year
@@ -89,7 +89,7 @@ class DateTime {
     createDay(year, month, day, hours, mins, secs, milis) {
         return new DateTime(this.toDate(year, month, day, hours, mins, secs, milis));
     }
-    
+
 
     /**
      * Returns the full year of the saved date
@@ -114,7 +114,7 @@ class DateTime {
     get day() {
         return this.date.getDate();
     }
-    
+
     /**
      * Returns the week day number of the saved date
      * @returns {Number}
@@ -162,7 +162,7 @@ class DateTime {
     get time() {
         return Math.round(this.date.getTime() / 1000);
     }
-    
+
 
 
     /**
@@ -187,7 +187,7 @@ class DateTime {
             (milis || milis === 0) ? milis     : this.date.getMilliseconds()
         );
     }
-    
+
     /**
      * Returns a new DateTime with the same day, but at 0 hours, 0 minutes, 0 seconds and 0 miliseconds
      * @param {Number=} hours
@@ -196,7 +196,7 @@ class DateTime {
     toDayStart(hours) {
         return this.createDay(undefined, undefined, undefined, hours !== undefined ? hours : 0, 0, 0, 0);
     }
-    
+
     /**
      * Returns a new DateTime with the same day, but at 23 hours, 59 minutes, 59 seconds and 0 miliseconds
      * @returns {DateTime}
@@ -204,7 +204,7 @@ class DateTime {
     toDayEnd() {
         return this.createDay(undefined, undefined, undefined, 23, 59, 29, 0);
     }
-    
+
     /**
      * Returns a new DateTime at the start of the week, depending on the week day given
      * @param {Number=} weekDay
@@ -217,7 +217,7 @@ class DateTime {
         }
         return thisDate;
     }
-    
+
     /**
      * Returns a new DateTime at the end of the week, depending on the week day given
      * @param {Number=} weekDay
@@ -226,7 +226,7 @@ class DateTime {
     toWeekEnd(weekDay) {
         return this.moveDay(7).toWeekStart(weekDay).moveDay(-1);
     }
-    
+
     /**
      * Returns a new DateTime at the start of the month
      * @returns {DateTime}
@@ -234,7 +234,7 @@ class DateTime {
     toMonthStart() {
         return this.changeDay(1);
     }
-    
+
     /**
      * Returns a new DateTime at the end of the month
      * @returns {DateTime}
@@ -242,9 +242,25 @@ class DateTime {
     toMonthEnd() {
         return this.changeDay(this.getMonthDays());
     }
-    
-    
-    
+
+    /**
+     * Returns a new DateTime at the start of the year
+     * @returns {DateTime}
+     */
+    toYearStart() {
+        return this.changeMonth(1, 1);
+    }
+
+    /**
+     * Returns a new DateTime at the end of the year
+     * @returns {DateTime}
+     */
+    toYearEnd() {
+        return this.changeMonth(12, getMonthDays(12, this.year));
+    }
+
+
+
     /**
      * Returns the date as a string depending on the given format
      * @param {String} type
@@ -267,7 +283,7 @@ class DateTime {
         }
         return "";
     }
-    
+
     /**
      * Returns the date as a string choosing the format depending on the date
      * @returns {String}
@@ -289,7 +305,7 @@ class DateTime {
         }
         return this.toString(format);
     }
-    
+
     /**
      * Returns the date as a string choosing the format depending on the date
      * @returns {String}
@@ -304,7 +320,7 @@ class DateTime {
         const dhour = Math.round(diff / HOUR_SECS);
         const dday  = Math.round(diff / DAY_SECS);
         let   format;
-        
+
         // In the Future
         if (diff1 > 0) {
             if (diff1 < HOUR_SECS * 2) {
@@ -332,11 +348,11 @@ class DateTime {
                 .replace("{h}", dhour.toString())
                 .replace("{d}", dday.toString());
         }
-        
+
         // Show the result as a date and time
         return this.toDateString();
     }
-    
+
     /**
      * Returns the name of the day of the saved date or Today/Yesterday/Tomorrow
      * @returns {String}
@@ -354,7 +370,7 @@ class DateTime {
         }
         return result;
     }
-    
+
     /**
      * Knowing that the current day is at the start of the week, it returns a string that represents it
      * @returns {String}
@@ -379,7 +395,7 @@ class DateTime {
             this.moveDay(6).toString("slashesDay")
         );
     }
-    
+
     /**
      * Parses the duration between the current DateTime and the given one
      * @param {DateTime} otherDate
@@ -388,9 +404,9 @@ class DateTime {
     parseDuration(otherDate) {
         return NLS.format("DATE_DURATION", this.toString("time"), otherDate.toString("time"));
     }
-    
-    
-    
+
+
+
     /**
      * Returns a circle class depending on the Date
      * @returns {String}
@@ -422,7 +438,7 @@ class DateTime {
         }
         return "text-success";
     }
-    
+
     /**
      * Returns an amount of days since the expiration
      * @returns {Number}
@@ -433,9 +449,9 @@ class DateTime {
         const days  = Math.round(diff / DAY_SECS);
         return days;
     }
-    
-    
-    
+
+
+
     /**
      * Returns true if the day is Suterday or Sunday
      * @returns {Boolean}
@@ -443,7 +459,7 @@ class DateTime {
     get isWeekend() {
         return this.weekDay === 0 || this.weekDay === 6;
     }
-    
+
     /**
      * Returns true if the saved date is the same as today date
      * @returns {Boolean}
@@ -451,7 +467,7 @@ class DateTime {
     get isToday() {
         return this.isEqualDayTo(new DateTime());
     }
-    
+
     /**
      * Returns true if the saved date is the same as yesterday date
      * @returns {Boolean}
@@ -459,7 +475,7 @@ class DateTime {
     get isYesterday() {
         return this.isNextDay(-1);
     }
-    
+
     /**
      * Returns true if the saved date is the same as tomorrows date
      * @returns {Boolean}
@@ -467,7 +483,7 @@ class DateTime {
     get isTomorrow() {
         return this.isNextDay(1);
     }
-    
+
     /**
      * Returns true if the Current Day is during this week
      * @returns {Boolean}
@@ -494,7 +510,7 @@ class DateTime {
     isEqualTimeTo(otherDate) {
         return this.time === otherDate.time;
     }
-    
+
     /**
      * Returns true if the year, the month and the date are the same between the saved and the given date
      * @param {DateTime} otherDate
@@ -507,7 +523,7 @@ class DateTime {
             this.day   === otherDate.day
         );
     }
-    
+
     /**
      * Returns true if the week is the same between the saved and the given date
      * @param {DateTime} otherDate
@@ -516,7 +532,7 @@ class DateTime {
     isEqualWeekTo(otherDate) {
         return this.getWeek() === otherDate.getWeek();
     }
-    
+
     /**
      * Returns true if the year and the month are the same between the saved and the given date
      * @param {DateTime} otherDate
@@ -525,7 +541,7 @@ class DateTime {
     isEqualMonthTo(otherDate) {
         return this.year === otherDate.year && this.month === otherDate.month;
     }
-    
+
     /**
      * Returns true if the year is the same between the saved and the given date
      * @param {DateTime} otherDate
@@ -534,7 +550,7 @@ class DateTime {
     isEqualYearTo(otherDate) {
         return this.year === otherDate.year;
     }
-    
+
     /**
      * Returns true if the given day is greater than the Current Day
      * @param {DateTime} otherDate
@@ -571,7 +587,7 @@ class DateTime {
         const otherDate = new DateTime().moveDay(amount);
         return this.isEqualDayTo(otherDate);
     }
-    
+
     /**
      * Returns max day between the Current and the given one
      * @param {DateTime} otherDate
@@ -580,7 +596,7 @@ class DateTime {
     max(otherDate) {
         return this.isGreaterThan(otherDate) ? this : otherDate;
     }
-    
+
     /**
      * Returns min day between the saved and the given one
      * @param {DateTime} otherDate
@@ -591,7 +607,7 @@ class DateTime {
     }
 
 
-    
+
     /**
      * Changes the day to the given one
      * @param {DateTime} otherDate
@@ -600,7 +616,7 @@ class DateTime {
     changeToDay(otherDate) {
         return this.createDay(otherDate.year, otherDate.month, otherDate.day);
     }
-    
+
     /**
      * Creates a new DateTime as amount of years ahead the saved date
      * @param {Number}  amount
@@ -611,7 +627,7 @@ class DateTime {
     moveYear(amount, month, day) {
         return this.createDay(this.year + amount, month, day);
     }
-    
+
     /**
      * Creates a new DateTime with the given year and the saved date
      * @param {Number}  year
@@ -622,7 +638,7 @@ class DateTime {
     changeYear(year, month, day) {
         return this.createDay(year, month, day);
     }
-    
+
     /**
      * Creates a new DateTime as amount of months ahead of the saved date
      * @param {Number}  amount
@@ -632,7 +648,7 @@ class DateTime {
     moveMonth(amount, day) {
         return this.createDay(undefined, this.month + amount, day);
     }
-    
+
     /**
      * Creates a new DateTime with the given month and day and the saved date
      * @param {Number}  month
@@ -642,7 +658,7 @@ class DateTime {
     changeMonth(month, day) {
         return this.createDay(undefined, month, day);
     }
-    
+
     /**
      * Creates a new DateTime as amount of days ahead of the saved date
      * @param {Number} amount
@@ -651,7 +667,7 @@ class DateTime {
     moveDay(amount) {
         return this.createDay(undefined, undefined, this.day + amount);
     }
-    
+
     /**
      * Creates a new DateTime with the given day and the saved date
      * @param {Number} day
@@ -660,7 +676,7 @@ class DateTime {
     changeDay(day) {
         return this.createDay(undefined, undefined, day);
     }
-    
+
     /**
      * Creates a new DateTime as the given amount of hours ahead of the saved date
      * @param {Number}  amount
@@ -670,7 +686,7 @@ class DateTime {
     moveHours(amount, minutes) {
         return this.createDay(undefined, undefined, undefined, this.hours + amount, minutes);
     }
-    
+
     /**
      * Creates a new DateTime with the given hours and minutes and the saved date
      * @param {Number}  hours
@@ -680,7 +696,7 @@ class DateTime {
     changeHours(hours, minutes) {
         return this.createDay(undefined, undefined, undefined, hours, minutes);
     }
-    
+
     /**
      * Creates a new DateTime as the given amount of minutes ahead of the saved date
      * @param {Number} minutes
@@ -689,7 +705,7 @@ class DateTime {
     moveMins(minutes) {
         return this.createDay(undefined, undefined, undefined, undefined, this.minutes + minutes);
     }
-    
+
     /**
      * Creates a new DateTime with the given minutes and the saved date
      * @param {Number} minutes
@@ -698,7 +714,7 @@ class DateTime {
     changeMins(minutes) {
         return this.createDay(undefined, undefined, undefined, undefined, minutes);
     }
-    
+
     /**
      * Creates a new DateTime with the given minutes ahead of the saved date
      * @param {Number} time
@@ -707,9 +723,9 @@ class DateTime {
     addTime(time) {
         return new DateTime(this.time + time);
     }
-    
-    
-    
+
+
+
     /**
      * Returns the name of the day of the saved date
      * @param {Number=} amount
@@ -719,7 +735,7 @@ class DateTime {
         const name = dayToName(this.weekDay);
         return amount ? name.substr(0, amount) : name;
     }
-    
+
     /**
      * Returns the day difference between the Current Day and the given one
      * @param {DateTime} otherDate
@@ -728,9 +744,9 @@ class DateTime {
     getDaysDiff(otherDate) {
         return Math.floor(Math.abs(this.time - otherDate.time) / DAY_SECS);
     }
-    
-    
-    
+
+
+
     /**
      * Returns the number of the week for the current day
      * @param {Number=} weekDay
@@ -739,10 +755,10 @@ class DateTime {
     getWeek(weekDay = 0) {
         const actualDay = this.getWeekStart(weekDay);
         const startDay  = actualDay.createDay(undefined, 1, 1);
-        
+
         return Math.ceil((actualDay.time - startDay.time) / WEEK_SECS);
     }
-    
+
     /**
      * Returns the date with the first day of the week
      * @param {Number=} weekDay
@@ -752,7 +768,7 @@ class DateTime {
         const day = this.day - this.weekDay + weekDay;
         return this.createDay(undefined, undefined, day);
     }
-    
+
     /**
      * Returns the amount of weeks in a month
      * @param {Number=} weekDay
@@ -763,15 +779,15 @@ class DateTime {
         const endDay    = this.createDay(undefined, undefined, this.getMonthDays());
         const startWeek = startDay.getWeek(weekDay);
         const endWeek   = endDay.getWeek(weekDay);
-        
+
         if (startWeek > endWeek) {
             return endWeek + 1;
         }
         return endWeek - startWeek + 1;
     }
-    
-    
-    
+
+
+
     /**
      * Returns the name of the month of the saved date
      * @param {Number=} amount
@@ -781,7 +797,7 @@ class DateTime {
         const name = monthToName(this.month);
         return amount ? name.substr(0, amount) : name;
     }
-    
+
     /**
      * Returns the month difference between the saved and the given dates
      * @param {DateTime} otherDate
@@ -790,7 +806,7 @@ class DateTime {
     getMonthDiff(otherDate) {
         return 12 * (this.year - otherDate.year) + this.month - otherDate.month;
     }
-    
+
     /**
      * Returns the first day of the month of the saved date
      * @returns {Number}
@@ -799,7 +815,7 @@ class DateTime {
         const date = new Date(this.year, this.month, 1, this.hours, this.minutes);
         return date.getDate();
     }
-    
+
     /**
      * Returns the amount of Days in the month of the saved date
      * @returns {Number}
@@ -807,9 +823,9 @@ class DateTime {
     getMonthDays() {
         return getMonthDays(this.month, this.year);
     }
-    
-    
-    
+
+
+
     /**
      * Returns the amount of years between the saved date and the given date (or today) AKA the age
      * @param {DateTime} otherDate
@@ -819,9 +835,9 @@ class DateTime {
         const date = otherDate || new DateTime();
         return date.year - this.year - (this.changeYear(date.year).isGreaterThan(date) ? 1 : 0);
     }
-    
-    
-    
+
+
+
     /**
      * Returns a data structure with the required information to create a week calendar interface
      * @param {Number}  hourStart - Starting hour of the day
@@ -831,11 +847,11 @@ class DateTime {
     getDayData(hourStart, events) {
         const result = { title : this.toDayString(), names : [], hours : [] };
         const day    = this.copy();
-        
+
         this.getDaysData(result, day, hourStart, 2, events);
         return result;
     }
-    
+
     /**
      * Returns a data structure with the required information to create a week calendar interface
      * @param {Number}  weekDay   - Starting day of the week
@@ -846,11 +862,11 @@ class DateTime {
     getWeekData(weekDay, hourStart, events) {
         const result = { title : this.toWeekString(), names : [], hours : [] };
         const day    = this.toWeekStart(weekDay);
-        
+
         this.getDaysData(result, day, hourStart, 7, events);
         return result;
     }
-    
+
     /**
      * Parses the names and hours structure for the days and week calendar interfaces
      * @param {Object}   result
@@ -871,11 +887,11 @@ class DateTime {
             });
             currDate = currDate.moveDay(1);
         }
-        
+
         // Then all the hours for each day
         for (let j = hourStart; j < 24; j += 1) {
             result.hours.push({ hour : j, days : [] });
-            
+
             currDate = currDate.moveDay(-dayAmount);
             for (let i = 0; i < dayAmount; i += 1) {
                 result.hours[j - hourStart].days.push({
@@ -888,7 +904,7 @@ class DateTime {
         }
         return result;
     }
-    
+
     /**
      * Returns a data structure with the required information to create a month calendar interface
      * @param {Number}    weekDay    - Starting day of the week
@@ -916,24 +932,24 @@ class DateTime {
             }
             result.weeks[week].days.push(data);
         };
-        
+
         // First all the day names
         for (let i = 0; i < 7; i += 1) {
             result.names.push(currDate.getDayName(dayLetters));
             currDate = currDate.moveDay(1);
         }
-        
+
         // Then all the days in the weeks
         currDate = currDate.moveDay(-7);
         for (let i = 0; i < lastDay; i += 1) {
             const isDay = this.isEqualMonthTo(currDate);
             let   name  = currDate.day.toString();
-            
+
             if (month !== currDate.month || i === 0) {
                 name  = currDate.toString("dayMonth");
                 month = currDate.month;
             }
-            
+
             addToWeek({
                 key       : i,
                 isDay     : isDay,
@@ -947,7 +963,7 @@ class DateTime {
             });
             currDate = currDate.moveDay(1);
         }
-        
+
         return result;
     }
 }
@@ -976,7 +992,7 @@ function fromString(date, time = "", useTimezone = false) {
     const separator = date.includes("/") ? "/" : "-";
     const dateParts = date.split(separator);
     let   day       = new Date();
-    
+
     if (dateParts.length === 3) {
         const part0 = parseInt(dateParts[0], 10);
         const part1 = parseInt(dateParts[1], 10);
@@ -1111,7 +1127,7 @@ function monthToName(month) {
 function getMonthDays(month, year) {
     const days   = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
     let   result = days[month - 1] || null;
-    
+
     // If month is February, check Leap Years
     if (month === 2 && (((year % 4) === 0 && (year % 100) !== 0) || (year % 400) === 0)) {
         result = 29;
