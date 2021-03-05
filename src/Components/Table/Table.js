@@ -56,7 +56,7 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
 function Table(props) {
     const {
         sort, fetch, className, isLoading, none,
-        inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
+        notFixed, inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
     } = props;
 
     const [ menuID,   setMenuID   ] = React.useState(null);
@@ -103,7 +103,7 @@ function Table(props) {
             handleMenuClose();
         }
     }, [ sort ]);
-    
+
 
 
     // Get the Actions and ColSpan
@@ -166,19 +166,19 @@ function Table(props) {
     if (hasActions) {
         colSpan += 1;
     }
-    
+
     // Get the Children
     for (const [ key, child ] of Utils.getChildren(children)) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
+                notFixed, hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
                 handleRowClick, handleMenuOpen,
             }));
         }
     }
 
-    
+
     if (isLoading) {
         return <CircularLoader top={40} />;
     }
