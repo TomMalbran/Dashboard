@@ -56,7 +56,7 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
 function Table(props) {
     const {
         sort, fetch, className, isLoading, none,
-        notFixed, inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
+        notFixed, noClick, inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
     } = props;
 
     const [ menuID,   setMenuID   ] = React.useState(null);
@@ -78,7 +78,7 @@ function Table(props) {
 
     // Handles the Row Click
     const handleRowClick = (elemID) => {
-        if (firstAction.action && menuID === null && !Utils.hasSelection()
+        if (!noClick && firstAction.action && menuID === null && !Utils.hasSelection()
             && (!firstAction.hide || !firstAction.hide(elemID))) {
             handleClick(firstAction, elemID);
         }
@@ -232,6 +232,7 @@ Table.propTypes = {
     hasFilter : PropTypes.bool,
     hasIDs    : PropTypes.bool,
     noSorting : PropTypes.bool,
+    noClick   : PropTypes.bool,
     notFixed  : PropTypes.bool,
     children  : PropTypes.any,
 };
