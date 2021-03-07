@@ -34,7 +34,7 @@ const Rows = Styled.p`
     }
 `;
 const Pages = Styled.p`
-    margin: 0 16px 0 0;    
+    margin: 0 16px 0 0;
 `;
 
 const PagingInput = Styled(InputField)`

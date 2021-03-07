@@ -31,7 +31,7 @@ export default function makeConfig(commandOptions) {
             targets.push(`./${dst}`);
         }
     });
-    
+
     return {
         input,
         output : {

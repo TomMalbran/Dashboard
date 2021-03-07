@@ -92,7 +92,7 @@ const OutlinedLink = Styled(Link)`
     border: 1px solid transparent;
     text-transform: uppercase;
     font-size: 12px;
-    
+
     &:hover {
         border-color: white;
     }
@@ -133,7 +133,7 @@ function MenuLink(props) {
     const Component  = Components[variant] || Link;
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
-    
+
     return <Component
         ref={passedRef}
         className={`link ${className}`}

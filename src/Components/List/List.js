@@ -36,7 +36,7 @@ function List(props) {
         {items}
     </Ul>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

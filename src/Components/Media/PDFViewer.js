@@ -42,7 +42,7 @@ function PDFViewer(props) {
         <Page pageNumber={currentPage} width={800} />
     </Document>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

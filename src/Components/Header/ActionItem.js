@@ -34,7 +34,7 @@ const Li = Styled.li`
  */
 function ActionItem(props) {
     const { action, message, icon, onAction, children } = props;
-    
+
     // References
     const actionRef = React.useRef();
 
@@ -42,7 +42,7 @@ function ActionItem(props) {
     const [ menuOpen, setMenuOpen ] = React.useState(false);
     const [ menuTop,  setMenuTop  ] = React.useState(null);
     const [ menuLeft, setMenuLeft ] = React.useState(null);
-    
+
     // Menu Actions
     const actions = [];
     for (const child of Utils.toArray(children)) {

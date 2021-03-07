@@ -57,7 +57,7 @@ function MediaView(props) {
 
     const withSpacing = !elem.isPDF && !elem.isImage && !elem.isDocument;
     const canPreview  = elem.isPDF || elem.isImage || elem.isAudio || elem.isDocument;
-    
+
     return <Dialog open={open} onClose={onClose} width={800}>
         <DialogHeader message={elem.name} icon="media" />
         <DialogBody withSpacing={withSpacing}>

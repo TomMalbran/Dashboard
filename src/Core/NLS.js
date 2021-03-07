@@ -225,7 +225,7 @@ export default {
     getClass,
     entries,
     select,
-    
+
     format,
     formatIf,
     pluralize,

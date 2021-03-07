@@ -41,7 +41,7 @@ function FieldInput(props) {
         className, inputType, name, value, button, onChange,
         options, withNone, noneText,
     } = props;
-    
+
     // Calculate the Parts Array
     let parts = [ "" ];
     if (value) {

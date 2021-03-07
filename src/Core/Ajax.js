@@ -20,13 +20,13 @@ async function ajax(url, options = {}, showLoader = true, showResult = true) {
     let response   = null;
     let result     = null;
     const defError = { "form" : "GENERAL_ERROR" };
-    
+
     // To be able to Abort
     if (window.AbortController) {
         controller     = new window.AbortController();
         options.signal = controller.signal;
     }
-    
+
     // Show the Loader
     if (showLoader) {
         Store.setLoading(true);
@@ -45,12 +45,12 @@ async function ajax(url, options = {}, showLoader = true, showResult = true) {
         }
         throw defError;
     }
-    
+
     // Bad Response
     if (!response.ok) {
         throw defError;
     }
-    
+
     // Get the JSON Result
     try {
         result = await response.json();
@@ -66,7 +66,7 @@ async function ajax(url, options = {}, showLoader = true, showResult = true) {
         Auth.unsetToken();
         return {};
     }
-    
+
     // Update the Token
     if (result.jwt) {
         Auth.setToken(result.jwt);
@@ -133,7 +133,7 @@ function baseUrl(route) {
  */
 function createUrl(route, params = {}, addToken = true, addTimezone = false) {
     const url = baseUrl(route);
-    
+
     for (const [ key, value ] of Object.entries(params)) {
         url.searchParams.append(key, value);
     }

@@ -111,7 +111,7 @@ function NavigationItem(props) {
         return path === uri;
     }
 
-    
+
     return <li>
         <Div>
             <MenuLink

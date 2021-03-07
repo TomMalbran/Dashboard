@@ -16,7 +16,7 @@ const H2 = Styled.h2.attrs(({ withLink }) => ({ withLink }))`
     margin: 0;
     ${(props) => props.withLink ? "cursor: pointer;" : ""}
 `;
-    
+
 const Img = Styled.img.attrs(({ logoWidth, logoHeight }) => ({ logoWidth, logoHeight }))`
     ${(props) => props.logoWidth  ? `width: ${props.logoWidth}px`   : ""}
     ${(props) => props.logoHeight ? `height: ${props.logoHeight}px` : ""}
@@ -40,7 +40,7 @@ function BarLogo(props) {
             e.preventDefault();
         }
     };
-    
+
     return <H2 className={className} onClick={handleClick} withLink>
         <Img
             src={logo}

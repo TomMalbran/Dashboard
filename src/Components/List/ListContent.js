@@ -24,7 +24,7 @@ function ListContent(props) {
         {children}
     </Div>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

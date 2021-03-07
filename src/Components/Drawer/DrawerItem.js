@@ -21,7 +21,7 @@ function DrawerItem(props) {
             onAction(type);
         }
     };
-    
+
 
     return <MenuLink
         variant="light"

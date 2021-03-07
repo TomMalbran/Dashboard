@@ -44,7 +44,7 @@ function AlertDialog(props) {
         <DialogFooter cancel="GENERAL_ACCEPT" />
     </Dialog>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

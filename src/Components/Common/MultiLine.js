@@ -18,7 +18,7 @@ function MultiLine(props) {
     const { variant, className, content, children } = props;
     const cnt   = String(content || children);
     const lines = cnt.split("\n");
-    
+
     // Nothing to display
     if (!content && !children) {
         return <React.Fragment />;
@@ -28,7 +28,7 @@ function MultiLine(props) {
     if (lines.length < 1) {
         return <div className={className}>{cnt}</div>;
     }
-    
+
     // Multiple lines
     switch (variant) {
     case Variant.P:

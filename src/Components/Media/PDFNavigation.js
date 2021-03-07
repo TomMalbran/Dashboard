@@ -20,7 +20,7 @@ function PDFNavigation(props) {
     if (!totalPages) {
         return <React.Fragment />;
     }
-    
+
     // Handles the Prev Page button
     const handlePrevPage = () => {
         if (currentPage > 1) {
@@ -57,7 +57,7 @@ function PDFNavigation(props) {
         />
     </>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

@@ -89,11 +89,11 @@ function Drawer(props) {
         logo, logoWidth, logoHeight,
         message, onClose, children,
     } = props;
-    
+
     if (!open) {
         return <React.Fragment />;
     }
-    
+
     // The State
     const [ closing, setClosing ] = React.useState(false);
     const contentRef = React.useRef();

@@ -62,7 +62,7 @@ const Div = Styled.div.attrs(({ open }) => ({ open }))`
  */
 function LinearLoader(props) {
     const { open } = props;
-    
+
     return <Div open={open}>
         {NLS.get("GENERAL_LOADING")}
     </Div>;

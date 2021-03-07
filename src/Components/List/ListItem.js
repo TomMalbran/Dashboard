@@ -10,7 +10,7 @@ const Li = Styled.li.attrs(({ columns }) => ({ columns }))`
     grid-template-columns: 2fr ${(props) => "1fr ".repeat(props.columns - 1)};
     grid-gap: 16px;
     color: var(--black-color);
-    
+
     &:not(:last-child) {
         padding-bottom: 16px;
     }
@@ -29,12 +29,12 @@ const Li = Styled.li.attrs(({ columns }) => ({ columns }))`
  */
 function ListItem(props) {
     const { className, columns, children } = props;
-    
+
     return <Li className={className} columns={columns}>
         {children}
     </Li>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

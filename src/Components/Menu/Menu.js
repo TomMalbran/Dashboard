@@ -48,7 +48,7 @@ function Menu(props) {
     const menuRef   = React.useRef();
     const hasStyles = top && (left || right);
     const style     = {};
-    
+
     // The State
     const [ width, setWidth ] = React.useState(0);
 

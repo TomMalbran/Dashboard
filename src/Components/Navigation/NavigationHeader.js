@@ -38,7 +38,7 @@ const H1 = Styled.h1`
  */
 function NavigationHeader(props) {
     const { logo, className } = props;
-    
+
     return <Header className={className}>
         {logo ?
             <Img src={logo} alt={NLS.get("TITLE")} /> :

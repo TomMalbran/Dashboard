@@ -71,7 +71,7 @@ const Button = Styled.button`
     outline: none;
     opacity: 0;
     z-index: 1;
-    
+
     :hover button {
         opacity: 1;
     }
@@ -157,7 +157,7 @@ const Dot = Styled.button.attrs(({ isActive }) => ({ isActive }))`
 `;
 
 
-    
+
 /**
  * The Slider Component
  * @param {Object} props

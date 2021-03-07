@@ -80,7 +80,7 @@ function DialogHeader(props) {
         />
     </Header>;
 }
-    
+
 /**
  * The Property Types
  * @type {Object} propTypes

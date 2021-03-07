@@ -54,7 +54,7 @@ function DetailItem(props) {
             Href.handleClick(e, props);
         }
     }
-    
+
     const isLink = href || url || onClick || isEmail || isPhone || isWhatsApp
     let content  = message;
     if (prefix) {
@@ -74,7 +74,7 @@ function DetailItem(props) {
         {content}
     </Li>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

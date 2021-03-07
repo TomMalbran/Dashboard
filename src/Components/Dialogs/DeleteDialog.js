@@ -25,7 +25,7 @@ function DeleteDialog(props) {
         onClose={onClose}
     />;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

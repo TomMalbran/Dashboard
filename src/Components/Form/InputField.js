@@ -41,7 +41,7 @@ const InputInput = Styled(Input).attrs(({ isSmall, width }) => ({ isSmall, width
     color: var(--black-color);
     background-color: white;
     transition: all 0.2s;
-    
+
     &.input, & .input {
         box-sizing: border-box;
         appearance: none;
@@ -146,7 +146,7 @@ function InputField(props) {
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
     const autoSuggest   = Boolean(suggestFetch && suggestID);
-    
+
     // The Input got Focus
     const handleFocus = () => {
         setFocus(true);

@@ -12,7 +12,7 @@ const Div = Styled.div`
     color: rgb(94, 108, 132);
     background-color: white;
     border-radius: var(--border-radius);
-    
+
     & + & {
         margin-top: 16px;
     }
@@ -44,7 +44,7 @@ const Ul = Styled.ul`
  */
 function DetailList(props) {
     const { isHidden, className, message, children } = props;
-    
+
     if (isHidden) {
         return <React.Fragment />;
     }

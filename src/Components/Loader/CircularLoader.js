@@ -69,7 +69,7 @@ const Ring = Styled.div`
     position: relative;
     width: 64px;
     height: 64px;
-    
+
     & > div {
         box-sizing: border-box;
         display: block;
@@ -130,7 +130,7 @@ function CircularLoader(props) {
         <Text>{NLS.get("GENERAL_LOADING")}</Text>
     </Div>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

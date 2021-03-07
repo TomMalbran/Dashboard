@@ -11,7 +11,7 @@ import { Route, Redirect }  from "react-router-dom";
  */
 function GuestRoute(props) {
     const { isAuthenticated, component : Component, ...rest } = props;
-    
+
     return <Route {...rest} render={(props) => {
         if (!isAuthenticated) {
             return <Component {...props} />;

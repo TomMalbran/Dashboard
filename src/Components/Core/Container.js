@@ -86,7 +86,7 @@ function Container(props) {
     const [ showingMenu,    setShowingMenu    ] = React.useState(false);
     const [ openingMenu,    setOpeningMenu    ] = React.useState(false);
     const [ closingMenu,    setClosingMenu    ] = React.useState(false);
-    
+
     const [ detailsTimer,   setDetailsTimer   ] = React.useState(null);
     const [ showingDetails, setShowingDetails ] = React.useState(false);
     const [ openingDetails, setOpeningDetails ] = React.useState(false);

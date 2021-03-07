@@ -49,7 +49,7 @@ function ActionList(props) {
     const canExport  = Boolean(data.canExport && data.total > 0);
     const canFilter  = Boolean(data.canFilter);
     const hasActions = canCreate || canImport || canExport || canFilter || items.length > 0;
-    
+
     if (!hasActions) {
         return <React.Fragment />;
     }

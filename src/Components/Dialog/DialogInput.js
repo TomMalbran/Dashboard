@@ -12,7 +12,7 @@ const DialogField = Styled(InputField)`
     --input-height: 30px;
     margin-left: 32px;
     width: 200px;
-    
+
     .input {
         background-color: var(--secondary-color);
         color: white;
@@ -34,7 +34,7 @@ const DialogField = Styled(InputField)`
  */
 function DialogInput(props) {
     const { type, value, placeholder, options, onChange } = props;
-    
+
     // Handles the Input Change
     const handleChange = (name, value) => {
         onChange(value);

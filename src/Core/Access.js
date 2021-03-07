@@ -90,7 +90,7 @@ function getSelect(type) {
 // The Public API
 export default {
     init,
-    
+
     is,
     getID,
     getName,

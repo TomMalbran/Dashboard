@@ -42,7 +42,7 @@ const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
  */
 function InputInput(props) {
     const { inputRef, className, type, name, value, onChange, onInput, isDisabled, isSmall } = props;
-    
+
     return <Input
         {...props}
         ref={inputRef}

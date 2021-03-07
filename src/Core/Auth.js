@@ -86,7 +86,7 @@ function setUser() {
         if (jwt.data.language) {
             NLS.setLang(jwt.data.language);
         }
-        
+
         if (timeout) {
             window.clearTimeout(timeout);
         }

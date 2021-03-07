@@ -31,7 +31,7 @@ const H3 = Styled.h3`
  */
 function NavigationSubtitle(props) {
     const { className, message } = props;
-    
+
     return <H3 className={className}>
         {NLS.get(message)}
     </H3>;

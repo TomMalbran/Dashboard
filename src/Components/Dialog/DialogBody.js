@@ -52,14 +52,14 @@ function DialogBody(props) {
     } = props;
 
     const dialogRef = React.useRef();
-    
+
     // Handle the Scroll
     const handleScroll = () => {
         if (onScroll && dialogRef.current) {
             onScroll(dialogRef.current);
         }
     };
-    
+
 
     return <Main
         ref={dialogRef}

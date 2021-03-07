@@ -27,7 +27,7 @@ const FilterField = Styled(InputField)`
     margin-bottom: 0;
     box-sizing: border-box;
     width: calc((100% - 81px) / var(--filter-columns));
-    
+
     .textfield-label {
         background-color: var(--lighter-gray);
     }

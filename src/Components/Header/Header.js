@@ -37,7 +37,7 @@ const Div = Styled.div`
  */
 function Header(props) {
     const { className, icon, message, fallback, route, children } = props;
-    
+
     return <Container className={className}>
         {!!route && <Breadcrumb route={route} />}
         <Div>
@@ -50,7 +50,7 @@ function Header(props) {
         </Div>
     </Container>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

@@ -80,7 +80,7 @@ const DarkItem = Styled(Item)`
     border-bottom: 1px solid var(--border-color);
     padding: 0 24px;
     line-height: 1;
-    
+
     ${(props) => (!props.isSelected && !props.isDisabled) && `
         &:hover {
             box-shadow: inset 0 -4px var(--border-color);
@@ -120,7 +120,7 @@ const Components = {
  */
 function TabItem(props) {
     const { className, variant, message, status, value, index, selected, isDisabled, canEdit, canDelete, onAction } = props;
-    
+
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
     const isSelected = !isDisabled && String(selected) === String(id);
@@ -151,8 +151,8 @@ function TabItem(props) {
             onAction(Action.get(action), id);
         }
     };
-    
-    
+
+
     return <Component
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
         isSelected={isSelected}

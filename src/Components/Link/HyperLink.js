@@ -96,7 +96,7 @@ const ColoredLink = Styled(Link)`
 const OpacityLink = Styled(Link)`
     display: block;
     transition: all 0.2s ease-in-out;
-    
+
     &:hover {
         opacity: 0.5;
     }
@@ -151,7 +151,7 @@ function HyperLink(props) {
 
     const Component = Components[variant] || Link;
     const content   = children || NLS.get(message);
-    
+
     return <Component
         ref={passedRef}
         className={`link ${className}`}

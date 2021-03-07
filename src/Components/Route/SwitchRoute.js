@@ -19,7 +19,7 @@ function SwitchRoute(props) {
         location, saveRoute, baseUrl, initialUrl, path, type,
         withDetails, noFirst, children,
     } = props;
-    
+
     const items    = [];
     let   firstUrl = initialUrl;
     let   hasPath  = false;
@@ -39,7 +39,7 @@ function SwitchRoute(props) {
     if (!hasPath && saveRoute) {
         Store.setRedirect(location.pathname);
     }
-    
+
     return <Switch>
         {items}
         {!!firstUrl && <Redirect from="*" to={NLS.baseUrl(baseUrl, firstUrl)} />}

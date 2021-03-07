@@ -13,7 +13,7 @@ import TableRowCnt          from "../Table/TableRowCnt";
  */
 function TableFoot(props) {
     const { hasIDs, hasActions, children } = props;
-    
+
     return <tfoot>
         <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
             {children}

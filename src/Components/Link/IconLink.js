@@ -63,7 +63,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
  */
 function IconLink(props) {
     const { passedRef, variant, className, isDisabled, isSmall, target, icon, onTouchEnd } = props;
-    
+
     return <Link
         ref={passedRef}
         className={`link ${className}`}

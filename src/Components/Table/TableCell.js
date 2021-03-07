@@ -19,7 +19,7 @@ const TD = Styled.td.attrs(({ flexGrow, maxWidth, align, isSmall, isTitle, bigMo
         flex-grow: ${(props) => props.flexGrow};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
-    
+
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
             width: 150px;
@@ -28,7 +28,7 @@ const TD = Styled.td.attrs(({ flexGrow, maxWidth, align, isSmall, isTitle, bigMo
             color: var(--title-color);
             font-weight: bold;
         `}
-        
+
         @media (max-width: 700px) {
             && {
                 text-align: left;

@@ -59,7 +59,7 @@ function StatItem(props) {
         <Span>{value || 0}</Span>
     </Li>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

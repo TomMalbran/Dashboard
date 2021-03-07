@@ -42,7 +42,7 @@ function ConfirmDialog(props) {
         <DialogFooter primary={primary} onSubmit={onSubmit} />
     </Dialog>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

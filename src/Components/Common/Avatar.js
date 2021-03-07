@@ -17,7 +17,7 @@ const Div = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
     padding: 2px;
     overflow: hidden;
     ${(props) => props.hasClick && "cursor: pointer;"}
-    
+
     &:hover img {
         box-shadow: 0 0 4px var(--lightest-color);
     }

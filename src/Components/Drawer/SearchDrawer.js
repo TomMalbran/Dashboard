@@ -138,7 +138,7 @@ function SearchDrawer(props) {
         Href.goto(elem.url, elem.id);
         onClose();
     };
-    
+
 
     if (isHidden) {
         return <React.Fragment />;

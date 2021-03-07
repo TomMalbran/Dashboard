@@ -93,14 +93,14 @@ function createSlug(value) {
     let result = value;
     result = result.replace(/^\s+|\s+$/g, ""); // trim
     result = result.toLowerCase();
-    
+
     // Remove accents, swap ñ for n, etc
     const from = "ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;";
     const to   = "AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------";
     for (let i = 0, l = from.length; i < l; i++) {
         result = result.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
     }
-    
+
     // Remove invalid chars
     result = result.replace(/[^a-z0-9 -]/g, "");
     result = result.trim();
@@ -108,7 +108,7 @@ function createSlug(value) {
     result = result.replace(/\s+/g, "-");
     // Collapse dashes
     result = result.replace(/-+/g, "-");
-    
+
     return result;
 }
 
@@ -123,7 +123,7 @@ function formatNumber(number, decimals = 2) {
     const float   = Math.round(number * amount) / amount;
     const integer = Math.floor(float);
     let   result  = String(integer);
-    
+
     if (float < 1000) {
         const fraction = Math.round(float * amount - integer * amount);
         const start    = String(fraction).length;
@@ -151,13 +151,13 @@ function formatPrice(price, skipZeros, zeroStr, symbol = "$") {
     if (skipZeros && price === 0) {
         return zeroStr || "";
     }
-    
+
     const sign     = price < 0 ? "-" : "";
     const positive = Math.abs(price);
     const noCents  = Math.floor(positive);
     const cents    = Math.round(positive * 100 - noCents * 100);
     const centsStr = cents < 10 ? "0" + cents : String(cents);
-    
+
     return `${symbol} ${sign}${noCents.toLocaleString()}<sup>${centsStr}</sup>`;
 }
 

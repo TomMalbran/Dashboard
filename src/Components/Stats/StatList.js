@@ -36,7 +36,7 @@ function StatList(props) {
         {children}
     </Ul>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

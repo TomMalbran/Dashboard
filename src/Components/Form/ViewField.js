@@ -27,7 +27,7 @@ const InputContent = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
         border-radius: var(--border-radius);
         transition: all 0.2s;
         overflow: auto;
-        
+
         ${(props) => props.isSmall ? `
             min-height: calc(var(--input-height) - 7px);
             padding: 8px 8px 4px 8px;
@@ -64,7 +64,7 @@ function ViewField(props) {
         fullWidth, smallMargin, noMargin, isSmall,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
-    
+
     const content  = value === undefined ? "" : String(value);
     const isLink   = content.startsWith("http");
     const isHtml   = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
@@ -129,10 +129,10 @@ ViewField.propTypes = {
     fullWidth   : PropTypes.bool,
     isSmall     : PropTypes.bool,
     linkIcon    : PropTypes.string,
-    linkVariant : PropTypes.string,    
-    linkUrl     : PropTypes.string,    
-    linkHref    : PropTypes.string,    
-    linkTarget  : PropTypes.string,    
+    linkVariant : PropTypes.string,
+    linkUrl     : PropTypes.string,
+    linkHref    : PropTypes.string,
+    linkTarget  : PropTypes.string,
     isEmail     : PropTypes.bool,
     isPhone     : PropTypes.bool,
     isWhatsApp  : PropTypes.bool,

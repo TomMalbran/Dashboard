@@ -24,7 +24,7 @@ const Input = Styled.input`
     width: 0;
     height: 0;
     opacity: 0;
-    
+
     &:checked + span::after {
         transform: translateX(var(--toggle-size));
         background-color: #52cf71;
@@ -42,7 +42,7 @@ const Span = Styled.span`
     height: calc(var(--toggle-size) + var(--toggle-spacing) * 2);
     border-radius: var(--toggle-size);
     cursor: pointer;
-    
+
     &::after {
         content: "";
         position: absolute;
@@ -65,7 +65,7 @@ const Span = Styled.span`
  */
 function ToggleInput(props) {
     const { className, name, value, label, tabIndex, onChange } = props;
-    
+
     // Handles the Checkbox Change
     const handleChange = (e) => {
         onChange(name, e.target.checked ? 1 : 0);

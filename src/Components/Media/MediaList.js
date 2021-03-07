@@ -45,7 +45,7 @@ function MediaList(props) {
         className, onAction, onDrop, isLoading, canEdit, canSelect, canDrag,
         withSpacing, selected, items, path,
     } = props;
-    
+
     const showLoader = isLoading;
     const showNone   = Boolean(!isLoading && !items.length);
     const showItems  = Boolean(!isLoading && items.length);
@@ -62,7 +62,7 @@ function MediaList(props) {
     const [ width,      setWidth      ] = React.useState(0);
     const [ requestRAF, setRequestRAF ] = React.useState(false);
 
-    
+
     // Handles the Breadcrumb links
     const handleBreadcrumb = (href) => {
         if (onAction) {
@@ -173,7 +173,7 @@ function MediaList(props) {
         style.zIndex   = 1000;
     }
 
-    
+
     return <Div className={className} withSpacing={withSpacing}>
         {showLoader && <CircularLoader />}
         {showNone   && <NoneAvailable message="MEDIA_NONE_AVAILABLE" />}

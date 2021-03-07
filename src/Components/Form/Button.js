@@ -85,7 +85,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     & + & {
         ${(props) => props.fullWidth ? "margin-top: 8px;" : "margin-left: 8px;"}
     }
-    
+
     ${(props) => {
         switch (props.variant) {
         case Variant.PRIMARY: return `
@@ -142,11 +142,11 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
             --button-font: var(--lightest-color);
             --button-color: white;
             --button-shadow: rgba(255, 255, 255, 0.05);
-            
+
             .icon {
                 color: var(--lightest-color);
             }
-    
+
             &:disabled,
             &:disabled:hover,
             &:disabled:focus,
@@ -179,7 +179,7 @@ function Button(props) {
 
     const content  = children || NLS.get(message);
     const withIcon = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
-    
+
 
     return <Btn
         className={`btn ${className}`}
@@ -195,7 +195,7 @@ function Button(props) {
         {!!afterIcon && <Icon className="btn-aftericon" icon={afterIcon} />}
     </Btn>;
 }
-    
+
 /**
  * The Property Types
  * @type {Object} propTypes

@@ -41,7 +41,7 @@ const H2 = Styled.h2`
  */
 function Title(props) {
     const { icon, message, fallback } = props;
-    
+
     return <H2 className="title">
         <Icon icon={icon} />
         {message ? NLS.get(message) : NLS.get(fallback)}

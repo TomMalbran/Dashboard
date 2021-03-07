@@ -30,7 +30,7 @@ function NumberInput(props) {
             const mult   = e.metaKey ? 100 : (e.shiftKey ? 10 : 1);
             const amount = e.keyCode === KeyCode.DOM_VK_UP ? 1 : -1;
             val          = Number(val) + amount * mult;
-            
+
             if (isNaN(value) || (minValue !== undefined && minValue !== null && val < minValue)) {
                 val = minValue;
             }

@@ -120,7 +120,7 @@ function handleUrl(url, target) {
 function handleClick(e, props) {
     const { target, onClick, isPhone, isEmail, isWhatsApp } = props;
     const url = getUrl(props);
-    
+
     if (onClick) {
         onClick(e);
     }

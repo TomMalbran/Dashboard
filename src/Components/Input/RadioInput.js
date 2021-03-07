@@ -102,7 +102,7 @@ function RadioInput(props) {
     const radioVal  = valParts.length > 1 ? valParts[0] : valString;
     const customVal = valParts.length > 1 ? valParts[1] : "";
     const customKey = props.customKey || "custom";
-    
+
     // Handles the Radio Change
     const handleCheck = (e, newValue) => {
         if (withCustom) {

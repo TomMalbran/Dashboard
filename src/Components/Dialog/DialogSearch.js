@@ -12,7 +12,7 @@ const SearchField = Styled(IconField)`
     --input-height: 30px;
     margin-left: 32px;
     width: 200px;
-    
+
     .input {
         background-color: var(--secondary-color);
         color: white;
@@ -31,7 +31,7 @@ const SearchField = Styled(IconField)`
  */
 function DialogSearch(props) {
     const { value, onChange } = props;
-    
+
     // Handles the Input Change
     const handleChange = (name, value) => {
         onChange(value);

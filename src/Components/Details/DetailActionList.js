@@ -15,7 +15,7 @@ import Button               from "../Form/Button";
 const Div = Styled.div`
     margin-top: 16px;
     border-radius: 3px;
-    
+
     .btn {
         width: 100%;
         font-size: 12px;
@@ -58,7 +58,7 @@ function DetailActionList(props) {
             onClick={() => handleClick(act)}
         />);
     }
-    
+
 
     if (!canEdit || !items.length) {
         return <React.Fragment />;

@@ -23,7 +23,7 @@ const Li = Styled.li`
     font-size: 10px;
     text-transform: uppercase;
     margin-right: 4px;
-    
+
     &:first-child > a {
         border-top-left-radius: var(--border-radius);
         border-bottom-left-radius: var(--border-radius);
@@ -42,7 +42,7 @@ const Link = Styled(HyperLink)`
     color: var(--title-color);
     background: var(--lighter-gray);
     transition: all 0.2s ease-in-out;
-    
+
     &::after,
     &::before {
         content: "";
@@ -60,7 +60,7 @@ const Link = Styled(HyperLink)`
         z-index: 1;
         border-left-color: var(--lighter-gray);
     }
-    
+
     &:hover {
         background: var(--dark-gray);
     }
@@ -119,7 +119,7 @@ function Breadcrumb(props) {
         </Li>)}
     </Ul>;
 }
-    
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

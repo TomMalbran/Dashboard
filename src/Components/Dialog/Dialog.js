@@ -53,12 +53,12 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
         background-color: rgb(255, 255, 254);
         transition: background-color 0.01s;
     }
-    
+
     ${(props) => props.width    ?  `max-width: ${props.width}px;` : ""}
     ${(props) => props.isWide   && "max-width: 1000px;"}
     ${(props) => props.isNarrow && "max-width: 400px;"}
     ${(props) => props.hasTabs  && "--dialog-tabs: var(--tabs-dialog);"}
-    
+
     @media (max-width: 500px) {
         ${(props) => props.isNarrow ? `
             width: 95vw;
@@ -83,7 +83,7 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
  */
 function Dialog(props) {
     const { open, className, isLoading, width, isWide, isNarrow, noTab, onClose, children } = props;
-    
+
     const [ level,   setLevel   ] = React.useState(0);
     const [ opened,  setOpened  ] = React.useState(false);
     const [ closing, setClosing ] = React.useState(false);

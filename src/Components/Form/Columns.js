@@ -12,7 +12,7 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
     display: grid;
     grid-gap: 0 16px;
     grid-template-columns: repeat(${(props) => props.amount}, 1fr);
-    
+
     .columns-double {
         grid-column-end: span 2;
     }
@@ -29,7 +29,7 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         margin-left: 8px;
         margin-top: 0;
     }
-    
+
     .inputfield:last-child,
     .inputview:last-child {
         margin-bottom: 20px;
@@ -63,10 +63,10 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
             grid-column-start: 2;
         }
     }
-    
+
     @media (max-width: 500px) {
         display: block;
-        
+
         &:last-child .inputfield:nth-last-child(-n+2),
         &:last-child .inputview:nth-last-child(-n+2) {
             margin-bottom: 20px;

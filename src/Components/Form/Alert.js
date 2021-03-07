@@ -19,7 +19,7 @@ const Div = Styled.div.attrs(({ isOpen, isClosing, height }) => ({ isOpen, isClo
     overflow: hidden;
     padding: 0 0 16px 0;
     transition: all 0.2s linear;
-    
+
     ${(props) => !!props.height  && `max-height: ${props.height}px`}
     ${(props) => props.isClosing && "max-height: 0 !important;"}
 `;
@@ -40,7 +40,7 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
     }
 
     ${(props) => props.isClosing && "transform: translateY(-50px);"}
-    
+
     ${(props) => props.variant === Outcome.SUCCESS && "background-color: var(--success-color);"}
     ${(props) => props.variant === Outcome.WARNING && "background-color: var(--warning-color);"}
     ${(props) => props.variant === Outcome.ERROR   && "background-color: var(--error-color);"}
@@ -86,7 +86,7 @@ function Alert(props) {
             }
         }, 200));
     };
-    
+
 
     return <Div
         className="alert"
@@ -104,7 +104,7 @@ function Alert(props) {
         </Content>
     </Div>;
 }
- 
+
 /**
  * The Property Types
  * @typedef {Object} propTypes

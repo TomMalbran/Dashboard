@@ -31,7 +31,7 @@ const H3 = Styled.h3`
  */
 function InfoItem(props) {
     const { label, message } = props;
-    
+
     if (!message) {
         return <React.Fragment />;
     }

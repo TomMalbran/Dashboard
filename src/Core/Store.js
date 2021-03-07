@@ -77,7 +77,7 @@ function closeDetails() {
 // The public API
 export default {
     init,
-    
+
     setLoading,
     showResult,
     setCurrentUser,

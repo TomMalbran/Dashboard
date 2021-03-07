@@ -2,7 +2,7 @@
  * A List of Classes
  */
 class ClassList {
-    
+
     /**
      * Creates a new ClassList
      * @param {...String} classes
@@ -13,7 +13,7 @@ class ClassList {
             this.add(className);
         }
     }
-    
+
     /**
      * Adds a new Tuple to the list
      * @param {String} className
@@ -24,7 +24,7 @@ class ClassList {
             this.list.push(className);
         }
     }
-    
+
     /**
      * Adds a new Tuple to the list if the condition is true
      * @param {String}  className
@@ -36,7 +36,7 @@ class ClassList {
             this.list.push(className);
         }
     }
-    
+
     /**
      * Adds a new Tuple to the start of the list
      * @param {String} className
@@ -47,9 +47,9 @@ class ClassList {
             this.list.unshift(className);
         }
     }
-    
-    
-    
+
+
+
     /**
      * Returns the Classes
      * @returns {String}
@@ -57,7 +57,7 @@ class ClassList {
     get() {
         return this.list.join(" ");
     }
-    
+
     /**
      * Returns true if there are items
      * @returns {Boolean}

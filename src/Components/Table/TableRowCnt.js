@@ -8,7 +8,7 @@ import Styled               from "styled-components";
 const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, hasIDs, hasActions }))`
     display: flex;
     height: auto;
-    
+
     td, th {
         flex: 1 0 0;
         text-overflow: ellipsis;
@@ -52,7 +52,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
         &:last-child {
             border-bottom: none;
         }
-        
+
         td, th {
             border-bottom: none;
         }
@@ -85,7 +85,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
  */
 function TableRowCnt(props) {
     const { className, hasHover, hasIDs, hasActions, onClick, onContextMenu, children } = props;
-    
+
     return <TR
         className={className}
         hasHover={hasHover}

@@ -15,7 +15,7 @@ import NLS                  from "../../Core/NLS";
  */
 function UserRoute(props) {
     const { isAuthenticated, isValid, type, withDetails, component : Component, ...rest } = props;
-    
+
     return <Route {...rest} render={(props) => {
         const route  = props.location.pathname;
         const from   = Params.getFrom(route);

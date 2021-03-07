@@ -18,7 +18,7 @@ const Variant = {
 const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     margin: 0;
     padding-top: 8px;
-    
+
     ${(props) => props.variant === Variant.PRIMARY && `
         color: var(--title-color);
     `}
