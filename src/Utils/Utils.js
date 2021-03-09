@@ -171,6 +171,24 @@ function getPageText(currentPage, totalPages) {
     return NLS.format("GENERAL_PAGE", String(currentPage), String(totalPages));
 }
 
+/**
+ * Returns Yes or No depnding of the value
+ * @param {(Number|String)} value
+ * @returns {String}
+ */
+function toYesNo(value) {
+    return NLS.get("GENERAL_YES_NO", Number(value));
+}
+
+/**
+ * Returns Yes or Blank depnding of the value
+ * @param {(Number|String)} value
+ * @returns {String}
+ */
+function toYesBlank(value) {
+    return NLS.get("GENERAL_YES_BLANK", Number(value));
+}
+
 
 
 /**
@@ -529,6 +547,8 @@ export default {
     formatNumber,
     formatPrice,
     getPageText,
+    toYesNo,
+    toYesBlank,
 
     concat,
     removePrefix,
