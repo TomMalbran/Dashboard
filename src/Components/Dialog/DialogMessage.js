@@ -11,16 +11,20 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Div = Styled.div.attrs(({ noSpace }) => ({ noSpace }))`
+const Div = Styled.div.attrs(({ smallSpace, noSpace }) => ({ smallSpace, noSpace }))`
     color: var(--black-color);
     font-weight: 400;
-    ${(props) => props.noSpace ? "margin: 0;" : "margin: 0 0 32px 0;"}
+    ${(props) => props.noSpace ? "margin: 0;" : (
+        props.smallSpace ? "margin: 0 0 16px 0;" : "margin: 0 0 32px 0;"
+    )}
 `;
 
-const Content = Styled(Html).attrs(({ noSpace }) => ({ noSpace }))`
+const Content = Styled(Html).attrs(({ smallSpace, noSpace }) => ({ smallSpace, noSpace }))`
     color: var(--black-color);
     font-weight: 400;
-    ${(props) => props.noSpace ? "margin: 0;" : "margin: 0 0 32px 0;"}
+    ${(props) => props.noSpace ? "margin: 0;" : (
+        props.smallSpace ? "margin: 0 0 16px 0;" : "margin: 0 0 32px 0;"
+    )}
 
     & + & {
         margin-top: -16px;
@@ -35,18 +39,30 @@ const Content = Styled(Html).attrs(({ noSpace }) => ({ noSpace }))`
  * @returns {React.ReactElement}
  */
 function DialogMessage(props) {
-    const { isHidden, className, variant, noSpace, html, message, children } = props;
+    const {
+        isHidden, className, variant, smallSpace, noSpace,
+        html, message, children,
+    } = props;
     const content = message ? NLS.get(message) : html;
 
     if (isHidden || (!content && !children)) {
         return <React.Fragment />;
     }
     if (children) {
-        return <Div className={className} noSpace={noSpace}>
+        return <Div
+            className={className}
+            smallSpace={smallSpace}
+            noSpace={noSpace}
+        >
             {children}
         </Div>;
     }
-    return <Content variant={variant} className={className} noSpace={noSpace}>
+    return <Content
+        variant={variant}
+        className={className}
+        smallSpace={smallSpace}
+        noSpace={noSpace}
+    >
         {content}
     </Content>;
 }
@@ -56,13 +72,14 @@ function DialogMessage(props) {
  * @type {Object} propTypes
  */
 DialogMessage.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    noSpace   : PropTypes.bool,
-    message   : PropTypes.string,
-    html      : PropTypes.string,
-    children  : PropTypes.any,
+    isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
+    smallSpace : PropTypes.bool,
+    noSpace    : PropTypes.bool,
+    message    : PropTypes.string,
+    html       : PropTypes.string,
+    children   : PropTypes.any,
 };
 
 /**
@@ -70,10 +87,11 @@ DialogMessage.propTypes = {
  * @type {Object} defaultProps
  */
 DialogMessage.defaultProps = {
-    isHidden  : false,
-    className : "",
-    variant   : "div",
-    noSpace   : false,
+    isHidden   : false,
+    className  : "",
+    variant    : "div",
+    smallSpace : false,
+    noSpace    : false,
 };
 
 export default DialogMessage;
