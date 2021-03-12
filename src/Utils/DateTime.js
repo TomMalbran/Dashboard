@@ -412,16 +412,14 @@ class DateTime {
      * @returns {String}
      */
     getColor() {
-        const days  = this.getExpiredDays();
-        let   color = "green";
-
+        const days = this.getExpiredDays();
         if (days < 0) {
-            color = "red";
+            return "red";
         }
         if (days < 3) {
-            color = "yellow";
+            return "yellow";
         }
-        return color;
+        return "green";
     }
 
     /**
@@ -429,14 +427,8 @@ class DateTime {
      * @returns {String}
      */
     getTextClass() {
-        const days = this.getExpiredDays();
-        if (days < 0) {
-            return "text-error";
-        }
-        if (days < 3) {
-            return "text-warning";
-        }
-        return "text-success";
+        const color = this.getColor();
+        return `text-${color}`;
     }
 
     /**
@@ -973,9 +965,9 @@ class DateTime {
 
 /**
  * Creates a new DateTime
- * @constructor
  * @param {(Number|Date)} date
  * @param {Boolean=}      inMiliseconds
+ * @returns {DateTime}
  */
 function create(date, inMiliseconds) {
     return new DateTime(date, inMiliseconds);
@@ -1076,7 +1068,10 @@ function formatIf(date, format) {
  * @returns {String}
  */
 function formatString(date) {
-    return new DateTime(date).toDateString();
+    if (date) {
+        return new DateTime(date).toDateString();
+    }
+    return "";
 }
 
 /**
@@ -1085,7 +1080,10 @@ function formatString(date) {
  * @returns {String}
  */
 function formatTime(date) {
-    return new DateTime(date).toTimeString();
+    if (date) {
+        return new DateTime(date).toTimeString();
+    }
+    return "";
 }
 
 /**
