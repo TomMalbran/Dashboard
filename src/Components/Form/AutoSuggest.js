@@ -53,6 +53,7 @@ function AutoSuggest(props) {
     const { suggestRef, open, id, name, params, fetch, onChange, onSuggest } = props;
 
     // The State
+    const [ timer,       setTimer       ] = React.useState(null);
     const [ value,       setValue       ] = React.useState("");
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ selectedIdx, setSelectedIdx ] = React.useState(0);
@@ -69,8 +70,12 @@ function AutoSuggest(props) {
         if (value !== newValue && selectedVal !== newValue) {
             setValue(newValue);
             await onChange(name, newValue);
+            if (timer) {
+                window.clearTimeout(timer);
+            }
             if (newValue.length > 1) {
-                fetchValue(newValue);
+                const newTimer = window.setTimeout(() => fetchValue(newValue), 500);
+                setTimer(newTimer);
             } else {
                 setSuggestions([]);
                 onChange(id, 0);
