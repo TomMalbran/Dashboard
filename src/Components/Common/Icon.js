@@ -23,8 +23,11 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function Icon(props) {
-    const { className, icon, onClick } = props;
+    const { isHidden, className, icon, onClick } = props;
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Span
         className={`icon icon-${icon} ${className}`}
         onClick={onClick}
@@ -36,6 +39,7 @@ function Icon(props) {
  * @type {Object} propTypes
  */
 Icon.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     icon      : PropTypes.string.isRequired,
     onClick   : PropTypes.func,
@@ -46,6 +50,7 @@ Icon.propTypes = {
  * @type {Object} defaultProps
  */
 Icon.defaultProps = {
+    isHidden  : false,
     className : "",
 };
 
