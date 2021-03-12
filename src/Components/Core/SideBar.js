@@ -8,7 +8,7 @@ import NLS                  from "../../Core/NLS";
 // Components
 import BarLogo              from "../Core/BarLogo";
 import BarIcon              from "../Core/BarIcon";
-import Avatar               from "../Common/Avatar";
+import Avatar               from "../Avatar/Avatar";
 
 
 

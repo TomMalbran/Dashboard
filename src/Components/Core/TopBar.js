@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 // Components
 import BarIcon              from "../Core/BarIcon";
 import BarLogo              from "../Core/BarLogo";
-import Avatar               from "../Common/Avatar";
+import Avatar               from "../Avatar/Avatar";
 
 
 
