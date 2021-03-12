@@ -9,6 +9,7 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import Icon                 from "../Common/Icon";
+import Html                 from "../Common/Html";
 
 
 
@@ -55,8 +56,10 @@ function DetailItem(props) {
         }
     }
 
-    const isLink = href || url || onClick || isEmail || isPhone || isWhatsApp
+    const isLink = href || url || onClick || isEmail || isPhone || isWhatsApp;
+    let isHtml   = Boolean(message && String(message).includes("\n"));
     let content  = message;
+
     if (prefix) {
         content = `${NLS.get(prefix)}: ${message}`;
     } else if (withTip) {
@@ -71,7 +74,7 @@ function DetailItem(props) {
         onClick={handleClick}
     >
         {!!icon && <Icon icon={icon} />}
-        {content}
+        {isHtml ? <Html addBreaks>{content}</Html> : content}
     </Li>;
 }
 
