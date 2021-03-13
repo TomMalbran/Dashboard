@@ -64,7 +64,7 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function DialogHeader(props) {
-    const { className, message, icon, onClose, children } = props;
+    const { className, message, icon, dontClose, onClose, children } = props;
 
     return <Header className={className}>
         <Div>
@@ -73,6 +73,7 @@ function DialogHeader(props) {
             {children}
         </Div>
         <IconLink
+            isHidden={dontClose}
             variant="darker"
             icon="close"
             onClick={onClose}
@@ -89,6 +90,7 @@ DialogHeader.propTypes = {
     className : PropTypes.string,
     message   : PropTypes.string,
     icon      : PropTypes.string,
+    dontClose : PropTypes.bool,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
 };
@@ -100,6 +102,7 @@ DialogHeader.propTypes = {
 DialogHeader.defaultProps = {
     className : "",
     message   : "",
+    dontClose : false,
 };
 
 export default DialogHeader;

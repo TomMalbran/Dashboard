@@ -82,7 +82,10 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
  * @returns {React.ReactElement}
  */
 function Dialog(props) {
-    const { open, className, isLoading, width, isWide, isNarrow, noTab, onClose, children } = props;
+    const {
+        open, className, isLoading, width, isWide, isNarrow, noTab,
+        dontClose, onClose, children,
+    } = props;
 
     const [ level,   setLevel   ] = React.useState(0);
     const [ opened,  setOpened  ] = React.useState(false);
@@ -94,7 +97,7 @@ function Dialog(props) {
 
     // Handles the Dialog Close
     const handleClose = () => {
-        if (closing || dialogLevel !== level) {
+        if (dontClose || closing || dialogLevel !== level) {
             return;
         }
         setClosing(true);
@@ -163,7 +166,7 @@ function Dialog(props) {
             hasTabs = true;
         }
         items.push(React.cloneElement(child, {
-            key, isLoading, isNarrow, onClose : handleClose,
+            key, isLoading, isNarrow, dontClose, onClose : handleClose,
         }));
     }
 
@@ -195,6 +198,7 @@ function Dialog(props) {
 Dialog.propTypes = {
     open      : PropTypes.bool,
     className : PropTypes.string,
+    dontClose : PropTypes.bool,
     onClose   : PropTypes.func.isRequired,
     width     : PropTypes.number,
     isWide    : PropTypes.bool,
@@ -211,6 +215,7 @@ Dialog.propTypes = {
 Dialog.defaultProps = {
     className : "",
     open      : false,
+    dontClose : false,
     isWide    : false,
     isNarrow  : false,
     noTab     : false,

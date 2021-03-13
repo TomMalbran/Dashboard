@@ -42,7 +42,7 @@ const Secondary = Styled.div`
 function DialogFooter(props) {
     const {
         className, primary, secondary, cancel,
-        onAction, onSubmit, onSecondary, onClose,
+        onAction, onSubmit, onSecondary, dontClose, onClose,
         isLoading, isDisabled, children,
     } = props;
 
@@ -78,13 +78,15 @@ function DialogFooter(props) {
             </>}
         </Secondary>
         <div>
-            {!!primary && <Button
+            <Button
+                isHidden={!primary}
                 variant="primary"
                 message={primary}
                 isDisabled={isDisabled}
                 onClick={handleSubmit}
-            />}
+            />
             <Button
+                isHidden={dontClose}
                 variant="outlined"
                 message={cancel}
                 onClick={onClose}
@@ -105,6 +107,7 @@ DialogFooter.propTypes = {
     onAction    : PropTypes.func,
     onSubmit    : PropTypes.func,
     onSecondary : PropTypes.func,
+    dontClose   : PropTypes.bool,
     onClose     : PropTypes.func,
     isLoading   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
@@ -118,6 +121,7 @@ DialogFooter.propTypes = {
 DialogFooter.defaultProps = {
     className  : "",
     cancel     : "GENERAL_CANCEL",
+    dontClose  : false,
     isLoading  : false,
     isDisabled : false,
 };
