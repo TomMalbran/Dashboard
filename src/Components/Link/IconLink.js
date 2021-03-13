@@ -62,8 +62,14 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
  * @returns {React.ReactElement}
  */
 function IconLink(props) {
-    const { passedRef, variant, className, isDisabled, isSmall, target, icon, onTouchEnd } = props;
+    const {
+        isHidden, passedRef, variant, className, isDisabled, isSmall,
+        target, icon, onTouchEnd,
+    } = props;
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Link
         ref={passedRef}
         className={`link ${className}`}
@@ -84,6 +90,7 @@ function IconLink(props) {
  * @type {Object} propTypes
  */
 IconLink.propTypes = {
+    isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     variant    : PropTypes.string,
     icon       : PropTypes.string,
@@ -107,6 +114,7 @@ IconLink.propTypes = {
  * @type {Object} defaultProps
  */
 IconLink.defaultProps = {
+    isHidden   : false,
     className  : "",
     variant    : Brightness.LIGHT,
     href       : "#",
