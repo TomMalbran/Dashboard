@@ -98,6 +98,8 @@ function RadioInput(props) {
 
     const inputRef  = React.useRef();
     const valString = String(value);
+    const isSelect  = !Array.isArray(options);
+    const items     = isSelect ? NLS.select(options) : options;
     const valParts  = valString.split("|");
     const radioVal  = valParts.length > 1 ? valParts[0] : valString;
     const customVal = valParts.length > 1 ? valParts[1] : "";
@@ -132,11 +134,11 @@ function RadioInput(props) {
 
 
     return <Container className={className}>
-        {options.map(({ key, value }) => <Label key={key}>
+        {items.map(({ key, value }) => <Label key={key}>
             <Input
                 type="radio"
                 name={`${name}-${key}`}
-                value={value}
+                value={isSelect ? key : value}
                 checked={radioVal === String(key)}
                 onChange={(e) => handleCheck(e, key)}
                 disabled={isDisabled}
@@ -179,7 +181,7 @@ RadioInput.propTypes = {
     className  : PropTypes.string,
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
-    options    : PropTypes.array,
+    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex   : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
     withCustom : PropTypes.bool,
