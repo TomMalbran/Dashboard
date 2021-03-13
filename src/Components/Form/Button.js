@@ -173,13 +173,16 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
  */
 function Button(props) {
     const {
-        className, variant, isDisabled, isSmall, fullWidth,
+        isHidden, className, variant, isDisabled, isSmall, fullWidth,
         icon, afterIcon, message, children,
     } = props;
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
+
     const content  = children || NLS.get(message);
     const withIcon = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
-
 
     return <Btn
         className={`btn ${className}`}
@@ -201,6 +204,7 @@ function Button(props) {
  * @type {Object} propTypes
  */
 Button.propTypes = {
+    isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     message    : PropTypes.string,
     variant    : PropTypes.string.isRequired,
@@ -224,6 +228,7 @@ Button.propTypes = {
  * @type {Object} defaultProps
  */
 Button.defaultProps = {
+    isHidden   : false,
     className  : "",
     isDisabled : false,
     isSmall    : false,
