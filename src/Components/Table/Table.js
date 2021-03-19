@@ -56,7 +56,8 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
 function Table(props) {
     const {
         sort, fetch, className, isLoading, none,
-        notFixed, noClick, inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs, children,
+        noClick, inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs,
+        notFixed, rightSpace, children,
     } = props;
 
     const [ menuID,   setMenuID   ] = React.useState(null);
@@ -127,11 +128,13 @@ function Table(props) {
                     bigMobile  : !!tableHead.props.bigMobile,
                     hideMobile : !!tableHead.props.hideMobile,
                     hideCircle : !!tableHead.props.hideCircle,
+                    rightSpace : !!tableHead.props.rightSpace,
                     grow       : tableHead.props.grow     || "",
                     maxWidth   : tableHead.props.maxWidth || "",
                     align      : tableHead.props.align    || "",
                 });
             }
+            columns[columns.length - 1].rightSpace = rightSpace;
         }
         if (child.type === TableBody) {
             hasContent = child.props.children && child.props.children.length > 0;
@@ -172,7 +175,8 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                notFixed, hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
+                hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
+                notFixed, rightSpace,
                 handleRowClick, handleMenuOpen,
             }));
         }
@@ -221,20 +225,21 @@ function Table(props) {
  * @typedef {Object} propTypes
  */
 Table.propTypes = {
-    fetch     : PropTypes.func,
-    sort      : PropTypes.object,
-    none      : PropTypes.string.isRequired,
-    className : PropTypes.string,
-    isLoading : PropTypes.bool,
-    inDialog  : PropTypes.bool,
-    hasStats  : PropTypes.bool,
-    hasTabs   : PropTypes.bool,
-    hasFilter : PropTypes.bool,
-    hasIDs    : PropTypes.bool,
-    noSorting : PropTypes.bool,
-    noClick   : PropTypes.bool,
-    notFixed  : PropTypes.bool,
-    children  : PropTypes.any,
+    fetch      : PropTypes.func,
+    sort       : PropTypes.object,
+    none       : PropTypes.string.isRequired,
+    className  : PropTypes.string,
+    isLoading  : PropTypes.bool,
+    inDialog   : PropTypes.bool,
+    hasStats   : PropTypes.bool,
+    hasTabs    : PropTypes.bool,
+    hasFilter  : PropTypes.bool,
+    hasIDs     : PropTypes.bool,
+    noSorting  : PropTypes.bool,
+    noClick    : PropTypes.bool,
+    notFixed   : PropTypes.bool,
+    rightSpace : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -242,15 +247,16 @@ Table.propTypes = {
  * @typedef {Object} defaultProps
  */
 Table.defaultProps = {
-    className : "",
-    sort      : {},
-    isLoading : false,
-    hasStats  : false,
-    hasTabs   : false,
-    hasFilter : false,
-    hasIDs    : false,
-    noSorting : false,
-    notFixed  : false,
+    className  : "",
+    sort       : {},
+    isLoading  : false,
+    hasStats   : false,
+    hasTabs    : false,
+    hasFilter  : false,
+    hasIDs     : false,
+    noSorting  : false,
+    notFixed   : false,
+    rightSpace : false,
 };
 
 export default Table;

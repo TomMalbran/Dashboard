@@ -11,7 +11,11 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.td.attrs(({ flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile }) => ({ flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile }))`
+const TD = Styled.td.attrs((
+    { flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
+) => (
+    { flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
+))`
     && {
         box-sizing: border-box;
         padding: 12px 0 12px 12px;
@@ -19,6 +23,7 @@ const TD = Styled.td.attrs(({ flexGrow, maxWidth, align, isSmall, isTitle, bigMo
         flex-grow: ${(props) => props.flexGrow};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
+        padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
 
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
@@ -28,15 +33,15 @@ const TD = Styled.td.attrs(({ flexGrow, maxWidth, align, isSmall, isTitle, bigMo
             color: var(--title-color);
             font-weight: bold;
         `}
+    }
 
-        @media (max-width: 700px) {
-            && {
-                text-align: left;
-                padding: 4px;
-                border: none;
-                ${(props) => props.bigMobile  && "grid-column: 1/-1;"}
-                ${(props) => props.hideMobile && "display: none;"}
-            }
+    @media (max-width: 700px) {
+        && {
+            text-align: left;
+            padding: 4px;
+            border: none;
+            ${(props) => props.bigMobile  && "grid-column: 1/-1;"}
+            ${(props) => props.hideMobile && "display: none;"}
         }
     }
 `;
@@ -52,7 +57,7 @@ function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
         colSpan, grow, maxWidth, align, isSmall, isTitle,
-        bigMobile, hideMobile, children,
+        bigMobile, hideMobile, rightSpace, children,
     } = props;
 
 
@@ -68,6 +73,7 @@ function TableCell(props) {
         isTitle={isTitle}
         bigMobile={bigMobile}
         hideMobile={hideMobile}
+        rightSpace={rightSpace}
         colSpan={colSpan}
     >
         {!!circle && !hideCircle && <Circle variant={circle} />}
@@ -93,6 +99,7 @@ TableCell.propTypes = {
     hideMobile : PropTypes.bool,
     circle     : PropTypes.string,
     hideCircle : PropTypes.bool,
+    rightSpace : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -111,6 +118,7 @@ TableCell.defaultProps = {
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
+    rightSpace : false,
 };
 
 export default TableCell;

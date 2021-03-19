@@ -11,7 +11,11 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TH = Styled.th.attrs(({ flexGrow, maxWidth, align, isSmall, hasSorting }) => ({ flexGrow, maxWidth, align, isSmall, hasSorting }))`
+const TH = Styled.th.attrs((
+    { flexGrow, maxWidth, align, isSmall, hasSorting, rightSpace }
+) => (
+    { flexGrow, maxWidth, align, isSmall, hasSorting, rightSpace }
+))`
     && {
         box-sizing: border-box;
         border: none;
@@ -22,6 +26,7 @@ const TH = Styled.th.attrs(({ flexGrow, maxWidth, align, isSmall, hasSorting }) 
         flex-grow: ${(props) => props.flexGrow};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
+        padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
 
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
@@ -31,6 +36,7 @@ const TH = Styled.th.attrs(({ flexGrow, maxWidth, align, isSmall, hasSorting }) 
             cursor: pointer;
         `}
     }
+
     .icon {
         margin-left: 4px;
     }
@@ -47,7 +53,7 @@ function TableHeader(props) {
     const {
         isHidden, className, message,
         fetch, hasSorting, sort, field, noSorting,
-        colSpan, grow, maxWidth, align, isSmall, children,
+        colSpan, grow, maxWidth, align, isSmall, rightSpace, children,
     } = props;
 
     const withSorting = hasSorting && !noSorting;
@@ -76,6 +82,7 @@ function TableHeader(props) {
         align={align}
         isSmall={isSmall}
         hasSorting={withSorting}
+        rightSpace={rightSpace}
         colSpan={colSpan}
         onClick={handleClick}
     >
@@ -108,6 +115,7 @@ TableHeader.propTypes = {
     bigMobile  : PropTypes.bool,
     hideMobile : PropTypes.bool,
     hideCircle : PropTypes.bool,
+    rightSpace : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -127,6 +135,7 @@ TableHeader.defaultProps = {
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
+    rightSpace : false,
 };
 
 export default TableHeader;
