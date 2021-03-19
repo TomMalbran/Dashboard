@@ -12,40 +12,44 @@ const WEEK_SECS   = 7 * 24 * 3600;
 
 /** The formats used in toString */
 const FORMATS = {
-    time          : "DATE_TIME",
-    dayTime       : "DATE_DAY_TIME",
-    dayMonth      : "DATE_DAY_MONTH",
-    dayMonthYear  : "DATE_DAY_MONTH_YEAR",
-    monthYear     : "DATE_MONTH_YEAR",
-    reduced       : "DATE_REDUCED",
-    complete      : "DATE_COMPLETE",
-    shortComplete : "DATE_SHORT_COMPLETE",
-    dashes        : "DATE_DASHES",
-    dashesReverse : "DATE_DASHES_REVERSE",
-    dashesTime    : "DATE_DASHES_TIME",
-    dashesHour    : "DATE_DASHES_HOUR",
-    slashes       : "DATE_SLASHES",
-    slashesDay    : "DATE_SLASHES_DAY",
-    sortable      : "DATE_SORTABLE",
+    time           : "DATE_TIME",
+    dayTime        : "DATE_DAY_TIME",
+    dayMonth       : "DATE_DAY_MONTH",
+    dayMonthShort  : "DATE_DAY_MONTH_SHORT",
+    dayMonthMedium : "DATE_DAY_MONTH_MEDIUM",
+    dayMonthYear   : "DATE_DAY_MONTH_YEAR",
+    dayYearShort   : "DATE_DAY_YEAR_SHORT",
+    dayYearMedium  : "DATE_DAY_YEAR_MEDIUM",
+    monthYear      : "DATE_MONTH_YEAR",
+    reduced        : "DATE_REDUCED",
+    complete       : "DATE_COMPLETE",
+    shortComplete  : "DATE_SHORT_COMPLETE",
+    dashes         : "DATE_DASHES",
+    dashesReverse  : "DATE_DASHES_REVERSE",
+    dashesTime     : "DATE_DASHES_TIME",
+    dashesHour     : "DATE_DASHES_HOUR",
+    slashes        : "DATE_SLASHES",
+    slashesDay     : "DATE_SLASHES_DAY",
+    sortable       : "DATE_SORTABLE",
 
-    minAgo        : "DATE_MIN_AGO",
-    minsAgo       : "DATE_MINS_AGO",
-    hourAgo       : "DATE_HOUR_AGO",
-    hoursAgo      : "DATE_HOURS_AGO",
-    dayAgo        : "DATE_DAY_AGO",
-    daysAgo       : "DATE_DAYS_AGO",
-    inMin         : "DATE_IN_MIN",
-    inMins        : "DATE_IN_MINS",
-    inHour        : "DATE_IN_HOUR",
-    inHours       : "DATE_IN_HOURS",
-    inDay         : "DATE_IN_DAY",
-    inDays        : "DATE_IN_DAYS",
-    tomorrow      : "DATE_TOMORROW_AT",
-    today         : "DATE_TODAY_AT",
-    yesterday     : "DATE_YESTERDAY_AT",
-    thisWeek      : "DATE_THIS_WEEK_AT",
-    thisYear      : "DATE_THIS_YEAR_AT",
-    otherYear     : "DATE_OTHER_YEAR_AT",
+    minAgo         : "DATE_MIN_AGO",
+    minsAgo        : "DATE_MINS_AGO",
+    hourAgo        : "DATE_HOUR_AGO",
+    hoursAgo       : "DATE_HOURS_AGO",
+    dayAgo         : "DATE_DAY_AGO",
+    daysAgo        : "DATE_DAYS_AGO",
+    inMin          : "DATE_IN_MIN",
+    inMins         : "DATE_IN_MINS",
+    inHour         : "DATE_IN_HOUR",
+    inHours        : "DATE_IN_HOURS",
+    inDay          : "DATE_IN_DAY",
+    inDays         : "DATE_IN_DAYS",
+    tomorrow       : "DATE_TOMORROW_AT",
+    today          : "DATE_TODAY_AT",
+    yesterday      : "DATE_YESTERDAY_AT",
+    thisWeek       : "DATE_THIS_WEEK_AT",
+    thisYear       : "DATE_THIS_YEAR_AT",
+    otherYear      : "DATE_OTHER_YEAR_AT",
 };
 
 
@@ -351,6 +355,45 @@ class DateTime {
 
         // Show the result as a date and time
         return this.toDateString();
+    }
+
+    /**
+     * Gives a string format to the Date depending on date
+     * @returns {String}
+     */
+    toLongString() {
+        if (this.isToday) {
+            return this.toString("today");
+        }
+        if (this.isThisYear) {
+            return this.toString("thisYear");
+        }
+        return this.toString("otherYear");
+    }
+
+    /**
+     * Gives a string format to the Date depending on date
+     * @returns {String}
+     */
+    toMediumString() {
+        if (this.isThisYear) {
+            return this.toString("dayMonthMedium");
+        }
+        return this.toString("dayYearMedium");
+    }
+
+    /**
+     * Gives a string format to the Date depending on date
+     * @returns {String}
+     */
+    toShortString() {
+        if (this.isToday) {
+            return this.toString("time");
+        }
+        if (this.isThisYear) {
+            return this.toString("dayMonthShort");
+        }
+        return this.toString("dayYearShort");
     }
 
     /**
@@ -1028,11 +1071,12 @@ function fromString(date, time = "", useTimezone = false) {
  * Formats the give date
  * @param {(Number|Date|String)} date
  * @param {String}               format
+ * @param {Boolean=}             useTimezone
  * @returns {String}
  */
-function formatDate(date, format) {
+function formatDate(date, format, useTimezone = false) {
     if (Utils.isString(date)) {
-        return fromString(String(date)).toString(format);
+        return fromString(String(date), "", useTimezone).toString(format);
     }
     return new DateTime(date).toString(format);
 }
@@ -1075,7 +1119,7 @@ function formatString(date) {
 }
 
 /**
- * Formats the give date as a String
+ * Formats the give date as a Time String
  * @param {(Number|Date)} date
  * @returns {String}
  */
@@ -1085,6 +1129,44 @@ function formatTime(date) {
     }
     return "";
 }
+
+/**
+ * Formats the given date as a Long String
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatLong(date) {
+    if (date) {
+        return new DateTime(date).toLongString();
+    }
+    return "";
+}
+
+/**
+ * Formats the given date as a Medium String
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatMedium(date) {
+    if (date) {
+        return new DateTime(date).toMediumString();
+    }
+    return "";
+}
+
+/**
+ * Formats the given date as a Short String
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatShort(date) {
+    if (date) {
+        return new DateTime(date).toShortString();
+    }
+    return "";
+}
+
+
 
 /**
  * Returns the Week Day as a Name
@@ -1153,7 +1235,11 @@ export default {
     formatIf,
     formatString,
     formatTime,
+    formatLong,
+    formatMedium,
+    formatShort,
     dayToName,
+
     dayToShortName,
     monthToName,
     getMonthDays,
