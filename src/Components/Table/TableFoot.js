@@ -1,8 +1,23 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
+
+// Utils
+import Utils                from "../../Utils/Utils";
 
 // Components
 import TableRowCnt          from "../Table/TableRowCnt";
+
+
+
+// Styles
+const TFoot = Styled.tfoot.attrs(({ notFixed }) => ({ notFixed }))`
+    background: var(--light-gray);
+    border-bottom-right-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+
+    ${(props) => !props.notFixed && "padding-right: 16px;"}
+`;
 
 
 
@@ -12,14 +27,16 @@ import TableRowCnt          from "../Table/TableRowCnt";
  * @returns {React.ReactElement}
  */
 function TableFoot(props) {
-    const { hasIDs, hasActions, children } = props;
+    const { notFixed, hasIDs, hasActions, columns, children } = props;
 
-    return <tfoot>
+    const items = Utils.cloneChildren(children, (child, key) => ({ ...columns[key] }));
+
+    return <TFoot notFixed={notFixed}>
         <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
-            {children}
+            {items}
             {hasActions && <th />}
         </TableRowCnt>
-    </tfoot>;
+    </TFoot>;
 }
 
 /**
@@ -27,8 +44,10 @@ function TableFoot(props) {
  * @typedef {Object} propTypes
  */
 TableFoot.propTypes = {
+    notFixed   : PropTypes.bool,
     hasIDs     : PropTypes.bool,
     hasActions : PropTypes.bool,
+    columns    : PropTypes.array,
     children   : PropTypes.any,
 };
 
