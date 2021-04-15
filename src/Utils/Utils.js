@@ -496,6 +496,8 @@ function getYoutubeEmbed(source) {
         videoID = source.replace("https://youtu.be/", "");
     } else if (source.startsWith("https://www.youtube.com/watch?v=")) {
         videoID = source.replace("https://www.youtube.com/watch?v=", "");
+    } else if (source.startsWith("https://www.youtube.com/embed/")) {
+        videoID = source.replace("https://www.youtube.com/embed/", "");
     }
     if (videoID.includes("&")) {
         videoID = videoID.split("&")[0];
