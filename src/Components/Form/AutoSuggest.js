@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import NLS                  from "../../Core/NLS";
+
 
 
 // Styles
@@ -50,7 +53,10 @@ const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
  * @returns {React.ReactElement}
  */
 function AutoSuggest(props) {
-    const { suggestRef, open, id, name, params, fetch, onChange, onSuggest } = props;
+    const {
+        suggestRef, open, id, name, noneText,
+        params, fetch, onChange, onSuggest,
+    } = props;
 
     // The State
     const [ timer,       setTimer       ] = React.useState(null);
@@ -63,7 +69,7 @@ function AutoSuggest(props) {
     const initValue = async (newValue) => {
         setValue(newValue);
         setSelectedVal(newValue);
-    }
+    };
 
     // Sets the Value
     const setNewValue = async (newValue) => {
@@ -80,6 +86,17 @@ function AutoSuggest(props) {
                 setSuggestions([]);
                 onChange(id, 0);
             }
+        }
+    };
+
+    // Clears the Value
+    const clearValue = async () => {
+        setValue("");
+        await onChange(name, "");
+        onChange(id, 0);
+        setSuggestions([]);
+        if (timer) {
+            window.clearTimeout(timer);
         }
     };
 
@@ -136,6 +153,7 @@ function AutoSuggest(props) {
             apply      : applySelection,
             initValue  : initValue,
             setValue   : setNewValue,
+            clear      : clearValue,
             selectNext : selectNext,
             selectPrev : selectPrev,
             selectElem : selectElem,
@@ -145,9 +163,15 @@ function AutoSuggest(props) {
 
     // There is nothing to show
     if (!suggestions.length) {
+        if (value && value.length > 1 && noneText) {
+            return <Ul isOpen={open}>
+                <Li>{NLS.get(noneText)}</Li>
+            </Ul>;
+        }
         return <React.Fragment />;
     }
 
+    // There are some results
     return <Ul isOpen={open}>
         {suggestions.map(({ id, title }, index) => <Li
             key={index}
@@ -164,6 +188,7 @@ function AutoSuggest(props) {
 AutoSuggest.propTypes = {
     suggestRef : PropTypes.object.isRequired,
     open       : PropTypes.bool.isRequired,
+    noneText   : PropTypes.string,
     fetch      : PropTypes.func.isRequired,
     onChange   : PropTypes.func,
     onSuggest  : PropTypes.func,

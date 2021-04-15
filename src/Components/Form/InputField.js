@@ -130,7 +130,7 @@ function InputField(props) {
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
         fullWidth, smallMargin, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
         preType, preName, preValue, preOptions, prePlaceholder, preWidth,
-        suggestFetch, suggestID, suggestParams,
+        suggestFetch, suggestID, suggestParams, suggestNone,
     } = props;
 
     const inputRef   = React.useRef();
@@ -182,7 +182,7 @@ function InputField(props) {
     const handleClear = () => {
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
-            suggestRef.current.setValue("");
+            suggestRef.current.clear();
         } else {
             handleChange(name, "");
         }
@@ -280,6 +280,7 @@ function InputField(props) {
             id={suggestID}
             fetch={suggestFetch}
             params={suggestParams}
+            noneText={suggestNone}
             onChange={onChange}
             onSuggest={onSuggest}
         />}
@@ -320,6 +321,7 @@ InputField.propTypes = {
     suggestID      : PropTypes.string,
     suggestFetch   : PropTypes.func,
     suggestParams  : PropTypes.object,
+    suggestNone    : PropTypes.string,
     fieldButton    : PropTypes.string,
     error          : PropTypes.string,
     helperText     : PropTypes.string,
