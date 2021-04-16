@@ -424,16 +424,19 @@ function getVisibleChildren(children) {
  * @returns {Object[]}
  */
 function cloneChildren(children, callback) {
-    const result = [];
-    let   key    = 0;
+    const result  = [];
+    let   key     = 0;
+    let   realKey = 0;
+
     for (const child of toArray(children)) {
         if (child && child.props && !child.props.isHidden) {
             const values = callback(child, key);
             result.push(React.cloneElement(child, {
-                key, ...values,
+                key, realKey, ...values,
             }));
             key += 1;
         }
+        realKey += 1;
     }
     return result;
 }

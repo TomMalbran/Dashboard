@@ -33,8 +33,8 @@ const THead = Styled.thead.attrs(({ hasTabs, notFixed }) => ({ hasTabs, notFixed
 function TableHead(props) {
     const { notFixed, hasIDs, hasActions, hasSorting, hasTabs, sort, fetch, columns, children } = props;
 
-    const items = Utils.cloneChildren(children, (child, key) => ({
-        hasSorting, sort, fetch, ...columns[key],
+    const items = Utils.cloneChildren(children, (child) => ({
+        hasSorting, sort, fetch, ...columns[child.props.realKey],
     }));
 
     return <THead hasTabs={hasTabs} notFixed={notFixed}>
