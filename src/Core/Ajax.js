@@ -133,7 +133,19 @@ function baseUrl(route) {
  */
 function createUrl(route, params = {}, addToken = true, addTimezone = false) {
     const url = baseUrl(route);
+    addUrlParams(url, params, addToken, addTimezone);
+    return url;
+}
 
+/**
+ * Adds the params to the Url
+ * @param {URL}      url
+ * @param {Object=}  params
+ * @param {Boolean=} addToken
+ * @param {Boolean=} addTimezone
+ * @returns {Void}
+ */
+function addUrlParams(url, params = {}, addToken = true, addTimezone = false) {
     for (const [ key, value ] of Object.entries(params)) {
         url.searchParams.append(key, value);
     }
@@ -149,8 +161,9 @@ function createUrl(route, params = {}, addToken = true, addTimezone = false) {
             url.searchParams.append("timezone", timezone);
         }
     }
-    return url;
 }
+
+
 
 /**
  * Does a Get
@@ -203,24 +216,25 @@ function post(route, params = {}, showLoader = true, showResult = true) {
  * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
+ * @param {Boolean=} addTimezone
  * @returns {String}
  */
-function url(route, params = {}, addToken = true) {
-    return createUrl(route, params, addToken, false).href;
+function url(route, params = {}, addToken = true, addTimezone = false) {
+    return createUrl(route, params, addToken, addTimezone).href;
 }
 
 /**
  * Returns the route
- * @param {String}  route
- * @param {Object=} params
+ * @param {String}   route
+ * @param {Object=}  params
+ * @param {Boolean=} addToken
+ * @param {Boolean=} addTimezone
  * @returns {String}
  */
-function route(route, params = {}) {
+function route(route, params = {}, addToken = true, addTimezone = false) {
     const url = new URL(process.env.REACT_APP_ROUTE);
     url.searchParams.append("route", route);
-    for (const [ key, value ] of Object.entries(params)) {
-        url.searchParams.append(key, value);
-    }
+    addUrlParams(url, params, addToken, addTimezone);
     return url.href;
 }
 
