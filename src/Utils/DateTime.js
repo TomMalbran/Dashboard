@@ -1089,7 +1089,7 @@ function formatDate(date, format, useTimezone = false) {
  * @param {Boolean=} useTimezone
  * @returns {String}
  */
-function formatDateHour(date, time, format, useTimezone = false) {
+function formatDateTime(date, time, format, useTimezone = false) {
     return fromString(date, time, useTimezone).toString(format);
 }
 
@@ -1231,7 +1231,7 @@ export default {
     create,
     fromString,
     formatDate,
-    formatDateHour,
+    formatDateTime,
     formatIf,
     formatString,
     formatTime,
