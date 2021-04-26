@@ -17,7 +17,7 @@ import DialogFooter         from "../Dialog/DialogFooter";
 function ViewDialog(props) {
     const {
         open, title, icon, className,
-        isLoading, isNarrow, isWide, fullHeight, withSpacing,
+        isLoading, width, isWide, isNarrow, fullHeight, withSpacing,
         secondary, onSecondary, cancel, onClose, children,
     } = props;
 
@@ -25,8 +25,9 @@ function ViewDialog(props) {
         open={open}
         onClose={onClose}
         isLoading={isLoading}
-        isNarrow={isNarrow}
+        width={width}
         isWide={isWide}
+        isNarrow={isNarrow}
     >
         <DialogHeader message={title} icon={icon} />
         <DialogBody
@@ -54,8 +55,9 @@ ViewDialog.propTypes = {
     icon        : PropTypes.string,
     className   : PropTypes.string,
     isLoading   : PropTypes.bool,
-    isNarrow    : PropTypes.bool,
+    width       : PropTypes.number,
     isWide      : PropTypes.bool,
+    isNarrow    : PropTypes.bool,
     fullHeight  : PropTypes.bool,
     withSpacing : PropTypes.bool,
     secondary   : PropTypes.string,
@@ -73,8 +75,8 @@ ViewDialog.defaultProps = {
     className   : "",
     cancel      : "GENERAL_CLOSE",
     isLoading   : false,
-    isNarrow    : false,
     isWide      : false,
+    isNarrow    : false,
     fullHeight  : false,
     withSpacing : false,
 };
