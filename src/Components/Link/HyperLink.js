@@ -198,6 +198,7 @@ HyperLink.defaultProps = {
     href       : "#",
     url        : "",
     target     : "_self",
+    useBase    : false,
     isEmail    : false,
     isPhone    : false,
     isWhatsApp : false,
