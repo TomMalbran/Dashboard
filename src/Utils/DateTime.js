@@ -1024,6 +1024,12 @@ function create(date, inMiliseconds) {
  * @returns {DateHour}
  */
 function fromString(date, time = "", useTimezone = false) {
+    if (date.includes(" ")) {
+        const parts = date.split(" ");
+        date = parts[0];
+        time = parts[1];
+    }
+
     const separator = date.includes("/") ? "/" : "-";
     const dateParts = date.split(separator);
     let   day       = new Date();
