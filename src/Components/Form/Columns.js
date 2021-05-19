@@ -35,13 +35,13 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         margin-bottom: 20px;
     }
 
-    ${(props) => props.amount === 2 && `
+    ${(props) => Number(props.amount) === 2 && `
         &:last-child .inputfield:nth-last-child(-n+2),
         &:last-child .inputview:nth-last-child(-n+2) {
             margin-bottom: 0;
         }
     `}
-    ${(props) => props.amount === 3 && `
+    ${(props) => Number(props.amount) === 3 && `
         &:last-child .inputfield:nth-last-child(-n+3),
         &:last-child .inputview:nth-last-child(-n+3) {
             margin-bottom: 0;
