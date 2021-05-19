@@ -15,7 +15,8 @@ const Variant = {
  * @returns {React.ReactElement}
  */
 function MultiLine(props) {
-    const { variant, className, content, children } = props;
+    const { variant, className, onClick, content, children } = props;
+
     const cnt   = String(content || children);
     const lines = cnt.split("\n");
 
@@ -26,17 +27,17 @@ function MultiLine(props) {
 
     // Only 1 line
     if (lines.length < 1) {
-        return <div className={className}>{cnt}</div>;
+        return <div className={className} onClick={onClick}>{cnt}</div>;
     }
 
     // Multiple lines
     switch (variant) {
     case Variant.P:
-        return <div className={className}>
+        return <div className={className} onClick={onClick}>
             {lines.map((elem, index) => <p key={index}>{elem}</p>)}
         </div>;
     default:
-        return <div className={className}>
+        return <div className={className} onClick={onClick}>
             {lines.map((elem, index) => <div key={index}>{elem}</div>)}
         </div>;
     }
@@ -49,6 +50,7 @@ function MultiLine(props) {
 MultiLine.propTypes = {
     variant   : PropTypes.string,
     className : PropTypes.string,
+    onClick   : PropTypes.func,
     content   : PropTypes.string,
     children  : PropTypes.string,
 };

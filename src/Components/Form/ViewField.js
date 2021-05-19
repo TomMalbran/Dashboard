@@ -17,7 +17,7 @@ import MultiLine            from "../Common/MultiLine";
 
 
 // Styles
-const InputContent = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
+const InputContent = Styled.div.attrs(({ isSmall, withLink }) => ({ isSmall, withLink }))`
     display: flex;
     align-items: center;
 
@@ -40,6 +40,7 @@ const InputContent = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
             padding: 8px 8px 6px 8px;
             line-height: 1.5;
         `}
+        ${(props) => props.withLink ? "cursor: pointer;" : ""}
     }
     .inputview-link {
         white-space: nowrap;
@@ -80,12 +81,12 @@ function ViewField(props) {
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
-    const content  = value === undefined ? "" : String(value);
-    const isLink   = content.startsWith("http");
-    const isHtml   = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
-    const isText   = !isLink && !isHtml;
-    const hasLabel = !!label;
-    const hasLink  = Boolean(linkIcon && linkHref);
+    const content   = value === undefined ? "" : String(value);
+    const isLink    = content.startsWith("http");
+    const isHtml    = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
+    const isText    = !isLink && !isHtml;
+    const hasLabel  = !!label;
+    const hasLink   = Boolean(linkIcon && linkHref);
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
 
@@ -105,13 +106,13 @@ function ViewField(props) {
             withTransform
             withValue
         />}
-        <InputContent className="inputview-cnt" isSmall={isSmall}>
+        <InputContent className="inputview-cnt" isSmall={isSmall} withLink={!!onClick}>
             {!!icon && <Icon icon={icon} />}
             {isLink && <div className="inputview-value inputview-link">
                 <HyperLink variant="primary" href={content} message={content} target="_blank" />
             </div>}
-            {isHtml && <Html className="inputview-value">{content}</Html>}
-            {isText && <MultiLine className={`inputview-value ${viewClass}`}>
+            {isHtml && <Html className="inputview-value" onClick={onClick}>{content}</Html>}
+            {isText && <MultiLine className={`inputview-value ${viewClass}`} onClick={onClick}>
                 {content}
             </MultiLine>}
             {hasLink && <ViewLink
@@ -123,7 +124,6 @@ function ViewField(props) {
                 isEmail={isEmail}
                 isPhone={isPhone}
                 isWhatsApp={isWhatsApp}
-                onClick={onClick}
             />}
         </InputContent>
         {hasError  && <InputError>{NLS.get(error)}</InputError>}
