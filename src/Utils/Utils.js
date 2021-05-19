@@ -186,7 +186,7 @@ function getPageText(currentPage, totalPages) {
  * @returns {String}
  */
 function toYesNo(value) {
-    return NLS.get("GENERAL_YES_NO", Number(value));
+    return NLS.get("GENERAL_YES_NO", Number(value) || 0);
 }
 
 /**
@@ -195,7 +195,8 @@ function toYesNo(value) {
  * @returns {String}
  */
 function toYesBlank(value) {
-    return NLS.get("GENERAL_YES_BLANK", Number(value));
+    return NLS.get("GENERAL_YES_BLANK", Number(value) || 0);
+}
 
 /**
  * Returns a String with the Text Class
@@ -393,9 +394,11 @@ function getIndex(data, idKey, idValue) {
  * @returns {(Object|String)}
  */
 function getValue(data, idKey, idValue, key, defValue) {
-    for (const elem of data) {
-        if (String(elem[idKey]) === String(idValue)) {
-            return key ? elem[key] : elem;
+    if (data) {
+        for (const elem of data) {
+            if (String(elem[idKey]) === String(idValue)) {
+                return key ? elem[key] : elem;
+            }
         }
     }
     if (defValue !== undefined) {
