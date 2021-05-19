@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import NLS                  from "../../Core/NLS";
+
 // Components
 import InputLabel           from "../Input/InputLabel";
 import InputContainer       from "../Input/InputContainer";
@@ -51,6 +54,18 @@ const ViewLink = Styled(IconLink)`
     margin-left: 4px;
 `;
 
+const InputError = Styled.p`
+    font-size: 12px;
+    margin: 4px 0 0 4px;
+    color: #ff0033;
+`;
+
+const InputHelper = Styled.p`
+    font-size: 0.9em;
+    margin: 4px 0 0 4px;
+    color: var(--lighter-color);
+`;
+
 
 
 /**
@@ -61,7 +76,7 @@ const ViewLink = Styled(IconLink)`
 function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, label, value, icon,
-        fullWidth, smallMargin, noMargin, isSmall,
+        fullWidth, smallMargin, noMargin, isSmall, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
@@ -71,6 +86,8 @@ function ViewField(props) {
     const isText   = !isLink && !isHtml;
     const hasLabel = !!label;
     const hasLink  = Boolean(linkIcon && linkHref);
+    const hasError  = Boolean(error);
+    const hasHelper = !hasError && Boolean(helperText);
 
     if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
@@ -109,6 +126,8 @@ function ViewField(props) {
                 onClick={onClick}
             />}
         </InputContent>
+        {hasError  && <InputError>{NLS.get(error)}</InputError>}
+        {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
     </InputContainer>;
 }
 
@@ -124,6 +143,8 @@ ViewField.propTypes = {
     label       : PropTypes.string,
     icon        : PropTypes.string,
     value       : PropTypes.any,
+    error       : PropTypes.string,
+    helperText  : PropTypes.string,
     smallMargin : PropTypes.bool,
     noMargin    : PropTypes.bool,
     fullWidth   : PropTypes.bool,
