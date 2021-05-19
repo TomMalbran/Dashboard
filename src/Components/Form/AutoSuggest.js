@@ -134,9 +134,9 @@ function AutoSuggest(props) {
     };
 
     // Selects the Elem
-    const selectElem = async (newID, newValue) => {
+    const selectElem = async (newID, newValue, extra) => {
         if (onSuggest) {
-            onSuggest(id, newID, name, newValue);
+            onSuggest(id, newID, name, newValue, extra);
         } else if (onChange) {
             await onChange(id, newID);
             await onChange(name, newValue);
@@ -173,10 +173,10 @@ function AutoSuggest(props) {
 
     // There are some results
     return <Ul isOpen={open}>
-        {suggestions.map(({ id, title }, index) => <Li
+        {suggestions.map(({ id, title, extra }, index) => <Li
             key={index}
             isSelected={selectedIdx === index}
-            onClick={() => selectElem(id, title)}
+            onClick={() => selectElem(id, title, extra)}
         >{title}</Li>)}
     </Ul>;
 }
