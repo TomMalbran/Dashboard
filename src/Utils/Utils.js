@@ -13,6 +13,15 @@ function isString(value) {
 }
 
 /**
+ * Returns true if the value is an Object
+ * @param {*} value
+ * @returns {Boolean}
+ */
+function isObject(value) {
+    return typeof value === "object" && value !== null;
+}
+
+/**
  * Returns true if the Object is empty
  * @param {Object} object
  * @returns {Boolean}
@@ -541,6 +550,7 @@ function getVimeoEmbed(source, showInfo = false) {
 // The public API
 export default {
     isString,
+    isObject,
     isEmpty,
     clone,
     clamp,
