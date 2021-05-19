@@ -196,6 +196,16 @@ function toYesNo(value) {
  */
 function toYesBlank(value) {
     return NLS.get("GENERAL_YES_BLANK", Number(value));
+
+/**
+ * Returns a String with the Text Class
+ * @param {String} options
+ * @param {Number} value
+ * @returns {String}
+ */
+function getTextClass(options, value) {
+    const color = NLS.get(options, Number(value) || 0);
+    return color ? `text-${color}` : "";
 }
 
 
@@ -564,6 +574,7 @@ export default {
     getPageText,
     toYesNo,
     toYesBlank,
+    getTextClass,
 
     concat,
     removePrefix,
