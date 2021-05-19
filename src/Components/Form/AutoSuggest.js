@@ -54,7 +54,7 @@ const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
  */
 function AutoSuggest(props) {
     const {
-        suggestRef, open, id, name, noneText,
+        suggestRef, open, id, name, noneText, keepSuggestions,
         params, fetch, onChange, onSuggest,
     } = props;
 
@@ -141,7 +141,9 @@ function AutoSuggest(props) {
             await onChange(id, newID);
             await onChange(name, newValue);
         }
-        setSuggestions([]);
+        if (!keepSuggestions) {
+            setSuggestions([]);
+        }
         setSelectedIdx(0);
         setSelectedVal(newValue);
     };
@@ -186,15 +188,16 @@ function AutoSuggest(props) {
  * @typedef {Object} propTypes
  */
 AutoSuggest.propTypes = {
-    suggestRef : PropTypes.object.isRequired,
-    open       : PropTypes.bool.isRequired,
-    noneText   : PropTypes.string,
-    fetch      : PropTypes.func.isRequired,
-    onChange   : PropTypes.func,
-    onSuggest  : PropTypes.func,
-    id         : PropTypes.string.isRequired,
-    name       : PropTypes.string.isRequired,
-    params     : PropTypes.object,
+    suggestRef      : PropTypes.object.isRequired,
+    open            : PropTypes.bool.isRequired,
+    noneText        : PropTypes.string,
+    keepSuggestions : PropTypes.bool,
+    fetch           : PropTypes.func.isRequired,
+    onChange        : PropTypes.func,
+    onSuggest       : PropTypes.func,
+    id              : PropTypes.string.isRequired,
+    name            : PropTypes.string.isRequired,
+    params          : PropTypes.object,
 };
 
 /**
