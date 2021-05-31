@@ -21,6 +21,7 @@ const OPTIONS = {
     isTab      : false,
     isCollapse : false,
     isFilter   : false,
+    isEmail    : false,
 
     isLogin    : false,
     isSelect   : false,
@@ -110,6 +111,12 @@ const ACTIONS = {
         icon       : "filter",
         message    : "GENERAL_FILTER",
         isFilter   : true,
+    },
+    "EMAIL" : {
+        ...OPTIONS,
+        icon       : "email",
+        message    : "GENERAL_SEND_EMAIL",
+        isEmail    : true,
     },
 
 

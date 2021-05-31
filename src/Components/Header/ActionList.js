@@ -40,7 +40,7 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function ActionList(props) {
-    const { className, data, onAction, createText, useAdd, useAssign, children } = props;
+    const { className, data, onAction, createText, useAdd, useAssign, withEmail, children } = props;
 
     const items      = Utils.cloneChildren(children, () => ({ onAction }));
     const createName = createText || (useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE"));
@@ -48,7 +48,8 @@ function ActionList(props) {
     const canImport  = Boolean(data.canImport);
     const canExport  = Boolean(data.canExport && data.total > 0);
     const canFilter  = Boolean(data.canFilter);
-    const hasActions = canCreate || canImport || canExport || canFilter || items.length > 0;
+    const canEmail   = Boolean(withEmail && data.total > 0)
+    const hasActions = canCreate || canImport || canExport || canFilter || canEmail || items.length > 0;
 
     if (!hasActions) {
         return <React.Fragment />;
@@ -71,6 +72,10 @@ function ActionList(props) {
             action="FILTER"
             onAction={onAction}
         />}
+        {canEmail && <ActionItem
+            action="EMAIL"
+            onAction={onAction}
+        />}
         {items}
     </Ul>;
 }
@@ -86,6 +91,7 @@ ActionList.propTypes = {
     createText : PropTypes.string,
     useAdd     : PropTypes.bool,
     useAssign  : PropTypes.bool,
+    withEmail  : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -99,6 +105,7 @@ ActionList.defaultProps = {
     createText : "",
     useAdd     : false,
     useAssign  : false,
+    withEmail  : false,
 };
 
 export default ActionList;
