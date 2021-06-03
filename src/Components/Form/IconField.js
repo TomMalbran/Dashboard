@@ -8,6 +8,7 @@ import InputType            from "../../Core/InputType";
 
 // Components
 import InputContainer       from "../Input/InputContainer";
+import InputLabel           from "../Input/InputLabel";
 import Input                from "../Input/Input";
 import Icon                 from "../Common/Icon";
 
@@ -18,6 +19,11 @@ const InputContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
+
+    & > div {
+        position: relative;
+        flex-grow: 1;
+    }
 
     ${(props) => props.hasError && `
         .icon {
@@ -42,7 +48,7 @@ const InputError = Styled.p`
 
 const InputInput = Styled(Input).attrs(({ width }) => ({ width }))`
     box-sizing: border-box;
-    min-height: var(--input-height);
+    min-height: var(--inputicon-height);
     color: var(--black-color);
     background-color: white;
     border: 1px solid var(--border-color);
@@ -54,13 +60,13 @@ const InputInput = Styled(Input).attrs(({ width }) => ({ width }))`
 
     &.input {
         appearance: none;
-        font-size: 13px;
+        font-size: var(--inputicon-font);
         width: 100%;
         margin: 0;
-        padding: 4px 8px;
+        padding: 12px 8px 4px 8px;
     }
     &.input-textarea {
-        min-height: var(--input-height);
+        min-height: var(--inputicon-height);
         resize: none;
     }
     &.input:focus {
@@ -88,14 +94,33 @@ const InputInput = Styled(Input).attrs(({ width }) => ({ width }))`
     }
 `;
 
+const InputIconLabel = Styled(InputLabel).attrs(({ withTransform, withValue }) => ({ withTransform, withValue }))`
+    && {
+        top: 6px;
+        left: 6px;
+        font-size: 12px;
+        background-color: transparent;
+
+        ${(props) => props.withTransform && `
+            transform-origin: top left;
+            transform: translateY(var(--inputicon-move));
+            font-size: var(--inputicon-font);
+        `}
+        ${(props) => props.withValue && `
+            transform: translateY(0);
+            font-size: 12px;
+        `}
+    }
+`;
+
 const InputIcon = Styled(Icon)`
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(var(--input-height) - 2px);
-    width: calc(var(--input-height) - 2px);
-    font-size: 16px;
+    height: calc(var(--inputicon-height) - 2px);
+    width: calc(var(--inputicon-height) - 2px);
+    font-size: var(--inputicon-icon);
     color: white;
     background-color: var(--primary-color);
     border: 1px solid var(--border-color);
@@ -114,16 +139,28 @@ const InputIcon = Styled(Icon)`
  */
 function IconField(props) {
     const {
-        isHidden, className, type, icon, autoFocus,
+        isHidden, className, type, icon, autoFocus, value,
         isRequired, error, fullWidth, onChange,
-        preType, preName, preValue, preOptions, preWidth,
+        withLabel, label, placeholder, shrink, withNone,
+        preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preWidth,
     } = props;
 
-    const inputRef       = React.useRef();
-    const placeholder    = props.placeholder    ? NLS.get(props.placeholder)    + (isRequired ? " *" : "") : "";
-    const prePlaceholder = props.prePlaceholder ? NLS.get(props.prePlaceholder) + (isRequired ? " *" : "") : "";
+    const [ isFocused,    setFocus    ] = React.useState(false);
+    const [ hasValue,     setValue    ] = React.useState(false);
+    const [ isPreFocused, setPreFocus ] = React.useState(false);
+    const [ hasPreValue,  setPreValue ] = React.useState(false);
 
-    const [ isFocused, setFocus ] = React.useState(false);
+    const inputRef         = React.useRef();
+
+    const hasLabel         = Boolean(withLabel && label && InputType.hasLabel(type));
+    const withValue        = isFocused || hasValue || Boolean(value);
+    const withTransform    = !shrink && InputType.canShrink(type, withNone);
+
+    const hasPreInput      = Boolean(preName);
+    const hasPreLabel      = Boolean(withLabel && preLabel && InputType.hasLabel(preType));
+    const withPreValue     = isPreFocused || hasPreValue || Boolean(preValue);
+    const withPreTransform = !shrink && InputType.canShrink(preType, preWithNone);
+
 
     // The Input got Focus
     const handleFocus = () => {
@@ -135,6 +172,33 @@ function IconField(props) {
         setFocus(false);
     };
 
+    // Handles the Input Change
+    const handleChange = (name, value) => {
+        setValue(Boolean(value));
+        if (onChange) {
+            onChange(name, value);
+        }
+    };
+
+
+    // The Pre Input got Focus
+    const handlePreFocus = () => {
+        setPreFocus(true);
+    };
+
+    // The Pre Input lost Focus
+    const handlePreBlur = () => {
+        setPreFocus(false);
+    };
+
+    // Handles the Pre Input Change
+    const handlePreChange = (name, value) => {
+        setPreValue(Boolean(value));
+        if (onChange) {
+            onChange(name, value);
+        }
+    };
+
 
     // Autofocus
     React.useEffect(() => {
@@ -142,6 +206,8 @@ function IconField(props) {
         if (autoFocus && node) {
             node.focus();
         }
+        setValue(Boolean(value));
+        setPreValue(Boolean(preValue));
     }, []);
 
 
@@ -157,27 +223,48 @@ function IconField(props) {
     >
         <InputContent className="inputfield-cnt" hasError={!!error}>
             <InputIcon icon={icon} />
-            {!!preName && <InputInput
-                className="inputfield-input inputfield-pre"
-                type={preType}
-                name={preName}
-                value={preValue}
-                options={preOptions}
-                placeholder={prePlaceholder}
-                onChange={onChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                width={preWidth}
-            />}
-            <InputInput
-                {...props}
-                className="inputfield-input"
-                placeholder={placeholder}
-                inputRef={inputRef}
-                onChange={onChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-            />
+            {hasPreInput && <div>
+                {hasPreLabel && <InputIconLabel
+                    className="inputfield-label"
+                    isRequired={isRequired}
+                    withTransform={withPreTransform}
+                    withValue={withPreValue}
+                    isFocused={isPreFocused}
+                    message={preLabel}
+                />}
+                <InputInput
+                    className="inputfield-input inputfield-pre"
+                    type={preType}
+                    name={preName}
+                    value={preValue}
+                    options={preOptions}
+                    withNone={preWithNone}
+                    placeholder={prePlaceholder}
+                    onChange={handlePreChange}
+                    onFocus={handlePreFocus}
+                    onBlur={handlePreBlur}
+                    width={preWidth}
+                />
+            </div>}
+            <div>
+                {hasLabel && <InputIconLabel
+                    className="inputfield-label"
+                    isRequired={isRequired}
+                    withTransform={withTransform}
+                    withValue={withValue}
+                    isFocused={isFocused}
+                    message={label}
+                />}
+                <InputInput
+                    {...props}
+                    className="inputfield-input"
+                    placeholder={placeholder}
+                    inputRef={inputRef}
+                    onChange={handleChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                />
+            </div>
         </InputContent>
         {!!error && <InputError>{NLS.get(error)}</InputError>}
     </InputContainer>;
@@ -193,6 +280,7 @@ IconField.propTypes = {
     id             : PropTypes.string,
     type           : PropTypes.string,
     name           : PropTypes.string,
+    label          : PropTypes.string,
     placeholder    : PropTypes.string,
     icon           : PropTypes.string,
     value          : PropTypes.any,
@@ -209,6 +297,7 @@ IconField.propTypes = {
     extraOptions   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex       : PropTypes.string,
     fullWidth      : PropTypes.bool,
+    shrink         : PropTypes.bool,
     withNone       : PropTypes.bool,
     noneText       : PropTypes.string,
     withCustom     : PropTypes.bool,
@@ -217,8 +306,10 @@ IconField.propTypes = {
     autoFocus      : PropTypes.bool,
     preType        : PropTypes.string,
     preName        : PropTypes.string,
+    preLabel       : PropTypes.string,
     preValue       : PropTypes.any,
     preOptions     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    preWithNone    : PropTypes.bool,
     prePlaceholder : PropTypes.string,
     preWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 };
@@ -237,6 +328,7 @@ IconField.defaultProps = {
     isDisabled     : false,
     options        : [],
     extraOptions   : [],
+    withLabel      : true,
     fullWidth      : false,
     withNone       : false,
     noneText       : "",
