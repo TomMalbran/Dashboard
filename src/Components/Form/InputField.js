@@ -141,7 +141,7 @@ function InputField(props) {
     const [ hasValue,  setValue ] = React.useState(false);
 
     const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
-    const withTransform = !shrink && (!InputType.canShrink(type) || (type === InputType.SELECT && withNone));
+    const withTransform = !shrink && InputType.canShrink(type, withNone);
     const withValue     = isFocused || hasValue || Boolean(value);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);

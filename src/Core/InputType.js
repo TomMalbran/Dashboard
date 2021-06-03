@@ -35,8 +35,11 @@ function hasLabel(type) {
  * @param {String} type
  * @returns {Boolean}
  */
-function canShrink(type) {
-    return [ MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, COLOR, DATE, TIME, PASSWORD ].includes(type);
+function canShrink(type, withNone) {
+    if (type === SELECT && withNone) {
+        return true;
+    }
+    return ![ MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, COLOR, DATE, TIME ].includes(type);
 }
 
 
