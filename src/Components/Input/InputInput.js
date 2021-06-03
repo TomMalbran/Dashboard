@@ -11,7 +11,7 @@ import InputType            from "../../Core/InputType";
 const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
     box-sizing: border-box;
     appearance: none;
-    font-size: 13px;
+    font-size: var(--input-font);
     width: 100%;
     margin: 0;
     padding: 4px 8px;
