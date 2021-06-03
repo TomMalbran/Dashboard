@@ -36,6 +36,7 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
     transition: all 0.5s;
 
     .icon {
+        margin-left: 8px;
         cursor: pointer;
     }
 
