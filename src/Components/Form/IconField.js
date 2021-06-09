@@ -141,7 +141,7 @@ function IconField(props) {
     const {
         isHidden, className, type, icon, autoFocus, value,
         isRequired, error, fullWidth, onChange,
-        withLabel, label, placeholder, shrink, withNone,
+        withLabel, label, placeholder, shrinkLabel, withNone,
         preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preWidth,
     } = props;
 
@@ -154,12 +154,12 @@ function IconField(props) {
 
     const hasLabel         = Boolean(withLabel && label && InputType.hasLabel(type));
     const withValue        = isFocused || hasValue || Boolean(value);
-    const withTransform    = !shrink && InputType.canShrink(type, withNone);
+    const withTransform    = !shrinkLabel && InputType.canShrink(type, withNone);
 
     const hasPreInput      = Boolean(preName);
     const hasPreLabel      = Boolean(withLabel && preLabel && InputType.hasLabel(preType));
     const withPreValue     = isPreFocused || hasPreValue || Boolean(preValue);
-    const withPreTransform = !shrink && InputType.canShrink(preType, preWithNone);
+    const withPreTransform = !shrinkLabel && InputType.canShrink(preType, preWithNone);
 
 
     // The Input got Focus
@@ -297,7 +297,7 @@ IconField.propTypes = {
     extraOptions   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex       : PropTypes.string,
     fullWidth      : PropTypes.bool,
-    shrink         : PropTypes.bool,
+    shrinkLabel    : PropTypes.bool,
     withNone       : PropTypes.bool,
     noneText       : PropTypes.string,
     withCustom     : PropTypes.bool,
@@ -330,6 +330,7 @@ IconField.defaultProps = {
     extraOptions   : [],
     withLabel      : true,
     fullWidth      : false,
+    shrinkLabel    : false,
     withNone       : false,
     noneText       : "",
     withCustom     : false,

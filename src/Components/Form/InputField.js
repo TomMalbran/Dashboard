@@ -132,7 +132,7 @@ function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
-        fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrink,
+        fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel,
         preType, preName, preValue, preOptions, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear,
     } = props;
@@ -145,7 +145,7 @@ function InputField(props) {
     const [ hasValue,  setValue ] = React.useState(false);
 
     const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
-    const withTransform = !shrink && InputType.canShrink(type, withNone);
+    const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
     const withValue     = isFocused || hasValue || Boolean(value);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
@@ -343,7 +343,7 @@ InputField.propTypes = {
     noMargin        : PropTypes.bool,
     fullWidth       : PropTypes.bool,
     labelInside     : PropTypes.bool,
-    shrink          : PropTypes.bool,
+    shrinkLabel     : PropTypes.bool,
     isSmall         : PropTypes.bool,
     withNone        : PropTypes.bool,
     noneText        : PropTypes.string,
@@ -383,7 +383,7 @@ InputField.defaultProps = {
     noMargin       : false,
     fullWidth      : false,
     labelInside    : false,
-    shrink         : false,
+    shrinkLabel    : false,
     isSmall        : false,
     withNone       : false,
     noneText       : "",

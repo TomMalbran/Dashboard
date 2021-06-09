@@ -113,7 +113,7 @@ function Filter(props) {
             value={data.search}
             error={errors.search}
             onChange={handleChange}
-            shrink
+            shrinkLabel
         />
         <FilterField
             isHidden={!hasCredential}
@@ -126,7 +126,7 @@ function Filter(props) {
             error={errors.credentialID}
             onChange={handleChange}
             onSuggest={handleSuggest}
-            shrink
+            shrinkLabel
         />
         <FilterField
             type="date"
