@@ -36,7 +36,7 @@ const InputHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
-const InputInput = Styled(Input).attrs(({ isSmall, width }) => ({ isSmall, width }))`
+const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside }) => ({ isSmall, width, labelInside }))`
     box-sizing: border-box;
     color: var(--black-color);
     background-color: white;
@@ -51,8 +51,12 @@ const InputInput = Styled(Input).attrs(({ isSmall, width }) => ({ isSmall, width
         padding: 4px 8px;
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
-        min-height: ${(props) => props.isSmall ? "calc(var(--input-height) - 7px)" : "var(--input-height)"};
+        min-height: ${(props) => (
+            props.isSmall ? "calc(var(--input-height) - 7px)" :
+            (props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)")
+        )};
     }
+
     &.input-textarea, & .input-textarea {
         resize: none;
     }
@@ -128,9 +132,9 @@ function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
-        fullWidth, smallMargin, noMargin, isRequired, withNone, shrink, isSmall, hasClear,
+        fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrink,
         preType, preName, preValue, preOptions, prePlaceholder, preWidth,
-        suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions,
+        suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear,
     } = props;
 
     const inputRef   = React.useRef();
@@ -221,6 +225,7 @@ function InputField(props) {
         smallMargin={smallMargin}
         noMargin={noMargin}
         hasLabel={hasLabel}
+        labelInside={labelInside}
         hasError={hasError}
         isFocused={isFocused}
     >
@@ -229,6 +234,7 @@ function InputField(props) {
             isRequired={isRequired}
             withTransform={withTransform}
             withValue={withValue}
+            labelInside={labelInside}
             isFocused={isFocused}
             message={label}
         />}
@@ -241,10 +247,11 @@ function InputField(props) {
                 value={preValue}
                 options={preOptions}
                 placeholder={prePlaceholder}
+                width={preWidth}
+                labelInside={labelInside}
                 onChange={onChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-                width={preWidth}
             />}
             <InputInput
                 {...props}
@@ -257,6 +264,7 @@ function InputField(props) {
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 isSmall={isSmall}
+                labelInside={labelInside}
             />
             {hasClear && hasValue && <InputClear
                 variant="light"
@@ -334,6 +342,7 @@ InputField.propTypes = {
     smallMargin     : PropTypes.bool,
     noMargin        : PropTypes.bool,
     fullWidth       : PropTypes.bool,
+    labelInside     : PropTypes.bool,
     shrink          : PropTypes.bool,
     isSmall         : PropTypes.bool,
     withNone        : PropTypes.bool,
@@ -373,6 +382,7 @@ InputField.defaultProps = {
     smallMargin    : false,
     noMargin       : false,
     fullWidth      : false,
+    labelInside    : false,
     shrink         : false,
     isSmall        : false,
     withNone       : false,

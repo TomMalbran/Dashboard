@@ -9,21 +9,28 @@ import NLS                  from "../../Core/NLS";
 
 // Styles
 const Label = Styled.p.attrs(
-    ({ isRequired, withTransform, withValue, isFocused }) =>
-        ({ isRequired, withTransform, withValue, isFocused })
+    ({ isRequired, withTransform, withValue, labelInside, isFocused }) =>
+        ({ isRequired, withTransform, withValue, labelInside, isFocused })
 )`
     position: absolute;
-    top: 0px;
-    left: 8px;
     margin: 0;
     padding: 0 4px;
-    font-size: 13px;
     line-height: 1;
     background-color: white;
     color: var(--lighter-color);
     transition: all 0.2s;
     pointer-events: none;
     z-index: 1;
+
+    ${(props) => props.labelInside ? `
+        top: 4px;
+        left: 6px;
+        font-size: 12px;
+    ` : `
+        top: 0px;
+        left: 8px;
+        font-size: 13px;
+    `}
 
     ${(props) => props.isRequired && `
         &::after {
@@ -51,13 +58,14 @@ const Label = Styled.p.attrs(
  * @returns {React.ReactElement}
  */
 function InputLabel(props) {
-    const { className, isRequired, withTransform, withValue, isFocused, message } = props;
+    const { className, isRequired, withTransform, withValue, labelInside, isFocused, message } = props;
 
     return <Label
         className={className}
         isRequired={isRequired}
         withTransform={withTransform}
         withValue={withValue}
+        labelInside={labelInside}
         isFocused={isFocused}
     >
         {NLS.get(message)}
@@ -73,6 +81,7 @@ InputLabel.propTypes = {
     isRequired    : PropTypes.bool,
     withTransform : PropTypes.bool,
     withValue     : PropTypes.bool,
+    labelInside   : PropTypes.bool,
     isFocused     : PropTypes.bool,
     message       : PropTypes.string.isRequired,
 };
@@ -86,6 +95,7 @@ InputLabel.defaultProps = {
     isRequired    : false,
     withTransform : false,
     withValue     : false,
+    labelInside   : false,
     isFocused     : false,
 };
 

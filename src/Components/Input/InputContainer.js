@@ -6,8 +6,8 @@ import Styled               from "styled-components";
 
 // Styles
 const Container = Styled.div.attrs(
-    ({ fullWidth, smallMargin, noMargin, hasLabel, hasError, isFocused }) =>
-        ({ fullWidth, smallMargin, noMargin, hasLabel, hasError, isFocused })
+    ({ fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused }) =>
+        ({ fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused })
 )`
     position: relative;
     display: block;
@@ -22,7 +22,8 @@ const Container = Styled.div.attrs(
             margin-bottom: 0;
         }
     `}
-    ${(props) => props.hasLabel && `
+
+    ${(props) => props.hasLabel && !props.labelInside && `
         padding-top: 6px;
         .input {
             padding-top: 8px !important;
@@ -33,6 +34,17 @@ const Container = Styled.div.attrs(
             padding-bottom: 8px !important;
         }
     `}
+    ${(props) => props.hasLabel && props.labelInside && `
+        .input {
+            padding-top: 16px !important;
+        }
+        .input-textarea {
+            height: var(--input-height);
+            padding-top: 18px !important;
+            padding-bottom: 8px !important;
+        }
+    `}
+
     ${(props) => props.hasError && `
         .inputfield-input.inputfield-input,
         .inputfield-cnt > .icon {
@@ -63,7 +75,7 @@ const Container = Styled.div.attrs(
  * @returns {React.ReactElement}
  */
 function InputContainer(props) {
-    const { className, fullWidth, smallMargin, noMargin, hasLabel, hasError, isFocused, children } = props;
+    const { className, fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused, children } = props;
 
     return <Container
         className={className}
@@ -71,6 +83,7 @@ function InputContainer(props) {
         smallMargin={smallMargin}
         noMargin={noMargin}
         hasLabel={hasLabel}
+        labelInside={labelInside}
         hasError={hasError}
         isFocused={isFocused}
     >
@@ -88,6 +101,7 @@ InputContainer.propTypes = {
     smallMargin : PropTypes.bool,
     noMargin    : PropTypes.bool,
     hasLabel    : PropTypes.bool,
+    labelInside : PropTypes.bool,
     hasError    : PropTypes.bool,
     isFocused   : PropTypes.bool,
     children    : PropTypes.any,
@@ -103,6 +117,7 @@ InputContainer.defaultProps = {
     smallMargin : false,
     noMargin    : false,
     hasLabel    : false,
+    labelInside : false,
     hasError    : false,
     isFocused   : false,
 };
