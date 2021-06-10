@@ -72,7 +72,7 @@ const initialErrors = {
  * @returns {React.ReactElement}
  */
 function Filter(props) {
-    const { hasSearch, hasCredential, fetch, params, onFilter } = props;
+    const { hasSearch, hasCredential, labelInside, fetch, params, onFilter } = props;
     const columns = hasCredential || hasSearch ? 3 : 2;
 
     const [ loading, setLoading ] = React.useState(false);
@@ -113,6 +113,7 @@ function Filter(props) {
             value={data.search}
             error={errors.search}
             onChange={handleChange}
+            labelInside={labelInside}
             shrinkLabel
         />
         <FilterField
@@ -126,6 +127,7 @@ function Filter(props) {
             error={errors.credentialID}
             onChange={handleChange}
             onSuggest={handleSuggest}
+            labelInside={labelInside}
             shrinkLabel
         />
         <FilterField
@@ -135,6 +137,7 @@ function Filter(props) {
             value={data.fromDate}
             error={errors.fromDate}
             onChange={handleChange}
+            labelInside={labelInside}
         />
         <FilterField
             type="date"
@@ -143,6 +146,7 @@ function Filter(props) {
             value={data.toDate}
             error={errors.toDate}
             onChange={handleChange}
+            labelInside={labelInside}
         />
         <Div>
             <FilterButton
@@ -163,6 +167,7 @@ Filter.propTypes = {
     onFilter      : PropTypes.func.isRequired,
     hasCredential : PropTypes.bool,
     hasSearch     : PropTypes.bool,
+    labelInside   : PropTypes.bool,
     fetch         : PropTypes.func,
     params        : PropTypes.object,
 };
@@ -174,6 +179,7 @@ Filter.propTypes = {
 Filter.defaultProps = {
     hasCredential : false,
     hasSearch     : false,
+    labelInside   : false,
 };
 
 export default Filter;
