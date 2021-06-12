@@ -2,10 +2,11 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import MenuLink             from "../Link/MenuLink";
@@ -70,11 +71,19 @@ function NavigationItem(props) {
     const {
         variant, className, path, baseUrl, message, html, url, href, icon,
         elemID, isSelected, isDisabled, usePrefix, onAction, onClick, onClose, amount,
-        canEdit, canDelete, canCollapse, isCollapsed, children,
+        canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
-    const uri        = url ? NLS.baseUrl(baseUrl, url) : (href || "");
-    const hasActions = canEdit || canDelete || canCollapse;
+    // Returns true if the Menu should be selected
+    const shouldSelect = () => {
+        if (isSelected) {
+            return isSelected;
+        }
+        if (usePrefix) {
+            return path.startsWith(uri);
+        }
+        return path === uri;
+    };
 
     // Handles the Click
     const handleClick = (e) => {
@@ -100,16 +109,12 @@ function NavigationItem(props) {
         e.preventDefault();
     };
 
-    // Returns true if the Menu should be selected
-    const shouldSelect = () => {
-        if (isSelected) {
-            return isSelected;
-        }
-        if (usePrefix) {
-            return path.startsWith(uri);
-        }
-        return path === uri;
-    }
+    // Handle the variables
+    const uri          = url ? NLS.baseUrl(baseUrl, url) : (href || "");
+    const hasActions   = canEdit || canDelete || canCollapse || collapseOnSelect;
+    const selected     = shouldSelect();
+    const showChildren = collapseOnSelect ? selected : (canCollapse ? !isCollapsed : true);
+    const items        = Utils.cloneChildren(children, () => ({ variant, path, baseUrl }));
 
 
     return <li>
@@ -117,7 +122,7 @@ function NavigationItem(props) {
             <MenuLink
                 variant={variant}
                 className={className}
-                isSelected={shouldSelect()}
+                isSelected={selected}
                 isDisabled={isDisabled}
                 message={message}
                 html={html}
@@ -131,6 +136,10 @@ function NavigationItem(props) {
                     icon={isCollapsed ? "closed" : "open"}
                     onClick={(e) => handleAction(e, "COLLAPSE")}
                 />}
+                {collapseOnSelect && <NavIcon
+                    icon={selected ? "closed" : "open"}
+                    onClick={handleClick}
+                />}
                 {canEdit && <NavIcon
                     icon="edit"
                     onClick={(e) => handleAction(e, "EDIT")}
@@ -141,7 +150,7 @@ function NavigationItem(props) {
                 />}
             </NavActions>}
         </Div>
-        {children}
+        {showChildren && items}
     </li>;
 }
 
@@ -150,29 +159,30 @@ function NavigationItem(props) {
  * @type {Object} propTypes
  */
 NavigationItem.propTypes = {
-    isHidden    : PropTypes.bool,
-    variant     : PropTypes.string,
-    className   : PropTypes.string,
-    path        : PropTypes.string,
-    baseUrl     : PropTypes.string,
-    message     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    html        : PropTypes.string,
-    url         : PropTypes.string,
-    href        : PropTypes.string,
-    icon        : PropTypes.string,
-    elemID      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onClick     : PropTypes.func,
-    onAction    : PropTypes.func,
-    onClose     : PropTypes.func,
-    amount      : PropTypes.number,
-    canEdit     : PropTypes.bool,
-    canDelete   : PropTypes.bool,
-    canCollapse : PropTypes.bool,
-    isCollapsed : PropTypes.bool,
-    isSelected  : PropTypes.bool,
-    isDisabled  : PropTypes.bool,
-    usePrefix   : PropTypes.bool,
-    children    : PropTypes.any,
+    isHidden         : PropTypes.bool,
+    variant          : PropTypes.string,
+    className        : PropTypes.string,
+    path             : PropTypes.string,
+    baseUrl          : PropTypes.string,
+    message          : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    html             : PropTypes.string,
+    url              : PropTypes.string,
+    href             : PropTypes.string,
+    icon             : PropTypes.string,
+    elemID           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onClick          : PropTypes.func,
+    onAction         : PropTypes.func,
+    onClose          : PropTypes.func,
+    amount           : PropTypes.number,
+    canEdit          : PropTypes.bool,
+    canDelete        : PropTypes.bool,
+    canCollapse      : PropTypes.bool,
+    isCollapsed      : PropTypes.bool,
+    collapseOnSelect : PropTypes.bool,
+    isSelected       : PropTypes.bool,
+    isDisabled       : PropTypes.bool,
+    usePrefix        : PropTypes.bool,
+    children         : PropTypes.any,
 };
 
 /**
@@ -180,14 +190,15 @@ NavigationItem.propTypes = {
  * @type {Object} defaultProps
  */
 NavigationItem.defaultProps = {
-    isHidden    : false,
-    className   : "",
-    canEdit     : false,
-    canDelete   : false,
-    canCollapse : false,
-    isCollapsed : false,
-    isSelected  : false,
-    isDisabled  : false,
+    isHidden         : false,
+    className        : "",
+    canEdit          : false,
+    canDelete        : false,
+    canCollapse      : false,
+    isCollapsed      : false,
+    collapseOnSelect : false,
+    isSelected       : false,
+    isDisabled       : false,
 };
 
 export default NavigationItem;
