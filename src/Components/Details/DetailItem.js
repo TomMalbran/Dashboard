@@ -57,13 +57,13 @@ function DetailItem(props) {
     }
 
     const isLink = href || url || onClick || isEmail || isPhone || isWhatsApp;
-    let isHtml   = Boolean(message && String(message).includes("\n"));
-    let content  = message;
+    let content  = message ? NLS.get(String(message)) : "";
+    let isHtml   = content.includes("\n");
 
     if (prefix) {
-        content = `${NLS.get(prefix)}: ${message}`;
+        content = `${NLS.get(prefix)}: ${content}`;
     } else if (withTip) {
-        content = `${NLS.get(tooltip)}: ${message}`;
+        content = `${NLS.get(tooltip)}: ${content}`;
     }
 
     return <Li
