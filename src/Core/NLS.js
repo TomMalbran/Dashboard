@@ -138,6 +138,16 @@ function formatIf(id, value, ...args) {
 }
 
 /**
+ * Joins the given strings to form a sentence
+ * @param {String}   id
+ * @param {String[]} list
+ * @returns {String}
+ */
+function formatJoin(id, list) {
+    return format(id, join(list));
+}
+
+/**
  * Returns a formated string using the correct plural string
  * @param {String}    id
  * @param {...String} args
@@ -155,9 +165,26 @@ function pluralize(id, ...args) {
  * @returns {String}
  */
 function pluralizeList(id, list) {
-    const value = list.join(", ");
-    return format(id + (list.length === 1 ? "_SINGULAR" : "_PLURAL"), value);
+    return format(id + (list.length === 1 ? "_SINGULAR" : "_PLURAL"), join(list));
 }
+
+/**
+ * Joins the given strings to form a sentence
+ * @param {String[]} list
+ * @returns {String}
+ */
+function join(list) {
+    let result = list[0];
+    if (list.length > 1) {
+        const and = " " + get("GENERAL_AND") + " ";
+        for (let i = 1; i < list.length; i++) {
+            result += (i < list.length - 1 ? ", " : and) + list[i];
+        }
+    }
+    return result;
+}
+
+
 
 /**
  * Returns the url with the given arguments
@@ -230,6 +257,8 @@ export default {
     formatIf,
     pluralize,
     pluralizeList,
+    join,
+    formatJoin,
 
     url,
     baseUrl,
