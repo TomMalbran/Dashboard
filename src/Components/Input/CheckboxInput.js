@@ -7,6 +7,7 @@ import NLS                   from "../../Core/NLS";
 
 // Components
 import Icon                  from "../Common/Icon";
+import Html                  from "../Common/Html";
 
 
 
@@ -75,7 +76,7 @@ function CheckboxInput(props) {
             tabIndex={tabIndex}
         />
         <Span icon={isChecked ? "checkedbox" : "checkbox"} />
-        {NLS.get(label)}
+        <Html variant="span">{NLS.get(label)}</Html>
     </label>;
 }
 
