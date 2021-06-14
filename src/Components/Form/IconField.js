@@ -339,6 +339,7 @@ IconField.defaultProps = {
     autoFocus      : false,
     preType        : InputType.TEXT,
     preOptions     : [],
+    preWithNone    : false,
     prePlaceholder : "",
 
 };

@@ -133,7 +133,7 @@ function InputField(props) {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
         fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel,
-        preType, preName, preValue, preOptions, prePlaceholder, preWidth,
+        preType, preName, preValue, preOptions, preWithNone, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear,
     } = props;
 
@@ -246,6 +246,7 @@ function InputField(props) {
                 name={preName}
                 value={preValue}
                 options={preOptions}
+                withNone={preWithNone}
                 placeholder={prePlaceholder}
                 width={preWidth}
                 labelInside={labelInside}
@@ -358,6 +359,7 @@ InputField.propTypes = {
     preName         : PropTypes.string,
     preValue        : PropTypes.any,
     preOptions      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    preWithNone     : PropTypes.bool,
     prePlaceholder  : PropTypes.string,
     preWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 };
@@ -396,6 +398,7 @@ InputField.defaultProps = {
     onlyImages     : false,
     preType        : InputType.TEXT,
     preOptions     : [],
+    preWithNone    : false,
     prePlaceholder : "",
 
 };
