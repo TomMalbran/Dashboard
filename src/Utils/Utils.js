@@ -324,6 +324,27 @@ function createArrayOf(amount, start = 1) {
 }
 
 /**
+ * Returns true if both given objects are the same at 1 level deep
+ * @param {Object} a
+ * @param {Object} b
+ * @returns {Boolean}
+ */
+function areObjectsEqual(a, b) {
+    const aProps = Object.getOwnPropertyNames(a);
+    const bProps = Object.getOwnPropertyNames(b);
+
+    if (aProps.length !== bProps.length) {
+        return false;
+    }
+    for (let i = 0; i < aProps.length; i += 1) {
+        if (String(a[aProps[i]]) !== String(b[aProps[i]])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
  * Uses the keys from primary and sets the secondary values if are set
  * @param {Object}   primary
  * @param {Object}   secondary
@@ -587,6 +608,7 @@ export default {
     toSelect,
     stringsToSelect,
     createArrayOf,
+    areObjectsEqual,
     extend,
     merge,
     getIndex,
