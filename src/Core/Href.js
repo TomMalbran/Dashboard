@@ -19,7 +19,7 @@ function init(theHistory) {
 /**
  * Returns the Email Url
  * @param {String} email
- * @return {String}
+ * @returns {String}
  */
 function getEmail(email) {
     return `mailto:${email}`;
@@ -28,7 +28,7 @@ function getEmail(email) {
 /**
  * Returns the Phone Url
  * @param {String} phone
- * @return {String}
+ * @returns {String}
  */
 function getPhone(phone) {
     return `tel:${phone}`;
@@ -37,7 +37,7 @@ function getPhone(phone) {
 /**
  * Returns the WhatsApp Url
  * @param {String} whatsapp
- * @return {String}
+ * @returns {String}
  */
 function getWhatsApp(whatsapp) {
     return `https://api.whatsapp.com/send?phone=${whatsapp}`;

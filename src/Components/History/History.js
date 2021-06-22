@@ -2,9 +2,6 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Utils
-import Utils                from "../../Utils/Utils";
-
 
 
 // Styles
@@ -37,7 +34,7 @@ function History(props) {
  * The Property Types
  * @typedef {Object} propTypes
  */
- History.propTypes = {
+History.propTypes = {
     className   : PropTypes.string,
     withSpacing : PropTypes.bool,
     children    : PropTypes.any,
@@ -47,7 +44,7 @@ function History(props) {
  * The Default Properties
  * @type {Object} defaultProps
  */
- History.defaultProps = {
+History.defaultProps = {
     className   : "",
     withSpacing : false,
 };

@@ -186,7 +186,7 @@ function getPageText(currentPage, totalPages) {
  * @returns {String}
  */
 function toYesNo(value) {
-    return NLS.get("GENERAL_YES_NO", Number(value) || 0);
+    return NLS.get("GENERAL_YES_NO", Number(value) || 0);
 }
 
 /**
@@ -195,7 +195,7 @@ function toYesNo(value) {
  * @returns {String}
  */
 function toYesBlank(value) {
-    return NLS.get("GENERAL_YES_BLANK", Number(value) || 0);
+    return NLS.get("GENERAL_YES_BLANK", Number(value) || 0);
 }
 
 /**
@@ -205,7 +205,7 @@ function toYesBlank(value) {
  * @returns {String}
  */
 function getTextClass(options, value) {
-    const color = NLS.get(options, Number(value) || 0);
+    const color = NLS.get(options, Number(value) || 0);
     return color ? `text-${color}` : "";
 }
 
@@ -574,7 +574,7 @@ function getVimeoEmbed(source, showInfo = false) {
         return "";
     }
     let result = `https://player.vimeo.com/video/${videoID}`;
-    result    += showInfo ? `?title=1&byline=1&portrait=1` : `?title=0&byline=0&portrait=0`;
+    result    += showInfo ? "?title=1&byline=1&portrait=1" : "?title=0&byline=0&portrait=0";
     return result;
 }
 

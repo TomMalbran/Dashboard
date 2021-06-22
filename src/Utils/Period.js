@@ -179,7 +179,7 @@ function getName(value) {
  * @returns {Object[]}
  */
 function getSelect(periods) {
-    const entries = periods || Object.values(PERIODS_VALUES);
+    const entries = periods || Object.values(PERIODS_VALUES);
     const result  = [];
     for (const key of entries) {
         const value = getName(key);

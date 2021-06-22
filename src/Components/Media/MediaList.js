@@ -73,7 +73,7 @@ function MediaList(props) {
 
     // Handles the Grab
     const handleGrab = (e, elem, index) => {
-        if (!canDrag || isDragging || elem.isBack || elem.isDir || e.nativeEvent.which !== 1) {
+        if (!canDrag || isDragging || elem.isBack || elem.isDir || e.nativeEvent.which !== 1) {
             return;
         }
         setDragging(true);
@@ -160,7 +160,7 @@ function MediaList(props) {
         return () => {
             window.removeEventListener("mousemove", handleDrag);
             window.removeEventListener("mouseup",   handleDrop);
-        }
+        };
     });
 
 
@@ -191,7 +191,7 @@ function MediaList(props) {
                         hasActions={!isCurrent && canEdit && !elem.isBack}
                         onAction={onAction}
                         onMouseDown={(e) => handleGrab(e, elem, index)}
-                    />
+                    />;
                 })}
             </Section>
         </>}

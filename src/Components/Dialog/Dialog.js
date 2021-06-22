@@ -97,7 +97,7 @@ function Dialog(props) {
 
     // Handles the Dialog Close
     const handleClose = () => {
-        if (dontClose || closing || dialogLevel !== level) {
+        if (dontClose || closing || dialogLevel !== level) {
             return;
         }
         setClosing(true);

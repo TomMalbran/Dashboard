@@ -22,7 +22,7 @@ function TableRow(props) {
     const linkRef = React.useRef();
 
     // Handles the Row Click
-    const handleClick = (e) => {
+    const handleClick = () => {
         handleRowClick(elemID);
     };
 

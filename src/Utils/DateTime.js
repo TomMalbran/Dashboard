@@ -1008,8 +1008,8 @@ class DateHour {
 
 /**
  * Creates a new DateHour
- * @param {(Number|Date)} date
- * @param {Boolean=}      inMiliseconds
+ * @param {(Number|Date)=} date
+ * @param {Boolean=}       inMiliseconds
  * @returns {DateHour}
  */
 function create(date, inMiliseconds) {
@@ -1018,12 +1018,14 @@ function create(date, inMiliseconds) {
 
 /**
  * Creates a new DateHour from a slash separated string (YYYY/MM/DD or DD/MM/YYYY or DD/MM)
- * @param {String}   date
- * @param {String=}  time
+ * @param {String}   userDate
+ * @param {String=}  userTime
  * @param {Boolean=} useTimezone
  * @returns {DateHour}
  */
-function fromString(date, time = "", useTimezone = false) {
+function fromString(userDate, userTime = "", useTimezone = false) {
+    let date = userDate;
+    let time = userTime;
     if (date.includes(" ")) {
         const parts = date.split(" ");
         date = parts[0];

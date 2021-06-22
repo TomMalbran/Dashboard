@@ -32,7 +32,8 @@ function hasLabel(type) {
 
 /**
  * Returns true if the Input label can shrink
- * @param {String} type
+ * @param {String}  type
+ * @param {Boolean} withNone
  * @returns {Boolean}
  */
 function canShrink(type, withNone) {

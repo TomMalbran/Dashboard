@@ -54,11 +54,11 @@ function DetailItem(props) {
         if (!Utils.hasSelection()) {
             Href.handleClick(e, props);
         }
-    }
+    };
 
-    const isLink = href || url || onClick || isEmail || isPhone || isWhatsApp;
-    let content  = message ? NLS.get(String(message)) : "";
-    let isHtml   = content.includes("\n");
+    const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
+    let   content = message ? NLS.get(String(message)) : "";
+    const isHtml  = content.includes("\n");
 
     if (prefix) {
         content = `${NLS.get(prefix)}: ${content}`;

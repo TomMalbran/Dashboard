@@ -48,7 +48,7 @@ function ActionList(props) {
     const canImport  = Boolean(data.canImport);
     const canExport  = Boolean(data.canExport && data.total > 0);
     const canFilter  = Boolean(data.canFilter);
-    const canEmail   = Boolean(withEmail && data.total > 0)
+    const canEmail   = Boolean(withEmail && data.total > 0);
     const hasActions = canCreate || canImport || canExport || canFilter || canEmail || items.length > 0;
 
     if (!hasActions) {

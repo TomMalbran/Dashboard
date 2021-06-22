@@ -296,6 +296,7 @@ IconField.propTypes = {
     options        : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex       : PropTypes.string,
+    withLabel      : PropTypes.bool,
     fullWidth      : PropTypes.bool,
     shrinkLabel    : PropTypes.bool,
     withNone       : PropTypes.bool,

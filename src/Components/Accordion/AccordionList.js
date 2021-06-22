@@ -28,7 +28,7 @@ function AccordionList(props) {
     };
 
     const items = Utils.cloneChildren(children, (child, index) => {
-        const id = child.props.value || index;
+        const id = child.props.value || index;
         return {
             isFist     : id === 0,
             isSelected : id === selected,

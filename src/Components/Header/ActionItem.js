@@ -10,8 +10,8 @@ import Utils                from "../../Utils/Utils";
 // Components
 import Button               from "../Form/Button";
 import ActionOption         from "./ActionOption";
-import Menu from "../Menu/Menu";
-import MenuItem from "../Menu/MenuItem";
+import Menu                 from "../Menu/Menu";
+import MenuItem             from "../Menu/MenuItem";
 
 
 
@@ -75,7 +75,7 @@ function ActionItem(props) {
     };
 
 
-    if (!showMenu && !action) {
+    if (!showMenu && !action) {
         return <React.Fragment />;
     }
     const act = Action.get(action);
