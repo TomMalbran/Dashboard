@@ -105,7 +105,7 @@ function HistoryInput(props) {
                 <Button
                     variant="primary"
                     message={button}
-                    onSubmit={handleSubmit}
+                    onClick={handleSubmit}
                 />
             </Footer>
         </Content>
