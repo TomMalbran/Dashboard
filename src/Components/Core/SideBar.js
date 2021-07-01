@@ -74,7 +74,7 @@ function SideBar(props) {
         className, withBorder,
         logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
-        onLogout, message, avatarData, avatarUrl, avatarEdition,
+        onLogout, message, avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         children,
     } = props;
 
@@ -124,7 +124,8 @@ function SideBar(props) {
             />}
             {!!avatarUrl && <SideAvatar
                 url={avatarUrl}
-                data={avatarData}
+                email={avatarEmail}
+                avatar={avatarAvatar}
                 edition={avatarEdition}
                 size={36}
                 onClick={onClose}
@@ -150,7 +151,8 @@ SideBar.propTypes = {
     onLogout      : PropTypes.func,
     message       : PropTypes.string,
     avatarUrl     : PropTypes.string,
-    avatarData    : PropTypes.object,
+    avatarEmail   : PropTypes.string,
+    avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
     withBorder    : PropTypes.bool,
     children      : PropTypes.any,

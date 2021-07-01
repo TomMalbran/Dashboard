@@ -41,19 +41,29 @@ const Img = Styled.img`
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
-    const { className, size, url, href, target, name, data, edition, withReload, onClick } = props;
+    const {
+        className, size, name, email, avatar, edition, withReload,
+        url, href, target, onClick,
+    } = props;
+
+    if (!name && !email) {
+        return <React.Fragment />;
+    }
+
+    let source = avatar;
+    if (!source && email) {
+        const username = MD5(email.toLowerCase().trim());
+        source = `https://gravatar.com/avatar/${username}?default=identicon`;
+    } else if (edition) {
+        source += `?rdm=${edition}`;
+    } else if (withReload) {
+        source += `?rdm=${new Date().getTime()}`;
+    }
+    if (!source) {
+        return <React.Fragment />;
+    }
 
     const hasClick = Boolean(url || href);
-
-    let avatar = data.avatar;
-    if (!avatar && data.email) {
-        const username = MD5(data.email.toLowerCase().trim());
-        avatar = `https://gravatar.com/avatar/${username}?default=identicon`;
-    } else if (edition) {
-        avatar += `?rdm=${edition}`;
-    } else if (withReload) {
-        avatar += `?rdm=${new Date().getTime()}`;
-    }
 
     // Handles the Click
     const handleClick = (e) => {
@@ -69,16 +79,13 @@ function Avatar(props) {
     };
 
 
-    if (!avatar) {
-        return <div />;
-    }
     return <Div
         className={className}
         size={size}
         hasClick={hasClick}
         onClick={handleClick}
     >
-        <Img alt={name || data.name} src={avatar} />
+        <Img alt={name} src={source} />
     </Div>;
 }
 
@@ -88,12 +95,13 @@ function Avatar(props) {
  */
 Avatar.propTypes = {
     className  : PropTypes.string,
+    size       : PropTypes.number,
+    name       : PropTypes.string,
+    email      : PropTypes.string,
+    avatar     : PropTypes.string,
     url        : PropTypes.string,
     href       : PropTypes.string,
     target     : PropTypes.string,
-    data       : PropTypes.object.isRequired,
-    name       : PropTypes.string,
-    size       : PropTypes.number,
     edition    : PropTypes.number,
     withReload : PropTypes.bool,
     onClick    : PropTypes.func,
@@ -105,8 +113,8 @@ Avatar.propTypes = {
  */
 Avatar.defaultProps = {
     className  : "",
-    target     : "_self",
     size       : 36,
+    target     : "_self",
     withReload : false,
 };
 

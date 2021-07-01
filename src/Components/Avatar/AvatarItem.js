@@ -51,10 +51,10 @@ const P = Styled.p`
  * @returns {React.ReactElement}
  */
 function AvatarItem(props) {
-    const { className, isSelected, onClick, name, email, data } = props;
+    const { className, isSelected, onClick, name, email, avatar } = props;
 
     return <Li className={className} isSelected={isSelected} onClick={onClick}>
-        <LiAvatar name={name} data={data} />
+        <LiAvatar name={name} email={email} avatar={avatar} />
         <div className="lead-credential">
             <H3>{name}</H3>
             <P>{email}</P>
@@ -77,7 +77,7 @@ AvatarItem.propTypes = {
     onClick    : PropTypes.func,
     name       : PropTypes.string.isRequired,
     email      : PropTypes.string.isRequired,
-    data       : PropTypes.object.isRequired,
+    avatar     : PropTypes.string.isRequired,
 };
 
 /**

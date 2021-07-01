@@ -2,9 +2,6 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Utils
-import Utils                from "../../Utils/Utils";
-
 
 
 // Styles
@@ -37,7 +34,7 @@ function AvatarList(props) {
  * The Property Types
  * @typedef {Object} propTypes
  */
- AvatarList.propTypes = {
+AvatarList.propTypes = {
     className   : PropTypes.string,
     withSpacing : PropTypes.bool,
     children    : PropTypes.any,
@@ -47,7 +44,7 @@ function AvatarList(props) {
  * The Default Properties
  * @type {Object} defaultProps
  */
- AvatarList.defaultProps = {
+AvatarList.defaultProps = {
     className   : "",
     withSpacing : false,
 };

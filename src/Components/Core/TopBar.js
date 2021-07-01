@@ -57,8 +57,8 @@ const DetailIcon = Styled(BarIcon)`
  */
 function TopBar(props) {
     const {
-        className, logo, logoWidth, logoHeight, onMenu,
-        onDetails, showDetails, avatarUrl, avatarData, avatarEdition,
+        className, logo, logoWidth, logoHeight, onMenu, onDetails, showDetails,
+        avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
     } = props;
 
     return <Nav className={`topbar ${className}`}>
@@ -78,7 +78,8 @@ function TopBar(props) {
         <Div>
             {!!avatarUrl && <Avatar
                 url={avatarUrl}
-                data={avatarData}
+                email={avatarEmail}
+                avatar={avatarAvatar}
                 edition={avatarEdition}
                 size={36}
             />}
@@ -104,7 +105,8 @@ TopBar.propTypes = {
     onMenu        : PropTypes.func.isRequired,
     onDetails     : PropTypes.func.isRequired,
     avatarUrl     : PropTypes.string,
-    avatarData    : PropTypes.object,
+    avatarEmail   : PropTypes.string,
+    avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
 };
 
