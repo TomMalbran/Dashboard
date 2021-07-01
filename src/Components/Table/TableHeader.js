@@ -12,9 +12,9 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const TH = Styled.th.attrs((
-    { flexGrow, maxWidth, align, isSmall, hasSorting, rightSpace }
+    { flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace }
 ) => (
-    { flexGrow, maxWidth, align, isSmall, hasSorting, rightSpace }
+    { flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace }
 ))`
     && {
         box-sizing: border-box;
@@ -24,6 +24,7 @@ const TH = Styled.th.attrs((
         font-weight: bold;
         font-size: 12px;
         flex-grow: ${(props) => props.flexGrow};
+        min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "none"};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
         padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
@@ -53,7 +54,7 @@ function TableHeader(props) {
     const {
         isHidden, className, message,
         fetch, hasSorting, sort, field, noSorting,
-        colSpan, grow, maxWidth, align, isSmall, rightSpace, children,
+        colSpan, grow, minWidth, maxWidth, align, isSmall, rightSpace, children,
     } = props;
 
     const withSorting = hasSorting && !noSorting;
@@ -78,6 +79,7 @@ function TableHeader(props) {
     return <TH
         className={className}
         flexGrow={grow}
+        minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
         isSmall={isSmall}
@@ -108,6 +110,7 @@ TableHeader.propTypes = {
     className  : PropTypes.string,
     colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
     isTitle    : PropTypes.bool,

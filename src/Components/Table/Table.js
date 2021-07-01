@@ -130,6 +130,7 @@ function Table(props) {
                     hideCircle : !!tableHead.props.hideCircle,
                     rightSpace : !!tableHead.props.rightSpace,
                     grow       : tableHead.props.grow     || "",
+                    minWidth   : tableHead.props.minWidth || "",
                     maxWidth   : tableHead.props.maxWidth || "",
                     align      : tableHead.props.align    || "",
                 });

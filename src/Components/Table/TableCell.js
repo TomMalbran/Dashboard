@@ -12,15 +12,16 @@ import Circle               from "../Common/Circle";
 
 // Styles
 const TD = Styled.td.attrs((
-    { flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
+    { flexGrow, minWidth, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
 ) => (
-    { flexGrow, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
+    { flexGrow, minWidth, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
 ))`
     && {
         box-sizing: border-box;
         padding: 12px 0 12px 12px;
         font-size: 13px;
         flex-grow: ${(props) => props.flexGrow};
+        min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "none"};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
         padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
@@ -56,7 +57,7 @@ const TD = Styled.td.attrs((
 function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
-        colSpan, grow, maxWidth, align, isSmall, isTitle,
+        colSpan, grow, minWidth, maxWidth, align, isSmall, isTitle,
         bigMobile, hideMobile, rightSpace, children,
     } = props;
 
@@ -67,6 +68,7 @@ function TableCell(props) {
     return <TD
         className={className}
         flexGrow={grow}
+        minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
         isSmall={isSmall}
@@ -91,6 +93,7 @@ TableCell.propTypes = {
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
     isTitle    : PropTypes.bool,
