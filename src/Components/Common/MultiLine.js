@@ -15,7 +15,7 @@ const Variant = {
  * @returns {React.ReactElement}
  */
 function MultiLine(props) {
-    const { variant, className, onClick, content, children } = props;
+    const { variant, className, onClick, content, noWrapper, children } = props;
 
     const cnt   = String(content || children);
     const lines = cnt.split("\n");
@@ -25,9 +25,24 @@ function MultiLine(props) {
         return <React.Fragment />;
     }
 
+    // Dont add a wrapper around the lines
+    if (noWrapper) {
+        switch (variant) {
+        case Variant.P:
+            return <>{lines.map((elem, index) => <p key={index}>{elem}</p>)}</>;
+        default:
+            return <>{lines.map((elem, index) => <div key={index}>{elem}</div>)}</>;
+        }
+    }
+
     // Only 1 line
-    if (lines.length < 1) {
-        return <div className={className} onClick={onClick}>{cnt}</div>;
+    if (lines.length < 2) {
+        switch (variant) {
+        case Variant.P:
+            return <p className={className} onClick={onClick}>{cnt}</p>;
+        default:
+            return <div className={className} onClick={onClick}>{cnt}</div>;
+        }
     }
 
     // Multiple lines
@@ -52,6 +67,7 @@ MultiLine.propTypes = {
     className : PropTypes.string,
     onClick   : PropTypes.func,
     content   : PropTypes.string,
+    noWrapper : PropTypes.bool,
     children  : PropTypes.string,
 };
 
@@ -62,6 +78,7 @@ MultiLine.propTypes = {
 MultiLine.defaultProps = {
     variant   : Variant.DIV,
     className : "",
+    noWrapper : false,
 };
 
 export default MultiLine;
