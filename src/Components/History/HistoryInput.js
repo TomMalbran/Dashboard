@@ -21,6 +21,7 @@ const HistoryAvatar = Styled(Avatar)`
     top: 16px;
     left: -54px;
     margin-top: -20px;
+    padding: 0;
     border: 4px solid white;
 
     & > img {
@@ -89,7 +90,7 @@ function HistoryInput(props) {
             name={name}
             email={email}
             avatar={avatar}
-            size={32}
+            size={34}
         />
         <Content>
             <InputField
