@@ -451,38 +451,31 @@ class DateHour {
 
 
     /**
-     * Returns a circle class depending on the Date
+     * Returns a color depending on the amount of expired hours
+     * @param {Number} greenHours
+     * @param {Number} yellowHours
      * @returns {String}
      */
-    getColor() {
-        const days = this.getExpiredDays();
-        if (days < 0) {
-            return "red";
+    getExpiredColor(greenHours, yellowHours) {
+        const hours = this.getHoursDiff();
+        if (hours < greenHours) {
+            return "green";
         }
-        if (days < 3) {
+        if (hours < yellowHours) {
             return "yellow";
         }
-        return "green";
+        return "red";
     }
 
     /**
-     * Returns a class depending on the Date
+     * Returns a text class depending on the amount of expired hours
+     * @param {Number} greenHours
+     * @param {Number} yellowHours
      * @returns {String}
      */
-    getTextClass() {
-        const color = this.getColor();
+    getExpiredClass(greenHours, yellowHours) {
+        const color = this.getExpiredColor(greenHours, yellowHours);
         return `text-${color}`;
-    }
-
-    /**
-     * Returns an amount of days since the expiration
-     * @returns {Number}
-     */
-    getExpiredDays() {
-        const today = new DateHour().time;
-        const diff  = this.time - today;
-        const days  = Math.round(diff / DAY_SECS);
-        return days;
     }
 
 
@@ -773,11 +766,22 @@ class DateHour {
 
     /**
      * Returns the day difference between the Current Day and the given one
-     * @param {DateHour} otherDate
+     * @param {DateHour=} otherDate
      * @returns {Number}
      */
     getDaysDiff(otherDate) {
-        return Math.floor(Math.abs(this.time - otherDate.time) / DAY_SECS);
+        const other = otherDate || new DateHour();
+        return Math.floor(Math.abs(this.time - other.time) / DAY_SECS);
+    }
+
+    /**
+     * Returns the hour difference between the Current Day and the given one
+     * @param {DateHour=} otherDate
+     * @returns {Number}
+     */
+    getHoursDiff(otherDate) {
+        const other = otherDate || new DateHour();
+        return Math.floor(Math.abs(this.time - other.time) / HOUR_SECS);
     }
 
 
@@ -1174,6 +1178,20 @@ function formatShort(date) {
     return "";
 }
 
+/**
+ * Returns a text class depending on the amount of expired hours
+ * @param {(Number|Date)} date
+ * @param {Number}        greenHours
+ * @param {Number}        yellowHours
+ * @returns {String}
+ */
+function getExpiredColor(date, greenHours, yellowHours) {
+    if (date) {
+        return new DateHour(date).getExpiredColor(greenHours, yellowHours);
+    }
+    return "red";
+}
+
 
 
 /**
@@ -1246,8 +1264,9 @@ export default {
     formatLong,
     formatMedium,
     formatShort,
-    dayToName,
+    getExpiredColor,
 
+    dayToName,
     dayToShortName,
     monthToName,
     getMonthDays,
