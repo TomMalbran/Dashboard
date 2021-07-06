@@ -5,6 +5,7 @@ import PropTypes            from "prop-types";
 const Variant = {
     H2   : "h2",
     H3   : "h3",
+    H4   : "h4",
     P    : "p",
     SPAN : "span",
     DIV  : "div",
@@ -51,6 +52,12 @@ function Html(props) {
         />;
     case Variant.H3:
         return <h3
+            className={className}
+            onClick={onClick}
+            dangerouslySetInnerHTML={{ __html }}
+        />;
+    case Variant.H4:
+        return <h4
             className={className}
             onClick={onClick}
             dangerouslySetInnerHTML={{ __html }}
