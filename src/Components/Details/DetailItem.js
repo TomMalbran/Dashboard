@@ -60,6 +60,9 @@ function DetailItem(props) {
     let   content = message ? NLS.get(String(message)) : "";
     const isHtml  = content.includes("\n");
 
+    if (showAlways && !message) {
+        content = String(message);
+    }
     if (prefix) {
         content = `${NLS.get(prefix)}: ${content}`;
     } else if (withTip) {
