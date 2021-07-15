@@ -141,10 +141,28 @@ function formatIf(id, value, ...args) {
  * Joins the given strings to form a sentence
  * @param {String}   id
  * @param {String[]} list
+ * @param {Boolean=} useOr
  * @returns {String}
  */
-function formatJoin(id, list) {
-    return format(id, join(list));
+function formatJoin(id, list, useOr) {
+    return format(id, join(list, useOr));
+}
+
+/**
+ * Joins the given strings to form a sentence
+ * @param {String[]} list
+ * @param {Boolean=} useOr
+ * @returns {String}
+ */
+function join(list, useOr) {
+    let result = list[0];
+    if (list.length > 1) {
+        const and = " " + get(useOr ? "GENERAL_OR" : "GENERAL_AND") + " ";
+        for (let i = 1; i < list.length; i++) {
+            result += (i < list.length - 1 ? ", " : and) + list[i];
+        }
+    }
+    return result;
 }
 
 /**
@@ -166,22 +184,6 @@ function pluralize(id, ...args) {
  */
 function pluralizeList(id, list) {
     return format(id + (list.length === 1 ? "_SINGULAR" : "_PLURAL"), join(list));
-}
-
-/**
- * Joins the given strings to form a sentence
- * @param {String[]} list
- * @returns {String}
- */
-function join(list) {
-    let result = list[0];
-    if (list.length > 1) {
-        const and = " " + get("GENERAL_AND") + " ";
-        for (let i = 1; i < list.length; i++) {
-            result += (i < list.length - 1 ? ", " : and) + list[i];
-        }
-    }
-    return result;
 }
 
 
@@ -255,10 +257,10 @@ export default {
 
     format,
     formatIf,
+    formatJoin,
+    join,
     pluralize,
     pluralizeList,
-    join,
-    formatJoin,
 
     url,
     baseUrl,
