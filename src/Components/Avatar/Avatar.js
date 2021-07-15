@@ -85,7 +85,7 @@ function Avatar(props) {
         hasClick={hasClick}
         onClick={handleClick}
     >
-        <Img alt={name} src={source} />
+        <Img alt={name} src={source} width={size} height={size} />
     </Div>;
 }
 
