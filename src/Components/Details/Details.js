@@ -21,7 +21,7 @@ const Section = Styled.section.attrs(({ topSpace }) => ({ topSpace }))`
     padding: 16px;
     overflow: auto;
 
-    ${(props) => props.topSpace ? `padding-top: ${props.topSpace}px` : ""};
+    ${(props) => props.topSpace ? `padding-top: ${props.topSpace}px;` : ""}
 
     @media (max-width: 1000px) {
         display: none;

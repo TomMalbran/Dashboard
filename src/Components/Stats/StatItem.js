@@ -2,30 +2,30 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 
 
 // Styles
-const Li = Styled.li`
+const Li = Styled.li.attrs(({ twoLines }) => ({ twoLines }))`
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    padding: 16px;
     background-color: var(--light-gray);
     margin-right: 8px;
     line-height: 1;
+    border-radius: var(--border-radius);
 
-    &:first-child {
-        border-top-left-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
-    }
+    ${(props) => props.twoLines ? `
+        flex-direction: column;
+        padding: 8px 12px;
+    ` : "padding: 16px;"}
+
     &:last-child {
         margin-right: 0;
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
     }
 
     @media (max-width: 550px) {
@@ -34,10 +34,10 @@ const Li = Styled.li`
     }
 `;
 
-const B = Styled.b`
-    margin-right: 12px;
+const B = Styled.b.attrs(({ twoLines }) => ({ twoLines }))`
     font-size: 14px;
     font-weight: 400;
+    ${(props) => props.twoLines ? "margin-bottom: 2px;" : "margin-right: 8px;"}
 `;
 const Span = Styled.span`
     font-size: 20px;
@@ -52,11 +52,13 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function StatItem(props) {
-    const { message, value } = props;
+    const { message, value, isPrice, twoLines } = props;
 
-    return <Li>
-        <B>{NLS.get(message)}</B>
-        <Span>{value || 0}</Span>
+    const number = value ? Utils.formatNumber(value) : 0;
+
+    return <Li twoLines={twoLines}>
+        <B twoLines={twoLines}>{NLS.get(message)}</B>
+        <Span>{(isPrice ? "$ " : "") + (number)}</Span>
     </Li>;
 }
 
@@ -65,8 +67,10 @@ function StatItem(props) {
  * @typedef {Object} propTypes
  */
 StatItem.propTypes = {
-    message : PropTypes.string.isRequired,
-    value   : PropTypes.number,
+    message  : PropTypes.string.isRequired,
+    value    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    isPrice  : PropTypes.bool,
+    twoLines : PropTypes.bool,
 };
 
 export default StatItem;
