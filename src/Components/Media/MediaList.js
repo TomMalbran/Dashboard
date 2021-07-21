@@ -95,7 +95,6 @@ function MediaList(props) {
         animateDrag(e);
         if (requestRAF) {
             setRequestRAF(false);
-            // window.requestAnimationFrame(() => animateDrag(e));
         }
     };
 
