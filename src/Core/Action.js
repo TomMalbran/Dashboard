@@ -118,6 +118,12 @@ const ACTIONS = {
         message    : "GENERAL_SEND_EMAIL",
         isEmail    : true,
     },
+    "CAMPAIGN" : {
+        ...OPTIONS,
+        icon       : "add",
+        message    : "GENERAL_SEND_CAMPAIGN",
+        isCampaign : true,
+    },
 
 
     "LOGIN" : {
