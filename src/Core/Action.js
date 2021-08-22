@@ -22,6 +22,7 @@ const OPTIONS = {
     isCollapse : false,
     isFilter   : false,
     isEmail    : false,
+    isCampaign : false,
 
     isLogin    : false,
     isSelect   : false,
