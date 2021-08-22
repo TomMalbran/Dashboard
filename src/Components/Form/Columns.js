@@ -36,8 +36,12 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
     }
 
     ${(props) => Number(props.amount) === 2 && `
-        &:last-child .inputfield:nth-last-child(-n+2),
-        &:last-child .inputview:nth-last-child(-n+2) {
+        &:last-child .inputfield:not(.columns-double):nth-last-child(-n+2),
+        &:last-child .inputview:not(.columns-double):nth-last-child(-n+2) {
+            margin-bottom: 0;
+        }
+        &:last-child .inputfield:last-child,
+        &:last-child .inputview.columns-double:last-child {
             margin-bottom: 0;
         }
     `}
