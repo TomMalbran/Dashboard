@@ -52,13 +52,22 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function StatItem(props) {
-    const { message, value, isPrice, twoLines } = props;
+    const { message, value, decimals, percent, isPrice, isPercent, twoLines } = props;
 
-    const number = value ? Utils.formatNumber(value) : 0;
+    let content  = value ? Utils.formatNumber(value, decimals) : 0;
+    if (isPrice) {
+        content = `$ ${content}`;
+    }
+    if (isPercent) {
+        content = `${content}%`;
+    }
+    if (percent) {
+        content = `${content} (${percent}%)`;
+    }
 
     return <Li twoLines={twoLines}>
         <B twoLines={twoLines}>{NLS.get(message)}</B>
-        <Span>{(isPrice ? "$ " : "") + (number)}</Span>
+        <Span>{content}</Span>
     </Li>;
 }
 
@@ -67,10 +76,25 @@ function StatItem(props) {
  * @typedef {Object} propTypes
  */
 StatItem.propTypes = {
-    message  : PropTypes.string.isRequired,
-    value    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    isPrice  : PropTypes.bool,
-    twoLines : PropTypes.bool,
+    isHidden  : PropTypes.bool,
+    message   : PropTypes.string.isRequired,
+    value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    decimals  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    percent   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    isPrice   : PropTypes.bool,
+    isPercent : PropTypes.bool,
+    twoLines  : PropTypes.bool,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+StatItem.defaultProps = {
+    decimals  : 0,
+    isHidden  : false,
+    isPrice   : false,
+    isPercent : false,
 };
 
 export default StatItem;
