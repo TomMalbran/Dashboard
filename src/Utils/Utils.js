@@ -123,11 +123,11 @@ function createSlug(value) {
 
 /**
  * Formats a number
- * @param {Number}  number
- * @param {Number=} decimals
+ * @param {Number} number
+ * @param {Number} decimals
  * @returns {String}
  */
-function formatNumber(number, decimals = 2) {
+function formatNumber(number, decimals) {
     const amount  = Math.pow(10, decimals);
     const float   = Math.round(number * amount) / amount;
     const integer = Math.floor(float);
@@ -145,6 +145,9 @@ function formatNumber(number, decimals = 2) {
 
     const parts = result.split(".");
     parts[0]    = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    if (!decimals) {
+        return parts[0];
+    }
     return parts.join(",");
 }
 
