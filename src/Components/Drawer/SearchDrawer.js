@@ -75,6 +75,11 @@ function SearchDrawer(props) {
         if (timer) {
             window.clearTimeout(timer);
         }
+        fetchSuggestions(value);
+    };
+
+    // Fetches the Suggestions
+    const fetchSuggestions = (value) => {
         if (value.length > 1) {
             const newTimer = window.setTimeout(async () => {
                 const response = await fetch({ value });
@@ -138,6 +143,13 @@ function SearchDrawer(props) {
         Href.goto(elem.url, elem.id);
         onClose();
     };
+
+    // Update the Results
+    React.useEffect(() => {
+        if (open && value.length > 1) {
+            fetchSuggestions(value);
+        }
+    }, [ open ]);
 
 
     if (isHidden) {
