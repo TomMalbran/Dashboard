@@ -72,11 +72,13 @@ const initialErrors = {
  * @returns {React.ReactElement}
  */
 function Filter(props) {
-    const { hasSearch, hasCredential, labelInside, fetch, params, onFilter } = props;
+    const { hasSearch, hasCredential, labelInside, values, fetch, params, onFilter } = props;
+
     const columns = hasCredential || hasSearch ? 3 : 2;
+    const initial = values ? { ...initialData, ...values } : initialData;
 
     const [ loading, setLoading ] = React.useState(false);
-    const [ data,    setData    ] = React.useState(initialData);
+    const [ data,    setData    ] = React.useState(initial);
     const [ errors,  setErrors  ] = React.useState(initialErrors);
 
     // Handles the Input Change
@@ -168,6 +170,7 @@ Filter.propTypes = {
     hasCredential : PropTypes.bool,
     hasSearch     : PropTypes.bool,
     labelInside   : PropTypes.bool,
+    values        : PropTypes.object,
     fetch         : PropTypes.func,
     params        : PropTypes.object,
 };
