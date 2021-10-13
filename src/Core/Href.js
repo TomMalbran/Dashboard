@@ -141,7 +141,7 @@ function handleClick(e, props) {
  * @returns {Void}
  */
 function handleLink(e, props) {
-    const { isDisabled, onClick, isPhone, isEmail, isWhatsApp, dontStop } = props;
+    const { isDisabled, onClick, isPhone, isEmail, isWhatsApp, target, dontStop } = props;
     const url     = getUrl(props);
     let   handled = false;
 
@@ -152,7 +152,7 @@ function handleLink(e, props) {
             onClick(e);
             handled = true;
         }
-        if (!isPhone && !isEmail && !isWhatsApp && handleInternal(url)) {
+        if (!isPhone && !isEmail && !isWhatsApp && target !== "_blank" && handleInternal(url)) {
             handled = true;
         }
     }
