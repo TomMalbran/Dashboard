@@ -13,13 +13,13 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Div = Styled.div.attrs(({ isOpen, isClosing, height }) => ({ isOpen, isClosing, height }))`
+const Div = Styled.div.attrs(({ isOpen, isClosing, smallSpace, height }) => ({ isOpen, isClosing, smallSpace, height }))`
     display: ${(props) => props.isOpen ? "block" : "none"}
     box-sizing: border-box;
     overflow: hidden;
-    padding: 0 0 16px 0;
     transition: all 0.2s linear;
 
+    ${(props) => props.smallSpace ? "padding: 0 0 8px 0;" : "padding: 0 0 16px 0;"}
     ${(props) => !!props.height  && `max-height: ${props.height}px`}
     ${(props) => props.isClosing && "max-height: 0 !important;"}
 `;
@@ -35,7 +35,10 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     transition: all 0.5s;
 
-    .icon {
+    & > div > .icon {
+        margin-right: 8px;
+    }
+    & > .icon {
         margin-left: 8px;
         cursor: pointer;
     }
@@ -55,9 +58,10 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
  * @returns {React.ReactElement}
  */
 function Alert(props) {
-    const { variant, message, onClose } = props;
+    const { isHidden, variant, message, onClose, noClose, smallSpace, children } = props;
 
-    if (!message) {
+    const content = NLS.get(message) || children;
+    if (isHidden || !content) {
         return <React.Fragment />;
     }
 
@@ -66,6 +70,7 @@ function Alert(props) {
     const [ height, setHeight ] = React.useState(0);
 
     const alertRef  = React.useRef();
+    const hasClose  = !noClose;
     const isClosing = Boolean(timer);
 
     // Sets the Alert Height
@@ -93,15 +98,16 @@ function Alert(props) {
         className="alert"
         isOpen={open}
         isClosing={isClosing}
+        smallSpace={smallSpace}
         height={height}
         ref={alertRef}
     >
         <Content variant={variant} isClosing={isClosing}>
-            {NLS.get(message)}
-            <Icon
+            <div>{content}</div>
+            {hasClose && <Icon
                 icon="close"
                 onClick={handleClose}
-            />
+            />}
         </Content>
     </Div>;
 }
@@ -111,9 +117,23 @@ function Alert(props) {
  * @typedef {Object} propTypes
  */
 Alert.propTypes = {
-    variant : PropTypes.string.isRequired,
-    message : PropTypes.string,
-    onClose : PropTypes.func,
+    isHidden   : PropTypes.bool,
+    variant    : PropTypes.string.isRequired,
+    smallSpace : PropTypes.bool,
+    onClose    : PropTypes.func,
+    noClose    : PropTypes.bool,
+    message    : PropTypes.string,
+    children   : PropTypes.any,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+Alert.defaultProps = {
+    isHidden   : false,
+    smallSpace : false,
+    noClose    : false,
 };
 
 export default Alert;
