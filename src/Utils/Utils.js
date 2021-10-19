@@ -31,6 +31,16 @@ function isEmpty(object) {
 }
 
 /**
+ * Returns true if the Object has the given property
+ * @param {Object} object
+ * @param {String} property
+ * @returns {Boolean}
+ */
+function hasProp(object, property) {
+    return Object.prototype.hasOwnProperty.call(object, property);
+}
+
+/**
  * Clones an Object
  * @param {Object} object
  * @returns {Object}
@@ -456,8 +466,11 @@ function getChildren(children) {
 function getVisibleChildren(children) {
     const result = [];
     for (const child of toArray(children)) {
-        if (child && child.props && !child.props.isHidden) {
-            result.push(child);
+        if (child && child.props) {
+            const has = hasProp(child.props, "isHidden");
+            if ((has && !child.props.isHidden) || !has) {
+                result.push(child);
+            }
         }
     }
     return result.entries();
@@ -589,6 +602,7 @@ export default {
     isString,
     isObject,
     isEmpty,
+    hasProp,
     clone,
     clamp,
     getBounds,
