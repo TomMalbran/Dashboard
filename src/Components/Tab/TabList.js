@@ -48,8 +48,14 @@ const TabLink = Styled(IconLink)`
  * @returns {React.ReactElement}
  */
 function TabList(props) {
-    const { className, variant, size, selected, onAction, canAdd, children } = props;
+    const {
+        isHidden, className, variant, size, selected,
+        onAction, canAdd, children,
+    } = props;
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     const items = Utils.cloneChildren(children, (child, index) => ({
         index, variant, onAction, selected,
     }));
@@ -71,6 +77,7 @@ function TabList(props) {
  * @type {Object} propTypes
  */
 TabList.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     variant   : PropTypes.string,
     selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
@@ -85,6 +92,7 @@ TabList.propTypes = {
  * @type {Object} defaultProps
  */
 TabList.defaultProps = {
+    isHidden  : false,
     className : "",
     variant   : Brightness.LIGHT,
     size      : 0,
