@@ -26,6 +26,7 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
             - var(--table-paging-height)
             - var(--table-stats-height)
             - var(--table-tabs-height)
+            - var(--table-alert-height)
             - var(--table-filter-height)
         );
     `}

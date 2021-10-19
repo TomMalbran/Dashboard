@@ -24,7 +24,7 @@ const Wrapper = Styled.div`
     position: relative;
 `;
 
-const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, hasPaging }) => ({ inDialog, hasStats, hasTabs, hasFilter, hasPaging }))`
+const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasAlert, hasFilter, hasPaging }) => ({ inDialog, hasStats, hasTabs, hasAlert, hasFilter, hasPaging }))`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -35,6 +35,7 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
     --table-header-height: 27px;
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
+    --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 16px)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
 
@@ -56,8 +57,8 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasFilter, 
 function Table(props) {
     const {
         sort, fetch, className, isLoading, none,
-        noClick, inDialog, hasStats, hasTabs, hasFilter, noSorting, hasIDs,
-        notFixed, rightSpace, children,
+        noClick, inDialog, hasStats, hasTabs, hasAlert, hasFilter,
+        noSorting, hasIDs, notFixed, rightSpace, children,
     } = props;
 
     const [ menuID,   setMenuID   ] = React.useState(null);
@@ -197,6 +198,7 @@ function Table(props) {
                 inDialog={inDialog}
                 hasStats={hasStats}
                 hasTabs={hasTabs}
+                hasAlert={hasAlert}
                 hasFilter={hasFilter}
                 hasPaging={hasPaging}
             >
@@ -234,6 +236,7 @@ Table.propTypes = {
     inDialog   : PropTypes.bool,
     hasStats   : PropTypes.bool,
     hasTabs    : PropTypes.bool,
+    hasAlert   : PropTypes.bool,
     hasFilter  : PropTypes.bool,
     hasIDs     : PropTypes.bool,
     noSorting  : PropTypes.bool,
