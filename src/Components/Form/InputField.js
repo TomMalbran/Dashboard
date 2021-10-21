@@ -10,6 +10,7 @@ import InputType            from "../../Core/InputType";
 import Input                from "../Input/Input";
 import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
+import InputError           from "../Input/InputError";
 import AutoSuggest          from "../Form/AutoSuggest";
 import Button               from "../Form/Button";
 import IconLink             from "../Link/IconLink";
@@ -22,12 +23,6 @@ const InputContent = Styled.div`
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
-`;
-
-const InputError = Styled.p`
-    font-size: 12px;
-    margin: 4px 0 0 4px;
-    color: #ff0033;
 `;
 
 const InputHelper = Styled.p`
@@ -51,10 +46,7 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside }) => ({ i
         padding: 4px 8px;
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
-        min-height: ${(props) => (
-            props.isSmall ? "calc(var(--input-height) - 7px)" :
-            (props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)")
-        )};
+        ${(props) => `min-height: ${props.isSmall ? "calc(var(--input-height) - 7px)" : props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};`}
     }
 
     &.input-textarea, & .input-textarea {
@@ -132,7 +124,7 @@ function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
-        fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel,
+        fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
         preType, preName, preValue, preOptions, preWithNone, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear,
     } = props;
@@ -197,6 +189,7 @@ function InputField(props) {
     React.useEffect(() => {
         const node = inputRef.current;
         if (autoFocus && node) {
+            // @ts-ignore
             node.focus();
         }
         setValue(Boolean(value));
@@ -279,7 +272,7 @@ function InputField(props) {
                 onClick={onClick}
             />}
         </InputContent>
-        {hasError  && <InputError>{NLS.get(error)}</InputError>}
+        <InputError error={error} useBackground={errorBackground} />
         {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
 
         {autoSuggest && <AutoSuggest
@@ -340,12 +333,13 @@ InputField.propTypes = {
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex        : PropTypes.string,
     withLabel       : PropTypes.bool,
+    fullWidth       : PropTypes.bool,
     smallMargin     : PropTypes.bool,
     noMargin        : PropTypes.bool,
-    fullWidth       : PropTypes.bool,
     labelInside     : PropTypes.bool,
     shrinkLabel     : PropTypes.bool,
     isSmall         : PropTypes.bool,
+    errorBackground : PropTypes.bool,
     withNone        : PropTypes.bool,
     noneText        : PropTypes.string,
     withCustom      : PropTypes.bool,
@@ -369,37 +363,38 @@ InputField.propTypes = {
  * @typedef {Object} defaultProps
  */
 InputField.defaultProps = {
-    isHidden       : false,
-    className      : "",
-    type           : InputType.TEXT,
-    inputType      : InputType.TEXT,
-    placeholder    : "",
-    autoComplete   : "off",
-    isRequired     : false,
-    isDisabled     : false,
-    options        : [],
-    extraOptions   : [],
-    suggestParams  : {},
-    withLabel      : true,
-    smallMargin    : false,
-    noMargin       : false,
-    fullWidth      : false,
-    labelInside    : false,
-    shrinkLabel    : false,
-    isSmall        : false,
-    withNone       : false,
-    noneText       : "",
-    withCustom     : false,
-    customFirst    : false,
-    customText     : "",
-    customKey      : "",
-    hasClear       : false,
-    autoFocus      : false,
-    onlyImages     : false,
-    preType        : InputType.TEXT,
-    preOptions     : [],
-    preWithNone    : false,
-    prePlaceholder : "",
+    isHidden        : false,
+    className       : "",
+    type            : InputType.TEXT,
+    inputType       : InputType.TEXT,
+    placeholder     : "",
+    autoComplete    : "off",
+    isRequired      : false,
+    isDisabled      : false,
+    options         : [],
+    extraOptions    : [],
+    suggestParams   : {},
+    withLabel       : true,
+    smallMargin     : false,
+    noMargin        : false,
+    fullWidth       : false,
+    labelInside     : false,
+    shrinkLabel     : false,
+    isSmall         : false,
+    errorBackground : false,
+    withNone        : false,
+    noneText        : "",
+    withCustom      : false,
+    customFirst     : false,
+    customText      : "",
+    customKey       : "",
+    hasClear        : false,
+    autoFocus       : false,
+    onlyImages      : false,
+    preType         : InputType.TEXT,
+    preOptions      : [],
+    preWithNone     : false,
+    prePlaceholder  : "",
 
 };
 

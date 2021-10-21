@@ -123,6 +123,7 @@ function RadioInput(props) {
         handleCheck(e, customKey);
         const node = inputRef.current;
         if (e.target.checked && node) {
+            // @ts-ignore
             node.focus();
         }
     };

@@ -3,12 +3,15 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import NLS                   from "../../Core/NLS";
+
+// Core
 import CheckboxInput        from "../Input/CheckboxInput";
 
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ labelInside }) => ({ labelInside }))`
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -17,6 +20,7 @@ const Container = Styled.div`
     padding: 12px 8px 8px 8px;
     border: 1px solid var(--lighter-color);
     border-radius: var(--border-radius);
+    ${(props) => props.labelInside ? "padding-top: 16px" : ""};
 `;
 
 
@@ -27,7 +31,10 @@ const Container = Styled.div`
  * @returns {React.ReactElement}
  */
 function MultipleInput(props) {
-    const { className, name, value, options, tabIndex, onChange } = props;
+    const { className, name, value, options, tabIndex, labelInside, onChange } = props;
+
+    const isSelect = !Array.isArray(options);
+    const items    = isSelect ? NLS.select(options) : options;
 
     // Handles the Change
     const handleChange = (isChecked, key, value = []) => {
@@ -43,8 +50,8 @@ function MultipleInput(props) {
     };
 
 
-    return <Container className={className}>
-        {options.map(({ key, value : val }) => <CheckboxInput
+    return <Container className={className} labelInside={labelInside}>
+        {items.map(({ key, value : val }) => <CheckboxInput
             key={key}
             name={name}
             value={key}
@@ -61,12 +68,13 @@ function MultipleInput(props) {
  * @type {Object} propTypes
  */
 MultipleInput.propTypes = {
-    className : PropTypes.string,
-    name      : PropTypes.string.isRequired,
-    value     : PropTypes.any,
-    options   : PropTypes.array,
-    tabIndex  : PropTypes.string,
-    onChange  : PropTypes.func.isRequired,
+    className   : PropTypes.string,
+    name        : PropTypes.string.isRequired,
+    value       : PropTypes.any,
+    options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    tabIndex    : PropTypes.string,
+    labelInside : PropTypes.bool,
+    onChange    : PropTypes.func.isRequired,
 };
 
 /**

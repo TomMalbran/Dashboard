@@ -3,12 +3,12 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import NLS                  from "../../Core/NLS";
 import InputType            from "../../Core/InputType";
 
 // Components
 import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
+import InputError           from "../Input/InputError";
 import Input                from "../Input/Input";
 import Icon                 from "../Common/Icon";
 
@@ -33,17 +33,6 @@ const InputContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
             border-bottom-right-radius: 0;
         }
     `}
-`;
-
-const InputError = Styled.p`
-    margin: 0;
-    padding: 4px;
-    color: white;
-    font-size: 0.8em;
-    text-align: center
-    background-color: var(--error-color);
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
 `;
 
 const InputInput = Styled(Input).attrs(({ width }) => ({ width }))`
@@ -140,7 +129,7 @@ const InputIcon = Styled(Icon)`
 function IconField(props) {
     const {
         isHidden, className, type, icon, autoFocus, value,
-        isRequired, error, fullWidth, onChange,
+        isRequired, error, fullWidth, smallMargin, noMargin, onChange,
         withLabel, label, placeholder, shrinkLabel, withNone,
         preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preWidth,
     } = props;
@@ -204,6 +193,7 @@ function IconField(props) {
     React.useEffect(() => {
         const node = inputRef.current;
         if (autoFocus && node) {
+            // @ts-ignore
             node.focus();
         }
         setValue(Boolean(value));
@@ -219,7 +209,8 @@ function IconField(props) {
         fullWidth={fullWidth}
         hasError={!!error}
         isFocused={isFocused}
-        noMargin
+        smallMargin={smallMargin}
+        noMargin={noMargin}
     >
         <InputContent className="inputfield-cnt" hasError={!!error}>
             <InputIcon icon={icon} />
@@ -266,7 +257,7 @@ function IconField(props) {
                 />
             </div>
         </InputContent>
-        {!!error && <InputError>{NLS.get(error)}</InputError>}
+        <InputError error={error} useBackground />
     </InputContainer>;
 }
 
@@ -298,6 +289,8 @@ IconField.propTypes = {
     tabIndex       : PropTypes.string,
     withLabel      : PropTypes.bool,
     fullWidth      : PropTypes.bool,
+    smallMargin    : PropTypes.bool,
+    noMargin       : PropTypes.bool,
     shrinkLabel    : PropTypes.bool,
     withNone       : PropTypes.bool,
     noneText       : PropTypes.string,
@@ -331,6 +324,8 @@ IconField.defaultProps = {
     extraOptions   : [],
     withLabel      : true,
     fullWidth      : false,
+    smallMargin    : false,
+    noMargin       : false,
     shrinkLabel    : false,
     withNone       : false,
     noneText       : "",
