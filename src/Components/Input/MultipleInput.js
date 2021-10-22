@@ -38,15 +38,16 @@ function MultipleInput(props) {
 
     // Handles the Change
     const handleChange = (isChecked, key, value = []) => {
+        const values = !Array.isArray(value) ? [] : value;
         if (isChecked) {
-            value.push(key);
+            values.push(key);
         } else {
-            const pos = value.indexOf(key);
+            const pos = values.indexOf(key);
             if (pos > -1) {
-                value.splice(pos, 1);
+                values.splice(pos, 1);
             }
         }
-        onChange(name, value);
+        onChange(name, values);
     };
 
 
