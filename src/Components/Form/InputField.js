@@ -41,6 +41,7 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside }) => ({ i
         box-sizing: border-box;
         appearance: none;
         font-size: var(--input-font);
+        line-height: 1.7;
         width: 100%;
         margin: 0;
         padding: 4px 8px;
