@@ -44,7 +44,7 @@ function Form(props) {
  */
 Form.propTypes = {
     className   : PropTypes.string,
-    error       : PropTypes.string,
+    error       : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     noAutoFocus : PropTypes.bool,
     onSubmit    : PropTypes.func,
     children    : PropTypes.any,

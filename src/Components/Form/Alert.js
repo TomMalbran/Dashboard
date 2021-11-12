@@ -9,6 +9,7 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import Icon                 from "../Common/Icon";
+import Html                 from "../Common/Html";
 
 
 
@@ -60,7 +61,15 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
 function Alert(props) {
     const { isHidden, variant, message, onClose, noClose, smallSpace, children } = props;
 
-    const content = NLS.get(message) || children;
+    let content = children;
+    if (message) {
+        if (Array.isArray(message)) {
+            content = NLS.format(message[0], ...message.slice(1));
+        } else {
+            content = NLS.get(message);
+        }
+    }
+
     if (isHidden || !content) {
         return <React.Fragment />;
     }
@@ -103,8 +112,9 @@ function Alert(props) {
         ref={alertRef}
     >
         <Content variant={variant} isClosing={isClosing}>
-            <div>{content}</div>
-            {hasClose && <Icon
+            {!!message  && <Html>{content}</Html>}
+            {!!children && <div>{children}</div>}
+            {hasClose   && <Icon
                 icon="close"
                 onClick={handleClose}
             />}
@@ -122,7 +132,7 @@ Alert.propTypes = {
     smallSpace : PropTypes.bool,
     onClose    : PropTypes.func,
     noClose    : PropTypes.bool,
-    message    : PropTypes.string,
+    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     children   : PropTypes.any,
 };
 

@@ -283,7 +283,7 @@ IconField.propTypes = {
     onSubmit       : PropTypes.func,
     onKeyDown      : PropTypes.func,
     onKeyUp        : PropTypes.func,
-    error          : PropTypes.string,
+    error          : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     options        : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex       : PropTypes.string,

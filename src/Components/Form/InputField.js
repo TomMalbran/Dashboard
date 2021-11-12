@@ -328,7 +328,7 @@ InputField.propTypes = {
     suggestNone     : PropTypes.string,
     keepSuggestions : PropTypes.bool,
     fieldButton     : PropTypes.string,
-    error           : PropTypes.string,
+    error           : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     helperText      : PropTypes.string,
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),

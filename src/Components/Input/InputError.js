@@ -38,8 +38,13 @@ function InputError(props) {
     if (!error) {
         return <React.Fragment />;
     }
+
+    let errorText = NLS.get(error);
+    if (Array.isArray(error)) {
+        errorText = NLS.format(error[0], ...error.slice(1));
+    }
     return <Error useBackground={useBackground}>
-        {NLS.get(error)}
+        {errorText}
     </Error>;
 }
 
@@ -48,7 +53,7 @@ function InputError(props) {
  * @type {Object} propTypes
  */
 InputError.propTypes = {
-    error         : PropTypes.string,
+    error         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     useBackground : PropTypes.bool,
 };
 

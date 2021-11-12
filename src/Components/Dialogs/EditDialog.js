@@ -64,7 +64,7 @@ EditDialog.propTypes = {
     icon        : PropTypes.string,
     className   : PropTypes.string,
     message     : PropTypes.string,
-    error       : PropTypes.string,
+    error       : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     dontClose   : PropTypes.bool,
     onClose     : PropTypes.func.isRequired,
     isLoading   : PropTypes.bool,
