@@ -99,9 +99,9 @@ const InputIcon = Styled(Icon)`
         padding-left: 0;
     }
 `;
-const InputClear = Styled(IconLink)`
+const InputClear = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
     position: absolute;
-    right: 0;
+    right: ${(props) => props.forMedia ? "32px" : "0"};
     top: calc(50% + 3px);
     transform: translateY(-50%);
     .icon {
@@ -137,12 +137,14 @@ function InputField(props) {
     const [ isFocused, setFocus ] = React.useState(false);
     const [ hasValue,  setValue ] = React.useState(false);
 
+    const autoSuggest   = Boolean(suggestFetch && suggestID);
     const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
     const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
-    const withValue     = isFocused || hasValue || Boolean(value);
+    const withValue     = hasValue || isFocused || Boolean(value);
+    const withClear     = !!value && (hasClear || InputType.hasClear(type) || autoSuggest);
+    const forMedia      = InputType.hasClear(type);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
-    const autoSuggest   = Boolean(suggestFetch && suggestID);
 
     // The Input got Focus
     const handleFocus = () => {
@@ -261,10 +263,11 @@ function InputField(props) {
                 isSmall={isSmall}
                 labelInside={labelInside}
             />
-            {hasClear && hasValue && <InputClear
+            {withClear && <InputClear
                 variant="light"
                 icon="close"
                 onClick={handleClear}
+                forMedia={forMedia}
                 isSmall
             />}
             {!!button && <InputButton

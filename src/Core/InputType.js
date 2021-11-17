@@ -31,6 +31,15 @@ function hasLabel(type) {
 }
 
 /**
+ * Returns true if the Input should have a Clear
+ * @param {String} type
+ * @returns {Boolean}
+ */
+function hasClear(type) {
+    return [ FILE, MEDIA ].includes(type);
+}
+
+/**
  * Returns true if the Input label can shrink
  * @param {String}  type
  * @param {Boolean} withNone
@@ -48,6 +57,7 @@ function canShrink(type, withNone) {
 // The Public API
 export default {
     hasLabel,
+    hasClear,
     canShrink,
 
     CHECKBOX,
