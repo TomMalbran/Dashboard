@@ -9,13 +9,14 @@ import IconField            from "../Form/IconField";
 
 // Styles
 const SearchField = Styled(IconField)`
-    --input-height: 30px;
+    --inputicon-height: 30px;
     margin-left: 32px;
     width: 200px;
 
     .input {
         background-color: var(--secondary-color);
         color: white;
+        padding: 4px 8px;
     }
     .input:focus {
         color: white;
