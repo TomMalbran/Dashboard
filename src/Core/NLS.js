@@ -138,7 +138,7 @@ function formatIf(id, value, ...args) {
 }
 
 /**
- * Joins the given strings to form a sentence
+ * Formats and Joins the given strings to form a sentence
  * @param {String}   id
  * @param {String[]} list
  * @param {Boolean=} useOr
@@ -146,6 +146,28 @@ function formatIf(id, value, ...args) {
  */
 function formatJoin(id, list, useOr) {
     return format(id, join(list, useOr));
+}
+
+/**
+ * Returns a formated string using the correct plural string
+ * @param {String}    id
+ * @param {...String} args
+ * @returns {String}
+ */
+function pluralize(id, ...args) {
+    const suffix = Number(args[0]) === 1 ? "_SINGULAR" : "_PLURAL";
+    return format(id + suffix, ...args);
+}
+
+/**
+ * Returns a formated string using the correct plural string
+ * @param {String}   id
+ * @param {String[]} list
+ * @returns {String}
+ */
+function pluralizeList(id, list) {
+    const suffix = list.length === 1 ? "_SINGULAR" : "_PLURAL";
+    return format(id + suffix, join(list));
 }
 
 /**
@@ -163,27 +185,6 @@ function join(list, useOr) {
         }
     }
     return result;
-}
-
-/**
- * Returns a formated string using the correct plural string
- * @param {String}    id
- * @param {...String} args
- * @returns {String}
- */
-function pluralize(id, ...args) {
-    const count = Number(args[0]);
-    return format(id + (count === 1 ? "_SINGULAR" : "_PLURAL"), ...args);
-}
-
-/**
- * Returns a formated string using the correct plural string
- * @param {String}   id
- * @param {String[]} list
- * @returns {String}
- */
-function pluralizeList(id, list) {
-    return format(id + (list.length === 1 ? "_SINGULAR" : "_PLURAL"), join(list));
 }
 
 
@@ -258,9 +259,9 @@ export default {
     format,
     formatIf,
     formatJoin,
-    join,
     pluralize,
     pluralizeList,
+    join,
 
     url,
     baseUrl,
