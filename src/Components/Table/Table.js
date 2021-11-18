@@ -61,10 +61,14 @@ function Table(props) {
         noSorting, hasIDs, notFixed, rightSpace, children,
     } = props;
 
-    const [ menuID,   setMenuID   ] = React.useState(null);
-    const [ menuTop,  setMenuTop  ] = React.useState(null);
-    const [ menuLeft, setMenuLeft ] = React.useState(null);
-    const [ menuDir,  setMenuDir  ] = React.useState(null);
+    const tableRef = React.useRef();
+
+    // The State
+    const [ menuID,     setMenuID     ] = React.useState(null);
+    const [ menuTop,    setMenuTop    ] = React.useState(null);
+    const [ menuLeft,   setMenuLeft   ] = React.useState(null);
+    const [ menuDir,    setMenuDir    ] = React.useState(null);
+    const [ iconHeight, setIconHeight ] = React.useState(0);
 
 
     // Handles the Click
@@ -87,11 +91,12 @@ function Table(props) {
     };
 
     // Handles the Menu Open
-    const handleMenuOpen = (menuID, menuTop, menuLeft, menuDir = "right") => {
+    const handleMenuOpen = (menuID, menuTop, menuLeft, menuDir, iconHeight) => {
         setMenuID(menuID);
         setMenuTop(menuTop);
         setMenuLeft(menuLeft);
         setMenuDir(menuDir);
+        setIconHeight(iconHeight);
     };
 
     // Handles the Menu Close
@@ -192,7 +197,7 @@ function Table(props) {
         return <NoneAvailable message={none} />;
     }
     return <>
-        <Wrapper>
+        <Wrapper ref={tableRef}>
             <Container
                 className={className}
                 inDialog={inDialog}
@@ -207,10 +212,12 @@ function Table(props) {
         </Wrapper>
 
         <Menu
+            containerRef={tableRef}
             open={showMenu}
             top={menuTop}
             left={menuLeft}
             direction={menuDir}
+            iconHeight={iconHeight}
             onClose={handleMenuClose}
         >
             {actions.map((elem, index) => <MenuItem

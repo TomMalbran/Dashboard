@@ -41,16 +41,18 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
  */
 function Menu(props) {
     const {
-        className, open, variant, direction, top, left, right,
+        containerRef, className, open, variant, direction, iconHeight,
         selected, onAction, onClose, children,
     } = props;
+    let { top, left, right } = props;
 
     const menuRef   = React.useRef();
     const hasStyles = top && (left || right);
     const style     = {};
 
     // The State
-    const [ width, setWidth ] = React.useState(0);
+    const [ width,  setWidth  ] = React.useState(0);
+    const [ height, setHeight ] = React.useState(0);
 
 
     // Close the Menu
@@ -71,6 +73,7 @@ function Menu(props) {
         if (open) {
             const bounds = Utils.getBounds(menuRef);
             setWidth(bounds.width);
+            setHeight(bounds.height);
             window.addEventListener("click", handleClose);
             return () => window.removeEventListener("click", handleClose);
         }
@@ -80,21 +83,39 @@ function Menu(props) {
 
     // Set the position
     if (hasStyles) {
+        if (left) {
+            left = (direction === "left") ? left - width : left;
+        }
+
+        if (containerRef && width) {
+            const bounds = Utils.getBounds(containerRef);
+            if (top + height > bounds.bottom) {
+                top -= height - iconHeight;
+            }
+            if (left && left + width > bounds.right) {
+                left -= width;
+            }
+            if (right && right - width < bounds.left) {
+                right += width;
+            }
+        }
+
         style.top = `${top}px`;
         if (left) {
-            const newLeft = (direction === "left") ? left - width : left;
-            style.left = `${newLeft}px`;
+            style.left = `${left}px`;
         }
         if (right) {
             style.right = `${right}px`;
         }
     }
 
+    // Clone the children
     const items = Utils.cloneChildren(children, (child, key) => ({
         onAction, onClose,
         index      : key,
         isSelected : key === selected,
     }));
+
 
     return <Ul
         ref={menuRef}
@@ -114,17 +135,19 @@ function Menu(props) {
  * @type {Object} propTypes
  */
 Menu.propTypes = {
-    open      : PropTypes.bool,
-    variant   : PropTypes.string,
-    className : PropTypes.string,
-    direction : PropTypes.string,
-    top       : PropTypes.number,
-    left      : PropTypes.number,
-    right     : PropTypes.number,
-    selected  : PropTypes.number,
-    onAction  : PropTypes.func,
-    onClose   : PropTypes.func.isRequired,
-    children  : PropTypes.any,
+    containerRef : PropTypes.any,
+    open         : PropTypes.bool,
+    variant      : PropTypes.string,
+    className    : PropTypes.string,
+    direction    : PropTypes.string,
+    top          : PropTypes.number,
+    left         : PropTypes.number,
+    right        : PropTypes.number,
+    iconHeight   : PropTypes.number,
+    selected     : PropTypes.number,
+    onAction     : PropTypes.func,
+    onClose      : PropTypes.func.isRequired,
+    children     : PropTypes.any,
 };
 
 /**
@@ -132,10 +155,11 @@ Menu.propTypes = {
  * @type {Object} defaultProps
  */
 Menu.defaultProps = {
-    open      : false,
-    variant   : Variant.RIGHT,
-    className : "",
-    direction : "",
+    open       : false,
+    variant    : Variant.RIGHT,
+    className  : "",
+    direction  : "",
+    iconHeight : 0,
 };
 
 export default Menu;

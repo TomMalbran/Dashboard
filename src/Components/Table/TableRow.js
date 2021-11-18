@@ -29,14 +29,14 @@ function TableRow(props) {
     // Handles the Menu Click
     const handleMenuClick = (e) => {
         const bounds = Utils.getBounds(linkRef);
-        handleMenuOpen(elemID, bounds.top, bounds.right, "left");
+        handleMenuOpen(elemID, bounds.top, bounds.right, "left", bounds.height);
         e.stopPropagation();
         e.preventDefault();
     };
 
     // Handles the Context Menu
     const handleContextMenu = (e) => {
-        handleMenuOpen(elemID, e.clientY, e.clientX, "right");
+        handleMenuOpen(elemID, e.clientY, e.clientX, "right", 0);
         e.preventDefault();
         return false;
     };
