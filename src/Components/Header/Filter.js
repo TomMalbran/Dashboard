@@ -11,40 +11,40 @@ import Button               from "../Form/Button";
 // Styles
 const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     --filter-columns: ${(props) => props.columns};
-    display: flex;
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(var(--filter-columns), 1fr) 0.1fr;
+    grid-gap: 8px;
     height: var(--filter-height);
     margin: 0 0 16px 0;
-    padding: 12px 8px;
+    padding: 12px;
     background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
+    overflow-y: hidden;
+    overflow-x: auto;
 `;
 
 const FilterField = Styled(InputField)`
-    flex-grow: 1;
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-bottom: 0;
     box-sizing: border-box;
-    width: calc((100% - 81px) / var(--filter-columns));
+    margin: 0;
+    min-width: 140px;
 
     .textfield-label {
         background-color: var(--lighter-gray);
     }
 `;
 
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ labelInside }) => ({ labelInside }))`
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding-right: 0;
-    margin-top: 6px;
-    width: 90px;
+    ${(props) => !props.labelInside ? "margin-top: 6px;" : ""}
 `;
 
-const FilterButton = Styled(Button)`
+const FilterButton = Styled(Button).attrs(({ labelInside }) => ({ labelInside }))`
     font-size: 12px;
-    height: 37px;
+    height: ${(props) => props.labelInside ? "43px" : "37px"};
 `;
 
 
@@ -115,6 +115,7 @@ function Filter(props) {
             value={data.search}
             error={errors.search}
             onChange={handleChange}
+            onSubmit={handleClick}
             labelInside={labelInside}
             shrinkLabel
         />
@@ -129,6 +130,7 @@ function Filter(props) {
             error={errors.credentialID}
             onChange={handleChange}
             onSuggest={handleSuggest}
+            onSubmit={handleClick}
             labelInside={labelInside}
             shrinkLabel
         />
@@ -139,6 +141,7 @@ function Filter(props) {
             value={data.fromDate}
             error={errors.fromDate}
             onChange={handleChange}
+            onSubmit={handleClick}
             labelInside={labelInside}
         />
         <FilterField
@@ -148,14 +151,16 @@ function Filter(props) {
             value={data.toDate}
             error={errors.toDate}
             onChange={handleChange}
+            onSubmit={handleClick}
             labelInside={labelInside}
         />
-        <Div>
+        <Div labelInside={labelInside}>
             <FilterButton
                 variant="outlined"
                 isDisabled={loading}
                 onClick={handleClick}
                 message="GENERAL_FILTER"
+                labelInside={labelInside}
             />
         </Div>
     </Container>;
