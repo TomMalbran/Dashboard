@@ -14,6 +14,7 @@ const Li = Styled.li.attrs(({ twoLines }) => ({ twoLines }))`
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+    min-width: 140px;
     background-color: var(--light-gray);
     margin-right: 8px;
     line-height: 1;
@@ -26,11 +27,6 @@ const Li = Styled.li.attrs(({ twoLines }) => ({ twoLines }))`
 
     &:last-child {
         margin-right: 0;
-    }
-
-    @media (max-width: 550px) {
-        margin-right: 0;
-        margin-bottom: 8px;
     }
 `;
 

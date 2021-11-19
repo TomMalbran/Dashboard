@@ -16,13 +16,8 @@ const Ul = Styled.ul`
     padding: 0;
     list-style: none;
     color: var(--darker-color);
-
-    @media (max-width: 1000px) {
-        margin: 0 0 24px 0;
-    }
-    @media (max-width: 550px) {
-        flex-direction: column;
-    }
+    overflow-y: hidden;
+    overflow-x: auto;
 `;
 
 
