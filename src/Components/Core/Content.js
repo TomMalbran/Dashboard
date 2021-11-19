@@ -7,6 +7,7 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import CircularLoader       from "../Loader/CircularLoader";
+import Filter               from "../Header/Filter";
 import StatList             from "../Stats/StatList";
 import TabList              from "../Tab/TabList";
 
@@ -35,12 +36,15 @@ function Content(props) {
         </Section>;
     }
 
-    const items    = [];
-    let   hasStats = false;
-    let   hasTabs  = false;
+    const items     = [];
+    let   hasFilter = false;
+    let   hasStats  = false;
+    let   hasTabs   = false;
 
     for (const [ , child ] of Utils.getVisibleChildren(children)) {
-        if (child.type === StatList) {
+        if (child.type === Filter) {
+            hasFilter = true;
+        } else if (child.type === StatList) {
             hasStats = true;
         } else if (child.type === TabList) {
             hasTabs = true;
@@ -48,7 +52,7 @@ function Content(props) {
     }
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
         if (typeof child.type !== "string") {
-            items.push(React.cloneElement(child, { key, hasStats, hasTabs }));
+            items.push(React.cloneElement(child, { key, hasFilter, hasStats, hasTabs }));
         } else {
             items.push(React.cloneElement(child, { key }));
         }

@@ -24,7 +24,7 @@ const Wrapper = Styled.div`
     position: relative;
 `;
 
-const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasAlert, hasFilter, hasPaging }) => ({ inDialog, hasStats, hasTabs, hasAlert, hasFilter, hasPaging }))`
+const Container = Styled.table.attrs(({ inDialog, hasFilter, hasStats, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, hasStats, hasTabs, hasAlert, hasPaging }))`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -33,10 +33,10 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasAlert, h
     --table-height: ${(props) => props.inDialog ? "calc(var(--full-height) - 32px * 2 - 55px * 2 - 24px * 2 + 72px)" : "calc(var(--full-height) - 24px)"};
     --table-topbar-height: 0px;
     --table-header-height: 27px;
+    --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 16px)" : "0px"};
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
-    --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 16px)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
 
     @media (max-width: 1000px) {
@@ -57,7 +57,7 @@ const Container = Styled.table.attrs(({ inDialog, hasStats, hasTabs, hasAlert, h
 function Table(props) {
     const {
         sort, fetch, className, isLoading, none,
-        noClick, inDialog, hasStats, hasTabs, hasAlert, hasFilter,
+        noClick, inDialog, hasFilter, hasStats, hasTabs, hasAlert,
         noSorting, hasIDs, notFixed, rightSpace, children,
     } = props;
 
@@ -201,10 +201,10 @@ function Table(props) {
             <Container
                 className={className}
                 inDialog={inDialog}
+                hasFilter={hasFilter}
                 hasStats={hasStats}
                 hasTabs={hasTabs}
                 hasAlert={hasAlert}
-                hasFilter={hasFilter}
                 hasPaging={hasPaging}
             >
                 {items}
@@ -241,10 +241,10 @@ Table.propTypes = {
     className  : PropTypes.string,
     isLoading  : PropTypes.bool,
     inDialog   : PropTypes.bool,
+    hasFilter  : PropTypes.bool,
     hasStats   : PropTypes.bool,
     hasTabs    : PropTypes.bool,
     hasAlert   : PropTypes.bool,
-    hasFilter  : PropTypes.bool,
     hasIDs     : PropTypes.bool,
     noSorting  : PropTypes.bool,
     noClick    : PropTypes.bool,
@@ -261,9 +261,9 @@ Table.defaultProps = {
     className  : "",
     sort       : {},
     isLoading  : false,
+    hasFilter  : false,
     hasStats   : false,
     hasTabs    : false,
-    hasFilter  : false,
     hasIDs     : false,
     noSorting  : false,
     notFixed   : false,
