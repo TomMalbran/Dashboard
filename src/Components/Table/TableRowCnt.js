@@ -71,7 +71,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
     @media (max-width: 650px) {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
-    @media (max-width: 400px) {
+    @media (max-width: 380px) {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }
 `;
