@@ -20,6 +20,7 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const InputContent = Styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
@@ -100,8 +101,8 @@ const InputIcon = Styled(Icon)`
 `;
 const InputClear = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
     position: absolute;
+    top: 50%;
     right: ${(props) => props.forMedia ? "32px" : "0"};
-    top: calc(50% + 3px);
     transform: translateY(-50%);
     .icon {
         box-shadow: none;
