@@ -22,7 +22,6 @@ const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
 
 const LiAvatar = Styled(Avatar)`
     flex-shrink: 0;
-    width: 32px;
     border-radius: 50%;
     margin-right: 16px;
 `;
@@ -54,7 +53,7 @@ function AvatarItem(props) {
     const { className, isSelected, onClick, name, email, avatar } = props;
 
     return <Li className={className} isSelected={isSelected} onClick={onClick}>
-        <LiAvatar name={name} email={email} avatar={avatar} />
+        <LiAvatar name={name} email={email} avatar={avatar} size={32} />
         <div className="lead-credential">
             <H3>{name}</H3>
             <P>{email}</P>
