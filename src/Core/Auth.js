@@ -37,7 +37,8 @@ function getToken() {
  */
 function setToken(jwt) {
     if (token !== jwt) {
-        token = jwt;
+        token    = jwt;
+        timezone = null;
         localStorage.setItem("token", token);
         setUser();
     }
@@ -48,7 +49,8 @@ function setToken(jwt) {
  * @returns {Void}
  */
 function unsetToken() {
-    token = null;
+    token    = null;
+    timezone = null;
 
     localStorage.removeItem("token");
     Store.setCurrentUser({});
@@ -101,7 +103,7 @@ function setUser() {
 
 /**
  * Returns the Timezone
- * @returns {?String}
+ * @returns {String}
  */
 function getTimezone() {
     const newTimezone = new Date().getTimezoneOffset();
