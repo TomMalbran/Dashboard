@@ -35,25 +35,24 @@ export default function makeConfig(commandOptions) {
     return {
         input,
         output : {
-            dir    : isDist ? "dist" : "",
-            format : "cjs",
+            dir     : isDist ? "dist" : "",
+            format  : "cjs",
+            exports : "auto",
         },
         plugins : [
             cleaner({ targets }),
             external(),
             url(),
             svgr(),
-            babel({ exclude : "node_modules/**" }),
-            resolve({ preferBuiltins : true }),
+            babel({
+                babelHelpers : "bundled",
+                exclude      : "node_modules/**",
+            }),
+            resolve({
+                preferBuiltins : true,
+            }),
             commonjs({
-                include      : "node_modules/**",
-                namedExports : {
-                    "node_modules/react-is/index.js" : [
-                        "ForwardRef",
-                        "isValidElementType",
-                        "isElement",
-                    ],
-                },
+                include : "node_modules/**",
             }),
             cleanup(),
         ],
