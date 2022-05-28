@@ -49,7 +49,7 @@ export default function makeConfig(commandOptions) {
                 exclude      : "node_modules/**",
             }),
             resolve({
-                preferBuiltins : true,
+                preferBuiltins : false,
             }),
             commonjs({
                 include : "node_modules/**",
