@@ -1,6 +1,6 @@
 import React                from "react";
 import { Provider }         from "react-redux";
-import { withRouter }       from "react-router";
+import { useNavigate }      from "react-router";
 import PropTypes            from "prop-types";
 
 import Store                from "./Core/Store";
@@ -19,8 +19,9 @@ import Auth                 from "./Core/Auth";
  * @returns {React.ReactElement}
  */
 function Dashboard(props) {
-    const { store, actions, params, access, status, history, children } = props;
+    const { store, actions, params, access, status, children } = props;
     const [ isMounted, setMounted ] = React.useState(false);
+    const navigate = useNavigate();
 
     if (!isMounted) {
         Store.init(store);
@@ -28,7 +29,7 @@ function Dashboard(props) {
         Params.init(params);
         Access.init(access.values, access.groups);
         Status.init(status.values, status.groups);
-        Href.init(history);
+        Href.init(navigate);
         Auth.init();
         setMounted(true);
     }
@@ -43,7 +44,6 @@ function Dashboard(props) {
  * @typedef {Object} propTypes
  */
 Dashboard.propTypes = {
-    history  : PropTypes.object.isRequired,
     store    : PropTypes.object.isRequired,
     actions  : PropTypes.array.isRequired,
     params   : PropTypes.object.isRequired,
@@ -52,4 +52,4 @@ Dashboard.propTypes = {
     children : PropTypes.any,
 };
 
-export default withRouter(Dashboard);
+export default Dashboard;

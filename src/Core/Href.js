@@ -1,17 +1,17 @@
 import NLS                  from "../Core/NLS";
 
 // Module variables
-let history = null;
+let navigate = null;
 
 
 
 /**
  * Initialize the Href
- * @param {Object} theHistory
+ * @param {function} theNavigate
  * @returns {Void}
  */
-function init(theHistory) {
-    history = theHistory;
+function init(theNavigate) {
+    navigate = theNavigate;
 }
 
 
@@ -77,11 +77,11 @@ function handleInternal(url) {
         return false;
     }
     if (url.startsWith(process.env.REACT_APP_URL)) {
-        history.push(url.replace(process.env.REACT_APP_URL, "/"));
+        navigate(url.replace(process.env.REACT_APP_URL, "/"));
         return true;
     }
     if (!url.startsWith("http")) {
-        history.push(url);
+        navigate(url);
         return true;
     }
     return false;
