@@ -54,13 +54,12 @@ function AvatarItem(props) {
 
     return <Li className={className} isSelected={isSelected} onClick={onClick}>
         <LiAvatar name={name} email={email} avatar={avatar} size={32} />
-        <div className="lead-credential">
+        <div>
             <H3>{name}</H3>
             <P>{email}</P>
         </div>
         <LiIcon
             isHidden={!isSelected}
-            className="lead-icon"
             icon="check"
         />
     </Li>;

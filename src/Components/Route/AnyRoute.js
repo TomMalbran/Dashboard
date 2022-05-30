@@ -1,7 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { Route }            from "react-router-dom";
-
+import { useLocation }      from "react-router-dom";
 
 
 /**
@@ -10,11 +9,10 @@ import { Route }            from "react-router-dom";
  * @returns {React.ReactElement}
  */
 function AnyRoute(props) {
-    const { component : Component, ...rest } = props;
+    const { component : Component } = props;
 
-    return <Route {...rest} render={(props) => {
-        return <Component {...props} />;
-    }} />;
+    const location = useLocation();
+    return <Component location={location} />;
 }
 
 /**
@@ -25,9 +23,7 @@ AnyRoute.propTypes = {
     isHidden  : PropTypes.bool,
     component : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
     url       : PropTypes.string,
-    path      : PropTypes.string,
     exact     : PropTypes.bool,
-    location  : PropTypes.object,
 };
 
 /**

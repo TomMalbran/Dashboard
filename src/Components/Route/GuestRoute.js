@@ -1,6 +1,10 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import { Route, Redirect }  from "react-router-dom";
+
+// Router
+import {
+    Navigate, useLocation,
+} from "react-router-dom";
 
 
 
@@ -10,14 +14,16 @@ import { Route, Redirect }  from "react-router-dom";
  * @returns {React.ReactElement}
  */
 function GuestRoute(props) {
-    const { isAuthenticated, component : Component, ...rest } = props;
+    const { isAuthenticated, component : Component } = props;
 
-    return <Route {...rest} render={(props) => {
-        if (!isAuthenticated) {
-            return <Component {...props} />;
-        }
-        return <Redirect to={{ pathname : "/", state : { from : props.location } }} />;
-    }} />;
+    const location = useLocation();
+    if (isAuthenticated) {
+        return <Navigate
+            to="/"
+            state={{ from : location }}
+        />;
+    }
+    return <Component location={location} />;
 }
 
 /**
@@ -29,9 +35,7 @@ GuestRoute.propTypes = {
     isAuthenticated : PropTypes.bool.isRequired,
     component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
     url             : PropTypes.string,
-    path            : PropTypes.string,
     exact           : PropTypes.bool,
-    location        : PropTypes.object,
 };
 
 /**
