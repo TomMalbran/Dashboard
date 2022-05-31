@@ -20,14 +20,14 @@ import Auth                 from "./Core/Auth";
  * @returns {React.ReactElement}
  */
 function Dashboard(props) {
-    const { reducer, actions, params, access, status, children } = props;
+    const { reducer, store, actions, params, access, status, children } = props;
     const [ isMounted, setMounted ] = React.useState(false);
 
-    const store    = configureStore({ reducer });
-    const navigate = useNavigate();
+    const dashStore = reducer ? configureStore({ reducer }) : store;
+    const navigate  = useNavigate();
 
     if (!isMounted) {
-        Store.init(store);
+        Store.init(dashStore);
         Action.init(actions);
         Params.init(params);
         Access.init(access.values, access.groups);
@@ -37,7 +37,7 @@ function Dashboard(props) {
         setMounted(true);
     }
 
-    return <Provider store={store}>
+    return <Provider store={dashStore}>
         {children}
     </Provider>;
 }
@@ -47,7 +47,8 @@ function Dashboard(props) {
  * @typedef {Object} propTypes
  */
 Dashboard.propTypes = {
-    reducer  : PropTypes.object.isRequired,
+    reducer  : PropTypes.object,
+    store    : PropTypes.object,
     actions  : PropTypes.array.isRequired,
     params   : PropTypes.object.isRequired,
     access   : PropTypes.object.isRequired,
