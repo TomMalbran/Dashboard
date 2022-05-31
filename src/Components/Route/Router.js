@@ -63,7 +63,7 @@ function Router(props) {
     if (canRedirect && firstUrl) {
         items.push(<Route
             key="redirect"
-            path="/"
+            path="/*"
             element={<Navigate
                 to={NLS.baseUrl(baseUrl, firstUrl)}
                 replace

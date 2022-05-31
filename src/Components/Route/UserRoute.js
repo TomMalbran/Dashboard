@@ -7,7 +7,7 @@ import NLS                  from "../../Core/NLS";
 
 // Router
 import {
-    Navigate, useLocation, useParams,
+    Navigate, useLocation, useRouteMatch, useParams,
 } from "react-router-dom";
 
 
@@ -21,6 +21,7 @@ function UserRoute(props) {
     const { isAuthenticated, isValid, type, withDetails, component : Component } = props;
 
     const location = useLocation();
+    const match    = useRouteMatch();
     const route    = location.pathname;
     const from     = Params.getFrom(route);
     const parent   = Params.getParent(route);
@@ -36,6 +37,7 @@ function UserRoute(props) {
 
     return <Component
         location={location}
+        match={match}
         type={type}
         route={route}
         from={from}
