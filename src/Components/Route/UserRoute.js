@@ -7,7 +7,7 @@ import NLS                  from "../../Core/NLS";
 
 // Router
 import {
-    Navigate, useLocation, useRouteMatch, useParams,
+    Navigate, useLocation, useMatch, useParams,
 } from "react-router-dom";
 
 
@@ -18,13 +18,13 @@ import {
  * @returns {React.ReactElement}
  */
 function UserRoute(props) {
-    const { isAuthenticated, isValid, type, withDetails, component : Component } = props;
+    const { isAuthenticated, isValid, route, type, withDetails, component : Component } = props;
 
     const location = useLocation();
-    const match    = useRouteMatch();
-    const route    = location.pathname;
-    const from     = Params.getFrom(route);
-    const parent   = Params.getParent(route);
+    const match    = useMatch(route);
+    const pathname = location.pathname;
+    const from     = Params.getFrom(pathname);
+    const parent   = Params.getParent(pathname);
     const params   = Params.getAll(useParams());
     const elemID   = Params.getOne(params, type);
 
@@ -39,7 +39,7 @@ function UserRoute(props) {
         location={location}
         match={match}
         type={type}
-        route={route}
+        route={pathname}
         from={from}
         parent={parent}
         params={params}
@@ -57,6 +57,7 @@ UserRoute.propTypes = {
     isAuthenticated : PropTypes.bool.isRequired,
     isValid         : PropTypes.bool,
     component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
+    route           : PropTypes.string,
     type            : PropTypes.string,
     url             : PropTypes.string,
     exact           : PropTypes.bool,
