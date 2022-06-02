@@ -21,18 +21,18 @@ const loader = keyframes`
 
 const loaderDots = keyframes`
     0%, 20% {
-      color: transparent;
-      text-shadow: 0.25em 0 0 transparent, 0.5em 0 0 transparent;
+        color: transparent;
+        text-shadow: 0.25em 0 0 transparent, 0.5em 0 0 transparent;
     }
     40% {
-      color: var(--loader-font);
-      text-shadow: 0.25em 0 0 transparent, 0.5em 0 0 transparent;
+        color: var(--loader-font);
+        text-shadow: 0.25em 0 0 transparent, 0.5em 0 0 transparent;
     }
     60% {
-      text-shadow: 0.25em 0 0 var(--loader-font), 0.5em 0 0 transparent;
+        text-shadow: 0.25em 0 0 var(--loader-font), 0.5em 0 0 transparent;
     }
     80%, 100% {
-      text-shadow: 0.25em 0 0 var(--loader-font), 0.5em 0 0 var(--loader-font);
+        text-shadow: 0.25em 0 0 var(--loader-font), 0.5em 0 0 var(--loader-font);
     }
 `;
 
@@ -98,6 +98,7 @@ const Ring = Styled.div`
 const Text = Styled.div`
     padding-top: 32px;
     color: var(--loader-font);
+
     &::after {
         content: " .";
         font-size: 1.5em;
