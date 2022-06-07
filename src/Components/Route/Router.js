@@ -20,7 +20,7 @@ import {
  */
 function Router(props) {
     const {
-        saveRoute, baseUrl, initialUrl, path, type,
+        saveRoute, basePath, baseUrl, initialUrl, type,
         withDetails, noFirst, children,
     } = props;
 
@@ -32,7 +32,7 @@ function Router(props) {
     let   canRedirect = true;
 
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
-        let route = NLS.baseUrl(path, child.props.url);
+        let route = NLS.baseUrl(basePath, child.props.url);
 
         if (route === "/") {
             canRedirect = false;
@@ -85,7 +85,7 @@ function Router(props) {
  * @type {Object} propTypes
  */
 Router.propTypes = {
-    path        : PropTypes.string,
+    basePath    : PropTypes.string,
     baseUrl     : PropTypes.string,
     initialUrl  : PropTypes.string,
     type        : PropTypes.string,
@@ -100,7 +100,7 @@ Router.propTypes = {
  * @typedef {Object} defaultProps
  */
 Router.defaultProps = {
-    path        : "",
+    basePath    : "",
     baseUrl     : "",
     initialUrl  : "",
     type        : "",

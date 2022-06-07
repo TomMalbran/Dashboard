@@ -37,7 +37,8 @@ function UserRoute(props) {
 
     return <Component
         location={location}
-        match={match}
+        baseUrl={match.pathname}
+        basePath={match.pattern.path.replace("/*", "")}
         type={type}
         route={pathname}
         from={from}
