@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
-import NLS                  from "../../Core/NLS";
+import Href                 from "../../Core/Href";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -69,8 +69,8 @@ const NavAmount = Styled.span`
  */
 function NavigationItem(props) {
     const {
-        variant, className, path, baseUrl, message, html, url, href, icon,
-        elemID, isSelected, isDisabled, usePrefix, onAction, onClick, onClose, amount,
+        variant, className, message, html, url, href, icon,
+        elemID, isSelected, isDisabled, onAction, onClick, onClose, amount,
         canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
@@ -79,10 +79,10 @@ function NavigationItem(props) {
         if (isSelected) {
             return isSelected;
         }
-        if (usePrefix) {
-            return path.startsWith(uri);
+        if (url) {
+            return Href.isSelected(url);
         }
-        return path === uri;
+        return false;
     };
 
     // Handles the Click
@@ -110,11 +110,10 @@ function NavigationItem(props) {
     };
 
     // Handle the variables
-    const uri          = url ? NLS.baseUrl(baseUrl, url) : (href || "");
     const hasActions   = canEdit || canDelete || canCollapse || collapseOnSelect;
     const selected     = shouldSelect();
     const showChildren = collapseOnSelect ? selected : (canCollapse ? !isCollapsed : true);
-    const items        = Utils.cloneChildren(children, () => ({ variant, path, baseUrl }));
+    const items        = Utils.cloneChildren(children, () => ({ variant }));
 
 
     return <li>
@@ -126,7 +125,7 @@ function NavigationItem(props) {
                 isDisabled={isDisabled}
                 message={message}
                 html={html}
-                href={uri}
+                href={url ? Href.createLink(url) : href}
                 onClick={handleClick}
                 icon={icon}
             />
@@ -162,8 +161,6 @@ NavigationItem.propTypes = {
     isHidden         : PropTypes.bool,
     variant          : PropTypes.string,
     className        : PropTypes.string,
-    path             : PropTypes.string,
-    baseUrl          : PropTypes.string,
     message          : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     html             : PropTypes.string,
     url              : PropTypes.string,
@@ -181,7 +178,6 @@ NavigationItem.propTypes = {
     collapseOnSelect : PropTypes.bool,
     isSelected       : PropTypes.bool,
     isDisabled       : PropTypes.bool,
-    usePrefix        : PropTypes.bool,
     children         : PropTypes.any,
 };
 

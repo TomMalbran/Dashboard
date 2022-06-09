@@ -41,10 +41,10 @@ const Li = Styled.li.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { className, message, variant, path, baseUrl, onAction, onClose, children } = props;
+    const { className, message, variant, onAction, onClose, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        variant, path, baseUrl, onAction, onClose,
+        variant, onAction, onClose,
     }));
 
     return <Ul className={className}>
@@ -62,8 +62,6 @@ NavigationList.propTypes = {
     className : PropTypes.string,
     message   : PropTypes.string,
     variant   : PropTypes.string,
-    path      : PropTypes.string,
-    baseUrl   : PropTypes.string,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
@@ -77,7 +75,6 @@ NavigationList.defaultProps = {
     isHidden  : false,
     className : "",
     message   : "",
-    baseUrl   : "",
 };
 
 export default NavigationList;

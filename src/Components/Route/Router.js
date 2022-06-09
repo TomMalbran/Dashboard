@@ -20,7 +20,7 @@ import {
  */
 function Router(props) {
     const {
-        saveRoute, baseUrl, initialUrl, path, type,
+        saveRoute, initialUrl, type,
         withDetails, noFirst, children,
     } = props;
 
@@ -32,42 +32,34 @@ function Router(props) {
     let   canRedirect = true;
 
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
-        let route = NLS.baseUrl(path, child.props.url);
+        let path = NLS.url(child.props.url);
 
-        if (route === "/") {
+        if (path === "/") {
             canRedirect = false;
         }
-        if (route === location.pathname) {
+        if (path === location.pathname) {
             hasPath = true;
         }
 
         if (!child.props.exact) {
-            if (route.endsWith("/")) {
-                route += "*";
-            } else {
-                route += "/*";
-            }
+            path += "/*";
         }
-
         if (!firstUrl && !noFirst) {
             firstUrl = child.props.url;
         }
 
         items.push(<Route
             key={key}
-            path={route}
-            element={React.cloneElement(child, { route, type, withDetails })}
+            path={path}
+            element={React.cloneElement(child, { type, withDetails })}
         />);
     }
 
     if (canRedirect && firstUrl) {
         items.push(<Route
             key="redirect"
-            path="/*"
-            element={<Navigate
-                to={NLS.baseUrl(baseUrl, firstUrl)}
-                replace
-            />}
+            path="*"
+            element={<Navigate to={NLS.url(firstUrl)} replace />}
         />);
     }
 
@@ -85,8 +77,6 @@ function Router(props) {
  * @type {Object} propTypes
  */
 Router.propTypes = {
-    path        : PropTypes.string,
-    baseUrl     : PropTypes.string,
     initialUrl  : PropTypes.string,
     type        : PropTypes.string,
     withDetails : PropTypes.bool,
@@ -100,8 +90,6 @@ Router.propTypes = {
  * @typedef {Object} defaultProps
  */
 Router.defaultProps = {
-    path        : "",
-    baseUrl     : "",
     initialUrl  : "",
     type        : "",
     withDetails : false,

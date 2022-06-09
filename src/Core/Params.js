@@ -14,27 +14,6 @@ function init(params) {
     }
 }
 
-
-
-/**
- * Returns the From Route
- * @param {String} route
- * @returns {String}
- */
-function getFrom(route) {
-    return route.split("/").slice(0, -2).join("/");
-}
-
-/**
- * Returns the Parent Route
- * @param {String} route
- * @returns {String}
- */
-function getParent(route) {
-    const parent = route.split("/").slice(0, -1).join("/");
-    return parent || "/";
-}
-
 /**
  * Returns all the params
  * @param {Object} params
@@ -79,8 +58,6 @@ function unset(params) {
 // The public API
 export default {
     init,
-    getFrom,
-    getParent,
     getAll,
     getOne,
     unset,

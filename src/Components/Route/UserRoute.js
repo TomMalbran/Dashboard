@@ -3,11 +3,12 @@ import PropTypes            from "prop-types";
 
 // Core
 import Params               from "../../Core/Params";
+import Href                 from "../../Core/Href";
 import NLS                  from "../../Core/NLS";
 
 // Router
 import {
-    Navigate, useLocation, useMatch, useParams,
+    Navigate, useLocation, useParams,
 } from "react-router-dom";
 
 
@@ -18,13 +19,9 @@ import {
  * @returns {React.ReactElement}
  */
 function UserRoute(props) {
-    const { isAuthenticated, isValid, route, type, withDetails, component : Component } = props;
+    const { isAuthenticated, isValid, type, withDetails, component : Component } = props;
 
     const location = useLocation();
-    const match    = useMatch(route);
-    const pathname = location.pathname;
-    const from     = Params.getFrom(pathname);
-    const parent   = Params.getParent(pathname);
     const params   = Params.getAll(useParams());
     const elemID   = Params.getOne(params, type);
 
@@ -37,11 +34,10 @@ function UserRoute(props) {
 
     return <Component
         location={location}
-        match={match}
         type={type}
-        route={pathname}
-        from={from}
-        parent={parent}
+        route={Href.getPath()}
+        from={Href.getFrom()}
+        parent={Href.getParent()}
         params={params}
         elemID={elemID}
         withDetails={Boolean(withDetails)}
@@ -57,7 +53,6 @@ UserRoute.propTypes = {
     isAuthenticated : PropTypes.bool.isRequired,
     isValid         : PropTypes.bool,
     component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
-    route           : PropTypes.string,
     type            : PropTypes.string,
     url             : PropTypes.string,
     exact           : PropTypes.bool,

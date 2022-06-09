@@ -1,6 +1,5 @@
 import React                from "react";
 import { Provider }         from "react-redux";
-import { useNavigate }      from "react-router";
 import { configureStore }   from "@reduxjs/toolkit";
 import PropTypes            from "prop-types";
 
@@ -9,7 +8,6 @@ import Action               from "./Core/Action";
 import Params               from "./Core/Params";
 import Access               from "./Core/Access";
 import Status               from "./Core/Status";
-import Href                 from "./Core/Href";
 import Auth                 from "./Core/Auth";
 
 
@@ -24,7 +22,6 @@ function Dashboard(props) {
     const [ isMounted, setMounted ] = React.useState(false);
 
     const dashStore = reducer ? configureStore({ reducer }) : store;
-    const navigate  = useNavigate();
 
     if (!isMounted) {
         Store.init(dashStore);
@@ -32,7 +29,6 @@ function Dashboard(props) {
         Params.init(params);
         Access.init(access.values, access.groups);
         Status.init(status.values, status.groups);
-        Href.init(navigate);
         Auth.init();
         setMounted(true);
     }

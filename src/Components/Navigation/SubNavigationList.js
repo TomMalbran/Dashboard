@@ -23,10 +23,10 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function SubNavigationList(props) {
-    const { className, variant, path, baseUrl, onAction, onClose, children } = props;
+    const { className, variant, onAction, onClose, children } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        variant, path, baseUrl, onAction, onClose,
+        variant, onAction, onClose,
     }));
 
     return <Ul className={className}>
@@ -41,8 +41,6 @@ function SubNavigationList(props) {
 SubNavigationList.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
-    path      : PropTypes.string,
-    baseUrl   : PropTypes.string,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,
@@ -54,7 +52,6 @@ SubNavigationList.propTypes = {
  */
 SubNavigationList.defaultProps = {
     className : "",
-    baseUrl   : "",
 };
 
 export default SubNavigationList;

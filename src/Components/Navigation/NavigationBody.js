@@ -46,7 +46,7 @@ const Ul = Styled.ul`
  */
 function NavigationBody(props) {
     const {
-        className, variant, path, baseUrl, onAction, onClose,
+        className, variant, onAction, onClose,
         isLoading, none, canAdd, add, withSpacing, children,
     } = props;
 
@@ -68,7 +68,7 @@ function NavigationBody(props) {
         }
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, variant, path, baseUrl, onAction, onClose,
+                key, variant, onAction, onClose,
             }));
         }
     }
@@ -103,8 +103,6 @@ function NavigationBody(props) {
 NavigationBody.propTypes = {
     className   : PropTypes.string,
     variant     : PropTypes.string,
-    path        : PropTypes.string,
-    baseUrl     : PropTypes.string,
     isLoading   : PropTypes.bool,
     none        : PropTypes.string,
     canAdd      : PropTypes.bool,
@@ -121,7 +119,6 @@ NavigationBody.propTypes = {
  */
 NavigationBody.defaultProps = {
     className   : "",
-    baseUrl     : "",
     none        : "",
     isLoading   : false,
     withSpacing : true,

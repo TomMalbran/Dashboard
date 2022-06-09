@@ -1,17 +1,65 @@
 import NLS                  from "../Core/NLS";
 
-// Module variables
-let navigate = null;
+// Router
+import {
+    useLocation, useNavigate,
+} from "react-router-dom";
 
 
 
 /**
- * Initialize the Href
- * @param {function} theNavigate
- * @returns {Void}
+ * Returns the Current Path
+ * @returns {String}
  */
-function init(theNavigate) {
-    navigate = theNavigate;
+function getPath() {
+    const location = useLocation();
+    return location.pathname;
+}
+
+/**
+ * Returns the From Path
+ * @returns {String}
+ */
+function getFrom() {
+    const path = getPath();
+    return path.split("/").slice(0, -2).join("/");
+}
+
+/**
+ * Returns the Parent Path
+ * @returns {String}
+ */
+function getParent() {
+    const path   = getPath();
+    const parent = path.split("/").slice(0, -1).join("/");
+    return parent || "/";
+}
+
+/**
+ * Creates a Link from the current path and the given Url
+ * @param {String} url
+ * @returns {String}
+ */
+function createLink(url) {
+    const route = NLS.url(url);
+    const path  = getPath();
+
+    if (/[0-9]+$/.test(path)) {
+        return `${path}/${route}`;
+    }
+    const parent = getParent();
+    return `${parent}/${route}`;
+}
+
+/**
+ * Returns true if the Url is Selected
+ * @param {String} url
+ * @returns {Boolean}
+ */
+function isSelected(url) {
+    const path  = getPath();
+    const route = NLS.url(url);
+    return path.endsWith(route);
 }
 
 
@@ -68,14 +116,16 @@ function getUrl(data) {
 
 
 /**
- * Handles an Internal URL
+ * Navigates to the Internal URL
  * @param {String} url
  * @returns {Boolean}
  */
-function handleInternal(url) {
+function navigate(url) {
     if (!url || url === "#") {
         return false;
     }
+
+    const navigate = useNavigate();
     if (url.startsWith(process.env.REACT_APP_URL)) {
         navigate(url.replace(process.env.REACT_APP_URL, "/"));
         return true;
@@ -97,7 +147,7 @@ function handleUrl(url, target) {
     if (!url || url === "#") {
         return false;
     }
-    if (target !== "_blank" && handleInternal(url)) {
+    if (target !== "_blank" && navigate(url)) {
         return true;
     }
     if (target === "_self") {
@@ -152,7 +202,7 @@ function handleLink(e, props) {
             onClick(e);
             handled = true;
         }
-        if (!isPhone && !isEmail && !isWhatsApp && target !== "_blank" && handleInternal(url)) {
+        if (!isPhone && !isEmail && !isWhatsApp && target !== "_blank" && navigate(url)) {
             handled = true;
         }
     }
@@ -171,7 +221,7 @@ function handleLink(e, props) {
  */
 function goto(...args) {
     const url = NLS.baseUrl(...args);
-    handleInternal(url);
+    navigate(url);
 }
 
 /**
@@ -211,13 +261,18 @@ function gotoUrl(url, isBlank) {
 
 // The public API
 export default {
-    init,
+    getPath,
+    getFrom,
+    getParent,
+    createLink,
+    isSelected,
+
     getUrl,
     getEmail,
     getPhone,
     getWhatsApp,
 
-    handleInternal,
+    navigate,
     handleUrl,
     handleClick,
     handleLink,
