@@ -191,7 +191,7 @@ function Button(props) {
         isSmall={isSmall}
         fullWidth={fullWidth}
         withIcon={withIcon}
-        onClick={(e) => Href.handleClick(e, props)}
+        onClick={Href.useClick(props)}
     >
         {!!icon      && <Icon className="btn-preicon" icon={icon} />}
         {!!content   && <span className="btn-content">{content}</span>}

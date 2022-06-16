@@ -64,6 +64,9 @@ function Avatar(props) {
     }
 
     const hasClick = Boolean(url || href);
+    const uri      = url ? NLS.baseUrl(url) : href;
+    const navigate = Href.useUrl(uri, target);
+
 
     // Handles the Click
     const handleClick = (e) => {
@@ -71,8 +74,7 @@ function Avatar(props) {
             onClick(e);
         }
         if (hasClick) {
-            const uri = url ? NLS.baseUrl(url) : href;
-            Href.handleUrl(uri, target);
+            navigate();
             e.stopPropagation();
             e.preventDefault();
         }

@@ -50,11 +50,13 @@ function DetailItem(props) {
     }
 
     // Handles the Click
+    const navigate    =  Href.useClick(props);
     const handleClick = (e) => {
         if (!Utils.hasSelection()) {
-            Href.handleClick(e, props);
+            navigate(e);
         }
     };
+
 
     const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
     let   content = message ? NLS.get(String(message)) : "";

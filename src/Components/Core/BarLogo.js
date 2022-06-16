@@ -32,10 +32,12 @@ const Img = Styled.img.attrs(({ logoWidth, logoHeight }) => ({ logoWidth, logoHe
 function BarLogo(props) {
     const { className, logo, withLink, logoWidth, logoHeight } = props;
 
+    const navigate = Href.useUrl("/", "_self");
+
     // Handles the Click
     const handleClick = (e) => {
         if (withLink) {
-            Href.handleUrl("/", "_self");
+            navigate();
             e.stopPropagation();
             e.preventDefault();
         }

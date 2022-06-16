@@ -158,7 +158,7 @@ function HyperLink(props) {
         variant={variant}
         href={Href.getUrl(props)}
         target={target}
-        onClick={(e) => Href.handleLink(e, props)}
+        onClick={Href.useLink(props)}
     >
         {html ? <Html className="link-content" variant="span">
             {html}

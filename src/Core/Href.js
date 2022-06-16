@@ -32,7 +32,7 @@ function getFrom() {
 function getParent() {
     const path   = getPath();
     const parent = path.split("/").slice(0, -1).join("/");
-    return parent || "/";
+    return parent;
 }
 
 /**
@@ -117,99 +117,108 @@ function getUrl(data) {
 
 /**
  * Navigates to the Internal URL
- * @param {String} url
- * @returns {Boolean}
+ * @returns {Function}
  */
-function navigate(url) {
-    if (!url || url === "#") {
-        return false;
-    }
-
+function useNavigation() {
     const navigate = useNavigate();
-    if (url.startsWith(process.env.REACT_APP_URL)) {
-        navigate(url.replace(process.env.REACT_APP_URL, "/"));
-        return true;
-    }
-    if (!url.startsWith("http")) {
-        navigate(url);
-        return true;
-    }
-    return false;
+
+    return (url) => {
+        if (!url || url === "#") {
+            return false;
+        }
+
+        if (url.startsWith(process.env.REACT_APP_URL)) {
+            navigate(url.replace(process.env.REACT_APP_URL, "/"));
+            return true;
+        }
+        if (!url.startsWith("http")) {
+            navigate(url);
+            return true;
+        }
+        return false;
+    };
 }
 
 /**
  * Handles the given URL
  * @param {String} url
  * @param {String} target
- * @returns {Boolean}
+ * @returns {Function}
  */
-function handleUrl(url, target) {
-    if (!url || url === "#") {
+function useUrl(url, target) {
+    const navigate = useNavigation();
+
+    return () => {
+        if (!url || url === "#") {
+            return false;
+        }
+        if (target !== "_blank" && navigate(url)) {
+            return true;
+        }
+        if (target === "_self") {
+            window.location.href = url;
+            return true;
+        }
+        if (target === "_blank") {
+            window.open(url);
+            return true;
+        }
         return false;
-    }
-    if (target !== "_blank" && navigate(url)) {
-        return true;
-    }
-    if (target === "_self") {
-        window.location.href = url;
-        return true;
-    }
-    if (target === "_blank") {
-        window.open(url);
-        return true;
-    }
-    return false;
+    };
 }
 
 /**
  * Handles the Click
- * @param {Object} e
  * @param {Object} props
- * @returns {Void}
+ * @returns {React.MouseEventHandler}
  */
-function handleClick(e, props) {
+function useClick(props) {
     const { target, onClick, isPhone, isEmail, isWhatsApp } = props;
-    const url = getUrl(props);
+    const url      = getUrl(props);
+    const navigate = useUrl(url, target);
 
-    if (onClick) {
-        onClick(e);
-    }
-    if (isEmail || isPhone || isWhatsApp) {
-        window.open(url);
-    } else {
-        handleUrl(url, target);
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
+    return (e) => {
+        if (onClick) {
+            onClick(e);
+        }
+        if (isEmail || isPhone || isWhatsApp) {
+            window.open(url);
+        } else {
+            navigate();
+        }
+        e.stopPropagation();
+        e.preventDefault();
+    };
 }
 
 /**
  * Handles the Link
- * @param {Object} e
  * @param {Object} props
- * @returns {Void}
+ * @returns {React.MouseEventHandler}
  */
-function handleLink(e, props) {
+function useLink(props) {
     const { isDisabled, onClick, isPhone, isEmail, isWhatsApp, target, dontStop } = props;
-    const url     = getUrl(props);
-    let   handled = false;
+    const navigate = useNavigation();
+    const url      = getUrl(props);
 
-    if (isDisabled) {
-        handled = true;
-    } else {
-        if (onClick) {
-            onClick(e);
+    return (e) => {
+        let handled = false;
+        if (isDisabled) {
             handled = true;
+        } else {
+            if (onClick) {
+                onClick(e);
+                handled = true;
+            }
+            if (!isPhone && !isEmail && !isWhatsApp && target !== "_blank" && navigate(url)) {
+                handled = true;
+            }
         }
-        if (!isPhone && !isEmail && !isWhatsApp && target !== "_blank" && navigate(url)) {
-            handled = true;
+        if (handled && !dontStop) {
+            e.stopPropagation();
+            e.preventDefault();
         }
-    }
-    if (handled && !dontStop) {
-        e.stopPropagation();
-        e.preventDefault();
-    }
+    };
 }
 
 
@@ -220,7 +229,8 @@ function handleLink(e, props) {
  * @returns {Void}
  */
 function goto(...args) {
-    const url = NLS.baseUrl(...args);
+    const navigate = useNavigation();
+    const url      = NLS.baseUrl(...args);
     navigate(url);
 }
 
@@ -272,10 +282,9 @@ export default {
     getPhone,
     getWhatsApp,
 
-    navigate,
-    handleUrl,
-    handleClick,
-    handleLink,
+    useUrl,
+    useClick,
+    useLink,
 
     goto,
     gotoBlank,

@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
+import Href                 from "../../Core/Href";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -71,7 +72,7 @@ const Span2 = Styled.span`
  */
 function NavigationTitle(props) {
     const {
-        className, variant, href, message, fallback,
+        className, variant, href, gotoParent, message, fallback,
         onAction, canAdd, canManage,
     } = props;
 
@@ -90,7 +91,7 @@ function NavigationTitle(props) {
             <Link
                 variant={variant}
                 icon="back"
-                href={href}
+                href={gotoParent ? Href.getParent() : href}
             />
             {!message ? NLS.get(fallback) : <Div>
                 <Span1>{NLS.get(fallback)}</Span1>
@@ -115,14 +116,15 @@ function NavigationTitle(props) {
  * @typedef {Object} propTypes
  */
 NavigationTitle.propTypes = {
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    href      : PropTypes.string.isRequired,
-    message   : PropTypes.string,
-    fallback  : PropTypes.string,
-    onAction  : PropTypes.func,
-    canAdd    : PropTypes.bool,
-    canManage : PropTypes.bool,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
+    href       : PropTypes.string,
+    gotoParent : PropTypes.bool,
+    message    : PropTypes.string,
+    fallback   : PropTypes.string,
+    onAction   : PropTypes.func,
+    canAdd     : PropTypes.bool,
+    canManage  : PropTypes.bool,
 };
 
 /**
@@ -130,10 +132,12 @@ NavigationTitle.propTypes = {
  * @type {Object} defaultProps
  */
 NavigationTitle.defaultProps = {
-    className : "",
-    variant   : Brightness.DARK,
-    canAdd    : false,
-    canManage : false,
+    className  : "",
+    variant    : Brightness.DARK,
+    href       : "",
+    gotoParent : false,
+    canAdd     : false,
+    canManage  : false,
 };
 
 export default NavigationTitle;
