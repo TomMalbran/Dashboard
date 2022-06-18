@@ -42,6 +42,7 @@ function NavigationSubtitle(props) {
  * @typedef {Object} propTypes
  */
 NavigationSubtitle.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     message   : PropTypes.string.isRequired,
 };
@@ -52,6 +53,7 @@ NavigationSubtitle.propTypes = {
  */
 NavigationSubtitle.defaultProps = {
     className : "",
+    isHidden  : false,
 };
 
 export default NavigationSubtitle;
