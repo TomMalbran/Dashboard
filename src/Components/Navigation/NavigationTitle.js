@@ -72,7 +72,7 @@ const Span2 = Styled.span`
  */
 function NavigationTitle(props) {
     const {
-        className, variant, href, gotoParent, message, fallback,
+        className, variant, href, message, fallback,
         onAction, canAdd, canManage,
     } = props;
 
@@ -91,7 +91,7 @@ function NavigationTitle(props) {
             <Link
                 variant={variant}
                 icon="back"
-                href={gotoParent ? Href.getParent() : href}
+                href={href || Href.getParent()}
             />
             {!message ? NLS.get(fallback) : <Div>
                 <Span1>{NLS.get(fallback)}</Span1>
@@ -116,15 +116,14 @@ function NavigationTitle(props) {
  * @typedef {Object} propTypes
  */
 NavigationTitle.propTypes = {
-    className  : PropTypes.string,
-    variant    : PropTypes.string,
-    href       : PropTypes.string,
-    gotoParent : PropTypes.bool,
-    message    : PropTypes.string,
-    fallback   : PropTypes.string,
-    onAction   : PropTypes.func,
-    canAdd     : PropTypes.bool,
-    canManage  : PropTypes.bool,
+    className : PropTypes.string,
+    variant   : PropTypes.string,
+    href      : PropTypes.string,
+    message   : PropTypes.string,
+    fallback  : PropTypes.string,
+    onAction  : PropTypes.func,
+    canAdd    : PropTypes.bool,
+    canManage : PropTypes.bool,
 };
 
 /**
@@ -132,12 +131,11 @@ NavigationTitle.propTypes = {
  * @type {Object} defaultProps
  */
 NavigationTitle.defaultProps = {
-    className  : "",
-    variant    : Brightness.DARK,
-    href       : "",
-    gotoParent : false,
-    canAdd     : false,
-    canManage  : false,
+    className : "",
+    variant   : Brightness.DARK,
+    href      : "",
+    canAdd    : false,
+    canManage : false,
 };
 
 export default NavigationTitle;
