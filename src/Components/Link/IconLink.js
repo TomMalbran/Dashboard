@@ -4,7 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import { Brightness }       from "../../Core/Variants";
-import Href                 from "../../Core/Href";
+import Navigation           from "../../Core/Navigation";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -76,9 +76,9 @@ function IconLink(props) {
         variant={variant}
         isDisabled={isDisabled}
         isSmall={isSmall}
-        href={Href.getUrl(props)}
+        href={Navigation.getUrl(props)}
         target={target}
-        onClick={Href.useLink(props)}
+        onClick={Navigation.useLink(props)}
         onTouchEnd={onTouchEnd}
     >
         <Icon icon={icon} />

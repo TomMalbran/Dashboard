@@ -3,8 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Navigation           from "../../Core/Navigation";
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Core/Href";
 import KeyCode              from "../../Utils/KeyCode";
 
 // Components
@@ -64,7 +64,7 @@ function SearchDrawer(props) {
         logo, logoWidth, logoHeight,
     } = props;
 
-    const navigate = Href.useGoto();
+    const navigate = Navigation.useGoto();
 
     // The Current State
     const [ timer,       setTimer       ] = React.useState(null);

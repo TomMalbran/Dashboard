@@ -4,7 +4,7 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
-import Href                 from "../../Core/Href";
+import Navigation           from "../../Core/Navigation";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -62,7 +62,8 @@ function Table(props) {
     } = props;
 
     const tableRef = React.useRef();
-    const navigate = Href.useGoto();
+    const navigate = Navigation.useGoto();
+    const path     = Navigation.getPath();
 
     // The State
     const [ menuID,     setMenuID     ] = React.useState(null);
@@ -79,7 +80,7 @@ function Table(props) {
         } else if (elem.onAction) {
             elem.onAction(elem.act, elemID);
         } else if (elem.navigate) {
-            navigate(Href.getPath(), elemID);
+            navigate(path, elemID);
         }
     };
 

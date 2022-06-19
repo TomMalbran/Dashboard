@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
-import Href                 from "../../Core/Href";
+import Navigation           from "../../Core/Navigation";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -80,7 +80,7 @@ function NavigationItem(props) {
             return isSelected;
         }
         if (url) {
-            return Href.isSelected(url);
+            return Navigation.isSelected(url);
         }
         return false;
     };
@@ -125,7 +125,7 @@ function NavigationItem(props) {
                 isDisabled={isDisabled}
                 message={message}
                 html={html}
-                href={url ? Href.createLink(url) : href}
+                href={url ? Navigation.createLink(url) : href}
                 onClick={handleClick}
                 icon={icon}
             />

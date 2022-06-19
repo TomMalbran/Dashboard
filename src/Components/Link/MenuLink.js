@@ -3,8 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import Navigation           from "../../Core/Navigation";
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Core/Href";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -139,9 +139,9 @@ function MenuLink(props) {
         className={`link ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
-        href={Href.getUrl(props)}
+        href={Navigation.getUrl(props)}
         target={target}
-        onClick={Href.useLink(props)}
+        onClick={Navigation.useLink(props)}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >

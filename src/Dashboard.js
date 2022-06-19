@@ -4,11 +4,11 @@ import { configureStore }   from "@reduxjs/toolkit";
 import PropTypes            from "prop-types";
 
 import Store                from "./Core/Store";
-import Action               from "./Core/Action";
-import Href                 from "./Core/Href";
 import Access               from "./Core/Access";
-import Status               from "./Core/Status";
+import Action               from "./Core/Action";
 import Auth                 from "./Core/Auth";
+import Status               from "./Core/Status";
+import Navigation           from "./Core/Navigation";
 
 
 
@@ -26,7 +26,7 @@ function Dashboard(props) {
     if (!isMounted) {
         Store.init(dashStore);
         Action.init(actions);
-        Href.init(params);
+        Navigation.init(params);
         Access.init(access.values, access.groups);
         Status.init(status.values, status.groups);
         Auth.init();

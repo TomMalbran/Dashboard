@@ -3,8 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Navigation           from "../../Core/Navigation";
 import NLS                  from "../../Core/NLS";
-import Href                 from "../../Core/Href";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -45,18 +45,19 @@ function DetailItem(props) {
         href, url, onClick, isEmail, isPhone, isWhatsApp,
     } = props;
 
-    if (isHidden || (!message && !showAlways)) {
-        return <React.Fragment />;
-    }
+    const navigate = Navigation.useClick(props);
 
     // Handles the Click
-    const navigate    =  Href.useClick(props);
     const handleClick = (e) => {
         if (!Utils.hasSelection()) {
             navigate(e);
         }
     };
 
+
+    if (isHidden || (!message && !showAlways)) {
+        return <React.Fragment />;
+    }
 
     const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
     let   content = message ? NLS.get(String(message)) : "";
