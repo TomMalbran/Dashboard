@@ -5,7 +5,7 @@ import PropTypes            from "prop-types";
 
 import Store                from "./Core/Store";
 import Action               from "./Core/Action";
-import Params               from "./Core/Params";
+import Href                 from "./Core/Href";
 import Access               from "./Core/Access";
 import Status               from "./Core/Status";
 import Auth                 from "./Core/Auth";
@@ -26,7 +26,7 @@ function Dashboard(props) {
     if (!isMounted) {
         Store.init(dashStore);
         Action.init(actions);
-        Params.init(params);
+        Href.init(params);
         Access.init(access.values, access.groups);
         Status.init(status.values, status.groups);
         Auth.init();

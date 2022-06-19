@@ -62,6 +62,7 @@ function Table(props) {
     } = props;
 
     const tableRef = React.useRef();
+    const navigate = Href.useGoto();
 
     // The State
     const [ menuID,     setMenuID     ] = React.useState(null);
@@ -77,8 +78,8 @@ function Table(props) {
             elem.onClick(elemID);
         } else if (elem.onAction) {
             elem.onAction(elem.act, elemID);
-        } else if (elem.route) {
-            Href.goto(elem.route, elemID);
+        } else if (elem.navigate) {
+            navigate(Href.getPath(), elemID);
         }
     };
 
@@ -155,7 +156,7 @@ function Table(props) {
                 action.act = Action.get(action.action);
                 if (!action.isHidden && ((action.act.isCED && child.props.canEdit) || !action.act.isCED)) {
                     hasActions = true;
-                    if (!action.route && !action.onClick) {
+                    if (!action.navigate && !action.onClick) {
                         action.onClick  = child.props.onClick;
                         action.onAction = child.props.onAction;
                     }

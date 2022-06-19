@@ -2,8 +2,64 @@ import NLS                  from "../Core/NLS";
 
 // Router
 import {
-    useLocation, useNavigate,
+    useParams, useLocation, useNavigate,
 } from "react-router-dom";
+
+// All the params
+const paramTypes = {};
+
+
+
+/**
+ * Initializes the Params
+ * @param {Object} params
+ * @returns {Void}
+ */
+function init(params) {
+    for (const [ key, value ] of Object.entries(params)) {
+        paramTypes[key] = value;
+    }
+}
+
+
+
+/**
+ * Returns all the params
+ * @returns {Object}
+ */
+function getParams() {
+    const params = useParams();
+    const result = {};
+    for (const key of Object.values(paramTypes)) {
+        result[key] = Number(params[key] || 0);
+    }
+    return result;
+}
+
+/**
+ * Returns a single param
+ * @param {String} type
+ * @returns {Number}
+ */
+function getOneParam(type) {
+    const params = getParams();
+    if (paramTypes[type]) {
+        return params[paramTypes[type]] || 0;
+    }
+    return 0;
+}
+
+/**
+ * Unsets the Params
+ * @param {Object} params
+ * @returns {Object}
+ */
+function unsetParams(params) {
+    for (const key of Object.values(paramTypes)) {
+        params[key] = 0;
+    }
+    return params;
+}
 
 
 
@@ -140,6 +196,19 @@ function useNavigation() {
 }
 
 /**
+ * Goes to the given URL
+ * @returns {Function}
+ */
+function useGoto() {
+    const navigate = useNavigation();
+
+    return (...args) => {
+        const url = NLS.baseUrl(...args);
+        navigate(url);
+    };
+}
+
+/**
  * Handles the given URL
  * @param {String} url
  * @param {String} target
@@ -224,17 +293,6 @@ function useLink(props) {
 
 
 /**
- * Goes to the given URL
- * @param {...(String|Number)} args
- * @returns {Void}
- */
-function goto(...args) {
-    const navigate = useNavigation();
-    const url      = NLS.baseUrl(...args);
-    navigate(url);
-}
-
-/**
  * Goes to the given URL on a new tab
  * @param {...(String|Number)} args
  * @returns {Void}
@@ -242,15 +300,6 @@ function goto(...args) {
 function gotoBlank(...args) {
     const url = NLS.baseUrl(...args);
     window.open(url);
-}
-
-/**
- * Reloads to the given URL reloading the tab
- * @param {...(String|Number)} args
- * @returns {Void}
- */
-function reload(...args) {
-    window.location.href = NLS.fullUrl(...args);
 }
 
 /**
@@ -267,10 +316,25 @@ function gotoUrl(url, isBlank) {
     }
 }
 
+/**
+ * Reloads to the given URL reloading the tab
+ * @param {...(String|Number)} args
+ * @returns {Void}
+ */
+function reload(...args) {
+    window.location.href = NLS.fullUrl(...args);
+}
+
 
 
 // The public API
 export default {
+    init,
+
+    getParams,
+    getOneParam,
+    unsetParams,
+
     getPath,
     getFrom,
     getParent,
@@ -282,12 +346,12 @@ export default {
     getPhone,
     getWhatsApp,
 
+    useGoto,
     useUrl,
     useClick,
     useLink,
 
-    goto,
     gotoBlank,
-    reload,
     gotoUrl,
+    reload,
 };

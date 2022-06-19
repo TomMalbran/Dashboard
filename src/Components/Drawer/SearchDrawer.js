@@ -64,10 +64,14 @@ function SearchDrawer(props) {
         logo, logoWidth, logoHeight,
     } = props;
 
+    const navigate = Href.useGoto();
+
+    // The Current State
     const [ timer,       setTimer       ] = React.useState(null);
     const [ value,       setValue       ] = React.useState("");
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ selected,    setSelected    ] = React.useState(0);
+
 
     // Handles the Input Change
     const handleChange = (name, value) => {
@@ -140,7 +144,7 @@ function SearchDrawer(props) {
     const handleClick = (selected) => {
         const elem = suggestions[selected];
         setSelected(selected);
-        Href.goto(elem.url, elem.id);
+        navigate(elem.url, elem.id);
         onClose();
     };
 

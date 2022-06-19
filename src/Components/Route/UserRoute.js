@@ -2,13 +2,12 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core
-import Params               from "../../Core/Params";
 import Href                 from "../../Core/Href";
 import NLS                  from "../../Core/NLS";
 
 // Router
 import {
-    Navigate, useLocation, useParams,
+    Navigate, useLocation,
 } from "react-router-dom";
 
 
@@ -22,8 +21,8 @@ function UserRoute(props) {
     const { isAuthenticated, isValid, type, withDetails, component : Component } = props;
 
     const location = useLocation();
-    const params   = Params.getAll(useParams());
-    const elemID   = Params.getOne(params, type);
+    const params   = Href.getParams();
+    const elemID   = Href.getOneParam(type);
 
     if (!isAuthenticated || !isValid) {
         return <Navigate
