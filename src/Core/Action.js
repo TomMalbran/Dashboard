@@ -1,3 +1,7 @@
+import React                from "react";
+
+
+
 // All the options
 const OPTIONS = {
     name       : "",
@@ -204,10 +208,54 @@ function get(name) {
 
 
 
+/**
+ * Returns a Hook to use the Action
+ * @returns {Array}
+ */
+function useAction() {
+    const [ action, setAction ] = React.useState(get());
+
+    const updateAction = (newAction) => {
+        if (!newAction) {
+            setAction(get());
+        } else if (newAction instanceof Object) {
+            setAction(newAction);
+        } else {
+            setAction(get(newAction));
+        }
+    };
+    return [ action, updateAction ];
+}
+
+/**
+ * Returns a Hook to use the Action and ID
+ * @returns {Array}
+ */
+function useActionID() {
+    const [ action, setAction ] = React.useState(get());
+    const [ elemID, setElemID ] = React.useState(0);
+
+    const startAction = (action, elemID) => {
+        setAction(action);
+        setElemID(elemID);
+    };
+    const endAction = () => {
+        setAction(get());
+        setElemID(0);
+    };
+
+    return [ action, elemID, startAction, endAction ];
+}
+
+
+
 
 // The public API
 export default {
     init,
     create,
     get,
+
+    useAction,
+    useActionID,
 };
