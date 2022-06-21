@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core & Utils
+import Navigate             from "../../Core/Navigate";
+
 // Components
 import Breadcrumb           from "../Header/Breadcrumb";
 import Title                from "../Header/Title";
@@ -36,10 +39,12 @@ const Div = Styled.div`
  * @returns {React.ReactElement}
  */
 function Header(props) {
-    const { className, icon, message, fallback, route, children } = props;
+    const { className, icon, message, fallback, showBreadcrumbs, children } = props;
+
+    const route = Navigate.getPath();
 
     return <Container className={className}>
-        {!!route && <Breadcrumb route={route} />}
+        {showBreadcrumbs && <Breadcrumb route={route} />}
         <Div>
             <Title
                 icon={icon}
@@ -56,12 +61,13 @@ function Header(props) {
  * @typedef {Object} propTypes
  */
 Header.propTypes = {
-    className : PropTypes.string,
-    icon      : PropTypes.string.isRequired,
-    message   : PropTypes.string.isRequired,
-    fallback  : PropTypes.string,
-    route     : PropTypes.string,
-    children  : PropTypes.any,
+    className       : PropTypes.string,
+    icon            : PropTypes.string.isRequired,
+    message         : PropTypes.string.isRequired,
+    fallback        : PropTypes.string,
+    route           : PropTypes.string,
+    showBreadcrumbs : PropTypes.bool,
+    children        : PropTypes.any,
 };
 
 /**
@@ -69,7 +75,8 @@ Header.propTypes = {
  * @type {Object} defaultProps
  */
 Header.defaultProps = {
-    className : "",
+    className       : "",
+    showBreadcrumbs : true,
 };
 
 export default Header;
