@@ -52,8 +52,8 @@ const Input = Styled.input`
 function DropZone(props) {
     const { open, onlyImages, onStart, onDrop, onEnd } = props;
 
-    const containerRef = React.useRef();
-    const inputRef     = React.useRef();
+    const containerRef = React.useRef(null);
+    const inputRef     = React.useRef(null);
 
 
     // Returns true if there is a File
