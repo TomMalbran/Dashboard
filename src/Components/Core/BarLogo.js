@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 
@@ -32,7 +32,7 @@ const Img = Styled.img.attrs(({ logoWidth, logoHeight }) => ({ logoWidth, logoHe
 function BarLogo(props) {
     const { className, logo, withLink, logoWidth, logoHeight } = props;
 
-    const navigate = Navigation.useUrl("/", "_self");
+    const navigate = Navigate.useUrl("/", "_self");
 
     // Handles the Click
     const handleClick = (e) => {

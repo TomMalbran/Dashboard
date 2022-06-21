@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 import MD5                  from "../../Utils/MD5";
 
@@ -65,7 +65,7 @@ function Avatar(props) {
 
     const hasClick = Boolean(url || href);
     const uri      = url ? NLS.baseUrl(url) : href;
-    const navigate = Navigation.useUrl(uri, target);
+    const navigate = Navigate.useUrl(uri, target);
 
 
     // Handles the Click

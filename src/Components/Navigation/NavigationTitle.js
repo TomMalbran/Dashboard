@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 // Core
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -91,7 +91,7 @@ function NavigationTitle(props) {
             <Link
                 variant={variant}
                 icon="back"
-                href={href || Navigation.getParent()}
+                href={href || Navigate.getParent()}
             />
             {!message ? NLS.get(fallback) : <Div>
                 <Span1>{NLS.get(fallback)}</Span1>

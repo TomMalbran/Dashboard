@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -156,9 +156,9 @@ function HyperLink(props) {
         ref={passedRef}
         className={`link ${className}`}
         variant={variant}
-        href={Navigation.getUrl(props)}
+        href={Navigate.getUrl(props)}
         target={target}
-        onClick={Navigation.useLink(props)}
+        onClick={Navigate.useLink(props)}
     >
         {html ? <Html className="link-content" variant="span">
             {html}

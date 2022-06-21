@@ -8,7 +8,7 @@ import Access               from "./Core/Access";
 import Action               from "./Core/Action";
 import Auth                 from "./Core/Auth";
 import Status               from "./Core/Status";
-import Navigation           from "./Core/Navigation";
+import Navigate             from "./Core/Navigate";
 
 
 
@@ -26,7 +26,7 @@ function Dashboard(props) {
     if (!isMounted) {
         Store.init(dashStore);
         Action.init(actions);
-        Navigation.init(params);
+        Navigate.init(params);
         Access.init(access.values, access.groups);
         Status.init(status.values, status.groups);
         Auth.init();

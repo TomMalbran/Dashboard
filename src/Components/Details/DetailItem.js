@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
@@ -45,7 +45,7 @@ function DetailItem(props) {
         href, url, onClick, isEmail, isPhone, isWhatsApp,
     } = props;
 
-    const navigate = Navigation.useClick(props);
+    const navigate = Navigate.useClick(props);
 
     // Handles the Click
     const handleClick = (e) => {

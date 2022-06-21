@@ -4,7 +4,7 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -62,8 +62,8 @@ function Table(props) {
     } = props;
 
     const tableRef = React.useRef();
-    const navigate = Navigation.useGoto();
-    const path     = Navigation.getPath();
+    const navigate = Navigate.useGoto();
+    const path     = Navigate.getPath();
 
     // The State
     const [ menuID,     setMenuID     ] = React.useState(null);

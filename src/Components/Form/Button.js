@@ -3,7 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import Navigation           from "../../Core/Navigation";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -191,7 +191,7 @@ function Button(props) {
         isSmall={isSmall}
         fullWidth={fullWidth}
         withIcon={withIcon}
-        onClick={Navigation.useClick(props)}
+        onClick={Navigate.useClick(props)}
     >
         {!!icon      && <Icon className="btn-preicon" icon={icon} />}
         {!!content   && <span className="btn-content">{content}</span>}
