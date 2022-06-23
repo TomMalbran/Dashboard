@@ -63,7 +63,7 @@ function Table(props) {
 
     const tableRef = React.useRef();
     const navigate = Navigate.useGoto();
-    const path     = Navigate.getPath();
+    const path     = Navigate.usePath();
 
     // The State
     const [ menuID,     setMenuID     ] = React.useState(null);

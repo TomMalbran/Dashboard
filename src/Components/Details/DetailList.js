@@ -48,7 +48,6 @@ function DetailList(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-
     return <Div className={className}>
         <H3>{NLS.get(message)}</H3>
         <Ul>{children}</Ul>

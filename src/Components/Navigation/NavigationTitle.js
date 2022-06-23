@@ -76,6 +76,8 @@ function NavigationTitle(props) {
         onAction, canAdd, canManage,
     } = props;
 
+    const parent = Navigate.useParent();
+
     // Handles the Action
     const handleAction = (e, action) => {
         if (onAction) {
@@ -91,7 +93,7 @@ function NavigationTitle(props) {
             <Link
                 variant={variant}
                 icon="back"
-                href={href || Navigate.getParent()}
+                href={href || parent}
             />
             {!message ? NLS.get(fallback) : <Div>
                 <Span1>{NLS.get(fallback)}</Span1>

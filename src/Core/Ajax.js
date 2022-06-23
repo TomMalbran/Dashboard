@@ -1,9 +1,20 @@
-import Store                from "../Core/Store";
 import Auth                 from "../Core/Auth";
 import Utils                from "../Utils/Utils";
 
 // Module variables
 let controller = null;
+let setResult  = null;
+
+
+
+/**
+ * Initialize the Ajax
+ * @param {Function} onResult
+ * @returns {Void}
+ */
+function init(onResult) {
+    setResult = onResult;
+}
 
 
 
@@ -12,11 +23,10 @@ let controller = null;
  * @throws {Object|String} The errors
  * @param {URL}      url
  * @param {Object=}  options
- * @param {Boolean=} showLoader
  * @param {Boolean=} showResult
  * @returns {Promise}
  */
-async function ajax(url, options = {}, showLoader = true, showResult = true) {
+async function ajax(url, options = {}, showResult = true) {
     let response   = null;
     let result     = null;
     const defError = { "form" : "GENERAL_ERROR" };
@@ -27,22 +37,12 @@ async function ajax(url, options = {}, showLoader = true, showResult = true) {
         options.signal = controller.signal;
     }
 
-    // Show the Loader
-    if (showLoader) {
-        Store.setLoading(true);
-    }
 
     // Do the Request
     try {
         // @ts-ignore
         response = await fetch(url, options);
-        if (showLoader) {
-            Store.setLoading(false);
-        }
     } catch (error) {
-        if (showLoader) {
-            Store.setLoading(false);
-        }
         throw defError;
     }
 
@@ -83,17 +83,17 @@ async function ajax(url, options = {}, showLoader = true, showResult = true) {
     }
     if (result.success) {
         if (showResult) {
-            Store.showResult("success", result.success);
+            setResult("success", result.success);
         }
         result.data.success = result.success;
     } else if (result.warning) {
         if (showResult) {
-            Store.showResult("warning", result.warning);
+            setResult("warning", result.warning);
         }
         result.data.warning = result.warning;
     } else if (result.error) {
         if (showResult) {
-            Store.showResult("error", result.error);
+            setResult("error", result.error);
         }
         result.data.error = result.error;
     }
@@ -169,16 +169,15 @@ function addUrlParams(url, params = {}, addToken = true, addTimezone = false) {
  * Does a Get
  * @param {String}   route
  * @param {Object=}  params
- * @param {Boolean=} showLoader
  * @param {Boolean=} showResult
  * @returns {Promise}
  */
-async function get(route, params = {}, showLoader = true, showResult = true) {
+async function get(route, params = {}, showResult = true) {
     const url = createUrl(route, params, true, true);
     let result;
 
     try {
-        result = await ajax(url, {}, showLoader, showResult);
+        result = await ajax(url, {}, showResult);
     } catch(e) {
         result = { error : true };
     }
@@ -189,11 +188,10 @@ async function get(route, params = {}, showLoader = true, showResult = true) {
  * Does a Post
  * @param {String}   route
  * @param {Object=}  params
- * @param {Boolean=} showLoader
  * @param {Boolean=} showResult
  * @returns {Promise}
  */
-function post(route, params = {}, showLoader = true, showResult = true) {
+function post(route, params = {}, showResult = true) {
     const url      = baseUrl(route);
     const token    = Auth.getToken();
     const timezone = Auth.getTimezone();
@@ -208,7 +206,7 @@ function post(route, params = {}, showLoader = true, showResult = true) {
     if (timezone) {
         body.append("timezone", timezone);
     }
-    return ajax(url, { method : "post", body }, showLoader, showResult);
+    return ajax(url, { method : "post", body }, showResult);
 }
 
 /**
@@ -242,6 +240,7 @@ function route(route, params = {}, addToken = true, addTimezone = false) {
 
 // The public API
 export default {
+    init,
     get,
     post,
     url,

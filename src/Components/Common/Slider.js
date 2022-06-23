@@ -196,19 +196,19 @@ function Slider(props) {
     };
 
     // Start the Slider
-    if (autoSlide) {
-        React.useEffect(() => {
+    React.useEffect(() => {
+        if (timer) {
+            window.clearTimeout(timer);
+        }
+        if (autoSlide) {
+            setTimer(window.setTimeout(() => gotoDir(1), time * 1000));
+        }
+        return () => {
             if (timer) {
                 window.clearTimeout(timer);
             }
-            setTimer(window.setTimeout(() => gotoDir(1), time * 1000));
-            return () => {
-                if (timer) {
-                    window.clearTimeout(timer);
-                }
-            };
-        }, []);
-    }
+        };
+    }, [ autoSlide ]);
 
 
     const dots     = Utils.createArrayOf(data.length, 0);

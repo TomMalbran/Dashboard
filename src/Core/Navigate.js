@@ -2,7 +2,7 @@ import NLS                  from "../Core/NLS";
 
 // Router
 import {
-    useParams, useLocation, useNavigate,
+    useLocation, useParams as useRouterparams, useNavigate as useRouteNavigate,
 } from "react-router-dom";
 
 // All the params
@@ -27,8 +27,8 @@ function init(params) {
  * Returns all the params
  * @returns {Object}
  */
-function getParams() {
-    const params = useParams();
+function useParams() {
+    const params = useRouterparams();
     const result = {};
     for (const key of Object.values(paramTypes)) {
         result[key] = Number(params[key] || 0);
@@ -41,8 +41,8 @@ function getParams() {
  * @param {String} type
  * @returns {Number}
  */
-function getOneParam(type) {
-    const params = getParams();
+function useOneParam(type) {
+    const params = useParams();
     if (paramTypes[type]) {
         return params[paramTypes[type]] || 0;
     }
@@ -67,7 +67,7 @@ function unsetParams(params) {
  * Returns the Current Path
  * @returns {String}
  */
-function getPath() {
+function usePath() {
     const location = useLocation();
     return location.pathname;
 }
@@ -76,8 +76,8 @@ function getPath() {
  * Returns the From Path
  * @returns {String}
  */
-function getFrom() {
-    const path = getPath();
+function useFrom() {
+    const path = usePath();
     return path.split("/").slice(0, -2).join("/");
 }
 
@@ -85,8 +85,8 @@ function getFrom() {
  * Returns the Parent Path
  * @returns {String}
  */
-function getParent() {
-    const path   = getPath();
+function useParent() {
+    const path   = usePath();
     const parent = path.split("/").slice(0, -1).join("/");
     return parent;
 }
@@ -96,26 +96,27 @@ function getParent() {
  * @param {String} url
  * @returns {String}
  */
-function createLink(url) {
-    const route = NLS.url(url);
-    const path  = getPath();
+function useMenuUrl(url) {
+    const route  = NLS.url(url);
+    const path   = usePath();
+    const parent = useParent();
 
     if (/[0-9]+$/.test(path)) {
         return `${path}/${route}`;
     }
-    const parent = getParent();
     return `${parent}/${route}`;
 }
 
 /**
  * Returns true if the Url is Selected
- * @param {String} url
- * @returns {Boolean}
+ * @returns {Function}
  */
-function isSelected(url) {
-    const path  = getPath();
-    const route = NLS.url(url);
-    return path.endsWith(route);
+function useSelected() {
+    const path = usePath();
+    return (url) => {
+        const route = NLS.url(url);
+        path.endsWith(route);
+    };
 }
 
 
@@ -175,8 +176,8 @@ function getUrl(data) {
  * Navigates to the Internal URL
  * @returns {Function}
  */
-function useNavigation() {
-    const navigate = useNavigate();
+function useNavigate() {
+    const navigate = useRouteNavigate();
 
     return (url) => {
         if (!url || url === "#") {
@@ -200,7 +201,7 @@ function useNavigation() {
  * @returns {Function}
  */
 function useGoto() {
-    const navigate = useNavigation();
+    const navigate = useNavigate();
 
     return (...args) => {
         const url = NLS.baseUrl(...args);
@@ -215,7 +216,7 @@ function useGoto() {
  * @returns {Function}
  */
 function useUrl(url, target) {
-    const navigate = useNavigation();
+    const navigate = useNavigate();
 
     return () => {
         if (!url || url === "#") {
@@ -267,7 +268,7 @@ function useClick(props) {
  */
 function useLink(props) {
     const { isDisabled, onClick, isPhone, isEmail, isWhatsApp, target, dontStop } = props;
-    const navigate = useNavigation();
+    const navigate = useNavigate();
     const url      = getUrl(props);
 
     return (e) => {
@@ -331,15 +332,15 @@ function reload(...args) {
 export default {
     init,
 
-    getParams,
-    getOneParam,
+    useParams,
+    useOneParam,
     unsetParams,
 
-    getPath,
-    getFrom,
-    getParent,
-    createLink,
-    isSelected,
+    usePath,
+    useFrom,
+    useParent,
+    useMenuUrl,
+    useSelected,
 
     getUrl,
     getEmail,

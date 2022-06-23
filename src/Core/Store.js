@@ -97,9 +97,6 @@ function useState(slice) {
  * @returns {Object}
  */
 function useAction(slice) {
-    if (!actions[slice]) {
-        return {};
-    }
     const context  = React.useContext(Context);
     const dispatch = context[1];
 

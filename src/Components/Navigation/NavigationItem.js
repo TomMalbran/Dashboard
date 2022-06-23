@@ -74,13 +74,15 @@ function NavigationItem(props) {
         canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
+    const willSelect = Navigate.useSelected();
+
     // Returns true if the Menu should be selected
     const shouldSelect = () => {
         if (isSelected) {
             return isSelected;
         }
         if (url) {
-            return Navigate.isSelected(url);
+            return willSelect(url);
         }
         return false;
     };
@@ -114,6 +116,7 @@ function NavigationItem(props) {
     const selected     = shouldSelect();
     const showChildren = collapseOnSelect ? selected : (canCollapse ? !isCollapsed : true);
     const items        = Utils.cloneChildren(children, () => ({ variant }));
+    const menuUrl      = Navigate.useMenuUrl(url || "");
 
 
     return <li>
@@ -125,7 +128,7 @@ function NavigationItem(props) {
                 isDisabled={isDisabled}
                 message={message}
                 html={html}
-                href={url ? Navigate.createLink(url) : href}
+                href={url ? menuUrl : href}
                 onClick={handleClick}
                 icon={icon}
             />

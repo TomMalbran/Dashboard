@@ -1,19 +1,21 @@
 import jwtDecode            from "jwt-decode";
-import Store                from "../Core/Store";
 import NLS                  from "../Core/NLS";
 
 // Module Variables
-let token    = "";
-let timezone = null;
-let timeout  = null;
+let token          = "";
+let timezone       = null;
+let timeout        = null;
+let setCurrentUser = null;
 
 
 
 /**
  * Initialize the API
+ * @param {Function} onUserChange
  * @returns {Void}
  */
-function init() {
+function init(onUserChange) {
+    setCurrentUser = onUserChange;
     if (localStorage.token) {
         token = localStorage.token;
         setUser();
@@ -53,8 +55,7 @@ function unsetToken() {
     timezone = null;
 
     localStorage.removeItem("token");
-    Store.setCurrentUser({});
-    Store.showResult("error", "GENERAL_LOGGED_OUT");
+    setCurrentUser({});
 }
 
 
@@ -84,7 +85,7 @@ function setUser() {
             return false;
         }
 
-        Store.setCurrentUser(jwt.data);
+        setCurrentUser(jwt.data);
         if (jwt.data.language) {
             NLS.setLang(jwt.data.language);
         }

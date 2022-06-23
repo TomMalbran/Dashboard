@@ -2,12 +2,11 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core
-import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 // Router
 import {
-    Navigate as Navigation, useLocation,
+    Navigate, useLocation,
 } from "react-router-dom";
 
 
@@ -21,11 +20,9 @@ function UserRoute(props) {
     const { isAuthenticated, isValid, type, withDetails, component : Component } = props;
 
     const location = useLocation();
-    const params   = Navigate.getParams();
-    const elemID   = Navigate.getOneParam(type);
 
     if (!isAuthenticated || !isValid) {
-        return <Navigation
+        return <Navigate
             to={NLS.baseUrl("LOGIN")}
             state={{ from : location }}
         />;
@@ -34,11 +31,6 @@ function UserRoute(props) {
     return <Component
         location={location}
         type={type}
-        route={Navigate.getPath()}
-        from={Navigate.getFrom()}
-        parent={Navigate.getParent()}
-        params={params}
-        elemID={elemID}
         withDetails={Boolean(withDetails)}
     />;
 }

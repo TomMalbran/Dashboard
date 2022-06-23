@@ -90,10 +90,6 @@ function Drawer(props) {
         message, onClose, children,
     } = props;
 
-    if (!open) {
-        return <React.Fragment />;
-    }
-
     // The State
     const [ closing, setClosing ] = React.useState(false);
     const contentRef = React.useRef();
@@ -111,6 +107,9 @@ function Drawer(props) {
     };
 
 
+    if (!open) {
+        return <React.Fragment />;
+    }
     return <Drawerdrop
         contentRef={contentRef}
         open={open}

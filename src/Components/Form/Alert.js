@@ -70,10 +70,7 @@ function Alert(props) {
         }
     }
 
-    if (isHidden || !content) {
-        return <React.Fragment />;
-    }
-
+    // The State
     const [ open,   setOpen   ] = React.useState(true);
     const [ timer,  setTimer  ] = React.useState(null);
     const [ height, setHeight ] = React.useState(0);
@@ -103,6 +100,9 @@ function Alert(props) {
     };
 
 
+    if (isHidden || !content) {
+        return <React.Fragment />;
+    }
     return <Div
         className="alert"
         isOpen={open}

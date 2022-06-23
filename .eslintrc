@@ -8,7 +8,8 @@
     "plugins": [
         "react",
         "jsx-a11y",
-        "import"
+        "import",
+        "react-hooks"
     ],
     "extends": [ "eslint:recommended", "plugin:react/recommended" ],
     "rules": {
@@ -122,6 +123,9 @@
         "react/no-unused-state": 2,
         "react/prefer-es6-class": 2,
         "react/self-closing-comp": 2,
-        "react/style-prop-object": 2
+        "react/style-prop-object": 2,
+
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": 0
     }
 }

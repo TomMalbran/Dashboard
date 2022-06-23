@@ -41,7 +41,7 @@ const Div = Styled.div`
 function Header(props) {
     const { className, icon, message, fallback, showBreadcrumbs, children } = props;
 
-    const route = Navigate.getPath();
+    const route = Navigate.usePath();
 
     return <Container className={className}>
         {showBreadcrumbs && <Breadcrumb route={route} />}

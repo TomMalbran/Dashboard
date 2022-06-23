@@ -67,6 +67,8 @@ function IconLink(props) {
         target, icon, onTouchEnd,
     } = props;
 
+    const onClick = Navigate.useLink(props);
+
     if (isHidden) {
         return <React.Fragment />;
     }
@@ -78,7 +80,7 @@ function IconLink(props) {
         isSmall={isSmall}
         href={Navigate.getUrl(props)}
         target={target}
-        onClick={Navigate.useLink(props)}
+        onClick={onClick}
         onTouchEnd={onTouchEnd}
     >
         <Icon icon={icon} />

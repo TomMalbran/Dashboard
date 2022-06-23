@@ -11,11 +11,11 @@ import PropTypes            from "prop-types";
 function Downloader(props) {
     const { download, source, onLoad } = props;
 
+    React.useEffect(() => onLoad, [ source ]);
+
     if (!download) {
         return <React.Fragment />;
     }
-    React.useEffect(() => onLoad, [ source ]);
-
     return <iframe
         title="Downloader"
         name="downloader"

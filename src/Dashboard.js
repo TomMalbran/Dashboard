@@ -3,11 +3,7 @@ import PropTypes            from "prop-types";
 
 // Core
 import Store                from "./Core/Store";
-import Access               from "./Core/Access";
-import Action               from "./Core/Action";
-import Auth                 from "./Core/Auth";
-import Status               from "./Core/Status";
-import Navigate             from "./Core/Navigate";
+import Initializer          from "./Core/Initializer";
 
 
 
@@ -17,19 +13,10 @@ import Navigate             from "./Core/Navigate";
  * @returns {React.ReactElement}
  */
 function Dashboard(props) {
-    const { store, actions, params, access, status, children } = props;
-    const [ isMounted, setMounted ] = React.useState(false);
-
-    if (!isMounted) {
-        Action.init(actions);
-        Navigate.init(params);
-        Access.init(access.values, access.groups);
-        Status.init(status.values, status.groups);
-        Auth.init();
-        setMounted(true);
-    }
+    const { store, children } = props;
 
     return <Store.Provider config={store}>
+        <Initializer {...props} />
         {children}
     </Store.Provider>;
 }

@@ -177,6 +177,8 @@ function Button(props) {
         icon, afterIcon, message, children,
     } = props;
 
+    const onClick = Navigate.useClick(props);
+
     if (isHidden) {
         return <React.Fragment />;
     }
@@ -191,7 +193,7 @@ function Button(props) {
         isSmall={isSmall}
         fullWidth={fullWidth}
         withIcon={withIcon}
-        onClick={Navigate.useClick(props)}
+        onClick={onClick}
     >
         {!!icon      && <Icon className="btn-preicon" icon={icon} />}
         {!!content   && <span className="btn-content">{content}</span>}

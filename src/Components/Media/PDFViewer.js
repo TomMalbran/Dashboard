@@ -16,9 +16,11 @@ function PDFViewer(props) {
     const { source, currentPage, onLoad } = props;
     const [ isMounted, setMounted ] = React.useState(false);
 
-    if (!source) {
-        return <React.Fragment />;
-    }
+    // Handles the Mounted state
+    React.useEffect(() => {
+        setMounted(true);
+        return () => setMounted(false);
+    }, []);
 
     // Handles the Loaded Event
     const handleLoaded = (data) => {
@@ -27,13 +29,10 @@ function PDFViewer(props) {
         }
     };
 
-    // Handles the Mounted state
-    React.useEffect(() => {
-        setMounted(true);
-        return () => setMounted(false);
-    }, []);
 
-
+    if (!source) {
+        return <React.Fragment />;
+    }
     return <Document
         file={source}
         onLoadSuccess={handleLoaded}

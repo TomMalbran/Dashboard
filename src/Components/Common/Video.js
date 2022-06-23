@@ -35,6 +35,7 @@ function Video(props) {
     const { className, title, source, width, height } = props;
 
     const src = Utils.getYoutubeEmbed(source);
+
     if (!src) {
         return <React.Fragment />;
     }

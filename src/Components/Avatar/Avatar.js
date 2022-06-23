@@ -46,6 +46,10 @@ function Avatar(props) {
         url, href, target, onClick,
     } = props;
 
+    const hasClick = Boolean(url || href);
+    const uri      = url ? NLS.baseUrl(url) : href;
+    const navigate = Navigate.useUrl(uri, target);
+
     if (!name && !email) {
         return <React.Fragment />;
     }
@@ -62,10 +66,6 @@ function Avatar(props) {
     if (!source) {
         return <React.Fragment />;
     }
-
-    const hasClick = Boolean(url || href);
-    const uri      = url ? NLS.baseUrl(url) : href;
-    const navigate = Navigate.useUrl(uri, target);
 
 
     // Handles the Click
