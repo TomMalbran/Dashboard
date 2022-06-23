@@ -24,8 +24,9 @@ function Router(props) {
         withDetails, noFirst, children,
     } = props;
 
-    const location    = useLocation();
-    const items       = [];
+    const { setRedirect } = Store.useAction("core");
+    const location        = useLocation();
+    const items           = [];
 
     let   firstUrl    = initialUrl;
     let   hasPath     = false;
@@ -64,7 +65,7 @@ function Router(props) {
     }
 
     if (!hasPath && saveRoute) {
-        Store.setRedirect(location.pathname);
+        setRedirect(location.pathname);
     }
 
     return <Routes>

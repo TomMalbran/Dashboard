@@ -1,88 +1,125 @@
-// Module variables
-let store = null;
+import React                from "react";
+import PropTypes            from "prop-types";
+
+
+
+// Variables
+const Context = React.createContext(null);
+let   actions = {};
 
 
 
 /**
- * Initialize the Store
- * @param {Object} theStore
- * @returns {Void}
+ * Creates the Store Provider
+ * @param {Object} props
+ * @returns {React.ReactElement}
  */
-function init(theStore) {
-    store = theStore;
-    setLoading(false);
+function Provider({ config, children }) {
+    actions = config.actions;
+
+    const [ state, dispatch ] = React.useReducer(config.rootReducer, config.initialState);
+    const store = React.useMemo(() => [ state, dispatch ], [ state ]);
+
+    return <Context.Provider value={store}>
+        {children}
+    </Context.Provider>;
+}
+
+/**
+ * The Property Types
+ * @typedef {Object} propTypes
+ */
+Provider.propTypes = {
+    config   : PropTypes.object.isRequired,
+    children : PropTypes.any,
+};
+
+
+
+/**
+ * Configures the Store
+ * @param {Object} slices
+ * @returns {Object}
+ */
+function configureStore(slices) {
+    const initialState = {};
+    const actions      = {};
+    const reducers     = {};
+
+    for (const [ prop, slice ] of Object.entries(slices)) {
+        initialState[prop] = slice.initialState;
+        actions[prop]      = slice.actions;
+        reducers[prop]     = slice.reducer;
+    }
+    const rootReducer = combineReducers(reducers);
+
+    return { initialState, actions, rootReducer };
+}
+
+/**
+ * Combines the Reducers
+ * @param {Object} slices
+ * @returns {Function}
+ */
+function combineReducers(slices) {
+    return (state, action) => {
+        const result = { ...state };
+        for (const [ prop, slice ] of Object.entries(slices)) {
+            result[prop] = slice(result[prop], action);
+        }
+        return result;
+    };
 }
 
 
 
 /**
- * Sets the Loading
- * @param {Boolean} loading
- * @returns {Void}
+ * Returns the Store Hook
+ * @returns {Array}
  */
-function setLoading(loading) {
-    store.dispatch({ type : "CORE_LOADING", loading });
+function useStore() {
+    return React.useContext(Context);
 }
 
 /**
- * Shows the Result
- * @param {String} variant
- * @param {String} message
- * @returns {Void}
+ * Returns the Store State Hook
+ * @param {String} slice
+ * @returns {Object}
  */
-function showResult(variant, message) {
-    const result = { open : true, variant, message };
-    store.dispatch({ type : "CORE_RESULT", result });
+function useState(slice) {
+    const [ state ] = React.useContext(Context);
+    return state[slice] || {};
 }
 
 /**
- * Sets the Current Credential
- * @param {Object} credential
- * @returns {Void}
+ * Returns the Store Action Hook
+ * @param {String} slice
+ * @returns {Object}
  */
-function setCurrentUser(credential) {
-    store.dispatch({ type : "AUTH_CURRENT_USER", credential });
+function useAction(slice) {
+    if (!actions[slice]) {
+        return {};
+    }
+    const context  = React.useContext(Context);
+    const dispatch = context[1];
+
+    return React.useMemo(() => {
+        const result = {};
+        for (const [ name, action ] of Object.entries(actions[slice])) {
+            result[name] = (...params) => action(dispatch, ...params);
+        }
+        return result;
+    }, [ dispatch ]);
 }
 
-
-
-/**
- * Sets the Redirect
- * @param {String} redirect
- * @returns {Void}
- */
-function setRedirect(redirect) {
-    store.dispatch({ type : "CORE_REDIRECT", redirect });
-}
-
-/**
- * Sets the Details
- * @param {Boolean} hasDetails
- * @returns {Void}
- */
-function setDetails(hasDetails) {
-    store.dispatch({ type : "CORE_DETAILS_SET", hasDetails });
-}
-
-/**
- * Closes the Details
- * @returns {Void}
- */
-function closeDetails() {
-    store.dispatch({ type : "CORE_DETAILS_CLOSE" });
-}
 
 
 
 // The public API
 export default {
-    init,
-
-    setLoading,
-    showResult,
-    setCurrentUser,
-
-    setRedirect,
-    setDetails,
-    closeDetails,
+    Provider,
+    configureStore,
+    useStore,
+    useState,
+    useAction,
 };

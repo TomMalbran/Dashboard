@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
+import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -35,16 +36,16 @@ const Div = Styled.div`
  * @returns {React.ReactElement}
  */
 function DetailActionList(props) {
-    const { canEdit, onAction, onClose, children } = props;
+    const { canEdit, onAction, children } = props;
+
+    const { closeDetails } = Store.useAction("core");
 
     // Handles the Click
     const handleClick = (action) => {
         if (onAction) {
             onAction(action);
         }
-        if (onClose) {
-            onClose();
-        }
+        closeDetails();
     };
 
     const items = [];
@@ -74,7 +75,6 @@ function DetailActionList(props) {
  */
 DetailActionList.propTypes = {
     onAction : PropTypes.func,
-    onClose  : PropTypes.func,
     canEdit  : PropTypes.bool,
     children : PropTypes.any,
 };

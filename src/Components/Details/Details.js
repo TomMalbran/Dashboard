@@ -2,10 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Utils
+// Core
 import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
-import Utils                from "../../Utils/Utils";
 
 // Components
 import CircularLoader       from "../Loader/CircularLoader";
@@ -61,21 +60,22 @@ const Error = Styled.div`
 function Details(props) {
     const { className, topSpace, isLoading, hasError, error, children } = props;
 
+    const { setDetails } = Store.useAction("core");
+
     // Set/Unset the Details on Load/Unload
     React.useEffect(() => {
-        Store.setDetails(true);
-        return () => Store.setDetails(false);
+        setDetails(true);
+        return () => setDetails(false);
     }, []);
+
 
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError;
-    const onClose     = Store.closeDetails;
-    const items       = Utils.cloneChildren(children, () => ({ onClose }));
 
     return <Section className={`details light-scrollbars ${className}`} topSpace={topSpace}>
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
-        {showContent && items}
+        {showContent && children}
     </Section>;
 }
 
