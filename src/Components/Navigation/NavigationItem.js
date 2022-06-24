@@ -74,7 +74,7 @@ function NavigationItem(props) {
         canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
-    const willSelect = Navigate.useSelected();
+    const isSelect = Navigate.useSelect();
 
     // Returns true if the Menu should be selected
     const shouldSelect = () => {
@@ -82,7 +82,7 @@ function NavigationItem(props) {
             return isSelected;
         }
         if (url) {
-            return willSelect(url);
+            return isSelect(url);
         }
         return false;
     };

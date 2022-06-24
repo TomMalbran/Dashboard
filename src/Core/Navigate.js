@@ -111,11 +111,11 @@ function useMenuUrl(url) {
  * Returns true if the Url is Selected
  * @returns {Function}
  */
-function useSelected() {
+function useSelect() {
     const path = usePath();
     return (url) => {
         const route = NLS.url(url);
-        path.endsWith(route);
+        return path.endsWith(route);
     };
 }
 
@@ -340,7 +340,7 @@ export default {
     useFrom,
     useParent,
     useMenuUrl,
-    useSelected,
+    useSelect,
 
     getUrl,
     getEmail,
