@@ -6,6 +6,9 @@ import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
+// Components
+import Main                 from "../Core/Main";
+
 // Router
 import {
     Routes, Route, Navigate, useLocation,
@@ -21,7 +24,7 @@ import {
 function Router(props) {
     const {
         saveRoute, initialUrl, type,
-        withDetails, noFirst, children,
+        withMain, withDetails, noFirst, children,
     } = props;
 
     const { setRedirect } = Store.useAction("core");
@@ -52,7 +55,7 @@ function Router(props) {
         items.push(<Route
             key={key}
             path={path}
-            element={React.cloneElement(child, { type, withDetails })}
+            element={React.cloneElement(child, { type })}
         />);
     }
 
@@ -68,6 +71,15 @@ function Router(props) {
         setRedirect(location.pathname);
     }
 
+
+    // Do the Render
+    if (withMain) {
+        return <Main withDetails={withDetails}>
+            <Routes>
+                {items}
+            </Routes>
+        </Main>;
+    }
     return <Routes>
         {items}
     </Routes>;
@@ -80,6 +92,7 @@ function Router(props) {
 Router.propTypes = {
     initialUrl  : PropTypes.string,
     type        : PropTypes.string,
+    withMain    : PropTypes.bool,
     withDetails : PropTypes.bool,
     noFirst     : PropTypes.bool,
     saveRoute   : PropTypes.bool,
@@ -93,6 +106,7 @@ Router.propTypes = {
 Router.defaultProps = {
     initialUrl  : "",
     type        : "",
+    withMain    : false,
     withDetails : false,
     noFirst     : false,
     saveRoute   : false,
