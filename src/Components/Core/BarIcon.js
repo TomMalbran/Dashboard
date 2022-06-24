@@ -9,7 +9,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
+const Div = Styled.div.attrs(({ variant, isSelected }) => ({ variant, isSelected }))`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,6 +32,10 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
         --bicon-background: var(--primary-color);
         --bicon-hover: var(--secondary-color);
     `}
+    ${(props) => props.variant === Brightness.DARK && props.isSelected && `
+        --bicon-background: var(--border-color);
+    `}
+
     ${(props) => props.variant === Brightness.LIGHT && `
         --bicon-color: var(--primary-color);
         --bicon-background: rgba(0, 0, 0, 0.1);
@@ -47,12 +51,12 @@ const Div = Styled.div.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function BarIcon(props) {
-    const { isHidden, className, variant, icon, onClick } = props;
+    const { isHidden, className, variant, isSelected, icon, onClick } = props;
 
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Div className={className} variant={variant} onClick={onClick}>
+    return <Div className={className} variant={variant} isSelected={isSelected} onClick={onClick}>
         <Icon icon={icon} />
     </Div>;
 }
@@ -62,11 +66,12 @@ function BarIcon(props) {
  * @type {Object} propTypes
  */
 BarIcon.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    icon      : PropTypes.string.isRequired,
-    onClick   : PropTypes.func,
+    isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
+    isSelected : PropTypes.bool,
+    icon       : PropTypes.string.isRequired,
+    onClick    : PropTypes.func,
 };
 
 /**
@@ -74,9 +79,10 @@ BarIcon.propTypes = {
  * @type {Object} defaultProps
  */
 BarIcon.defaultProps = {
-    isHidden  : false,
-    className : "",
-    variant   : Brightness.LIGHT,
+    isHidden   : false,
+    className  : "",
+    variant    : Brightness.LIGHT,
+    isSelected : false,
 };
 
 export default BarIcon;
