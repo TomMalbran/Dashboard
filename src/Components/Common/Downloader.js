@@ -11,7 +11,12 @@ import PropTypes            from "prop-types";
 function Downloader(props) {
     const { download, source, onLoad } = props;
 
-    React.useEffect(() => onLoad, [ source ]);
+    React.useEffect(() => {
+        if (download) {
+            onLoad();
+        }
+    }, [ download, source ]);
+
 
     if (!download) {
         return <React.Fragment />;
