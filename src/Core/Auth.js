@@ -18,8 +18,8 @@ function init(onUserChange) {
     setCurrentUser = onUserChange;
     if (localStorage.token) {
         token = localStorage.token;
-        setUser();
     }
+    setUser();
 }
 
 
