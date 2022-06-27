@@ -65,7 +65,6 @@ Header.propTypes = {
     icon            : PropTypes.string.isRequired,
     message         : PropTypes.string.isRequired,
     fallback        : PropTypes.string,
-    route           : PropTypes.string,
     showBreadcrumbs : PropTypes.bool,
     children        : PropTypes.any,
 };

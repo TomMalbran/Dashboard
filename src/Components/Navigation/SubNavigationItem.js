@@ -82,7 +82,6 @@ SubNavigationItem.propTypes = {
     isHidden   : PropTypes.bool,
     variant    : PropTypes.string,
     action     : PropTypes.string,
-    className  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon       : PropTypes.string,
     afterIcon  : PropTypes.string,
@@ -100,7 +99,6 @@ SubNavigationItem.propTypes = {
  */
 SubNavigationItem.defaultProps = {
     isHidden   : false,
-    className  : "",
     topBorder  : false,
     isSelected : false,
 };
