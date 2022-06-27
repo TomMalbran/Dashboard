@@ -14,7 +14,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
+const Item = Styled.div.attrs(({ isSelected, isDisabled, inHeader }) => ({ isSelected, isDisabled, inHeader }))`
     position: relative;
     flex-grow: 1;
     box-sizing: border-box;
@@ -93,12 +93,11 @@ const DarkItem = Styled(Item)`
         border-bottom-color: var(--secondary-color);
         border-top-left-radius: var(--border-radius);
         border-top-right-radius: var(--border-radius);
-
-        &:first-child {
-            border-left-color: var(--secondary-color);
-            border-top-left-radius: 0;
-        }
     `}
+    ${(props) => props.isSelected && !props.inHeader && `&:first-child {
+        border-left-color: var(--secondary-color);
+        border-top-left-radius: 0;
+    }`}
     ${(props) => props.isDisabled && `
         color: rgba(255, 255, 255, 0.5);
         cursor: not-allowed;
@@ -119,7 +118,10 @@ const Components = {
  * @returns {React.ReactElement}
  */
 function TabItem(props) {
-    const { className, variant, message, status, value, index, selected, isDisabled, canEdit, canDelete, onAction } = props;
+    const {
+        className, variant, message, status, value, index, selected,
+        isDisabled, inHeader, canEdit, canDelete, onAction,
+    } = props;
 
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
@@ -157,6 +159,7 @@ function TabItem(props) {
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
+        inHeader={inHeader}
         onClick={handleClick}
     >
         {canEdit && canAction && <EditIcon
@@ -186,6 +189,7 @@ TabItem.propTypes = {
     message    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
+    inHeader   : PropTypes.bool,
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onAction   : PropTypes.func,
@@ -203,6 +207,7 @@ TabItem.defaultProps = {
     index      : 0,
     isDisabled : false,
     isSelected : false,
+    inHeader   : false,
     canEdit    : false,
     canDelete  : false,
 };
