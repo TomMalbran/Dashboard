@@ -188,7 +188,7 @@ class DateHour {
             (hours || hours === 0) ? hours     : this.hours,
             (mins  || mins  === 0) ? mins      : this.minutes,
             (secs  || secs  === 0) ? secs      : this.seconds,
-            (milis || milis === 0) ? milis     : this.date.getMilliseconds()
+            (milis || milis === 0) ? milis     : this.date.getMilliseconds(),
         );
     }
 
@@ -435,7 +435,7 @@ class DateHour {
         return NLS.format(
             "DATE_PARSED_WEEK",
             this.toString("slashesDay"),
-            this.moveDay(6).toString("slashesDay")
+            this.moveDay(6).toString("slashesDay"),
         );
     }
 
