@@ -12,9 +12,9 @@ import Circle               from "../Common/Circle";
 
 // Styles
 const TD = Styled.td.attrs((
-    { flexGrow, minWidth, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
+    { flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, bigMobile, hideMobile, rightSpace, indent },
 ) => (
-    { flexGrow, minWidth, maxWidth, align, isSmall, isTitle, bigMobile, hideMobile, rightSpace }
+    { flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, bigMobile, hideMobile, rightSpace, indent }
 ))`
     && {
         box-sizing: border-box;
@@ -25,10 +25,14 @@ const TD = Styled.td.attrs((
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
         padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
+        padding-left: ${(props) => props.indent ? "24px" : "12px"};
 
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
             width: 150px;
+        `}
+        ${(props) => props.isBold && `
+            font-weight: bold;
         `}
         ${(props) => props.isTitle && `
             color: var(--title-color);
@@ -57,8 +61,8 @@ const TD = Styled.td.attrs((
 function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
-        colSpan, grow, minWidth, maxWidth, align, isSmall, isTitle,
-        bigMobile, hideMobile, rightSpace, children,
+        colSpan, grow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+        bigMobile, hideMobile, rightSpace, indent, children,
     } = props;
 
 
@@ -72,10 +76,12 @@ function TableCell(props) {
         maxWidth={maxWidth}
         align={align}
         isSmall={isSmall}
+        isBold={isBold}
         isTitle={isTitle}
         bigMobile={bigMobile}
         hideMobile={hideMobile}
         rightSpace={rightSpace}
+        indent={indent}
         colSpan={colSpan}
     >
         {!!circle && !hideCircle && <Circle variant={circle} />}
@@ -96,6 +102,7 @@ TableCell.propTypes = {
     minWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
+    isBold     : PropTypes.bool,
     isTitle    : PropTypes.bool,
     isSmall    : PropTypes.bool,
     bigMobile  : PropTypes.bool,
@@ -103,6 +110,7 @@ TableCell.propTypes = {
     circle     : PropTypes.string,
     hideCircle : PropTypes.bool,
     rightSpace : PropTypes.bool,
+    indent     : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -116,12 +124,14 @@ TableCell.defaultProps = {
     colSpan    : "1",
     grow       : "1",
     align      : "left",
+    isBold     : false,
     isTitle    : false,
     isSmall    : false,
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
     rightSpace : false,
+    indent     : false,
 };
 
 export default TableCell;
