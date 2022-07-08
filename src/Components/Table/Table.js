@@ -161,10 +161,10 @@ function Table(props) {
                         action.onClick  = child.props.onClick;
                         action.onAction = child.props.onAction;
                     }
-                    if (!firstAction.action) {
-                        firstAction = action;
-                    }
                     if (!menuID || !action.hide || !action.hide(menuID)) {
+                        if (!firstAction.action) {
+                            firstAction = action;
+                        }
                         actions.push(action);
                     }
                 }
