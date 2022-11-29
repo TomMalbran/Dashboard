@@ -37,6 +37,21 @@ Provider.propTypes = {
 
 
 /**
+ * Creates a Slice
+ * @param {Object}   initialState
+ * @param {Object}   actions
+ * @param {Function} reducer
+ * @returns {Object}
+ */
+function createSlice(initialState, actions, reducer) {
+    return {
+        initialState,
+        actions,
+        reducer,
+    };
+}
+
+/**
  * Configures the Store
  * @param {Object} slices
  * @returns {Object}
@@ -115,6 +130,7 @@ function useAction(slice) {
 // The public API
 export default {
     Provider,
+    createSlice,
     configureStore,
     useStore,
     useState,
