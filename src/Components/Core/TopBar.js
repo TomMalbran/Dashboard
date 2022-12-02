@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import NLS                  from "../../Core/NLS";
+
 // Components
 import BarIcon              from "../Core/BarIcon";
 import BarLogo              from "../Core/BarLogo";
@@ -40,6 +43,13 @@ const TopIcon = Styled(BarIcon)`
     cursor: pointer;
     margin-bottom: 0;
 `;
+const H1 = Styled.h1`
+    margin: 0 0 0 8px;
+    font-size: 28px;
+    font-weight: 200;
+    color: white;
+    font-family: var(--title-font);
+`;
 const DetailIcon = Styled(BarIcon)`
     font-size: 24px;
     color: white;
@@ -57,7 +67,8 @@ const DetailIcon = Styled(BarIcon)`
  */
 function TopBar(props) {
     const {
-        className, logo, logoWidth, logoHeight, onMenu, onDetails, showDetails,
+        className, logo, logoWidth, logoHeight, withTitle,
+        onMenu, onDetails, showDetails,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
     } = props;
 
@@ -74,6 +85,7 @@ function TopBar(props) {
                 logoHeight={logoHeight}
                 withLink
             />
+            {withTitle && <H1>{NLS.get("TITLE")}</H1>}
         </Div>
         <Div>
             {!!avatarUrl && <Avatar
@@ -101,6 +113,7 @@ TopBar.propTypes = {
     logo          : PropTypes.string.isRequired,
     logoWidth     : PropTypes.number,
     logoHeight    : PropTypes.number,
+    withTitle     : PropTypes.bool,
     showDetails   : PropTypes.bool.isRequired,
     onMenu        : PropTypes.func.isRequired,
     onDetails     : PropTypes.func.isRequired,
@@ -116,6 +129,7 @@ TopBar.propTypes = {
  */
 TopBar.defaultProps = {
     className : "",
+    withTitle : false,
 };
 
 export default TopBar;
