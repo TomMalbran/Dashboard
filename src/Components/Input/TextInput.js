@@ -59,7 +59,7 @@ function TextInput(props) {
                     handled = true;
                 }
             }
-            if (!!onSubmit && !handled) {
+            if (onSubmit && !handled) {
                 onSubmit();
             }
         }

@@ -15,7 +15,7 @@ import KeyCode              from "../../Utils/KeyCode";
 function NumberInput(props) {
     const {
         className, id, name, value, minValue, step, placeholder, isDisabled, tabIndex,
-        onChange, onFocus, onBlur,
+        onChange, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
     } = props;
 
     // Handles a Number
@@ -23,8 +23,8 @@ function NumberInput(props) {
         onChange(name, e.target.value);
     };
 
-    // Handles the KeyInput
-    const handleKey = (e) => {
+    // Handles the Key Down
+    const handleKeyDown = (e) => {
         let val = value;
         if (e.keyCode === KeyCode.DOM_VK_UP || e.keyCode === KeyCode.DOM_VK_DOWN) {
             const mult   = e.metaKey ? 100 : (e.shiftKey ? 10 : 1);
@@ -37,6 +37,19 @@ function NumberInput(props) {
             onChange(name, val);
             e.preventDefault();
             e.stopPropagation();
+        }
+        if (onKeyDown) {
+            onKeyDown(e);
+        }
+    };
+
+    // Handles the Key Up
+    const handleKeyUp = (e) => {
+        if (e.keyCode === KeyCode.DOM_VK_RETURN && onSubmit) {
+            onSubmit();
+        }
+        if (onKeyUp) {
+            onKeyUp(e);
         }
     };
 
@@ -52,7 +65,8 @@ function NumberInput(props) {
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
         onChange={handleChange}
-        onKeyDown={handleKey}
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
         onFocus={onFocus}
         onBlur={onBlur}
         tabIndex={tabIndex}
@@ -76,6 +90,9 @@ NumberInput.propTypes = {
     onChange    : PropTypes.func.isRequired,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
+    onKeyDown   : PropTypes.func,
+    onKeyUp     : PropTypes.func,
+    onSubmit    : PropTypes.func,
 };
 
 /**
