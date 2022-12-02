@@ -17,7 +17,7 @@ import MultiLine            from "../Common/MultiLine";
 
 
 // Styles
-const InputContent = Styled.div.attrs(({ isSmall, withLink }) => ({ isSmall, withLink }))`
+const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside }) => ({ isSmall, withLink, labelInside }))`
     display: flex;
     align-items: center;
 
@@ -36,10 +36,11 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink }) => ({ isSmall, wit
             padding: 8px 8px 4px 8px;
             line-height: 1;
         ` : `
-            min-height: var(--input-height);
+            min-height: ${props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
             padding: 8px 8px 6px 8px;
             line-height: 1.5;
         `}
+        ${(props) => props.labelInside ? "padding-top: 16px" : ""}
         ${(props) => props.withLink ? "cursor: pointer;" : ""}
     }
     .inputview-link {
@@ -77,7 +78,7 @@ const InputHelper = Styled.p`
 function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, label, value, icon,
-        fullWidth, smallMargin, noMargin, isSmall, error, helperText,
+        fullWidth, labelInside, smallMargin, noMargin, isSmall, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
@@ -96,6 +97,7 @@ function ViewField(props) {
     return <InputContainer
         className={`inputview ${className}`}
         fullWidth={fullWidth}
+        labelInside={labelInside}
         smallMargin={smallMargin}
         noMargin={noMargin}
         hasLabel
@@ -103,10 +105,16 @@ function ViewField(props) {
         {hasLabel && <InputLabel
             className="inputview-label"
             message={label}
+            labelInside={labelInside}
             withTransform
             withValue
         />}
-        <InputContent className="inputview-cnt" isSmall={isSmall} withLink={!!onClick}>
+        <InputContent
+            className="inputview-cnt"
+            isSmall={isSmall}
+            withLink={!!onClick}
+            labelInside={labelInside}
+        >
             {!!icon && <Icon icon={icon} />}
             {isLink && <div className="inputview-value inputview-link">
                 <HyperLink variant="primary" href={content} message={content} target="_blank" />
@@ -148,6 +156,7 @@ ViewField.propTypes = {
     smallMargin : PropTypes.bool,
     noMargin    : PropTypes.bool,
     fullWidth   : PropTypes.bool,
+    labelInside : PropTypes.bool,
     isSmall     : PropTypes.bool,
     linkIcon    : PropTypes.string,
     linkVariant : PropTypes.string,
@@ -172,6 +181,7 @@ ViewField.defaultProps = {
     smallMargin : false,
     noMargin    : false,
     fullWidth   : false,
+    labelInside : false,
     isSmall     : false,
     linkTarget  : "_blank",
     isEmail     : false,
