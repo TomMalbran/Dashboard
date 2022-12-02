@@ -441,6 +441,27 @@ function getValue(data, idKey, idValue, key, defValue) {
     return key ? "" : {};
 }
 
+/**
+ * Combines the Values in the given Key into a String
+ * @param {Object} elem
+ * @param {String} key
+ * @returns {String}
+ */
+function combineValues(elem, key) {
+    let parts = [ "" ];
+    if (elem[key]) {
+        try {
+            parts = JSON.parse(String(elem[key]));
+            if (!Array.isArray(parts)) {
+                parts = [ parts ];
+            }
+        } catch(e) {
+            parts = [ "" ];
+        }
+    }
+    return parts.join(" - ");
+}
+
 
 
 /**
@@ -630,6 +651,7 @@ export default {
     merge,
     getIndex,
     getValue,
+    combineValues,
 
     getChildren,
     getVisibleChildren,
