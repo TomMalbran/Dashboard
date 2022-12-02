@@ -8,10 +8,8 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Label = Styled.p.attrs(
-    ({ isRequired, withTransform, withValue, labelInside, isFocused }) =>
-        ({ isRequired, withTransform, withValue, labelInside, isFocused })
-)`
+const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, labelInside, isFocused }) =>
+    ({ isRequired, withTransform, withValue, labelInside, isFocused }))`
     position: absolute;
     margin: 0;
     padding: 0 4px;
@@ -40,7 +38,7 @@ const Label = Styled.p.attrs(
     `}
     ${(props) => props.withTransform && `
         transform-origin: top left;
-        transform: translateY(18px) scale(1.1);
+        transform: ${props.labelInside ? "translateY(12px) scale(1.2)" : "translateY(18px) scale(1.1)"};
     `}
     ${(props) => props.withValue && `
         transform: translateY(0) scale(1);
