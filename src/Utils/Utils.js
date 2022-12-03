@@ -13,6 +13,15 @@ function isString(value) {
 }
 
 /**
+ * Returns true if the value is a Number
+ * @param {*} value
+ * @returns {Boolean}
+ */
+function isNumeric(value) {
+    return !isNaN(value);
+}
+
+/**
  * Returns true if the value is an Object
  * @param {*} value
  * @returns {Boolean}
@@ -621,6 +630,7 @@ function getVimeoEmbed(source, showInfo = false) {
 // The public API
 export default {
     isString,
+    isNumeric,
     isObject,
     isEmpty,
     hasProp,

@@ -1,5 +1,8 @@
 import NLS                  from "../Core/NLS";
 
+// Utils
+import Utils                from "../Utils/Utils";
+
 // Router
 import {
     useLocation, useParams as useRouterparams, useNavigate as useRouteNavigate,
@@ -31,7 +34,13 @@ function useParams() {
     const params = useRouterparams();
     const result = {};
     for (const key of Object.values(paramTypes)) {
-        result[key] = Number(params[key] || 0);
+        if (!params[key]) {
+            result[key] = 0;
+        } else if (Utils.isNumeric(params[key])) {
+            result[key] = Number(params[key] || 0);
+        } else {
+            result[key] = params[key];
+        }
     }
     return result;
 }
