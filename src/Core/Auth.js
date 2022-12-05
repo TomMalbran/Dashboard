@@ -33,6 +33,14 @@ function getToken() {
 }
 
 /**
+ * Returns the Decoded Token
+ * @returns {{exp: Number, data: Object}}
+ */
+function getDecodeToken() {
+    return jwtDecode(token);
+}
+
+/**
  * Sets the JWT Token
  * @param {String} jwt
  * @returns {Void}
@@ -66,7 +74,7 @@ function unsetToken() {
  */
 function getUser() {
     if (token) {
-        const jwt = jwtDecode(token);
+        const jwt = getDecodeToken();
         return jwt.data;
     }
     return null;
@@ -78,7 +86,7 @@ function getUser() {
  */
 function setUser() {
     try {
-        const jwt  = jwtDecode(token);
+        const jwt  = getDecodeToken();
         const time = Math.floor(Date.now() / 1000);
         if (jwt.exp < time) {
             unsetToken();
