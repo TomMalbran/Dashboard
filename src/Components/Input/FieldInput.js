@@ -13,8 +13,14 @@ import Input                from "../Input/Input";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
     width: 100%;
+
+    ${(props) => props.hasLabel && props.labelInside && `
+        & > div:nth-child(n+2) > .input {
+            padding-top: 8px !important;
+        }
+    `}
 `;
 
 const Div = Styled.div`
@@ -39,7 +45,7 @@ const Link = Styled(IconLink)`
 function FieldInput(props) {
     const {
         className, inputType, name, value, button, onChange,
-        options, withNone, noneText,
+        options, withNone, noneText, hasLabel, labelInside,
     } = props;
 
     // Calculate the Parts Array
@@ -79,7 +85,7 @@ function FieldInput(props) {
     };
 
 
-    return <Container className={className}>
+    return <Container className={className} hasLabel={hasLabel} labelInside={labelInside}>
         {parts.map((elem, index) => <Div key={index}>
             <Input
                 className="input"
@@ -111,15 +117,17 @@ function FieldInput(props) {
  * @type {Object} propTypes
  */
 FieldInput.propTypes = {
-    className : PropTypes.string,
-    name      : PropTypes.string.isRequired,
-    inputType : PropTypes.string,
-    value     : PropTypes.any,
-    options   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone  : PropTypes.bool,
-    noneText  : PropTypes.string,
-    button    : PropTypes.string,
-    onChange  : PropTypes.func.isRequired,
+    className   : PropTypes.string,
+    name        : PropTypes.string.isRequired,
+    inputType   : PropTypes.string,
+    value       : PropTypes.any,
+    options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone    : PropTypes.bool,
+    noneText    : PropTypes.string,
+    hasLabel    : PropTypes.bool,
+    labelInside : PropTypes.bool,
+    button      : PropTypes.string,
+    onChange    : PropTypes.func.isRequired,
 };
 
 /**

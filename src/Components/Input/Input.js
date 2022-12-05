@@ -78,6 +78,7 @@ Input.propTypes = {
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex     : PropTypes.string,
     fullWidth    : PropTypes.bool,
+    hasLabel     : PropTypes.bool,
     labelInside  : PropTypes.bool,
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,

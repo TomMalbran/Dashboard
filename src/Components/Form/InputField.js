@@ -245,6 +245,7 @@ function InputField(props) {
                 withNone={preWithNone}
                 placeholder={prePlaceholder}
                 width={preWidth}
+                hasLabel={hasLabel}
                 labelInside={labelInside}
                 onChange={onChange}
                 onFocus={handleFocus}
@@ -261,6 +262,7 @@ function InputField(props) {
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 isSmall={isSmall}
+                hasLabel={hasLabel}
                 labelInside={labelInside}
             />
             {withClear && <InputClear
