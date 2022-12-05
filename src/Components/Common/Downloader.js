@@ -13,7 +13,9 @@ function Downloader(props) {
 
     React.useEffect(() => {
         if (download) {
-            onLoad();
+            window.setTimeout(() => {
+                onLoad();
+            }, 30 * 1000);
         }
     }, [ download, source ]);
 
