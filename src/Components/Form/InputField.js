@@ -124,7 +124,7 @@ const InputButton = Styled(Button)`
 function InputField(props) {
     const {
         isHidden, className, type, name, label, icon, autoFocus, value,
-        button, onClick, error, helperText, withLabel, onChange, onInput, onSuggest, onBlur,
+        button, onClick, error, helperText, withLabel, onChange, onSearch, onInput, onSuggest, onBlur,
         fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
         preType, preName, preValue, preOptions, preWithNone, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear,
@@ -290,7 +290,7 @@ function InputField(props) {
             params={suggestParams}
             noneText={suggestNone}
             keepSuggestions={keepSuggestions}
-            onChange={onChange}
+            onChange={onSearch}
             onSuggest={onSuggest}
         />}
     </InputContainer>;
@@ -318,6 +318,7 @@ InputField.propTypes = {
     isRequired      : PropTypes.bool,
     isDisabled      : PropTypes.bool,
     onChange        : PropTypes.func,
+    onSearch        : PropTypes.func,
     onInput         : PropTypes.func,
     onBlur          : PropTypes.func,
     onSubmit        : PropTypes.func,

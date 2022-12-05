@@ -87,6 +87,12 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
         setErrors({ [name] : "" });
     };
 
+    // Handles the Input Change
+    const handleSearch = async (id, idValue, name, nameValue) => {
+        setData({ [id] : idValue,  [name] : nameValue });
+        setErrors({ [name] : "" });
+    };
+
     // Starts the Submit
     const handleSubmit = async () => {
         if (loading) {
@@ -113,7 +119,7 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
         data, setData, resetData,
         errors, mainError, setErrors, resetErrors,
         setElem, setPosition, reset,
-        handleChange, handleSubmit,
+        handleChange, handleSearch, handleSubmit,
     };
 }
 

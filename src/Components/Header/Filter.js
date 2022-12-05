@@ -87,10 +87,10 @@ function Filter(props) {
         setErrors({ ...errors, [name] : "" });
     };
 
-    // Handles the Input Suggest
-    const handleSuggest = (id, idValue, name, value) => {
-        setData({ ...data, [id] : idValue, [name] : value });
-        setErrors({ ...errors, [id] : "" });
+    // Handles the Input Search
+    const handleSearch = (id, idValue, name, nameValue) => {
+        setData({ ...data, [id] : idValue, [name] : nameValue });
+        setErrors({ ...errors, [name] : "" });
     };
 
     // Handles the On Click event
@@ -129,7 +129,7 @@ function Filter(props) {
             value={data.credentialName}
             error={errors.credentialID}
             onChange={handleChange}
-            onSuggest={handleSuggest}
+            onSearch={handleSearch}
             onSubmit={handleClick}
             labelInside={labelInside}
             shrinkLabel

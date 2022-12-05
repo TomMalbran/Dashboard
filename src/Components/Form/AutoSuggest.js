@@ -75,7 +75,6 @@ function AutoSuggest(props) {
     const setNewValue = async (newValue) => {
         if (value !== newValue && selectedVal !== newValue) {
             setValue(newValue);
-            await onChange(name, newValue);
             if (timer) {
                 window.clearTimeout(timer);
             }
@@ -84,16 +83,15 @@ function AutoSuggest(props) {
                 setTimer(newTimer);
             } else {
                 setSuggestions([]);
-                onChange(id, 0);
             }
+            onChange(id, 0, name, newValue);
         }
     };
 
     // Clears the Value
     const clearValue = async () => {
         setValue("");
-        await onChange(name, "");
-        onChange(id, 0);
+        onChange(id, 0, name, "");
         setSuggestions([]);
         if (timer) {
             window.clearTimeout(timer);
@@ -134,12 +132,11 @@ function AutoSuggest(props) {
     };
 
     // Selects the Elem
-    const selectElem = async (newID, newValue, data) => {
+    const selectElem = (newID, newValue, data) => {
         if (onSuggest) {
             onSuggest(id, newID, name, newValue, data);
         } else if (onChange) {
-            await onChange(id, newID);
-            await onChange(name, newValue);
+            onChange(id, newID, name, newValue);
         }
         if (!keepSuggestions) {
             setSuggestions([]);
