@@ -55,7 +55,7 @@ function Router(props) {
         items.push(<Route
             key={key}
             path={path}
-            element={React.cloneElement(child, { type })}
+            element={React.cloneElement(child, { type, withDetails })}
         />);
     }
 
