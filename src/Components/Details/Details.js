@@ -38,7 +38,8 @@ const Loading = Styled.div`
     align-items: center;
     padding: 40px 0;
     background-color: white;
-    border-radius: 3px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
 `;
 
 const Error = Styled.div`
