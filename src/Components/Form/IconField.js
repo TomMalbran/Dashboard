@@ -131,7 +131,7 @@ function IconField(props) {
         isHidden, className, type, icon, autoFocus, value,
         isRequired, error, fullWidth, smallMargin, noMargin, onChange,
         withLabel, label, placeholder, shrinkLabel, withNone,
-        preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preWidth,
+        preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preNoneText, preWidth,
     } = props;
 
     const [ isFocused,    setFocus    ] = React.useState(false);
@@ -230,6 +230,7 @@ function IconField(props) {
                     value={preValue}
                     options={preOptions}
                     withNone={preWithNone}
+                    preNoneText={preNoneText}
                     placeholder={prePlaceholder}
                     onChange={handlePreChange}
                     onFocus={handlePreFocus}
@@ -304,6 +305,7 @@ IconField.propTypes = {
     preValue       : PropTypes.any,
     preOptions     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     preWithNone    : PropTypes.bool,
+    preNoneText    : PropTypes.string,
     prePlaceholder : PropTypes.string,
     preWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 };
@@ -336,6 +338,7 @@ IconField.defaultProps = {
     preType        : InputType.TEXT,
     preOptions     : [],
     preWithNone    : false,
+    preNoneText    : "",
     prePlaceholder : "",
 
 };
