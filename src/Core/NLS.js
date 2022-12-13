@@ -77,6 +77,21 @@ function get(id, elem = null) {
 }
 
 /**
+ * Returns a String from an ID
+ * @param {String}          id
+ * @param {(Number|String)} elem
+ * @returns {String}
+ */
+function getValue(id, elem) {
+    for (const item of stringData[id] || []) {
+        if (item.key === String(elem)) {
+            return item.value;
+        }
+    }
+    return "";
+}
+
+/**
  * Returns a String from an ID with the Class
  * @param {String}          id
  * @param {(Number|String)} elem
@@ -252,6 +267,7 @@ export default {
     setLang,
 
     get,
+    getValue,
     getClass,
     entries,
     select,

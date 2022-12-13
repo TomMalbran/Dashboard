@@ -460,7 +460,7 @@ function combineValues(elem, key) {
     let parts = [ "" ];
     if (elem[key]) {
         try {
-            parts = JSON.parse(String(elem[key]));
+            parts = Array.isArray(elem[key]) ? elem[key] : JSON.parse(String(elem[key]));
             if (!Array.isArray(parts)) {
                 parts = [ parts ];
             }

@@ -2,8 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import InputType            from "../../Core/InputType";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import Button               from "../Form/Button";
@@ -17,7 +18,7 @@ const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, l
     width: 100%;
 
     ${(props) => props.hasLabel && props.labelInside && `
-        & > div:nth-child(n+2) > .input {
+        & > div:nth-child(n+2) .input {
             padding-top: 8px !important;
         }
     `}
@@ -27,12 +28,13 @@ const Div = Styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 4px;
     margin-bottom: 4px;
 `;
 
 const Link = Styled(IconLink)`
+    flex-shrink: 0;
     font-size: 18px;
-    margin-left: 4px;
 `;
 
 
@@ -45,31 +47,51 @@ const Link = Styled(IconLink)`
 function FieldInput(props) {
     const {
         className, inputType, name, value, button, onChange,
-        options, withNone, noneText, hasLabel, labelInside,
+        options, withNone, noneText, hasLabel, labelInside, children,
     } = props;
 
+    const items    = [];
+    const baseElem = {};
+    if (children) {
+        for (const [ , child ] of Utils.getVisibleChildren(children)) {
+            items.push(child.props);
+            baseElem[child.props.name] = "";
+        }
+    }
+    const hasItems = items.length > 0;
+
     // Calculate the Parts Array
-    let parts = [ "" ];
+    let parts = hasItems ? [{}] : [ "" ];
     if (value) {
         try {
-            parts = JSON.parse(String(value));
+            parts = Array.isArray(value) ? value : JSON.parse(String(value));
             if (!Array.isArray(parts)) {
                 parts = [ parts ];
             }
         } catch(e) {
-            parts = [ "" ];
+            parts = hasItems ? [{}] : [ "" ];
         }
     }
 
     // Handles a Field Change
-    const handleChange = (newValue, index) => {
-        parts.splice(index, 1, newValue);
+    const handleChange = (newValue, index, name = "") => {
+        if (hasItems && name) {
+            const value = parts[index] || {};
+            value[name] = newValue;
+            parts.splice(index, 1, value);
+        } else {
+            parts.splice(index, 1, newValue);
+        }
         fieldChanged(parts);
     };
 
     // Adds a Field to the value
     const addField = () => {
-        parts.push("");
+        if (hasItems && name) {
+            parts.push({ ...baseElem });
+        } else {
+            parts.push("");
+        }
         fieldChanged(parts);
     };
 
@@ -87,7 +109,18 @@ function FieldInput(props) {
 
     return <Container className={className} hasLabel={hasLabel} labelInside={labelInside}>
         {parts.map((elem, index) => <Div key={index}>
-            <Input
+            {hasItems ? items.map((item) => <Input
+                key={`${item.name}-${index}`}
+                className="input"
+                type={item.type}
+                name={`${item.name}-${index}`}
+                placeholder={item.placeholder}
+                value={elem[item.name] || ""}
+                options={item.options}
+                withNone={item.withNone}
+                noneText={item.noneText}
+                onChange={(name, value) => handleChange(value, index, item.name)}
+            />) : <Input
                 className="input"
                 type={inputType}
                 name={`${name}-${index}`}
@@ -96,7 +129,7 @@ function FieldInput(props) {
                 withNone={withNone}
                 noneText={noneText}
                 onChange={(name, value) => handleChange(value, index)}
-            />
+            />}
             {parts.length > 1 && <Link
                 variant="light"
                 icon="close"
@@ -128,6 +161,7 @@ FieldInput.propTypes = {
     labelInside : PropTypes.bool,
     button      : PropTypes.string,
     onChange    : PropTypes.func.isRequired,
+    children    : PropTypes.any,
 };
 
 /**
