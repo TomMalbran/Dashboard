@@ -1,9 +1,9 @@
 import React                from "react";
-import PropTypes            from "prop-types";
 
 // Core
 import { Outcome }          from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -82,11 +82,13 @@ const Content = Styled.div.attrs(({ variant, closing }) => ({ variant, closing }
 
 /**
  * The Result Component
- * @param {Object} props
  * @returns {React.ReactElement}
  */
-function Result(props) {
-    const { open, variant, message, time, onClose } = props;
+function Result() {
+    const { result                 } = Store.useState("core");
+    const { hideResult             } = Store.useAction("core");
+    const { open, variant, message } = result;
+
 
     // The State
     const [ timer,   setTimer   ] = React.useState(null);
@@ -104,7 +106,7 @@ function Result(props) {
         setClosing(true);
         window.setTimeout(() => {
             setClosing(false);
-            onClose();
+            hideResult();
         }, 300);
     };
 
@@ -114,7 +116,7 @@ function Result(props) {
             window.clearTimeout(timer);
         }
         if (open) {
-            setTimer(window.setTimeout(handleClose, time * 1000));
+            setTimer(window.setTimeout(handleClose, 10 * 1000));
         }
         return () => {
             if (timer) {
@@ -131,25 +133,5 @@ function Result(props) {
         </Content>
     </Div>;
 }
-
-/**
- * The Property Types
- * @typedef {Object} propTypes
- */
-Result.propTypes = {
-    open    : PropTypes.bool.isRequired,
-    variant : PropTypes.string.isRequired,
-    message : PropTypes.string.isRequired,
-    onClose : PropTypes.func.isRequired,
-    time    : PropTypes.number,
-};
-
-/**
- * The Default Properties
- * @type {Object} defaultProps
- */
-Result.defaultProps = {
-    time : 10,
-};
 
 export default Result;

@@ -6,6 +6,9 @@ import { BrowserRouter }    from "react-router-dom";
 import Store                from "./Core/Store";
 import Initializer          from "./Core/Initializer";
 
+// Components
+import Result               from "./Components/Core/Result";
+
 
 
 /**
@@ -19,6 +22,7 @@ function Dashboard(props) {
     return <BrowserRouter basename={process.env.REACT_APP_BASEURL}>
         <Store.Provider config={store}>
             <Initializer {...props} />
+            <Result />
             {children}
         </Store.Provider>
     </BrowserRouter>;
