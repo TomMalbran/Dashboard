@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import { BrowserRouter }    from "react-router-dom";
 
 // Core
 import Store                from "./Core/Store";
@@ -15,10 +16,12 @@ import Initializer          from "./Core/Initializer";
 function Dashboard(props) {
     const { store, children } = props;
 
-    return <Store.Provider config={store}>
-        <Initializer {...props} />
-        {children}
-    </Store.Provider>;
+    return <BrowserRouter basename={process.env.REACT_APP_BASEURL}>
+        <Store.Provider config={store}>
+            <Initializer {...props} />
+            {children}
+        </Store.Provider>
+    </BrowserRouter>;
 }
 
 /**
