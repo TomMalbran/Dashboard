@@ -1,5 +1,8 @@
 import React                from "react";
 
+// Core
+import Store                from "../Core/Store";
+
 
 
 /**
@@ -11,24 +14,26 @@ import React                from "react";
  * @returns {Object}
  */
 function useForm(initialData, edit, onSubmit = null, startLoading = true) {
+    const { loading    } = Store.useState("core");
+    const { setLoading } = Store.useAction("core");
+
     const initialErrors = { form : "" };
     for (const key of Object.keys(initialData)) {
         initialErrors[key] = "";
     }
 
-    const [ loading, setLoadingInt ] = React.useState(startLoading);
-    const [ data,    setDataInt    ] = React.useState({ ...initialData });
-    const [ errors,  setErrorsInt  ] = React.useState({ ...initialErrors });
+    const [ data,   setDataInt   ] = React.useState({ ...initialData });
+    const [ errors, setErrorsInt ] = React.useState({ ...initialErrors });
 
 
     // Starts the Loader
     const startLoader = () => {
-        setLoadingInt(true);
+        setLoading(true);
     };
 
     // Ends the Loader
     const endLoader = () => {
-        setLoadingInt(false);
+        setLoading(false);
     };
 
 
@@ -60,24 +65,24 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
 
 
     // Sets the Elem
-    const setElem = (elem) => {
+    const setElem = (elem = {}) => {
         setDataInt({ ...initialData, ...elem });
-        setErrorsInt({ ...initialErrors });
-        setLoadingInt(false);
+        resetErrors();
+        setLoading(false);
     };
 
     // Sets the Position
     const setPosition = (position) => {
         setDataInt({ ...initialData, position });
-        setErrorsInt({ ...initialErrors });
-        setLoadingInt(false);
+        resetErrors();
+        setLoading(false);
     };
 
     // Resets the Data and Errors
     const reset = () => {
         resetData();
         resetErrors();
-        setLoadingInt(false);
+        setLoading(false);
     };
 
 

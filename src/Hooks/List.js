@@ -17,10 +17,13 @@ function useList(slice, type = "") {
     const data   = Store.useState(slice);
     const { startLoader, fetchList } = Store.useAction(slice);
 
+
+    // Load the data
     React.useEffect(() => {
         load();
         return () => startLoader();
     }, []);
+
 
     // Fetch the content
     const fetch = (params = data.sort) => {
