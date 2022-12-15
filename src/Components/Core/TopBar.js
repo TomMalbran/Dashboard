@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Components
 import BarIcon              from "../Core/BarIcon";
@@ -68,17 +69,20 @@ const DetailIcon = Styled(BarIcon)`
 function TopBar(props) {
     const {
         className, logo, logoWidth, logoHeight, withTitle,
-        onMenu, onDetails, showDetails,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
     } = props;
 
+    const { hasDetails            } = Store.useState("core");
+    const { openMenu, openDetails } = Store.useAction("core");
+
+
     return <Nav className={`topbar ${className}`}>
         <Div>
-            {!!onMenu && <TopIcon
+            <TopIcon
                 variant="dark"
                 icon="menu"
-                onClick={onMenu}
-            />}
+                onClick={openMenu}
+            />
             <TopLogo
                 logo={logo}
                 logoWidth={logoWidth}
@@ -95,10 +99,10 @@ function TopBar(props) {
                 edition={avatarEdition}
                 size={36}
             />}
-            {showDetails && <DetailIcon
+            {hasDetails && <DetailIcon
                 variant="dark"
                 icon="details"
-                onClick={onDetails}
+                onClick={openDetails}
             />}
         </Div>
     </Nav>;
@@ -114,9 +118,6 @@ TopBar.propTypes = {
     logoWidth     : PropTypes.number,
     logoHeight    : PropTypes.number,
     withTitle     : PropTypes.bool,
-    showDetails   : PropTypes.bool.isRequired,
-    onMenu        : PropTypes.func.isRequired,
-    onDetails     : PropTypes.func.isRequired,
     avatarUrl     : PropTypes.string,
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,

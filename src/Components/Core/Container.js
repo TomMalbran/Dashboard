@@ -1,6 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Core
+import Store                from "../../Core/Store";
+
 // Components
 import Backdrop             from "../Common/Backdrop";
 
@@ -79,7 +82,10 @@ const Div = Styled.div.attrs(({
  * @returns {React.ReactElement}
  */
 function Container(props) {
-    const { className, children, showMenu, closeMenu, showDetails, closeDetails } = props;
+    const { className, children } = props;
+
+    const { showMenu, showDetails   } = Store.useState("core");
+    const { closeMenu, closeDetails } = Store.useAction("core");
 
     // The current State
     const [ menuTimer,      setMenuTimer      ] = React.useState(null);
@@ -91,6 +97,7 @@ function Container(props) {
     const [ showingDetails, setShowingDetails ] = React.useState(false);
     const [ openingDetails, setOpeningDetails ] = React.useState(false);
     const [ closingDetails, setClosingDetails ] = React.useState(false);
+
 
     // Opens the Menu
     const handleMenuOpen = () => {
@@ -214,12 +221,8 @@ function Container(props) {
  * @type {Object} propTypes
  */
 Container.propTypes = {
-    className    : PropTypes.string,
-    showMenu     : PropTypes.bool,
-    showDetails  : PropTypes.bool,
-    closeMenu    : PropTypes.func,
-    closeDetails : PropTypes.func,
-    children     : PropTypes.any,
+    className : PropTypes.string,
+    children  : PropTypes.any,
 };
 
 /**
@@ -227,9 +230,7 @@ Container.propTypes = {
  * @type {Object} defaultProps
  */
 Container.defaultProps = {
-    className   : "",
-    showMenu    : false,
-    showDetails : false,
+    className : "",
 };
 
 export default Container;

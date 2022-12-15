@@ -25,6 +25,13 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
     const [ data,   setDataInt   ] = React.useState({ ...initialData });
     const [ errors, setErrorsInt ] = React.useState({ ...initialErrors });
 
+    // Reset the Loader
+    React.useEffect(() => {
+        if (!startLoading) {
+            setLoading(false);
+        }
+    }, []);
+
 
     // Starts the Loader
     const startLoader = () => {
