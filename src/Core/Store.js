@@ -1,6 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Core
+import CoreStore             from "./Stores/CoreStore";
+
 
 
 // Variables
@@ -56,10 +59,12 @@ function createSlice(initialState, actions, reducer) {
  * @param {Object} slices
  * @returns {Object}
  */
-function configureStore(slices) {
+function configureStore(slices = {}) {
     const initialState = {};
     const actions      = {};
     const reducers     = {};
+
+    slices.core = CoreStore;
 
     for (const [ prop, slice ] of Object.entries(slices)) {
         initialState[prop] = slice.initialState;
