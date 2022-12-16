@@ -4,6 +4,15 @@ import NLS                  from "../Core/NLS";
 
 
 /**
+ * Returns true if the value is a Boolean
+ * @param {*} value
+ * @returns {Boolean}
+ */
+function isBoolean(value) {
+    return typeof value === "boolean";
+}
+
+/**
  * Returns true if the value is a String
  * @param {*} value
  * @returns {Boolean}
@@ -629,6 +638,7 @@ function getVimeoEmbed(source, showInfo = false) {
 
 // The public API
 export default {
+    isBoolean,
     isString,
     isNumeric,
     isObject,

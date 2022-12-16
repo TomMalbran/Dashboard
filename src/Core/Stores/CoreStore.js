@@ -18,13 +18,21 @@ const initialState = {
 // The Actions
 const actions = {
     /**
-     * Sets the Loading
+     * Starts the Loader
      * @param {Function} dispatch
-     * @param {String}   loading
      * @returns {Void}
      */
-    setLoading(dispatch, loading) {
-        return dispatch({ type : "CORE_LOADING", loading });
+    startLoader(dispatch) {
+        return dispatch({ type : "CORE_LOADING", loading : true });
+    },
+
+    /**
+     * Ends the Loader
+     * @param {Function} dispatch
+     * @returns {Void}
+     */
+    endLoader(dispatch) {
+        return dispatch({ type : "CORE_LOADING", loading : false });
     },
 
     /**

@@ -1,7 +1,8 @@
 import React                from "react";
 
-// Core
+// Core & Utils
 import Store                from "../Core/Store";
+import Utils                from "../Utils/Utils";
 
 
 
@@ -14,8 +15,8 @@ import Store                from "../Core/Store";
  * @returns {Object}
  */
 function useForm(initialData, edit, onSubmit = null, startLoading = true) {
-    const { loading    } = Store.useState("core");
-    const { setLoading } = Store.useAction("core");
+    const { loading                } = Store.useState("core");
+    const { startLoader, endLoader } = Store.useAction("core");
 
     const initialErrors = { form : "" };
     for (const key of Object.keys(initialData)) {
@@ -28,20 +29,9 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
     // Reset the Loader
     React.useEffect(() => {
         if (!startLoading) {
-            setLoading(false);
+            endLoader();
         }
     }, []);
-
-
-    // Starts the Loader
-    const startLoader = () => {
-        setLoading(true);
-    };
-
-    // Ends the Loader
-    const endLoader = () => {
-        setLoading(false);
-    };
 
 
     // Sets the Data
@@ -54,11 +44,6 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
         setDataInt({ ...initialData });
     };
 
-
-    // Returns the Main Error
-    const mainError = () => {
-        return errors.form;
-    };
 
     // Sets the Errors
     const setErrors = (fields) => {
@@ -73,23 +58,17 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
 
     // Sets the Elem
     const setElem = (elem = {}) => {
-        setDataInt({ ...initialData, ...elem });
+        const fields = {};
+        for (const [ key, value ] of Object.entries(initialData)) {
+            if (elem[key] !== undefined) {
+                fields[key] = Utils.isBoolean(elem[key]) ? Number(elem[key]) : elem[key];
+            } else {
+                fields[key] = value;
+            }
+        }
+        setDataInt(fields);
         resetErrors();
-        setLoading(false);
-    };
-
-    // Sets the Position
-    const setPosition = (position) => {
-        setDataInt({ ...initialData, position });
-        resetErrors();
-        setLoading(false);
-    };
-
-    // Resets the Data and Errors
-    const reset = () => {
-        resetData();
-        resetErrors();
-        setLoading(false);
+        endLoader();
     };
 
 
@@ -129,9 +108,8 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
     return {
         loading, startLoader, endLoader,
         data, setData, resetData,
-        errors, mainError, setErrors, resetErrors,
-        setElem, setPosition, reset,
-        handleChange, handleSearch, handleSubmit,
+        errors, setErrors, resetErrors,
+        setElem, handleChange, handleSearch, handleSubmit,
     };
 }
 
