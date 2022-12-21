@@ -15,7 +15,7 @@ import Store                from "../Core/Store";
  * @returns {Object}
  */
 function useDialog(slice, open, elemID, data = null, setElem = null) {
-    const { loading                } = Store.useAction("core");
+    const { loading                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
     const { elem, edition, position  } = Store.useState(slice);
