@@ -9,12 +9,12 @@ import Store                from "../Core/Store";
  * Returns a Hook to use the Dialog Data
  * @param {String}    slice
  * @param {Boolean}   open
- * @param {Number}    elemID
+ * @param {Number=}   elemID
  * @param {Object=}   data
  * @param {Function=} setElem
  * @returns {Object}
  */
-function useDialog(slice, open, elemID, data = null, setElem = null) {
+function useDialog(slice, open, elemID = 0, data = null, setElem = null) {
     const { loading                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
@@ -41,6 +41,8 @@ function useDialog(slice, open, elemID, data = null, setElem = null) {
             } else {
                 setElem();
             }
+        } else {
+            endLoader();
         }
     }, [ open ]);
 
