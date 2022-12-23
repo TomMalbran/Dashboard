@@ -11,12 +11,12 @@ import TableRowCnt          from "../Table/TableRowCnt";
 
 
 // Styles
-const THead = Styled.thead.attrs(({ hasTabs, notFixed }) => ({ hasTabs, notFixed }))`
+const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
     background: var(--light-gray);
     border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--border-radius);
 
     ${(props) => !props.notFixed && "padding-right: 16px;"}
-    ${(props) => !props.hasTabs && "border-top-left-radius: var(--border-radius);"}
 
     @media (max-width: 700px) {
         display: none;
@@ -31,13 +31,13 @@ const THead = Styled.thead.attrs(({ hasTabs, notFixed }) => ({ hasTabs, notFixed
  * @returns {React.ReactElement}
  */
 function TableHead(props) {
-    const { notFixed, hasIDs, hasActions, hasSorting, hasTabs, sort, fetch, columns, children } = props;
+    const { notFixed, hasIDs, hasActions, hasSorting, sort, fetch, columns, children } = props;
 
     const items = Utils.cloneChildren(children, (child) => ({
         hasSorting, sort, fetch, ...columns[child.props.realKey],
     }));
 
-    return <THead hasTabs={hasTabs} notFixed={notFixed}>
+    return <THead notFixed={notFixed}>
         <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
             {items}
             {hasActions && <th />}
@@ -54,7 +54,6 @@ TableHead.propTypes = {
     hasIDs     : PropTypes.bool,
     hasActions : PropTypes.bool,
     hasSorting : PropTypes.bool,
-    hasTabs    : PropTypes.bool,
     fetch      : PropTypes.func,
     sort       : PropTypes.object,
     columns    : PropTypes.array,

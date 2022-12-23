@@ -48,16 +48,16 @@ const DeleteIcon = Styled(ItemIcon)`
 `;
 
 const LightItem = Styled(Item)`
-    height: var(--tabs-table);
+    height: calc(var(--tabs-table) - 8px);
+    margin: 0 8px 8px 0;
     padding: 6px 12px;
     color: var(--title-color);
     background-color: var(--lighter-gray);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
+    border-radius: var(--border-radius);
 
     ${(props) => (!props.isSelected && !props.isDisabled) && `
         &:hover {
-            box-shadow: inset 0 -2px var(--primary-color);
+            box-shadow: inset 0 0 0 2em var(--light-gray);
         }
     `}
     ${(props) => props.isSelected && `

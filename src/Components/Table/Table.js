@@ -184,7 +184,7 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasActions, hasSorting, hasPaging, hasTabs,
+                hasIDs, hasActions, hasSorting, hasPaging,
                 notFixed, rightSpace,
                 handleRowClick, handleMenuOpen,
             }));
