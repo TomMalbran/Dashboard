@@ -29,6 +29,7 @@ const TD = Styled.td`
 
 const Rows = Styled.p`
     margin: 0 8px 0 0;
+
     @media (max-width: 700px) {
         display: none;
     }
@@ -40,13 +41,15 @@ const Pages = Styled.p`
 const PagingInput = Styled(InputField)`
     margin-bottom: 0;
     margin-right: 16px;
-    .input-select {
+
+    & .input-select {
         min-height: 24px;
         line-height: 1;
         font-size: 12px;
         font-weight: normal;
         background-color: var(--lighter-gray);
     }
+
     @media (max-width: 700px) {
         display: none;
     }
