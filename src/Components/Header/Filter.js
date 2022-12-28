@@ -117,6 +117,7 @@ function Filter(props) {
             onChange={handleChange}
             onSubmit={handleClick}
             labelInside={labelInside}
+            hasClear
             shrinkLabel
         />
         <FilterField
@@ -143,6 +144,7 @@ function Filter(props) {
             onChange={handleChange}
             onSubmit={handleClick}
             labelInside={labelInside}
+            hasClear
         />
         <FilterField
             type="date"
@@ -153,6 +155,7 @@ function Filter(props) {
             onChange={handleChange}
             onSubmit={handleClick}
             labelInside={labelInside}
+            hasClear
         />
         <Div labelInside={labelInside}>
             <FilterButton
