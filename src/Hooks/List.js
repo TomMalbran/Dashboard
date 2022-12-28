@@ -27,12 +27,12 @@ function useList(slice, type = "") {
 
     // Fetch the content
     const fetch = (params = data.sort) => {
-        if (type && data.filter) {
-            fetchList(type, elemID, data.filter, params);
+        if (type && data.filters) {
+            fetchList(type, elemID, data.filters, params);
         } else if (type) {
             fetchList(type, elemID, params);
-        } else if (data.filter) {
-            fetchList(data.filter, params);
+        } else if (data.filters) {
+            fetchList(data.filters, params);
         } else {
             fetchList(params);
         }
@@ -56,7 +56,7 @@ function useList(slice, type = "") {
     };
 
 
-
+    // The API
     return { fetch, load, filter };
 }
 
