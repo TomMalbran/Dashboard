@@ -57,6 +57,9 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear
     &.input-textarea, & .input-textarea {
         resize: none;
     }
+    &.input:hover, & .input:hover {
+        border-color: var(--border-color);
+    }
     &.input:focus, & .input:focus {
         outline: none;
         border-color: var(--border-color);

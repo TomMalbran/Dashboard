@@ -18,6 +18,10 @@ const Container = Styled.div`
     width: 100%;
     border: 1px solid var(--lighter-color);
     border-radius: var(--border-radius);
+
+    &:hover {
+        border-color: var(--border-color);
+    }
 `;
 
 const Div = Styled.div`
