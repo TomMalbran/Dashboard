@@ -33,7 +33,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, hasStats, hasTabs, 
     --table-height: ${(props) => props.inDialog ? "calc(var(--full-height) - 32px * 2 - 55px * 2 - 24px * 2 + 72px)" : "calc(var(--full-height) - 24px)"};
     --table-topbar-height: 0px;
     --table-header-height: 27px;
-    --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 16px)" : "0px"};
+    --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 8px)" : "0px"};
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
