@@ -32,7 +32,7 @@ const InputHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
-const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside }) => ({ isSmall, width, labelInside }))`
+const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear }) => ({ isSmall, width, labelInside, withClear }))`
     box-sizing: border-box;
     color: var(--black-color);
     background-color: white;
@@ -47,7 +47,11 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside }) => ({ i
         padding: 4px 8px;
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
-        ${(props) => `min-height: ${props.isSmall ? "calc(var(--input-height) - 7px)" : props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};`}
+
+        ${(props) => `
+            min-height: ${props.isSmall ? "calc(var(--input-height) - 7px)" : props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
+            ${props.withClear ? "padding-right: 32px !important;" : ""}
+        `}
     }
 
     &.input-textarea, & .input-textarea {
@@ -265,6 +269,7 @@ function InputField(props) {
                 isSmall={isSmall}
                 hasLabel={hasLabel}
                 labelInside={labelInside}
+                withClear={withClear}
             />
             {withClear && <InputClear
                 variant="light"
