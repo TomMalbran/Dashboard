@@ -14,7 +14,6 @@ import Icon                 from "../Common/Icon";
 const Container = Styled.div`
     position: relative;
     overflow: hidden;
-    height: var(--input-height);
     width: 100%;
     border: 1px solid var(--lighter-color);
     border-radius: var(--border-radius);
@@ -24,7 +23,7 @@ const Container = Styled.div`
     }
 `;
 
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -32,17 +31,23 @@ const Div = Styled.div`
     font-size: 14px;
     height: var(--input-height);
     padding: 4px 8px;
-    border: 1px dashed var(--input-color);
     color: var(--gray-color);
     cursor: pointer;
+
+    ${(props) => props.hasLabel && props.labelInside && `
+        & {
+            height: calc(var(--input-height) + 7px - 2px);
+            padding-top: 16px !important;
+        }
+    `}
 `;
 
 const FileIcon = Styled(Icon)`
     position: absolute;
-    top: 6px;
+    top: 50%;
     right: 8px;
     font-size: 20px;
-    transform: rotate(45deg);
+    transform: translateY(-50%) rotate(45deg);
 `;
 
 const Placeholder = Styled.span`
@@ -68,7 +73,10 @@ const Input = Styled.input`
  * @returns {React.ReactElement}
  */
 function FileInput(props) {
-    const { className, name, value, placeholder, tabIndex, onChange, onlyImages } = props;
+    const {
+        className, name, value, placeholder, tabIndex, onChange,
+        onlyImages, hasLabel, labelInside,
+    } = props;
 
     const [ fileName, setFileName ] = React.useState(value);
     const inputRef                  = React.useRef();
@@ -86,6 +94,7 @@ function FileInput(props) {
     const handleClick = (e) => {
         const node = inputRef.current;
         if (node) {
+            // @ts-ignore
             node.click();
             e.preventDefault();
         }
@@ -93,9 +102,13 @@ function FileInput(props) {
 
 
     return <Container className={className}>
-        <Div onClick={handleClick}>
+        <Div
+            hasLabel={hasLabel}
+            labelInside={labelInside}
+            onClick={handleClick}
+        >
             {fileName ? fileName : <Placeholder>
-                {NLS.get(placeholder || "GENERAL_SELECT_FILE")}
+                {NLS.get(placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE"))}
             </Placeholder>}
             <FileIcon icon="attachment" />
         </Div>
@@ -122,6 +135,8 @@ FileInput.propTypes = {
     tabIndex    : PropTypes.string,
     onChange    : PropTypes.func.isRequired,
     onlyImages  : PropTypes.bool,
+    hasLabel    : PropTypes.bool,
+    labelInside : PropTypes.bool,
 };
 
 /**
