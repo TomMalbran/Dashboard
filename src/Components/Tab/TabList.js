@@ -61,7 +61,7 @@ function TabList(props) {
     }));
 
     return <Section className={`tabs ${className}`} variant={variant}>
-        <Div size={size}>
+        <Div className="tabs-content" size={size}>
             {items}
         </Div>
         {canAdd && <TabLink

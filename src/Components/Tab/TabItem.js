@@ -104,6 +104,11 @@ const DarkItem = Styled(Item)`
     `}
 `;
 
+const Amount = Styled.span`
+    font-size: 12px;
+    margin-left: 6px;
+`;
+
 // Components
 const Components = {
     [Brightness.LIGHT] : LightItem,
@@ -119,12 +124,13 @@ const Components = {
  */
 function TabItem(props) {
     const {
-        className, variant, message, status, value, index, selected,
+        className, variant, icon, message, amount, status, value, index, selected,
         isDisabled, inHeader, canEdit, canDelete, onAction,
     } = props;
 
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
+    const hasAmount  = amount !== undefined;
     const isSelected = !isDisabled && String(selected) === String(id);
     const canAction  = !isDisabled && onAction;
 
@@ -166,7 +172,8 @@ function TabItem(props) {
             icon="edit"
             onClick={handleEdit}
         />}
-        {NLS.get(message)}
+        {icon ? <Icon icon={icon} /> : NLS.get(message)}
+        {hasAmount && <Amount>{amount}</Amount>}
         {canDelete && canAction && <DeleteIcon
             icon="close"
             onClick={handleDelete}
@@ -186,7 +193,9 @@ TabItem.propTypes = {
     index      : PropTypes.number,
     value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    message    : PropTypes.string.isRequired,
+    icon       : PropTypes.string,
+    message    : PropTypes.string,
+    amount     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
     inHeader   : PropTypes.bool,
