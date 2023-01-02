@@ -108,6 +108,16 @@ const Amount = Styled.span`
     font-size: 12px;
     margin-left: 6px;
 `;
+const Badge = Styled.span`
+    position: absolute;
+    top: 0;
+    right: -4px;
+    padding: 2px 4px;
+    font-size: 10px;
+    color: white;
+    background-color: #ff0033;
+    border-radius: 9999px;
+`;
 
 // Components
 const Components = {
@@ -124,8 +134,8 @@ const Components = {
  */
 function TabItem(props) {
     const {
-        className, variant, icon, message, amount, status, value, index, selected,
-        isDisabled, inHeader, canEdit, canDelete, onAction,
+        className, variant, icon, message, status, value, index, selected,
+        amount, badge, isDisabled, inHeader, canEdit, canDelete, onAction,
     } = props;
 
     const Component  = Components[variant] || LightItem;
@@ -174,6 +184,7 @@ function TabItem(props) {
         />}
         {icon ? <Icon icon={icon} /> : NLS.get(message)}
         {hasAmount && <Amount>{amount}</Amount>}
+        {!!badge && <Badge>{badge}</Badge>}
         {canDelete && canAction && <DeleteIcon
             icon="close"
             onClick={handleDelete}
@@ -196,6 +207,7 @@ TabItem.propTypes = {
     icon       : PropTypes.string,
     message    : PropTypes.string,
     amount     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
     inHeader   : PropTypes.bool,
