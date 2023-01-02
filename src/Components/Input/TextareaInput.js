@@ -13,9 +13,14 @@ import NLS                  from "../../Core/NLS";
  */
 function TextareaInput(props) {
     const {
-        className, id, name, value, placeholder, isDisabled,
-        tabIndex, onChange, onInput, onFocus, onBlur, inputRef,
+        className, id, name, value, placeholder, rows, isDisabled,
+        tabIndex, onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
+        inputRef,
     } = props;
+
+    const minRows = Number(rows) || 1;
+    const [ actualRows, setActualRows ] = React.useState(minRows);
+
 
     // Handles the Input Change
     const handleChange = (e) => {
@@ -32,10 +37,16 @@ function TextareaInput(props) {
 
     // Handles the Textarea Autogrow
     const handleAutogrow = () => {
-        const node = inputRef.current;
-        if (node && node.offsetHeight < node.scrollHeight + 2) {
-            node.style.height = `${node.scrollHeight + 2}px`;
+        const textareaLineHeight = 18;
+        const node     = inputRef.current;
+        const prevRows = node.rows;
+        node.rows = minRows;
+
+        const currentRows = ~~(node.scrollHeight / textareaLineHeight);
+        if (currentRows === prevRows) {
+            node.rows = currentRows;
         }
+        setActualRows(currentRows);
     };
 
     // Resize the Textarea the first time
@@ -53,12 +64,15 @@ function TextareaInput(props) {
         ref={inputRef}
         name={name}
         value={value}
+        rows={actualRows}
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
         onInput={handleInput}
         onChange={handleChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         tabIndex={tabIndex}
     />;
 }
@@ -73,12 +87,15 @@ TextareaInput.propTypes = {
     name        : PropTypes.string.isRequired,
     placeholder : PropTypes.string,
     value       : PropTypes.any,
+    rows        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     isDisabled  : PropTypes.bool,
     tabIndex    : PropTypes.string,
     onChange    : PropTypes.func,
     onInput     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
+    onKeyDown   : PropTypes.func,
+    onKeyUp     : PropTypes.func,
     inputRef    : PropTypes.object,
 };
 

@@ -365,6 +365,7 @@ InputField.propTypes = {
     hasClear        : PropTypes.bool,
     autoFocus       : PropTypes.bool,
     onlyImages      : PropTypes.bool,
+    rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     preType         : PropTypes.string,
     preName         : PropTypes.string,
     preValue        : PropTypes.any,
