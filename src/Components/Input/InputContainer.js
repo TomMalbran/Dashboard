@@ -27,7 +27,6 @@ const Container = Styled.div.attrs(({ fullWidth, smallMargin, noMargin, hasLabel
             padding-top: 8px !important;
         }
         .input-textarea {
-            height: var(--input-height);
             padding-top: 10px !important;
             padding-bottom: 8px !important;
         }
@@ -37,7 +36,6 @@ const Container = Styled.div.attrs(({ fullWidth, smallMargin, noMargin, hasLabel
             padding-top: 16px !important;
         }
         .input-textarea {
-            height: var(--input-height);
             padding-top: 18px !important;
             padding-bottom: 8px !important;
         }
