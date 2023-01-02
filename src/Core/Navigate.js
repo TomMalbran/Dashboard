@@ -5,7 +5,7 @@ import Utils                from "../Utils/Utils";
 
 // Router
 import {
-    useLocation, useParams as useRouterparams, useNavigate as useRouteNavigate,
+    useLocation, useParams as useRouterParams, useNavigate as useRouteNavigate,
 } from "react-router-dom";
 
 // All the params
@@ -31,7 +31,7 @@ function init(params) {
  * @returns {Object}
  */
 function useParams() {
-    const params = useRouterparams();
+    const params = useRouterParams();
     const result = {};
     for (const key of Object.values(paramTypes)) {
         if (!params[key]) {
@@ -82,22 +82,23 @@ function usePath() {
 }
 
 /**
+ * Returns the Parent Path
+ * @param {Number=} levels
+ * @returns {String}
+ */
+function useParent(levels = 1) {
+    const path = usePath();
+    return path.split("/").slice(0, -1 * levels).join("/");
+}
+
+/**
  * Returns the From Path
  * @returns {String}
  */
 function useFrom() {
-    const path = usePath();
-    return path.split("/").slice(0, -2).join("/");
-}
-
-/**
- * Returns the Parent Path
- * @returns {String}
- */
-function useParent() {
     const path   = usePath();
-    const parent = path.split("/").slice(0, -1).join("/");
-    return parent;
+    const levels = /[0-9]+$/.test(path) ? 3 : 2;
+    return useParent(levels);
 }
 
 /**
@@ -106,12 +107,13 @@ function useParent() {
  * @returns {String}
  */
 function useMenuUrl(url) {
-    const route  = NLS.url(url);
-    const path   = usePath();
-    const parent = useParent();
+    const route   = NLS.url(url);
+    const path    = usePath();
+    const parent  = useParent(1);
+    const grandpa = useParent(2);
 
     if (/[0-9]+$/.test(path)) {
-        return `${path}/${route}`;
+        return `${grandpa}/${route}`;
     }
     return `${parent}/${route}`;
 }
@@ -121,7 +123,12 @@ function useMenuUrl(url) {
  * @returns {Function}
  */
 function useSelect() {
-    const path = usePath();
+    let   path   = usePath();
+    const parent = useParent(1);
+    if (/[0-9]+$/.test(path)) {
+        path = parent;
+    }
+
     return (url) => {
         const route = NLS.url(url);
         return path.endsWith(route);
