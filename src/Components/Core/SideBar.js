@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -13,7 +14,8 @@ import Avatar               from "../Avatar/Avatar";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
+const Nav = Styled.nav.attrs(({ variant, withBorder }) => ({ variant, withBorder }))`
+    grid-area: sidebar;
     box-sizing: border-box;
     display: flex;
     flex-shrink: 0;
@@ -22,9 +24,15 @@ const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     align-items: center;
     box-sizing: border-box;
     width: var(--sidebar-width);
-    background-color: var(--secondary-color);
     padding: 16px 0;
-    ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
+
+    ${(props) => props.variant === Brightness.DARK && `
+        background-color: var(--primary-color);
+    `}
+    ${(props) => props.variant === Brightness.DARKER && `
+        background-color: var(--secondary-color);
+    `}
+    ${(props) => props.withBorder && "border-right: 1px solid var(--border-color)"};
 
     @media (max-width: 1000px) {
         display: none;
@@ -39,6 +47,7 @@ const Div = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 8px;
 `;
 
 const Name = Styled.div`
@@ -71,7 +80,7 @@ const SideAvatar = Styled(Avatar)`
  */
 function SideBar(props) {
     const {
-        className, withBorder,
+        className, variant, withBorder,
         logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
@@ -95,21 +104,27 @@ function SideBar(props) {
     };
 
 
-    return <Nav className={`sidebar ${className}`} withBorder={withBorder}>
+    const iconVariant = variant === Brightness.DARK ? Brightness.DARKER : Brightness.DARK;
+
+    return <Nav
+        className={`sidebar ${className}`}
+        variant={variant}
+        withBorder={withBorder}
+    >
         <Div>
-            <SideLogo
+            {!!logo && <SideLogo
                 logo={logo}
                 logoWidth={logoWidth}
                 logoHeight={logoHeight}
                 withLink
-            />
+            />}
             {hasSearch && <BarIcon
-                variant="dark"
+                variant={iconVariant}
                 icon="search"
                 onClick={handleSearch}
             />}
             {hasCreate && <BarIcon
-                variant="dark"
+                variant={iconVariant}
                 icon="add"
                 onClick={handleCreate}
             />}
@@ -118,7 +133,7 @@ function SideBar(props) {
         <Div>
             {!!message && <Name>{NLS.get(message)}</Name>}
             {!!onLogout && <BarIcon
-                variant="dark"
+                variant={iconVariant}
                 icon="logout"
                 onClick={onLogout}
             />}
@@ -140,7 +155,8 @@ function SideBar(props) {
  */
 SideBar.propTypes = {
     className     : PropTypes.string,
-    logo          : PropTypes.string.isRequired,
+    variant       : PropTypes.string,
+    logo          : PropTypes.string,
     logoWidth     : PropTypes.number,
     logoHeight    : PropTypes.number,
     hasSearch     : PropTypes.bool,
@@ -155,6 +171,7 @@ SideBar.propTypes = {
     avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
     withBorder    : PropTypes.bool,
+    withTopBar    : PropTypes.bool,
     children      : PropTypes.any,
 };
 
@@ -164,9 +181,11 @@ SideBar.propTypes = {
  */
 SideBar.defaultProps = {
     className  : "",
+    variant    : Brightness.DARKER,
     hasSearch  : false,
     hasCreate  : false,
     withBorder : false,
+    withTopBar : false,
 };
 
 export default SideBar;

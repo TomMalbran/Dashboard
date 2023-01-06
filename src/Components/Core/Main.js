@@ -5,21 +5,18 @@ import Styled               from "styled-components";
 
 
 // Styles
-const Content = Styled.main.attrs(({ withDetails }) => ({ withDetails }))`
+const Content = Styled.main.attrs(({ withNavigation, withDetails }) => ({ withNavigation, withDetails }))`
+    --main-navigation: ${(props) => props.withNavigation ? "var(--navigation-width)" : "0px"};
+    --main-details: ${(props) => props.withDetails ? "var(--details-width)" : "0px"};
+
     display: flex;
     flex-grow: 2;
     flex-direction: column;
-    height: var(--full-height);
-
-    ${(props) => props.withDetails ? `
-        width: calc(100vw - var(--sidebar-width) - var(--navigation-width) - var(--details-width));
-    ` : `
-        width: calc(100vw - var(--sidebar-width) - var(--navigation-width));
-    `};
+    height: var(--main-height, var(--full-height));
+    width: calc(100vw - var(--sidebar-width) - var(--main-navigation) - var(--main-details));
 
     @media (max-width: 1000px) {
         width: 100vw !important;
-        height: calc(var(--full-height) - var(--topbar-height)) !important;
         overflow: auto;
     }
 `;
@@ -32,9 +29,13 @@ const Content = Styled.main.attrs(({ withDetails }) => ({ withDetails }))`
  * @returns {React.ReactElement}
  */
 function Main(props) {
-    const { className, withDetails, children } = props;
+    const { className, withNavigation, withDetails, children } = props;
 
-    return <Content className={className} withDetails={withDetails}>
+    return <Content
+        className={className}
+        withNavigation={withNavigation}
+        withDetails={withDetails}
+    >
         {children}
     </Content>;
 }
@@ -44,9 +45,10 @@ function Main(props) {
  * @type {Object} propTypes
  */
 Main.propTypes = {
-    className   : PropTypes.string,
-    withDetails : PropTypes.bool,
-    children    : PropTypes.any,
+    className      : PropTypes.string,
+    withNavigation : PropTypes.bool,
+    withDetails    : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**
@@ -54,8 +56,9 @@ Main.propTypes = {
  * @type {Object} defaultProps
  */
 Main.defaultProps = {
-    className   : "",
-    withDetails : false,
+    className      : "",
+    withNavigation : true,
+    withDetails    : false,
 };
 
 export default Main;

@@ -40,9 +40,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     border: 1px solid var(--button-border);
     color: var(--button-font);
     text-transform: uppercase;
-    font-size: ${(props) => props.isSmall ? "11px" : "12px"};
+    font-size: ${(props) => props.isSmall ? "10px" : "12px"};
     padding: ${(props) => props.isSmall ? "4px 8px" : "8px 16px"};
-    width: ${(props) => props.fullWidth ? "100%"    : "auto"};
+    width: ${(props) => props.fullWidth ? "100%" : "auto"};
 
     --button-font: var(--black-color);
     --button-color: var(--black-color);
@@ -74,11 +74,11 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     }
 
     .btn-preicon {
-        font-size: 19px;
+        font-size: ${(props) => props.isSmall ? "15px" : "19px"};
         margin-right: 4px;
     }
     .btn-aftericon {
-        font-size: 19px;
+        font-size: ${(props) => props.isSmall ? "15px" : "19px"};
         margin-left: 4px;
     }
 
@@ -117,7 +117,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
             --button-shadow: var(--primary-color);
         `;
         case Variant.OUTLINED: return `
-            --button-background: transparent;
+            --button-background: white;
             --button-font: var(--primary-color);
             --button-border: var(--primary-color);
             --button-color: white;
@@ -173,7 +173,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
  */
 function Button(props) {
     const {
-        isHidden, className, variant, isDisabled, isSmall, fullWidth,
+        isHidden, passedRef, className, variant, isDisabled, isSmall, fullWidth,
         icon, afterIcon, message, children,
     } = props;
 
@@ -187,6 +187,7 @@ function Button(props) {
     const withIcon = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
 
     return <Btn
+        ref={passedRef}
         className={`btn ${className}`}
         variant={variant}
         disabled={isDisabled}
@@ -207,6 +208,7 @@ function Button(props) {
  */
 Button.propTypes = {
     isHidden   : PropTypes.bool,
+    passedRef  : PropTypes.any,
     className  : PropTypes.string,
     message    : PropTypes.string,
     variant    : PropTypes.string.isRequired,
@@ -219,6 +221,7 @@ Button.propTypes = {
     isEmail    : PropTypes.bool,
     isPhone    : PropTypes.bool,
     isWhatsApp : PropTypes.bool,
+    propagate  : PropTypes.bool,
     icon       : PropTypes.string,
     afterIcon  : PropTypes.string,
     onClick    : PropTypes.func,
@@ -241,6 +244,7 @@ Button.defaultProps = {
     isEmail    : false,
     isPhone    : false,
     isWhatsApp : false,
+    propagate  : false,
 };
 
 export default Button;

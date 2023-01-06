@@ -25,13 +25,7 @@ const Wrapper = Styled.div`
 `;
 
 const Container = Styled.table.attrs(({ inDialog, hasFilter, hasStats, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, hasStats, hasTabs, hasAlert, hasPaging }))`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    table-layout: fixed;
-
-    --table-height: ${(props) => props.inDialog ? "calc(var(--full-height) - 32px * 2 - 55px * 2 - 24px * 2 + 72px)" : "calc(var(--full-height) - 24px)"};
-    --table-topbar-height: 0px;
+    --table-height: ${(props) => props.inDialog ? "calc(var(--full-height) - 32px * 2 - 55px * 2 - 24px * 2 + 72px)" : "calc(var(--main-height) - 24px)"};
     --table-header-height: 27px;
     --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 8px)" : "0px"};
     --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
@@ -39,9 +33,11 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, hasStats, hasTabs, 
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
 
-    @media (max-width: 1000px) {
-        --table-topbar-height: var(--topbar-height);
-    }
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    table-layout: fixed;
+
     @media (max-width: 700px) {
         --table-header-height: 0px;
     }

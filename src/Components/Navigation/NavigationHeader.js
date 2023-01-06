@@ -14,7 +14,7 @@ const Header = Styled.header`
     align-items: center;
     box-sizing: border-box;
     min-height: var(--header-height);
-    padding: 18px 12px 10px 8px;
+    padding: 12px 12px 10px 8px;
 `;
 
 const Img = Styled.img`

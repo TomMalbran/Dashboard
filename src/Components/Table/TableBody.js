@@ -20,7 +20,6 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
         overflow-x: auto;
         height: calc(
             var(--table-height)
-            - var(--table-topbar-height)
             - var(--header-height)
             - var(--table-header-height)
             - var(--table-paging-height)

@@ -42,11 +42,11 @@ const Img = Styled.img`
  */
 function Avatar(props) {
     const {
-        className, size, name, email, avatar, edition, withReload,
+        passedRef, className, size, name, email, avatar, edition, withReload,
         url, href, target, onClick,
     } = props;
 
-    const hasClick = Boolean(url || href);
+    const hasClick = Boolean(url || href || onClick);
     const uri      = url ? NLS.baseUrl(url) : href;
     const navigate = Navigate.useUrl(uri, target);
 
@@ -82,6 +82,7 @@ function Avatar(props) {
 
 
     return <Div
+        ref={passedRef}
         className={className}
         size={size}
         hasClick={hasClick}
@@ -96,6 +97,7 @@ function Avatar(props) {
  * @typedef {Object} propTypes
  */
 Avatar.propTypes = {
+    passedRef  : PropTypes.any,
     className  : PropTypes.string,
     size       : PropTypes.number,
     name       : PropTypes.string,

@@ -87,8 +87,11 @@ function Menu(props) {
 
     // Set the position
     if (hasStyles) {
-        if (left) {
-            left = (direction === "left") ? left - width : left;
+        if (top && direction.includes("top")) {
+            top -= height;
+        }
+        if (left && direction.includes("left")) {
+            left -= width;
         }
 
         if (containerRef && width) {

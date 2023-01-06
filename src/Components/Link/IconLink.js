@@ -93,6 +93,7 @@ function IconLink(props) {
  */
 IconLink.propTypes = {
     isHidden   : PropTypes.bool,
+    passedRef  : PropTypes.any,
     className  : PropTypes.string,
     variant    : PropTypes.string,
     icon       : PropTypes.string,
@@ -107,7 +108,6 @@ IconLink.propTypes = {
     isDisabled : PropTypes.bool,
     isSmall    : PropTypes.bool,
     dontStop   : PropTypes.bool,
-    passedRef  : PropTypes.any,
     children   : PropTypes.any,
 };
 

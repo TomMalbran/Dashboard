@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 
 // Core
 import Store                from "../../Core/Store";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import Backdrop             from "../Common/Backdrop";
@@ -39,17 +40,31 @@ const detailsClose = keyframes`
 
 // Styles
 const Div = Styled.div.attrs(({
-    showingMenu, openingMenu, closingMenu,
+    withTopBar, showingMenu, openingMenu, closingMenu,
     showingDetails, openingDetails, closingDetails,
 }) => ({
-    showingMenu, openingMenu, closingMenu,
+    withTopBar, showingMenu, openingMenu, closingMenu,
     showingDetails, openingDetails, closingDetails,
 }))`
-    display: flex;
     height: var(--full-height);
     width: 100vw;
 
+    ${(props) => props.withTopBar ? `
+        --main-height: calc(var(--full-height) - var(--topbar-height));
+        display: grid;
+        grid-template-areas:
+            "sidebar topbar"
+            "sidebar inside";
+        grid-template-columns: var(--sidebar-width) 1fr;
+    ` : `
+        --main-height: var(--full-height);
+        display: flex;
+    `}
+
     @media (max-width: 1000px) {
+        --main-height: calc(var(--full-height) - var(--topbar-height));
+
+        display: flex;
         flex-direction: column;
 
         ${(props) => props.showingMenu && `
@@ -82,7 +97,7 @@ const Div = Styled.div.attrs(({
  * @returns {React.ReactElement}
  */
 function Container(props) {
-    const { className, children } = props;
+    const { className, withTopBar, children } = props;
 
     const { showMenu, showDetails   } = Store.useState("core");
     const { closeMenu, closeDetails } = Store.useAction("core");
@@ -199,8 +214,11 @@ function Container(props) {
     }, [ showDetails ]);
 
 
+    const items = Utils.cloneChildren(children, () => ({ withTopBar }));
+
     return <Div
         className={className}
+        withTopBar={withTopBar}
         showingMenu={showingMenu}
         openingMenu={openingMenu}
         closingMenu={closingMenu}
@@ -208,7 +226,7 @@ function Container(props) {
         openingDetails={openingDetails}
         closingDetails={closingDetails}
     >
-        {children}
+        {items}
         <Backdrop
             open={showingMenu || showingDetails}
             onClick={handleClose}
@@ -221,8 +239,9 @@ function Container(props) {
  * @type {Object} propTypes
  */
 Container.propTypes = {
-    className : PropTypes.string,
-    children  : PropTypes.any,
+    className  : PropTypes.string,
+    withTopBar : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
