@@ -24,7 +24,8 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
     background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.31) 0px 0px 1px;
-    z-index: 1;
+    overflow: hidden;
+    z-index: var(--z-menu);
 
     ${(props) => props.isOpen  && "display: block;"}
     ${(props) => props.withPos && "transform: none;"}
@@ -42,12 +43,12 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        selected, onAction, onClose, children,
+        selected, bottom, onAction, onClose, forRef, children,
     } = props;
     let { top, left, right } = props;
 
     const menuRef   = React.useRef();
-    const hasStyles = top && (left || right);
+    const hasStyles = (top || bottom) && (left || right);
     const style     = {};
 
     // The State
@@ -57,15 +58,18 @@ function Menu(props) {
 
     // Close the Menu
     const handleClose = (e) => {
-        if (open && menuRef.current) {
-            const bounds = Utils.getBounds(menuRef);
-            if (e.clientX < bounds.left || e.clientX > bounds.right ||
-                e.clientY < bounds.top  || e.clientY > bounds.bottom) {
-                onClose();
-                e.stopPropagation();
-                e.preventDefault();
-            }
+        if (!open) {
+            return;
         }
+        if (forRef && Utils.inRef(e.clientX, e.clientY, forRef)) {
+            return;
+        }
+        if (menuRef && Utils.inRef(e.clientX, e.clientY, menuRef)) {
+            return;
+        }
+        onClose();
+        e.stopPropagation();
+        e.preventDefault();
     };
 
     // Save the Width and add the Close handler
@@ -100,11 +104,14 @@ function Menu(props) {
             }
         }
 
-        style.top = `${top}px`;
+        if (top) {
+            style.top = `${top}px`;
+        } else if (bottom) {
+            style.bottom = `${bottom}px`;
+        }
         if (left) {
             style.left = `${left}px`;
-        }
-        if (right) {
+        } else if (right) {
             style.right = `${right}px`;
         }
     }
@@ -141,12 +148,14 @@ Menu.propTypes = {
     className    : PropTypes.string,
     direction    : PropTypes.string,
     top          : PropTypes.number,
+    bottom       : PropTypes.number,
     left         : PropTypes.number,
     right        : PropTypes.number,
     iconHeight   : PropTypes.number,
     selected     : PropTypes.number,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
+    forRef       : PropTypes.any,
     children     : PropTypes.any,
 };
 

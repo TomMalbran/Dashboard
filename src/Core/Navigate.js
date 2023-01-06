@@ -129,8 +129,11 @@ function useSelect() {
         path = parent;
     }
 
-    return (url) => {
+    return (url, startsWith) => {
         const route = NLS.url(url);
+        if (startsWith) {
+            return path.startsWith(`/${route}`);
+        }
         return path.endsWith(route);
     };
 }
@@ -259,7 +262,7 @@ function useUrl(url, target) {
  * @returns {React.MouseEventHandler}
  */
 function useClick(props) {
-    const { target, onClick, isPhone, isEmail, isWhatsApp } = props;
+    const { target, onClick, isPhone, isEmail, isWhatsApp, propagate } = props;
     const url      = getUrl(props);
     const navigate = useUrl(url, target);
 
@@ -272,7 +275,9 @@ function useClick(props) {
         } else {
             navigate();
         }
-        e.stopPropagation();
+        if (!propagate) {
+            e.stopPropagation();
+        }
         e.preventDefault();
     };
 }

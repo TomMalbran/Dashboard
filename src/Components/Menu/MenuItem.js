@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import Action               from "../../Core/Action";
+import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -42,13 +43,22 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
  * @returns {React.ReactElement}
  */
 function MenuItem(props) {
-    const { className, action, icon, message, isDisabled, isSelected, onAction, onClick, onClose } = props;
-    const act = Action.get(action);
-    const icn = icon    || act.icon;
-    const cnt = message || act.message;
+    const {
+        className, action, icon, message, url, href, target,
+        isDisabled, isSelected, onAction, onClick, onClose,
+    } = props;
+
+    const act      = Action.get(action);
+    const icn      = icon    || act.icon;
+    const content  = message || act.message;
+    const uri      = url ? NLS.baseUrl(url) : href;
+    const navigate = Navigate.useUrl(uri, target);
 
     // Handles the Click
     const handleClick = (e) => {
+        if (url) {
+            navigate();
+        }
         if (onAction) {
             onAction(act);
         } else if (onClick) {
@@ -61,6 +71,7 @@ function MenuItem(props) {
         e.stopPropagation();
     };
 
+
     return <Li
         className={className}
         isSelected={!isDisabled && isSelected}
@@ -68,7 +79,7 @@ function MenuItem(props) {
         onClick={handleClick}
     >
         {!!icn && <Icon icon={icn} />}
-        {NLS.get(cnt)}
+        {NLS.get(content)}
     </Li>;
 }
 
@@ -81,6 +92,9 @@ MenuItem.propTypes = {
     action     : PropTypes.string,
     icon       : PropTypes.string,
     message    : PropTypes.string,
+    url        : PropTypes.string,
+    href       : PropTypes.string,
+    target     : PropTypes.string,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
     onAction   : PropTypes.func,
@@ -94,6 +108,7 @@ MenuItem.propTypes = {
  */
 MenuItem.defaultProps = {
     className  : "",
+    target     : "_self",
     isDisabled : false,
     isSelected : false,
 };

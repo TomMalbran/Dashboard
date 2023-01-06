@@ -106,6 +106,22 @@ function inBounds(x, y, bounds, scrollTop = 0) {
 }
 
 /**
+ * Returns true if the given Point is in the Bounds
+ * @param {Number}                       x
+ * @param {Number}                       y
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {Number=}                      scrollTop
+ * @returns {Boolean}
+ */
+function inRef(x, y, ref, scrollTop = 0) {
+    const bounds = getBounds(ref);
+    return (
+        y > bounds.top - scrollTop && y < bounds.bottom &&
+        x > bounds.left && x < bounds.right
+    );
+}
+
+/**
  * Returns true if something is Selected
  * @returns {Boolean}
  */
@@ -648,6 +664,7 @@ export default {
     clamp,
     getBounds,
     inBounds,
+    inRef,
     hasSelection,
     unselectAll,
     createSlug,
