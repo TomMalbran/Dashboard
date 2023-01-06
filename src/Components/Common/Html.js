@@ -35,9 +35,9 @@ function Html(props) {
 
     if (linkify) {
         __html = __html
-            .replace(urlPattern, '<a href="$&">$&</a>')
-            .replace(pseudoUrlPattern, '$1<a href="http://$2">$2</a>')
-            .replace(emailAddressPattern, '<a href="mailto:$&">$&</a>');
+            .replace(urlPattern, '<a href="$&" target="_blank">$&</a>')
+            .replace(pseudoUrlPattern, '$1<a href="http://$2" target="_blank">$2</a>')
+            .replace(emailAddressPattern, '<a href="mailto:$&" target="_blank">$&</a>');
     }
     if (addBreaks) {
         __html = __html.replace(/\n/g, "<br />");
