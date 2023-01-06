@@ -17,7 +17,8 @@ function ActionOption() {
  */
 ActionOption.propTypes = {
     isHidden : PropTypes.bool,
-    action   : PropTypes.string.isRequired,
+    action   : PropTypes.string,
+    value    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     message  : PropTypes.string,
     icon     : PropTypes.string,
 };

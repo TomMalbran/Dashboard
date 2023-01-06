@@ -16,13 +16,13 @@ import MenuItem             from "../Menu/MenuItem";
 
 
 // Styles
-const Li = Styled.li`
+const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
     &:not(:last-child) {
         margin-right: 8px;
     }
-    .btn {
+    ${(props) => !props.isSmall && `.btn {
         font-size: 12px;
-    }
+    }`}
 `;
 
 
@@ -33,9 +33,13 @@ const Li = Styled.li`
  * @returns {React.ReactElement}
  */
 function ActionItem(props) {
-    const { action, message, icon, onAction, children } = props;
+    const {
+        action, variant, isSmall, message, icon,
+        onClick, onAction, direction, children,
+    } = props;
 
     // References
+    const buttonRef = React.useRef();
     const actionRef = React.useRef();
 
     // State
@@ -62,10 +66,21 @@ function ActionItem(props) {
         if (showMenu) {
             const bounds = Utils.getBounds(actionRef);
             setMenuTop(bounds.bottom);
-            setMenuLeft(bounds.right);
-            setMenuOpen(true);
-        } else {
+            setMenuLeft(direction.includes("right") ? bounds.left : bounds.right);
+            setMenuOpen(!menuOpen);
+        } else if (onClick) {
+            onClick();
+        } else if (onAction) {
             onAction(act);
+        }
+    };
+
+    // Handles the Menu Click
+    const handleMenuClick = (elem) => {
+        if (onClick) {
+            onClick(elem.value);
+        } else if (onAction) {
+            onAction(elem.act);
         }
     };
 
@@ -75,30 +90,34 @@ function ActionItem(props) {
     };
 
 
-    if (!showMenu && !action) {
+    if (!showMenu && !action && !onClick) {
         return <React.Fragment />;
     }
     const act = Action.get(action);
 
-    return <Li ref={actionRef}>
+    return <Li ref={actionRef} isSmall={isSmall}>
         <Button
-            variant="outlined"
+            passedRef={buttonRef}
+            variant={variant}
             message={NLS.get(message || act.message)}
             icon={icon || act.icon}
             onClick={() => handleClick()}
+            isSmall={isSmall}
+            propagate
         />
         {showMenu && <Menu
+            forRef={buttonRef}
             open={menuOpen}
             top={menuTop}
             left={menuLeft}
-            direction="left"
+            direction={direction}
             onClose={handleMenuClose}
         >
             {actions.map((elem, index) => <MenuItem
                 key={index}
                 icon={elem.icon || elem.act.icon}
                 message={elem.message || elem.act.message}
-                onClick={() => onAction(elem.act)}
+                onClick={() => handleMenuClick(elem)}
             />)}
         </Menu>}
     </Li>;
@@ -109,12 +128,16 @@ function ActionItem(props) {
  * @type {Object} propTypes
  */
 ActionItem.propTypes = {
-    isHidden : PropTypes.bool,
-    action   : PropTypes.string,
-    message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    icon     : PropTypes.string,
-    onAction : PropTypes.func,
-    children : PropTypes.any,
+    isHidden  : PropTypes.bool,
+    variant   : PropTypes.string,
+    isSmall   : PropTypes.bool,
+    action    : PropTypes.string,
+    message   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    icon      : PropTypes.string,
+    onClick   : PropTypes.func,
+    onAction  : PropTypes.func,
+    direction : PropTypes.string,
+    children  : PropTypes.any,
 };
 
 /**
@@ -122,7 +145,10 @@ ActionItem.propTypes = {
  * @type {Object} defaultProps
  */
 ActionItem.defaultProps = {
-    isHidden : false,
+    isHidden  : false,
+    variant   : "outlined",
+    isSmall   : false,
+    direction : "left",
 };
 
 export default ActionItem;
