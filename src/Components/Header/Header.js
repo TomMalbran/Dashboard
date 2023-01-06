@@ -12,23 +12,31 @@ import Title                from "../Header/Title";
 
 
 // Styles
-const Container = Styled.header`
+const Container = Styled.header.attrs(({ showBreadcrumbs }) => ({ showBreadcrumbs }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
     height: var(--header-height);
-    padding: 8px 24px 8px 24px;
+    padding: ${(props) => props.showBreadcrumbs ? "8px 24px" : "12px 24px"};
     flex-shrink: 0;
     background-color: white;
 `;
-
-const Div = Styled.div`
+const Content = Styled.div`
     flex-grow: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+const Child = Styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .tab-item {
+        margin-bottom: 0;
+    }
 `;
 
 
@@ -43,16 +51,18 @@ function Header(props) {
 
     const route = Navigate.usePath();
 
-    return <Container className={className}>
+    return <Container className={className} showBreadcrumbs={showBreadcrumbs}>
         {showBreadcrumbs && <Breadcrumb route={route} />}
-        <Div>
+        <Content>
             <Title
                 icon={icon}
                 message={message}
                 fallback={fallback}
             />
-            {children}
-        </Div>
+            <Child>
+                {children}
+            </Child>
+        </Content>
     </Container>;
 }
 
@@ -75,7 +85,7 @@ Header.propTypes = {
  */
 Header.defaultProps = {
     className       : "",
-    showBreadcrumbs : true,
+    showBreadcrumbs : false,
 };
 
 export default Header;
