@@ -12,7 +12,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section.attrs(({ topSpace }) => ({ topSpace }))`
+const Section = Styled.section.attrs(({ isInside, topSpace }) => ({ isInside, topSpace }))`
     flex-shrink: 0;
     box-sizing: border-box;
     width: var(--details-width);
@@ -20,6 +20,7 @@ const Section = Styled.section.attrs(({ topSpace }) => ({ topSpace }))`
     padding: 16px;
     overflow: auto;
 
+    ${(props) => props.isInside ? "border-radius: var(--border-radius);" : ""}
     ${(props) => props.topSpace ? `padding-top: ${props.topSpace}px;` : ""}
 
     @media (max-width: 1000px) {
@@ -59,21 +60,25 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, topSpace, isLoading, hasError, error, children } = props;
+    const { className, isInside, topSpace, isLoading, isEmpty, hasError, error, children } = props;
 
     const { setDetails } = Store.useAction("core");
 
     // Set/Unset the Details on Load/Unload
     React.useEffect(() => {
-        setDetails(true);
+        setDetails(!isInside);
         return () => setDetails(false);
     }, []);
 
 
     const showError   = !isLoading && hasError;
-    const showContent = !isLoading && !hasError;
+    const showContent = !isLoading && !hasError && !isEmpty;
 
-    return <Section className={`details light-scrollbars ${className}`} topSpace={topSpace}>
+    return <Section
+        className={`details light-scrollbars ${className}`}
+        isInside={isInside}
+        topSpace={topSpace}
+    >
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
         {showContent && children}
@@ -86,8 +91,10 @@ function Details(props) {
  */
 Details.propTypes = {
     className : PropTypes.string,
+    isInside  : PropTypes.bool,
     topSpace  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     isLoading : PropTypes.bool,
+    isEmpty   : PropTypes.bool,
     hasError  : PropTypes.bool,
     error     : PropTypes.string,
     children  : PropTypes.any,
@@ -99,7 +106,9 @@ Details.propTypes = {
  */
 Details.defaultProps = {
     className : "",
+    isInside  : false,
     isLoading : false,
+    isEmpty   : false,
     hasError  : false,
 };
 
