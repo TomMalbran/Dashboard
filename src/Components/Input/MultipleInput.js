@@ -31,7 +31,10 @@ const Container = Styled.div.attrs(({ labelInside }) => ({ labelInside }))`
  * @returns {React.ReactElement}
  */
 function MultipleInput(props) {
-    const { className, name, value, options, tabIndex, labelInside, onChange } = props;
+    const {
+        className, name, value, options, withNone, noneText,
+        tabIndex, labelInside, onChange,
+    } = props;
 
     const isSelect = !Array.isArray(options);
     const items    = isSelect ? NLS.select(options) : options;
@@ -52,6 +55,15 @@ function MultipleInput(props) {
 
 
     return <Container className={className} labelInside={labelInside}>
+        {withNone && <CheckboxInput
+            key={0}
+            name={name}
+            value={0}
+            label={NLS.get(noneText)}
+            isChecked={value ? value.indexOf(0) > -1 : false}
+            onChange={(name, isChecked) => handleChange(isChecked, 0, value)}
+            tabIndex={tabIndex}
+        />}
         {items.map(({ key, value : val }) => <CheckboxInput
             key={key}
             name={name}
@@ -73,6 +85,8 @@ MultipleInput.propTypes = {
     name        : PropTypes.string.isRequired,
     value       : PropTypes.any,
     options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone    : PropTypes.bool,
+    noneText    : PropTypes.string,
     tabIndex    : PropTypes.string,
     labelInside : PropTypes.bool,
     onChange    : PropTypes.func.isRequired,
@@ -84,6 +98,8 @@ MultipleInput.propTypes = {
  */
 MultipleInput.defaultProps = {
     className : "",
+    withNone  : false,
+    noneText  : "",
 };
 
 export default MultipleInput;
