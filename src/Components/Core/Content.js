@@ -14,10 +14,16 @@ import TabList              from "../Tab/TabList";
 
 
 // Styles
-const Section = Styled.section`
+const Section = Styled.section.attrs(({ withDetails }) => ({ withDetails }))`
     flex-grow: 1;
     padding: 0 24px 24px;
     overflow: auto;
+
+    ${(props) => props.withDetails && `
+        display: grid;
+        grid-template-columns: 1fr var(--details-width);
+        gap: 16px;
+    `}
 `;
 
 
@@ -28,7 +34,7 @@ const Section = Styled.section`
  * @returns {React.ReactElement}
  */
 function Content(props) {
-    const { className, isLoading, passedRef, children } = props;
+    const { className, isLoading, passedRef, withDetails, children } = props;
 
     if (isLoading) {
         return <Section className={className} ref={passedRef}>
@@ -58,7 +64,7 @@ function Content(props) {
         }
     }
 
-    return <Section className={className} ref={passedRef}>
+    return <Section className={className} ref={passedRef} withDetails={withDetails}>
         {items}
     </Section>;
 }
@@ -68,10 +74,11 @@ function Content(props) {
  * @type {Object} propTypes
  */
 Content.propTypes = {
-    className : PropTypes.string,
-    isLoading : PropTypes.bool,
-    passedRef : PropTypes.any,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    isLoading   : PropTypes.bool,
+    passedRef   : PropTypes.any,
+    withDetails : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -79,8 +86,9 @@ Content.propTypes = {
  * @type {Object} defaultProps
  */
 Content.defaultProps = {
-    className : "",
-    isLoading : false,
+    className   : "",
+    isLoading   : false,
+    withDetails : false,
 };
 
 export default Content;
