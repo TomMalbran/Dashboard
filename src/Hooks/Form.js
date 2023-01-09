@@ -92,10 +92,10 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
         startLoader();
         resetErrors();
         try {
-            await edit(data);
+            const response = await edit(data);
             endLoader();
             if (onSubmit) {
-                onSubmit();
+                onSubmit(response);
             }
         } catch (errors) {
             endLoader();
