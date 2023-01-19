@@ -13,10 +13,12 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, isDisabled, isSmall }))`
+    --link-size: 32px;
+
     display: block;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
+    width: var(--link-size);
+    height: var(--link-size);
+    line-height: var(--link-size);
     font-size: ${(props) => props.isSmall ? "16px" : "24px"};
     text-align: center;
     border-radius: 50%;
@@ -40,11 +42,11 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     `}
     ${(props) => props.variant === Brightness.DARK && `
         --link-color: white;
-        --link-background: var(--primary-color);;
+        --link-background: var(--primary-color);
     `}
     ${(props) => props.variant === Brightness.DARKER && `
         --link-color: white;
-        --link-background: var(--secondary-color);;
+        --link-background: var(--secondary-color);
     `}
 
     ${(props) => props.isDisabled && `
