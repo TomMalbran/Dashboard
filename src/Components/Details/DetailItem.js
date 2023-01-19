@@ -61,7 +61,7 @@ function DetailItem(props) {
 
     const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
     let   content = message ? NLS.get(String(message)) : "";
-    const isHtml  = content.includes("\n");
+    const isHtml  = content.includes("\n") || content.includes("</b>") || content.includes("</span>");
 
     if (showAlways && !message) {
         content = String(message);
