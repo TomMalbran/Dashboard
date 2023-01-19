@@ -114,7 +114,7 @@ const Text = Styled.div`
  * @returns {React.ReactElement}
  */
 function CircularLoader(props) {
-    const { className, variant, withSpacing, top } = props;
+    const { className, variant, message, withSpacing, top } = props;
 
     return <Div
         className={className}
@@ -128,7 +128,7 @@ function CircularLoader(props) {
             <div />
             <div />
         </Ring>
-        <Text>{NLS.get("GENERAL_LOADING")}</Text>
+        <Text>{NLS.get(message)}</Text>
     </Div>;
 }
 
@@ -139,6 +139,7 @@ function CircularLoader(props) {
 CircularLoader.propTypes = {
     variant     : PropTypes.string,
     className   : PropTypes.string,
+    message     : PropTypes.string,
     withSpacing : PropTypes.bool,
     top         : PropTypes.number,
 };
@@ -150,6 +151,7 @@ CircularLoader.propTypes = {
 CircularLoader.defaultProps = {
     variant     : Variant.PRIMARY,
     className   : "",
+    message     : "GENERAL_LOADING",
     withSpacing : false,
     top         : 0,
 };
