@@ -134,7 +134,7 @@ function InputField(props) {
         button, onClick, error, helperText, withLabel, onChange, onSearch, onInput, onSuggest, onBlur,
         fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
         preType, preName, preValue, preOptions, preWithNone, preNoneText, prePlaceholder, preWidth,
-        suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear,
+        suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear, onClear,
     } = props;
 
     const inputRef   = React.useRef();
@@ -191,6 +191,9 @@ function InputField(props) {
             suggestRef.current.clear();
         } else {
             handleChange(name, "");
+        }
+        if (onClear) {
+            onClear(name);
         }
     };
 
@@ -310,6 +313,7 @@ function InputField(props) {
  * @typedef {Object} propTypes
  */
 InputField.propTypes = {
+    passedRef       : PropTypes.any,
     isHidden        : PropTypes.bool,
     className       : PropTypes.string,
     id              : PropTypes.string,
@@ -363,6 +367,7 @@ InputField.propTypes = {
     customText      : PropTypes.string,
     customKey       : PropTypes.string,
     hasClear        : PropTypes.bool,
+    onClear         : PropTypes.func,
     autoFocus       : PropTypes.bool,
     onlyImages      : PropTypes.bool,
     rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
