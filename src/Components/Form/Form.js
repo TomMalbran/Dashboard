@@ -33,7 +33,7 @@ function Form(props) {
 
 
     return <div className={className}>
-        <Alert variant="error" message={error} />
+        <Alert variant="error" message={error} noClose />
         {items}
     </div>;
 }
