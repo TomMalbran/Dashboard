@@ -47,7 +47,7 @@ const Child = Styled.div`
  * @returns {React.ReactElement}
  */
 function Header(props) {
-    const { className, icon, message, fallback, showBreadcrumbs, children } = props;
+    const { className, icon, message, fallback, href, showBreadcrumbs, children } = props;
 
     const route = Navigate.usePath();
 
@@ -58,6 +58,7 @@ function Header(props) {
                 icon={icon}
                 message={message}
                 fallback={fallback}
+                href={href}
             />
             <Child>
                 {children}
@@ -75,6 +76,7 @@ Header.propTypes = {
     icon            : PropTypes.string.isRequired,
     message         : PropTypes.string.isRequired,
     fallback        : PropTypes.string,
+    href            : PropTypes.string,
     showBreadcrumbs : PropTypes.bool,
     children        : PropTypes.any,
 };

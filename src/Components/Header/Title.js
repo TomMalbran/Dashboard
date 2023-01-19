@@ -6,6 +6,7 @@ import Styled               from "styled-components";
 import NLS                  from "../../Core/NLS";
 
 // Components
+import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 
 
@@ -14,6 +15,7 @@ import Icon                 from "../Common/Icon";
 const H2 = Styled.h2`
     display: flex;
     align-items: center;
+    gap: 8px;
     margin: 0;
     color: var(--title-color);
     font-family: var(--title-font);
@@ -22,14 +24,13 @@ const H2 = Styled.h2`
     line-height: 1.2;
     letter-spacing: 1px;
 
-    .icon {
-        margin-right: 8px;
-    }
-
     @media (max-width: 500px) {
         font-size: 20px;
         line-height: 1;
     }
+`;
+const Link = Styled(IconLink)`
+    flex-shrink: 0;
 `;
 
 
@@ -40,10 +41,16 @@ const H2 = Styled.h2`
  * @returns {React.ReactElement}
  */
 function Title(props) {
-    const { icon, message, fallback } = props;
+    const { icon, message, fallback, href } = props;
 
     return <H2 className="title">
-        <Icon icon={icon} />
+        {href ? <Link
+            variant="light"
+            icon="back"
+            href={href}
+        /> : <Icon
+            icon={icon}
+        />}
         {message ? NLS.get(message) : NLS.get(fallback)}
     </H2>;
 }
@@ -56,6 +63,7 @@ Title.propTypes = {
     icon     : PropTypes.string.isRequired,
     message  : PropTypes.string,
     fallback : PropTypes.string,
+    href     : PropTypes.string,
 };
 
 export default Title;
