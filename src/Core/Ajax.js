@@ -21,18 +21,21 @@ function init(onResult) {
 /**
  * Fetch wrapper
  * @throws {Object|String} The errors
- * @param {URL}      url
- * @param {Object=}  options
- * @param {Boolean=} showResult
+ * @param {URL}              url
+ * @param {Object=}          options
+ * @param {Boolean=}         showResult
+ * @param {AbortController=} abortController
  * @returns {Promise}
  */
-async function ajax(url, options = {}, showResult = true) {
+async function ajax(url, options = {}, showResult = true, abortController = null) {
     let response   = null;
     let result     = null;
     const defError = { "form" : "GENERAL_ERROR" };
 
     // To be able to Abort
-    if (window.AbortController) {
+    if (abortController) {
+        options.signal = abortController.signal;
+    } else if (window.AbortController) {
         controller     = new window.AbortController();
         options.signal = controller.signal;
     }
@@ -167,17 +170,18 @@ function addUrlParams(url, params = {}, addToken = true, addTimezone = false) {
 
 /**
  * Does a Get
- * @param {String}   route
- * @param {Object=}  params
- * @param {Boolean=} showResult
+ * @param {String}           route
+ * @param {Object=}          params
+ * @param {Boolean=}         showResult
+ * @param {AbortController=} abortController
  * @returns {Promise}
  */
-async function get(route, params = {}, showResult = true) {
+async function get(route, params = {}, showResult = true, abortController = null) {
     const url = createUrl(route, params, true, true);
     let result;
 
     try {
-        result = await ajax(url, {}, showResult);
+        result = await ajax(url, {}, showResult, abortController);
     } catch(e) {
         result = { error : true };
     }
@@ -186,12 +190,13 @@ async function get(route, params = {}, showResult = true) {
 
 /**
  * Does a Post
- * @param {String}   route
- * @param {Object=}  params
- * @param {Boolean=} showResult
+ * @param {String}           route
+ * @param {Object=}          params
+ * @param {Boolean=}         showResult
+ * @param {AbortController=} abortController
  * @returns {Promise}
  */
-function post(route, params = {}, showResult = true) {
+function post(route, params = {}, showResult = true, abortController = null) {
     const url      = baseUrl(route);
     const token    = Auth.getToken();
     const timezone = Auth.getTimezone();
@@ -206,7 +211,7 @@ function post(route, params = {}, showResult = true) {
     if (timezone) {
         body.append("timezone", timezone);
     }
-    return ajax(url, { method : "post", body }, showResult);
+    return ajax(url, { method : "post", body }, showResult, abortController);
 }
 
 /**
