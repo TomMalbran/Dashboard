@@ -20,17 +20,19 @@ const Section = Styled.section.attrs(({ isInside, topSpace }) => ({ isInside, to
     padding: 16px;
     overflow: auto;
 
-    ${(props) => props.isInside ? "border-radius: var(--border-radius);" : ""}
-    ${(props) => props.topSpace ? `padding-top: ${props.topSpace}px;` : ""}
-
-    @media (max-width: 1000px) {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        z-index: var(--z-details);
-    }
+    ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
+    ${(props) => props.isInside ? "border-radius: var(--border-radius);" : `
+        height: var(--main-height);
+        @media (max-width: 1000px) {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            height: auto;
+            z-index: var(--z-details);
+        }
+    `}
 `;
 
 const Loading = Styled.div`
