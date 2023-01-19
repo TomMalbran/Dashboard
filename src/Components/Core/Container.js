@@ -15,6 +15,9 @@ import Styled, {
 
 
 
+// Constants
+const MOBILE_WIDTH = 1000;
+
 // Animations
 const menuOpen = keyframes`
     from { opacity: 0; transform: translateX(calc(0px - var(--sidebar-width) - var(--navigation-width))); }
@@ -98,6 +101,7 @@ const Div = Styled.div.attrs(({
  */
 function Container(props) {
     const { className, withTopBar, children } = props;
+    const width = window.innerWidth;
 
     const { showMenu, showDetails   } = Store.useState("core");
     const { closeMenu, closeDetails } = Store.useAction("core");
@@ -116,7 +120,7 @@ function Container(props) {
 
     // Opens the Menu
     const handleMenuOpen = () => {
-        if (openingMenu) {
+        if (openingMenu || width > MOBILE_WIDTH) {
             return;
         }
         setShowingMenu(true);
@@ -131,7 +135,7 @@ function Container(props) {
 
     // Closes the Menu
     const handleMenuClose = () => {
-        if (closingMenu) {
+        if (closingMenu || width > MOBILE_WIDTH) {
             return;
         }
         setClosingMenu(true);
@@ -146,7 +150,7 @@ function Container(props) {
 
     // Opens the Details
     const handleDetailsOpen = () => {
-        if (openingDetails) {
+        if (openingDetails || width > MOBILE_WIDTH) {
             return;
         }
         setShowingDetails(true);
@@ -161,7 +165,7 @@ function Container(props) {
 
     // Closes the Details
     const handleDetailsClose = () => {
-        if (closingDetails) {
+        if (closingDetails || width > MOBILE_WIDTH) {
             return;
         }
         setClosingDetails(true);
@@ -197,7 +201,7 @@ function Container(props) {
                 window.clearTimeout(menuTimer);
             }
         };
-    }, [ showMenu ]);
+    }, [ showMenu, width ]);
 
     // Open or Close the Details
     React.useEffect(() => {
@@ -211,9 +215,10 @@ function Container(props) {
                 window.clearTimeout(detailsTimer);
             }
         };
-    }, [ showDetails ]);
+    }, [ showDetails, width ]);
 
 
+    // Do the Render
     const items = Utils.cloneChildren(children, () => ({ withTopBar }));
 
     return <Div
