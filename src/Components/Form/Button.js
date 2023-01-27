@@ -53,6 +53,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
         align-items: center;
         justify-content: center;
         padding: 4px 12px 4px 8px;
+        gap: 4px;
     ` : ""}
 
     &:disabled,
@@ -75,11 +76,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
 
     .btn-preicon {
         font-size: ${(props) => props.isSmall ? "15px" : "19px"};
-        margin-right: 4px;
     }
     .btn-aftericon {
         font-size: ${(props) => props.isSmall ? "15px" : "19px"};
-        margin-left: 4px;
     }
 
     & + & {
