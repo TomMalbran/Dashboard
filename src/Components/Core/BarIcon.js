@@ -89,7 +89,7 @@ const Tooltip = Styled.div`
     transform: translateY(-50%) scale(.8);
     transition: transform .2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
     pointer-events: none;
-    z-index: 100;
+    z-index: var(--z-tooltip);
 
     &::before {
         content: "";
@@ -104,7 +104,7 @@ const Tooltip = Styled.div`
         border-color: transparent var(--bicon-tooltip) transparent transparent;
         transform: translateY(-50%);
         pointer-events: none;
-        z-index: 100;
+        z-index: var(--z-tooltip);
     }
 `;
 
