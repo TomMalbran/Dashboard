@@ -67,6 +67,7 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear
     }
     &.input:disabled, & .input:disabled {
         border-color: rgb(205, 205, 205);
+        color: rgb(120, 120, 120);
         box-shadow: none;
     }
     &.input::placeholder, & .input::placeholder {
@@ -130,14 +131,15 @@ const InputButton = Styled(Button)`
  */
 function InputField(props) {
     const {
-        isHidden, className, type, name, label, icon, autoFocus, value,
+        passedRef, isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onSearch, onInput, onSuggest, onBlur,
         fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
         preType, preName, preValue, preOptions, preWithNone, preNoneText, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear, onClear,
     } = props;
 
-    const inputRef   = React.useRef();
+    const fieldRef   = React.useRef();
+    const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();
 
     const [ timer,     setTimer ] = React.useState(null);
