@@ -1,7 +1,7 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
-// Core
+// Core & Utils
 import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
