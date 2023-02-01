@@ -2,9 +2,10 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import CircularLoader       from "../Loader/CircularLoader";
@@ -62,7 +63,10 @@ const Error = Styled.div`
  * @returns {React.ReactElement}
  */
 function Details(props) {
-    const { className, isInside, topSpace, isLoading, isEmpty, hasError, error, children } = props;
+    const {
+        className, isInside, topSpace, isLoading, isEmpty, hasError, error,
+        collapsible, children,
+    } = props;
 
     const { setDetails } = Store.useAction("core");
 
@@ -75,6 +79,7 @@ function Details(props) {
 
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError && !isEmpty;
+    const items       = Utils.cloneChildren(children, () => ({ collapsible }));
 
     return <Section
         className={`details light-scrollbars ${className}`}
@@ -83,7 +88,7 @@ function Details(props) {
     >
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
-        {showContent && children}
+        {showContent && items}
     </Section>;
 }
 
@@ -92,14 +97,15 @@ function Details(props) {
  * @typedef {Object} propTypes
  */
 Details.propTypes = {
-    className : PropTypes.string,
-    isInside  : PropTypes.bool,
-    topSpace  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    isLoading : PropTypes.bool,
-    isEmpty   : PropTypes.bool,
-    hasError  : PropTypes.bool,
-    error     : PropTypes.string,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    isInside    : PropTypes.bool,
+    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    isLoading   : PropTypes.bool,
+    isEmpty     : PropTypes.bool,
+    hasError    : PropTypes.bool,
+    error       : PropTypes.string,
+    collapsible : PropTypes.string,
+    children    : PropTypes.any,
 };
 
 /**
