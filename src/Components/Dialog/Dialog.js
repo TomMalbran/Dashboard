@@ -43,7 +43,6 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     width: calc(100% - var(--dialog-spacing) * 2);
     max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     max-width: 600px;
-    overflow: auto;
     border: none;
     border-radius: var(--border-radius);
     background-color: white;

@@ -19,7 +19,7 @@ import Form                 from "../Form/Form";
 function EditDialog(props) {
     const {
         open, title, icon, message, className,
-        isLoading, isNarrow, isWide, fullHeight, withSpacing,
+        isLoading, isNarrow, isWide, fullHeight, noOverflow, withSpacing,
         error, isDisabled, dontClose, hidePrimary, primary, cancel, onSubmit, onClose,
         secondary, onSecondary, children,
     } = props;
@@ -36,6 +36,7 @@ function EditDialog(props) {
         <DialogBody
             className={className}
             fullHeight={fullHeight}
+            noOverflow={noOverflow}
             withSpacing={withSpacing}
         >
             <DialogMessage variant="h3" message={message} />
@@ -72,6 +73,7 @@ EditDialog.propTypes = {
     isNarrow    : PropTypes.bool,
     isWide      : PropTypes.bool,
     fullHeight  : PropTypes.bool,
+    noOverflow  : PropTypes.bool,
     withSpacing : PropTypes.bool,
     hidePrimary : PropTypes.bool,
     primary     : PropTypes.string,
@@ -96,6 +98,7 @@ EditDialog.defaultProps = {
     isNarrow    : false,
     isWide      : false,
     fullHeight  : false,
+    noOverflow  : false,
     withSpacing : true,
     hidePrimary : false,
 };

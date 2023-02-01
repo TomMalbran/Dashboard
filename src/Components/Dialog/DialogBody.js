@@ -8,9 +8,8 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, fullHeight }) => ({ isLoading, isCentered, withSpacing, isNarrow, fullHeight }))`
+const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, fullHeight, noOverflow }) => ({ isLoading, isCentered, withSpacing, isNarrow, fullHeight, noOverflow }))`
     box-sizing: border-box;
-    overflow: auto;
     flex-grow: 2;
     color: var(--secondary-color);
     max-height: var(--dialog-body);
@@ -28,6 +27,9 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
     `}
     ${(props) => props.fullHeight && `
         height: var(--dialog-body);
+    `}
+    ${(props) => !props.noOverflow && `
+        overflow: auto;
     `}
 
     @media (max-width: 500px) {
@@ -47,7 +49,7 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
  */
 function DialogBody(props) {
     const {
-        className, isLoading, isCentered, isNarrow, withSpacing, fullHeight,
+        className, isLoading, isCentered, isNarrow, withSpacing, noOverflow, fullHeight,
         onScroll, children,
     } = props;
 
@@ -69,6 +71,7 @@ function DialogBody(props) {
         isNarrow={isNarrow}
         withSpacing={withSpacing}
         fullHeight={fullHeight}
+        noOverflow={noOverflow}
         onScroll={handleScroll}
     >
         {isLoading ? <CircularLoader /> : children}
@@ -86,6 +89,7 @@ DialogBody.propTypes = {
     isNarrow    : PropTypes.bool,
     withSpacing : PropTypes.bool,
     fullHeight  : PropTypes.bool,
+    noOverflow  : PropTypes.bool,
     onScroll    : PropTypes.func,
     children    : PropTypes.any,
 };
@@ -101,6 +105,7 @@ DialogBody.defaultProps = {
     isNarrow    : false,
     withSpacing : false,
     fullHeight  : false,
+    noOverflow  : false,
 };
 
 export default DialogBody;
