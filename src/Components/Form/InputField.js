@@ -19,8 +19,14 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
+const InputInside = Styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 const InputContent = Styled.div`
     position: relative;
+    flex-grow: 2;
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
@@ -246,52 +252,54 @@ function InputField(props) {
             isFocused={isFocused}
             message={label}
         />}
-        <InputContent className="inputfield-cnt">
-            {!!icon && <InputIcon icon={icon} />}
-            {!!preName && <InputInput
-                className="inputfield-input inputfield-pre"
-                type={preType}
-                name={preName}
-                value={preValue}
-                options={preOptions}
-                withNone={preWithNone}
-                noneText={preNoneText}
-                placeholder={prePlaceholder}
-                width={preWidth}
-                hasLabel={hasLabel}
-                labelInside={labelInside}
-                onChange={onChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-            />}
-            <InputInput
-                {...props}
-                className="inputfield-input"
-                inputRef={inputRef}
-                suggestRef={suggestRef}
-                autoSuggest={autoSuggest}
-                onChange={handleChange}
-                onInput={handleInput}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                isSmall={isSmall}
-                hasLabel={hasLabel}
-                labelInside={labelInside}
-                withClear={withClear}
-            />
-            {withClear && <InputClear
-                variant="light"
-                icon="close"
-                onClick={handleClear}
-                forMedia={forMedia}
-                isSmall
-            />}
+        <InputInside>
+            <InputContent className="inputfield-cnt">
+                {!!icon && <InputIcon icon={icon} />}
+                {!!preName && <InputInput
+                    className="inputfield-input inputfield-pre"
+                    type={preType}
+                    name={preName}
+                    value={preValue}
+                    options={preOptions}
+                    withNone={preWithNone}
+                    noneText={preNoneText}
+                    placeholder={prePlaceholder}
+                    width={preWidth}
+                    hasLabel={hasLabel}
+                    labelInside={labelInside}
+                    onChange={onChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                />}
+                <InputInput
+                    {...props}
+                    className="inputfield-input"
+                    inputRef={inputRef}
+                    suggestRef={suggestRef}
+                    autoSuggest={autoSuggest}
+                    onChange={handleChange}
+                    onInput={handleInput}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    isSmall={isSmall}
+                    hasLabel={hasLabel}
+                    labelInside={labelInside}
+                    withClear={withClear}
+                />
+                {withClear && <InputClear
+                    variant="light"
+                    icon="close"
+                    onClick={handleClear}
+                    forMedia={forMedia}
+                    isSmall
+                />}
+            </InputContent>
             {!!button && <InputButton
                 variant="outlined"
                 message={button}
                 onClick={onClick}
             />}
-        </InputContent>
+        </InputInside>
         <InputError error={error} useBackground={errorBackground} />
         {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
 
