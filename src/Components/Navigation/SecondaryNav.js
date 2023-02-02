@@ -14,7 +14,7 @@ import NavigationBody       from "../Navigation/NavigationBody";
  * @returns {React.ReactElement}
  */
 function SecondaryNav(props) {
-    const { message, fallback, href, children } = props;
+    const { message, fallback, href, flexStart, children } = props;
 
 
     return <Navigation variant="light">
@@ -23,7 +23,7 @@ function SecondaryNav(props) {
             fallback={fallback}
             href={href}
         />
-        <NavigationBody>
+        <NavigationBody flexStart={flexStart}>
             {children}
         </NavigationBody>
     </Navigation>;
@@ -34,10 +34,11 @@ function SecondaryNav(props) {
  * @type {Object} propTypes
  */
 SecondaryNav.propTypes = {
-    message  : PropTypes.string,
-    fallback : PropTypes.string,
-    href     : PropTypes.string,
-    children : PropTypes.any,
+    message   : PropTypes.string,
+    fallback  : PropTypes.string,
+    href      : PropTypes.string,
+    flexStart : PropTypes.bool,
+    children  : PropTypes.any,
 };
 
 /**
