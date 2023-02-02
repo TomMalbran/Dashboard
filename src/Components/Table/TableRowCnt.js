@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 
 
 // Styles
-const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, hasIDs, hasActions }))`
+const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions, isSelected }) => ({ hasHover, hasIDs, hasActions, isSelected }))`
     display: flex;
     height: auto;
 
@@ -20,6 +20,11 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
 
     ${(props) => props.hasHover && `
         &:hover td {
+            background-color: var(--lighter-gray);
+        }
+    `}
+    ${(props) => props.isSelected && `
+        & td {
             background-color: var(--lighter-gray);
         }
     `}
@@ -84,13 +89,17 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions }) => ({ hasHover, ha
  * @returns {React.ReactElement}
  */
 function TableRowCnt(props) {
-    const { className, hasHover, hasIDs, hasActions, onClick, onContextMenu, children } = props;
+    const {
+        className, hasHover, hasIDs, hasActions, isSelected,
+        onClick, onContextMenu, children,
+    } = props;
 
     return <TR
         className={className}
         hasHover={hasHover}
         hasIDs={hasIDs}
         hasActions={hasActions}
+        isSelected={isSelected}
         onClick={onClick}
         onContextMenu={onContextMenu}
     >
@@ -107,6 +116,7 @@ TableRowCnt.propTypes = {
     hasHover      : PropTypes.bool,
     hasIDs        : PropTypes.bool,
     hasActions    : PropTypes.bool,
+    isSelected    : PropTypes.bool,
     onClick       : PropTypes.func,
     onContextMenu : PropTypes.func,
     children      : PropTypes.any,

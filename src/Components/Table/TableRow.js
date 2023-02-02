@@ -16,7 +16,10 @@ import IconLink             from "../Link/IconLink";
  * @returns {React.ReactElement}
  */
 function TableRow(props) {
-    const { hasIDs, hasActions, elemID, handleRowClick, handleMenuOpen, columns, children } = props;
+    const {
+        hasIDs, hasActions, elemID, isSelected,
+        handleRowClick, handleMenuOpen, columns, children,
+    } = props;
 
     // References
     const linkRef = React.useRef();
@@ -48,6 +51,7 @@ function TableRow(props) {
         onContextMenu={handleContextMenu}
         hasIDs={hasIDs}
         hasActions={hasActions}
+        isSelected={isSelected}
         hasHover
     >
         {items}
@@ -70,6 +74,7 @@ TableRow.propTypes = {
     hasIDs         : PropTypes.bool,
     hasActions     : PropTypes.bool,
     elemID         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    isSelected     : PropTypes.bool,
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     columns        : PropTypes.array,
