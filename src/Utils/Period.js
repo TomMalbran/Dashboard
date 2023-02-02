@@ -4,69 +4,94 @@ import DateTime     from "../Utils/DateTime";
 
 
 // Constants
-const SELECT       = 0;
-const LAST_7_DAYS  = 3;
-const LAST_15_DAYS = 4;
-const LAST_30_DAYS = 5;
-const LAST_60_DAYS = 6;
-const LAST_90_DAYS = 7;
-const LAST_YEAR    = 8;
-const THIS_WEEK    = 9;
-const THIS_MONTH   = 10;
-const THIS_YEAR    = 11;
-const PAST_WEEK    = 12;
-const PAST_MONTH   = 13;
-const PAST_YEAR    = 14;
-const ALL_PERIOD   = 2;
-const CUSTOM       = 1;
+const SELECT        = "select";
+const TODAY         = "today";
+const YESTERDAY     = "yesterday";
+const LAST_7_DAYS   = "las7Days";
+const LAST_15_DAYS  = "last15Days";
+const LAST_30_DAYS  = "last30Days";
+const LAST_60_DAYS  = "last60Days";
+const LAST_90_DAYS  = "last90Days";
+const LAST_120_DAYS = "last120Days";
+const LAST_YEAR     = "lastYear";
+const THIS_WEEK     = "thisWeek";
+const THIS_MONTH    = "thisMonth";
+const THIS_YEAR     = "thisYear";
+const PAST_WEEK     = "pastWeek";
+const PAST_MONTH    = "pastMonth";
+const PAST_YEAR     = "pastYear";
+const ALL_PERIOD    = "allPeriod";
+const CUSTOM        = "custom";
 
 const PERIODS_KEYS = {
-    [SELECT]       : "SELECT",
-    [LAST_7_DAYS]  : "LAST_7_DAYS",
-    [LAST_15_DAYS] : "LAST_15_DAYS",
-    [LAST_30_DAYS] : "LAST_30_DAYS",
-    [LAST_60_DAYS] : "LAST_60_DAYS",
-    [LAST_90_DAYS] : "LAST_90_DAYS",
-    [LAST_YEAR]    : "LAST_YEAR",
-    [THIS_WEEK]    : "THIS_WEEK",
-    [THIS_MONTH]   : "THIS_MONTH",
-    [THIS_YEAR]    : "THIS_YEAR",
-    [PAST_WEEK]    : "PAST_WEEK",
-    [PAST_MONTH]   : "PAST_MONTH",
-    [PAST_YEAR]    : "PAST_YEAR",
-    [ALL_PERIOD]   : "ALL_PERIOD",
-    [CUSTOM]       : "CUSTOM",
+    [SELECT]        : "SELECT",
+    [TODAY]         : "TODAY",
+    [YESTERDAY]     : "YESTERDAY",
+    [LAST_7_DAYS]   : "LAST_7_DAYS",
+    [LAST_15_DAYS]  : "LAST_15_DAYS",
+    [LAST_30_DAYS]  : "LAST_30_DAYS",
+    [LAST_60_DAYS]  : "LAST_60_DAYS",
+    [LAST_90_DAYS]  : "LAST_90_DAYS",
+    [LAST_120_DAYS] : "LAST_120_DAYS",
+    [LAST_YEAR]     : "LAST_YEAR",
+    [THIS_WEEK]     : "THIS_WEEK",
+    [THIS_MONTH]    : "THIS_MONTH",
+    [THIS_YEAR]     : "THIS_YEAR",
+    [PAST_WEEK]     : "PAST_WEEK",
+    [PAST_MONTH]    : "PAST_MONTH",
+    [PAST_YEAR]     : "PAST_YEAR",
+    [ALL_PERIOD]    : "ALL_PERIOD",
+    [CUSTOM]        : "CUSTOM",
 };
-const PERIODS_VALUES = {
-    "select"      : SELECT,
-    "las7Days"    : LAST_7_DAYS,
-    "last15Days"  : LAST_15_DAYS,
-    "last30Days"  : LAST_30_DAYS,
-    "last60Days"  : LAST_60_DAYS,
-    "last90Days"  : LAST_90_DAYS,
-    "lasYear"     : LAST_YEAR,
-    "thisWeek"    : THIS_WEEK,
-    "thisMonth"   : THIS_MONTH,
-    "thisYear"    : THIS_YEAR,
-    "pastWeek"    : PAST_WEEK,
-    "pastMonth"   : PAST_MONTH,
-    "pastYear"    : PAST_YEAR,
-    "allPeriod"   : ALL_PERIOD,
-    "custom"      : CUSTOM,
-};
+const PERIODS_COMPLETE = [
+    SELECT,
+    TODAY,
+    YESTERDAY,
+    LAST_7_DAYS,
+    LAST_15_DAYS,
+    LAST_30_DAYS,
+    LAST_60_DAYS,
+    LAST_90_DAYS,
+    LAST_120_DAYS,
+    LAST_YEAR,
+    THIS_WEEK,
+    THIS_MONTH,
+    THIS_YEAR,
+    PAST_WEEK,
+    PAST_MONTH,
+    PAST_YEAR,
+    ALL_PERIOD,
+    CUSTOM,
+];
+const PERIODS_SIMPLE = [
+    TODAY,
+    YESTERDAY,
+    LAST_7_DAYS,
+    LAST_15_DAYS,
+    LAST_30_DAYS,
+    LAST_60_DAYS,
+    LAST_90_DAYS,
+    LAST_120_DAYS,
+    LAST_YEAR,
+    THIS_WEEK,
+    THIS_MONTH,
+    THIS_YEAR,
+    PAST_WEEK,
+    PAST_MONTH,
+];
 
 
 
 /**
  * Returns the From Date
- * @param {(Number|String)} value
+ * @param {String} value
  * @returns {String}
  */
 function getFromDate(value) {
     const dateTime = DateTime.create();
     let   date     = null;
 
-    switch (Number(value)) {
+    switch (value) {
     case LAST_7_DAYS:
         date = dateTime.moveDay(-7);
         break;
@@ -111,14 +136,14 @@ function getFromDate(value) {
 
 /**
  * Returns the To Date
- * @param {(Number|String)} value
+ * @param {String} value
  * @returns {String}
  */
 function getToDate(value) {
     const dateTime = DateTime.create();
     let   date     = null;
 
-    switch (Number(value)) {
+    switch (value) {
     case LAST_7_DAYS:
         date = dateTime;
         break;
@@ -175,17 +200,25 @@ function getName(value) {
 
 /**
  * Returns a Periods Select
- * @param {Number[]=} periods
+ * @param {String[]=} periods
  * @returns {Object[]}
  */
 function getSelect(periods) {
-    const entries = periods || Object.values(PERIODS_VALUES);
+    const entries = periods || PERIODS_COMPLETE;
     const result  = [];
     for (const key of entries) {
         const value = getName(key);
         result.push({ key, value });
     }
     return result;
+}
+
+/**
+ * Returns a Simple Periods Select
+ * @returns {Object[]}
+ */
+function getSimpleSelect() {
+    return getSelect(PERIODS_SIMPLE);
 }
 
 
@@ -197,13 +230,17 @@ export default {
 
     getName,
     getSelect,
+    getSimpleSelect,
 
     SELECT,
+    TODAY,
+    YESTERDAY,
     LAST_7_DAYS,
     LAST_15_DAYS,
     LAST_30_DAYS,
     LAST_60_DAYS,
     LAST_90_DAYS,
+    LAST_120_DAYS,
     LAST_YEAR,
     THIS_WEEK,
     THIS_MONTH,
