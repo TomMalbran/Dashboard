@@ -50,7 +50,10 @@ const Span = Styled.span`
 function StatItem(props) {
     const { message, value, decimals, percent, isPrice, isPercent, twoLines } = props;
 
-    let content  = value ? Utils.formatNumber(value, decimals) : 0;
+    let content = value;
+    if (!isNaN(value)) {
+        content = Utils.formatNumber(value, decimals);
+    }
     if (isPrice) {
         content = `$ ${content}`;
     }
