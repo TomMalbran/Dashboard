@@ -52,7 +52,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
  */
 function Table(props) {
     const {
-        sort, fetch, className, isLoading, none,
+        sort, fetch, className, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
         noSorting, hasIDs, notFixed, rightSpace, children,
     } = props;
@@ -194,6 +194,9 @@ function Table(props) {
     if (!hasContent && none) {
         return <NoneAvailable message={none} />;
     }
+    if (!hasContent && hideEmpty) {
+        return <React.Fragment />;
+    }
     return <>
         <Wrapper ref={tableRef}>
             <Container
@@ -233,10 +236,11 @@ function Table(props) {
  * @typedef {Object} propTypes
  */
 Table.propTypes = {
+    className   : PropTypes.string,
     fetch       : PropTypes.func,
     sort        : PropTypes.object,
-    none        : PropTypes.string.isRequired,
-    className   : PropTypes.string,
+    none        : PropTypes.string,
+    hideEmpty   : PropTypes.bool,
     isLoading   : PropTypes.bool,
     inDialog    : PropTypes.bool,
     hasFilter   : PropTypes.bool,
@@ -258,6 +262,8 @@ Table.propTypes = {
 Table.defaultProps = {
     className   : "",
     sort        : {},
+    none        : "",
+    hideEmpty   : false,
     isLoading   : false,
     hasFilter   : false,
     statsAmount : 0,
