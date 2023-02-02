@@ -7,7 +7,8 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import CircularLoader       from "../Loader/CircularLoader";
-import Filter               from "../Header/Filter";
+import FilterList           from "../Filter/FilterList";
+import Filter               from "../Filter/Filter";
 import StatList             from "../Stats/StatList";
 import TabList              from "../Tab/TabList";
 
@@ -42,13 +43,13 @@ function Content(props) {
         </Section>;
     }
 
-    const items     = [];
-    let   hasFilter = false;
-    let   hasStats  = false;
-    let   hasTabs   = false;
+    const items       = [];
+    let   hasFilter   = false;
+    let   statsAmount = 0;
+    let   hasTabs     = false;
 
     for (const [ , child ] of Utils.getVisibleChildren(children)) {
-        if (child.type === Filter) {
+        if (child.type === FilterList || child.type === Filter) {
             hasFilter = true;
         } else if (child.type === StatList) {
             statsAmount += 1;

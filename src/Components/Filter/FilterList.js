@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Utils
+import Utils                from "../../Utils/Utils";
+
 // Components
 import InputField           from "../Form/InputField";
 import Button               from "../Form/Button";
@@ -20,8 +23,11 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     padding: 12px;
     background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
-    overflow-y: hidden;
-    overflow-x: auto;
+
+    @media (max-width: 700px) {
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
 `;
 
 const FilterField = Styled(InputField)`
@@ -49,37 +55,33 @@ const FilterButton = Styled(Button).attrs(({ labelInside }) => ({ labelInside })
 
 
 
-// The Initial Data
-const initialData = {
-    search         : "",
-    credentialID   : 0,
-    credentialName : "",
-    fromDate       : "",
-    toDate         : "",
-};
-const initialErrors = {
-    search       : "",
-    credentialID : "",
-    fromDate     : "",
-    toDate       : "",
-};
-
-
-
 /**
- * The Filter Component
+ * The Filter List Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function Filter(props) {
-    const { hasSearch, hasCredential, labelInside, values, fetch, params, onFilter } = props;
+function FilterList(props) {
+    const { labelInside, values, initialData, onFilter, children } = props;
 
-    const columns = hasCredential || hasSearch ? 3 : 2;
-    const initial = values ? { ...initialData, ...values } : initialData;
+    const items         = [];
+    const fields        = {};
+    const initialErrors = {};
+
+    if (children) {
+        for (const [ , child ] of Utils.getVisibleChildren(children)) {
+            items.push(child.props);
+            fields[child.props.name]   = "";
+            initialErrors[child.props.name] = "";
+        }
+    }
+
+    let initial = initialData || fields;
+    initial = values ? { ...initial, ...values } : initial;
 
     const [ loading, setLoading ] = React.useState(false);
     const [ data,    setData    ] = React.useState(initial);
     const [ errors,  setErrors  ] = React.useState(initialErrors);
+
 
     // Handles the Input Change
     const handleChange = (name, value) => {
@@ -107,56 +109,17 @@ function Filter(props) {
     };
 
 
-    return <Container columns={columns}>
-        <FilterField
-            isHidden={!hasSearch}
-            name="search"
-            label="GENERAL_SEARCH"
-            value={data.search}
-            error={errors.search}
-            onChange={handleChange}
-            onSubmit={handleClick}
-            labelInside={labelInside}
-            hasClear
-            shrinkLabel
-        />
-        <FilterField
-            isHidden={!hasCredential}
-            name="credentialName"
-            label="USERS_SINGULAR"
-            suggestID="credentialID"
-            suggestFetch={fetch}
-            suggestParams={params}
-            value={data.credentialName}
-            error={errors.credentialID}
+    return <Container columns={items.length}>
+        {items.map((item) => <FilterField
+            {...item}
+            key={item.name}
+            value={data[item.name]}
+            error={errors[item.name]}
             onChange={handleChange}
             onSearch={handleSearch}
             onSubmit={handleClick}
             labelInside={labelInside}
-            shrinkLabel
-        />
-        <FilterField
-            type="date"
-            name="fromDate"
-            label="GENERAL_FROM_DATE"
-            value={data.fromDate}
-            error={errors.fromDate}
-            onChange={handleChange}
-            onSubmit={handleClick}
-            labelInside={labelInside}
-            hasClear
-        />
-        <FilterField
-            type="date"
-            name="toDate"
-            label="GENERAL_TO_DATE"
-            value={data.toDate}
-            error={errors.toDate}
-            onChange={handleChange}
-            onSubmit={handleClick}
-            labelInside={labelInside}
-            hasClear
-        />
+        />)}
         <Div labelInside={labelInside}>
             <FilterButton
                 variant="outlined"
@@ -173,24 +136,22 @@ function Filter(props) {
  * The Property Types
  * @typedef {Object} propTypes
  */
-Filter.propTypes = {
+FilterList.propTypes = {
     onFilter      : PropTypes.func.isRequired,
-    hasCredential : PropTypes.bool,
-    hasSearch     : PropTypes.bool,
     labelInside   : PropTypes.bool,
     values        : PropTypes.object,
+    initialData   : PropTypes.object,
     fetch         : PropTypes.func,
     params        : PropTypes.object,
+    children      : PropTypes.any,
 };
 
 /**
  * The Default Properties
  * @type {Object} defaultProps
  */
-Filter.defaultProps = {
-    hasCredential : false,
-    hasSearch     : false,
-    labelInside   : false,
+FilterList.defaultProps = {
+    labelInside : false,
 };
 
-export default Filter;
+export default FilterList;
