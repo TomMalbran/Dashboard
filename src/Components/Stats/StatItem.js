@@ -14,20 +14,16 @@ const Li = Styled.li.attrs(({ twoLines }) => ({ twoLines }))`
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    min-width: 140px;
+    height: var(--stats-height);
+    min-width: 100px;
     background-color: var(--light-gray);
-    margin-right: 8px;
     line-height: 1;
     border-radius: var(--border-radius);
 
     ${(props) => props.twoLines ? `
         flex-direction: column;
-        padding: 8px 12px;
-    ` : "padding: 16px;"}
-
-    &:last-child {
-        margin-right: 0;
-    }
+        padding: 0 12px;
+    ` : "padding: 0 16px;"}
 `;
 
 const B = Styled.b.attrs(({ twoLines }) => ({ twoLines }))`

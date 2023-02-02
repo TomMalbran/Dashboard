@@ -8,10 +8,12 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Ul = Styled.ul`
-    display: flex;
+const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
+    display: grid;
+    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+    grid-gap: 8px;
     box-sizing: border-box;
-    height: var(--app-ststs-height);
+    height: var(--stats-height);
     margin: 0 0 8px 0;
     padding: 0;
     list-style: none;
@@ -35,7 +37,7 @@ function StatList(props) {
     }
 
     const items = Utils.cloneChildren(children, () => ({ twoLines }));
-    return <Ul className={className}>
+    return <Ul className={className} columns={items.length}>
         {items}
     </Ul>;
 }
