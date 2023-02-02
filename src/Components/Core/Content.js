@@ -51,14 +51,14 @@ function Content(props) {
         if (child.type === Filter) {
             hasFilter = true;
         } else if (child.type === StatList) {
-            hasStats = true;
+            statsAmount += 1;
         } else if (child.type === TabList) {
             hasTabs = true;
         }
     }
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
         if (typeof child.type !== "string") {
-            items.push(React.cloneElement(child, { key, hasFilter, hasStats, hasTabs }));
+            items.push(React.cloneElement(child, { key, hasFilter, statsAmount, hasTabs }));
         } else {
             items.push(React.cloneElement(child, { key }));
         }

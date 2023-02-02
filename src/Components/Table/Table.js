@@ -24,11 +24,11 @@ const Wrapper = Styled.div`
     position: relative;
 `;
 
-const Container = Styled.table.attrs(({ inDialog, hasFilter, hasStats, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, hasStats, hasTabs, hasAlert, hasPaging }))`
+const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }))`
     --table-height: ${(props) => props.inDialog ? "calc(var(--full-height) - 32px * 2 - 55px * 2 - 24px * 2 + 72px)" : "calc(var(--main-height) - 24px)"};
     --table-header-height: 27px;
     --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + 8px)" : "0px"};
-    --table-stats-height: ${(props) => props.hasStats ? "var(--stats-height)" : "0px"};
+    --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc(var(--stats-height) * ${props.statsAmount} + 8px * ${props.statsAmount - 1})` : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
@@ -53,7 +53,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, hasStats, hasTabs, 
 function Table(props) {
     const {
         sort, fetch, className, isLoading, none,
-        noClick, inDialog, hasFilter, hasStats, hasTabs, hasAlert,
+        noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
         noSorting, hasIDs, notFixed, rightSpace, children,
     } = props;
 
@@ -200,7 +200,7 @@ function Table(props) {
                 className={className}
                 inDialog={inDialog}
                 hasFilter={hasFilter}
-                hasStats={hasStats}
+                statsAmount={statsAmount}
                 hasTabs={hasTabs}
                 hasAlert={hasAlert}
                 hasPaging={hasPaging}
@@ -233,22 +233,22 @@ function Table(props) {
  * @typedef {Object} propTypes
  */
 Table.propTypes = {
-    fetch      : PropTypes.func,
-    sort       : PropTypes.object,
-    none       : PropTypes.string.isRequired,
-    className  : PropTypes.string,
-    isLoading  : PropTypes.bool,
-    inDialog   : PropTypes.bool,
-    hasFilter  : PropTypes.bool,
-    hasStats   : PropTypes.bool,
-    hasTabs    : PropTypes.bool,
-    hasAlert   : PropTypes.bool,
-    hasIDs     : PropTypes.bool,
-    noSorting  : PropTypes.bool,
-    noClick    : PropTypes.bool,
-    notFixed   : PropTypes.bool,
-    rightSpace : PropTypes.bool,
-    children   : PropTypes.any,
+    fetch       : PropTypes.func,
+    sort        : PropTypes.object,
+    none        : PropTypes.string.isRequired,
+    className   : PropTypes.string,
+    isLoading   : PropTypes.bool,
+    inDialog    : PropTypes.bool,
+    hasFilter   : PropTypes.bool,
+    statsAmount : PropTypes.number,
+    hasTabs     : PropTypes.bool,
+    hasAlert    : PropTypes.bool,
+    hasIDs      : PropTypes.bool,
+    noSorting   : PropTypes.bool,
+    noClick     : PropTypes.bool,
+    notFixed    : PropTypes.bool,
+    rightSpace  : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -256,16 +256,16 @@ Table.propTypes = {
  * @typedef {Object} defaultProps
  */
 Table.defaultProps = {
-    className  : "",
-    sort       : {},
-    isLoading  : false,
-    hasFilter  : false,
-    hasStats   : false,
-    hasTabs    : false,
-    hasIDs     : false,
-    noSorting  : false,
-    notFixed   : false,
-    rightSpace : false,
+    className   : "",
+    sort        : {},
+    isLoading   : false,
+    hasFilter   : false,
+    statsAmount : 0,
+    hasTabs     : false,
+    hasIDs      : false,
+    noSorting   : false,
+    notFixed    : false,
+    rightSpace  : false,
 };
 
 export default Table;
