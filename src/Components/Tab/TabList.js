@@ -50,21 +50,22 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, variant, size, selected,
-        onAction, inHeader, canAdd, children,
+        onClick, onAction, inHeader, canAdd, children,
     } = props;
 
     if (isHidden) {
         return <React.Fragment />;
     }
     const items = Utils.cloneChildren(children, (child, index) => ({
-        index, variant, onAction, selected, inHeader,
+        index, variant, onClick, onAction, selected, inHeader,
     }));
+    const showAdd = Boolean(canAdd && onAction);
 
     return <Section className={`tabs ${className}`} variant={variant}>
         <Div className="tabs-content" size={size}>
             {items}
         </Div>
-        {canAdd && <TabLink
+        {showAdd && <TabLink
             variant={variant === Brightness.DARK ? "darker" : "light"}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
@@ -81,7 +82,8 @@ TabList.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
     selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
-    onAction  : PropTypes.func.isRequired,
+    onClick   : PropTypes.func,
+    onAction  : PropTypes.func,
     inHeader  : PropTypes.bool,
     canAdd    : PropTypes.bool,
     size      : PropTypes.number,

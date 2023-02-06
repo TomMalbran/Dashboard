@@ -135,7 +135,7 @@ const Components = {
 function TabItem(props) {
     const {
         className, variant, icon, message, status, value, index, selected,
-        amount, badge, isDisabled, inHeader, canEdit, canDelete, onAction,
+        amount, badge, isDisabled, inHeader, canEdit, canDelete, onClick, onAction,
     } = props;
 
     const Component  = Components[variant] || LightItem;
@@ -143,10 +143,23 @@ function TabItem(props) {
     const hasAmount  = amount !== undefined;
     const isSelected = !isDisabled && String(selected) === String(id);
     const canAction  = !isDisabled && onAction;
+    const showEdit   = Boolean(canEdit && canAction);
+    const showDelete = Boolean(canDelete && canAction);
+
+    // Handles the Action
+    const handleAction = (action) => {
+        if (!isDisabled && onAction) {
+            onAction(Action.get(action), id);
+        }
+    };
 
     // Handle the Click
     const handleClick = () => {
-        handleAction("TAB");
+        if (!isDisabled && onClick) {
+            onClick(value);
+        } else {
+            handleAction("TAB");
+        }
     };
 
     // Handle the Edit
@@ -163,13 +176,6 @@ function TabItem(props) {
         e.preventDefault();
     };
 
-    // Handles the Action
-    const handleAction = (action) => {
-        if (!isDisabled && onAction) {
-            onAction(Action.get(action), id);
-        }
-    };
-
 
     return <Component
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
@@ -178,14 +184,14 @@ function TabItem(props) {
         inHeader={inHeader}
         onClick={handleClick}
     >
-        {canEdit && canAction && <EditIcon
+        {showEdit && <EditIcon
             icon="edit"
             onClick={handleEdit}
         />}
         {icon ? <Icon icon={icon} /> : NLS.get(message)}
         {hasAmount && <Amount>{amount}</Amount>}
         {!!badge && <Badge>{badge}</Badge>}
-        {canDelete && canAction && <DeleteIcon
+        {showDelete && <DeleteIcon
             icon="close"
             onClick={handleDelete}
         />}
@@ -213,6 +219,7 @@ TabItem.propTypes = {
     inHeader   : PropTypes.bool,
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
+    onClick    : PropTypes.func,
     onAction   : PropTypes.func,
 };
 
