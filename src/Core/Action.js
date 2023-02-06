@@ -235,10 +235,15 @@ function useActionID() {
     const [ action, setAction ] = React.useState(get());
     const [ elemID, setElemID ] = React.useState(0);
 
-    const startAction = (action, elemID) => {
-        setAction(action);
+    const startAction = (newAction, elemID) => {
+        if (newAction instanceof Object) {
+            setAction(newAction);
+        } else {
+            setAction(get(newAction));
+        }
         setElemID(elemID);
     };
+
     const endAction = () => {
         setAction(get());
         setElemID(0);
