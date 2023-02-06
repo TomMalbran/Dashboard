@@ -30,13 +30,16 @@ const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
  * @returns {React.ReactElement}
  */
 function StatList(props) {
-    const { isHidden, className, twoLines, children } = props;
+    const { isHidden, className, outlined, twoLines, usePrimary, children } = props;
 
     if (isHidden) {
         return <React.Fragment />;
     }
 
-    const items = Utils.cloneChildren(children, () => ({ twoLines }));
+    const items = Utils.cloneChildren(children, () => ({
+        outlined, twoLines, usePrimary,
+    }));
+
     return <Ul className={className} columns={items.length}>
         {items}
     </Ul>;
@@ -47,10 +50,12 @@ function StatList(props) {
  * @typedef {Object} propTypes
  */
 StatList.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    twoLines  : PropTypes.bool,
-    children  : PropTypes.any,
+    isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    outlined   : PropTypes.bool,
+    twoLines   : PropTypes.bool,
+    usePrimary : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -58,9 +63,11 @@ StatList.propTypes = {
  * @type {Object} defaultProps
  */
 StatList.defaultProps = {
-    isHidden  : false,
-    className : "",
-    twoLines  : false,
+    isHidden   : false,
+    className  : "",
+    outlined   : false,
+    twoLines   : false,
+    usePrimary : false,
 };
 
 export default StatList;

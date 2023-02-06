@@ -9,20 +9,27 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Li = Styled.li.attrs(({ twoLines }) => ({ twoLines }))`
+const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))`
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
     height: var(--stats-height);
     min-width: 100px;
-    background-color: var(--light-gray);
     line-height: 1;
     border-radius: var(--border-radius);
+
+    ${(props) => props.outlined ? `
+        border: 1px solid var(--darker-gray);
+    ` : `
+        background-color: var(--light-gray);
+    `}
 
     ${(props) => props.twoLines ? `
         flex-direction: column;
         padding: 0 12px;
+        height: auto;
     ` : "padding: 0 16px;"}
 `;
 
@@ -31,9 +38,10 @@ const B = Styled.b.attrs(({ twoLines }) => ({ twoLines }))`
     font-weight: 400;
     ${(props) => props.twoLines ? "margin-bottom: 2px;" : "margin-right: 8px;"}
 `;
-const Span = Styled.span`
+const Span = Styled.span.attrs(({ usePrimary }) => ({ usePrimary }))`
     font-size: 20px;
     font-weight: 400;
+    ${(props) => props.usePrimary && "color: var(--primary-color)"};
 `;
 
 
@@ -44,7 +52,10 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function StatItem(props) {
-    const { message, value, decimals, percent, isPrice, isPercent, twoLines } = props;
+    const {
+        message, value, decimals, percent, isPrice, isPercent,
+        outlined, twoLines, usePrimary,
+    } = props;
 
     let content = value;
     if (!isNaN(value)) {
@@ -60,9 +71,13 @@ function StatItem(props) {
         content = `${content} (${percent}%)`;
     }
 
-    return <Li twoLines={twoLines}>
-        <B twoLines={twoLines}>{NLS.get(message)}</B>
-        <Span>{content}</Span>
+    return <Li outlined={outlined} twoLines={twoLines}>
+        <B twoLines={twoLines}>
+            {NLS.get(message)}
+        </B>
+        <Span usePrimary={usePrimary}>
+            {content}
+        </Span>
     </Li>;
 }
 
@@ -71,14 +86,16 @@ function StatItem(props) {
  * @typedef {Object} propTypes
  */
 StatItem.propTypes = {
-    isHidden  : PropTypes.bool,
-    message   : PropTypes.string.isRequired,
-    value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    decimals  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    percent   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    isPrice   : PropTypes.bool,
-    isPercent : PropTypes.bool,
-    twoLines  : PropTypes.bool,
+    isHidden   : PropTypes.bool,
+    message    : PropTypes.string.isRequired,
+    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    decimals   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    percent    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    isPrice    : PropTypes.bool,
+    isPercent  : PropTypes.bool,
+    outlined   : PropTypes.bool,
+    twoLines   : PropTypes.bool,
+    usePrimary : PropTypes.bool,
 };
 
 /**
@@ -86,10 +103,13 @@ StatItem.propTypes = {
  * @type {Object} defaultProps
  */
 StatItem.defaultProps = {
-    decimals  : 0,
-    isHidden  : false,
-    isPrice   : false,
-    isPercent : false,
+    decimals   : 0,
+    isHidden   : false,
+    isPrice    : false,
+    isPercent  : false,
+    outlined   : false,
+    twoLines   : false,
+    usePrimary : false,
 };
 
 export default StatItem;
