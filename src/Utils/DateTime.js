@@ -1143,6 +1143,15 @@ function formatTime(date) {
 }
 
 /**
+ * Formats the give date as a Day
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatDay(date) {
+    return new DateHour(date).toDayString();
+}
+
+/**
  * Formats the given date as a Long String
  * @param {(Number|Date)} date
  * @returns {String}
@@ -1260,6 +1269,7 @@ export default {
     formatDateTime,
     formatIf,
     formatString,
+    formatDay,
     formatTime,
     formatLong,
     formatMedium,
