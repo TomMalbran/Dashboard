@@ -538,15 +538,19 @@ function getVisibleChildren(children) {
  * @returns {Object[]}
  */
 function cloneChildren(children, callback) {
-    const result  = [];
-    let   key     = 0;
-    let   realKey = 0;
+    const isFiltered = (child) => child && child.props && !child.props.isHidden;
+    const list       = toArray(children);
+    const total      = list.filter(isFiltered).length;
+    const result     = [];
+    let   key        = 0;
+    let   realKey    = 0;
 
-    for (const child of toArray(children)) {
-        if (child && child.props && !child.props.isHidden) {
-            const values = callback(child, key);
+    for (const child of list) {
+        if (isFiltered(child)) {
+            const values = callback(child, key, total);
+            const isLast = key === total - 1;
             result.push(React.cloneElement(child, {
-                key, realKey, ...values,
+                key, realKey, isLast, ...values,
             }));
             key += 1;
         }
