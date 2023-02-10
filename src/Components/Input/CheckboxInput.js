@@ -76,7 +76,7 @@ function CheckboxInput(props) {
             tabIndex={tabIndex}
         />
         <Span icon={isChecked ? "checkedbox" : "checkbox"} />
-        <Html variant="span">{NLS.get(label)}</Html>
+        {!!label && <Html variant="span">{NLS.get(label)}</Html>}
     </label>;
 }
 
@@ -89,7 +89,7 @@ CheckboxInput.propTypes = {
     id         : PropTypes.string,
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
-    label      : PropTypes.string.isRequired,
+    label      : PropTypes.string,
     tabIndex   : PropTypes.string,
     isChecked  : PropTypes.bool,
     isDisabled : PropTypes.bool,
