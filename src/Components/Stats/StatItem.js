@@ -6,10 +6,14 @@ import Styled               from "styled-components";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
+// Compoments
+import Tooltip              from "../Common/Tooltip";
+
 
 
 // Styles
 const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))`
+    position: relative;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -19,6 +23,14 @@ const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))
     min-width: 100px;
     line-height: 1;
     border-radius: var(--border-radius);
+
+    &:hover .tooltip {
+        visibility: visible;
+        transform: translateY(-50%) scale(1);
+    }
+    &:hover .tooltip::before {
+        opacity: 1;
+    }
 
     ${(props) => props.outlined ? `
         border: 1px solid var(--darker-gray);
@@ -53,8 +65,8 @@ const Span = Styled.span.attrs(({ usePrimary }) => ({ usePrimary }))`
  */
 function StatItem(props) {
     const {
-        message, value, decimals, percent, isPrice, isPercent,
-        outlined, twoLines, usePrimary,
+        message, tooltip, value, decimals, percent, isPrice, isPercent,
+        outlined, twoLines, usePrimary, isLast,
     } = props;
 
     let content = value;
@@ -78,6 +90,7 @@ function StatItem(props) {
         <Span usePrimary={usePrimary}>
             {content}
         </Span>
+        <Tooltip message={tooltip} toRight={isLast} fullWidth />
     </Li>;
 }
 
@@ -88,6 +101,7 @@ function StatItem(props) {
 StatItem.propTypes = {
     isHidden   : PropTypes.bool,
     message    : PropTypes.string.isRequired,
+    tooltip    : PropTypes.string,
     value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     decimals   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     percent    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
@@ -96,6 +110,7 @@ StatItem.propTypes = {
     outlined   : PropTypes.bool,
     twoLines   : PropTypes.bool,
     usePrimary : PropTypes.bool,
+    isLast     : PropTypes.bool,
 };
 
 /**
@@ -110,6 +125,7 @@ StatItem.defaultProps = {
     outlined   : false,
     twoLines   : false,
     usePrimary : false,
+    isLast     : false,
 };
 
 export default StatItem;
