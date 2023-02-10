@@ -61,16 +61,16 @@ function ActionList(props) {
             message={createName}
             onAction={onAction}
         />}
+        {canFilter && <ActionItem
+            action="FILTER"
+            onAction={onAction}
+        />}
         {canImport && <ActionItem
             action="IMPORT"
             onAction={onAction}
         />}
         {canExport && <ActionItem
             action="EXPORT"
-            onAction={onAction}
-        />}
-        {canFilter && <ActionItem
-            action="FILTER"
             onAction={onAction}
         />}
         {canEmail && <ActionItem
