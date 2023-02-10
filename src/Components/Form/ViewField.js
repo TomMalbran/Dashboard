@@ -17,7 +17,11 @@ import MultiLine            from "../Common/MultiLine";
 
 
 // Styles
-const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside }) => ({ isSmall, withLink, labelInside }))`
+const Label = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected }))`
+    ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
+`;
+
+const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside, isSelected }) => ({ isSmall, withLink, labelInside, isSelected }))`
     display: flex;
     align-items: center;
 
@@ -31,6 +35,7 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside }) => ({
         transition: all 0.2s;
         overflow: auto;
 
+        ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
         ${(props) => props.isSmall ? `
             min-height: calc(var(--input-height) - 7px);
             padding: 8px 8px 4px 8px;
@@ -40,7 +45,7 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside }) => ({
             padding: 8px 8px 6px 8px;
             line-height: 1.5;
         `}
-        ${(props) => props.labelInside ? "padding-top: 16px" : ""}
+        ${(props) => props.labelInside ? "padding-top: 16px;" : ""}
         ${(props) => props.withLink ? "cursor: pointer;" : ""}
     }
     .inputview-link {
@@ -78,7 +83,7 @@ const InputHelper = Styled.p`
 function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, label, value, icon,
-        fullWidth, labelInside, smallMargin, noMargin, isSmall, error, helperText,
+        fullWidth, labelInside, smallMargin, noMargin, isSmall, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
@@ -102,10 +107,11 @@ function ViewField(props) {
         noMargin={noMargin}
         hasLabel
     >
-        {hasLabel && <InputLabel
+        {hasLabel && <Label
             className="inputview-label"
             message={label}
             labelInside={labelInside}
+            isSelected={isSelected}
             withTransform
             withValue
         />}
@@ -114,6 +120,7 @@ function ViewField(props) {
             isSmall={isSmall}
             withLink={!!onClick}
             labelInside={labelInside}
+            isSelected={isSelected}
         >
             {!!icon && <Icon icon={icon} />}
             {isLink && <div className="inputview-value inputview-link">
@@ -121,7 +128,7 @@ function ViewField(props) {
             </div>}
             {isHtml && <Html className="inputview-value" onClick={onClick}>{content}</Html>}
             {isText && <MultiLine className={`inputview-value ${viewClass}`} onClick={onClick}>
-                {content}
+                {content || " "}
             </MultiLine>}
             {hasLink && <ViewLink
                 variant={linkVariant}
@@ -158,6 +165,7 @@ ViewField.propTypes = {
     fullWidth   : PropTypes.bool,
     labelInside : PropTypes.bool,
     isSmall     : PropTypes.bool,
+    isSelected  : PropTypes.bool,
     linkIcon    : PropTypes.string,
     linkVariant : PropTypes.string,
     linkUrl     : PropTypes.string,
@@ -183,6 +191,7 @@ ViewField.defaultProps = {
     fullWidth   : false,
     labelInside : false,
     isSmall     : false,
+    isSelected  : false,
     linkTarget  : "_blank",
     isEmail     : false,
     isPhone     : false,
