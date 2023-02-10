@@ -11,16 +11,20 @@ import CheckboxInput        from "../Input/CheckboxInput";
 
 
 // Styles
-const Container = Styled.div.attrs(({ labelInside }) => ({ labelInside }))`
+const Container = Styled.div.attrs(({ labelInside, columns }) => ({ labelInside, columns }))`
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
     grid-gap: 4px;
     width: 100%;
     padding: 12px 8px 8px 8px;
     border: 1px solid var(--lighter-color);
     border-radius: var(--border-radius);
     ${(props) => props.labelInside ? "padding-top: 16px" : ""};
+
+    @media (max-width: 500px) {
+        display: block;
+    }
 `;
 
 
@@ -33,7 +37,7 @@ const Container = Styled.div.attrs(({ labelInside }) => ({ labelInside }))`
 function MultipleInput(props) {
     const {
         className, name, value, options, withNone, noneText,
-        tabIndex, labelInside, onChange,
+        tabIndex, labelInside, columns, onChange,
     } = props;
 
     const isSelect = !Array.isArray(options);
@@ -54,7 +58,11 @@ function MultipleInput(props) {
     };
 
 
-    return <Container className={className} labelInside={labelInside}>
+    return <Container
+        className={className}
+        labelInside={labelInside}
+        columns={columns}
+    >
         {withNone && <CheckboxInput
             key={0}
             name={name}
@@ -89,6 +97,7 @@ MultipleInput.propTypes = {
     noneText    : PropTypes.string,
     tabIndex    : PropTypes.string,
     labelInside : PropTypes.bool,
+    columns     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange    : PropTypes.func.isRequired,
 };
 
@@ -100,6 +109,7 @@ MultipleInput.defaultProps = {
     className : "",
     withNone  : false,
     noneText  : "",
+    columns   : 2,
 };
 
 export default MultipleInput;
