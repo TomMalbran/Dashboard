@@ -9,6 +9,7 @@ import NLS                  from "../../Core/NLS";
 // Components
 import { Brightness }       from "../../Core/Variants";
 import Icon                 from "../Common/Icon";
+import Tooltip              from "../Common/Tooltip";
 
 
 
@@ -41,9 +42,9 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
 
     ${(props) => props.variant === Brightness.DARK && `
         --bicon-color: white;
-        --bicon-tooltip: var(--secondary-color);
         --bicon-background: var(--primary-color);
         --bicon-hover: var(--secondary-color);
+        --tooltip-color: var(--secondary-color);
     `}
     ${(props) => props.variant === Brightness.DARK && props.isSelected && `
         --bicon-background: var(--secondary-color);
@@ -51,9 +52,9 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
 
     ${(props) => props.variant === Brightness.DARKER && `
         --bicon-color: white;
-        --bicon-tooltip: var(--primary-color);
         --bicon-background: var(--secondary-color);
         --bicon-hover: var(--primary-color);
+        --tooltip-color: var(--primary-color);
     `}
     ${(props) => props.variant === Brightness.DARKER && props.isSelected && `
         --bicon-background: var(--primary-color);
@@ -61,51 +62,14 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
 
     ${(props) => props.variant === Brightness.LIGHT && `
         --bicon-color: var(--title-color);
-        --bicon-tooltip: rgba(0, 0, 0, 0.1);
         --bicon-background: rgba(0, 0, 0, 0.1);
         --bicon-hover: white;
+        --tooltip-color: rgba(0, 0, 0, 0.1);
     `}
 `;
 const Span = Styled.span`
     font-size: 13px;
     margin-left: 6px;
-`;
-
-const Tooltip = Styled.div`
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 8px);
-    visibility: hidden;
-    box-sizing: border-box;
-    padding: 5px 8px;
-    font-size: 13px;
-    font-weight: 200;
-    line-height: 1.5em;
-    color: #fff;
-    white-space: normal;
-    word-wrap: break-word;
-    border-radius: var(--border-radius);
-    background-color: var(--bicon-tooltip);
-    transform: translateY(-50%) scale(.8);
-    transition: transform .2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
-    pointer-events: none;
-    z-index: var(--z-tooltip);
-
-    &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: -12px;
-        width: 0;
-        height: 0;
-        border-width: 6px;
-        border-style: solid;
-        opacity: 0;
-        border-color: transparent var(--bicon-tooltip) transparent transparent;
-        transform: translateY(-50%);
-        pointer-events: none;
-        z-index: var(--z-tooltip);
-    }
 `;
 
 
@@ -124,7 +88,6 @@ function BarIcon(props) {
     const onClick    = Navigate.useClick(props);
     const isSelect   = Navigate.useSelect();
     const hasContent = withText && !!message;
-    const hasTooltip = withTooltip && !!message;
     const content    = NLS.get(message);
 
     // Returns true if the Menu should be selected
@@ -151,7 +114,7 @@ function BarIcon(props) {
     >
         <Icon icon={icon} />
         {hasContent && <Span>{content}</Span>}
-        {hasTooltip && <Tooltip className="tooltip">{content}</Tooltip>}
+        <Tooltip isHidden={!withTooltip} message={message} />
     </Div>;
 }
 
