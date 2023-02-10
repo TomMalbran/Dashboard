@@ -31,14 +31,19 @@ const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
  * @returns {React.ReactElement}
  */
 function TableHead(props) {
-    const { notFixed, hasIDs, hasActions, hasSorting, sort, fetch, columns, children } = props;
+    const { notFixed, hasIDs, hasChecks, hasActions, hasSorting, sort, fetch, columns, children } = props;
 
     const items = Utils.cloneChildren(children, (child) => ({
         hasSorting, sort, fetch, ...columns[child.props.realKey],
     }));
 
     return <THead notFixed={notFixed}>
-        <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
+        <TableRowCnt
+            hasIDs={hasIDs}
+            hasChecks={hasChecks}
+            hasActions={hasActions}
+        >
+            {hasChecks && <th />}
             {items}
             {hasActions && <th />}
         </TableRowCnt>
@@ -52,6 +57,7 @@ function TableHead(props) {
 TableHead.propTypes = {
     notFixed   : PropTypes.bool,
     hasIDs     : PropTypes.bool,
+    hasChecks  : PropTypes.bool,
     hasActions : PropTypes.bool,
     hasSorting : PropTypes.bool,
     fetch      : PropTypes.func,
@@ -66,6 +72,7 @@ TableHead.propTypes = {
  */
 TableHead.defaultProps = {
     hasIDs     : false,
+    hasChecks  : false,
     hasActions : false,
     hasSorting : false,
 };

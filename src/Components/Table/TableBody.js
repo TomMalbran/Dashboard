@@ -49,12 +49,14 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
  */
 function TableBody(props) {
     const {
-        notFixed, hasIDs, hasActions, hasPaging,
-        handleRowClick, handleMenuOpen, columns, children,
+        notFixed, hasIDs, hasChecks, hasActions, hasPaging,
+        handleRowClick, handleMenuOpen, columns, checked, setChecked, children,
     } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        hasIDs, hasActions, handleRowClick, handleMenuOpen, columns,
+        hasIDs, hasChecks, hasActions,
+        handleRowClick, handleMenuOpen,
+        columns, checked, setChecked,
     }));
 
     return <TBody
@@ -73,11 +75,14 @@ function TableBody(props) {
 TableBody.propTypes = {
     notFixed       : PropTypes.bool,
     hasIDs         : PropTypes.bool,
+    hasChecks      : PropTypes.bool,
     hasActions     : PropTypes.bool,
     hasPaging      : PropTypes.bool,
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     columns        : PropTypes.array,
+    checked        : PropTypes.array,
+    setChecked     : PropTypes.func,
     children       : PropTypes.node,
 };
 

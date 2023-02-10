@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 
 
 // Styles
-const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions, isSelected }) => ({ hasHover, hasIDs, hasActions, isSelected }))`
+const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelected }) => ({ hasHover, hasIDs, hasChecks, hasActions, isSelected }))`
     display: flex;
     height: auto;
 
@@ -33,6 +33,13 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions, isSelected }) => ({ 
             flex: 0 1 50px;
             width: 50px;
             font-weight: bold;
+        }
+    `}
+    ${(props) => props.hasChecks && `
+        th:first-child, td:first-child {
+            flex: 0 1 24px;
+            width: 24px;
+            padding: 8px 0 0 8px;
         }
     `}
     ${(props) => props.hasActions && `
@@ -90,14 +97,15 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasActions, isSelected }) => ({ 
  */
 function TableRowCnt(props) {
     const {
-        className, hasHover, hasIDs, hasActions, isSelected,
-        onClick, onContextMenu, children,
+        className, hasHover, hasIDs, hasChecks, hasActions,
+        isSelected, onClick, onContextMenu, children,
     } = props;
 
     return <TR
         className={className}
         hasHover={hasHover}
         hasIDs={hasIDs}
+        hasChecks={hasChecks}
         hasActions={hasActions}
         isSelected={isSelected}
         onClick={onClick}
@@ -115,6 +123,7 @@ TableRowCnt.propTypes = {
     className     : PropTypes.string,
     hasHover      : PropTypes.bool,
     hasIDs        : PropTypes.bool,
+    hasChecks     : PropTypes.bool,
     hasActions    : PropTypes.bool,
     isSelected    : PropTypes.bool,
     onClick       : PropTypes.func,
@@ -130,6 +139,7 @@ TableRowCnt.defaultProps = {
     className  : "",
     hasHover   : false,
     hasIDs     : false,
+    hasChecks  : false,
     hasActions : false,
 };
 

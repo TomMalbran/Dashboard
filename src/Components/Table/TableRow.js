@@ -7,6 +7,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import TableRowCnt          from "../Table/TableRowCnt";
 import IconLink             from "../Link/IconLink";
+import CheckboxInput        from "../Input/CheckboxInput";
 
 
 
@@ -17,8 +18,8 @@ import IconLink             from "../Link/IconLink";
  */
 function TableRow(props) {
     const {
-        hasIDs, hasActions, elemID, isSelected,
-        handleRowClick, handleMenuOpen, columns, children,
+        hasIDs, hasChecks, hasActions, elemID, isSelected,
+        handleRowClick, handleMenuOpen, columns, checked, setChecked, children,
     } = props;
 
     // References
@@ -27,6 +28,15 @@ function TableRow(props) {
     // Handles the Row Click
     const handleClick = () => {
         handleRowClick(elemID);
+    };
+
+    // Handles the Check
+    const handleChange = (name, isChecked) => {
+        if (isChecked) {
+            setChecked([ ...checked, elemID ]);
+        } else {
+            setChecked(checked.filter((id) => id !== elemID));
+        }
     };
 
     // Handles the Menu Click
@@ -50,10 +60,18 @@ function TableRow(props) {
         onClick={handleClick}
         onContextMenu={handleContextMenu}
         hasIDs={hasIDs}
+        hasChecks={hasChecks}
         hasActions={hasActions}
         isSelected={isSelected}
         hasHover
     >
+        {hasChecks && <td>
+            <CheckboxInput
+                name="checked"
+                isChecked={checked.includes(elemID)}
+                onChange={handleChange}
+            />
+        </td>}
         {items}
         {hasActions && <td ref={linkRef}>
             <IconLink
@@ -72,12 +90,15 @@ function TableRow(props) {
  */
 TableRow.propTypes = {
     hasIDs         : PropTypes.bool,
+    hasChecks      : PropTypes.bool,
     hasActions     : PropTypes.bool,
     elemID         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isSelected     : PropTypes.bool,
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     columns        : PropTypes.array,
+    checked        : PropTypes.array,
+    setChecked     : PropTypes.func,
     children       : PropTypes.any,
 };
 
@@ -87,6 +108,7 @@ TableRow.propTypes = {
  */
 TableRow.defaultProps = {
     hasIDs     : false,
+    hasChecks  : false,
     hasActions : false,
 };
 

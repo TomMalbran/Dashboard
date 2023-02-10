@@ -54,7 +54,7 @@ function Table(props) {
     const {
         sort, fetch, className, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
-        noSorting, hasIDs, notFixed, rightSpace, children,
+        noSorting, hasIDs, notFixed, rightSpace, checked, setChecked, children,
     } = props;
 
     const tableRef = React.useRef();
@@ -171,6 +171,7 @@ function Table(props) {
 
     const showMenu   = hasActions && Boolean(menuID !== null && menuTop);
     const hasSorting = !noSorting && !Utils.isEmpty(sort);
+    const hasChecks  = Boolean(checked && setChecked);
     if (hasActions) {
         colSpan += 1;
     }
@@ -180,8 +181,8 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasActions, hasSorting, hasPaging,
-                notFixed, rightSpace,
+                hasIDs, hasChecks, hasActions, hasSorting, hasPaging,
+                notFixed, rightSpace, checked, setChecked,
                 handleRowClick, handleMenuOpen,
             }));
         }
@@ -252,6 +253,8 @@ Table.propTypes = {
     noClick     : PropTypes.bool,
     notFixed    : PropTypes.bool,
     rightSpace  : PropTypes.bool,
+    checked     : PropTypes.array,
+    setChecked  : PropTypes.func,
     children    : PropTypes.any,
 };
 
