@@ -29,6 +29,7 @@ const Drop = Styled.div.attrs(({ isOpen }) => ({ isOpen }))`
 
 const Div = Styled.div`
     background-color: var(--lighter-gray);
+    border-radius: var(--border-radius);
     text-align: center;
     padding: 24px;
 `;
@@ -50,7 +51,7 @@ const Input = Styled.input`
  * @returns {React.ReactElement}
  */
 function DropZone(props) {
-    const { open, onlyImages, onStart, onDrop, onEnd } = props;
+    const { open, onlyImages, maxSize, onStart, onDrop, onEnd, onError } = props;
 
     const containerRef = React.useRef(null);
     const inputRef     = React.useRef(null);
@@ -73,6 +74,15 @@ function DropZone(props) {
         if (onlyImages) {
             const imageTypes = [ "image/png", "image/gif", "image/bmp", "image/jpg", "image/jpeg" ];
             return imageTypes.includes(fileType.toLowerCase());
+        }
+        return true;
+    };
+
+    // Returns true if the Type is an Image
+    const isValidSize = (fileSize) => {
+        if (maxSize) {
+            const size = fileSize / (1024 * 1024);
+            return size <= maxSize;
         }
         return true;
     };
@@ -103,26 +113,33 @@ function DropZone(props) {
     const handleDrop = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const files = [];
+        const files      = [];
+        let   totalFiles = 0;
 
         // Use DataTransferItemList interface to access the file(s)
         if (e.dataTransfer.items) {
+            totalFiles = e.dataTransfer.items.length;
             for (const item of e.dataTransfer.items) {
-                if (item.kind === "file" && isValidType(item.type)) {
+                if (item.kind === "file" && isValidType(item.type) && isValidSize(item.size)) {
                     const file = item.getAsFile();
                     files.push(file);
                 }
             }
         // Use DataTransfer interface to access the file(s)
         } else {
+            totalFiles = e.dataTransfer.files.length;
             for (const file of e.dataTransfer.files) {
-                if (isValidType(file.type)) {
+                if (isValidType(file.type) && isValidSize(file.size)) {
                     files.push(file);
                 }
             }
         }
+
         if (files.length) {
             onDrop(files);
+        }
+        if (totalFiles !== files.length && onError) {
+            onError(files.length - totalFiles);
         }
         onEnd();
     };
@@ -135,12 +152,16 @@ function DropZone(props) {
         const result = [];
 
         for (const file of files) {
-            if (isValidType(file.type)) {
+            if (isValidType(file.type) && isValidSize(file.size)) {
                 result.push(file);
             }
         }
+
         if (result.length) {
             onDrop(result);
+        }
+        if (result.length !== files.length && onError) {
+            onError(files.length - result.length);
         }
         if (node) {
             node.value = "";
@@ -206,8 +227,10 @@ DropZone.propTypes = {
     onStart    : PropTypes.func.isRequired,
     onEnd      : PropTypes.func.isRequired,
     onDrop     : PropTypes.func.isRequired,
+    onError    : PropTypes.func,
     open       : PropTypes.bool.isRequired,
     onlyImages : PropTypes.bool,
+    maxSize    : PropTypes.number,
 };
 
 export default DropZone;
