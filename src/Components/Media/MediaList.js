@@ -43,7 +43,7 @@ const Section = Styled.section`
 function MediaList(props) {
     const {
         className, onAction, onDrop, isLoading, canEdit, canSelect, canDrag,
-        withSpacing, selected, items, path,
+        withSpacing, selectedPath, items, path,
     } = props;
 
     const showLoader = isLoading;
@@ -186,7 +186,7 @@ function MediaList(props) {
                         elem={elem}
                         className={`media-item-${index}`}
                         style={isCurrent ? style : null}
-                        isSelected={canSelect && selected === elem.name}
+                        isSelected={canSelect && !elem.isBack && selectedPath === elem.path}
                         hasActions={!isCurrent && canEdit && !elem.isBack}
                         onAction={onAction}
                         onMouseDown={(e) => handleGrab(e, elem, index)}
@@ -202,17 +202,17 @@ function MediaList(props) {
  * @type {Object} propTypes
  */
 MediaList.propTypes = {
-    className   : PropTypes.string,
-    onAction    : PropTypes.func,
-    onDrop      : PropTypes.func,
-    isLoading   : PropTypes.bool,
-    canSelect   : PropTypes.bool,
-    canEdit     : PropTypes.bool,
-    canDrag     : PropTypes.bool,
-    withSpacing : PropTypes.bool,
-    selected    : PropTypes.string,
-    items       : PropTypes.array,
-    path        : PropTypes.string,
+    className    : PropTypes.string,
+    onAction     : PropTypes.func,
+    onDrop       : PropTypes.func,
+    isLoading    : PropTypes.bool,
+    canSelect    : PropTypes.bool,
+    canEdit      : PropTypes.bool,
+    canDrag      : PropTypes.bool,
+    withSpacing  : PropTypes.bool,
+    selectedPath : PropTypes.string,
+    items        : PropTypes.array,
+    path         : PropTypes.string,
 };
 
 /**
