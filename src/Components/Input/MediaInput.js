@@ -14,13 +14,12 @@ import Icon                 from "../Common/Icon";
 const Container = Styled.div`
     position: relative;
     overflow: hidden;
-    height: var(--input-height);
     width: 100%;
     border: 1px solid var(--lighter-color);
     border-radius: var(--border-radius);
 `;
 
-const Div = Styled.div`
+const Div = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -32,6 +31,13 @@ const Div = Styled.div`
     color: var(--gray-color);
     white-space: nowrap;
     cursor: pointer;
+
+    ${(props) => props.hasLabel && props.labelInside && `
+        & {
+            height: calc(var(--input-height) + 7px - 2px);
+            padding-top: 16px !important;
+        }
+    `}
 `;
 
 const IconDiv = Styled.div`
@@ -45,10 +51,10 @@ const IconDiv = Styled.div`
 
 const FileIcon = Styled(Icon)`
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 50%;
+    right: 8px;
     font-size: 20px;
-    transform: rotate(45deg);
+    transform: translateY(-50%) rotate(45deg);
 `;
 
 const Placeholder = Styled.span`
@@ -63,10 +69,17 @@ const Placeholder = Styled.span`
  * @returns {React.ReactElement}
  */
 function MediaInput(props) {
-    const { className, value, placeholder, onClick } = props;
+    const {
+        className, value, placeholder, hasLabel, labelInside,
+        onClick,
+    } = props;
 
     return <Container className={className}>
-        <Div onClick={onClick}>
+        <Div
+            hasLabel={hasLabel}
+            labelInside={labelInside}
+            onClick={onClick}
+        >
             {value ? value : <Placeholder>
                 {NLS.get(placeholder || "GENERAL_SELECT_FILE")}
             </Placeholder>}
@@ -83,6 +96,8 @@ MediaInput.propTypes = {
     className   : PropTypes.string,
     value       : PropTypes.any,
     placeholder : PropTypes.string,
+    hasLabel    : PropTypes.bool,
+    labelInside : PropTypes.bool,
     onClick     : PropTypes.func.isRequired,
 };
 
