@@ -34,7 +34,7 @@ function PromptDialog(props) {
     const {
         open, title, message, content, icon,
         inputType, inputLabel, inputIcon, placeholder, initialValue, inputOptions, spellCheck,
-        isOptional, onSubmit, onClose,
+        isOptional, labelInside, onSubmit, onClose,
     } = props;
 
     const [ value, setValue ] = React.useState(initialValue);
@@ -78,6 +78,7 @@ function PromptDialog(props) {
                 onChange={handleChange}
                 onSubmit={handleSubmit}
                 spellCheck={spellCheck}
+                labelInside={labelInside}
                 isRequired
                 withNone
                 noMargin
@@ -110,6 +111,7 @@ PromptDialog.propTypes = {
     onSubmit     : PropTypes.func.isRequired,
     onClose      : PropTypes.func.isRequired,
     isOptional   : PropTypes.bool,
+    labelInside  : PropTypes.bool,
     spellCheck   : PropTypes.string,
 };
 
@@ -121,6 +123,7 @@ PromptDialog.defaultProps = {
     inputType    : InputType.TEXT,
     initialValue : "",
     isOptional   : false,
+    labelInside  : false,
 };
 
 export default PromptDialog;
