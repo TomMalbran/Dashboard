@@ -65,7 +65,7 @@ const Error = Styled.div`
 function Details(props) {
     const {
         className, isInside, topSpace, isLoading, isEmpty, hasError, error,
-        collapsible, children,
+        canEdit, onAction, collapsible, children,
     } = props;
 
     const { setDetails } = Store.useAction("core");
@@ -79,7 +79,9 @@ function Details(props) {
 
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError && !isEmpty;
-    const items       = Utils.cloneChildren(children, () => ({ collapsible }));
+    const items       = Utils.cloneChildren(children, () => ({
+        collapsible, canEdit, onAction,
+    }));
 
     return <Section
         className={`details light-scrollbars ${className}`}
@@ -104,6 +106,8 @@ Details.propTypes = {
     isEmpty     : PropTypes.bool,
     hasError    : PropTypes.bool,
     error       : PropTypes.string,
+    canEdit     : PropTypes.bool,
+    onAction    : PropTypes.func,
     collapsible : PropTypes.string,
     children    : PropTypes.any,
 };

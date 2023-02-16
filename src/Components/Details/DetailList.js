@@ -3,6 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import Action               from "../../Core/Action";
+import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -49,6 +51,10 @@ const H3 = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible,
     `}
 `;
 
+const Span = Styled.span`
+    flex-grow: 2;
+`;
+
 const Ul = Styled.ul`
     margin: 0;
     padding: 0;
@@ -63,10 +69,16 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function DetailList(props) {
-    const { isHidden, className, message, collapsible, children } = props;
+    const {
+        isHidden, className, message, collapsible,
+        action, onAction, canEdit, children,
+    } = props;
+
+    const { closeDetails } = Store.useAction("core");
 
     // The Current State
     const [ isCollapsed, setCollapsed ] = React.useState(false);
+
 
     // Handles the Initial Collapsed state
     React.useEffect(() => {
@@ -85,11 +97,22 @@ function DetailList(props) {
         }
     };
 
+    // Handles the Action
+    const handleAction = (e) => {
+        e.stopPropagation();
+        if (onAction) {
+            onAction(Action.get(action));
+        }
+        closeDetails();
+    };
+
 
     if (isHidden) {
         return <React.Fragment />;
     }
+
     const isCollapsible = Boolean(collapsible);
+    const hasAction     = Boolean(action && onAction && canEdit);
     return <Div className={className}>
         <H3
             isCollapsible={isCollapsible}
@@ -97,7 +120,8 @@ function DetailList(props) {
             onClick={handleClick}
         >
             {isCollapsible && <Icon icon={isCollapsed ? "closed" : "expand"} />}
-            {NLS.get(message)}
+            <Span>{NLS.get(message)}</Span>
+            {hasAction && <Icon icon="edit" onClick={handleAction} />}
         </H3>
         {!isCollapsed && <Ul>{children}</Ul>}
     </Div>;
@@ -112,6 +136,9 @@ DetailList.propTypes = {
     className   : PropTypes.string,
     message     : PropTypes.string.isRequired,
     collapsible : PropTypes.string,
+    action      : PropTypes.string,
+    canEdit     : PropTypes.bool,
+    onAction    : PropTypes.func,
     children    : PropTypes.any,
 };
 
@@ -122,6 +149,7 @@ DetailList.propTypes = {
 DetailList.defaultProps = {
     isHidden  : false,
     className : "",
+    action    : "",
 };
 
 export default DetailList;
