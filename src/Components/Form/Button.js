@@ -28,6 +28,13 @@ const Variant = {
 
 // Styles
 const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => ({ variant, isSmall, fullWidth, withIcon }))`
+    --button-color: var(--black-color);
+    --button-border: black;
+    --button-background: black;
+    --button-hover-color: var(--button-color);
+    --button-hover-border: var(--button-border);
+    --button-hover-background: white;
+
     display: inline-block;
     box-sizing: border-box;
     margin: 0;
@@ -38,15 +45,11 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     transition: all 0.5s;
     background: var(--button-background);
     border: 1px solid var(--button-border);
-    color: var(--button-font);
+    color: var(--button-color);
     text-transform: uppercase;
     font-size: ${(props) => props.isSmall ? "10px" : "12px"};
     padding: ${(props) => props.isSmall ? "4px 8px" : "8px 16px"};
     width: ${(props) => props.fullWidth ? "100%" : "auto"};
-
-    --button-font: var(--black-color);
-    --button-color: var(--black-color);
-    --button-shadow: white;
 
     ${(props) => props.withIcon ? `
         display: flex;
@@ -69,8 +72,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     &:hover,
     &:focus,
     &:active {
-        color: var(--button-color);
-        box-shadow: inset 0 0 0 2em var(--button-shadow);
+        color: var(--button-hover-color);
+        box-shadow: inset 0 0 0 2em var(--button-hover-background);
+        border-color: var(--button-hover-border);
         outline: none;
     }
 
@@ -88,59 +92,61 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     ${(props) => {
         switch (props.variant) {
         case Variant.PRIMARY: return `
-            --button-font: white;
+            --button-color: white;
             --button-border: var(--primary-color);
             --button-background: var(--primary-color);
+            --button-hover-color: var(--primary-color);
         `;
         case Variant.CANCEL: return `
-            --button-font: var(--black-color);
+            --button-color: var(--black-color);
             --button-border: rgb(225, 225, 225);
             --button-background: rgb(225, 225, 225);
-            --button-shadow: #ededed;
+            --button-hover-background: #ededed;
         `;
         case Variant.ERROR: return `
-            --button-font: white;
+            --button-color: white;
             --button-border: var(--red-color);
             --button-background: var(--red-color);
         `;
         case Variant.ACCENT: return `
-            --button-font: white;
+            --button-color: white;
             --button-border: var(--accent-color);
             --button-background: var(--accent-color);
         `;
         case Variant.WHITE: return `
-            --button-font: black;
-            --button-border: var(--primary-color);
+            --button-color: var(--primary-color);
+            --button-border: white;
             --button-background: white;
-            --button-color: white;
-            --button-shadow: var(--primary-color);
+            --button-hover-color: white;
+            --button-hover-border: var(--primary-color);
+            --button-hover-background: var(--primary-color);
         `;
         case Variant.OUTLINED: return `
-            --button-background: white;
-            --button-font: var(--primary-color);
+            --button-color: var(--primary-color);
             --button-border: var(--primary-color);
-            --button-color: white;
-            --button-shadow: var(--primary-color);
+            --button-background: white;
+            --button-hover-color: white;
+            --button-hover-background: var(--primary-color);
         `;
         case Variant.OUTLINED_WHITE: return `
-            --button-background: transparent;
-            --button-font: white;
+            --button-color: white;
             --button-border: white;
-            --button-color: var(--font-dark);
-            --button-shadow: white;
+            --button-background: transparent;
+            --button-hover-color: var(--font-dark);
+            --button-hover-background: white;
         `;
         case Variant.OUTLINED_ACCENT: return `
-            --button-background: transparent;
-            --button-font: var(--accent-color);
+            --button-color: var(--accent-color);
             --button-border: var(--accent-color);
-            --button-color: white;
-            --button-shadow: var(--accent-color);
+            --button-background: transparent;
+            --button-hover-color: white;
+            --button-hover-background: var(--accent-color);
         `;
         case Variant.MENU: return `
             text-transform: none;
-            --button-font: var(--lightest-color);
-            --button-color: white;
-            --button-shadow: rgba(255, 255, 255, 0.05);
+            --button-color: var(--lightest-color);
+            --button-hover-color: white;
+            --button-hover-background: rgba(255, 255, 255, 0.05);
 
             .icon {
                 color: var(--lightest-color);
