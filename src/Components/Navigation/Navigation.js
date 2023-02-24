@@ -16,6 +16,7 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
     flex-direction: column;
     box-sizing: border-box;
     width: var(--navigation-width);
+    max-height: var(--main-height);
 
     ${(props) => props.variant === Brightness.DARK && `
         background-color: var(--secondary-color);
@@ -31,7 +32,7 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
         position: fixed;
         top: 0;
         left: var(--sidebar-width);
-        bottom: 0;
+        height: var(--full-height);
         z-index: var(--z-navigation);
     }
 `;
