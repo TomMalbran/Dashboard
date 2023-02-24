@@ -18,6 +18,10 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         border-bottom: 2px solid var(--light-gray);
     }
 
+    .icon-checkbox {
+        color: var(--darkest-gray);
+    }
+
     ${(props) => props.hasHover && `
         &:hover td {
             background-color: var(--lighter-gray);
