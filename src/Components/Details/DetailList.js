@@ -17,10 +17,6 @@ const Div = Styled.div`
     color: rgb(94, 108, 132);
     background-color: white;
     border-radius: var(--border-radius);
-
-    & + & {
-        margin-top: 16px;
-    }
 `;
 
 const H3 = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible, isCollapsed }))`

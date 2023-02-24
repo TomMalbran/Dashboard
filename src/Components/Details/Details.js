@@ -14,8 +14,11 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 // Styles
 const Section = Styled.section.attrs(({ isInside, topSpace }) => ({ isInside, topSpace }))`
-    flex-shrink: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 16px;
     width: var(--details-width);
     background-color: var(--lighter-gray);
     padding: 16px;
@@ -83,9 +86,14 @@ function Details(props) {
 
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError && !isEmpty;
-    const items       = Utils.cloneChildren(children, () => ({
-        collapsible, canEdit, onAction,
-    }));
+
+    let items = children;
+    if (collapsible || onAction) {
+        items = Utils.cloneChildren(children, () => ({
+            collapsible, canEdit, onAction,
+        }));
+    }
+
 
     return <Section
         className={`details light-scrollbars ${className}`}

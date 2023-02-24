@@ -81,7 +81,7 @@ const Div = Styled.div.attrs(({
         `}
 
         ${(props) => props.showingDetails && `
-            .details { display: block; }
+            .details { display: flex; }
         `}
         ${(props) => props.openingDetails && css`
             .details { animation: ${detailsOpen} 0.3s ease-in both; }

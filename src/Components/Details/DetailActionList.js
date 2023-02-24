@@ -14,7 +14,6 @@ import Button               from "../Form/Button";
 
 // Styles
 const Div = Styled.div`
-    margin-top: 16px;
     border-radius: 3px;
 
     .btn {
