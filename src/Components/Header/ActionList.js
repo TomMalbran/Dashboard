@@ -48,9 +48,7 @@ function ActionList(props) {
     const canImport   = Boolean(data.canImport);
     const canExport   = Boolean(data.canExport && data.total > 0);
     const canFilter   = Boolean(data.canFilter);
-    const canEmail    = Boolean(withEmail && data.total > 0);
-    const canCampaign = Boolean(withCampaign && data.total > 0);
-    const hasActions  = canCreate || canImport || canExport || canFilter || canEmail || canCampaign || items.length > 0;
+    const hasActions = canCreate || canFilter || canImport || canExport || items.length > 0;
 
     if (!hasActions) {
         return <React.Fragment />;
@@ -73,14 +71,6 @@ function ActionList(props) {
             action="EXPORT"
             onAction={onAction}
         />}
-        {canEmail && <ActionItem
-            action="EMAIL"
-            onAction={onAction}
-        />}
-        {canCampaign && <ActionItem
-            action="CAMPAIGN"
-            onAction={onAction}
-        />}
         {items}
     </Ul>;
 }
@@ -96,8 +86,6 @@ ActionList.propTypes = {
     createText   : PropTypes.string,
     useAdd       : PropTypes.bool,
     useAssign    : PropTypes.bool,
-    withEmail    : PropTypes.bool,
-    withCampaign : PropTypes.bool,
     children     : PropTypes.any,
 };
 
@@ -111,8 +99,6 @@ ActionList.defaultProps = {
     createText   : "",
     useAdd       : false,
     useAssign    : false,
-    withEmail    : false,
-    withCampaign : false,
 };
 
 export default ActionList;

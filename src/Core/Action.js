@@ -25,8 +25,6 @@ const OPTIONS = {
     isTab      : false,
     isCollapse : false,
     isFilter   : false,
-    isEmail    : false,
-    isCampaign : false,
 
     isLogin    : false,
     isSelect   : false,
@@ -116,18 +114,6 @@ const ACTIONS = {
         icon       : "filter",
         message    : "GENERAL_FILTER",
         isFilter   : true,
-    },
-    "EMAIL" : {
-        ...OPTIONS,
-        icon       : "email",
-        message    : "GENERAL_SEND_EMAIL",
-        isEmail    : true,
-    },
-    "CAMPAIGN" : {
-        ...OPTIONS,
-        icon       : "add",
-        message    : "GENERAL_SEND_CAMPAIGN",
-        isCampaign : true,
     },
 
 
