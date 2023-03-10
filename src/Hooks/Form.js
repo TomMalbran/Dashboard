@@ -12,9 +12,10 @@ import Utils                from "../Utils/Utils";
  * @param {Function}  edit
  * @param {Function=} onSubmit
  * @param {Boolean=}  startLoading
+ * @param {Boolean=}  open
  * @returns {Object}
  */
-function useForm(initialData, edit, onSubmit = null, startLoading = true) {
+function useForm(initialData, edit, onSubmit = null, startLoading = true, open = true) {
     const { loading                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
@@ -28,10 +29,10 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true) {
 
     // Reset the Loader
     React.useEffect(() => {
-        if (!startLoading) {
+        if (open && !startLoading) {
             endLoader();
         }
-    }, []);
+    }, [ open ]);
 
 
     // Sets the Data
