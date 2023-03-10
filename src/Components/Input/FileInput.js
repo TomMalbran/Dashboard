@@ -78,14 +78,12 @@ function FileInput(props) {
         onlyImages, hasLabel, labelInside,
     } = props;
 
-    const [ fileName, setFileName ] = React.useState(value);
-    const inputRef                  = React.useRef();
+    const inputRef = React.useRef();
 
     // Handles the File Change
     const handleChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setFileName(file.name);
             onChange(name, file);
         }
     };
@@ -107,7 +105,7 @@ function FileInput(props) {
             labelInside={labelInside}
             onClick={handleClick}
         >
-            {fileName ? fileName : <Placeholder>
+            {value ? value : <Placeholder>
                 {NLS.get(placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE"))}
             </Placeholder>}
             <FileIcon icon="attachment" />

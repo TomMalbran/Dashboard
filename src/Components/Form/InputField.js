@@ -197,6 +197,8 @@ function InputField(props) {
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
             suggestRef.current.clear();
+        } else if (type === "file") {
+            handleChange(name, {});
         } else {
             handleChange(name, "");
         }
