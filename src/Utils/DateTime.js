@@ -28,6 +28,7 @@ const FORMATS = {
     dashesReverse  : "DATE_DASHES_REVERSE",
     dashesTime     : "DATE_DASHES_TIME",
     dashesHour     : "DATE_DASHES_HOUR",
+    dashesSeconds  : "DATE_DASHES_SECONDS",
     slashes        : "DATE_SLASHES",
     slashesDay     : "DATE_SLASHES_DAY",
     sortable       : "DATE_SORTABLE",
@@ -283,7 +284,8 @@ class DateHour {
                 .replace("{m3}", this.getMonthName(3))
                 .replace("{y}",  this.year.toString())
                 .replace("{h}",  parseTime(this.hours))
-                .replace("{i}",  parseTime(this.minutes));
+                .replace("{i}",  parseTime(this.minutes))
+                .replace("{s}",  parseTime(this.seconds));
         }
         return "";
     }
