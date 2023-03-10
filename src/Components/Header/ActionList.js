@@ -40,14 +40,17 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function ActionList(props) {
-    const { className, data, onAction, createText, useAdd, useAssign, withEmail, withCampaign, children } = props;
+    const {
+        className, data, onAction, createText,
+        useAdd, useAssign, withImport, withExport, children,
+    } = props;
 
-    const items       = Utils.cloneChildren(children, () => ({ onAction }));
-    const createName  = createText || (useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE"));
-    const canCreate   = Boolean(data.canCreate);
-    const canImport   = Boolean(data.canImport);
-    const canExport   = Boolean(data.canExport && data.total > 0);
-    const canFilter   = Boolean(data.canFilter);
+    const items      = Utils.cloneChildren(children, () => ({ onAction }));
+    const createName = createText || (useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE"));
+    const canCreate  = Boolean(data.canCreate);
+    const canFilter  = Boolean(data.canFilter);
+    const canImport  = Boolean(withImport && data.canImport);
+    const canExport  = Boolean(withExport && data.canExport && data.total > 0);
     const hasActions = canCreate || canFilter || canImport || canExport || items.length > 0;
 
     if (!hasActions) {
@@ -80,13 +83,15 @@ function ActionList(props) {
  * @typedef {Object} propTypes
  */
 ActionList.propTypes = {
-    data         : PropTypes.object,
-    className    : PropTypes.string,
-    onAction     : PropTypes.func,
-    createText   : PropTypes.string,
-    useAdd       : PropTypes.bool,
-    useAssign    : PropTypes.bool,
-    children     : PropTypes.any,
+    data       : PropTypes.object,
+    className  : PropTypes.string,
+    onAction   : PropTypes.func,
+    createText : PropTypes.string,
+    useAdd     : PropTypes.bool,
+    useAssign  : PropTypes.bool,
+    withImport : PropTypes.bool,
+    withExport : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -94,11 +99,13 @@ ActionList.propTypes = {
  * @type {Object} defaultProps
  */
 ActionList.defaultProps = {
-    className    : "",
-    data         : {},
-    createText   : "",
-    useAdd       : false,
-    useAssign    : false,
+    className  : "",
+    data       : {},
+    createText : "",
+    useAdd     : false,
+    useAssign  : false,
+    withImport : true,
+    withExport : true,
 };
 
 export default ActionList;
