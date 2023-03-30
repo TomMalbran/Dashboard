@@ -13,6 +13,7 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
     flex-grow: 2;
     color: var(--secondary-color);
     max-height: var(--dialog-body);
+    overscroll-behavior-y: none;
 
     ${(props) => (props.isLoading || props.isCentered) && `
         display: flex;
@@ -50,21 +51,22 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
 function DialogBody(props) {
     const {
         className, isLoading, isCentered, isNarrow, withSpacing, noOverflow, fullHeight,
-        onScroll, children,
+        passedRef, onScroll, children,
     } = props;
 
     const dialogRef = React.useRef();
+    const mainRef   = passedRef || dialogRef;
 
     // Handle the Scroll
     const handleScroll = () => {
-        if (onScroll && dialogRef.current) {
-            onScroll(dialogRef.current);
+        if (onScroll && mainRef.current) {
+            onScroll(mainRef.current);
         }
     };
 
 
     return <Main
-        ref={dialogRef}
+        ref={mainRef}
         className={className}
         isLoading={isLoading}
         isCentered={isCentered}
@@ -83,6 +85,7 @@ function DialogBody(props) {
  * @type {Object} propTypes
  */
 DialogBody.propTypes = {
+    passedRef   : PropTypes.any,
     className   : PropTypes.string,
     isLoading   : PropTypes.bool,
     isCentered  : PropTypes.bool,

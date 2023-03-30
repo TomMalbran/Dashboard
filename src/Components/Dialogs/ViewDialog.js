@@ -16,7 +16,7 @@ import DialogFooter         from "../Dialog/DialogFooter";
  */
 function ViewDialog(props) {
     const {
-        open, title, icon, className,
+        contentRef, open, title, icon, className,
         isLoading, width, isWide, isNarrow, fullHeight, withSpacing,
         secondary, onSecondary, cancel, onClose, children,
     } = props;
@@ -29,8 +29,12 @@ function ViewDialog(props) {
         isWide={isWide}
         isNarrow={isNarrow}
     >
-        <DialogHeader message={title} icon={icon} />
+        <DialogHeader
+            message={title}
+            icon={icon}
+        />
         <DialogBody
+            passedRef={contentRef}
             className={className}
             fullHeight={fullHeight}
             withSpacing={withSpacing}
@@ -50,6 +54,7 @@ function ViewDialog(props) {
  * @typedef {Object} propTypes
  */
 ViewDialog.propTypes = {
+    contentRef  : PropTypes.any,
     open        : PropTypes.bool.isRequired,
     title       : PropTypes.string.isRequired,
     icon        : PropTypes.string,
