@@ -15,7 +15,7 @@ import Button               from "../Form/Button";
  * @returns {React.ReactElement}
  */
 function InfoAction(props) {
-    const { isHidden, className, message, action, onAction } = props;
+    const { isHidden, className, variant, message, action, onAction } = props;
     const act = Action.get(action);
 
     // Handles the Click
@@ -31,7 +31,7 @@ function InfoAction(props) {
     }
     return <Button
         className={className}
-        variant="accent"
+        variant={variant}
         message={message || act.message}
         onClick={handleClick}
     />;
@@ -45,6 +45,7 @@ InfoAction.propTypes = {
     isHidden  : PropTypes.bool,
     action    : PropTypes.string.isRequired,
     className : PropTypes.string,
+    variant   : PropTypes.string,
     message   : PropTypes.string,
     onAction  : PropTypes.func,
 };
@@ -56,6 +57,7 @@ InfoAction.propTypes = {
 InfoAction.defaultProps = {
     isHidden  : false,
     className : "",
+    variant   : "accent",
 };
 
 export default InfoAction;

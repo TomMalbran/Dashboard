@@ -32,14 +32,14 @@ const Actions = Styled.div`
  * @returns {React.ReactElement}
  */
 function InfoList(props) {
-    const { className, onAction, children } = props;
+    const { className, variant, onAction, children } = props;
 
     const items   = [];
     const actions = [];
 
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
         if (child.type === InfoAction) {
-            actions.push(React.cloneElement(child, { key, onAction }));
+            actions.push(React.cloneElement(child, { key, variant, onAction }));
         } else {
             items.push(React.cloneElement(child, { key }));
         }
@@ -57,6 +57,7 @@ function InfoList(props) {
  */
 InfoList.propTypes = {
     className : PropTypes.string,
+    variant   : PropTypes.string,
     onAction  : PropTypes.func,
     children  : PropTypes.any,
 };
@@ -67,6 +68,7 @@ InfoList.propTypes = {
  */
 InfoList.defaultProps = {
     className : "",
+    variant   : "accent",
 };
 
 export default InfoList;
