@@ -46,7 +46,7 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     border: none;
     border-radius: var(--border-radius);
     background-color: white;
-    animation: ${(props) => props.isClosing ? css`${close} 0.3s ease-out` : css`${open} 0.2s ease-out`};
+    animation: ${(props) => props.isClosing ? css`${close}` : css`${open}`} 0.3s ease-out;
 
     &[open]:not(:focus-within) {
         background-color: rgb(255, 255, 254);
@@ -90,8 +90,8 @@ function Dialog(props) {
     const [ opened,  setOpened  ] = React.useState(false);
     const [ closing, setClosing ] = React.useState(false);
 
-    const contentRef              = React.useRef();
-    const savedHandler            = React.useRef();
+    const contentRef              = React.useRef(null);
+    const savedHandler            = React.useRef(null);
 
 
     // Handles the Dialog Close

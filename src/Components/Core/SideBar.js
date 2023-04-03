@@ -5,16 +5,18 @@ import Styled               from "styled-components";
 // Core
 import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Components
 import BarLogo              from "../Core/BarLogo";
 import BarIcon              from "../Core/BarIcon";
 import Avatar               from "../Avatar/Avatar";
+import IconLink             from "../Link/IconLink";
 
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ variant, withBorder }) => ({ variant, withBorder }))`
+const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ variant, withBorder, expandMobile }))`
     grid-area: sidebar;
     box-sizing: border-box;
     display: flex;
@@ -34,6 +36,30 @@ const Nav = Styled.nav.attrs(({ variant, withBorder }) => ({ variant, withBorder
     `}
     ${(props) => props.withBorder && "border-right: 1px solid var(--border-color)"};
 
+    ${(props) => props.expandMobile && `
+        .baricon-text {
+            display: none;
+        }
+        @media (max-width: 1000px) {
+            & > div {
+                align-items: flex-start;
+            }
+            h2 {
+                width: 100%;
+            }
+            .baricon {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .baricon-text {
+                display: block;
+            }
+            .tooltip {
+                display: none;
+            }
+        }
+    `}
+
     @media (max-width: 1000px) {
         display: none;
         position: fixed;
@@ -43,6 +69,7 @@ const Nav = Styled.nav.attrs(({ variant, withBorder }) => ({ variant, withBorder
         z-index: var(--z-sidebar);
     }
 `;
+
 const Div = Styled.div`
     display: flex;
     flex-direction: column;
@@ -67,8 +94,20 @@ const SideLogo = Styled(BarLogo)`
     margin-top: var(--sidebar-top);
     height: var(--sidebar-logo);
 `;
+
 const SideAvatar = Styled(Avatar)`
     margin-top: 6px;
+`;
+
+const CloseIcon = Styled(IconLink)`
+    display: none;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+
+    @media (max-width: 1000px) {
+        display: block;
+    }
 `;
 
 
@@ -80,12 +119,14 @@ const SideAvatar = Styled(Avatar)`
  */
 function SideBar(props) {
     const {
-        className, variant, withBorder,
+        className, variant, withBorder, expandMobile,
         logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         children,
     } = props;
+
+    const { closeMenu } = Store.useAction("core");
 
     // Handles the Search Click
     const handleSearch = (e) => {
@@ -110,7 +151,14 @@ function SideBar(props) {
         className={`sidebar ${className}`}
         variant={variant}
         withBorder={withBorder}
+        expandMobile={expandMobile}
     >
+        {expandMobile && <CloseIcon
+            variant="darker"
+            icon="close"
+            onClick={closeMenu}
+            isSmall
+        />}
         <Div>
             {!!logo && <SideLogo
                 logo={logo}
@@ -172,6 +220,7 @@ SideBar.propTypes = {
     avatarEdition : PropTypes.number,
     withBorder    : PropTypes.bool,
     withTopBar    : PropTypes.bool,
+    expandMobile  : PropTypes.bool,
     children      : PropTypes.any,
 };
 
@@ -180,12 +229,13 @@ SideBar.propTypes = {
  * @type {Object} defaultProps
  */
 SideBar.defaultProps = {
-    className  : "",
-    variant    : Brightness.DARKER,
-    hasSearch  : false,
-    hasCreate  : false,
-    withBorder : false,
-    withTopBar : false,
+    className    : "",
+    variant      : Brightness.DARKER,
+    hasSearch    : false,
+    hasCreate    : false,
+    withBorder   : false,
+    withTopBar   : false,
+    expandMobile : false,
 };
 
 export default SideBar;

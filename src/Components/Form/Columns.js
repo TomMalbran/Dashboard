@@ -71,16 +71,16 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
     @media (max-width: 500px) {
         display: block;
 
-        &:last-child .inputfield:nth-last-child(-n+2),
-        &:last-child .inputview:nth-last-child(-n+2) {
+        &:last-child .inputfield.inputfield:nth-last-child(-n+2),
+        &:last-child .inputview.inputview:nth-last-child(-n+2) {
             margin-bottom: 20px;
         }
-        &:last-child .inputfield:nth-last-child(-n+2),
-        &:last-child .inputview:nth-last-child(-n+2) {
+        &:last-child .inputfield.inputfield:nth-last-child(-n+2),
+        &:last-child .inputview.inputview:nth-last-child(-n+2) {
             margin-bottom: 20px;
         }
-        &:last-child .inputfield:last-child,
-        &:last-child .inputview:last-child {
+        &:last-child .inputfield.inputfield:last-child,
+        &:last-child .inputview.inputview:last-child {
             margin-bottom: 0;
         }
     }

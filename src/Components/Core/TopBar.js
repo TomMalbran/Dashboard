@@ -25,6 +25,7 @@ const Nav = Styled.nav.attrs(({ variant, withTopBar }) => ({ variant, withTopBar
     justify-content: space-between;
     height: var(--topbar-height);
     padding: 0 12px;
+    gap: 8px;
 
     ${(props) => props.variant === Brightness.LIGHT && `
         background-color: white;

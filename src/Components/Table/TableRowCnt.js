@@ -83,10 +83,18 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
             margin-top: -16px;
             background-color: white;
         }`}
+
+        ${(props) => props.isSelected && `
+            & td {
+                background-color: transparent;
+            }
+        `}
     }
+
     @media (max-width: 650px) {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
+
     @media (max-width: 380px) {
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }

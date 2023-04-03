@@ -17,7 +17,6 @@ const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
     margin: 0 0 8px 0;
     padding: 0;
     list-style: none;
-    color: var(--darker-color);
     overflow-y: hidden;
     overflow-x: auto;
 `;

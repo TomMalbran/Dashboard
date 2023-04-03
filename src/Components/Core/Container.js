@@ -222,6 +222,7 @@ function Container(props) {
     const items = Utils.cloneChildren(children, () => ({ withTopBar }));
 
     return <Div
+        id="container"
         className={className}
         withTopBar={withTopBar}
         showingMenu={showingMenu}

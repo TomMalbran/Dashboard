@@ -24,6 +24,9 @@ const Container = Styled.div.attrs(({ labelInside, columns }) => ({ labelInside,
 
     @media (max-width: 500px) {
         display: block;
+        & > label {
+            display: block;
+        }
     }
 `;
 

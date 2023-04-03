@@ -15,6 +15,7 @@ import Tooltip              from "../Common/Tooltip";
 
 // Styles
 const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant, hasContent, isSelected }))`
+    box-sizing: border-box;
     position: relative;
     display: flex;
     justify-content: center;
@@ -106,14 +107,16 @@ function BarIcon(props) {
         return <React.Fragment />;
     }
     return <Div
-        className={className}
+        className={`baricon ${className}`}
         variant={variant}
         hasContent={hasContent}
         isSelected={shouldSelect()}
         onClick={onClick}
     >
         <Icon icon={icon} />
-        {hasContent && <Span>{content}</Span>}
+        {hasContent && <Span className="baricon-text">
+            {content}
+        </Span>}
         <Tooltip isHidden={!withTooltip} message={message} />
     </Div>;
 }

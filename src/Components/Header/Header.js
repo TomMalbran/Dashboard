@@ -19,7 +19,7 @@ const Container = Styled.header.attrs(({ showBreadcrumbs }) => ({ showBreadcrumb
     justify-content: space-between;
     box-sizing: border-box;
     height: var(--header-height);
-    padding: ${(props) => props.showBreadcrumbs ? "8px 24px" : "12px 24px"};
+    padding: ${(props) => props.showBreadcrumbs ? "8px" : "12px"} var(--main-padding);
     flex-shrink: 0;
     background-color: white;
 `;
@@ -28,6 +28,7 @@ const Content = Styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
 `;
 const Child = Styled.div`
     display: flex;

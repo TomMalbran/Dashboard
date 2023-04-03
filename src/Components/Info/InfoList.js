@@ -47,7 +47,9 @@ function InfoList(props) {
 
     return <Section className={className}>
         {items}
-        {actions.length > 0 && <Actions className="actions">{actions}</Actions>}
+        {actions.length > 0 && <Actions className="actions">
+            {actions}
+        </Actions>}
     </Section>;
 }
 

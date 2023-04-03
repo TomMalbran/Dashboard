@@ -17,7 +17,7 @@ import TabList              from "../Tab/TabList";
 // Styles
 const Section = Styled.section.attrs(({ withDetails }) => ({ withDetails }))`
     flex-grow: 1;
-    padding: 0 24px 24px;
+    padding: 0 var(--main-padding) var(--main-padding);
     overflow: auto;
 
     ${(props) => props.withDetails && `

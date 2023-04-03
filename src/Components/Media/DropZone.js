@@ -31,7 +31,7 @@ const Div = Styled.div`
     background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
     text-align: center;
-    padding: 24px;
+    padding: var(--main-padding);
 `;
 const H3 = Styled.h3`
     margin: 0;
