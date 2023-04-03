@@ -18,7 +18,7 @@ function ViewDialog(props) {
     const {
         contentRef, open, title, icon, className,
         isLoading, width, isWide, isNarrow, fullHeight, withSpacing,
-        secondary, onSecondary, cancel, onClose, children,
+        hideFooter, secondary, onSecondary, cancel, onClose, children,
     } = props;
 
     return <Dialog
@@ -38,10 +38,12 @@ function ViewDialog(props) {
             className={className}
             fullHeight={fullHeight}
             withSpacing={withSpacing}
+            hideFooter={hideFooter}
         >
             {children}
         </DialogBody>
         <DialogFooter
+            isHidden={hideFooter}
             secondary={secondary}
             onSecondary={onSecondary}
             cancel={cancel}
@@ -65,6 +67,7 @@ ViewDialog.propTypes = {
     isNarrow    : PropTypes.bool,
     fullHeight  : PropTypes.bool,
     withSpacing : PropTypes.bool,
+    hideFooter  : PropTypes.bool,
     secondary   : PropTypes.string,
     onSecondary : PropTypes.func,
     cancel      : PropTypes.string,
@@ -84,6 +87,7 @@ ViewDialog.defaultProps = {
     isNarrow    : false,
     fullHeight  : false,
     withSpacing : false,
+    hideFooter  : false,
 };
 
 export default ViewDialog;

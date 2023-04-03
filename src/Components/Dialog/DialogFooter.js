@@ -41,7 +41,7 @@ const Secondary = Styled.div`
  */
 function DialogFooter(props) {
     const {
-        className, primary, secondary, cancel,
+        isHidden, className, primary, secondary, cancel,
         onAction, onSubmit, onSecondary, dontClose, onClose,
         isLoading, isDisabled, children,
     } = props;
@@ -65,6 +65,9 @@ function DialogFooter(props) {
     }
 
 
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Footer className={className}>
         <Secondary>
             {!isLoading && <>
@@ -100,6 +103,7 @@ function DialogFooter(props) {
  * @type {Object} propTypes
  */
 DialogFooter.propTypes = {
+    isHidden    : PropTypes.bool,
     className   : PropTypes.string,
     primary     : PropTypes.string,
     secondary   : PropTypes.string,
@@ -119,6 +123,7 @@ DialogFooter.propTypes = {
  * @type {Object} defaultProps
  */
 DialogFooter.defaultProps = {
+    isHidden   : false,
     className  : "",
     cancel     : "GENERAL_CANCEL",
     dontClose  : false,

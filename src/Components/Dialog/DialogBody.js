@@ -8,7 +8,11 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, fullHeight, noOverflow }) => ({ isLoading, isCentered, withSpacing, isNarrow, fullHeight, noOverflow }))`
+const Main = Styled.main.attrs(({
+    isLoading, isCentered, isNarrow, withSpacing, fullHeight, hideFooter, noOverflow,
+}) => ({
+    isLoading, isCentered, withSpacing, isNarrow, fullHeight, hideFooter, noOverflow,
+}))`
     box-sizing: border-box;
     flex-grow: 2;
     color: var(--secondary-color);
@@ -34,6 +38,7 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
     `}
 
     @media (max-width: 500px) {
+        ${(props) => props.hideFooter && "--dialog-footer: 0;"}
         ${(props) => !props.isNarrow && `
             height: calc(var(--full-height) - var(--dialog-header) - var(--dialog-footer));
             max-height: none;
@@ -50,7 +55,8 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
  */
 function DialogBody(props) {
     const {
-        className, isLoading, isCentered, isNarrow, withSpacing, noOverflow, fullHeight,
+        className, isLoading, isCentered, isNarrow, withSpacing,
+        noOverflow, fullHeight, hideFooter,
         passedRef, onScroll, children,
     } = props;
 
@@ -73,6 +79,7 @@ function DialogBody(props) {
         isNarrow={isNarrow}
         withSpacing={withSpacing}
         fullHeight={fullHeight}
+        hideFooter={hideFooter}
         noOverflow={noOverflow}
         onScroll={handleScroll}
     >
@@ -93,6 +100,7 @@ DialogBody.propTypes = {
     withSpacing : PropTypes.bool,
     fullHeight  : PropTypes.bool,
     noOverflow  : PropTypes.bool,
+    hideFooter  : PropTypes.bool,
     onScroll    : PropTypes.func,
     children    : PropTypes.any,
 };
@@ -109,6 +117,7 @@ DialogBody.defaultProps = {
     withSpacing : false,
     fullHeight  : false,
     noOverflow  : false,
+    hideFooter  : false,
 };
 
 export default DialogBody;
