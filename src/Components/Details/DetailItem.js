@@ -27,9 +27,10 @@ const Li = Styled.li.attrs(({ topBorder, isLink }) => ({ topBorder, isLink }))`
     &:hover {
         background-color: var(--light-gray);
     }
-    .icon {
-        padding: 0 8px 0 4px;
-    }
+`;
+
+const DetailIcon = Styled(Icon)`
+    padding: 0 8px 0 4px;
 `;
 
 
@@ -42,7 +43,7 @@ const Li = Styled.li.attrs(({ topBorder, isLink }) => ({ topBorder, isLink }))`
 function DetailItem(props) {
     const {
         isHidden, className, message, icon, tooltip, prefix, withTip, showAlways, topBorder,
-        href, url, onClick, isEmail, isPhone, isWhatsApp,
+        href, url, onClick, isEmail, isPhone, isWhatsApp, children,
     } = props;
 
     const navigate = Navigate.useClick(props);
@@ -55,21 +56,23 @@ function DetailItem(props) {
     };
 
 
-    if (isHidden || (!message && !showAlways)) {
+    let   content = message ? NLS.get(String(message)) : children;
+    const isHtml  = message && (content.includes("\n") || content.includes("</b>") || content.includes("</span>"));
+    const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
+
+    if (isHidden || (!message && !children && !showAlways)) {
         return <React.Fragment />;
     }
 
-    const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
-    let   content = message ? NLS.get(String(message)) : "";
-    const isHtml  = content.includes("\n") || content.includes("</b>") || content.includes("</span>");
-
-    if (showAlways && !message) {
-        content = String(message);
+    if (showAlways && !message && !children) {
+        content = "";
     }
-    if (prefix) {
-        content = `${NLS.get(prefix)}: ${content}`;
-    } else if (withTip) {
-        content = `${NLS.get(tooltip)}: ${content}`;
+    if (!children) {
+        if (prefix) {
+            content = `${NLS.get(prefix)}: ${content}`;
+        } else if (withTip) {
+            content = `${NLS.get(tooltip)}: ${content}`;
+        }
     }
 
     return <Li
@@ -79,7 +82,7 @@ function DetailItem(props) {
         title={NLS.get(tooltip)}
         onClick={handleClick}
     >
-        {!!icon && <Icon icon={icon} />}
+        {!!icon && <DetailIcon icon={icon} />}
         {isHtml ? <Html addBreaks>{content}</Html> : content}
     </Li>;
 }
@@ -105,6 +108,7 @@ DetailItem.propTypes = {
     withTip    : PropTypes.bool,
     topBorder  : PropTypes.bool,
     showAlways : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
