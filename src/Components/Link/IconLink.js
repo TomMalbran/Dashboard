@@ -21,7 +21,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     line-height: var(--link-size);
     font-size: ${(props) => props.isSmall ? "16px" : "24px"};
     text-align: center;
-    border-radius: 50%;
+    border-radius: var(--border-radius);
     text-decoration: none;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
