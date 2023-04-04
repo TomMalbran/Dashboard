@@ -45,18 +45,19 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
             margin-bottom: 0;
         }
     `}
+
     ${(props) => Number(props.amount) === 3 && `
         &:last-child .inputfield:nth-last-child(-n+3),
         &:last-child .inputview:nth-last-child(-n+3) {
             margin-bottom: 0;
         }
 
-        @media (max-width: 1000px) {
+        @media (max-width: 700px) {
             grid-template-columns: repeat(2, 1fr);
         }
     `}
 
-    @media (max-width: 1000px) {
+    @media (max-width: 700px) {
         .columns-double {
             grid-column-end: span 1;
         }
