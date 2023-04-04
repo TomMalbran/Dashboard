@@ -50,6 +50,7 @@ function FieldInput(props) {
         options, withNone, noneText, hasLabel, labelInside, children,
     } = props;
 
+    // Parse the Items
     const items    = [];
     const baseElem = {};
     if (children) {
@@ -60,53 +61,69 @@ function FieldInput(props) {
     }
     const hasItems = items.length > 0;
 
-    // Calculate the Parts Array
-    let parts = hasItems ? [{}] : [ "" ];
+    // Calculate the Items Array
+    let objectArray = [{}];
+    let stringArray = [ "" ];
     if (value) {
+        let valueArray;
         try {
-            parts = Array.isArray(value) ? value : JSON.parse(String(value));
-            if (!Array.isArray(parts)) {
-                parts = [ parts ];
+            valueArray = Array.isArray(value) ? value : JSON.parse(String(value));
+            if (!Array.isArray(valueArray)) {
+                valueArray = [ valueArray ];
             }
         } catch(e) {
-            parts = hasItems ? [{}] : [ "" ];
+            valueArray = hasItems ? [{}] : [ "" ];
+        }
+        if (hasItems) {
+            objectArray = valueArray;
+        } else {
+            stringArray = valueArray;
         }
     }
 
     // Handles a Field Change
     const handleChange = (newValue, index, name = "") => {
         if (hasItems && name) {
-            const value = parts[index] || {};
+            const value = objectArray[index] ? { ...objectArray[index] } : {};
             value[name] = newValue;
-            parts.splice(index, 1, value);
+            objectArray.splice(index, 1, value);
         } else {
-            parts.splice(index, 1, newValue);
+            stringArray.splice(index, 1, newValue);
         }
-        fieldChanged(parts);
+        fieldChanged(stringArray, objectArray);
     };
 
     // Adds a Field to the value
     const addField = () => {
         if (hasItems && name) {
-            parts.push({ ...baseElem });
+            objectArray.push({ ...baseElem });
         } else {
-            parts.push("");
+            stringArray.push("");
         }
-        fieldChanged(parts);
+        fieldChanged(stringArray, objectArray);
     };
 
     // Removes a Field from the value at the given index
     const removeField = (index) => {
-        parts.splice(index, 1);
-        fieldChanged(parts);
+        if (hasItems) {
+            objectArray.splice(index, 1);
+        } else {
+            stringArray.splice(index, 1);
+        }
+        fieldChanged(stringArray, objectArray);
     };
 
     // Sends a Field Change Event
-    const fieldChanged = (parts) => {
-        onChange(name, JSON.stringify(parts));
+    const fieldChanged = (stringArray, objectArray) => {
+        if (hasItems) {
+            onChange(name, JSON.stringify(stringArray));
+        } else {
+            onChange(name, JSON.stringify(objectArray));
+        }
     };
 
 
+    const parts = hasItems ? objectArray : stringArray;
     return <Container className={className} hasLabel={hasLabel} labelInside={labelInside}>
         {parts.map((elem, index) => <Div key={index}>
             {hasItems ? items.map((item) => <Input
