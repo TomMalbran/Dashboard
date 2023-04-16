@@ -154,7 +154,7 @@ function SideBar(props) {
         expandMobile={expandMobile}
     >
         {expandMobile && <CloseIcon
-            variant="darker"
+            variant="dark"
             icon="close"
             onClick={closeMenu}
             isSmall
