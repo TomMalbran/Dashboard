@@ -90,7 +90,7 @@ function FieldInput(props) {
         } else {
             stringArray.splice(index, 1, newValue);
         }
-        fieldChanged(stringArray, objectArray);
+        fieldChanged(objectArray, stringArray);
     };
 
     // Adds a Field to the value
@@ -100,7 +100,7 @@ function FieldInput(props) {
         } else {
             stringArray.push("");
         }
-        fieldChanged(stringArray, objectArray);
+        fieldChanged(objectArray, stringArray);
     };
 
     // Removes a Field from the value at the given index
@@ -110,15 +110,15 @@ function FieldInput(props) {
         } else {
             stringArray.splice(index, 1);
         }
-        fieldChanged(stringArray, objectArray);
+        fieldChanged(objectArray, stringArray);
     };
 
     // Sends a Field Change Event
-    const fieldChanged = (stringArray, objectArray) => {
+    const fieldChanged = (objectArray, stringArray) => {
         if (hasItems) {
-            onChange(name, JSON.stringify(stringArray));
-        } else {
             onChange(name, JSON.stringify(objectArray));
+        } else {
+            onChange(name, JSON.stringify(stringArray));
         }
     };
 
