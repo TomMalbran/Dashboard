@@ -41,6 +41,12 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
         opacity: 1;
     }
 
+    ${(props) => props.variant === Brightness.LIGHT && `
+        --bicon-color: var(--title-color);
+        --bicon-background: rgba(0, 0, 0, 0.1);
+        --bicon-hover: rgba(0, 0, 0, 0.2);
+        --tooltip-color: rgba(0, 0, 0, 0.1);
+    `}
     ${(props) => props.variant === Brightness.DARK && `
         --bicon-color: white;
         --bicon-background: var(--primary-color);
@@ -59,13 +65,6 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
     `}
     ${(props) => props.variant === Brightness.DARKER && props.isSelected && `
         --bicon-background: var(--primary-color);
-    `}
-
-    ${(props) => props.variant === Brightness.LIGHT && `
-        --bicon-color: var(--title-color);
-        --bicon-background: rgba(0, 0, 0, 0.1);
-        --bicon-hover: white;
-        --tooltip-color: rgba(0, 0, 0, 0.1);
     `}
 `;
 const Span = Styled.span`
