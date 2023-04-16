@@ -35,12 +35,19 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         margin-bottom: 20px;
     }
 
+    ${(props) => Number(props.amount) === 1 && `
+        &:last-child .inputfield,
+        &:last-child .inputview {
+            margin-bottom: 0;
+        }
+    `}
+
     ${(props) => Number(props.amount) === 2 && `
         &:last-child .inputfield:not(.columns-double):nth-last-child(-n+2),
         &:last-child .inputview:not(.columns-double):nth-last-child(-n+2) {
             margin-bottom: 0;
         }
-        &:last-child .inputfield:last-child,
+        &:last-child .inputfield.columns-double:last-child,
         &:last-child .inputview.columns-double:last-child {
             margin-bottom: 0;
         }
@@ -51,7 +58,6 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
         &:last-child .inputview:nth-last-child(-n+3) {
             margin-bottom: 0;
         }
-
         @media (max-width: 700px) {
             grid-template-columns: repeat(2, 1fr);
         }
