@@ -4,7 +4,6 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import { Brightness }       from "../../Core/Variants";
-import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
 
@@ -46,12 +45,13 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function Navigation(props) {
-    const { className, variant, none, add, isLoading, canAdd, onAction, children } = props;
-
-    const { closeMenu : onClose } = Store.useAction("core");
+    const {
+        className, variant, none, add, isLoading,
+        canAdd, canEdit, canManage, onAction, children,
+    } = props;
 
     const items = Utils.cloneChildren(children, () => ({
-        variant, none, add, isLoading, canAdd, onAction, onClose,
+        variant, none, add, isLoading, canAdd, canEdit, canManage, onAction,
     }));
 
     return <Nav className={`navigation ${className}`} variant={variant}>
@@ -69,8 +69,10 @@ Navigation.propTypes = {
     none      : PropTypes.string,
     add       : PropTypes.string,
     isLoading : PropTypes.bool,
-    canAdd    : PropTypes.bool,
     onAction  : PropTypes.func,
+    canAdd    : PropTypes.bool,
+    canEdit   : PropTypes.bool,
+    canManage : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -84,6 +86,8 @@ Navigation.defaultProps = {
     add       : "",
     isLoading : false,
     canAdd    : false,
+    canEdit   : false,
+    canManage : false,
 };
 
 export default Navigation;

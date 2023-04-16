@@ -6,6 +6,7 @@ import Styled               from "styled-components";
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Navigate             from "../../Core/Navigate";
+import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -70,11 +71,12 @@ const NavAmount = Styled.span`
 function NavigationItem(props) {
     const {
         variant, className, message, html, url, href, icon,
-        elemID, isSelected, isDisabled, onAction, onClick, onClose, amount,
+        elemID, isSelected, isDisabled, onAction, onClick, onClose, noClose, amount,
         canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
-    const isSelect = Navigate.useSelect();
+    const isSelect      = Navigate.useSelect();
+    const { closeMenu } = Store.useAction("core");
 
     // Returns true if the Menu should be selected
     const shouldSelect = () => {
@@ -99,6 +101,9 @@ function NavigationItem(props) {
             onClick(e);
         } else if (onAction) {
             handleAction(e, "VIEW");
+        }
+        if (!noClose) {
+            closeMenu();
         }
     };
 
@@ -173,6 +178,7 @@ NavigationItem.propTypes = {
     onClick          : PropTypes.func,
     onAction         : PropTypes.func,
     onClose          : PropTypes.func,
+    noClose          : PropTypes.bool,
     amount           : PropTypes.number,
     canEdit          : PropTypes.bool,
     canDelete        : PropTypes.bool,

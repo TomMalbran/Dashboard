@@ -73,7 +73,7 @@ const Span2 = Styled.span`
 function NavigationTitle(props) {
     const {
         className, variant, href, message, fallback,
-        onAction, canAdd, canManage,
+        canAdd, canEdit, canManage, onAction,
     } = props;
 
     const parent = Navigate.useParent();
@@ -105,6 +105,11 @@ function NavigationTitle(props) {
             icon="add"
             onClick={(e) => handleAction(e, "ADD")}
         />}
+        {canEdit && <IconLink
+            variant={variant}
+            icon="edit"
+            onClick={(e) => handleAction(e, "EDIT")}
+        />}
         {canManage && <IconLink
             variant={variant}
             icon="settings"
@@ -125,6 +130,7 @@ NavigationTitle.propTypes = {
     fallback  : PropTypes.string,
     onAction  : PropTypes.func,
     canAdd    : PropTypes.bool,
+    canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
 };
 
@@ -137,6 +143,7 @@ NavigationTitle.defaultProps = {
     variant   : Brightness.DARK,
     href      : "",
     canAdd    : false,
+    canEdit   : false,
     canManage : false,
 };
 
