@@ -24,8 +24,9 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     border-radius: var(--border-radius);
     text-decoration: none;
     transition: all 0.2s ease-in-out;
-    cursor: pointer;
     color: var(--link-color, black);
+    flex-shrink: 0;
+    cursor: pointer;
 
     &:focus {
         background-color: var(--link-background, transparent);
