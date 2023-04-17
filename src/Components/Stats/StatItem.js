@@ -3,8 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
 
@@ -59,8 +59,8 @@ function StatItem(props) {
         outlined, twoLines, usePrimary,
     } = props;
 
-    const { showTooltip, hideTooltip } = Store.useAction("core");
     const elementRef = React.useRef();
+    const { showTooltip, hideTooltip } = Store.useAction("core");
 
     // Handles the Tooltip
     const handleTooltip = () => {

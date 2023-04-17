@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core
 import { Brightness }       from "../../Core/Variants";
 import Navigate             from "../../Core/Navigate";
+import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -67,16 +68,29 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
 function IconLink(props) {
     const {
         isHidden, passedRef, variant, className, isDisabled, isSmall,
-        target, icon, onTouchEnd,
+        target, icon, tooltip, onTouchEnd,
     } = props;
 
-    const onClick = Navigate.useLink(props);
+    const defaultRef = React.useRef();
+    const elementRef = passedRef || defaultRef;
 
+    const onClick    = Navigate.useLink(props);
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, "bottom", tooltip);
+        }
+    };
+
+
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
     return <Link
-        ref={passedRef}
+        ref={elementRef}
         className={`link ${className}`}
         variant={variant}
         isDisabled={isDisabled}
@@ -85,6 +99,8 @@ function IconLink(props) {
         target={target}
         onClick={onClick}
         onTouchEnd={onTouchEnd}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     >
         <Icon icon={icon} />
     </Link>;
@@ -100,6 +116,7 @@ IconLink.propTypes = {
     className  : PropTypes.string,
     variant    : PropTypes.string,
     icon       : PropTypes.string,
+    tooltip    : PropTypes.string,
     href       : PropTypes.string,
     url        : PropTypes.string,
     target     : PropTypes.string,
@@ -122,6 +139,7 @@ IconLink.defaultProps = {
     isHidden   : false,
     className  : "",
     variant    : Brightness.LIGHT,
+    tooltip    : "",
     href       : "#",
     url        : "",
     target     : "_self",
