@@ -45,15 +45,12 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
     z-index: 1000;
     transform: translateX(200px);
     opacity: 0;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-iteration-count: 1;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     margin: 4px;
 
     ${(props) => props.isClosing ?
-        css`animation: ${close} 0.3s;` :
-        css`animation: ${open} 0.1s;`};
+        css`animation: ${close} 0.3s 1 linear both;` :
+        css`animation: ${open} 0.1s 1 linear both;`};
 
     ${(props) => props.variant === Outcome.SUCCESS && `
         background-color: var(--success-color);
