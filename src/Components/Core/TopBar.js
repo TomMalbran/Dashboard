@@ -182,6 +182,7 @@ function TopBar(props) {
                 />}
             </Div>
         </Nav>
+
         {hasMenu && <Menu
             open={showMenu}
             top={posTop}

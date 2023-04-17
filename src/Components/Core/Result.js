@@ -36,7 +36,7 @@ const Div = Styled.div.attrs(({ open }) => ({ open }))`
     z-index: var(--z-result);
 `;
 
-const Content = Styled.div.attrs(({ variant, closing }) => ({ variant, closing }))`
+const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosing }))`
     position: relative;
     padding: 12px 40px 12px 24px;
     color: white;
@@ -45,12 +45,15 @@ const Content = Styled.div.attrs(({ variant, closing }) => ({ variant, closing }
     z-index: 1000;
     transform: translateX(200px);
     opacity: 0;
-    animation: ${(props) => props.closing ? css`${close} 0.3s` : css`${open} 0.1s`};
     animation-timing-function: linear;
     animation-fill-mode: both;
     animation-iteration-count: 1;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     margin: 4px;
+
+    ${(props) => props.isClosing ?
+        css`animation: ${close} 0.3s;` :
+        css`animation: ${open} 0.1s;`};
 
     ${(props) => props.variant === Outcome.SUCCESS && `
         background-color: var(--success-color);
@@ -91,12 +94,12 @@ function Result() {
 
 
     // The State
-    const [ timer,   setTimer   ] = React.useState(null);
-    const [ closing, setClosing ] = React.useState(false);
+    const [ timer,     setTimer   ] = React.useState(null);
+    const [ isClosing, setClosing ] = React.useState(false);
 
     // The Close Function
     const handleClose = () => {
-        if (closing) {
+        if (isClosing) {
             return;
         }
         if (timer) {
@@ -127,7 +130,7 @@ function Result() {
 
 
     return <Div className="result" open={open}>
-        <Content variant={variant} closing={closing}>
+        <Content variant={variant} isClosing={isClosing}>
             {NLS.get(message)}
             <Icon icon="close" onClick={handleClose} />
         </Content>

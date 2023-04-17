@@ -33,7 +33,6 @@ const Drawerdrop = Styled(Backdrop)`
     z-index: var(--z-drawer);
 `;
 const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
-    animation: ${(props) => props.isClosing ? css`${close} 0.3s ease-out both` : css`${open} 0.3s ease-in both`};
     position: fixed;
     display: flex;
     top: 0;
@@ -42,6 +41,10 @@ const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
     width: var(--drawer-width);
     max-width: 100%;
     background-color: white;
+
+    ${(props) => props.isClosing ?
+        css`animation: ${close} 0.3s ease-out both;` :
+        css`animation: ${open} 0.3s ease-in both;`};
 `;
 
 const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
@@ -91,12 +94,12 @@ function Drawer(props) {
     } = props;
 
     // The State
-    const [ closing, setClosing ] = React.useState(false);
+    const [ isClosing, setClosing ] = React.useState(false);
     const contentRef = React.useRef();
 
     // Handles the Close
     const handleClose = () => {
-        if (closing) {
+        if (isClosing) {
             return;
         }
         setClosing(true);
@@ -113,10 +116,10 @@ function Drawer(props) {
     return <Drawerdrop
         contentRef={contentRef}
         open={open}
-        closing={closing}
+        isClosing={isClosing}
         onClose={handleClose}
     >
-        <Div className={className} ref={contentRef} isClosing={closing}>
+        <Div className={className} ref={contentRef} isClosing={isClosing}>
             <Nav withBorder={withBorder}>
                 <Logo
                     logo={logo}

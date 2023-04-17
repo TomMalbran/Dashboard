@@ -86,9 +86,9 @@ function Dialog(props) {
         dontClose, onClose, children,
     } = props;
 
-    const [ level,   setLevel   ] = React.useState(0);
-    const [ opened,  setOpened  ] = React.useState(false);
-    const [ closing, setClosing ] = React.useState(false);
+    const [ level,     setLevel   ] = React.useState(0);
+    const [ opened,    setOpened  ] = React.useState(false);
+    const [ isClosing, setClosing ] = React.useState(false);
 
     const contentRef              = React.useRef(null);
     const savedHandler            = React.useRef(null);
@@ -96,7 +96,7 @@ function Dialog(props) {
 
     // Handles the Dialog Close
     const handleClose = () => {
-        if (dontClose || closing || dialogLevel !== level) {
+        if (dontClose || isClosing || dialogLevel !== level) {
             return;
         }
         setClosing(true);
@@ -108,7 +108,7 @@ function Dialog(props) {
 
     // Handle the Key
     const handleKey = (e) => {
-        if (!open || closing || dialogLevel !== level) {
+        if (!open || isClosing || dialogLevel !== level) {
             return;
         }
         const node = contentRef.current;
@@ -172,7 +172,7 @@ function Dialog(props) {
     return <Backdrop
         contentRef={contentRef}
         open={open}
-        closing={closing}
+        isClosing={isClosing}
         onClose={handleClose}
     >
         <Container
@@ -182,7 +182,7 @@ function Dialog(props) {
             isWide={isWide}
             isNarrow={isNarrow}
             hasTabs={hasTabs}
-            isClosing={closing}
+            isClosing={isClosing}
             open
         >
             {items}
