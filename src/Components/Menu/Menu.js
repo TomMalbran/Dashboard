@@ -14,8 +14,19 @@ const Variant = {
 
 
 // Styles
-const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, withPos, isLeft, isRight }))`
+const Div = Styled.div.attrs(({ isOpen }) => ({ isOpen }))`
     display: none;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--full-height);
+    z-index: var(--z-menu);
+    ${(props) => props.isOpen  && "display: block;"}
+`;
+
+const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft, isRight }))`
     position: absolute;
     list-style: none;
     margin: 0;
@@ -25,9 +36,7 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
     border-radius: var(--border-radius);
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.31) 0px 0px 1px;
     overflow: hidden;
-    z-index: var(--z-menu);
 
-    ${(props) => props.isOpen  && "display: block;"}
     ${(props) => props.withPos && "transform: none;"}
     ${(props) => props.isLeft  && "left: 7px;"}
     ${(props) => props.isRight && "right: 7px;"}
@@ -43,12 +52,12 @@ const Ul = Styled.ul.attrs(({ isOpen, withPos, isLeft, isRight }) => ({ isOpen, 
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        selected, bottom, onAction, onClose, forRef, children,
+        selected, bottom, gap, onAction, onClose, targetRef, children,
     } = props;
     let { top, left, right } = props;
 
+    let   hasStyles = (top || bottom) && (left || right);
     const menuRef   = React.useRef();
-    const hasStyles = (top || bottom) && (left || right);
     const style     = {};
 
     // The State
@@ -59,9 +68,6 @@ function Menu(props) {
     // Close the Menu
     const handleClose = (e) => {
         if (!open) {
-            return;
-        }
-        if (forRef && Utils.inRef(e.clientX, e.clientY, forRef)) {
             return;
         }
         if (menuRef && Utils.inRef(e.clientX, e.clientY, menuRef)) {
@@ -78,14 +84,26 @@ function Menu(props) {
             const bounds = Utils.getBounds(menuRef);
             setWidth(bounds.width);
             setHeight(bounds.height);
-            window.addEventListener("click", handleClose);
-            return () => window.removeEventListener("click", handleClose);
         }
-        return () => {};
     }, [ open ]);
 
 
     // Set the position
+    if (!hasStyles && targetRef) {
+        const bounds = Utils.getBounds(targetRef);
+        if (direction.includes("top")) {
+            top = bounds.top - gap;
+        } else {
+            top = bounds.bottom + gap;
+        }
+        if (top && direction.includes("left")) {
+            right = window.innerWidth - bounds.right;
+        } else {
+            left = bounds.left;
+        }
+        hasStyles = true;
+    }
+
     if (hasStyles) {
         if (top && direction.includes("top")) {
             top -= height;
@@ -127,17 +145,18 @@ function Menu(props) {
     }));
 
 
-    return <Ul
-        ref={menuRef}
-        className={className}
-        isOpen={open}
-        withPos={hasStyles}
-        isLeft={!hasStyles && variant === Variant.LEFT}
-        isRight={!hasStyles && variant === Variant.RIGHT}
-        style={style}
-    >
-        {items}
-    </Ul>;
+    return <Div isOpen={open} onClick={handleClose}>
+        <Ul
+            ref={menuRef}
+            className={className}
+            withPos={hasStyles}
+            isLeft={!hasStyles && variant === Variant.LEFT}
+            isRight={!hasStyles && variant === Variant.RIGHT}
+            style={style}
+        >
+            {items}
+        </Ul>
+    </Div>;
 }
 
 /**
@@ -155,10 +174,11 @@ Menu.propTypes = {
     left         : PropTypes.number,
     right        : PropTypes.number,
     iconHeight   : PropTypes.number,
+    gap          : PropTypes.number,
     selected     : PropTypes.number,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
-    forRef       : PropTypes.any,
+    targetRef    : PropTypes.any,
     children     : PropTypes.any,
 };
 
@@ -172,6 +192,7 @@ Menu.defaultProps = {
     className  : "",
     direction  : "",
     iconHeight : 0,
+    gap        : 0,
 };
 
 export default Menu;

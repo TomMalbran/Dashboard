@@ -44,8 +44,6 @@ function ActionItem(props) {
 
     // State
     const [ menuOpen, setMenuOpen ] = React.useState(false);
-    const [ menuTop,  setMenuTop  ] = React.useState(null);
-    const [ menuLeft, setMenuLeft ] = React.useState(null);
 
     // Menu Actions
     const actions = [];
@@ -64,9 +62,6 @@ function ActionItem(props) {
     // Handles the Click
     const handleClick = () => {
         if (showMenu) {
-            const bounds = Utils.getBounds(actionRef);
-            setMenuTop(bounds.bottom);
-            setMenuLeft(direction.includes("right") ? bounds.left : bounds.right);
             setMenuOpen(!menuOpen);
         } else if (onClick) {
             onClick();
@@ -90,6 +85,7 @@ function ActionItem(props) {
     };
 
 
+    // Do the Render
     if (!showMenu && !action && !onClick) {
         return <React.Fragment />;
     }
@@ -106,10 +102,8 @@ function ActionItem(props) {
             propagate
         />
         {showMenu && <Menu
-            forRef={buttonRef}
             open={menuOpen}
-            top={menuTop}
-            left={menuLeft}
+            targetRef={buttonRef}
             direction={direction}
             onClose={handleMenuClose}
         >
@@ -148,7 +142,7 @@ ActionItem.defaultProps = {
     isHidden  : false,
     variant   : "outlined",
     isSmall   : false,
-    direction : "left",
+    direction : "bottom left",
 };
 
 export default ActionItem;

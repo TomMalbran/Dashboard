@@ -6,7 +6,6 @@ import Styled               from "styled-components";
 import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 import Store                from "../../Core/Store";
-import Utils                from "../../Utils/Utils";
 
 // Components
 import BarIcon              from "../Core/BarIcon";
@@ -104,19 +103,10 @@ function TopBar(props) {
 
     // The Current State
     const [ showMenu, setShowMenu ] = React.useState(false);
-    const [ posTop,   setPosTop   ] = React.useState(null);
-    const [ posLeft,  setPosLeft  ] = React.useState(null);
 
     // Handles the Profile Menu Open
     const openProfileMenu = (e) => {
-        if (showMenu) {
-            setShowMenu(false);
-        } else {
-            const bounds = Utils.getBounds(avatarRef);
-            setPosTop(bounds.bottom + 4);
-            setPosLeft(bounds.right);
-            setShowMenu(true);
-        }
+        setShowMenu(!showMenu);
         e.stopPropagation();
         e.preventDefault();
     };
@@ -185,9 +175,9 @@ function TopBar(props) {
 
         {hasMenu && <Menu
             open={showMenu}
-            top={posTop}
-            left={posLeft}
-            direction="left"
+            targetRef={avatarRef}
+            direction="bottom left"
+            gap={8}
             onClose={closeProfileMenu}
         >
             {menuItems}

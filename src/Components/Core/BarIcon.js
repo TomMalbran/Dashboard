@@ -71,13 +71,15 @@ const Span = Styled.span`
  */
 function BarIcon(props) {
     const {
-        isHidden, className, variant, isSelected,
+        passedRef, isHidden, className, variant, isSelected,
         icon, withText, withTooltip, message, url, startsWith,
     } = props;
 
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
-    const elementRef = React.useRef();
+    const defaultRef = React.useRef();
+    const elementRef = passedRef || defaultRef;
+
     const onClick    = Navigate.useClick(props);
     const isSelect   = Navigate.useSelect();
     const hasContent = withText && !!message;
@@ -128,6 +130,7 @@ function BarIcon(props) {
  * @type {Object} propTypes
  */
 BarIcon.propTypes = {
+    passedRef   : PropTypes.any,
     isHidden    : PropTypes.bool,
     className   : PropTypes.string,
     variant     : PropTypes.string,

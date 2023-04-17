@@ -60,19 +60,19 @@ function DialogBody(props) {
         passedRef, onScroll, children,
     } = props;
 
-    const dialogRef = React.useRef();
-    const mainRef   = passedRef || dialogRef;
+    const defaultRef = React.useRef();
+    const elementRef = passedRef || defaultRef;
 
     // Handle the Scroll
     const handleScroll = () => {
-        if (onScroll && mainRef.current) {
-            onScroll(mainRef.current);
+        if (onScroll && elementRef.current) {
+            onScroll(elementRef.current);
         }
     };
 
 
     return <Main
-        ref={mainRef}
+        ref={elementRef}
         className={className}
         isLoading={isLoading}
         isCentered={isCentered}

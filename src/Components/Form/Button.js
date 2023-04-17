@@ -178,7 +178,8 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
  */
 function Button(props) {
     const {
-        isHidden, passedRef, className, variant, isDisabled, isSmall, fullWidth,
+        passedRef, isHidden, className, variant,
+        isDisabled, isSmall, fullWidth,
         icon, afterIcon, message, children,
     } = props;
 
