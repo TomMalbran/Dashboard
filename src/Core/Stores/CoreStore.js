@@ -11,6 +11,12 @@ const initialState = {
         variant : "",
         message : "",
     },
+    tooltip     : {
+        open      : false,
+        targetRef : null,
+        variant   : "",
+        message   : "",
+    },
 };
 
 
@@ -63,8 +69,31 @@ const actions = {
      * @returns {Void}
      */
     hideResult(dispatch) {
-        const result = { open : false, variant : "", message : "" };
+        const result = { ...initialState.result };
         return dispatch({ type : "CORE_RESULT", result });
+    },
+
+    /**
+     * Shows the Tooltip
+     * @param {Function} dispatch
+     * @param {Object}   targetRef
+     * @param {String}   variant
+     * @param {String}   message
+     * @returns {Void}
+     */
+    showTooltip(dispatch, targetRef, variant, message) {
+        const tooltip = { open : true, targetRef, variant, message };
+        return dispatch({ type : "CORE_TOOLTIP", tooltip });
+    },
+
+    /**
+     * Hide the Tooltip
+     * @param {Function} dispatch
+     * @returns {Void}
+     */
+    hideTooltip(dispatch) {
+        const tooltip = { ...initialState.tooltip };
+        return dispatch({ type : "CORE_TOOLTIP", tooltip });
     },
 
     /**
@@ -143,6 +172,11 @@ const reducer = (state = initialState, action = {}) => {
         return {
             ...state,
             result      : action.result,
+        };
+    case "CORE_TOOLTIP":
+        return {
+            ...state,
+            tooltip     : action.tooltip,
         };
 
 

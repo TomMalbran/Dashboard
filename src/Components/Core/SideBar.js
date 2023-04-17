@@ -34,7 +34,9 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
     ${(props) => props.variant === Brightness.DARKER && `
         background-color: var(--secondary-color);
     `}
-    ${(props) => props.withBorder && "border-right: 1px solid var(--border-color)"};
+    ${(props) => props.withBorder && `
+        border-right: 1px solid var(--border-color);
+    `}
 
     ${(props) => props.expandMobile && `
         .baricon-text {
@@ -53,9 +55,6 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
             }
             .baricon-text {
                 display: block;
-            }
-            .tooltip {
-                display: none;
             }
         }
     `}

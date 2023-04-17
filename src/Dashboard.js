@@ -8,6 +8,7 @@ import Initializer          from "./Core/Initializer";
 
 // Components
 import Result               from "./Components/Core/Result";
+import Tooltip              from "./Components/Core/Tooltip";
 
 
 
@@ -23,6 +24,7 @@ function Dashboard(props) {
         <Store.Provider config={store}>
             <Initializer {...props} />
             <Result />
+            <Tooltip />
             {children}
         </Store.Provider>
     </BrowserRouter>;

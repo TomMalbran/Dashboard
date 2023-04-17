@@ -3,11 +3,9 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
-
-// Compoments
-import Tooltip              from "../Common/Tooltip";
 
 
 
@@ -21,16 +19,9 @@ const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))
     flex-grow: 1;
     height: var(--stats-height);
     min-width: 100px;
+    padding: 0 12px;
     line-height: 1;
     border-radius: var(--border-radius);
-
-    &:hover .tooltip {
-        visibility: visible;
-        transform: translateY(-50%) scale(1);
-    }
-    &:hover .tooltip::before {
-        opacity: 1;
-    }
 
     ${(props) => props.outlined ? `
         border: 1px solid var(--darker-gray);
@@ -38,11 +29,10 @@ const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))
         background-color: var(--light-gray);
     `}
 
-    ${(props) => props.twoLines ? `
+    ${(props) => props.twoLines && `
         flex-direction: column;
-        padding: 0 12px;
         height: auto;
-    ` : "padding: 0 16px;"}
+    `}
 `;
 
 const B = Styled.b.attrs(({ twoLines }) => ({ twoLines }))`
@@ -66,8 +56,19 @@ const Span = Styled.span.attrs(({ usePrimary }) => ({ usePrimary }))`
 function StatItem(props) {
     const {
         message, tooltip, value, decimals, percent, isPrice, isPercent,
-        outlined, twoLines, usePrimary, isLast,
+        outlined, twoLines, usePrimary,
     } = props;
+
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+    const elementRef = React.useRef();
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, "bottom", tooltip);
+        }
+    };
+
 
     let content = value;
     if (!isNaN(value)) {
@@ -83,14 +84,21 @@ function StatItem(props) {
         content = `${content} (${percent}%)`;
     }
 
-    return <Li outlined={outlined} twoLines={twoLines}>
+
+    // Do the Render
+    return <Li
+        ref={elementRef}
+        outlined={outlined}
+        twoLines={twoLines}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
+    >
         <B twoLines={twoLines}>
             {NLS.get(message)}
         </B>
         <Span usePrimary={usePrimary}>
             {content}
         </Span>
-        <Tooltip message={tooltip} toRight={isLast} fullWidth />
     </Li>;
 }
 
