@@ -28,7 +28,7 @@ const Main = Styled.main.attrs(({
         padding: 32px;
     `}
     ${(props) => props.withSpacing && `
-        padding: 24px;
+        padding: var(--main-padding);
     `}
     ${(props) => props.fullHeight && `
         height: var(--dialog-body);

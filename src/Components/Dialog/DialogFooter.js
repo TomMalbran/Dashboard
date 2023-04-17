@@ -18,8 +18,8 @@ const Footer = Styled.footer`
     justify-content: space-between;
     align-items: center;
     height: var(--dialog-footer);
-    padding: 0 24px;
-    background-color: var(--light-gray);
+    padding: 0 var(--main-padding);
+    border-top: 1px solid var(--light-gray);
 
     @media (max-width: 500px) {
         padding: 0 16px;
