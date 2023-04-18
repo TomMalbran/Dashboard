@@ -10,10 +10,6 @@ import NLS                  from "../../Core/NLS";
 // Styles
 const Section = Styled.section`
     font-size: 13px;
-
-    &:not(:last-child) {
-        margin-right: 8px;
-    }
 `;
 
 const H3 = Styled.h3`

@@ -17,9 +17,6 @@ import MenuItem             from "../Menu/MenuItem";
 
 // Styles
 const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
-    &:not(:last-child) {
-        margin-right: 8px;
-    }
     ${(props) => !props.isSmall && `.btn {
         font-size: 12px;
     }`}

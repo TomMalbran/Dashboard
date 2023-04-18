@@ -85,10 +85,6 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
         font-size: ${(props) => props.isSmall ? "15px" : "19px"};
     }
 
-    & + & {
-        ${(props) => props.fullWidth ? "margin-top: 8px;" : "margin-left: 8px;"}
-    }
-
     ${(props) => {
         switch (props.variant) {
         case Variant.PRIMARY: return `

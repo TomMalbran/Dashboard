@@ -20,16 +20,24 @@ const Footer = Styled.footer`
     height: var(--dialog-footer);
     padding: 0 var(--main-padding);
     border-top: 1px solid var(--light-gray);
+    gap: 8px;
 
     @media (max-width: 500px) {
         padding: 0 16px;
     }
 `;
 
+const Primary = Styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
 const Secondary = Styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
 `;
 
 
@@ -80,7 +88,7 @@ function DialogFooter(props) {
                 />}
             </>}
         </Secondary>
-        <div>
+        <Primary>
             <Button
                 isHidden={!primary}
                 variant="primary"
@@ -94,7 +102,7 @@ function DialogFooter(props) {
                 message={cancel}
                 onClick={onClose}
             />
-        </div>
+        </Primary>
     </Footer>;
 }
 

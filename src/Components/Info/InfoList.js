@@ -16,12 +16,23 @@ const Section = Styled.section`
     justify-content: space-between;
     align-items: flex-start;
     padding: 12px 24px;
+    gap: 24px;
     border-bottom: 1px solid var(--light-gray);
     color: var(--black-color);
 `;
 
+const Items = Styled.div`
+    display: flex;
+    gap: 32px;
+
+    @media (max-width: 400px) {
+        gap: 16px;
+    }
+`;
+
 const Actions = Styled.div`
-    padding: 0 0 0 24px;
+    display: flex;
+    gap: 8px;
 `;
 
 
@@ -46,7 +57,9 @@ function InfoList(props) {
     }
 
     return <Section className={className}>
-        {items}
+        <Items>
+            {items}
+        </Items>
         {actions.length > 0 && <Actions className="actions">
             {actions}
         </Actions>}
