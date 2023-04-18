@@ -22,9 +22,10 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
     text-align: left;
     font-size: 14px;
     white-space: nowrap;
+    color: var(--title-color);
+    border-radius: var(--border-radius);
     transition: all 0.2s;
     cursor: pointer;
-    color: var(--title-color);
 
     &:hover {
         background-color: var(--light-gray);
