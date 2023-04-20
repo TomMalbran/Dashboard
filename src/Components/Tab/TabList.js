@@ -50,14 +50,14 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, variant, size, selected,
-        onClick, onAction, inHeader, canAdd, children,
+        onClick, onAction, inHeader, bigSpacing, canAdd, children,
     } = props;
 
     if (isHidden) {
         return <React.Fragment />;
     }
     const items = Utils.cloneChildren(children, (child, index) => ({
-        index, variant, onClick, onAction, selected, inHeader,
+        index, variant, onClick, onAction, selected, inHeader, bigSpacing,
     }));
     const showAdd = Boolean(canAdd && onAction);
 
@@ -78,16 +78,17 @@ function TabList(props) {
  * @type {Object} propTypes
  */
 TabList.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
-    onClick   : PropTypes.func,
-    onAction  : PropTypes.func,
-    inHeader  : PropTypes.bool,
-    canAdd    : PropTypes.bool,
-    size      : PropTypes.number,
-    children  : PropTypes.any,
+    isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
+    selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
+    onClick    : PropTypes.func,
+    onAction   : PropTypes.func,
+    inHeader   : PropTypes.bool,
+    bigSpacing : PropTypes.bool,
+    canAdd     : PropTypes.bool,
+    size       : PropTypes.number,
+    children   : PropTypes.any,
 };
 
 /**
@@ -95,12 +96,13 @@ TabList.propTypes = {
  * @type {Object} defaultProps
  */
 TabList.defaultProps = {
-    isHidden  : false,
-    className : "",
-    variant   : Brightness.LIGHT,
-    size      : 0,
-    inHeader  : false,
-    canAdd    : false,
+    isHidden   : false,
+    className  : "",
+    variant    : Brightness.LIGHT,
+    size       : 0,
+    inHeader   : false,
+    bigSpacing : false,
+    canAdd     : false,
 };
 
 export default TabList;
