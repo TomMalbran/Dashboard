@@ -238,6 +238,31 @@ function useActionID() {
     return [ action, elemID, startAction, endAction ];
 }
 
+/**
+ * Returns a Hook to use the Action and Code
+ * @returns {Array}
+ */
+function useActionCode() {
+    const [ action,   setAction   ] = React.useState(get());
+    const [ elemCode, setElemCode ] = React.useState("");
+
+    const startAction = (newAction, elemCode) => {
+        if (newAction instanceof Object) {
+            setAction(newAction);
+        } else {
+            setAction(get(newAction));
+        }
+        setElemCode(elemCode);
+    };
+
+    const endAction = () => {
+        setAction(get());
+        setElemCode("");
+    };
+
+    return [ action, elemCode, startAction, endAction ];
+}
+
 
 
 
@@ -249,4 +274,5 @@ export default {
 
     useAction,
     useActionID,
+    useActionCode,
 };
