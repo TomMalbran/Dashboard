@@ -35,6 +35,7 @@ const MediaElem = Styled.div.attrs(({ isTransparent }) => ({ isTransparent }))`
     width: 100%;
     height: 100px;
     border-bottom: none;
+    overflow: hidden;
 
     img {
         margin: 0 auto;
