@@ -12,29 +12,35 @@ import Store                from "../Core/Store";
  * @param {Number=}   elemID
  * @param {Object=}   data
  * @param {Function=} setElem
+ * @param {Function=} getElem
  * @returns {Object}
  */
-function useDialog(slice, open, elemID = 0, data = null, setElem = null) {
-    const { loading                } = Store.useState("core");
+function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem = null) {
+    const { loaders                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
     const { elem, edition, position  } = Store.useState(slice);
     const { fetchElem, fetchEditData } = Store.useAction(slice);
 
+    const loading = loaders[slice] || false;
+
 
     // Dialog Opens
     React.useEffect(() => {
         if (!open) {
-            startLoader();
+            startLoader(slice);
             return;
         }
 
-        if (elemID) {
+        if (getElem && elemID) {
+            getElem(elemID);
+            startLoader(slice);
+        } else if (elemID) {
             fetchElem(elemID);
-            startLoader();
+            startLoader(slice);
         } else if (fetchEditData) {
             fetchEditData(...Object.values(data || {}));
-            startLoader();
+            startLoader(slice);
         } else if (setElem) {
             if (data) {
                 setElem({ ...data });
@@ -42,7 +48,7 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null) {
                 setElem();
             }
         } else {
-            endLoader();
+            endLoader(slice);
         }
     }, [ open ]);
 
@@ -54,13 +60,13 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null) {
         }
 
         if (!setElem) {
-            endLoader();
+            endLoader(slice);
             return;
         }
 
         if (elemID) {
             setElem(elem);
-            endLoader();
+            endLoader(slice);
         } else {
             let fields = {};
             if (position) {
@@ -70,7 +76,7 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null) {
                 fields = { ...fields, ...data };
             }
             setElem({ ...fields });
-            endLoader();
+            endLoader(slice);
         }
     }, [ edition ]);
 

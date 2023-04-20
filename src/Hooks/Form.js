@@ -8,6 +8,7 @@ import Utils                from "../Utils/Utils";
 
 /**
  * Returns a Hook to use the Form Data and Errors
+ * @param {String}    slice
  * @param {Object}    initialData
  * @param {Function}  edit
  * @param {Function=} onSubmit
@@ -15,9 +16,11 @@ import Utils                from "../Utils/Utils";
  * @param {Boolean=}  open
  * @returns {Object}
  */
-function useForm(initialData, edit, onSubmit = null, startLoading = true, open = true) {
-    const { loading                } = Store.useState("core");
+function useForm(slice, initialData, edit, onSubmit = null, startLoading = true, open = true) {
+    const { loaders                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
+
+    const loading = loaders[slice] || false;
 
     const initialErrors = { form : "" };
     for (const key of Object.keys(initialData)) {
@@ -30,7 +33,7 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true, open =
     // Reset the Loader
     React.useEffect(() => {
         if (open && !startLoading) {
-            endLoader();
+            endLoader(slice);
         }
     }, [ open ]);
 
@@ -69,7 +72,7 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true, open =
         }
         setDataInt(fields);
         resetErrors();
-        endLoader();
+        endLoader(slice);
     };
 
 
@@ -90,16 +93,16 @@ function useForm(initialData, edit, onSubmit = null, startLoading = true, open =
         if (loading) {
             return;
         }
-        startLoader();
+        startLoader(slice);
         resetErrors();
         try {
             const response = await edit(data);
-            endLoader();
+            endLoader(slice);
             if (onSubmit) {
                 onSubmit(response);
             }
         } catch (errors) {
-            endLoader();
+            endLoader(slice);
             setErrorsInt(errors);
         }
     };

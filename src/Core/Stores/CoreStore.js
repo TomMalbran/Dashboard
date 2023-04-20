@@ -1,6 +1,6 @@
 // The initial State
 const initialState = {
-    loading     : false,
+    loaders     : {},
     section     : "",
     redirect    : "/",
     showMenu    : false,
@@ -26,19 +26,21 @@ const actions = {
     /**
      * Starts the Loader
      * @param {Function} dispatch
+     * @param {String}   slice
      * @returns {Void}
      */
-    startLoader(dispatch) {
-        return dispatch({ type : "CORE_LOADING", loading : true });
+    startLoader(dispatch, slice) {
+        return dispatch({ type : "CORE_LOADING", slice, loading : true });
     },
 
     /**
      * Ends the Loader
      * @param {Function} dispatch
+     * @param {String}   slice
      * @returns {Void}
      */
-    endLoader(dispatch) {
-        return dispatch({ type : "CORE_LOADING", loading : false });
+    endLoader(dispatch, slice) {
+        return dispatch({ type : "CORE_LOADING", slice, loading : false });
     },
 
     /**
@@ -153,30 +155,33 @@ const actions = {
  */
 const reducer = (state = initialState, action = {}) => {
     switch (action.type) {
-    case "CORE_REDIRECT":
-        return {
-            ...state,
-            redirect    : action.redirect,
-        };
     case "CORE_LOADING":
         return {
             ...state,
-            loading     : action.loading,
+            loaders  : {
+                ...state.loaders,
+                [action.slice] : action.loading,
+            },
+        };
+    case "CORE_REDIRECT":
+        return {
+            ...state,
+            redirect : action.redirect,
         };
     case "CORE_SECTION":
         return {
             ...state,
-            section     : action.section,
+            section  : action.section,
         };
     case "CORE_RESULT":
         return {
             ...state,
-            result      : action.result,
+            result   : action.result,
         };
     case "CORE_TOOLTIP":
         return {
             ...state,
-            tooltip     : action.tooltip,
+            tooltip  : action.tooltip,
         };
 
 
