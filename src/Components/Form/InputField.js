@@ -30,6 +30,10 @@ const InputContent = Styled.div`
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
+
+    &:hover .inputfield-icon {
+        border-color: var(--border-color);
+    }
 `;
 
 const InputHelper = Styled.p`
@@ -93,13 +97,14 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear
     }
 `;
 
-const InputIcon = Styled(Icon)`
+const InputIcon = Styled(Icon).attrs(({ labelInside }) => ({ labelInside }))`
+    box-sizing: border-box;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: calc(var(--input-height) - 2px);
-    padding: 0 4px;
+    height: ${(props) => props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
+    padding: ${(props) => props.labelInside ? "10px 4px 0 4px" : "0 4px"};
     font-size: 16px;
     border: 1px solid var(--lighter-color);
     border-right: none;
@@ -256,7 +261,11 @@ function InputField(props) {
         />}
         <InputInside>
             <InputContent className="inputfield-cnt">
-                {!!icon && <InputIcon icon={icon} />}
+                {!!icon && <InputIcon
+                    className="inputfield-icon"
+                    icon={icon}
+                    labelInside={labelInside}
+                />}
                 {!!preName && <InputInput
                     className="inputfield-input inputfield-pre"
                     type={preType}

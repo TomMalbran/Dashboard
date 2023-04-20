@@ -5,8 +5,11 @@ import Styled               from "styled-components";
 
 
 // Styles
-const Container = Styled.div.attrs(({ fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused }) =>
-    ({ fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused }))`
+const Container = Styled.div.attrs(({
+    fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused,
+}) => ({
+    fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused,
+}))`
     position: relative;
     display: block;
 
@@ -52,6 +55,9 @@ const Container = Styled.div.attrs(({ fullWidth, smallMargin, noMargin, hasLabel
     `}
     ${(props) => props.isFocused && `
         .inputfield-input {
+            border-color: var(--border-color) !important;
+        }
+        .inputfield-icon {
             border-color: var(--border-color) !important;
         }
         .inputfield-cnt {
