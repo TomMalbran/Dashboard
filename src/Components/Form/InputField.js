@@ -118,11 +118,14 @@ const InputIcon = Styled(Icon).attrs(({ labelInside }) => ({ labelInside }))`
         padding-left: 0;
     }
 `;
+
 const InputClear = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
     position: absolute;
     top: 50%;
-    right: ${(props) => props.forMedia ? "32px" : "0"};
+    right: ${(props) => props.forMedia ? "32px" : "2px"};
     transform: translateY(-50%);
+    z-index: 1;
+
     .icon {
         box-shadow: none;
     }
