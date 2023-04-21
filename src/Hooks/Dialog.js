@@ -35,6 +35,9 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
         if (getElem && elemID) {
             getElem(elemID);
             startLoader(slice);
+        } else if (getElem) {
+            getElem(...Object.values(data || {}));
+            startLoader(slice);
         } else if (elemID) {
             fetchElem(elemID);
             startLoader(slice);
