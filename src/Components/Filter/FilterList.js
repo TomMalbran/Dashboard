@@ -85,24 +85,37 @@ function FilterList(props) {
 
     // Handles the Input Change
     const handleChange = (name, value) => {
-        const newData = { ...data, [name] : value };
-        setData(newData);
+        const filterData = { ...data, [name] : value };
+        setData(filterData);
         setErrors({ ...errors, [name] : "" });
-        return newData;
+        return filterData;
     };
 
     // Handles the Input Search
     const handleSearch = (id, idValue, name, nameValue) => {
-        setData({ ...data, [id] : idValue, [name] : nameValue });
+        const filterData = { ...data, [id] : idValue, [name] : nameValue };
+        setData(filterData);
         setErrors({ ...errors, [name] : "" });
+        return filterData;
+    };
+
+    // Handles the Update
+    const handleUpdate = async (id, idValue, name, nameValue) => {
+        let filterData = {};
+        if (name) {
+            filterData = handleSearch(id, idValue, name, nameValue);
+        } else {
+            filterData = handleChange(id, idValue);
+        }
+        handleSubmit(filterData);
     };
 
     // Handles the Submit
-    const handleSubmit = async (sendData = data) => {
+    const handleSubmit = async (filterData = data) => {
         setLoading(true);
         setErrors(initialErrors);
         try {
-            await onFilter(sendData);
+            await onFilter(filterData);
             setLoading(false);
         } catch (errors) {
             setLoading(false);
@@ -110,13 +123,8 @@ function FilterList(props) {
         }
     };
 
-    // Handles the Clear
-    const handleClear = async (name, value) => {
-        const sendData = handleChange(name, value);
-        handleSubmit(sendData);
-    };
 
-
+    // Do the Render
     return <Container columns={items.length}>
         {items.map((item) => <FilterField
             {...item}
@@ -125,15 +133,16 @@ function FilterList(props) {
             error={errors[item.name]}
             onChange={handleChange}
             onSearch={handleSearch}
+            onSuggest={handleUpdate}
             onSubmit={handleSubmit}
-            onClear={handleClear}
+            onClear={handleUpdate}
             labelInside={labelInside}
         />)}
         <Div labelInside={labelInside}>
             <FilterButton
                 variant="outlined"
                 isDisabled={loading}
-                onClick={handleSubmit}
+                onClick={() => handleSubmit()}
                 message="GENERAL_FILTER"
                 labelInside={labelInside}
             />

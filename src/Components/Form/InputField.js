@@ -130,6 +130,7 @@ const InputClear = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
         box-shadow: none;
     }
 `;
+
 const InputButton = Styled(Button)`
     margin-left: 16px;
     height: var(--input-height);
@@ -202,18 +203,18 @@ function InputField(props) {
 
     // Handles the Clear
     const handleClear = () => {
-        let value = "";
+        let params = [ name, "" ];
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
             suggestRef.current.clear();
+            params = [ suggestID, 0, name, "" ];
         } else if (type === "file") {
-            // @ts-ignore
-            value = {};
+            params[1] = {};
         }
 
-        handleChange(name, value);
+        handleChange(...params);
         if (onClear) {
-            onClear(name, value);
+            onClear(...params);
         }
     };
 
