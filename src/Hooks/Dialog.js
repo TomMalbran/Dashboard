@@ -16,10 +16,10 @@ import Store                from "../Core/Store";
  * @returns {Object}
  */
 function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem = null) {
-    const { loaders                } = Store.useState("core");
+    const { loaders } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
-    const { elem, edition, position  } = Store.useState(slice);
+    const { elem, canEdit, edition, position } = Store.useState(slice);
     const { fetchElem, fetchEditData } = Store.useAction(slice);
 
     const loading = loaders[slice] || false;
@@ -83,7 +83,7 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
 
     // The API
     return {
-        loading, startLoader, endLoader, elem,
+        loading, startLoader, endLoader, elem, canEdit,
     };
 }
 
