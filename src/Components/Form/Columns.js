@@ -8,10 +8,11 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
+const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
     display: grid;
     grid-gap: 0 16px;
     grid-template-columns: repeat(${(props) => props.amount}, 1fr);
+    ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
 
     .columns-double {
         grid-column-end: span 2;
@@ -101,7 +102,10 @@ const Div = Styled.div.attrs(({ amount }) => ({ amount }))`
  * @returns {React.ReactElement}
  */
 function Columns(props) {
-    const { isHidden, className, amount, onSubmit, autoFocus, children } = props;
+    const {
+        isHidden, className, amount, topSpace,
+        onSubmit, autoFocus, children,
+    } = props;
 
     const items = Utils.cloneChildren(children, (child, key) => ({
         onSubmit, autoFocus : autoFocus && key === 0,
@@ -110,7 +114,11 @@ function Columns(props) {
     if (isHidden || !items.length) {
         return <React.Fragment />;
     }
-    return <Div className={className} amount={amount}>
+    return <Div
+        className={className}
+        amount={amount}
+        topSpace={topSpace}
+    >
         {items}
     </Div>;
 }
@@ -123,6 +131,7 @@ Columns.propTypes = {
     isHidden  : PropTypes.bool,
     className : PropTypes.string,
     amount    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    topSpace  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onSubmit  : PropTypes.func,
     autoFocus : PropTypes.bool,
     children  : PropTypes.any,
