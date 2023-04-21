@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Utils
 import Utils                from "../../Utils/Utils";
@@ -7,6 +8,15 @@ import Utils                from "../../Utils/Utils";
 // Components
 import Alert                from "../Form/Alert";
 import Columns              from "../Form/Columns";
+
+
+
+// Styles
+const Content = Styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
 
 
 
@@ -32,10 +42,10 @@ function Form(props) {
     }
 
 
-    return <div className={className}>
+    return <Content className={className}>
         <Alert variant="error" message={error} noClose />
         {items}
-    </div>;
+    </Content>;
 }
 
 /**

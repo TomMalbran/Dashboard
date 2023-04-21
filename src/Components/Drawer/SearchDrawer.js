@@ -174,7 +174,6 @@ function SearchDrawer(props) {
             value={value}
             onChange={handleChange}
             onKeyDown={handleKey}
-            noMargin
             autoFocus
         />
         {suggestions.length > 0 && <section>

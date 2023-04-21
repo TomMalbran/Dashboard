@@ -50,17 +50,19 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, variant, size, selected,
-        onClick, onAction, inHeader, bigSpacing, canAdd, children,
+        onClick, onAction, inHeader, inDialog, canAdd, children,
     } = props;
 
     if (isHidden) {
         return <React.Fragment />;
     }
     const items = Utils.cloneChildren(children, (child, index) => ({
-        index, variant, onClick, onAction, selected, inHeader, bigSpacing,
+        index, variant, onClick, onAction, selected, inHeader, inDialog,
     }));
     const showAdd = Boolean(canAdd && onAction);
 
+
+    // Do the Render
     return <Section className={`tabs ${className}`} variant={variant}>
         <Div className="tabs-content" size={size}>
             {items}
@@ -78,17 +80,17 @@ function TabList(props) {
  * @type {Object} propTypes
  */
 TabList.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    variant    : PropTypes.string,
-    selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
-    onClick    : PropTypes.func,
-    onAction   : PropTypes.func,
-    inHeader   : PropTypes.bool,
-    bigSpacing : PropTypes.bool,
-    canAdd     : PropTypes.bool,
-    size       : PropTypes.number,
-    children   : PropTypes.any,
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
+    variant   : PropTypes.string,
+    selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
+    onClick   : PropTypes.func,
+    onAction  : PropTypes.func,
+    inHeader  : PropTypes.bool,
+    inDialog  : PropTypes.bool,
+    canAdd    : PropTypes.bool,
+    size      : PropTypes.number,
+    children  : PropTypes.any,
 };
 
 /**
@@ -96,13 +98,13 @@ TabList.propTypes = {
  * @type {Object} defaultProps
  */
 TabList.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    variant    : Brightness.LIGHT,
-    size       : 0,
-    inHeader   : false,
-    bigSpacing : false,
-    canAdd     : false,
+    isHidden  : false,
+    className : "",
+    variant   : Brightness.LIGHT,
+    size      : 0,
+    inHeader  : false,
+    inDialog  : false,
+    canAdd    : false,
 };
 
 export default TabList;

@@ -1,11 +1,21 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Components
 import Dialog               from "../Dialog/Dialog";
 import DialogHeader         from "../Dialog/DialogHeader";
 import DialogBody           from "../Dialog/DialogBody";
 import DialogFooter         from "../Dialog/DialogFooter";
+
+
+
+// Styles
+const Content = Styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
 
 
 
@@ -40,7 +50,7 @@ function ViewDialog(props) {
             withSpacing={withSpacing}
             hideFooter={hideFooter}
         >
-            {children}
+            <Content>{children}</Content>
         </DialogBody>
         <DialogFooter
             isHidden={hideFooter}

@@ -99,7 +99,6 @@ function HistoryInput(props) {
                 label={label}
                 value={value}
                 onChange={handleChange}
-                noMargin
             />
             <Footer>
                 <Button

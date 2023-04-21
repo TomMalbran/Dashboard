@@ -6,22 +6,15 @@ import Styled               from "styled-components";
 
 // Styles
 const Container = Styled.div.attrs(({
-    fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused,
+    fullWidth, hasLabel, labelInside, hasError, isFocused,
 }) => ({
-    fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused,
+    fullWidth, hasLabel, labelInside, hasError, isFocused,
 }))`
     position: relative;
     display: block;
 
     ${(props) => props.fullWidth && `
         width: 100%;
-    `}
-
-    margin-bottom: ${(props) => props.noMargin ? "0px" : (props.smallMargin ? "10px" : "20px")};
-    ${(props) => !props.noMargin && `
-        &:last-child {
-            margin-bottom: 0;
-        }
     `}
 
     ${(props) => props.hasLabel && !props.labelInside && `
@@ -77,13 +70,11 @@ const Container = Styled.div.attrs(({
  * @returns {React.ReactElement}
  */
 function InputContainer(props) {
-    const { className, fullWidth, smallMargin, noMargin, hasLabel, labelInside, hasError, isFocused, children } = props;
+    const { className, fullWidth, hasLabel, labelInside, hasError, isFocused, children } = props;
 
     return <Container
         className={className}
         fullWidth={fullWidth}
-        smallMargin={smallMargin}
-        noMargin={noMargin}
         hasLabel={hasLabel}
         labelInside={labelInside}
         hasError={hasError}
@@ -100,8 +91,6 @@ function InputContainer(props) {
 InputContainer.propTypes = {
     className   : PropTypes.string,
     fullWidth   : PropTypes.bool,
-    smallMargin : PropTypes.bool,
-    noMargin    : PropTypes.bool,
     hasLabel    : PropTypes.bool,
     labelInside : PropTypes.bool,
     hasError    : PropTypes.bool,
@@ -116,8 +105,6 @@ InputContainer.propTypes = {
 InputContainer.defaultProps = {
     className   : "",
     fullWidth   : false,
-    smallMargin : false,
-    noMargin    : false,
     hasLabel    : false,
     labelInside : false,
     hasError    : false,

@@ -10,8 +10,8 @@ import Utils                from "../../Utils/Utils";
 // Styles
 const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
     display: grid;
-    grid-gap: 0 16px;
     grid-template-columns: repeat(${(props) => props.amount}, 1fr);
+    gap: 16px;
     ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
 
     .columns-double {
@@ -31,40 +31,11 @@ const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
         margin-top: 0;
     }
 
-    .inputfield:last-child,
-    .inputview:last-child {
-        margin-bottom: 20px;
-    }
-
-    ${(props) => Number(props.amount) === 1 && `
-        &:last-child .inputfield,
-        &:last-child .inputview {
-            margin-bottom: 0;
-        }
-    `}
-
-    ${(props) => Number(props.amount) === 2 && `
-        &:last-child .inputfield:not(.columns-double):nth-last-child(-n+2),
-        &:last-child .inputview:not(.columns-double):nth-last-child(-n+2) {
-            margin-bottom: 0;
-        }
-        &:last-child .inputfield.columns-double:last-child,
-        &:last-child .inputview.columns-double:last-child {
-            margin-bottom: 0;
-        }
-    `}
-
-    ${(props) => Number(props.amount) === 3 && `
-        &:last-child .inputfield:nth-last-child(-n+3),
-        &:last-child .inputview:nth-last-child(-n+3) {
-            margin-bottom: 0;
-        }
-        @media (max-width: 700px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    `}
-
     @media (max-width: 700px) {
+        ${(props) => (Number(props.amount) === 3 || Number(props.amount) === 4) && `
+            grid-template-columns: repeat(2, 1fr);
+        `}
+
         .columns-double {
             grid-column-end: span 1;
         }
@@ -77,19 +48,13 @@ const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
     }
 
     @media (max-width: 500px) {
-        display: block;
+        grid-template-columns: 1fr;
 
-        &:last-child .inputfield.inputfield:nth-last-child(-n+2),
-        &:last-child .inputview.inputview:nth-last-child(-n+2) {
-            margin-bottom: 20px;
+        .columns-triple {
+            grid-column-end: span 1;
         }
-        &:last-child .inputfield.inputfield:nth-last-child(-n+2),
-        &:last-child .inputview.inputview:nth-last-child(-n+2) {
-            margin-bottom: 20px;
-        }
-        &:last-child .inputfield.inputfield:last-child,
-        &:last-child .inputview.inputview:last-child {
-            margin-bottom: 0;
+        .columns-btn {
+            grid-column-start: 1;
         }
     }
 `;

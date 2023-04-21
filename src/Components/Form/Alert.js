@@ -14,13 +14,12 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Div = Styled.div.attrs(({ isOpen, isClosing, smallSpace, height }) => ({ isOpen, isClosing, smallSpace, height }))`
+const Div = Styled.div.attrs(({ isOpen, isClosing, height }) => ({ isOpen, isClosing, height }))`
     display: ${(props) => props.isOpen ? "block" : "none"}
     box-sizing: border-box;
     overflow: hidden;
     transition: all 0.2s linear;
 
-    ${(props) => props.smallSpace ? "padding: 0 0 8px 0;" : "padding: 0 0 16px 0;"}
     ${(props) => !!props.height  && `max-height: ${props.height}px`}
     ${(props) => props.isClosing && "max-height: 0 !important;"}
 `;
@@ -33,7 +32,6 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
     color: white;
     font-weight: 400;
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     transition: all 0.5s;
 
     & > div > .icon {
@@ -59,7 +57,7 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
  * @returns {React.ReactElement}
  */
 function Alert(props) {
-    const { isHidden, variant, message, onClose, noClose, smallSpace, children } = props;
+    const { isHidden, variant, message, onClose, noClose, children } = props;
 
     let content = children;
     if (message) {
@@ -107,7 +105,6 @@ function Alert(props) {
         className="alert"
         isOpen={open}
         isClosing={isClosing}
-        smallSpace={smallSpace}
         height={height}
         ref={alertRef}
     >
@@ -127,13 +124,12 @@ function Alert(props) {
  * @typedef {Object} propTypes
  */
 Alert.propTypes = {
-    isHidden   : PropTypes.bool,
-    variant    : PropTypes.string.isRequired,
-    smallSpace : PropTypes.bool,
-    onClose    : PropTypes.func,
-    noClose    : PropTypes.bool,
-    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    children   : PropTypes.any,
+    isHidden : PropTypes.bool,
+    variant  : PropTypes.string.isRequired,
+    onClose  : PropTypes.func,
+    noClose  : PropTypes.bool,
+    message  : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    children : PropTypes.any,
 };
 
 /**
@@ -141,9 +137,8 @@ Alert.propTypes = {
  * @type {Object} defaultProps
  */
 Alert.defaultProps = {
-    isHidden   : false,
-    smallSpace : false,
-    noClose    : false,
+    isHidden : false,
+    noClose  : false,
 };
 
 export default Alert;

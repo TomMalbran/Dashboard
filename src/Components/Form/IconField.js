@@ -129,7 +129,7 @@ const InputIcon = Styled(Icon)`
 function IconField(props) {
     const {
         isHidden, className, type, icon, autoFocus, value,
-        isRequired, error, fullWidth, smallMargin, noMargin, onChange,
+        isRequired, error, fullWidth, onChange,
         withLabel, label, placeholder, shrinkLabel, withNone,
         preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preNoneText, preWidth,
     } = props;
@@ -209,8 +209,6 @@ function IconField(props) {
         fullWidth={fullWidth}
         hasError={!!error}
         isFocused={isFocused}
-        smallMargin={smallMargin}
-        noMargin={noMargin}
     >
         <InputContent className="inputfield-cnt" hasError={!!error}>
             <InputIcon icon={icon} />
@@ -290,8 +288,6 @@ IconField.propTypes = {
     tabIndex       : PropTypes.string,
     withLabel      : PropTypes.bool,
     fullWidth      : PropTypes.bool,
-    smallMargin    : PropTypes.bool,
-    noMargin       : PropTypes.bool,
     shrinkLabel    : PropTypes.bool,
     withNone       : PropTypes.bool,
     noneText       : PropTypes.string,
@@ -326,8 +322,6 @@ IconField.defaultProps = {
     extraOptions   : [],
     withLabel      : true,
     fullWidth      : false,
-    smallMargin    : false,
-    noMargin       : false,
     shrinkLabel    : false,
     withNone       : false,
     noneText       : "",

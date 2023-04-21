@@ -15,17 +15,17 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Item = Styled.div.attrs(({
-    isSelected, isDisabled, inHeader, bigSpacing,
+    isSelected, isDisabled, inHeader, inDialog,
 }) => ({
-    isSelected, isDisabled, inHeader, bigSpacing,
+    isSelected, isDisabled, inHeader, inDialog,
 }))`
     position: relative;
     flex-grow: 1;
     box-sizing: border-box;
     text-align: center;
     white-space: nowrap;
-    cursor: pointer;
     transition: all 0.2s;
+    cursor: pointer;
 
     &:hover .icon {
         display: block;
@@ -53,7 +53,7 @@ const DeleteIcon = Styled(ItemIcon)`
 
 const LightItem = Styled(Item)`
     height: calc(var(--tabs-table) - 8px);
-    margin: ${(props) => props.bigSpacing ? "0 16px 16px 0" : "0 8px 8px 0"};
+    margin: ${(props) => props.inDialog ? "0 16px 0 0" : "0 8px 8px 0"};
     padding: 6px 12px;
     color: var(--title-color);
     background-color: var(--lighter-gray);
@@ -139,7 +139,7 @@ const Components = {
 function TabItem(props) {
     const {
         className, variant, icon, message, status, value, index, selected,
-        amount, badge, isDisabled, inHeader, bigSpacing,
+        amount, badge, isDisabled, inHeader, inDialog,
         canEdit, canDelete, onClick, onAction,
     } = props;
 
@@ -182,12 +182,13 @@ function TabItem(props) {
     };
 
 
+    // Do the Render
     return <Component
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
         inHeader={inHeader}
-        bigSpacing={bigSpacing}
+        inDialog={inDialog}
         onClick={handleClick}
     >
         {showEdit && <EditIcon
@@ -223,7 +224,7 @@ TabItem.propTypes = {
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
     inHeader   : PropTypes.bool,
-    bigSpacing : PropTypes.bool,
+    inDialog   : PropTypes.bool,
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onClick    : PropTypes.func,

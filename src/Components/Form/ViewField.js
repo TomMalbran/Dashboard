@@ -83,7 +83,7 @@ const InputHelper = Styled.p`
 function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, label, value, icon,
-        fullWidth, labelInside, smallMargin, noMargin, isSmall, isSelected, error, helperText,
+        fullWidth, labelInside, isSmall, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
@@ -103,8 +103,6 @@ function ViewField(props) {
         className={`inputview ${className}`}
         fullWidth={fullWidth}
         labelInside={labelInside}
-        smallMargin={smallMargin}
-        noMargin={noMargin}
         hasLabel
     >
         {hasLabel && <Label
@@ -160,8 +158,6 @@ ViewField.propTypes = {
     value       : PropTypes.any,
     error       : PropTypes.string,
     helperText  : PropTypes.string,
-    smallMargin : PropTypes.bool,
-    noMargin    : PropTypes.bool,
     fullWidth   : PropTypes.bool,
     labelInside : PropTypes.bool,
     isSmall     : PropTypes.bool,
@@ -186,8 +182,6 @@ ViewField.defaultProps = {
     showEmpty   : false,
     className   : "",
     viewClass   : "",
-    smallMargin : false,
-    noMargin    : false,
     fullWidth   : false,
     labelInside : false,
     isSmall     : false,

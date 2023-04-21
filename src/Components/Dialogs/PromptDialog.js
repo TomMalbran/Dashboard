@@ -81,7 +81,6 @@ function PromptDialog(props) {
                 labelInside={labelInside}
                 isRequired
                 withNone
-                noMargin
             />
         </DialogBody>
         <DialogFooter

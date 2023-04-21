@@ -148,7 +148,7 @@ function InputField(props) {
     const {
         passedRef, isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onSearch, onInput, onSuggest, onBlur,
-        fullWidth, smallMargin, noMargin, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
+        fullWidth, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
         preType, preName, preValue, preOptions, preWithNone, preNoneText, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear, onClear,
     } = props;
@@ -249,8 +249,6 @@ function InputField(props) {
     return <InputContainer
         className={`inputfield inputfield-${type} ${className}`}
         fullWidth={fullWidth}
-        smallMargin={smallMargin}
-        noMargin={noMargin}
         hasLabel={hasLabel}
         labelInside={labelInside}
         hasError={hasError}
@@ -381,8 +379,6 @@ InputField.propTypes = {
     tabIndex        : PropTypes.string,
     withLabel       : PropTypes.bool,
     fullWidth       : PropTypes.bool,
-    smallMargin     : PropTypes.bool,
-    noMargin        : PropTypes.bool,
     labelInside     : PropTypes.bool,
     shrinkLabel     : PropTypes.bool,
     withBorder      : PropTypes.bool,
@@ -428,8 +424,6 @@ InputField.defaultProps = {
     extraOptions    : [],
     suggestParams   : {},
     withLabel       : true,
-    smallMargin     : false,
-    noMargin        : false,
     fullWidth       : false,
     labelInside     : false,
     shrinkLabel     : false,

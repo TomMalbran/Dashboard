@@ -39,10 +39,9 @@ const Pages = Styled.p`
 `;
 
 const PagingInput = Styled(InputField)`
-    margin-bottom: 0;
     margin-right: 16px;
 
-    & .input-select {
+    & .input-select.input-select {
         min-height: 24px;
         line-height: 1;
         font-size: 12px;

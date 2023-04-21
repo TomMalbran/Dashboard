@@ -11,26 +11,16 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Div = Styled.div.attrs(({ smallSpace, noSpace, centered }) => ({ smallSpace, noSpace, centered }))`
+const Div = Styled.div.attrs(({ centered }) => ({ centered }))`
     color: var(--black-color);
     font-weight: 400;
     ${(props) => props.centered ? "text-align: center;" : ""}
-    ${(props) => props.noSpace ? "margin: 0;" : (
-        props.smallSpace ? "margin: 0 0 16px 0;" : "margin: 0 0 32px 0;"
-    )}
 `;
 
-const Content = Styled(Html).attrs(({ smallSpace, noSpace, centered }) => ({ smallSpace, noSpace, centered }))`
+const Content = Styled(Html).attrs(({ centered }) => ({ centered }))`
     color: var(--black-color);
     font-weight: 400;
     ${(props) => props.centered ? "text-align: center;" : ""}
-    ${(props) => props.noSpace ? "margin: 0;" : (
-        props.smallSpace ? "margin: 0 0 16px 0;" : "margin: 0 0 32px 0;"
-    )}
-
-    & + & {
-        margin-top: -16px;
-    }
 `;
 
 
@@ -42,7 +32,7 @@ const Content = Styled(Html).attrs(({ smallSpace, noSpace, centered }) => ({ sma
  */
 function DialogMessage(props) {
     const {
-        isHidden, className, variant, smallSpace, noSpace, centered,
+        isHidden, className, variant, centered,
         html, message, children,
     } = props;
 
@@ -55,8 +45,6 @@ function DialogMessage(props) {
     if (children) {
         return <Div
             className={className}
-            smallSpace={smallSpace}
-            noSpace={noSpace}
             centered={centered}
         >
             {children}
@@ -66,8 +54,6 @@ function DialogMessage(props) {
     return <Content
         variant={variant}
         className={className}
-        smallSpace={smallSpace}
-        noSpace={noSpace}
         centered={centered}
     >
         {content}
@@ -79,15 +65,13 @@ function DialogMessage(props) {
  * @type {Object} propTypes
  */
 DialogMessage.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    variant    : PropTypes.string,
-    smallSpace : PropTypes.bool,
-    noSpace    : PropTypes.bool,
-    centered   : PropTypes.bool,
-    message    : PropTypes.string,
-    html       : PropTypes.string,
-    children   : PropTypes.any,
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
+    variant   : PropTypes.string,
+    centered  : PropTypes.bool,
+    message   : PropTypes.string,
+    html      : PropTypes.string,
+    children  : PropTypes.any,
 };
 
 /**
@@ -95,12 +79,10 @@ DialogMessage.propTypes = {
  * @type {Object} defaultProps
  */
 DialogMessage.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    variant    : "div",
-    smallSpace : false,
-    noSpace    : false,
-    centered   : false,
+    isHidden  : false,
+    className : "",
+    variant   : "div",
+    centered  : false,
 };
 
 export default DialogMessage;

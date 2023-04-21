@@ -11,7 +11,6 @@ import IconField            from "../Form/IconField";
 const SearchField = Styled(IconField)`
     --inputicon-height: 30px;
     margin-left: 32px;
-    margin-bottom: 0;
     width: 200px;
 
     .input {
