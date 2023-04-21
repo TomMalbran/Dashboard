@@ -9,28 +9,30 @@ import NLS                  from "../../Core/NLS";
 
 // Styles
 const Ul = Styled.ul.attrs(({ isOpen }) => ({ isOpen }))`
+    box-sizing: border-box;
     display: ${(props)=> props.isOpen ? "block" : "none"};
     position: absolute;
     overflow: auto;
     width: 100%;
     min-width: 200px;
     margin: 0;
-    padding: 0;
+    padding: 8px;
     list-style: none;
-    font-weight: 200;
-    transform: translateY(1px);
+    background-color: white;
     box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.31) 0px 0px 1px;
+    border-radius: var(--border-radius);
+    transform: translateY(1px);
     z-index: 2;
 `;
 
 const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
     margin: 0;
-    padding: 10px;
-    color: var(--title-color);
-    cursor: pointer;
+    padding: 8px;
     font-size: 14px;
-    background-color: var(--lighter-gray);
+    color: var(--title-color);
+    border-radius: var(--border-radius);
     transition: all 0.2s;
+    cursor: pointer;
 
     &:hover {
         background-color: var(--light-gray);
