@@ -85,8 +85,10 @@ function FilterList(props) {
 
     // Handles the Input Change
     const handleChange = (name, value) => {
-        setData({ ...data, [name] : value });
+        const newData = { ...data, [name] : value };
+        setData(newData);
         setErrors({ ...errors, [name] : "" });
+        return newData;
     };
 
     // Handles the Input Search
@@ -95,17 +97,23 @@ function FilterList(props) {
         setErrors({ ...errors, [name] : "" });
     };
 
-    // Handles the On Click event
-    const handleClick = async () => {
+    // Handles the Submit
+    const handleSubmit = async (sendData = data) => {
         setLoading(true);
         setErrors(initialErrors);
         try {
-            await onFilter(data);
+            await onFilter(sendData);
             setLoading(false);
         } catch (errors) {
             setLoading(false);
             setErrors(errors);
         }
+    };
+
+    // Handles the Clear
+    const handleClear = async (name, value) => {
+        const sendData = handleChange(name, value);
+        handleSubmit(sendData);
     };
 
 
@@ -117,14 +125,15 @@ function FilterList(props) {
             error={errors[item.name]}
             onChange={handleChange}
             onSearch={handleSearch}
-            onSubmit={handleClick}
+            onSubmit={handleSubmit}
+            onClear={handleClear}
             labelInside={labelInside}
         />)}
         <Div labelInside={labelInside}>
             <FilterButton
                 variant="outlined"
                 isDisabled={loading}
-                onClick={handleClick}
+                onClick={handleSubmit}
                 message="GENERAL_FILTER"
                 labelInside={labelInside}
             />
@@ -137,13 +146,13 @@ function FilterList(props) {
  * @typedef {Object} propTypes
  */
 FilterList.propTypes = {
-    onFilter      : PropTypes.func.isRequired,
-    labelInside   : PropTypes.bool,
-    values        : PropTypes.object,
-    initialData   : PropTypes.object,
-    fetch         : PropTypes.func,
-    params        : PropTypes.object,
-    children      : PropTypes.any,
+    onFilter    : PropTypes.func.isRequired,
+    labelInside : PropTypes.bool,
+    values      : PropTypes.object,
+    initialData : PropTypes.object,
+    fetch       : PropTypes.func,
+    params      : PropTypes.object,
+    children    : PropTypes.any,
 };
 
 /**

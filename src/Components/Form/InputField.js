@@ -197,18 +197,20 @@ function InputField(props) {
         }
     };
 
-    // Handles the Clear Click
+    // Handles the Clear
     const handleClear = () => {
+        let value = "";
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
             suggestRef.current.clear();
         } else if (type === "file") {
-            handleChange(name, {});
-        } else {
-            handleChange(name, "");
+            // @ts-ignore
+            value = {};
         }
+
+        handleChange(name, value);
         if (onClear) {
-            onClear(name);
+            onClear(name, value);
         }
     };
 
