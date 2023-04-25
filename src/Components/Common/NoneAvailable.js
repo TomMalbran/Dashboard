@@ -17,7 +17,10 @@ const Variant = {
 // Styles
 const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     margin: 0;
-    padding-top: 8px;
+    padding: 16px;
+    font-size: 15px;
+    background-color: var(--lighter-gray);
+    border-radius: var(--border-radius);
 
     ${(props) => props.variant === Variant.PRIMARY && `
         color: var(--title-color);
