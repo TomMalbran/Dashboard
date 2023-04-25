@@ -56,9 +56,9 @@ function Menu(props) {
     } = props;
     let { top, left, right } = props;
 
-    let   hasStyles = (top || bottom) && (left || right);
-    const menuRef   = React.useRef();
-    const style     = {};
+    let   hasStyles  = (top || bottom) && (left || right);
+    const contentRef = React.useRef();
+    const style      = {};
 
     // The State
     const [ width,  setWidth  ] = React.useState(0);
@@ -67,10 +67,7 @@ function Menu(props) {
 
     // Close the Menu
     const handleClose = (e) => {
-        if (!open) {
-            return;
-        }
-        if (menuRef && Utils.inRef(e.clientX, e.clientY, menuRef)) {
+        if (!open || Utils.inRef(e.clientX, e.clientY, contentRef)) {
             return;
         }
         onClose();
@@ -81,7 +78,7 @@ function Menu(props) {
     // Save the Width and add the Close handler
     React.useEffect(() => {
         if (open) {
-            const bounds = Utils.getBounds(menuRef);
+            const bounds = Utils.getBounds(contentRef);
             setWidth(bounds.width);
             setHeight(bounds.height);
         }
@@ -145,9 +142,10 @@ function Menu(props) {
     }));
 
 
+    // Do the Render
     return <Div isOpen={open} onClick={handleClose}>
         <Ul
-            ref={menuRef}
+            ref={contentRef}
             className={className}
             withPos={hasStyles}
             isLeft={!hasStyles && variant === Variant.LEFT}
@@ -164,8 +162,9 @@ function Menu(props) {
  * @type {Object} propTypes
  */
 Menu.propTypes = {
-    containerRef : PropTypes.any,
     open         : PropTypes.bool,
+    containerRef : PropTypes.any,
+    targetRef    : PropTypes.any,
     variant      : PropTypes.string,
     className    : PropTypes.string,
     direction    : PropTypes.string,
@@ -178,7 +177,6 @@ Menu.propTypes = {
     selected     : PropTypes.number,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
-    targetRef    : PropTypes.any,
     children     : PropTypes.any,
 };
 
