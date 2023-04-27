@@ -33,7 +33,7 @@ const Error = Styled.p.attrs(({ useBackground }) => ({ useBackground }))`
  * @returns {React.ReactElement}
  */
 function InputError(props) {
-    const { error, useBackground } = props;
+    const { className, error, useBackground } = props;
 
     if (!error) {
         return <React.Fragment />;
@@ -43,7 +43,7 @@ function InputError(props) {
     if (Array.isArray(error)) {
         errorText = NLS.format(error[0], ...error.slice(1));
     }
-    return <Error useBackground={useBackground}>
+    return <Error className={className} useBackground={useBackground}>
         {errorText}
     </Error>;
 }
@@ -53,6 +53,7 @@ function InputError(props) {
  * @type {Object} propTypes
  */
 InputError.propTypes = {
+    className     : PropTypes.string,
     error         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     useBackground : PropTypes.bool,
 };
@@ -62,6 +63,7 @@ InputError.propTypes = {
  * @type {Object} defaultProps
  */
 InputError.defaultProps = {
+    className     : "",
     useBackground : false,
 };
 

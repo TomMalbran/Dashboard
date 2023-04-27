@@ -7,14 +7,20 @@ import InputType            from "../../Core/InputType";
 import Utils                from "../../Utils/Utils";
 
 // Components
+import InputField           from "../Form/InputField";
 import Button               from "../Form/Button";
 import IconLink             from "../Link/IconLink";
 import Input                from "../Input/Input";
+import InputError           from "../Input/InputError";
 
 
 
 // Styles
 const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
     width: 100%;
 
     ${(props) => props.hasLabel && props.labelInside && `
@@ -24,19 +30,62 @@ const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, l
     `}
 `;
 
-const Div = Styled.div`
+const Content = Styled.div.attrs(({ withClose, withError, withBorder }) => ({ withClose, withError, withBorder }))`
+    width: 100%;
+    display: grid;
+    grid-template-areas: "input";
+    gap: 4px;
+
+    ${(props) => (props.withClose && props.withError) && `
+        grid-template-areas:
+            "input close"
+            "error error";
+        grid-template-columns: 1fr 24px;
+    `}
+
+    ${(props) => (props.withClose && !props.withError) && `
+        grid-template-areas:
+            "input close";
+        grid-template-columns: 1fr 24px;
+    `}
+
+${(props) => (!props.withClose && props.withError) && `
+        grid-template-areas:
+            "input"
+            "error";
+    `}
+
+    ${(props) => props.withBorder && `
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--dark-gray);
+    `}
+`;
+
+const Items = Styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    grid-area: input;
+`;
+
+const Close = Styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    margin-bottom: 4px;
+    grid-area: close;
 `;
 
 const Link = Styled(IconLink)`
-    flex-shrink: 0;
+    --link-size: 24px;
     font-size: 18px;
 `;
 
+const Error = Styled(InputError)`
+    grid-area: error;
+`;
 
 
 /**
@@ -47,7 +96,8 @@ const Link = Styled(IconLink)`
 function FieldInput(props) {
     const {
         className, inputType, name, value, button, onChange,
-        options, withNone, noneText, hasLabel, labelInside, children,
+        options, withNone, noneText, hasLabel, labelInside,
+        withBorder, errors, children,
     } = props;
 
     // Parse the Items
@@ -122,22 +172,45 @@ function FieldInput(props) {
         }
     };
 
+    // Returns the part error
+    const getError = (index) => {
+        if (errors) {
+            return errors[`${name}-${index}`] || "";
+        }
+        return "";
+    };
 
+
+
+    // Do the Render
     const parts = hasItems ? objectArray : stringArray;
-    return <Container className={className} hasLabel={hasLabel} labelInside={labelInside}>
-        {parts.map((elem, index) => <Div key={index}>
-            {hasItems ? items.map((item) => <Input
-                key={`${item.name}-${index}`}
-                className="input"
-                type={item.type}
-                name={`${item.name}-${index}`}
-                placeholder={item.placeholder}
-                value={elem[item.name] || ""}
-                options={item.options}
-                withNone={item.withNone}
-                noneText={item.noneText}
-                onChange={(name, value) => handleChange(value, index, item.name)}
-            />) : <Input
+    return <Container
+        className={className}
+        hasLabel={hasLabel}
+        labelInside={labelInside}
+    >
+        {parts.map((elem, index) => <Content
+            key={index}
+            className="inputfield-container"
+            withClose={parts.length > 1}
+            withError={!!getError(index)}
+            withBorder={withBorder}
+        >
+            {hasItems && <Items className="inputfield-items">
+                {items.map((item) => <InputField
+                    {...item}
+                    key={`${item.subkey || item.name}-${index}`}
+                    isHidden={item.hide ? item.hide(elem || {}) : false}
+                    type={item.type}
+                    name={`${item.name}-${index}`}
+                    value={elem[item.name] || ""}
+                    labelInside={labelInside}
+                    fullWidth
+                    onChange={(name, value) => handleChange(value, index, item.name)}
+                />)}
+            </Items>}
+
+            {!hasItems && <Input
                 className="input"
                 type={inputType}
                 name={`${name}-${index}`}
@@ -147,12 +220,17 @@ function FieldInput(props) {
                 noneText={noneText}
                 onChange={(name, value) => handleChange(value, index)}
             />}
-            {parts.length > 1 && <Link
-                variant="light"
-                icon="close"
-                onClick={() => removeField(index)}
-            />}
-        </Div>)}
+
+            {parts.length > 1 && <Close>
+                <Link
+                    variant="light"
+                    icon="close"
+                    onClick={() => removeField(index)}
+                />
+            </Close>}
+
+            <Error error={getError(index)} />
+        </Content>)}
         <Button
             variant="outlined"
             message={button}
@@ -176,8 +254,11 @@ FieldInput.propTypes = {
     noneText    : PropTypes.string,
     hasLabel    : PropTypes.bool,
     labelInside : PropTypes.bool,
+    isSmall     : PropTypes.bool,
+    withBorder  : PropTypes.bool,
     button      : PropTypes.string,
     onChange    : PropTypes.func.isRequired,
+    errors      : PropTypes.object,
     children    : PropTypes.any,
 };
 
