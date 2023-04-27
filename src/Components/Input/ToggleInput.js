@@ -24,6 +24,9 @@ const Label = Styled.label.attrs(({ withBorder, labelInside }) => ({ withBorder,
         border: 1px solid var(--lighter-color);
         border-radius: var(--border-radius);
 
+        &:hover {
+            border-color: var(--border-color);
+        }
     `}
 `;
 
