@@ -12,11 +12,11 @@ import Utils                from "../Utils/Utils";
  * @param {Object}    initialData
  * @param {Function}  edit
  * @param {Function=} onSubmit
- * @param {Boolean=}  startLoading
+ * @param {Boolean=}  startInLoading
  * @param {Boolean=}  open
  * @returns {Object}
  */
-function useForm(slice, initialData, edit, onSubmit = null, startLoading = true, open = true) {
+function useForm(slice, initialData, edit, onSubmit = null, startInLoading = true, open = true) {
     const { loaders                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
@@ -32,11 +32,21 @@ function useForm(slice, initialData, edit, onSubmit = null, startLoading = true,
 
     // Reset the Loader
     React.useEffect(() => {
-        if (open && !startLoading) {
-            endLoader(slice);
+        if (open && !startInLoading) {
+            endLoading();
         }
     }, [ open ]);
 
+
+    // Starts the Loading
+    const startLoading = () => {
+        startLoader(slice);
+    };
+
+    // Ends the Loading
+    const endLoading = () => {
+        endLoader(slice);
+    };
 
     // Sets the Data
     const setData = (fields) => {
@@ -72,7 +82,7 @@ function useForm(slice, initialData, edit, onSubmit = null, startLoading = true,
         }
         setDataInt(fields);
         resetErrors();
-        endLoader(slice);
+        endLoading();
     };
 
 
@@ -93,16 +103,16 @@ function useForm(slice, initialData, edit, onSubmit = null, startLoading = true,
         if (loading) {
             return;
         }
-        startLoader(slice);
+        startLoading();
         resetErrors();
         try {
             const response = await edit(data);
-            endLoader(slice);
+            endLoading();
             if (onSubmit) {
                 onSubmit(response);
             }
         } catch (errors) {
-            endLoader(slice);
+            endLoading();
             setErrorsInt(errors);
         }
     };
@@ -110,7 +120,7 @@ function useForm(slice, initialData, edit, onSubmit = null, startLoading = true,
 
     // The API
     return {
-        loading, startLoader, endLoader,
+        loading, startLoading, endLoading,
         data, setData, resetData,
         errors, setErrors, resetErrors,
         setElem, handleChange, handleSearch, handleSubmit,

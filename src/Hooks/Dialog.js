@@ -24,26 +24,36 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
 
     const loading = loaders[slice] || false;
 
+    // Starts the Loading
+    const startLoading = () => {
+        startLoader(slice);
+    };
+
+    // Ends the Loading
+    const endLoading = () => {
+        endLoader(slice);
+    };
+
 
     // Dialog Opens
     React.useEffect(() => {
         if (!open) {
-            startLoader(slice);
+            startLoading();
             return;
         }
 
         if (getElem && elemID) {
             getElem(elemID);
-            startLoader(slice);
+            startLoading();
         } else if (getElem) {
             getElem(...Object.values(data || {}));
-            startLoader(slice);
+            startLoading();
         } else if (elemID) {
             fetchElem(elemID);
-            startLoader(slice);
+            startLoading();
         } else if (fetchEditData) {
             fetchEditData(...Object.values(data || {}));
-            startLoader(slice);
+            startLoading();
         } else if (setElem) {
             if (data) {
                 setElem({ ...data });
@@ -51,7 +61,7 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
                 setElem();
             }
         } else {
-            endLoader(slice);
+            endLoading();
         }
     }, [ open ]);
 
@@ -63,13 +73,13 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
         }
 
         if (!setElem) {
-            endLoader(slice);
+            endLoading();
             return;
         }
 
         if (elemID) {
             setElem(elem);
-            endLoader(slice);
+            endLoading();
         } else {
             let fields = {};
             if (position) {
@@ -79,14 +89,14 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
                 fields = { ...fields, ...data };
             }
             setElem({ ...fields });
-            endLoader(slice);
+            endLoading();
         }
     }, [ edition ]);
 
 
     // The API
     return {
-        loading, startLoader, endLoader, elem, canEdit,
+        loading, startLoading, endLoading, elem, canEdit,
     };
 }
 
