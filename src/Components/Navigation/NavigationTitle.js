@@ -15,10 +15,10 @@ import IconLink             from "../Link/IconLink";
 
 // Styles
 const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 4px;
     min-height: var(--header-height);
     padding: 18px 12px 10px 8px;
 
@@ -34,7 +34,8 @@ const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
 
 const H2 = Styled.h2`
     display: flex;
-    align-items: center;
+    flex-grow: 2;
+    flex-direction: column;
     margin: 0;
     font-family: var(--title-font);
     font-size: 22px;
@@ -42,14 +43,7 @@ const H2 = Styled.h2`
     letter-spacing: 1px;
     color: var(--navtitle-color);
 `;
-const Link = Styled(IconLink)`
-    flex-shrink: 0;
-`;
 
-const Div = Styled.div`
-    margin-left: 8px;
-    font-weight: 400;
-`;
 const Span1 = Styled.span`
     display: block;
     font-family: var(--main-font);
@@ -88,17 +82,18 @@ function NavigationTitle(props) {
     };
 
 
+    // Do the Render
     return <Header className={className} variant={variant}>
+        <IconLink
+            variant={variant}
+            icon="back"
+            href={href || parent}
+        />
         <H2>
-            <Link
-                variant={variant}
-                icon="back"
-                href={href || parent}
-            />
-            {!message ? NLS.get(fallback) : <Div>
+            {!message ? NLS.get(fallback) : <>
                 <Span1>{NLS.get(fallback)}</Span1>
                 <Span2>{NLS.get(message)}</Span2>
-            </Div>}
+            </>}
         </H2>
         {canAdd && <IconLink
             variant={variant}
