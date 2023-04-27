@@ -8,11 +8,12 @@ import Navigate             from "../Core/Navigate";
 
 /**
  * Returns a Hook to use the List Fetch
- * @param {String}  slice
- * @param {String=} type
+ * @param {String}   slice
+ * @param {String=}  type
+ * @param {Boolean=} loadOnStart
  * @returns {Object}
  */
-function useList(slice, type = "") {
+function useList(slice, type = "", loadOnStart = true) {
     const elemID = Navigate.useOneParam(type);
     const data   = Store.useState(slice);
     const { startLoader, fetchList } = Store.useAction(slice);
@@ -20,7 +21,9 @@ function useList(slice, type = "") {
 
     // Load the data
     React.useEffect(() => {
-        load();
+        if (loadOnStart) {
+            load();
+        }
         return () => startLoader();
     }, []);
 
