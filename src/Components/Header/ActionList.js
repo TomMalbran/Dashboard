@@ -21,6 +21,9 @@ const Ul = Styled.ul`
     gap: 8px;
 
     @media (max-width: 500px) {
+        .btn.btn {
+            padding: 4px 8px;
+        }
         .btn-preicon {
             margin-right: 0;
         }
