@@ -35,6 +35,7 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     --dialog-tabs    : 0px;
     --dialog-footer  : 55px;
     --dialog-spacing : 32px;
+    --dialog-radius  : var(--border-radius);
     --dialog-body    : calc(var(--full-height) - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
     position: static;
@@ -44,7 +45,7 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     max-width: 600px;
     border: none;
-    border-radius: var(--border-radius);
+    border-radius: var(--dialog-radius);
     background-color: white;
     animation: ${(props) => props.isClosing ? css`${close}` : css`${open}`} 0.3s ease-out;
 
@@ -64,11 +65,12 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
             max-width: none;
         ` : `
             --dialog-spacing: 0;
+            --dialog-radius: 0;
+
             width: 100%;
             height: var(--full-height);
             max-width: none;
             max-height: none;
-            border-radius: 0;
         `}
     }
 `;
@@ -153,6 +155,7 @@ function Dialog(props) {
     }, [ open ]);
 
 
+
     // No need to continue
     if (!open) {
         return <React.Fragment />;
@@ -169,6 +172,8 @@ function Dialog(props) {
         }));
     }
 
+
+    // Do the Render
     return <Backdrop
         contentRef={contentRef}
         open={open}

@@ -21,14 +21,13 @@ const Header = Styled.header`
     background-color: var(--primary-color);
     color: white;
     border-bottom: none;
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
+    border-top-left-radius: var(--dialog-radius);
+    border-top-right-radius: var(--dialog-radius);
     height: var(--dialog-header);
 
     @media (max-width: 500px) {
         padding-right: 8px;
         padding-left: 8px;
-        border-radius: 0;
     }
 `;
 
