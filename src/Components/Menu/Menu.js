@@ -14,16 +14,12 @@ const Variant = {
 
 
 // Styles
-const Div = Styled.div.attrs(({ isOpen }) => ({ isOpen }))`
-    display: none;
+const Backdrop = Styled.div`
+    display: block;
     box-sizing: border-box;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--full-height);
+    inset: 0;
     z-index: var(--z-menu);
-    ${(props) => props.isOpen  && "display: block;"}
 `;
 
 const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft, isRight }))`
@@ -143,7 +139,10 @@ function Menu(props) {
 
 
     // Do the Render
-    return <Div isOpen={open} onClick={handleClose}>
+    if (!open) {
+        return <React.Fragment />;
+    }
+    return <Backdrop onClick={handleClose}>
         <Ul
             ref={contentRef}
             className={className}
@@ -154,7 +153,7 @@ function Menu(props) {
         >
             {items}
         </Ul>
-    </Div>;
+    </Backdrop>;
 }
 
 /**
