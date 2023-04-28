@@ -5,18 +5,18 @@ import PropTypes            from "prop-types";
 import InputType            from "../../Core/InputType";
 
 // Components
-import TextareaInput        from "./TextareaInput";
-import SelectInput          from "./SelectInput";
-import CheckboxInput        from "./CheckboxInput";
-import RadioInput           from "./RadioInput";
-import ToggleInput          from "./ToggleInput";
-import MultipleInput        from "./MultipleInput";
-import FileInput            from "./FileInput";
-import FieldInput           from "./FieldInput";
-import MediaInput           from "./MediaInput";
-import NumberInput          from "./NumberInput";
-import ColorInput           from "./ColorInput";
-import TextInput            from "./TextInput";
+import CheckboxInput        from "../InputType/CheckboxInput";
+import ColorInput           from "../InputType/ColorInput";
+import FieldInput           from "../InputType/FieldInput";
+import FileInput            from "../InputType/FileInput";
+import MediaInput           from "../InputType/MediaInput";
+import MultipleInput        from "../InputType/MultipleInput";
+import NumberInput          from "../InputType/NumberInput";
+import RadioInput           from "../InputType/RadioInput";
+import SelectInput          from "../InputType/SelectInput";
+import TextareaInput        from "../InputType/TextareaInput";
+import ToggleInput          from "../InputType/ToggleInput";
+import TextInput            from "../InputType/TextInput";
 
 
 
@@ -31,26 +31,26 @@ function Input(props) {
     switch (type) {
     case InputType.CHECKBOX:
         return <CheckboxInput {...props} value="1" isChecked={!!value} />;
-    case InputType.RADIO:
-        return <RadioInput {...props} />;
-    case InputType.TOGGLE:
-        return <ToggleInput {...props} />;
-    case InputType.MULTIPLE:
-        return <MultipleInput {...props} />;
+    case InputType.COLOR:
+        return <ColorInput {...props} />;
+    case InputType.FIELDS:
+        return <FieldInput {...props} button={fieldButton} />;
     case InputType.FILE:
         return <FileInput {...props} />;
     case InputType.MEDIA:
         return <MediaInput {...props} onClick={onMedia} />;
-    case InputType.FIELDS:
-        return <FieldInput {...props} button={fieldButton} />;
+    case InputType.MULTIPLE:
+        return <MultipleInput {...props} />;
     case InputType.NUMBER:
         return <NumberInput {...props} />;
-    case InputType.COLOR:
-        return <ColorInput {...props} />;
+    case InputType.RADIO:
+        return <RadioInput {...props} />;
     case InputType.SELECT:
         return <SelectInput {...props} />;
     case InputType.TEXTAREA:
         return <TextareaInput {...props} />;
+    case InputType.TOGGLE:
+        return <ToggleInput {...props} />;
     default:
         return <TextInput {...props} />;
     }

@@ -6,7 +6,7 @@ import Styled               from "styled-components";
 import NLS                   from "../../Core/NLS";
 
 // Core
-import CheckboxInput        from "../Input/CheckboxInput";
+import CheckboxInput        from "../InputType/CheckboxInput";
 
 
 

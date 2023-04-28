@@ -7,7 +7,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import TableRowCnt          from "../Table/TableRowCnt";
 import IconLink             from "../Link/IconLink";
-import CheckboxInput        from "../Input/CheckboxInput";
+import CheckboxInput        from "../InputType/CheckboxInput";
 
 
 

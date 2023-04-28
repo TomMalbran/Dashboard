@@ -1,15 +1,15 @@
 // Input Types
 const CHECKBOX = "checkbox";
-const RADIO    = "radio";
-const TOGGLE   = "toggle";
-const MULTIPLE = "multiple";
+const COLOR    = "color";
+const FIELDS   = "fields";
 const FILE     = "file";
 const MEDIA    = "media";
-const FIELDS   = "fields";
+const MULTIPLE = "multiple";
 const NUMBER   = "number";
-const COLOR    = "color";
+const RADIO    = "radio";
 const SELECT   = "select";
 const TEXTAREA = "textarea";
+const TOGGLE   = "toggle";
 
 const TEXT     = "text";
 const EMAIL    = "email";
@@ -61,16 +61,16 @@ export default {
     canShrink,
 
     CHECKBOX,
-    RADIO,
-    TOGGLE,
-    MULTIPLE,
+    COLOR,
+    FIELDS,
     FILE,
     MEDIA,
-    FIELDS,
+    MULTIPLE,
     NUMBER,
-    COLOR,
+    RADIO,
     SELECT,
     TEXTAREA,
+    TOGGLE,
 
     TEXT,
     EMAIL,
