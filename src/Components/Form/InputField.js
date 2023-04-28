@@ -11,7 +11,7 @@ import Input                from "../Input/Input";
 import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
-import AutoSuggest          from "../Form/AutoSuggest";
+import AutoSuggest          from "../Input/AutoSuggest";
 import Button               from "../Form/Button";
 import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
