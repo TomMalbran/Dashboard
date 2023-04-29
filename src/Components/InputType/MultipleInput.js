@@ -3,9 +3,9 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import NLS                   from "../../Core/NLS";
+import InputType            from "../../Core/InputType";
 
-// Core
+// Components
 import CheckboxInput        from "../InputType/CheckboxInput";
 
 
@@ -39,12 +39,13 @@ const Container = Styled.div.attrs(({ labelInside, columns }) => ({ labelInside,
  */
 function MultipleInput(props) {
     const {
-        className, name, value, options, withNone, noneText,
+        className, name, value,
         tabIndex, labelInside, columns, onChange,
     } = props;
 
-    const isSelect = !Array.isArray(options);
-    const items    = isSelect ? NLS.select(options) : options;
+
+    // Create the Items
+    const items = InputType.createOptions(props);
 
     // Handles the Change
     const handleChange = (isChecked, key, value = []) => {
@@ -66,15 +67,6 @@ function MultipleInput(props) {
         labelInside={labelInside}
         columns={columns}
     >
-        {withNone && <CheckboxInput
-            key={0}
-            name={name}
-            value={0}
-            label={NLS.get(noneText)}
-            isChecked={value ? value.indexOf(0) > -1 : false}
-            onChange={(name, isChecked) => handleChange(isChecked, 0, value)}
-            tabIndex={tabIndex}
-        />}
         {items.map(({ key, value : val }) => <CheckboxInput
             key={key}
             name={name}
