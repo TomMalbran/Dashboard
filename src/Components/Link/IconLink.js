@@ -14,13 +14,14 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, isDisabled, isSmall }))`
-    --link-size: 32px;
+    --link-size: ${(props) => props.isSmall ? "26px" : "32px"};
 
     display: block;
     width: var(--link-size);
     height: var(--link-size);
     line-height: var(--link-size);
-    font-size: ${(props) => props.isSmall ? "16px" : "24px"};
+    padding: 0;
+    font-size: ${(props) => props.isSmall ? "18px" : "22px"};
     text-align: center;
     border-radius: var(--border-radius);
     text-decoration: none;
@@ -49,6 +50,10 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     ${(props) => props.variant === Brightness.DARKER && `
         --link-color: white;
         --link-background: var(--secondary-color);
+    `}
+    ${(props) => props.variant === Brightness.BLACK && `
+        --link-color: var(--black-color);
+        --link-background: rgba(0, 0, 0, 0.1);
     `}
 
     ${(props) => props.isDisabled && `

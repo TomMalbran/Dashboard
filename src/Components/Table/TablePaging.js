@@ -15,7 +15,9 @@ import InputField           from "../Form/InputField";
 const TR = Styled.tr`
     display: flex;
     height: auto;
+    min-height: 34px;
 `;
+
 const TD = Styled.td`
     flex: 1 0 0;
     display: flex;
@@ -34,6 +36,7 @@ const Rows = Styled.p`
         display: none;
     }
 `;
+
 const Pages = Styled.p`
     margin: 0 16px 0 0;
 `;
@@ -53,6 +56,7 @@ const PagingInput = Styled(InputField)`
         display: none;
     }
 `;
+
 
 
 
@@ -118,28 +122,32 @@ function TablePaging(props) {
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 
                 <IconLink
-                    variant="light"
+                    variant="black"
                     icon="first"
                     onClick={handleFirstPage}
                     isDisabled={prevDisabled}
+                    isSmall
                 />
                 <IconLink
-                    variant="light"
+                    variant="black"
                     icon="prev"
                     onClick={handlePrevPage}
                     isDisabled={prevDisabled}
+                    isSmall
                 />
                 <IconLink
-                    variant="light"
+                    variant="black"
                     icon="next"
                     onClick={handleNextPage}
                     isDisabled={nextDisabled}
+                    isSmall
                 />
                 <IconLink
-                    variant="light"
+                    variant="black"
                     icon="last"
                     onClick={handleLastPage}
                     isDisabled={nextDisabled}
+                    isSmall
                 />
             </TD>
         </TR>

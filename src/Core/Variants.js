@@ -6,6 +6,7 @@ export const Brightness = {
     LIGHT  : "light",
     DARK   : "dark",
     DARKER : "darker",
+    BLACK  : "black",
 };
 
 /**

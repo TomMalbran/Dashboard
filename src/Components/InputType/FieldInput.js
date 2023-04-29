@@ -78,11 +78,6 @@ const Close = Styled.div`
     grid-area: close;
 `;
 
-const Link = Styled(IconLink)`
-    --link-size: 24px;
-    font-size: 18px;
-`;
-
 const Error = Styled(InputError)`
     grid-area: error;
 `;
@@ -222,10 +217,11 @@ function FieldInput(props) {
             />}
 
             {parts.length > 1 && <Close>
-                <Link
+                <IconLink
                     variant="light"
                     icon="close"
                     onClick={() => removeField(index)}
+                    isSmall
                 />
             </Close>}
 

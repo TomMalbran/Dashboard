@@ -29,9 +29,6 @@ const H2 = Styled.h2`
         line-height: 1;
     }
 `;
-const Link = Styled(IconLink)`
-    flex-shrink: 0;
-`;
 
 
 
@@ -44,7 +41,7 @@ function Title(props) {
     const { icon, message, fallback, href } = props;
 
     return <H2 className="title">
-        {href ? <Link
+        {href ? <IconLink
             variant="light"
             icon="back"
             href={href}
