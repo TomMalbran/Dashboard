@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Components
 import Dialog               from "../Dialog/Dialog";
@@ -8,6 +9,13 @@ import DialogBody           from "../Dialog/DialogBody";
 import DialogMessage        from "../Dialog/DialogMessage";
 import DialogFooter         from "../Dialog/DialogFooter";
 import Form                 from "../Form/Form";
+
+
+
+// Styles
+const Message = Styled(DialogMessage)`
+    margin-top: 0;
+`;
 
 
 
@@ -39,7 +47,7 @@ function EditDialog(props) {
             noOverflow={noOverflow}
             withSpacing={withSpacing}
         >
-            <DialogMessage variant="h3" message={message} />
+            <Message variant="h3" message={message} />
             <Form error={error} onSubmit={onSubmit}>
                 {children}
             </Form>
