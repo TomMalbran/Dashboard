@@ -147,6 +147,12 @@ function AutoSuggest(props) {
         setSelectedVal(newValue);
     };
 
+    // Handles the Click
+    const handleClick = (e, newID, newValue, data) => {
+        e.stopPropagation();
+        selectElem(newID, newValue, data);
+    };
+
 
     // Set the Reference
     React.useEffect(() => {
@@ -177,7 +183,7 @@ function AutoSuggest(props) {
         {suggestions.map((elem, index) => <Li
             key={index}
             isSelected={selectedIdx === index}
-            onClick={() => selectElem(elem.id, elem.title, elem)}
+            onMouseDown={(e) => handleClick(e, elem.id, elem.title, elem)}
         >{elem.title}</Li>)}
     </Ul>;
 }

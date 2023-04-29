@@ -142,7 +142,7 @@ function Menu(props) {
     if (!open) {
         return <React.Fragment />;
     }
-    return <Backdrop onClick={handleClose}>
+    return <Backdrop onMouseDown={handleClose}>
         <Ul
             ref={contentRef}
             className={className}

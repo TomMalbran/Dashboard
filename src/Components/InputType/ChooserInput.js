@@ -179,7 +179,8 @@ function ChooserInput(props) {
     };
 
     // Handles the Add
-    const handleAdd = (key) => {
+    const handleAdd = (e, key) => {
+        e.stopPropagation();
         setValues(key);
         triggerBlur();
     };
@@ -306,7 +307,7 @@ function ChooserInput(props) {
             {options.map(({ key, value }, index) => <Option
                 key={key}
                 isSelected={selectedIdx === index}
-                onClick={() => handleAdd(key)}
+                onMouseDown={(e) => handleAdd(e, key)}
             >
                 {NLS.get(value)}
             </Option>)}

@@ -134,7 +134,7 @@ function EmojiPopup(props) {
     if (!open) {
         return <React.Fragment />;
     }
-    return <Backdrop onClick={handleClose}>
+    return <Backdrop onMouseDown={handleClose}>
         <Emoji ref={contentRef} top={posTop} left={posLeft}>
             <EmojiPicker
                 onEmojiClick={(elem) => onClick(elem.emoji)}
