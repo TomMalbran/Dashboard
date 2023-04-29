@@ -8,7 +8,7 @@ import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 
 // Components
-import Icon                 from "../Common/Icon";
+import IconLink             from "../Link/IconLink";
 
 
 
@@ -24,7 +24,8 @@ const H3 = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible,
     align-items: center;
     gap: 6px;
     margin: 0;
-    padding: 12px 8px 8px 8px;
+    padding: 0 8px;
+    min-height: 40px;
     font-size: 18px;
     font-weight: 400;
     line-height: 1;
@@ -115,9 +116,18 @@ function DetailList(props) {
             isCollapsed={isCollapsed}
             onClick={handleClick}
         >
-            {isCollapsible && <Icon icon={isCollapsed ? "closed" : "expand"} />}
+            {isCollapsible && <IconLink
+                variant="black"
+                icon={isCollapsed ? "closed" : "expand"}
+                isSmall
+            />}
             <Span>{NLS.get(message)}</Span>
-            {hasAction && <Icon icon="edit" onClick={handleAction} />}
+            {hasAction && <IconLink
+                variant="black"
+                icon="edit"
+                onClick={handleAction}
+                isSmall
+            />}
         </H3>
         {!isCollapsed && <Ul>{children}</Ul>}
     </Div>;
