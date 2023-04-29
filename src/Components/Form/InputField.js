@@ -164,11 +164,21 @@ function InputField(props) {
     const autoSuggest   = Boolean(suggestFetch && suggestID);
     const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
     const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
-    const withValue     = hasValue || isFocused || Boolean(value);
+    const withValue     = hasValue || isFocused;
     const withClear     = !!value && (hasClear || InputType.hasClear(type) || autoSuggest);
     const forMedia      = InputType.hasClear(type);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
+
+
+    // Sets true if there is a value
+    const setHasValue = (value) => {
+        if (Array.isArray(value)) {
+            setValue(Boolean(value.length));
+        } else {
+            setValue(Boolean(value));
+        }
+    };
 
     // The Input got Focus
     const handleFocus = () => {
@@ -188,7 +198,7 @@ function InputField(props) {
 
     // Handles the Change
     const handleChange = (name, value) => {
-        setValue(Boolean(value));
+        setHasValue(value);
         if (onChange) {
             onChange(name, value);
         }
@@ -226,7 +236,8 @@ function InputField(props) {
             // @ts-ignore
             node.focus();
         }
-        setValue(Boolean(value));
+        setHasValue(value);
+
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
             suggestRef.current.initValue(value);
