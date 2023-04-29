@@ -6,6 +6,7 @@ import InputType            from "../../Core/InputType";
 
 // Components
 import CheckboxInput        from "../InputType/CheckboxInput";
+import ChooserInput         from "../InputType/ChooserInput";
 import ColorInput           from "../InputType/ColorInput";
 import FieldInput           from "../InputType/FieldInput";
 import FileInput            from "../InputType/FileInput";
@@ -31,6 +32,8 @@ function Input(props) {
     switch (type) {
     case InputType.CHECKBOX:
         return <CheckboxInput {...props} value="1" isChecked={!!value} />;
+    case InputType.CHOOSER:
+        return <ChooserInput {...props} />;
     case InputType.COLOR:
         return <ColorInput {...props} />;
     case InputType.FIELDS:

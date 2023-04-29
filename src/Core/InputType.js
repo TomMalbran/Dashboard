@@ -4,6 +4,7 @@ import NLS                  from "../Core/NLS";
 
 // Input Types
 const CHECKBOX = "checkbox";
+const CHOOSER  = "chooser";
 const COLOR    = "color";
 const FIELDS   = "fields";
 const FILE     = "file";
@@ -88,6 +89,7 @@ export default {
     createOptions,
 
     CHECKBOX,
+    CHOOSER,
     COLOR,
     FIELDS,
     FILE,

@@ -437,6 +437,21 @@ function merge(primary, secondary, noBinary = false) {
 }
 
 /**
+ * Returns true if the given array has the given value
+ * @param {(String|Number)[]} values
+ * @param {(String|Number)}   elem
+ * @returns {Boolean}
+ */
+function hasValue(values, elem) {
+    for (const value of values) {
+        if (String(value) === String(elem)) {
+            return true;
+        }
+    }
+    return null;
+}
+
+/**
  * Returns the Value at the given id with the given key
  * @param {Object[]}        data
  * @param {String}          idKey
@@ -690,6 +705,7 @@ export default {
     areObjectsEqual,
     extend,
     merge,
+    hasValue,
     getIndex,
     getValue,
     combineValues,
