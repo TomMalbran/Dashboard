@@ -123,8 +123,9 @@ function Table(props) {
 
     for (const child of Utils.toArray(children)) {
         if (child.type === TableHead) {
-            colSpan = child.props.children.length;
-            for (const tableHead of Utils.toArray(child.props.children)) {
+            const tableHeads = Utils.toArray(child.props.children);
+            colSpan = tableHeads.length;
+            for (const tableHead of tableHeads) {
                 columns.push({
                     isHidden   : !!tableHead.props.isHidden,
                     isTitle    : !!tableHead.props.isTitle,
