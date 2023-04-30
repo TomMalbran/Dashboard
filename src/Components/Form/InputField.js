@@ -157,27 +157,17 @@ function InputField(props) {
     const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();
 
-    const [ timer,     setTimer ] = React.useState(null);
-    const [ isFocused, setFocus ] = React.useState(false);
-    const [ hasValue,  setValue ] = React.useState(false);
-
-    const autoSuggest   = Boolean(suggestFetch && suggestID);
-    const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
-    const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
-    const withValue     = hasValue || isFocused;
-    const withClear     = !!value && (hasClear || InputType.hasClear(type) || autoSuggest);
-    const forMedia      = InputType.hasClear(type);
-    const hasError      = Boolean(error);
-    const hasHelper     = !hasError && Boolean(helperText);
+    const [ timer,     setTimer    ] = React.useState(null);
+    const [ isFocused, setFocus    ] = React.useState(false);
+    const [ hasValue,  setHasValue ] = React.useState(false);
 
 
-    // Sets true if there is a value
-    const setHasValue = (value) => {
+    // Returns true if there is a value
+    const isValueFilled = (value) => {
         if (Array.isArray(value)) {
-            setValue(Boolean(value.length));
-        } else {
-            setValue(Boolean(value));
+            return Boolean(value.length);
         }
+        return Boolean(value);
     };
 
     // The Input got Focus
@@ -198,7 +188,7 @@ function InputField(props) {
 
     // Handles the Change
     const handleChange = (name, value) => {
-        setHasValue(value);
+        setHasValue(isValueFilled(value));
         if (onChange) {
             onChange(name, value);
         }
@@ -236,7 +226,7 @@ function InputField(props) {
             // @ts-ignore
             node.focus();
         }
-        setHasValue(value);
+        setHasValue(isValueFilled(value));
 
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
@@ -254,9 +244,21 @@ function InputField(props) {
     }, [ timer ]);
 
 
+
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
+
+    const autoSuggest   = Boolean(suggestFetch && suggestID);
+    const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
+    const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
+    const withValue     = hasValue || isFocused || isValueFilled(value);
+    const withClear     = !!value && (hasClear || InputType.hasClear(type) || autoSuggest);
+    const forMedia      = InputType.hasClear(type);
+    const hasError      = Boolean(error);
+    const hasHelper     = !hasError && Boolean(helperText);
+
     return <InputContainer
         className={`inputfield inputfield-${type} ${className}`}
         fullWidth={fullWidth}
