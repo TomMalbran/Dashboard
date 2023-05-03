@@ -5,7 +5,9 @@ import Utils                from "../Utils/Utils";
 
 // Router
 import {
-    useLocation, useParams as useRouterParams, useNavigate as useRouteNavigate,
+    useLocation,
+    useParams as useRouterParams,
+    useNavigate as useRouteNavigate,
 } from "react-router-dom";
 
 // All the params
