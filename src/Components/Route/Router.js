@@ -2,7 +2,6 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core & Utils
-import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
@@ -11,7 +10,7 @@ import Main                 from "../Core/Main";
 
 // Router
 import {
-    Routes, Route, Navigate, useLocation,
+    Routes, Route, Navigate,
 } from "react-router-dom";
 
 
@@ -23,16 +22,14 @@ import {
  */
 function Router(props) {
     const {
-        saveRoute, initialUrl, type,
+        initialUrl, type,
         withMain, withDetails, noFirst, children,
     } = props;
 
-    const { setRedirect } = Store.useAction("core");
-    const location        = useLocation();
-    const items           = [];
 
+    // Create the Routes
+    const routes      = [];
     let   firstUrl    = initialUrl;
-    let   hasPath     = false;
     let   canRedirect = true;
 
     for (const [ key, child ] of Utils.getVisibleChildren(children)) {
@@ -40,9 +37,6 @@ function Router(props) {
 
         if (path === "/") {
             canRedirect = false;
-        }
-        if (path === location.pathname) {
-            hasPath = true;
         }
 
         if (!child.props.exact) {
@@ -52,7 +46,7 @@ function Router(props) {
             firstUrl = child.props.url;
         }
 
-        items.push(<Route
+        routes.push(<Route
             key={key}
             path={path}
             element={React.cloneElement(child, { type, withDetails })}
@@ -60,15 +54,11 @@ function Router(props) {
     }
 
     if (canRedirect && firstUrl) {
-        items.push(<Route
+        routes.push(<Route
             key="redirect"
             path="*"
             element={<Navigate to={NLS.url(firstUrl)} replace />}
         />);
-    }
-
-    if (!hasPath && saveRoute) {
-        setRedirect(location.pathname);
     }
 
 
@@ -76,12 +66,12 @@ function Router(props) {
     if (withMain) {
         return <Main withDetails={withDetails}>
             <Routes>
-                {items}
+                {routes}
             </Routes>
         </Main>;
     }
     return <Routes>
-        {items}
+        {routes}
     </Routes>;
 }
 
@@ -95,7 +85,6 @@ Router.propTypes = {
     withMain    : PropTypes.bool,
     withDetails : PropTypes.bool,
     noFirst     : PropTypes.bool,
-    saveRoute   : PropTypes.bool,
     children    : PropTypes.any,
 };
 
@@ -109,7 +98,6 @@ Router.defaultProps = {
     withMain    : false,
     withDetails : false,
     noFirst     : false,
-    saveRoute   : false,
 };
 
 export default Router;
