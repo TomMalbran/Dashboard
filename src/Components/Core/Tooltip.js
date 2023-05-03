@@ -37,6 +37,7 @@ const Container = Styled.div.attrs(({
     color: #fff;
     white-space: normal;
     word-wrap: break-word;
+    text-align: center;
     border-radius: var(--border-radius);
     background-color: var(--tooltip-color);
     pointer-events: none;
