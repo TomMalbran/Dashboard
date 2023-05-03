@@ -11,11 +11,11 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TH = Styled.th.attrs((
-    { flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace }
-) => (
-    { flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace }
-))`
+const TH = Styled.th.attrs(({
+    flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace,
+}) => ({
+    flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace,
+}))`
     && {
         box-sizing: border-box;
         border: none;
@@ -118,6 +118,7 @@ TableHeader.propTypes = {
     bigMobile  : PropTypes.bool,
     hideMobile : PropTypes.bool,
     hideCircle : PropTypes.bool,
+    smallSpace : PropTypes.bool,
     rightSpace : PropTypes.bool,
     children   : PropTypes.any,
 };
@@ -138,6 +139,7 @@ TableHeader.defaultProps = {
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
+    smallSpace : false,
     rightSpace : false,
 };
 

@@ -133,6 +133,7 @@ function Table(props) {
                     bigMobile  : !!tableHead.props.bigMobile,
                     hideMobile : !!tableHead.props.hideMobile,
                     hideCircle : !!tableHead.props.hideCircle,
+                    smallSpace : !!tableHead.props.smallSpace,
                     rightSpace : !!tableHead.props.rightSpace,
                     grow       : tableHead.props.grow     || "",
                     minWidth   : tableHead.props.minWidth || "",

@@ -11,20 +11,22 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.td.attrs((
-    { flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, bigMobile, hideMobile, rightSpace, indent },
-) => (
-    { flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, bigMobile, hideMobile, rightSpace, indent }
-))`
+const TD = Styled.td.attrs(({
+    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+    bigMobile, hideMobile, smallSpace, rightSpace, indent,
+}) => ({ flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+    bigMobile, hideMobile, smallSpace, rightSpace, indent,
+}))`
     && {
         box-sizing: border-box;
-        padding: 12px 0 12px 12px;
         font-size: 13px;
         flex-grow: ${(props) => props.flexGrow};
         min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "0"};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
+        padding-top: ${(props) => props.smallSpace ? "6px" : "12px"};
         padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
+        padding-bottom: ${(props) => props.smallSpace ? "6px" : "12px"};
         padding-left: ${(props) => props.indent ? "24px" : "12px"};
 
         ${(props) => props.isSmall && `
@@ -62,7 +64,7 @@ function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
         colSpan, grow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
-        bigMobile, hideMobile, rightSpace, indent, children,
+        bigMobile, hideMobile, smallSpace, rightSpace, indent, children,
     } = props;
 
 
@@ -80,6 +82,7 @@ function TableCell(props) {
         isTitle={isTitle}
         bigMobile={bigMobile}
         hideMobile={hideMobile}
+        smallSpace={smallSpace}
         rightSpace={rightSpace}
         indent={indent}
         colSpan={colSpan}
@@ -109,6 +112,7 @@ TableCell.propTypes = {
     hideMobile : PropTypes.bool,
     circle     : PropTypes.string,
     hideCircle : PropTypes.bool,
+    smallSpace : PropTypes.bool,
     rightSpace : PropTypes.bool,
     indent     : PropTypes.bool,
     children   : PropTypes.any,
@@ -130,6 +134,7 @@ TableCell.defaultProps = {
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
+    smallSpace : false,
     rightSpace : false,
     indent     : false,
 };
