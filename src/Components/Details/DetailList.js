@@ -14,7 +14,7 @@ import IconLink             from "../Link/IconLink";
 
 // Styles
 const Div = Styled.div`
-    color: rgb(94, 108, 132);
+    color: var(--font-lighter);
     background-color: white;
     border-radius: var(--border-radius);
 `;
