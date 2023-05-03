@@ -44,6 +44,16 @@ const actions = {
     },
 
     /**
+     * Sets the Redirect
+     * @param {Function} dispatch
+     * @param {String}   redirect
+     * @returns {Void}
+     */
+    setRedirect(dispatch, redirect) {
+        return dispatch({ type : "CORE_REDIRECT", redirect });
+    },
+
+    /**
      * Sets the Section
      * @param {Function} dispatch
      * @param {String}   section
