@@ -9,18 +9,21 @@ import NLS                  from "../../Core/NLS";
 
 // Styles
 const Label = Styled.p.attrs(({
-    isRequired, withTransform, withValue, labelInside, isFocused,
+    isRequired, withTransform, withValue, isFocused,
 }) => ({
-    isRequired, withTransform, withValue, labelInside, isFocused,
+    isRequired, withTransform, withValue, isFocused,
 }))`
     box-sizing: border-box;
     position: absolute;
+    top: 4px;
+    left: 6px;
     max-width: calc(100% - 8px);
     margin: 0;
-    padding: 0 4px;
+    padding: 0 6px;
     line-height: 1;
     background-color: white;
     color: var(--lighter-color);
+    font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -28,15 +31,6 @@ const Label = Styled.p.attrs(({
     pointer-events: none;
     z-index: 1;
 
-    ${(props) => props.labelInside ? `
-        top: 4px;
-        left: 6px;
-        font-size: 12px;
-    ` : `
-        top: 0px;
-        left: 8px;
-        font-size: 13px;
-    `}
 
     ${(props) => props.isRequired && `
         &::after {
@@ -46,7 +40,7 @@ const Label = Styled.p.attrs(({
     `}
     ${(props) => props.withTransform && `
         transform-origin: top left;
-        transform: ${props.labelInside ? "translateY(12px) scale(1.2)" : "translateY(18px) scale(1.1)"};
+        transform: translateY(12px) scale(1.2);
     `}
     ${(props) => props.withValue && `
         transform: translateY(0) scale(1);
@@ -66,7 +60,7 @@ const Label = Styled.p.attrs(({
 function InputLabel(props) {
     const {
         className, isRequired, withTransform, withValue,
-        labelInside, isFocused, message,
+        isFocused, message,
     } = props;
 
     return <Label
@@ -74,7 +68,6 @@ function InputLabel(props) {
         isRequired={isRequired}
         withTransform={withTransform}
         withValue={withValue}
-        labelInside={labelInside}
         isFocused={isFocused}
     >
         {NLS.get(message)}
@@ -90,7 +83,6 @@ InputLabel.propTypes = {
     isRequired    : PropTypes.bool,
     withTransform : PropTypes.bool,
     withValue     : PropTypes.bool,
-    labelInside   : PropTypes.bool,
     isFocused     : PropTypes.bool,
     message       : PropTypes.string.isRequired,
 };
@@ -104,7 +96,6 @@ InputLabel.defaultProps = {
     isRequired    : false,
     withTransform : false,
     withValue     : false,
-    labelInside   : false,
     isFocused     : false,
 };
 

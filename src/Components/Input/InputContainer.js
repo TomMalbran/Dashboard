@@ -6,9 +6,9 @@ import Styled               from "styled-components";
 
 // Styles
 const Container = Styled.div.attrs(({
-    fullWidth, hasLabel, labelInside, hasError, isFocused,
+    fullWidth, hasLabel, hasError, isFocused,
 }) => ({
-    fullWidth, hasLabel, labelInside, hasError, isFocused,
+    fullWidth, hasLabel, hasError, isFocused,
 }))`
     position: relative;
     display: block;
@@ -17,17 +17,7 @@ const Container = Styled.div.attrs(({
         width: 100%;
     `}
 
-    ${(props) => props.hasLabel && !props.labelInside && `
-        padding-top: 6px;
-        .input {
-            padding-top: 8px !important;
-        }
-        .input-textarea {
-            padding-top: 10px !important;
-            padding-bottom: 8px !important;
-        }
-    `}
-    ${(props) => props.hasLabel && props.labelInside && `
+    ${(props) => props.hasLabel && `
         .input {
             padding-top: 16px !important;
         }
@@ -70,13 +60,12 @@ const Container = Styled.div.attrs(({
  * @returns {React.ReactElement}
  */
 function InputContainer(props) {
-    const { className, fullWidth, hasLabel, labelInside, hasError, isFocused, children } = props;
+    const { className, fullWidth, hasLabel, hasError, isFocused, children } = props;
 
     return <Container
         className={className}
         fullWidth={fullWidth}
         hasLabel={hasLabel}
-        labelInside={labelInside}
         hasError={hasError}
         isFocused={isFocused}
     >
@@ -89,13 +78,12 @@ function InputContainer(props) {
  * @type {Object} propTypes
  */
 InputContainer.propTypes = {
-    className   : PropTypes.string,
-    fullWidth   : PropTypes.bool,
-    hasLabel    : PropTypes.bool,
-    labelInside : PropTypes.bool,
-    hasError    : PropTypes.bool,
-    isFocused   : PropTypes.bool,
-    children    : PropTypes.any,
+    className : PropTypes.string,
+    fullWidth : PropTypes.bool,
+    hasLabel  : PropTypes.bool,
+    hasError  : PropTypes.bool,
+    isFocused : PropTypes.bool,
+    children  : PropTypes.any,
 };
 
 /**
@@ -103,12 +91,11 @@ InputContainer.propTypes = {
  * @type {Object} defaultProps
  */
 InputContainer.defaultProps = {
-    className   : "",
-    fullWidth   : false,
-    hasLabel    : false,
-    labelInside : false,
-    hasError    : false,
-    isFocused   : false,
+    className : "",
+    fullWidth : false,
+    hasLabel  : false,
+    hasError  : false,
+    isFocused : false,
 };
 
 export default InputContainer;

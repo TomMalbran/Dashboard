@@ -19,7 +19,7 @@ const Container = Styled.div`
     border-radius: var(--border-radius);
 `;
 
-const Div = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
+const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -32,9 +32,9 @@ const Div = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelIn
     white-space: nowrap;
     cursor: pointer;
 
-    ${(props) => props.hasLabel && props.labelInside && `
+    ${(props) => props.hasLabel && `
         & {
-            height: calc(var(--input-height) + 7px - 2px);
+            height: calc(var(--input-height) - 2px);
             padding-top: 16px !important;
         }
     `}
@@ -69,15 +69,11 @@ const Placeholder = Styled.span`
  * @returns {React.ReactElement}
  */
 function MediaInput(props) {
-    const {
-        className, value, placeholder, hasLabel, labelInside,
-        onClick,
-    } = props;
+    const { className, value, placeholder, hasLabel, onClick } = props;
 
     return <Container className={className}>
         <Div
             hasLabel={hasLabel}
-            labelInside={labelInside}
             onClick={onClick}
         >
             {value ? value : <Placeholder>
@@ -97,7 +93,6 @@ MediaInput.propTypes = {
     value       : PropTypes.any,
     placeholder : PropTypes.string,
     hasLabel    : PropTypes.bool,
-    labelInside : PropTypes.bool,
     onClick     : PropTypes.func.isRequired,
 };
 

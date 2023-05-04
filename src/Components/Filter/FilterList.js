@@ -40,17 +40,16 @@ const FilterField = Styled(InputField)`
     }
 `;
 
-const Div = Styled.div.attrs(({ labelInside }) => ({ labelInside }))`
+const Div = Styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding-right: 0;
-    ${(props) => !props.labelInside ? "margin-top: 6px;" : ""}
 `;
 
-const FilterButton = Styled(Button).attrs(({ labelInside }) => ({ labelInside }))`
+const FilterButton = Styled(Button)`
     font-size: 12px;
-    height: ${(props) => props.labelInside ? "43px" : "37px"};
+    padding: 6px 8px;
 `;
 
 
@@ -61,7 +60,7 @@ const FilterButton = Styled(Button).attrs(({ labelInside }) => ({ labelInside })
  * @returns {React.ReactElement}
  */
 function FilterList(props) {
-    const { labelInside, values, initialData, onFilter, children } = props;
+    const { values, initialData, onFilter, children } = props;
 
     const items         = [];
     const fields        = {};
@@ -136,15 +135,13 @@ function FilterList(props) {
             onSuggest={handleUpdate}
             onSubmit={handleSubmit}
             onClear={handleUpdate}
-            labelInside={labelInside}
         />)}
-        <Div labelInside={labelInside}>
+        <Div>
             <FilterButton
                 variant="outlined"
                 isDisabled={loading}
                 onClick={() => handleSubmit()}
-                message="GENERAL_FILTER"
-                labelInside={labelInside}
+                icon="filter"
             />
         </Div>
     </Container>;
@@ -156,20 +153,11 @@ function FilterList(props) {
  */
 FilterList.propTypes = {
     onFilter    : PropTypes.func.isRequired,
-    labelInside : PropTypes.bool,
     values      : PropTypes.object,
     initialData : PropTypes.object,
     fetch       : PropTypes.func,
     params      : PropTypes.object,
     children    : PropTypes.any,
-};
-
-/**
- * The Default Properties
- * @type {Object} defaultProps
- */
-FilterList.defaultProps = {
-    labelInside : false,
 };
 
 export default FilterList;

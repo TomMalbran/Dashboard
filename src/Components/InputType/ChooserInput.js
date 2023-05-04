@@ -11,11 +11,11 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
+const Container = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     box-sizing: border-box;
     width: 100%;
-    padding: 4px 8px;
-    border: 1px solid var(--lighter-color);
+    padding: var(--input-padding);
+    border: var(--input-border);
     border-radius: var(--border-radius);
     color: var(--black-color);
     background-color: transparent;
@@ -28,9 +28,9 @@ const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, l
         border-color: var(--border-color);
     }
 
-    ${(props) => props.hasLabel && props.labelInside && `
+    ${(props) => props.hasLabel && `
         & {
-            min-height: calc(var(--input-height) + 7px);
+            min-height: var(--input-height);
             padding-top: 18px !important;
         }
     `}
@@ -122,7 +122,7 @@ const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
 function ChooserInput(props) {
     const {
         className, inputRef, id, name, value, placeholder, isDisabled,
-        onChange, onFocus, onBlur, hasLabel, labelInside,
+        onChange, onFocus, onBlur, hasLabel,
     } = props;
 
     const containerRef = React.useRef(null);
@@ -268,7 +268,6 @@ function ChooserInput(props) {
     return <Container
         ref={containerRef}
         hasLabel={hasLabel}
-        labelInside={labelInside}
         onClick={handleClick}
     >
         <List>
@@ -331,7 +330,6 @@ ChooserInput.propTypes = {
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     hasLabel     : PropTypes.bool,
-    labelInside  : PropTypes.bool,
     onChange     : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,

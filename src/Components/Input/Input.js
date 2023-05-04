@@ -82,7 +82,6 @@ Input.propTypes = {
     tabIndex     : PropTypes.string,
     fullWidth    : PropTypes.bool,
     hasLabel     : PropTypes.bool,
-    labelInside  : PropTypes.bool,
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     withCustom   : PropTypes.bool,

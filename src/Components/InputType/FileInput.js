@@ -23,20 +23,20 @@ const Container = Styled.div`
     }
 `;
 
-const Div = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
+const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     box-sizing: border-box;
     position: relative;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: var(--input-font);
     height: var(--input-height);
     padding: 4px 8px;
     color: var(--gray-color);
     cursor: pointer;
 
-    ${(props) => props.hasLabel && props.labelInside && `
+    ${(props) => props.hasLabel && `
         & {
-            height: calc(var(--input-height) + 7px - 2px);
+            height: calc(var(--input-height) - 2px);
             padding-top: 16px !important;
         }
     `}
@@ -75,7 +75,7 @@ const Input = Styled.input`
 function FileInput(props) {
     const {
         className, name, value, placeholder, tabIndex, onChange,
-        onlyImages, hasLabel, labelInside,
+        onlyImages, hasLabel,
     } = props;
 
     const inputRef = React.useRef();
@@ -102,7 +102,6 @@ function FileInput(props) {
     return <Container className={className}>
         <Div
             hasLabel={hasLabel}
-            labelInside={labelInside}
             onClick={handleClick}
         >
             {value ? value : <Placeholder>
@@ -134,7 +133,6 @@ FileInput.propTypes = {
     onChange    : PropTypes.func.isRequired,
     onlyImages  : PropTypes.bool,
     hasLabel    : PropTypes.bool,
-    labelInside : PropTypes.bool,
 };
 
 /**

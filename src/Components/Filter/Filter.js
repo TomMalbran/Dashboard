@@ -14,7 +14,7 @@ import FilterItem           from "./FilterItem";
  * @returns {React.ReactElement}
  */
 function Filter(props) {
-    const { hasSearch, hasCredential, labelInside, values, fetch, params, onFilter } = props;
+    const { hasSearch, hasCredential, values, fetch, params, onFilter } = props;
 
     // The Initial Data
     const initialData = {
@@ -27,7 +27,6 @@ function Filter(props) {
 
 
     return <FilterList
-        labelInside={labelInside}
         initialData={initialData}
         values={values}
         onFilter={onFilter}
@@ -71,7 +70,6 @@ Filter.propTypes = {
     onFilter      : PropTypes.func.isRequired,
     hasCredential : PropTypes.bool,
     hasSearch     : PropTypes.bool,
-    labelInside   : PropTypes.bool,
     values        : PropTypes.object,
     fetch         : PropTypes.func,
     params        : PropTypes.object,
@@ -84,7 +82,6 @@ Filter.propTypes = {
 Filter.defaultProps = {
     hasCredential : false,
     hasSearch     : false,
-    labelInside   : false,
 };
 
 export default Filter;

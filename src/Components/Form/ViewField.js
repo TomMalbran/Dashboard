@@ -21,7 +21,7 @@ const Label = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected }))`
     ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
 `;
 
-const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside, isSelected }) => ({ isSmall, withLink, labelInside, isSelected }))`
+const InputContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ isSmall, withLink, isSelected }))`
     display: flex;
     align-items: center;
 
@@ -30,7 +30,7 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside, isSelec
         box-sizing: border-box;
         color: var(--black-color);
         background-color: white;
-        border: 1px solid var(--lighter-color);
+        border: var(--input-border);
         border-radius: var(--border-radius);
         transition: all 0.2s;
         overflow: auto;
@@ -38,14 +38,13 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, labelInside, isSelec
         ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
         ${(props) => props.isSmall ? `
             min-height: calc(var(--input-height) - 7px);
-            padding: 8px 8px 4px 8px;
+            padding: 16px 8px 4px 8px;
             line-height: 1;
         ` : `
-            min-height: ${props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
-            padding: 8px 8px 6px 8px;
+            min-height: var(--input-height);
+            padding: 16px 8px 6px 8px;
             line-height: 1.5;
         `}
-        ${(props) => props.labelInside ? "padding-top: 16px;" : ""}
         ${(props) => props.withLink ? "cursor: pointer;" : ""}
     }
     .inputview-link {
@@ -83,7 +82,7 @@ const InputHelper = Styled.p`
 function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, label, value, icon,
-        fullWidth, labelInside, isSmall, isSelected, error, helperText,
+        fullWidth, isSmall, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
@@ -102,13 +101,11 @@ function ViewField(props) {
     return <InputContainer
         className={`inputview ${className}`}
         fullWidth={fullWidth}
-        labelInside={labelInside}
         hasLabel
     >
         {hasLabel && <Label
             className="inputview-label"
             message={label}
-            labelInside={labelInside}
             isSelected={isSelected}
             withTransform
             withValue
@@ -117,7 +114,6 @@ function ViewField(props) {
             className="inputview-cnt"
             isSmall={isSmall}
             withLink={!!onClick}
-            labelInside={labelInside}
             isSelected={isSelected}
         >
             {!!icon && <Icon icon={icon} />}
@@ -159,7 +155,6 @@ ViewField.propTypes = {
     error       : PropTypes.string,
     helperText  : PropTypes.string,
     fullWidth   : PropTypes.bool,
-    labelInside : PropTypes.bool,
     isSmall     : PropTypes.bool,
     isSelected  : PropTypes.bool,
     linkIcon    : PropTypes.string,
@@ -178,18 +173,17 @@ ViewField.propTypes = {
  * @typedef {Object} defaultProps
  */
 ViewField.defaultProps = {
-    isHidden    : false,
-    showEmpty   : false,
-    className   : "",
-    viewClass   : "",
-    fullWidth   : false,
-    labelInside : false,
-    isSmall     : false,
-    isSelected  : false,
-    linkTarget  : "_blank",
-    isEmail     : false,
-    isPhone     : false,
-    isWhatsApp  : false,
+    isHidden   : false,
+    showEmpty  : false,
+    className  : "",
+    viewClass  : "",
+    fullWidth  : false,
+    isSmall    : false,
+    isSelected : false,
+    linkTarget : "_blank",
+    isEmail    : false,
+    isPhone    : false,
+    isWhatsApp : false,
 };
 
 export default ViewField;

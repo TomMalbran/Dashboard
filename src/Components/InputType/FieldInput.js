@@ -16,14 +16,14 @@ import InputError           from "../Input/InputError";
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasLabel, labelInside }) => ({ hasLabel, labelInside }))`
+const Container = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
     width: 100%;
 
-    ${(props) => props.hasLabel && props.labelInside && `
+    ${(props) => props.hasLabel && `
         & > div:nth-child(n+2) .input {
             padding-top: 8px !important;
         }
@@ -91,7 +91,7 @@ const Error = Styled(InputError)`
 function FieldInput(props) {
     const {
         className, inputType, name, value, button, onChange,
-        options, withNone, noneText, hasLabel, labelInside,
+        options, withNone, noneText, hasLabel,
         withBorder, errors, children,
     } = props;
 
@@ -182,7 +182,6 @@ function FieldInput(props) {
     return <Container
         className={className}
         hasLabel={hasLabel}
-        labelInside={labelInside}
     >
         {parts.map((elem, index) => <Content
             key={index}
@@ -199,7 +198,6 @@ function FieldInput(props) {
                     type={item.type}
                     name={`${item.name}-${index}`}
                     value={elem[item.name] || ""}
-                    labelInside={labelInside}
                     fullWidth
                     onChange={(name, value) => handleChange(value, index, item.name)}
                 />)}
@@ -241,21 +239,20 @@ function FieldInput(props) {
  * @type {Object} propTypes
  */
 FieldInput.propTypes = {
-    className   : PropTypes.string,
-    name        : PropTypes.string.isRequired,
-    inputType   : PropTypes.string,
-    value       : PropTypes.any,
-    options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone    : PropTypes.bool,
-    noneText    : PropTypes.string,
-    hasLabel    : PropTypes.bool,
-    labelInside : PropTypes.bool,
-    isSmall     : PropTypes.bool,
-    withBorder  : PropTypes.bool,
-    button      : PropTypes.string,
-    onChange    : PropTypes.func.isRequired,
-    errors      : PropTypes.object,
-    children    : PropTypes.any,
+    className  : PropTypes.string,
+    name       : PropTypes.string.isRequired,
+    inputType  : PropTypes.string,
+    value      : PropTypes.any,
+    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone   : PropTypes.bool,
+    noneText   : PropTypes.string,
+    hasLabel   : PropTypes.bool,
+    isSmall    : PropTypes.bool,
+    withBorder : PropTypes.bool,
+    button     : PropTypes.string,
+    onChange   : PropTypes.func.isRequired,
+    errors     : PropTypes.object,
+    children   : PropTypes.any,
 };
 
 /**

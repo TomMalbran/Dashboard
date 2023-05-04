@@ -42,7 +42,7 @@ const InputHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
-const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear }) => ({ isSmall, width, labelInside, withClear }))`
+const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isSmall, width, withClear }))`
     box-sizing: border-box;
     color: var(--black-color);
     background-color: white;
@@ -59,7 +59,7 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear
         border-radius: var(--border-radius);
 
         ${(props) => `
-            min-height: ${props.isSmall ? "calc(var(--input-height) - 7px)" : props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
+            min-height: ${props.isSmall ? "calc(var(--input-height) - 14px)" : "var(--input-height)"};
             ${props.withClear ? "padding-right: 32px !important;" : ""}
         `}
     }
@@ -97,14 +97,14 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, labelInside, withClear
     }
 `;
 
-const InputIcon = Styled(Icon).attrs(({ labelInside }) => ({ labelInside }))`
+const InputIcon = Styled(Icon)`
     box-sizing: border-box;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: ${(props) => props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
-    padding: ${(props) => props.labelInside ? "10px 4px 0 4px" : "0 4px"};
+    height: var(--input-height);
+    padding: 10px 4px 0 4px;
     font-size: 16px;
     border: 1px solid var(--lighter-color);
     border-right: none;
@@ -148,7 +148,7 @@ function InputField(props) {
     const {
         passedRef, isHidden, className, type, name, label, icon, autoFocus, value,
         button, onClick, error, helperText, withLabel, onChange, onSearch, onInput, onSuggest, onBlur,
-        fullWidth, isRequired, withNone, isSmall, labelInside, shrinkLabel, errorBackground,
+        fullWidth, isRequired, withNone, isSmall, shrinkLabel, errorBackground,
         preType, preName, preValue, preOptions, preWithNone, preNoneText, prePlaceholder, preWidth,
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear, onClear,
     } = props;
@@ -263,7 +263,6 @@ function InputField(props) {
         className={`inputfield inputfield-${type} ${className}`}
         fullWidth={fullWidth}
         hasLabel={hasLabel}
-        labelInside={labelInside}
         hasError={hasError}
         isFocused={isFocused}
     >
@@ -272,7 +271,6 @@ function InputField(props) {
             isRequired={isRequired}
             withTransform={withTransform}
             withValue={withValue}
-            labelInside={labelInside}
             isFocused={isFocused}
             message={label}
         />}
@@ -281,7 +279,6 @@ function InputField(props) {
                 {!!icon && <InputIcon
                     className="inputfield-icon"
                     icon={icon}
-                    labelInside={labelInside}
                 />}
                 {!!preName && <InputInput
                     className="inputfield-input inputfield-pre"
@@ -294,7 +291,6 @@ function InputField(props) {
                     placeholder={prePlaceholder}
                     width={preWidth}
                     hasLabel={hasLabel}
-                    labelInside={labelInside}
                     onChange={onChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
@@ -311,7 +307,6 @@ function InputField(props) {
                     onBlur={handleBlur}
                     isSmall={isSmall}
                     hasLabel={hasLabel}
-                    labelInside={labelInside}
                     withClear={withClear}
                 />
                 {withClear && <InputClear
@@ -392,7 +387,6 @@ InputField.propTypes = {
     tabIndex        : PropTypes.string,
     withLabel       : PropTypes.bool,
     fullWidth       : PropTypes.bool,
-    labelInside     : PropTypes.bool,
     shrinkLabel     : PropTypes.bool,
     withBorder      : PropTypes.bool,
     isSmall         : PropTypes.bool,
@@ -438,7 +432,6 @@ InputField.defaultProps = {
     suggestParams   : {},
     withLabel       : true,
     fullWidth       : false,
-    labelInside     : false,
     shrinkLabel     : false,
     withBorder      : false,
     isSmall         : false,

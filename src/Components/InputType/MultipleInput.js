@@ -11,16 +11,15 @@ import CheckboxInput        from "../InputType/CheckboxInput";
 
 
 // Styles
-const Container = Styled.div.attrs(({ labelInside, columns }) => ({ labelInside, columns }))`
+const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
     grid-gap: 4px;
     width: 100%;
-    padding: 12px 8px 8px 8px;
     border: 1px solid var(--lighter-color);
+    padding: 16px 8px 8px 8px;
     border-radius: var(--border-radius);
-    ${(props) => props.labelInside ? "padding-top: 16px" : ""};
 
     @media (max-width: 500px) {
         display: block;
@@ -40,7 +39,7 @@ const Container = Styled.div.attrs(({ labelInside, columns }) => ({ labelInside,
 function MultipleInput(props) {
     const {
         className, name, value,
-        tabIndex, labelInside, columns, onChange,
+        tabIndex, columns, onChange,
     } = props;
 
 
@@ -64,7 +63,6 @@ function MultipleInput(props) {
 
     return <Container
         className={className}
-        labelInside={labelInside}
         columns={columns}
     >
         {items.map(({ key, value : val }) => <CheckboxInput
@@ -84,16 +82,15 @@ function MultipleInput(props) {
  * @type {Object} propTypes
  */
 MultipleInput.propTypes = {
-    className   : PropTypes.string,
-    name        : PropTypes.string.isRequired,
-    value       : PropTypes.any,
-    options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone    : PropTypes.bool,
-    noneText    : PropTypes.string,
-    tabIndex    : PropTypes.string,
-    labelInside : PropTypes.bool,
-    columns     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onChange    : PropTypes.func.isRequired,
+    className : PropTypes.string,
+    name      : PropTypes.string.isRequired,
+    value     : PropTypes.any,
+    options   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone  : PropTypes.bool,
+    noneText  : PropTypes.string,
+    tabIndex  : PropTypes.string,
+    columns   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onChange  : PropTypes.func.isRequired,
 };
 
 /**

@@ -8,7 +8,7 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Label = Styled.label.attrs(({ withBorder, labelInside }) => ({ withBorder, labelInside }))`
+const Label = Styled.label.attrs(({ withBorder }) => ({ withBorder }))`
     position: relative;
     display: flex;
     align-items: center;
@@ -19,9 +19,9 @@ const Label = Styled.label.attrs(({ withBorder, labelInside }) => ({ withBorder,
     ${(props) => props.withBorder && `
         box-sizing: border-box;
         width: 100%;
-        height: ${props.labelInside ? "calc(var(--input-height) + 7px)" : "var(--input-height)"};
         padding: 4px 8px;
         border: 1px solid var(--lighter-color);
+        height: var(--input-height);
         border-radius: var(--border-radius);
 
         &:hover {
@@ -79,7 +79,7 @@ const Span = Styled.span`
 function ToggleInput(props) {
     const {
         className, name, value, label, tabIndex,
-        withBorder, labelInside, onChange,
+        withBorder, onChange,
     } = props;
 
     // Handles the Checkbox Change
@@ -91,7 +91,6 @@ function ToggleInput(props) {
     return <Label
         className={className}
         withBorder={withBorder}
-        labelInside={labelInside}
     >
         <Input
             type="checkbox"
@@ -111,14 +110,13 @@ function ToggleInput(props) {
  * @type {Object} propTypes
  */
 ToggleInput.propTypes = {
-    className   : PropTypes.string,
-    name        : PropTypes.string,
-    value       : PropTypes.any,
-    label       : PropTypes.string,
-    tabIndex    : PropTypes.string,
-    withBorder  : PropTypes.bool,
-    labelInside : PropTypes.bool,
-    onChange    : PropTypes.func.isRequired,
+    className  : PropTypes.string,
+    name       : PropTypes.string,
+    value      : PropTypes.any,
+    label      : PropTypes.string,
+    tabIndex   : PropTypes.string,
+    withBorder : PropTypes.bool,
+    onChange   : PropTypes.func.isRequired,
 };
 
 /**
@@ -126,9 +124,8 @@ ToggleInput.propTypes = {
  * @type {Object} defaultProps
  */
 ToggleInput.defaultProps = {
-    className   : "",
-    withBorder  : false,
-    labelInside : false,
+    className  : "",
+    withBorder : false,
 };
 
 export default ToggleInput;
