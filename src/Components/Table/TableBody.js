@@ -13,7 +13,6 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
     width: 100%;
     border-left: 2px solid var(--light-gray);
     border-right: 2px solid var(--light-gray);
-    border-bottom: 2px solid var(--light-gray);
 
     ${(props) => !props.notFixed && `
         overflow-y: scroll;
@@ -31,6 +30,7 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
     `}
 
     ${(props) => !props.hasPaging && `
+        border-bottom: 2px solid var(--light-gray);
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
     `}

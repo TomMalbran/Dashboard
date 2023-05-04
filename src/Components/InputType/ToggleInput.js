@@ -19,9 +19,9 @@ const Label = Styled.label.attrs(({ withBorder }) => ({ withBorder }))`
     ${(props) => props.withBorder && `
         box-sizing: border-box;
         width: 100%;
-        padding: 4px 8px;
-        border: 1px solid var(--lighter-color);
         height: var(--input-height);
+        padding: var(--input-padding);
+        border: var(--input-border);
         border-radius: var(--border-radius);
 
         &:hover {

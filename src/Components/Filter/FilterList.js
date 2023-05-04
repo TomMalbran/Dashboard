@@ -17,10 +17,10 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(var(--filter-columns), 1fr) 0.1fr;
-    grid-gap: 8px;
+    grid-gap: var(--main-gap);
     height: var(--filter-height);
-    margin: 0 0 8px 0;
-    padding: 12px;
+    margin: 0 0 var(--main-gap) 0;
+    padding: var(--main-gap);
     background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
 
@@ -42,7 +42,7 @@ const FilterField = Styled(InputField)`
 
 const Div = Styled.div`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     padding-right: 0;
 `;

@@ -15,7 +15,7 @@ const Container = Styled.div`
     position: relative;
     overflow: hidden;
     width: 100%;
-    border: 1px solid var(--lighter-color);
+    border: var(--input-border);
     border-radius: var(--border-radius);
 
     &:hover {
@@ -30,8 +30,9 @@ const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     align-items: center;
     font-size: var(--input-font);
     height: var(--input-height);
-    padding: 4px 8px;
+    padding: var(--input-padding);
     color: var(--gray-color);
+    white-space: nowrap;
     cursor: pointer;
 
     ${(props) => props.hasLabel && `

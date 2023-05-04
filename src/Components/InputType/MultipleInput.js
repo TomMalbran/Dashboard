@@ -17,8 +17,8 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
     grid-gap: 4px;
     width: 100%;
-    border: 1px solid var(--lighter-color);
     padding: 16px 8px 8px 8px;
+    border: var(--input-border);
     border-radius: var(--border-radius);
 
     @media (max-width: 500px) {

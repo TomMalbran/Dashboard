@@ -54,8 +54,8 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isS
         font-size: var(--input-font);
         width: 100%;
         margin: 0;
-        padding: 4px 8px;
-        border: 1px solid var(--lighter-color);
+        padding: var(--input-padding);
+        border: var(--input-border);
         border-radius: var(--border-radius);
 
         ${(props) => `
@@ -106,7 +106,7 @@ const InputIcon = Styled(Icon)`
     height: var(--input-height);
     padding: 10px 4px 0 4px;
     font-size: 16px;
-    border: 1px solid var(--lighter-color);
+    border: var(--input-border);
     border-right: none;
     border-top-left-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);

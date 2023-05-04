@@ -15,8 +15,12 @@ const Container = Styled.div`
     position: relative;
     overflow: hidden;
     width: 100%;
-    border: 1px solid var(--lighter-color);
+    border: var(--input-border);
     border-radius: var(--border-radius);
+
+    &:hover {
+        border-color: var(--border-color);
+    }
 `;
 
 const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
@@ -24,10 +28,9 @@ const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     position: relative;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: var(--input-font);
     height: var(--input-height);
-    padding: 4px 8px;
-    border: 1px dashed var(--input-color);
+    padding: var(--input-padding);
     color: var(--gray-color);
     white-space: nowrap;
     cursor: pointer;

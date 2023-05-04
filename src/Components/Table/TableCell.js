@@ -14,7 +14,8 @@ import Circle               from "../Common/Circle";
 const TD = Styled.td.attrs(({
     flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
     bigMobile, hideMobile, smallSpace, rightSpace, indent,
-}) => ({ flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+}) => ({
+    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
     bigMobile, hideMobile, smallSpace, rightSpace, indent,
 }))`
     && {

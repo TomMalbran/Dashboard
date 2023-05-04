@@ -14,10 +14,10 @@ const Input = Styled.input.attrs(({ isSmall }) => ({ isSmall }))`
     font-size: var(--input-font);
     width: 100%;
     margin: 0;
-    padding: 4px 8px;
+    padding: var(--input-padding);
     min-height: ${(props) => props.isSmall ? "calc(var(--input-height) - 8px)" : "var(--input-height)"};
     color: var(--black-color);
-    border: 1px solid var(--lighter-color);
+    border: var(--input-border);
     border-radius: var(--border-radius);
     background-color: white;
     transition: all 0.2s;

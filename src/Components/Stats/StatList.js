@@ -11,10 +11,10 @@ import Utils                from "../../Utils/Utils";
 const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
-    grid-gap: 8px;
+    grid-gap: var(--main-gap);
     box-sizing: border-box;
     height: var(--stats-height);
-    margin: 0 0 8px 0;
+    margin: 0 0 var(--main-gap) 0;
     padding: 0;
     list-style: none;
     overflow-y: hidden;

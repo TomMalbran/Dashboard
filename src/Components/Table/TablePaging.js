@@ -15,7 +15,7 @@ import InputField           from "../Form/InputField";
 const TR = Styled.tr`
     display: flex;
     height: auto;
-    min-height: 34px;
+    min-height: 32px;
 `;
 
 const TD = Styled.td`
@@ -23,7 +23,8 @@ const TD = Styled.td`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 0 4px 2px 4px;
+    padding: 0 4px;
+    font-size: 12px;
     background: var(--light-gray);
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);

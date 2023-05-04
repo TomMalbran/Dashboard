@@ -15,7 +15,9 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         overflow: hidden;
         white-space: nowrap;
         border: none;
-        border-bottom: 2px solid var(--light-gray);
+    }
+    td {
+        border-bottom: 1px solid var(--light-gray);
     }
 
     .icon-checkbox {
