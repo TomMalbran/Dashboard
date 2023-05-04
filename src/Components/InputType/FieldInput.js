@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import NLS                  from "../../Core/NLS";
 import InputType            from "../../Core/InputType";
 import Utils                from "../../Utils/Utils";
 
@@ -16,11 +17,11 @@ import InputError           from "../Input/InputError";
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
+const Container = Styled.div.attrs(({ hasLabel, withBorder }) => ({ hasLabel, withBorder }))`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: ${(props) => props.withBorder ? "12px" : "8px"};
     width: 100%;
 
     ${(props) => props.hasLabel && `
@@ -30,35 +31,41 @@ const Container = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
     `}
 `;
 
-const Content = Styled.div.attrs(({ withClose, withError, withBorder }) => ({ withClose, withError, withBorder }))`
+const Content = Styled.div.attrs(({
+    withClose, withTitle, withError, withBorder,
+}) => ({
+    withClose, withTitle, withError, withBorder,
+}))`
     width: 100%;
     display: grid;
-    grid-template-areas: "input";
     gap: 4px;
 
-    ${(props) => (props.withClose && props.withError) && `
+    ${(props) => props.withClose ? `
         grid-template-areas:
+            ${props.withTitle ? '"title title"' : ""}
             "input close"
-            "error error";
+            ${props.withError ? '"error error"' : ""}
+        ;
         grid-template-columns: 1fr 24px;
-    `}
-
-    ${(props) => (props.withClose && !props.withError) && `
+    ` : `
         grid-template-areas:
-            "input close";
-        grid-template-columns: 1fr 24px;
-    `}
-
-${(props) => (!props.withClose && props.withError) && `
-        grid-template-areas:
+            ${props.withTitle ? '"title"' : ""}
             "input"
-            "error";
+            ${props.withError ? '"error"' : ""}
+        ;
     `}
 
     ${(props) => props.withBorder && `
-        padding-bottom: 8px;
+        padding-bottom: 12px;
         border-bottom: 2px solid var(--dark-gray);
     `}
+`;
+
+const Title = Styled.h4`
+    margin: 0 8px;
+    grid-area: title;
+    font-size: var(--input-font);
+    color: var(--title-color);
 `;
 
 const Items = Styled.div`
@@ -92,7 +99,7 @@ function FieldInput(props) {
     const {
         className, inputType, name, value, button, onChange,
         options, withNone, noneText, hasLabel,
-        withBorder, errors, children,
+        title, withBorder, errors, children,
     } = props;
 
     // Parse the Items
@@ -178,18 +185,23 @@ function FieldInput(props) {
 
 
     // Do the Render
-    const parts = hasItems ? objectArray : stringArray;
+    const parts     = hasItems ? objectArray : stringArray;
+    const withTitle = Boolean(title);
+
     return <Container
         className={className}
         hasLabel={hasLabel}
+        withBorder={withBorder}
     >
         {parts.map((elem, index) => <Content
             key={index}
             className="inputfield-container"
             withClose={parts.length > 1}
             withError={!!getError(index)}
+            withTitle={withTitle}
             withBorder={withBorder}
         >
+            {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
             {hasItems && <Items className="inputfield-items">
                 {items.map((item) => <InputField
                     {...item}
@@ -248,6 +260,7 @@ FieldInput.propTypes = {
     noneText   : PropTypes.string,
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
+    title      : PropTypes.string,
     withBorder : PropTypes.bool,
     button     : PropTypes.string,
     onChange   : PropTypes.func.isRequired,

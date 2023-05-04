@@ -355,6 +355,7 @@ InputField.propTypes = {
     name            : PropTypes.string,
     label           : PropTypes.string,
     placeholder     : PropTypes.string,
+    title           : PropTypes.string,
     icon            : PropTypes.string,
     value           : PropTypes.any,
     minValue        : PropTypes.number,
