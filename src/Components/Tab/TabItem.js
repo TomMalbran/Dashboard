@@ -15,9 +15,9 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Item = Styled.div.attrs(({
-    isSelected, isDisabled, inHeader, inDialog,
+    isSelected, isDisabled, inHeader,
 }) => ({
-    isSelected, isDisabled, inHeader, inDialog,
+    isSelected, isDisabled, inHeader,
 }))`
     position: relative;
     flex-grow: 1;
@@ -53,7 +53,6 @@ const DeleteIcon = Styled(ItemIcon)`
 
 const LightItem = Styled(Item)`
     height: calc(var(--tabs-table) - 8px);
-    margin: ${(props) => props.inDialog ? "0 16px 0 0" : "0 8px 8px 0"};
     padding: 6px 12px;
     color: var(--title-color);
     background-color: var(--lighter-gray);
@@ -139,7 +138,7 @@ const Components = {
 function TabItem(props) {
     const {
         className, variant, icon, message, status, value, index, selected,
-        amount, badge, isDisabled, inHeader, inDialog,
+        amount, badge, isDisabled, inHeader,
         canEdit, canDelete, onClick, onAction,
     } = props;
 
@@ -188,7 +187,6 @@ function TabItem(props) {
         isSelected={isSelected}
         isDisabled={isDisabled}
         inHeader={inHeader}
-        inDialog={inDialog}
         onClick={handleClick}
     >
         {showEdit && <EditIcon
@@ -224,7 +222,6 @@ TabItem.propTypes = {
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
     inHeader   : PropTypes.bool,
-    inDialog   : PropTypes.bool,
     canEdit    : PropTypes.bool,
     canDelete  : PropTypes.bool,
     onClick    : PropTypes.func,

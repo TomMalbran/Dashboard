@@ -15,7 +15,7 @@ import Columns              from "../Form/Columns";
 const Content = Styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--main-gap);
 `;
 
 

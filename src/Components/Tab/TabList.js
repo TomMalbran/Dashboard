@@ -13,19 +13,21 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Section = Styled.section.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.section.attrs(({ variant, inDialog }) => ({ variant, inDialog }))`
     display: flex;
     align-items: center;
 
     ${(props) => props.variant === Brightness.DARK && `
         background-color: var(--primary-color);
     `}
+    ${(props) => !props.inDialog && "margin-bottom: var(--main-gap);"}
 `;
 
 const Div = Styled.div.attrs(({ size }) => ({ size }))`
     max-width: 100%;
     overflow: auto;
     display: flex;
+    gap: var(--main-gap);
 
     ${(props) => props.size > 0 ? `
         display: grid;
@@ -63,7 +65,11 @@ function TabList(props) {
 
 
     // Do the Render
-    return <Section className={`tabs ${className}`} variant={variant}>
+    return <Container
+        className={`tabs ${className}`}
+        variant={variant}
+        inDialog={inDialog}
+    >
         <Div className="tabs-content" size={size}>
             {items}
         </Div>
@@ -72,7 +78,7 @@ function TabList(props) {
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
         />}
-    </Section>;
+    </Container>;
 }
 
 /**

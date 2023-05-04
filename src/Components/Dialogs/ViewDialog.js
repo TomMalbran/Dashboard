@@ -14,7 +14,7 @@ import DialogFooter         from "../Dialog/DialogFooter";
 const Content = Styled.div`
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--main-gap);
 `;
 
 

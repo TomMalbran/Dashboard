@@ -29,7 +29,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     --table-header-height: 27px;
     --table-filter-height: ${(props) => props.hasFilter ? "calc(var(--filter-height) + var(--main-gap))" : "0px"};
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
-    --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
+    --table-tabs-height: ${(props) => props.hasTabs ? "calc(var(--tabs-height) + var(--main-gap))" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
 
