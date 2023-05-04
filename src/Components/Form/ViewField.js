@@ -38,14 +38,15 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
         ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
         ${(props) => props.isSmall ? `
             min-height: calc(var(--input-height) - 7px);
-            padding: 16px 8px 4px 8px;
+            padding: 4px 8px;
             line-height: 1;
         ` : `
             min-height: var(--input-height);
-            padding: 16px 8px 6px 8px;
+            padding: var(--input-padding);
             line-height: 1.5;
         `}
         ${(props) => props.withLink ? "cursor: pointer;" : ""}
+        padding-top: 16px;
     }
     .inputview-link {
         white-space: nowrap;

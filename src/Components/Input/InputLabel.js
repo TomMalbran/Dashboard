@@ -40,7 +40,7 @@ const Label = Styled.p.attrs(({
     `}
     ${(props) => props.withTransform && `
         transform-origin: top left;
-        transform: translateY(12px) scale(1.2);
+        transform: translateY(14px) scale(1.2);
     `}
     ${(props) => props.withValue && `
         transform: translateY(0) scale(1);

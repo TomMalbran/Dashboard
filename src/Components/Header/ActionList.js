@@ -18,7 +18,7 @@ const Ul = Styled.ul`
     margin: 0;
     padding: 0;
     list-style: none;
-    gap: var(--main-gap);
+    gap: 8px;
 
     @media (max-width: 500px) {
         .btn.btn {
