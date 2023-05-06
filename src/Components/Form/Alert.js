@@ -42,11 +42,19 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
         cursor: pointer;
     }
 
-    ${(props) => props.isClosing && "transform: translateY(-50px);"}
+    ${(props) => props.isClosing && `
+        transform: translateY(-50px);
+    `}
 
-    ${(props) => props.variant === Outcome.SUCCESS && "background-color: var(--success-color);"}
-    ${(props) => props.variant === Outcome.WARNING && "background-color: var(--warning-color);"}
-    ${(props) => props.variant === Outcome.ERROR   && "background-color: var(--error-color);"}
+    ${(props) => props.variant === Outcome.SUCCESS && `
+        background-color: var(--success-color);
+    `}
+    ${(props) => props.variant === Outcome.WARNING && `
+        background-color: var(--warning-color);
+    `}
+    ${(props) => props.variant === Outcome.ERROR && `
+        background-color: var(--error-color);
+    `}
 `;
 
 
@@ -98,6 +106,7 @@ function Alert(props) {
     };
 
 
+    // Do the Render
     if (isHidden || !content) {
         return <React.Fragment />;
     }
