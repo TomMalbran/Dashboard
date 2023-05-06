@@ -15,10 +15,10 @@ const Variant = {
     COLORED   : "colored",
     PRIMARY   : "primary",
     ACCENT    : "accent",
+    ERROR     : "error",
     BLACK     : "black",
     WHITE     : "white",
     GRAY      : "gray",
-    RED       : "red",
     GREEN     : "green",
     OPACITY   : "opacity",
     UNDERLINE : "underline",
@@ -69,6 +69,10 @@ const ColoredLink = Styled(Link)`
         case Variant.ACCENT: return `
             --link-color: var(--accent-color);
         `;
+        case Variant.ERROR: return `
+            --link-color: var(--error-color);
+            font-weight: 600;
+        `;
         case Variant.BLACK: return `
             --link-color: var(--black-color);
         `;
@@ -79,10 +83,6 @@ const ColoredLink = Styled(Link)`
         case Variant.GRAY: return `
             --link-color: var(--gray-color);
             font-weight: 400;
-        `;
-        case Variant.RED: return `
-            --link-color: var(--red-color);
-            font-weight: 600;
         `;
         case Variant.GREEN: return `
             --link-color: var(--green-color);

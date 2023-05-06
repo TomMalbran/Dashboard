@@ -101,8 +101,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
         `;
         case Variant.ERROR: return `
             --button-color: white;
-            --button-border: var(--red-color);
-            --button-background: var(--red-color);
+            --button-border: var(--error-color);
+            --button-background: var(--error-color);
+            --button-hover-color: var(--error-color);
         `;
         case Variant.ACCENT: return `
             --button-color: white;
