@@ -60,7 +60,7 @@ const FilterButton = Styled(Button)`
  * @returns {React.ReactElement}
  */
 function FilterList(props) {
-    const { values, initialData, onFilter, children } = props;
+    const { className, values, initialData, onFilter, children } = props;
 
     const items         = [];
     const fields        = {};
@@ -124,7 +124,10 @@ function FilterList(props) {
 
 
     // Do the Render
-    return <Container columns={items.length}>
+    return <Container
+        className={`${className} no-scrollbars`}
+        columns={items.length}
+    >
         {items.map((item) => <FilterField
             {...item}
             key={item.name}
@@ -152,6 +155,7 @@ function FilterList(props) {
  * @typedef {Object} propTypes
  */
 FilterList.propTypes = {
+    className   : PropTypes.string,
     onFilter    : PropTypes.func.isRequired,
     values      : PropTypes.object,
     initialData : PropTypes.object,
