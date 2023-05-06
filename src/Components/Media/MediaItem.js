@@ -16,6 +16,7 @@ const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasA
     border: 2px solid var(--light-gray);
     border-radius: var(--border-radius);
     background-color: white;
+    overflow: hidden;
 
     ${(props) => props.isSelected && `
         border-color: var(--primary-color);
