@@ -7,14 +7,21 @@ import NLS                  from "../../Core/NLS";
 import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
+// Variants
+const Variant = {
+    LIGHT    : "light",
+    PRIMARY  : "primary",
+    OUTLINED : "outlined",
+};
+
 
 
 // Styles
-const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))`
+const Li = Styled.li.attrs(({ variant, twoLines }) => ({ variant, twoLines }))`
     position: relative;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     flex-grow: 1;
     height: var(--stats-height);
@@ -22,28 +29,43 @@ const Li = Styled.li.attrs(({ outlined, twoLines }) => ({ outlined, twoLines }))
     padding: 0 12px;
     line-height: 1;
     border-radius: var(--border-radius);
+    overflow: hidden;
 
-    ${(props) => props.outlined ? `
-        border: 1px solid var(--darker-gray);
-    ` : `
+    ${(props) => props.variant === Variant.LIGHT && `
         background-color: var(--light-gray);
+    `}
+    ${(props) => props.variant === Variant.PRIMARY && `
+        background-color: var(--primary-color);
+        color: rgba(255, 255, 255, 0.7);
+    `}
+    ${(props) => props.variant === Variant.OUTLINED && `
+        border: 1px solid var(--darker-gray);
     `}
 
     ${(props) => props.twoLines && `
         flex-direction: column;
+        justify-content: center;
         height: auto;
     `}
 `;
 
-const B = Styled.b.attrs(({ twoLines }) => ({ twoLines }))`
+const Text = Styled.span.attrs(({ twoLines }) => ({ twoLines }))`
     font-size: 14px;
     font-weight: 400;
     ${(props) => props.twoLines ? "margin-bottom: 2px;" : "margin-right: 8px;"}
 `;
-const Span = Styled.span.attrs(({ usePrimary }) => ({ usePrimary }))`
-    font-size: 20px;
+
+const Value = Styled.span.attrs(({ variant }) => ({ variant }))`
+    font-size: 22px;
     font-weight: 400;
-    ${(props) => props.usePrimary && "color: var(--primary-color)"};
+    white-space: nowrap;
+
+    ${(props) => props.variant === Variant.PRIMARY && `
+        color: white;
+    `}
+    ${(props) => props.variant === Variant.OUTLINED && `
+        color: var(--primary-color);
+    `}
 `;
 
 
@@ -55,8 +77,8 @@ const Span = Styled.span.attrs(({ usePrimary }) => ({ usePrimary }))`
  */
 function StatItem(props) {
     const {
-        message, tooltip, value, decimals, percent, isPrice, isPercent,
-        outlined, twoLines, usePrimary,
+        variant, twoLines, message, tooltip, value,
+        decimals, percent, isPrice, isPercent,
     } = props;
 
     const elementRef = React.useRef();
@@ -88,17 +110,16 @@ function StatItem(props) {
     // Do the Render
     return <Li
         ref={elementRef}
-        outlined={outlined}
-        twoLines={twoLines}
+        variant={variant}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
     >
-        <B twoLines={twoLines}>
+        <Text twoLines={twoLines}>
             {NLS.get(message)}
-        </B>
-        <Span usePrimary={usePrimary}>
+        </Text>
+        <Value variant={variant}>
             {content}
-        </Span>
+        </Value>
     </Li>;
 }
 
@@ -107,18 +128,16 @@ function StatItem(props) {
  * @typedef {Object} propTypes
  */
 StatItem.propTypes = {
-    isHidden   : PropTypes.bool,
-    message    : PropTypes.string.isRequired,
-    tooltip    : PropTypes.string,
-    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    decimals   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    percent    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    isPrice    : PropTypes.bool,
-    isPercent  : PropTypes.bool,
-    outlined   : PropTypes.bool,
-    twoLines   : PropTypes.bool,
-    usePrimary : PropTypes.bool,
-    isLast     : PropTypes.bool,
+    isHidden  : PropTypes.bool,
+    variant   : PropTypes.string,
+    message   : PropTypes.string.isRequired,
+    tooltip   : PropTypes.string,
+    value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    decimals  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    percent   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    isPrice   : PropTypes.bool,
+    isPercent : PropTypes.bool,
+    twoLines  : PropTypes.bool,
 };
 
 /**
@@ -128,12 +147,10 @@ StatItem.propTypes = {
 StatItem.defaultProps = {
     decimals   : 0,
     isHidden   : false,
+    variant    : Variant.LIGHT,
+    twoLines   : false,
     isPrice    : false,
     isPercent  : false,
-    outlined   : false,
-    twoLines   : false,
-    usePrimary : false,
-    isLast     : false,
 };
 
 export default StatItem;

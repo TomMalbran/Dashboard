@@ -10,7 +10,7 @@ import Utils                from "../../Utils/Utils";
 // Styles
 const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
     display: grid;
-    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+    grid-template-columns: repeat(${(props) => props.columns}, minmax(min-content, 1fr));
     grid-gap: var(--main-gap);
     box-sizing: border-box;
     height: var(--stats-height);
@@ -29,17 +29,23 @@ const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
  * @returns {React.ReactElement}
  */
 function StatList(props) {
-    const { isHidden, className, outlined, twoLines, usePrimary, children } = props;
+    const { isHidden, className, variant, twoLines, children } = props;
+
 
     if (isHidden) {
         return <React.Fragment />;
     }
 
     const items = Utils.cloneChildren(children, () => ({
-        outlined, twoLines, usePrimary,
+        variant, twoLines,
     }));
 
-    return <Ul className={className} columns={items.length}>
+
+    // Do the Render
+    return <Ul
+        className={`${className} no-scrollbars`}
+        columns={items.length}
+    >
         {items}
     </Ul>;
 }
@@ -49,12 +55,11 @@ function StatList(props) {
  * @typedef {Object} propTypes
  */
 StatList.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    outlined   : PropTypes.bool,
-    twoLines   : PropTypes.bool,
-    usePrimary : PropTypes.bool,
-    children   : PropTypes.any,
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
+    variant   : PropTypes.string,
+    twoLines  : PropTypes.bool,
+    children  : PropTypes.any,
 };
 
 /**
@@ -62,11 +67,8 @@ StatList.propTypes = {
  * @type {Object} defaultProps
  */
 StatList.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    outlined   : false,
-    twoLines   : false,
-    usePrimary : false,
+    isHidden  : false,
+    className : "",
 };
 
 export default StatList;
