@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -177,11 +178,24 @@ function Button(props) {
     const {
         passedRef, isHidden, className, variant,
         isDisabled, isSmall, fullWidth,
-        icon, afterIcon, message, children,
+        icon, afterIcon, message, tooltip, children,
     } = props;
 
-    const onClick = Navigate.useClick(props);
+    const defaultRef = React.useRef();
+    const elementRef = passedRef || defaultRef;
 
+    const onClick    = Navigate.useClick(props);
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, "bottom", tooltip);
+        }
+    };
+
+
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
@@ -198,10 +212,20 @@ function Button(props) {
         fullWidth={fullWidth}
         withIcon={withIcon}
         onClick={onClick}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     >
-        {!!icon      && <Icon className="btn-preicon" icon={icon} />}
-        {!!content   && <span className="btn-content">{content}</span>}
-        {!!afterIcon && <Icon className="btn-aftericon" icon={afterIcon} />}
+        {!!icon && <Icon
+            className="btn-preicon"
+            icon={icon}
+        />}
+        {!!content && <span className="btn-content">
+            {content}
+        </span>}
+        {!!afterIcon && <Icon
+            className="btn-aftericon"
+            icon={afterIcon}
+        />}
     </Btn>;
 }
 
@@ -214,6 +238,7 @@ Button.propTypes = {
     passedRef  : PropTypes.any,
     className  : PropTypes.string,
     message    : PropTypes.string,
+    tooltip    : PropTypes.string,
     variant    : PropTypes.string.isRequired,
     isDisabled : PropTypes.bool,
     isSmall    : PropTypes.bool,
