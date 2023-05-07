@@ -217,8 +217,10 @@ class DateHour {
      */
     toWeekStart(weekDay = 0) {
         let thisDate = this.moveDay(0);
-        while (thisDate.weekDay !== weekDay) {
+        let counter  = 0;
+        while (thisDate.weekDay !== Number(weekDay) && counter < 7) {
             thisDate = thisDate.moveDay(-1);
+            counter += 1;
         }
         return thisDate;
     }
