@@ -382,6 +382,7 @@ InputField.propTypes = {
     keepSuggestions : PropTypes.bool,
     fieldButton     : PropTypes.string,
     error           : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    errors          : PropTypes.object,
     helperText      : PropTypes.string,
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
