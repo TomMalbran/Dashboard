@@ -4,7 +4,6 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
-import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -31,7 +30,7 @@ const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
  */
 function ActionItem(props) {
     const {
-        action, variant, isSmall, message, icon,
+        action, variant, isSmall, message, icon, tooltip,
         onClick, onAction, direction, children,
     } = props;
 
@@ -92,7 +91,8 @@ function ActionItem(props) {
         <Button
             passedRef={buttonRef}
             variant={variant}
-            message={NLS.get(message || act.message)}
+            message={message || act.message}
+            tooltip={tooltip}
             icon={icon || act.icon}
             onClick={() => handleClick()}
             isSmall={isSmall}
@@ -125,6 +125,7 @@ ActionItem.propTypes = {
     action    : PropTypes.string,
     message   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon      : PropTypes.string,
+    tooltip   : PropTypes.string,
     onClick   : PropTypes.func,
     onAction  : PropTypes.func,
     direction : PropTypes.string,
