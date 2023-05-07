@@ -67,8 +67,7 @@ const Emoji = Styled.div.attrs(({ top, left }) => ({ top, left }))`
 function EmojiPopup(props) {
     const {
         open, targetRef, direction, gap,
-        top, bottom, left, right,
-        onClick, onClose,
+        top, left, onClick, onClose,
     } = props;
 
     const contentRef = React.useRef(null);
@@ -110,11 +109,11 @@ function EmojiPopup(props) {
             posLeft = bounds.left;
         }
     } else {
-        if (bottom) {
-            posTop = bottom - POPUP_HEIGHT;
+        if (top && toTop) {
+            posTop = top - POPUP_HEIGHT;
         }
-        if (right) {
-            posLeft = right - POPUP_WIDTH;
+        if (left && toLeft) {
+            posLeft = left - POPUP_WIDTH;
         }
     }
 
@@ -195,9 +194,7 @@ EmojiPopup.propTypes = {
     targetRef : PropTypes.any,
     direction : PropTypes.string,
     top       : PropTypes.number,
-    bottom    : PropTypes.number,
     left      : PropTypes.number,
-    right     : PropTypes.number,
     gap       : PropTypes.number,
     onClick   : PropTypes.func.isRequired,
     onClose   : PropTypes.func.isRequired,
