@@ -13,9 +13,10 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
+const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelected, isDisabled, isSmall }))`
     display: flex;
     align-items: center;
+    gap: 6px;
     width: auto;
     margin: 0;
     padding: 8px;
@@ -31,9 +32,14 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
         background-color: var(--light-gray);
     }
     .icon {
-        margin-right: 6px;
         font-size: 20px;
     }
+
+    ${(props) => props.isSmall && `
+        gap: 4px;
+        padding: 4px 8px;
+        font-size: 13px;
+    `}
 `;
 
 
@@ -45,8 +51,8 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
  */
 function MenuItem(props) {
     const {
-        className, action, icon, message, url, href, target,
-        isDisabled, isSelected, onAction, onClick, onClose,
+        className, action, icon, title, message, url, href, target,
+        isDisabled, isSelected, isSmall, onAction, onClick, onClose,
     } = props;
 
     const act      = Action.get(action);
@@ -77,9 +83,11 @@ function MenuItem(props) {
         className={className}
         isSelected={!isDisabled && isSelected}
         isDisabled={isDisabled}
+        isSmall={isSmall}
         onClick={handleClick}
     >
         {!!icn && <Icon icon={icn} />}
+        {!!title && <b>{NLS.get(title)}</b>}
         {NLS.get(content)}
     </Li>;
 }
@@ -92,12 +100,14 @@ MenuItem.propTypes = {
     className  : PropTypes.string,
     action     : PropTypes.string,
     icon       : PropTypes.string,
+    title      : PropTypes.string,
     message    : PropTypes.string,
     url        : PropTypes.string,
     href       : PropTypes.string,
     target     : PropTypes.string,
     isDisabled : PropTypes.bool,
     isSelected : PropTypes.bool,
+    isSmall    : PropTypes.bool,
     onAction   : PropTypes.func,
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
@@ -112,6 +122,7 @@ MenuItem.defaultProps = {
     target     : "_self",
     isDisabled : false,
     isSelected : false,
+    isSmall    : false,
 };
 
 export default MenuItem;
