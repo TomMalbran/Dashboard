@@ -64,9 +64,6 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isS
         `}
     }
 
-    &.input-textarea, & .input-textarea {
-        resize: none;
-    }
     &.input:hover, & .input:hover {
         border-color: var(--border-color);
     }
@@ -397,6 +394,7 @@ InputField.propTypes = {
     error           : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     errors          : PropTypes.object,
     helperText      : PropTypes.string,
+    counterText     : PropTypes.string,
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     tabIndex        : PropTypes.string,

@@ -21,10 +21,6 @@ const Container = Styled.div.attrs(({
         .input {
             padding-top: 16px !important;
         }
-        .input-textarea {
-            padding-top: 18px !important;
-            padding-bottom: 8px !important;
-        }
     `}
 
     ${(props) => props.hasError && `
@@ -36,6 +32,7 @@ const Container = Styled.div.attrs(({
             color: var(--error-color);
         }
     `}
+
     ${(props) => props.isFocused && `
         .inputfield-input {
             border-color: var(--border-color) !important;

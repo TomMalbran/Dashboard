@@ -57,7 +57,6 @@ const InputInput = Styled(Input).attrs(({ width }) => ({ width }))`
     }
     &.input-textarea {
         min-height: var(--inputicon-height);
-        resize: none;
     }
     &.input:focus {
         outline: none;
