@@ -36,7 +36,8 @@ const Li = Styled.li.attrs(({ variant, twoLines }) => ({ variant, twoLines }))`
     `}
     ${(props) => props.variant === Variant.PRIMARY && `
         background-color: var(--primary-color);
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 15px;
     `}
     ${(props) => props.variant === Variant.OUTLINED && `
         border: 1px solid var(--darker-gray);
@@ -50,7 +51,6 @@ const Li = Styled.li.attrs(({ variant, twoLines }) => ({ variant, twoLines }))`
 `;
 
 const Text = Styled.span.attrs(({ twoLines }) => ({ twoLines }))`
-    font-size: 14px;
     font-weight: 400;
     ${(props) => props.twoLines ? "margin-bottom: 2px;" : "margin-right: 8px;"}
 `;
