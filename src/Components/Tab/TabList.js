@@ -70,7 +70,7 @@ function TabList(props) {
         variant={variant}
         inDialog={inDialog}
     >
-        <Div className="tabs-content" size={size}>
+        <Div className="tabs-content no-scrollbars" size={size}>
             {items}
         </Div>
         {showAdd && <TabLink
