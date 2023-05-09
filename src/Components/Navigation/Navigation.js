@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import { Brightness }       from "../../Core/Variants";
 import Utils                from "../../Utils/Utils";
+import Responsive           from "../../Core/Responsive";
 
 
 
@@ -26,7 +27,7 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
         color: var(--font-light);
     `}
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: none;
         position: fixed;
         top: 0;

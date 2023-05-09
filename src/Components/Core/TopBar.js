@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
+import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
 
 // Components
@@ -45,10 +46,11 @@ const Nav = Styled.nav.attrs(({ variant, withTopBar }) => ({ variant, withTopBar
         background-color: var(--secondary-color);
     `}
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: flex;
     }
 `;
+
 const Div = Styled.div`
     display: flex;
     flex-direction: row;
@@ -61,9 +63,11 @@ const TopLogo = Styled(BarLogo)`
         display: block;
     }
 `;
+
 const MenuIcon = Styled(BarIcon)`
     display: none;
-    @media (max-width: 1000px) {
+
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: flex;
     }
 `;
@@ -75,9 +79,10 @@ const H1 = Styled.h1`
     color: white;
     font-family: var(--title-font);
 `;
+
 const DetailIcon = Styled(BarIcon)`
     display: none;
-    @media (max-width: 1000px) {
+    @media (max-width: 1200px) {
         display: flex;
     }
 `;

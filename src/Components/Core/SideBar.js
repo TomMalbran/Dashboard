@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core
 import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
+import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
 
 // Components
@@ -42,7 +43,7 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
         .baricon-text {
             display: none;
         }
-        @media (max-width: 1000px) {
+        @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
             & > div {
                 align-items: flex-start;
             }
@@ -59,7 +60,7 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
         }
     `}
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: none;
         position: fixed;
         top: 0;
@@ -104,7 +105,7 @@ const CloseIcon = Styled(IconLink)`
     top: 8px;
     left: 8px;
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: block;
     }
 `;

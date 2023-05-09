@@ -2,6 +2,7 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core & Utils
+import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
@@ -14,9 +15,6 @@ import Styled, {
 } from "styled-components";
 
 
-
-// Constants
-const MOBILE_WIDTH = 1000;
 
 // Animations
 const menuOpen = keyframes`
@@ -64,7 +62,19 @@ const Div = Styled.div.attrs(({
         display: flex;
     `}
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
+        ${(props) => props.showingDetails && `
+            .details { display: flex; }
+        `}
+        ${(props) => props.openingDetails && css`
+            .details { animation: ${detailsOpen} 0.3s ease-in both; }
+        `}
+        ${(props) => props.closingDetails && css`
+            .details { animation: ${detailsClose} 0.3s ease-out both; }
+        `}
+    }
+
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         --main-height: calc(var(--full-height) - var(--topbar-height));
 
         display: flex;
@@ -78,16 +88,6 @@ const Div = Styled.div.attrs(({
         `}
         ${(props) => props.closingMenu && css`
             .sidebar, .navigation { animation: ${menuClose} 0.3s ease-out both; }
-        `}
-
-        ${(props) => props.showingDetails && `
-            .details { display: flex; }
-        `}
-        ${(props) => props.openingDetails && css`
-            .details { animation: ${detailsOpen} 0.3s ease-in both; }
-        `}
-        ${(props) => props.closingDetails && css`
-            .details { animation: ${detailsClose} 0.3s ease-out both; }
         `}
     }
 `;
@@ -120,7 +120,7 @@ function Container(props) {
 
     // Opens the Menu
     const handleMenuOpen = () => {
-        if (openingMenu || width > MOBILE_WIDTH) {
+        if (openingMenu || width > Responsive.WIDTH_FOR_MENU) {
             return;
         }
         setShowingMenu(true);
@@ -135,7 +135,7 @@ function Container(props) {
 
     // Closes the Menu
     const handleMenuClose = () => {
-        if (closingMenu || width > MOBILE_WIDTH) {
+        if (closingMenu || width > Responsive.WIDTH_FOR_MENU) {
             return;
         }
         setClosingMenu(true);
@@ -150,7 +150,7 @@ function Container(props) {
 
     // Opens the Details
     const handleDetailsOpen = () => {
-        if (openingDetails || width > MOBILE_WIDTH) {
+        if (openingDetails || width > Responsive.WIDTH_FOR_DETAILS) {
             return;
         }
         setShowingDetails(true);
@@ -165,7 +165,7 @@ function Container(props) {
 
     // Closes the Details
     const handleDetailsClose = () => {
-        if (closingDetails || width > MOBILE_WIDTH) {
+        if (closingDetails || width > Responsive.WIDTH_FOR_DETAILS) {
             return;
         }
         setClosingDetails(true);

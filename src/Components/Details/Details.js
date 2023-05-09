@@ -31,7 +31,7 @@ const Section = Styled.section.attrs(({ isInside, topSpace }) => ({ isInside, to
         height: var(--main-height);
     `}
 
-    @media (max-width: 1000px) {
+    @media (max-width: 1200px) {
         display: none;
         position: fixed;
         top: 0;
@@ -95,6 +95,7 @@ function Details(props) {
     }
 
 
+    // Do the Render
     return <Section
         className={`details light-scrollbars ${className}`}
         isInside={isInside}

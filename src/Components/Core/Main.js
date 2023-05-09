@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import Responsive           from "../../Core/Responsive";
+
 
 
 // Styles
@@ -15,7 +18,11 @@ const Content = Styled.main.attrs(({ withNavigation, withDetails }) => ({ withNa
     height: var(--main-height, var(--full-height));
     width: calc(100vw - var(--sidebar-width) - var(--main-navigation) - var(--main-details));
 
-    @media (max-width: 1000px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
+        width: calc(100vw - var(--sidebar-width) - var(--main-navigation));
+    }
+
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         width: 100vw !important;
         overflow: auto;
     }
