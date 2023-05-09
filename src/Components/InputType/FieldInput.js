@@ -68,14 +68,20 @@ const Title = Styled.h4`
     color: var(--title-color);
 `;
 
-const Items = Styled.div`
+const Items = Styled.div.attrs(({ columns }) => ({ columns }))`
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 6px;
     grid-area: input;
+
+    ${(props) => Number(props.columns) > 1 ? `
+        display: grid;
+        grid-template-columns: repeat(${props.columns}, 1fr);
+    ` : `
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    `}
 `;
 
 const Close = Styled.div`
@@ -90,6 +96,7 @@ const Error = Styled(InputError)`
 `;
 
 
+
 /**
  * The Field Input Component
  * @param {Object} props
@@ -99,7 +106,7 @@ function FieldInput(props) {
     const {
         className, inputType, name, value, button, onChange,
         options, withNone, noneText, hasLabel,
-        title, withBorder, errors, children,
+        title, withBorder, columns, errors, children,
     } = props;
 
     // Parse the Items
@@ -202,7 +209,7 @@ function FieldInput(props) {
             withBorder={withBorder}
         >
             {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
-            {hasItems && <Items className="inputfield-items">
+            {hasItems && <Items className="inputfield-items" columns={columns}>
                 {items.map((item) => <InputField
                     {...item}
                     key={`${item.subkey || item.name}-${index}`}
@@ -256,6 +263,7 @@ FieldInput.propTypes = {
     inputType  : PropTypes.string,
     value      : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withNone   : PropTypes.bool,
     noneText   : PropTypes.string,
     hasLabel   : PropTypes.bool,
