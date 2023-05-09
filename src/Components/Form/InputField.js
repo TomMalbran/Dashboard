@@ -119,7 +119,7 @@ const InputIcon = Styled(Icon)`
     }
 `;
 
-const InputClear = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
+const InputIconLink = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
     position: absolute;
     top: 50%;
     right: ${(props) => props.forMedia ? "32px" : "2px"};
@@ -153,13 +153,19 @@ function InputField(props) {
         suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear, onClear,
     } = props;
 
+
+    // The current Status
+    const [ timer,        setTimer    ] = React.useState(null);
+    const [ isFocused,    setFocus    ] = React.useState(false);
+    const [ hasValue,     setHasValue ] = React.useState(false);
+    const [ showPassword, setPassword ] = React.useState(false);
+
     const fieldRef   = React.useRef();
     const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();
 
-    const [ timer,     setTimer    ] = React.useState(null);
-    const [ isFocused, setFocus    ] = React.useState(false);
-    const [ hasValue,  setHasValue ] = React.useState(false);
+    const isPassword = type === "password";
+    const inputType  = isPassword && showPassword ? "text" : type;
 
 
     // Returns true if there is a value
@@ -298,6 +304,7 @@ function InputField(props) {
                 <InputInput
                     {...props}
                     className="inputfield-input"
+                    type={inputType}
                     inputRef={inputRef}
                     suggestRef={suggestRef}
                     autoSuggest={autoSuggest}
@@ -309,8 +316,14 @@ function InputField(props) {
                     hasLabel={hasLabel}
                     withClear={withClear}
                 />
-                {withClear && <InputClear
-                    variant="light"
+                {isPassword && <InputIconLink
+                    variant="black"
+                    icon={showPassword ? "hide" : "view"}
+                    onClick={() => setPassword(!showPassword)}
+                    isSmall
+                />}
+                {withClear && <InputIconLink
+                    variant="black"
                     icon="close"
                     onClick={handleClear}
                     forMedia={forMedia}

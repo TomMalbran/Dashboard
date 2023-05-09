@@ -10,6 +10,7 @@ import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
 import Input                from "../Input/Input";
+import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 
 
@@ -119,6 +120,18 @@ const InputIcon = Styled(Icon)`
     transition: all 0.2s;
 `;
 
+const InputIconLink = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
+    position: absolute;
+    top: 50%;
+    right: ${(props) => props.forMedia ? "32px" : "2px"};
+    transform: translateY(-50%);
+    z-index: 1;
+
+    .icon {
+        box-shadow: none;
+    }
+`;
+
 
 
 /**
@@ -138,6 +151,7 @@ function IconField(props) {
     const [ hasValue,     setValue    ] = React.useState(false);
     const [ isPreFocused, setPreFocus ] = React.useState(false);
     const [ hasPreValue,  setPreValue ] = React.useState(false);
+    const [ showPassword, setPassword ] = React.useState(false);
 
     const inputRef         = React.useRef();
 
@@ -149,6 +163,9 @@ function IconField(props) {
     const hasPreLabel      = Boolean(withLabel && preLabel && InputType.hasLabel(preType));
     const withPreValue     = isPreFocused || hasPreValue || Boolean(preValue);
     const withPreTransform = !shrinkLabel && InputType.canShrink(preType, preWithNone);
+
+    const isPassword       = type === "password";
+    const inputType        = isPassword && showPassword ? "text" : type;
 
 
     // The Input got Focus
@@ -248,12 +265,19 @@ function IconField(props) {
                 <InputInput
                     {...props}
                     className="inputfield-input"
+                    type={inputType}
                     placeholder={placeholder}
                     inputRef={inputRef}
                     onChange={handleChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />
+                {isPassword && <InputIconLink
+                    variant="black"
+                    icon={showPassword ? "hide" : "view"}
+                    onClick={() => setPassword(!showPassword)}
+                    isSmall
+                />}
             </div>
         </InputContent>
         <InputError error={error} useBackground />
