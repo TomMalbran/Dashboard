@@ -77,7 +77,10 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
             return;
         }
 
-        if (elemID) {
+        if (getElem && data) {
+            setElem(data);
+            endLoading();
+        } else if (elemID) {
             setElem(elem);
             endLoading();
         } else {
