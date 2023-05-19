@@ -93,7 +93,7 @@ function useForm(slice, initialData, edit, onSubmit = null, startInLoading = tru
     };
 
     // Handles the Input Change
-    const handleSearch = async (id, idValue, name, nameValue) => {
+    const handleSearch = (id, idValue, name, nameValue) => {
         setData({ [id] : idValue,  [name] : nameValue });
         setErrors({ [name] : "" });
     };
