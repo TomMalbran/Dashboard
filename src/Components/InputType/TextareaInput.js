@@ -8,20 +8,23 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ isDisabled }) => ({ isDisabled }))`
     box-sizing: border-box;
     width: 100%;
     border: var(--input-border);
     border-radius: var(--border-radius);
     overflow: hidden;
 
-    &:hover {
+    ${(props) => props.isDisabled ? `
+        border-color: rgb(205, 205, 205);
+    ` : `&:hover {
         border-color: var(--border-color);
-    }
+    }`}
 `;
 
 const Textarea = Styled.textarea.attrs(({ hasLabel }) => ({ hasLabel }))`
     box-sizing: border-box;
+    display: block;
     width: 100%;
     appearance: none;
     margin: 0;
@@ -31,6 +34,10 @@ const Textarea = Styled.textarea.attrs(({ hasLabel }) => ({ hasLabel }))`
 
     &:focus {
         outline: none;
+    }
+    &:disabled {
+        color: rgb(120, 120, 120);
+        background: white;
     }
 
     ${(props) => props.hasLabel && `
@@ -119,7 +126,7 @@ function TextareaInput(props) {
     // Do the Render
     const hasFooter = Boolean(counterText || (children && children.length));
 
-    return <Container className={className}>
+    return <Container className={className} isDisabled={isDisabled}>
         <Textarea
             className="input-textarea"
             id={id}
