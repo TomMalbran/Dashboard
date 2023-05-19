@@ -18,9 +18,36 @@ const tick = keyframes`
 `;
 
 // Styles
+const Label = Styled.label.attrs(({ isDisabled, withBorder }) => ({ isDisabled, withBorder }))`
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    ${(props) => props.withBorder && `
+        box-sizing: border-box;
+        width: 100%;
+        height: var(--input-height);
+        padding: var(--input-padding);
+        border: var(--input-border);
+        border-radius: var(--border-radius);
+    `}
+
+    ${(props) => props.isDisabled && `
+        color: rgb(120, 120, 120);
+    `}
+    ${(props) => props.withBorder && props.isDisabled && `
+        border-color: rgb(205, 205, 205);
+    `}
+    ${(props) => props.withBorder && !props.isDisabled && `
+        &:hover {
+            border-color: var(--border-color);
+        }
+    `}
+`;
+
 const Input = Styled.input`
-    width: 12px;
-    height: 12px;
+    width: 0;
+    height: 0;
     overflow: hidden;
     margin: 0;
     padding: 0;
@@ -43,7 +70,7 @@ const Input = Styled.input`
 const Span = Styled(Icon)`
     position: relative;
     top: 2px;
-    margin: 1px 6px 0 -12px;
+    margin: -1px 6px 0 0;
     cursor: pointer;
     font-size: 18px;
 `;
@@ -56,7 +83,10 @@ const Span = Styled(Icon)`
  * @returns {React.ReactElement}
  */
 function CheckboxInput(props) {
-    const { className, id, name, value, label, tabIndex, isChecked, isDisabled, onChange } = props;
+    const {
+        className, id, name, value, label, tabIndex,
+        isChecked, isDisabled, withBorder, onChange,
+    } = props;
 
     // Handles the Change
     const handleChange = (e) => {
@@ -64,7 +94,11 @@ function CheckboxInput(props) {
     };
 
 
-    return <label className={className}>
+    return <Label
+        className={className}
+        isDisabled={isDisabled}
+        withBorder={withBorder}
+    >
         <Input
             type="checkbox"
             id={id}
@@ -77,7 +111,7 @@ function CheckboxInput(props) {
         />
         <Span icon={isChecked ? "checkedbox" : "checkbox"} />
         {!!label && <Html variant="span">{NLS.get(label)}</Html>}
-    </label>;
+    </Label>;
 }
 
 /**
@@ -93,6 +127,7 @@ CheckboxInput.propTypes = {
     tabIndex   : PropTypes.string,
     isChecked  : PropTypes.bool,
     isDisabled : PropTypes.bool,
+    withBorder : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
 };
 
@@ -104,6 +139,7 @@ CheckboxInput.defaultProps = {
     className  : "",
     isChecked  : false,
     isDisabled : false,
+    withBorder : false,
 };
 
 export default CheckboxInput;
