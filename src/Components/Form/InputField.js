@@ -223,9 +223,10 @@ function InputField(props) {
             params[1] = {};
         }
 
-        handleChange(...params);
         if (onClear) {
             onClear(...params);
+        } else {
+            handleChange(...params);
         }
     };
 
