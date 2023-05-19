@@ -5,10 +5,13 @@ import Styled               from "styled-components";
 // Core
 import NLS                  from "../../Core/NLS";
 
+// Components
+import Html                  from "../Common/Html";
+
 
 
 // Styles
-const Label = Styled.label.attrs(({ withBorder }) => ({ withBorder }))`
+const Label = Styled.label.attrs(({ isDisabled, withBorder }) => ({ isDisabled, withBorder }))`
     position: relative;
     display: flex;
     align-items: center;
@@ -23,7 +26,15 @@ const Label = Styled.label.attrs(({ withBorder }) => ({ withBorder }))`
         padding: var(--input-padding);
         border: var(--input-border);
         border-radius: var(--border-radius);
+    `}
 
+    ${(props) => props.isDisabled && `
+        color: rgb(120, 120, 120);
+    `}
+    ${(props) => props.withBorder && props.isDisabled && `
+        border-color: rgb(205, 205, 205);
+    `}
+    ${(props) => props.withBorder && !props.isDisabled && `
         &:hover {
             border-color: var(--border-color);
         }
@@ -41,6 +52,9 @@ const Input = Styled.input`
     &:checked + span::after {
         transform: translateX(var(--toggle-size));
         background-color: #52cf71;
+    }
+    &:disabled + span {
+        background-color: rgb(225, 225, 225);
     }
 `;
 
@@ -79,7 +93,7 @@ const Span = Styled.span`
 function ToggleInput(props) {
     const {
         className, name, value, label, tabIndex,
-        withBorder, onChange,
+        isDisabled, withBorder, onChange,
     } = props;
 
     // Handles the Checkbox Change
@@ -90,6 +104,7 @@ function ToggleInput(props) {
 
     return <Label
         className={className}
+        isDisabled={isDisabled}
         withBorder={withBorder}
     >
         <Input
@@ -99,9 +114,10 @@ function ToggleInput(props) {
             checked={value}
             onChange={handleChange}
             tabIndex={tabIndex}
+            disabled={isDisabled}
         />
         <Span />
-        {NLS.get(label)}
+        {!!label && <Html variant="span">{NLS.get(label)}</Html>}
     </Label>;
 }
 
@@ -115,6 +131,7 @@ ToggleInput.propTypes = {
     value      : PropTypes.any,
     label      : PropTypes.string,
     tabIndex   : PropTypes.string,
+    isDisabled : PropTypes.bool,
     withBorder : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
 };
@@ -125,6 +142,7 @@ ToggleInput.propTypes = {
  */
 ToggleInput.defaultProps = {
     className  : "",
+    isDisabled : false,
     withBorder : false,
 };
 
