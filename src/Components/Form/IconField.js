@@ -146,6 +146,7 @@ function IconField(props) {
         preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preNoneText, preWidth,
     } = props;
 
+    // The current Status
     const [ isFocused,    setFocus    ] = React.useState(false);
     const [ hasValue,     setValue    ] = React.useState(false);
     const [ isPreFocused, setPreFocus ] = React.useState(false);

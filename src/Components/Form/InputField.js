@@ -24,16 +24,16 @@ const InputInside = Styled.div`
     align-items: center;
 `;
 
-const InputContent = Styled.div`
+const InputContent = Styled.div.attrs(({ withPre }) => ({ withPre }))`
     position: relative;
     flex-grow: 2;
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
 
-    &:hover .inputfield-icon {
-        border-color: var(--border-color);
-    }
+    ${(props) => props.withPre && `&:hover {
+        --input-border: 1px solid var(--border-color);
+    }`}
 `;
 
 const InputHelper = Styled.p`
@@ -46,7 +46,6 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isS
     box-sizing: border-box;
     color: var(--black-color);
     background-color: white;
-    transition: all 0.2s;
 
     &.input, & .input {
         box-sizing: border-box;
@@ -69,8 +68,6 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isS
     }
     &.input:focus, & .input:focus {
         outline: none;
-        border-color: var(--border-color);
-        color: var(--secondary-color);
     }
     &.input:disabled, & .input:disabled {
         border-color: rgb(205, 205, 205);
@@ -94,7 +91,7 @@ const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isS
     }
 `;
 
-const InputIcon = Styled(Icon)`
+const InputIcon = Styled(Icon).attrs(({ withPre }) => ({ withPre }))`
     box-sizing: border-box;
     flex-shrink: 0;
     display: flex;
@@ -103,17 +100,27 @@ const InputIcon = Styled(Icon)`
     height: var(--input-height);
     padding: 10px 4px 0 4px;
     font-size: 16px;
+    color: var(--black-color);
     border: var(--input-border);
     border-right: none;
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
 
-    & + .input {
-        border-left: none;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        padding-left: 0;
-    }
+    ${(props) => props.withPre ? `
+        & + .input {
+            border-left: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding-left: 0;
+        }
+    ` : `
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);
+        & + .input {
+            border-left: none;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding-left: 0;
+        }
+    `}
 `;
 
 const InputIconLink = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
@@ -163,6 +170,7 @@ function InputField(props) {
 
     const isPassword = type === "password";
     const inputType  = isPassword && showPassword ? "text" : type;
+    const withPre    = Boolean(preName);
 
 
     // Returns true if there is a value
@@ -278,12 +286,8 @@ function InputField(props) {
             message={label}
         />}
         <InputInside>
-            <InputContent className="inputfield-cnt">
-                {!!icon && <InputIcon
-                    className="inputfield-icon"
-                    icon={icon}
-                />}
-                {!!preName && <InputInput
+            <InputContent className="inputfield-cnt" withPre={withPre}>
+                {withPre && <InputInput
                     className="inputfield-input inputfield-pre"
                     type={preType}
                     name={preName}
@@ -297,6 +301,12 @@ function InputField(props) {
                     onChange={onChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
+                    withBorder
+                />}
+                {!!icon && <InputIcon
+                    className="inputfield-icon"
+                    withPre={withPre}
+                    icon={icon}
                 />}
                 <InputInput
                     {...props}
