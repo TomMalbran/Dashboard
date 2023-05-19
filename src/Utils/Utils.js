@@ -49,6 +49,15 @@ function isEmpty(object) {
 }
 
 /**
+ * Returns the Property as a boolean
+ * @param {(Number|String)} property
+ * @returns {Boolean}
+ */
+function isActive(property) {
+    return Boolean(Number(property));
+}
+
+/**
  * Returns true if the Object has the given property
  * @param {Object} object
  * @param {String} property
@@ -678,6 +687,7 @@ export default {
     isNumeric,
     isObject,
     isEmpty,
+    isActive,
     hasProp,
     clone,
     clamp,
