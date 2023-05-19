@@ -34,6 +34,7 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
         left: var(--sidebar-width);
         height: var(--full-height);
         max-height: none;
+        max-width: calc(100vw - var(--sidebar-width));
         z-index: var(--z-navigation);
     }
 `;
