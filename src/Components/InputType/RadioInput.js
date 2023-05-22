@@ -7,7 +7,9 @@ import NLS                   from "../../Core/NLS";
 import InputType             from "../../Core/InputType";
 
 // Components
-import InputInput            from "../Input/InputInput";
+import InputContent          from "../Input/InputContent";
+import InputBase             from "../Input/InputBase";
+import Html                  from "../Common/Html";
 
 
 
@@ -21,11 +23,21 @@ const tick = keyframes`
 const Container = Styled.div`
     --radio-outer: 20px;
     --radio-inner: 12px;
-    margin-top: 2px;
-    margin-left: 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 `;
 
-const Input = Styled.input`
+const Label = Styled.label`
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+`;
+
+const Radio = Styled.input`
     flex-shrink: 0;
     width: var(--radio-outer);
     height: var(--radio-outer);
@@ -63,12 +75,6 @@ const Input = Styled.input`
     }
 `;
 
-const Label = Styled.label.attrs(({ isCustom }) => ({ isCustom }))`
-    display: flex;
-    align-items: center;
-    margin-top: ${(props) => props.isCustom ? "2px" : "6px"};
-`;
-
 const Span = Styled.span`
     flex-shrink: 0;
     position: relative;
@@ -79,12 +85,17 @@ const Span = Styled.span`
     margin: 0 8px 0 calc(0px - var(--radio-outer));
     border: 2px solid var(--lighter-color);
     border-radius: 50%;
-    cursor: pointer;
     transition: all 0.2s;
 `;
-const Text = Styled.span`
+
+const Text = Styled(Html)`
     flex-shrink: 0;
     margin-right: 16px;
+`;
+
+const Input = Styled(InputBase)`
+    padding: 2px 8px;
+    border-bottom: 1px solid var(--input-border);
 `;
 
 
@@ -95,7 +106,12 @@ const Text = Styled.span`
  * @returns {React.ReactElement}
  */
 function RadioInput(props) {
-    const { className, name, value, tabIndex, options, withCustom, customText, isDisabled, onChange } = props;
+    const {
+        className, isFocused, isDisabled,
+        name, value, options,
+        withCustom, customText,
+        onChange, onFocus, onBlur,
+    } = props;
 
     const inputRef  = React.useRef();
     const valString = String(value);
@@ -135,44 +151,52 @@ function RadioInput(props) {
     };
 
 
-    return <Container className={className}>
-        {items.map(({ key, value }) => <Label key={key}>
-            <Input
-                type="radio"
-                name={`${name}-${key}`}
-                value={isSelect ? key : value}
-                checked={radioVal === String(key)}
-                onChange={(e) => handleCheck(e, key)}
-                disabled={isDisabled}
-                tabIndex={tabIndex}
-            />
-            <Span />
-            {NLS.get(value)}
-        </Label>)}
-        {withCustom && <Label isCustom>
-            <Input
-                type="radio"
-                name={`${name}-${customKey}`}
-                value={customKey}
-                checked={radioVal === customKey}
-                onChange={handleCustom}
-                disabled={isDisabled}
-                tabIndex={tabIndex}
-            />
-            <Span />
-            <Text>{NLS.get(customText || "GENERAL_OTHER")}</Text>
-            <InputInput
-                inputRef={inputRef}
-                className="input"
-                type="text"
-                name={`${name}-${customKey}-value`}
-                value={customVal}
-                onChange={handleChange}
-                isDisabled={isDisabled}
-                isSmall
-            />
-        </Label>}
-    </Container>;
+    // Do the Render
+    return <InputContent
+        className={className}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        withBorder
+        withPadding
+        withLabel
+    >
+        <Container>
+            {items.map(({ key, value }) => <Label key={key}>
+                <Radio
+                    type="radio"
+                    name={`${name}-${key}`}
+                    value={isSelect ? key : value}
+                    checked={radioVal === String(key)}
+                    onChange={(e) => handleCheck(e, key)}
+                    disabled={isDisabled}
+                />
+                <Span />
+                <Text>{NLS.get(value)}</Text>
+            </Label>)}
+            {withCustom && <Label>
+                <Radio
+                    type="radio"
+                    name={`${name}-${customKey}`}
+                    value={customKey}
+                    checked={radioVal === customKey}
+                    onChange={handleCustom}
+                    disabled={isDisabled}
+                />
+                <Span />
+                <Text>{NLS.get(customText || "GENERAL_OTHER")}</Text>
+                <Input
+                    inputRef={inputRef}
+                    type="text"
+                    name={`${name}-${customKey}-value`}
+                    value={customVal}
+                    isDisabled={isDisabled}
+                    onChange={handleChange}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                />
+            </Label>}
+        </Container>
+    </InputContent>;
 }
 
 /**
@@ -181,15 +205,17 @@ function RadioInput(props) {
  */
 RadioInput.propTypes = {
     className  : PropTypes.string,
+    isFocused  : PropTypes.bool,
+    isDisabled : PropTypes.bool,
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    tabIndex   : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
+    onFocus    : PropTypes.func.isRequired,
+    onBlur     : PropTypes.func.isRequired,
     withCustom : PropTypes.bool,
     customText : PropTypes.string,
     customKey  : PropTypes.string,
-    isDisabled : PropTypes.bool,
 };
 
 /**
@@ -198,9 +224,11 @@ RadioInput.propTypes = {
  */
 RadioInput.defaultProps = {
     className  : "",
-    withCustom : false,
+    isFocused  : false,
+    isDisabled : false,
     customText : "",
     customKey  : "",
+    withCustom : false,
 };
 
 export default RadioInput;

@@ -17,11 +17,11 @@ import MultiLine            from "../Common/MultiLine";
 
 
 // Styles
-const Label = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected }))`
+const FieldLabel = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected }))`
     ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
 `;
 
-const InputContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ isSmall, withLink, isSelected }))`
+const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ isSmall, withLink, isSelected }))`
     display: flex;
     align-items: center;
 
@@ -30,7 +30,7 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
         box-sizing: border-box;
         color: var(--black-color);
         background-color: white;
-        border: var(--input-border);
+        border: 1px solid var(--input-border);
         border-radius: var(--border-radius);
         transition: all 0.2s;
         overflow: auto;
@@ -55,19 +55,19 @@ const InputContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
     }
 `;
 
-const ViewLink = Styled(IconLink)`
+const FieldLink = Styled(IconLink)`
     flex-shrink: 0;
     font-size: 20px;
     margin-left: 4px;
 `;
 
-const InputError = Styled.p`
+const FieldError = Styled.p`
     font-size: 12px;
     margin: 4px 0 0 4px;
     color: #ff0033;
 `;
 
-const InputHelper = Styled.p`
+const FieldHelper = Styled.p`
     font-size: 0.9em;
     margin: 4px 0 0 4px;
     color: var(--lighter-color);
@@ -102,16 +102,15 @@ function ViewField(props) {
     return <InputContainer
         className={`inputview ${className}`}
         fullWidth={fullWidth}
-        hasLabel
     >
-        {hasLabel && <Label
+        {hasLabel && <FieldLabel
             className="inputview-label"
             message={label}
             isSelected={isSelected}
             withTransform
             withValue
         />}
-        <InputContent
+        <FieldContent
             className="inputview-cnt"
             isSmall={isSmall}
             withLink={!!onClick}
@@ -125,7 +124,7 @@ function ViewField(props) {
             {isText && <MultiLine className={`inputview-value ${viewClass}`} onClick={onClick}>
                 {content || " "}
             </MultiLine>}
-            {hasLink && <ViewLink
+            {hasLink && <FieldLink
                 variant={linkVariant}
                 icon={linkIcon}
                 url={linkUrl}
@@ -135,9 +134,9 @@ function ViewField(props) {
                 isPhone={isPhone}
                 isWhatsApp={isWhatsApp}
             />}
-        </InputContent>
-        {hasError  && <InputError>{NLS.get(error)}</InputError>}
-        {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
+        </FieldContent>
+        {hasError  && <FieldError>{NLS.get(error)}</FieldError>}
+        {hasHelper && <FieldHelper>{NLS.get(helperText)}</FieldHelper>}
     </InputContainer>;
 }
 

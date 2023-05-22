@@ -22,7 +22,7 @@ const Label = Styled.p.attrs(({
     padding: 0 6px;
     line-height: 1;
     background-color: white;
-    color: var(--lighter-color);
+    color: var(--input-color-label);
     font-size: 12px;
     white-space: nowrap;
     overflow: hidden;

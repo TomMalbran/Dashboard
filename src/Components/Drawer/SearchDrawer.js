@@ -156,6 +156,7 @@ function SearchDrawer(props) {
     }, [ open ]);
 
 
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }

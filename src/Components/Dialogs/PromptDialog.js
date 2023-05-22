@@ -11,8 +11,8 @@ import Dialog               from "../Dialog/Dialog";
 import DialogHeader         from "../Dialog/DialogHeader";
 import DialogBody           from "../Dialog/DialogBody";
 import DialogFooter         from "../Dialog/DialogFooter";
-import Html                 from "../Common/Html";
 import InputField           from "../Form/InputField";
+import Html                 from "../Common/Html";
 
 
 

@@ -6,11 +6,13 @@ import NLS                  from "../Core/NLS";
 const CHECKBOX = "checkbox";
 const CHOOSER  = "chooser";
 const COLOR    = "color";
+const DOUBLE   = "double";
 const FIELDS   = "fields";
 const FILE     = "file";
 const MEDIA    = "media";
 const MULTIPLE = "multiple";
 const NUMBER   = "number";
+const PASSWORD = "password";
 const RADIO    = "radio";
 const SELECT   = "select";
 const TEXTAREA = "textarea";
@@ -20,7 +22,6 @@ const TEXT     = "text";
 const EMAIL    = "email";
 const TEL      = "tel";
 const URL      = "url";
-const PASSWORD = "password";
 const DATE     = "date";
 const TIME     = "time";
 
@@ -54,7 +55,19 @@ function canShrink(type, withNone) {
     if (type === SELECT && withNone) {
         return true;
     }
-    return ![ MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, COLOR, DATE, TIME ].includes(type);
+    return ![ DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, COLOR, DATE, TIME ].includes(type);
+}
+
+/**
+ * Returns true if there is a value
+ * @param {*} value
+ * @returns {Boolean}
+ */
+function isValueFilled(value) {
+    if (Array.isArray(value)) {
+        return Boolean(value.length);
+    }
+    return Boolean(value);
 }
 
 /**
@@ -86,11 +99,13 @@ export default {
     hasLabel,
     hasClear,
     canShrink,
+    isValueFilled,
     createOptions,
 
     CHECKBOX,
     CHOOSER,
     COLOR,
+    DOUBLE,
     FIELDS,
     FILE,
     MEDIA,

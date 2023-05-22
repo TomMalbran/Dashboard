@@ -6,62 +6,25 @@ import Styled               from "styled-components";
 import NLS                  from "../../Core/NLS";
 
 // Components
+import InputContent         from "../Input/InputContent";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Container = Styled.div`
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    border: var(--input-border);
-    border-radius: var(--border-radius);
-
-    &:hover {
-        border-color: var(--border-color);
-    }
-`;
-
-const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    align-items: center;
+const InputValue = Styled.div`
+    flex-grow: 2;
     font-size: var(--input-font);
-    height: var(--input-height);
-    padding: var(--input-padding);
-    color: var(--gray-color);
     white-space: nowrap;
-    cursor: pointer;
-
-    ${(props) => props.hasLabel && `
-        & {
-            height: calc(var(--input-height) - 2px);
-            padding-top: 16px !important;
-        }
-    `}
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
-const IconDiv = Styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: white;
-    width: 32px;
-`;
-
-const FileIcon = Styled(Icon)`
-    position: absolute;
-    top: 50%;
-    right: 8px;
+const InputIcon = Styled(Icon)`
+    margin-top: -4px;
+    margin-right: -6px;
     font-size: 20px;
-    transform: translateY(-50%) rotate(45deg);
-`;
-
-const Placeholder = Styled.span`
-    color: var(--title-color);
+    transform: rotate(45deg);
 `;
 
 
@@ -72,19 +35,30 @@ const Placeholder = Styled.span`
  * @returns {React.ReactElement}
  */
 function MediaInput(props) {
-    const { className, value, placeholder, hasLabel, onClick } = props;
+    const {
+        className, icon, isFocused, isDisabled,
+        value, placeholder, onlyImages, onClick, onClear,
+    } = props;
 
-    return <Container className={className}>
-        <Div
-            hasLabel={hasLabel}
-            onClick={onClick}
-        >
-            {value ? value : <Placeholder>
-                {NLS.get(placeholder || "GENERAL_SELECT_FILE")}
-            </Placeholder>}
-            <IconDiv><FileIcon icon="attachment" /></IconDiv>
-        </Div>
-    </Container>;
+
+    // Do the Render
+    const message = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
+
+    return <InputContent
+        className={className}
+        icon={icon}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        onClick={onClick}
+        onClear={onClear}
+        withBorder
+        withPadding
+        withLabel
+        withClick
+    >
+        <InputValue>{value ? value : NLS.get(message)}</InputValue>
+        <InputIcon icon="attachment" />
+    </InputContent>;
 }
 
 /**
@@ -93,10 +67,14 @@ function MediaInput(props) {
  */
 MediaInput.propTypes = {
     className   : PropTypes.string,
+    icon        : PropTypes.string,
+    isFocused   : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
     value       : PropTypes.any,
     placeholder : PropTypes.string,
-    hasLabel    : PropTypes.bool,
-    onClick     : PropTypes.func.isRequired,
+    onlyImages  : PropTypes.bool,
+    onClick     : PropTypes.func,
+    onClear     : PropTypes.func,
 };
 
 /**
@@ -105,7 +83,10 @@ MediaInput.propTypes = {
  */
 MediaInput.defaultProps = {
     className   : "",
+    isFocused   : false,
+    isDisabled  : false,
     placeholder : "",
+    onlyImages  : false,
 };
 
 export default MediaInput;

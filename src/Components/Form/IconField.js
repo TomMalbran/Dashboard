@@ -10,13 +10,24 @@ import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
 import Input                from "../Input/Input";
-import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const InputContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
+const FieldContainer = Styled(InputContainer).attrs(({ isFocused }) => ({ isFocused }))`
+    &&, .inputfield {
+        --input-border: var(--border-color);
+    }
+
+    ${(props) => props.isFocused && `
+        --input-border: var(--input-border-focus);
+        box-shadow: 0 0 0 1px var(--border-color);
+        border-radius: var(--border-radius);
+    `}
+`;
+
+const FieldContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
@@ -30,60 +41,27 @@ const InputContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
         .icon {
             border-bottom-left-radius: 0;
         }
-        .input {
+        .input-border {
             border-bottom-right-radius: 0;
         }
     `}
 `;
 
-const InputInput = Styled(Input).attrs(({ width }) => ({ width }))`
-    box-sizing: border-box;
+const FieldInput = Styled(Input)`
     min-height: var(--inputicon-height);
     color: var(--black-color);
     background-color: white;
-    border: 1px solid var(--border-color);
     border-top-left-radius: 0px;
     border-top-right-radius: var(--border-radius);
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: var(--border-radius);
-    transition: all 0.2s;
 
-    &.input {
-        appearance: none;
-        font-size: var(--inputicon-font);
-        width: 100%;
-        margin: 0;
-        padding: 12px 8px 4px 8px;
-    }
     &.input-textarea {
         min-height: var(--inputicon-height);
     }
-    &.input:focus {
-        outline: none;
-        border-color: 1px solid var(--border-color);
-        color: var(--secondary-color);
-    }
-    &.input:disabled {
-        color: rgb(175, 175, 175);
-        border-color: rgb(205, 205, 205);
-        box-shadow: none;
-    }
-    &.input::placeholder {
-        color: rgb(100, 100, 100);
-    }
-
-    &.inputfield-pre {
-        border-right: none;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        ${(props) => props.width ? `width: ${props.width}px` : ""};
-    }
-    &.inputfield-pre + .inputfield-input {
-        ${(props) => props.width ? `width: calc(100% - ${props.width}px)` : ""};
-    }
 `;
 
-const InputIconLabel = Styled(InputLabel).attrs(({ withTransform, withValue }) => ({ withTransform, withValue }))`
+const FieldLabel = Styled(InputLabel).attrs(({ withTransform, withValue }) => ({ withTransform, withValue }))`
     && {
         top: 6px;
         left: 6px;
@@ -102,7 +80,7 @@ const InputIconLabel = Styled(InputLabel).attrs(({ withTransform, withValue }) =
     }
 `;
 
-const InputIcon = Styled(Icon)`
+const FieldIcon = Styled(Icon)`
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -112,94 +90,54 @@ const InputIcon = Styled(Icon)`
     font-size: var(--inputicon-icon);
     color: white;
     background-color: var(--primary-color);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--input-border);
     border-right: none;
     border-top-left-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
     transition: all 0.2s;
 `;
 
-const InputIconLink = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
-    position: absolute;
-    top: 50%;
-    right: ${(props) => props.forMedia ? "32px" : "2px"};
-    transform: translateY(-50%);
-    z-index: 1;
-
-    .icon {
-        box-shadow: none;
-    }
-`;
-
 
 
 /**
- * The Input Field Component
+ * The Icon Field Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
 function IconField(props) {
     const {
-        isHidden, className, type, icon, autoFocus, value,
-        isRequired, error, fullWidth, onChange,
+        passedRef, isHidden, className, type, icon, autoFocus, value,
+        isRequired, error, fullWidth, onChange, onFocus, onBlur,
         withLabel, label, placeholder, shrinkLabel, withNone,
-        preType, preName, preLabel, prePlaceholder, preValue, preOptions, preWithNone, preNoneText, preWidth,
     } = props;
 
     // The current Status
-    const [ isFocused,    setFocus    ] = React.useState(false);
-    const [ hasValue,     setValue    ] = React.useState(false);
-    const [ isPreFocused, setPreFocus ] = React.useState(false);
-    const [ hasPreValue,  setPreValue ] = React.useState(false);
-    const [ showPassword, setPassword ] = React.useState(false);
+    const [ isFocused, setFocus    ] = React.useState(false);
+    const [ hasValue,  setHasValue ] = React.useState(false);
 
-    const inputRef         = React.useRef();
-
-    const hasLabel         = Boolean(withLabel && label && InputType.hasLabel(type));
-    const withValue        = isFocused || hasValue || Boolean(value);
-    const withTransform    = !shrinkLabel && InputType.canShrink(type, withNone);
-
-    const hasPreInput      = Boolean(preName);
-    const hasPreLabel      = Boolean(withLabel && preLabel && InputType.hasLabel(preType));
-    const withPreValue     = isPreFocused || hasPreValue || Boolean(preValue);
-    const withPreTransform = !shrinkLabel && InputType.canShrink(preType, preWithNone);
-
-    const isPassword       = type === "password";
-    const inputType        = isPassword && showPassword ? "text" : type;
+    const fieldRef = React.useRef();
+    const inputRef = passedRef || fieldRef;
 
 
     // The Input got Focus
     const handleFocus = () => {
         setFocus(true);
+        if (onFocus) {
+            onFocus();
+        }
     };
 
     // The Input lost Focus
     const handleBlur = () => {
         setFocus(false);
+        if (onBlur) {
+            onBlur();
+        }
     };
 
     // Handles the Input Change
     const handleChange = (name, value) => {
-        setValue(Boolean(value));
-        if (onChange) {
-            onChange(name, value);
-        }
-    };
-
-
-    // The Pre Input got Focus
-    const handlePreFocus = () => {
-        setPreFocus(true);
-    };
-
-    // The Pre Input lost Focus
-    const handlePreBlur = () => {
-        setPreFocus(false);
-    };
-
-    // Handles the Pre Input Change
-    const handlePreChange = (name, value) => {
-        setPreValue(Boolean(value));
+        setHasValue(InputType.isValueFilled(value));
         if (onChange) {
             onChange(name, value);
         }
@@ -213,48 +151,30 @@ function IconField(props) {
             // @ts-ignore
             node.focus();
         }
-        setValue(Boolean(value));
-        setPreValue(Boolean(preValue));
+        setHasValue(InputType.isValueFilled(value));
     }, []);
 
 
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <InputContainer
+
+    const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
+    const withValue     = isFocused || hasValue || Boolean(value);
+    const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
+    const hasError      = Boolean(error);
+
+    return <FieldContainer
         className={`inputfield inputfield-${type} ${className}`}
         fullWidth={fullWidth}
-        hasError={!!error}
+        hasError={hasError}
         isFocused={isFocused}
     >
-        <InputContent className="inputfield-cnt" hasError={!!error}>
-            <InputIcon icon={icon} />
-            {hasPreInput && <div>
-                {hasPreLabel && <InputIconLabel
-                    className="inputfield-label"
-                    isRequired={isRequired}
-                    withTransform={withPreTransform}
-                    withValue={withPreValue}
-                    isFocused={isPreFocused}
-                    message={preLabel}
-                />}
-                <InputInput
-                    className="inputfield-input inputfield-pre"
-                    type={preType}
-                    name={preName}
-                    value={preValue}
-                    options={preOptions}
-                    withNone={preWithNone}
-                    preNoneText={preNoneText}
-                    placeholder={prePlaceholder}
-                    onChange={handlePreChange}
-                    onFocus={handlePreFocus}
-                    onBlur={handlePreBlur}
-                    width={preWidth}
-                />
-            </div>}
+        <FieldContent hasError={hasError}>
+            <FieldIcon icon={icon} />
             <div>
-                {hasLabel && <InputIconLabel
+                {hasLabel && <FieldLabel
                     className="inputfield-label"
                     isRequired={isRequired}
                     withTransform={withTransform}
@@ -262,26 +182,21 @@ function IconField(props) {
                     isFocused={isFocused}
                     message={label}
                 />}
-                <InputInput
+                <FieldInput
                     {...props}
                     className="inputfield-input"
-                    type={inputType}
+                    type={type}
+                    icon=""
                     placeholder={placeholder}
                     inputRef={inputRef}
                     onChange={handleChange}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />
-                {isPassword && <InputIconLink
-                    variant="black"
-                    icon={showPassword ? "hide" : "view"}
-                    onClick={() => setPassword(!showPassword)}
-                    isSmall
-                />}
             </div>
-        </InputContent>
+        </FieldContent>
         <InputError error={error} useBackground />
-    </InputContainer>;
+    </FieldContainer>;
 }
 
 /**
@@ -289,45 +204,39 @@ function IconField(props) {
  * @typedef {Object} propTypes
  */
 IconField.propTypes = {
-    isHidden       : PropTypes.bool,
-    className      : PropTypes.string,
-    id             : PropTypes.string,
-    type           : PropTypes.string,
-    name           : PropTypes.string,
-    label          : PropTypes.string,
-    placeholder    : PropTypes.string,
-    icon           : PropTypes.string,
-    value          : PropTypes.any,
-    autoComplete   : PropTypes.string,
-    spellCheck     : PropTypes.string,
-    isRequired     : PropTypes.bool,
-    isDisabled     : PropTypes.bool,
-    onChange       : PropTypes.func.isRequired,
-    onSubmit       : PropTypes.func,
-    onKeyDown      : PropTypes.func,
-    onKeyUp        : PropTypes.func,
-    error          : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    options        : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    extraOptions   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    tabIndex       : PropTypes.string,
-    withLabel      : PropTypes.bool,
-    fullWidth      : PropTypes.bool,
-    shrinkLabel    : PropTypes.bool,
-    withNone       : PropTypes.bool,
-    noneText       : PropTypes.string,
-    withCustom     : PropTypes.bool,
-    customFirst    : PropTypes.bool,
-    customText     : PropTypes.string,
-    autoFocus      : PropTypes.bool,
-    preType        : PropTypes.string,
-    preName        : PropTypes.string,
-    preLabel       : PropTypes.string,
-    preValue       : PropTypes.any,
-    preOptions     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    preWithNone    : PropTypes.bool,
-    preNoneText    : PropTypes.string,
-    prePlaceholder : PropTypes.string,
-    preWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    passedRef    : PropTypes.any,
+    isHidden     : PropTypes.bool,
+    className    : PropTypes.string,
+    id           : PropTypes.string,
+    type         : PropTypes.string,
+    name         : PropTypes.string,
+    label        : PropTypes.string,
+    placeholder  : PropTypes.string,
+    icon         : PropTypes.string,
+    value        : PropTypes.any,
+    autoComplete : PropTypes.string,
+    spellCheck   : PropTypes.string,
+    isRequired   : PropTypes.bool,
+    isDisabled   : PropTypes.bool,
+    onChange     : PropTypes.func.isRequired,
+    onFocus      : PropTypes.func,
+    onBlur       : PropTypes.func,
+    onSubmit     : PropTypes.func,
+    onKeyDown    : PropTypes.func,
+    onKeyUp      : PropTypes.func,
+    error        : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withLabel    : PropTypes.bool,
+    fullWidth    : PropTypes.bool,
+    shrinkLabel  : PropTypes.bool,
+    withNone     : PropTypes.bool,
+    noneText     : PropTypes.string,
+    withCustom   : PropTypes.bool,
+    customFirst  : PropTypes.bool,
+    customText   : PropTypes.string,
+    autoFocus    : PropTypes.bool,
+    children     : PropTypes.any,
 };
 
 /**
@@ -335,30 +244,24 @@ IconField.propTypes = {
  * @typedef {Object} defaultProps
  */
 IconField.defaultProps = {
-    isHidden       : false,
-    className      : "",
-    type           : InputType.TEXT,
-    placeholder    : "",
-    autoComplete   : "off",
-    isRequired     : false,
-    isDisabled     : false,
-    options        : [],
-    extraOptions   : [],
-    withLabel      : true,
-    fullWidth      : false,
-    shrinkLabel    : false,
-    withNone       : false,
-    noneText       : "",
-    withCustom     : false,
-    customFirst    : false,
-    customText     : "",
-    autoFocus      : false,
-    preType        : InputType.TEXT,
-    preOptions     : [],
-    preWithNone    : false,
-    preNoneText    : "",
-    prePlaceholder : "",
-
+    isHidden     : false,
+    className    : "",
+    type         : InputType.TEXT,
+    placeholder  : "",
+    autoComplete : "off",
+    isRequired   : false,
+    isDisabled   : false,
+    options      : [],
+    extraOptions : [],
+    withLabel    : true,
+    fullWidth    : false,
+    shrinkLabel  : false,
+    withNone     : false,
+    noneText     : "",
+    withCustom   : false,
+    customFirst  : false,
+    customText   : "",
+    autoFocus    : false,
 };
 
 export default IconField;

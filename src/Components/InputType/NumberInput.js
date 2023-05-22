@@ -2,8 +2,11 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Core & Utils
-import NLS                  from "../../Core/NLS";
 import KeyCode              from "../../Utils/KeyCode";
+
+// Components
+import InputContent         from "../Input/InputContent";
+import InputBase            from "../Input/InputBase";
 
 
 
@@ -14,8 +17,10 @@ import KeyCode              from "../../Utils/KeyCode";
  */
 function NumberInput(props) {
     const {
-        className, id, name, value, minValue, step, placeholder, isDisabled, tabIndex,
-        onChange, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
+        inputRef, className, icon, isFocused, isDisabled, isSmall,
+        withBorder, withLabel,
+        id, name, value, minValue, step, placeholder,
+        onChange, onClear, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
     } = props;
 
     // Handles a Number
@@ -54,23 +59,36 @@ function NumberInput(props) {
     };
 
 
-    return <input
-        className={`input input-number ${className}`}
-        type="number"
-        id={id}
-        name={name}
-        value={value}
-        min={minValue}
-        step={step}
-        placeholder={NLS.get(placeholder)}
-        disabled={isDisabled}
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        onKeyUp={handleKeyUp}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        tabIndex={tabIndex}
-    />;
+    // Do the Render
+    return <InputContent
+        inputRef={inputRef}
+        className={className}
+        icon={icon}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        isSmall={isSmall}
+        onClear={onClear}
+        withBorder={withBorder}
+        withLabel={withLabel}
+        withPadding
+    >
+        <InputBase
+            inputRef={inputRef}
+            type="number"
+            id={id}
+            name={name}
+            value={value}
+            minValue={minValue}
+            step={step}
+            placeholder={placeholder}
+            isDisabled={isDisabled}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
+            onFocus={onFocus}
+            onBlur={onBlur}
+        />
+    </InputContent>;
 }
 
 /**
@@ -78,16 +96,22 @@ function NumberInput(props) {
  * @type {Object} propTypes
  */
 NumberInput.propTypes = {
+    inputRef    : PropTypes.any,
     className   : PropTypes.string,
+    icon        : PropTypes.string,
+    isFocused   : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
+    isSmall     : PropTypes.bool,
+    withBorder  : PropTypes.bool,
+    withLabel   : PropTypes.bool,
     id          : PropTypes.string,
     name        : PropTypes.string.isRequired,
     placeholder : PropTypes.string,
     value       : PropTypes.any,
     minValue    : PropTypes.number,
     step        : PropTypes.string,
-    isDisabled  : PropTypes.bool,
-    tabIndex    : PropTypes.string,
     onChange    : PropTypes.func.isRequired,
+    onClear     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
     onKeyDown   : PropTypes.func,
@@ -101,6 +125,11 @@ NumberInput.propTypes = {
  */
 NumberInput.defaultProps = {
     className   : "",
+    isFocused   : false,
+    isDisabled  : false,
+    isSmall     : false,
+    withBorder  : true,
+    withLabel   : true,
     placeholder : "",
     step        : "1",
 };

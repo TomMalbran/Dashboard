@@ -2,9 +2,10 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
 import Action               from "../../Core/Action";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import Button               from "../Form/Button";
@@ -103,10 +104,7 @@ function DropZone(props) {
 
     // Handles the Click
     const handleClick = (e) => {
-        const node = inputRef.current;
-        if (node) {
-            node.click();
-        }
+        Utils.triggerClick(inputRef);
     };
 
     // Handles the Drop

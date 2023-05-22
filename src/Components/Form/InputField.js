@@ -13,129 +13,22 @@ import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
 import AutoSuggest          from "../Input/AutoSuggest";
 import Button               from "../Form/Button";
-import IconLink             from "../Link/IconLink";
-import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const InputInside = Styled.div`
+const FieldContent = Styled.div`
     display: flex;
     align-items: center;
 `;
 
-const InputContent = Styled.div.attrs(({ withPre }) => ({ withPre }))`
-    position: relative;
-    flex-grow: 2;
-    display: flex;
-    align-items: center;
-    border-radius: var(--border-radius);
-
-    ${(props) => props.withPre && `&:hover {
-        --input-border: 1px solid var(--border-color);
-    }`}
-`;
-
-const InputHelper = Styled.p`
+const FieldHelper = Styled.p`
     font-size: 0.9em;
     margin: 4px 0 0 4px;
     color: var(--lighter-color);
 `;
 
-const InputInput = Styled(Input).attrs(({ isSmall, width, withClear }) => ({ isSmall, width, withClear }))`
-    box-sizing: border-box;
-    color: var(--black-color);
-    background-color: white;
-
-    &.input, & .input {
-        box-sizing: border-box;
-        appearance: none;
-        font-size: var(--input-font);
-        width: 100%;
-        margin: 0;
-        padding: var(--input-padding);
-        border: var(--input-border);
-        border-radius: var(--border-radius);
-
-        ${(props) => `
-            min-height: ${props.isSmall ? "calc(var(--input-height) - 14px)" : "var(--input-height)"};
-            ${props.withClear ? "padding-right: 32px !important;" : ""}
-        `}
-    }
-
-    &.input:hover, & .input:hover {
-        border-color: var(--border-color);
-    }
-    &.input:focus, & .input:focus {
-        outline: none;
-    }
-    &.input:disabled, & .input:disabled {
-        border-color: rgb(205, 205, 205);
-        color: rgb(120, 120, 120);
-        box-shadow: none;
-    }
-    &.input::placeholder, & .input::placeholder {
-        color: rgb(100, 100, 100);
-    }
-
-    &.inputfield-pre {
-        border-right: none;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        ${(props) => props.width ? `width: ${props.width}px` : ""};
-    }
-    &.inputfield-pre + .inputfield-input {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        ${(props) => props.width ? `width: calc(100% - ${props.width}px)` : ""};
-    }
-`;
-
-const InputIcon = Styled(Icon).attrs(({ withPre }) => ({ withPre }))`
-    box-sizing: border-box;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: var(--input-height);
-    padding: 10px 4px 0 4px;
-    font-size: 16px;
-    color: var(--black-color);
-    border: var(--input-border);
-    border-right: none;
-
-    ${(props) => props.withPre ? `
-        & + .input {
-            border-left: none;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            padding-left: 0;
-        }
-    ` : `
-        border-top-left-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
-        & + .input {
-            border-left: none;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-            padding-left: 0;
-        }
-    `}
-`;
-
-const InputIconLink = Styled(IconLink).attrs(({ forMedia }) => ({ forMedia }))`
-    position: absolute;
-    top: 50%;
-    right: ${(props) => props.forMedia ? "32px" : "2px"};
-    transform: translateY(-50%);
-    z-index: 1;
-
-    .icon {
-        box-shadow: none;
-    }
-`;
-
-const InputButton = Styled(Button)`
+const FieldButton = Styled(Button)`
     margin-left: 16px;
     height: var(--input-height);
     white-space: nowrap;
@@ -150,40 +43,31 @@ const InputButton = Styled(Button)`
  */
 function InputField(props) {
     const {
-        passedRef, isHidden, className, type, name, label, icon, autoFocus, value,
-        button, onClick, error, helperText, withLabel, onChange, onSearch, onInput, onSuggest, onBlur,
-        fullWidth, isRequired, withNone, isSmall, shrinkLabel, errorBackground,
-        preType, preName, preValue, preOptions, preWithNone, preNoneText, prePlaceholder, preWidth,
-        suggestFetch, suggestID, suggestParams, suggestNone, keepSuggestions, hasClear, onClear,
+        passedRef, isHidden, className, type, name, label, autoFocus, value,
+        button, onClick, error, helperText,
+        onChange, onSearch, onInput, onSuggest, onFocus, onBlur,
+        width, fullWidth, isRequired, withNone,
+        withLabel, shrinkLabel, errorBackground,
+        suggestFetch, suggestID, suggestParams, suggestNone,
+        keepSuggestions, hasClear, onClear,
     } = props;
 
-
     // The current Status
-    const [ timer,        setTimer    ] = React.useState(null);
-    const [ isFocused,    setFocus    ] = React.useState(false);
-    const [ hasValue,     setHasValue ] = React.useState(false);
-    const [ showPassword, setPassword ] = React.useState(false);
+    const [ timer,     setTimer    ] = React.useState(null);
+    const [ isFocused, setFocus    ] = React.useState(false);
+    const [ hasValue,  setHasValue ] = React.useState(false);
 
     const fieldRef   = React.useRef();
     const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();
 
-    const isPassword = type === "password";
-    const inputType  = isPassword && showPassword ? "text" : type;
-    const withPre    = Boolean(preName);
-
-
-    // Returns true if there is a value
-    const isValueFilled = (value) => {
-        if (Array.isArray(value)) {
-            return Boolean(value.length);
-        }
-        return Boolean(value);
-    };
 
     // The Input got Focus
     const handleFocus = () => {
         setFocus(true);
+        if (onFocus) {
+            onFocus();
+        }
     };
 
     // The Input lost Focus
@@ -199,7 +83,7 @@ function InputField(props) {
 
     // Handles the Change
     const handleChange = (name, value) => {
-        setHasValue(isValueFilled(value));
+        setHasValue(InputType.isValueFilled(value));
         if (onChange) {
             onChange(name, value);
         }
@@ -238,7 +122,7 @@ function InputField(props) {
             // @ts-ignore
             node.focus();
         }
-        setHasValue(isValueFilled(value));
+        setHasValue(InputType.isValueFilled(value));
 
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
@@ -263,20 +147,18 @@ function InputField(props) {
     }
 
     const autoSuggest   = Boolean(suggestFetch && suggestID);
-    const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
+    const hasLabel      = Boolean(label && InputType.hasLabel(type));
     const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
-    const withValue     = hasValue || isFocused || isValueFilled(value);
-    const withClear     = !!value && (hasClear || InputType.hasClear(type) || autoSuggest);
-    const forMedia      = InputType.hasClear(type);
+    const withValue     = hasValue || isFocused || InputType.isValueFilled(value);
+    const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
 
     return <InputContainer
         className={`inputfield inputfield-${type} ${className}`}
+        width={width}
         fullWidth={fullWidth}
-        hasLabel={hasLabel}
         hasError={hasError}
-        isFocused={isFocused}
     >
         {hasLabel && <InputLabel
             className="inputfield-label"
@@ -286,66 +168,34 @@ function InputField(props) {
             isFocused={isFocused}
             message={label}
         />}
-        <InputInside>
-            <InputContent className="inputfield-cnt" withPre={withPre}>
-                {withPre && <InputInput
-                    className="inputfield-input inputfield-pre"
-                    type={preType}
-                    name={preName}
-                    value={preValue}
-                    options={preOptions}
-                    withNone={preWithNone}
-                    noneText={preNoneText}
-                    placeholder={prePlaceholder}
-                    width={preWidth}
-                    hasLabel={hasLabel}
-                    onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    withBorder
-                />}
-                {!!icon && <InputIcon
-                    className="inputfield-icon"
-                    withPre={withPre}
-                    icon={icon}
-                />}
-                <InputInput
-                    {...props}
-                    className="inputfield-input"
-                    type={inputType}
-                    inputRef={inputRef}
-                    suggestRef={suggestRef}
-                    autoSuggest={autoSuggest}
-                    onChange={handleChange}
-                    onInput={handleInput}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    isSmall={isSmall}
-                    hasLabel={hasLabel}
-                    withClear={withClear}
-                />
-                {isPassword && <InputIconLink
-                    variant="black"
-                    icon={showPassword ? "hide" : "view"}
-                    onClick={() => setPassword(!showPassword)}
-                    isSmall
-                />}
-                {withClear && <InputIconLink
-                    variant="black"
-                    icon="close"
-                    onClick={handleClear}
-                    forMedia={forMedia}
-                    isSmall
-                />}
-            </InputContent>
-            {!!button && <InputButton
+        <FieldContent>
+            <Input
+                {...props}
+                className="inputfield-input"
+                inputRef={inputRef}
+                suggestRef={suggestRef}
+                autoSuggest={autoSuggest}
+                isFocused={isFocused}
+                onChange={handleChange}
+                onInput={handleInput}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onClear={withClear ? handleClear : undefined}
+                withLabel={withLabel || hasLabel}
+            />
+            {!!button && <FieldButton
                 variant="outlined"
                 message={button}
                 onClick={onClick}
             />}
-        </InputInside>
-        <InputError error={error} useBackground={errorBackground} />
-        {hasHelper && <InputHelper>{NLS.get(helperText)}</InputHelper>}
+        </FieldContent>
+        <InputError
+            error={error}
+            useBackground={errorBackground}
+        />
+        {hasHelper && <FieldHelper>
+            {NLS.get(helperText)}
+        </FieldHelper>}
 
         {autoSuggest && <AutoSuggest
             suggestRef={suggestRef}
@@ -388,6 +238,7 @@ InputField.propTypes = {
     onChange        : PropTypes.func,
     onSearch        : PropTypes.func,
     onInput         : PropTypes.func,
+    onFocus         : PropTypes.func,
     onBlur          : PropTypes.func,
     onSubmit        : PropTypes.func,
     button          : PropTypes.string,
@@ -408,11 +259,11 @@ InputField.propTypes = {
     counterText     : PropTypes.string,
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    tabIndex        : PropTypes.string,
-    withLabel       : PropTypes.bool,
+    width           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fullWidth       : PropTypes.bool,
     shrinkLabel     : PropTypes.bool,
     withBorder      : PropTypes.bool,
+    withLabel       : PropTypes.bool,
     isSmall         : PropTypes.bool,
     errorBackground : PropTypes.bool,
     withNone        : PropTypes.bool,
@@ -427,14 +278,6 @@ InputField.propTypes = {
     onlyImages      : PropTypes.bool,
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    preType         : PropTypes.string,
-    preName         : PropTypes.string,
-    preValue        : PropTypes.any,
-    preOptions      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    preWithNone     : PropTypes.bool,
-    preNoneText     : PropTypes.string,
-    prePlaceholder  : PropTypes.string,
-    preWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     children        : PropTypes.any,
 };
 
@@ -454,10 +297,8 @@ InputField.defaultProps = {
     options         : [],
     extraOptions    : [],
     suggestParams   : {},
-    withLabel       : true,
     fullWidth       : false,
     shrinkLabel     : false,
-    withBorder      : false,
     isSmall         : false,
     errorBackground : false,
     withNone        : false,
@@ -469,11 +310,6 @@ InputField.defaultProps = {
     hasClear        : false,
     autoFocus       : false,
     onlyImages      : false,
-    preType         : InputType.TEXT,
-    preOptions      : [],
-    preWithNone     : false,
-    preNoneText     : "",
-    prePlaceholder  : "",
 };
 
 export default InputField;

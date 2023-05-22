@@ -85,6 +85,7 @@ function HistoryInput(props) {
     }, [ initialValue ]);
 
 
+    // Do the Render
     return <Li className={className}>
         <HistoryAvatar
             name={name}

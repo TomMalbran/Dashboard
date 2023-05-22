@@ -8,11 +8,13 @@ import InputType            from "../../Core/InputType";
 import CheckboxInput        from "../InputType/CheckboxInput";
 import ChooserInput         from "../InputType/ChooserInput";
 import ColorInput           from "../InputType/ColorInput";
+import DoubleInput          from "../InputType/DoubleInput";
 import FieldInput           from "../InputType/FieldInput";
 import FileInput            from "../InputType/FileInput";
 import MediaInput           from "../InputType/MediaInput";
 import MultipleInput        from "../InputType/MultipleInput";
 import NumberInput          from "../InputType/NumberInput";
+import PasswordInput        from "../InputType/PasswordInput";
 import RadioInput           from "../InputType/RadioInput";
 import SelectInput          from "../InputType/SelectInput";
 import TextareaInput        from "../InputType/TextareaInput";
@@ -36,6 +38,8 @@ function Input(props) {
         return <ChooserInput {...props} />;
     case InputType.COLOR:
         return <ColorInput {...props} />;
+    case InputType.DOUBLE:
+        return <DoubleInput {...props} />;
     case InputType.FIELDS:
         return <FieldInput {...props} button={fieldButton} />;
     case InputType.FILE:
@@ -46,6 +50,8 @@ function Input(props) {
         return <MultipleInput {...props} />;
     case InputType.NUMBER:
         return <NumberInput {...props} />;
+    case InputType.PASSWORD:
+        return <PasswordInput {...props} />;
     case InputType.RADIO:
         return <RadioInput {...props} />;
     case InputType.SELECT:
@@ -79,7 +85,6 @@ Input.propTypes = {
     fieldButton  : PropTypes.string,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    tabIndex     : PropTypes.string,
     fullWidth    : PropTypes.bool,
     hasLabel     : PropTypes.bool,
     withNone     : PropTypes.bool,
@@ -96,6 +101,7 @@ Input.propTypes = {
     onMedia      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
+    onClear      : PropTypes.func,
     inputRef     : PropTypes.object,
     suggestRef   : PropTypes.object,
 };

@@ -10,25 +10,18 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputField           from "../Form/InputField";
 import Button               from "../Form/Button";
-import IconLink             from "../Link/IconLink";
-import Input                from "../Input/Input";
 import InputError           from "../Input/InputError";
+import IconLink             from "../Link/IconLink";
 
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasLabel, withBorder }) => ({ hasLabel, withBorder }))`
+const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: ${(props) => props.withBorder ? "12px" : "8px"};
     width: 100%;
-
-    ${(props) => props.hasLabel && `
-        & > div:nth-child(n+2) .input {
-            padding-top: 8px !important;
-        }
-    `}
 `;
 
 const Content = Styled.div.attrs(({
@@ -104,9 +97,10 @@ const Error = Styled(InputError)`
  */
 function FieldInput(props) {
     const {
-        className, inputType, name, value, button, onChange,
-        options, withNone, noneText, hasLabel,
-        title, withBorder, columns, errors, children,
+        className, isDisabled, withBorder,
+        inputType, name, value, button, onChange,
+        options, withNone, noneText,
+        title,  columns, errors, children,
     } = props;
 
     // Parse the Items
@@ -197,7 +191,6 @@ function FieldInput(props) {
 
     return <Container
         className={className}
-        hasLabel={hasLabel}
         withBorder={withBorder}
     >
         {parts.map((elem, index) => <Content
@@ -217,13 +210,13 @@ function FieldInput(props) {
                     type={item.type}
                     name={`${item.name}-${index}`}
                     value={elem[item.name] || ""}
-                    fullWidth
                     onChange={(name, value) => handleChange(value, index, item.name)}
+                    isDisabled={isDisabled}
+                    fullWidth
                 />)}
             </Items>}
 
-            {!hasItems && <Input
-                className="input"
+            {!hasItems && <InputField
                 type={inputType}
                 name={`${name}-${index}`}
                 value={elem}
@@ -231,6 +224,9 @@ function FieldInput(props) {
                 withNone={withNone}
                 noneText={noneText}
                 onChange={(name, value) => handleChange(value, index)}
+                isDisabled={isDisabled}
+                withLabel={index === 0}
+                isSmall={index > 0}
             />}
 
             {parts.length > 1 && <Close>
@@ -259,6 +255,8 @@ function FieldInput(props) {
  */
 FieldInput.propTypes = {
     className  : PropTypes.string,
+    isDisabled : PropTypes.bool,
+    withBorder : PropTypes.bool,
     name       : PropTypes.string.isRequired,
     inputType  : PropTypes.string,
     value      : PropTypes.any,
@@ -269,7 +267,6 @@ FieldInput.propTypes = {
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
     title      : PropTypes.string,
-    withBorder : PropTypes.bool,
     button     : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
     errors     : PropTypes.object,
@@ -281,11 +278,13 @@ FieldInput.propTypes = {
  * @type {Object} defaultProps
  */
 FieldInput.defaultProps = {
-    className : "",
-    inputType : InputType.TEXT,
-    withNone  : false,
-    noneText  : "",
-    button    : "GENERAL_ADD_FIELD",
+    className  : "",
+    isDisabled : false,
+    withBorder : false,
+    inputType  : InputType.TEXT,
+    withNone   : false,
+    noneText   : "",
+    button     : "GENERAL_ADD_FIELD",
 };
 
 export default FieldInput;

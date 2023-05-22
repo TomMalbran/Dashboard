@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Core & Utils
 import KeyCode              from "../../Utils/KeyCode";
@@ -7,64 +8,48 @@ import KeyCode              from "../../Utils/KeyCode";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import IconLink             from "../Link/IconLink";
+
+
+
+// Styles
+const InputIcon = Styled(IconLink)`
+    margin-top: -4px;
+    margin-right: -6px;
+`;
 
 
 
 /**
- * The Text Input Component
+ * The Password Input Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function TextInput(props) {
+function PasswordInput(props) {
     const {
-        inputRef, className, icon, isFocused, isDisabled, isSmall,
-        withBorder, withLabel, suggestRef, autoSuggest,
-        id, type, name, value, placeholder, autoComplete, spellCheck,
-        onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
+        inputRef, icon, className, isFocused, isDisabled, isSmall,
+        withBorder, withLabel,
+        id, type, name, value, placeholder,
+        autoComplete, spellCheck,
+        onChange, onClear, onInput, onFocus, onBlur,
+        onKeyDown, onKeyUp, onSubmit,
     } = props;
+
+    // The current Status
+    const [ showPassword, setPassword ] = React.useState(false);
+
+    const inputType = showPassword ? "text" : type;
+
 
     // Handles the Change
     const handleChange = (e) => {
         onChange(name, e.target.value);
     };
 
-    // Handles the Input
-    const handleInput = (e) => {
-        if (onInput) {
-            onInput(name, e.target.value);
-        }
-    };
-
-    // Handles the Key Down
-    const handleKeyDown = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_DOWN && autoSuggest) {
-            suggestRef.current.selectNext();
-            e.preventDefault();
-        } else if (e.keyCode === KeyCode.DOM_VK_UP && autoSuggest) {
-            suggestRef.current.selectPrev();
-            e.preventDefault();
-        }
-        if (onKeyDown) {
-            onKeyDown(e);
-        }
-    };
-
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (autoSuggest) {
-            suggestRef.current.setValue(e.target.value);
-        }
-        if (e.keyCode === KeyCode.DOM_VK_RETURN) {
-            let handled = false;
-            if (autoSuggest) {
-                const suggestVal = suggestRef.current.apply();
-                if (suggestVal) {
-                    handled = true;
-                }
-            }
-            if (onSubmit && !handled) {
-                onSubmit();
-            }
+        if (e.keyCode === KeyCode.DOM_VK_RETURN && onSubmit) {
+            onSubmit();
         }
         if (onKeyUp) {
             onKeyUp(e);
@@ -88,7 +73,7 @@ function TextInput(props) {
         <InputBase
             inputRef={inputRef}
             id={id}
-            type={type}
+            type={inputType}
             name={name}
             value={value}
             placeholder={placeholder}
@@ -96,11 +81,17 @@ function TextInput(props) {
             autoComplete={autoComplete}
             spellCheck={spellCheck}
             onChange={handleChange}
-            onInput={handleInput}
+            onInput={onInput}
             onFocus={onFocus}
             onBlur={onBlur}
-            onKeyDown={handleKeyDown}
+            onKeyDown={onKeyDown}
             onKeyUp={handleKeyUp}
+        />
+        <InputIcon
+            variant="black"
+            icon={showPassword ? "hide" : "view"}
+            onClick={() => setPassword(!showPassword)}
+            isSmall
         />
     </InputContent>;
 }
@@ -109,8 +100,8 @@ function TextInput(props) {
  * The Property Types
  * @type {Object} propTypes
  */
-TextInput.propTypes = {
-    inputRef     : PropTypes.any,
+PasswordInput.propTypes = {
+    inputRef     : PropTypes.object,
     className    : PropTypes.string,
     icon         : PropTypes.string,
     isFocused    : PropTypes.bool,
@@ -141,7 +132,7 @@ TextInput.propTypes = {
  * The Default Properties
  * @type {Object} defaultProps
  */
-TextInput.defaultProps = {
+PasswordInput.defaultProps = {
     className    : "",
     isFocused    : false,
     isDisabled   : false,
@@ -152,4 +143,4 @@ TextInput.defaultProps = {
     autoComplete : "off",
 };
 
-export default TextInput;
+export default PasswordInput;

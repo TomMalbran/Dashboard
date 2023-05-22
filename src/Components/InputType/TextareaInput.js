@@ -5,30 +5,27 @@ import Styled               from "styled-components";
 // Core
 import NLS                  from "../../Core/NLS";
 
+// Components
+import InputContent         from "../Input/InputContent";
+
 
 
 // Styles
-const Container = Styled.div.attrs(({ isDisabled }) => ({ isDisabled }))`
+const Container = Styled.div`
     box-sizing: border-box;
     width: 100%;
-    border: var(--input-border);
     border-radius: var(--border-radius);
     overflow: hidden;
-
-    ${(props) => props.isDisabled ? `
-        border-color: rgb(205, 205, 205);
-    ` : `&:hover {
-        border-color: var(--border-color);
-    }`}
 `;
 
-const Textarea = Styled.textarea.attrs(({ hasLabel }) => ({ hasLabel }))`
+const Textarea = Styled.textarea`
     box-sizing: border-box;
     display: block;
     width: 100%;
     appearance: none;
     margin: 0;
     padding: var(--input-padding);
+    padding-top: 0px;
     border: none;
     resize: none;
 
@@ -39,12 +36,6 @@ const Textarea = Styled.textarea.attrs(({ hasLabel }) => ({ hasLabel }))`
         color: rgb(120, 120, 120);
         background: white;
     }
-
-    ${(props) => props.hasLabel && `
-        & {
-            padding-top: 18px !important;
-        }
-    `}
 `;
 
 const Editor = Styled.div`
@@ -55,10 +46,6 @@ const Editor = Styled.div`
     padding: 4px 8px;
     background-color: var(--lightest-gray);
     border-top: 1px dashed var(--input-border-color);
-
-    .icon {
-        box-shadow: none !important;
-    }
 `;
 
 const Text = Styled.p`
@@ -78,9 +65,10 @@ const Text = Styled.p`
  */
 function TextareaInput(props) {
     const {
-        className, id, name, value, placeholder, rows, isDisabled,
-        tabIndex, onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
-        inputRef, hasLabel, counterText, children,
+        inputRef, className, isFocused, isDisabled,
+        id, name, value, placeholder, rows,
+        onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
+        counterText, children,
     } = props;
 
     const minRows = Number(rows) || 1;
@@ -102,7 +90,7 @@ function TextareaInput(props) {
 
     // Handles the Textarea Autogrow
     const handleAutogrow = () => {
-        const textareaLineHeight = 18;
+        const textareaLineHeight = 16;
         const node     = inputRef.current;
         const prevRows = node.rows;
         node.rows = minRows;
@@ -124,32 +112,40 @@ function TextareaInput(props) {
 
 
     // Do the Render
-    const hasFooter = Boolean(counterText || (children && children.length));
+    const hasFooter  = Boolean(counterText || (children && children.length));
+    const characters = String(String(value || "").length);
 
-    return <Container className={className} isDisabled={isDisabled}>
-        <Textarea
-            className="input-textarea"
-            id={id}
-            ref={inputRef}
-            name={name}
-            value={value}
-            rows={actualRows}
-            placeholder={NLS.get(placeholder)}
-            disabled={isDisabled}
-            onInput={handleInput}
-            onChange={handleChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onKeyDown={onKeyDown}
-            onKeyUp={onKeyUp}
-            tabIndex={tabIndex}
-            hasLabel={hasLabel}
-        />
-        {hasFooter && <Editor>
-            <Text>{NLS.format(counterText, value.length)}</Text>
-            {!isDisabled && children}
-        </Editor>}
-    </Container>;
+    return <InputContent
+        inputRef={inputRef}
+        className={className}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        withBorder
+        withLabel
+    >
+        <Container>
+            <Textarea
+                ref={inputRef}
+                className="input-textarea"
+                id={id}
+                name={name}
+                value={value}
+                rows={actualRows}
+                placeholder={NLS.get(placeholder)}
+                disabled={isDisabled}
+                onInput={handleInput}
+                onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onKeyDown={onKeyDown}
+                onKeyUp={onKeyUp}
+            />
+            {hasFooter && <Editor>
+                <Text>{NLS.format(counterText, characters)}</Text>
+                {!isDisabled && children}
+            </Editor>}
+        </Container>
+    </InputContent>;
 }
 
 /**
@@ -157,22 +153,21 @@ function TextareaInput(props) {
  * @type {Object} propTypes
  */
 TextareaInput.propTypes = {
+    inputRef    : PropTypes.any,
     className   : PropTypes.string,
+    isFocused   : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
     id          : PropTypes.string,
     name        : PropTypes.string.isRequired,
     placeholder : PropTypes.string,
     value       : PropTypes.any,
     rows        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    isDisabled  : PropTypes.bool,
-    tabIndex    : PropTypes.string,
     onChange    : PropTypes.func,
     onInput     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
     onKeyDown   : PropTypes.func,
     onKeyUp     : PropTypes.func,
-    inputRef    : PropTypes.object,
-    hasLabel    : PropTypes.bool,
     counterText : PropTypes.string,
     children    : PropTypes.any,
 };
@@ -183,6 +178,8 @@ TextareaInput.propTypes = {
  */
 TextareaInput.defaultProps = {
     className   : "",
+    isFocused   : false,
+    isDisabled  : false,
     placeholder : "",
 };
 

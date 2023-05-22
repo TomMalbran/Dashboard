@@ -7,10 +7,10 @@ import InputType            from "../../Core/InputType";
 
 
 /**
- * The Field Item Component
+ * The Input Item Component
  * @returns {React.ReactElement}
  */
-function FieldItem() {
+function InputItem() {
     return <React.Fragment />;
 }
 
@@ -18,12 +18,13 @@ function FieldItem() {
  * The Property Types
  * @typedef {Object} propTypes
  */
-FieldItem.propTypes = {
+InputItem.propTypes = {
     subkey       : PropTypes.string,
     type         : PropTypes.string,
     name         : PropTypes.string,
     label        : PropTypes.string,
     placeholder  : PropTypes.string,
+    icon         : PropTypes.string,
     value        : PropTypes.any,
     minValue     : PropTypes.number,
     spellCheck   : PropTypes.string,
@@ -32,6 +33,7 @@ FieldItem.propTypes = {
     fieldButton  : PropTypes.string,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    width        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fullWidth    : PropTypes.bool,
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
@@ -40,6 +42,8 @@ FieldItem.propTypes = {
     customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
     customKey    : PropTypes.string,
+    hasClear     : PropTypes.bool,
+    onClear      : PropTypes.func,
     hide         : PropTypes.func,
 };
 
@@ -47,7 +51,7 @@ FieldItem.propTypes = {
  * The Default Properties
  * @typedef {Object} defaultProps
  */
-FieldItem.defaultProps = {
+InputItem.defaultProps = {
     type         : InputType.TEXT,
     placeholder  : "",
     isRequired   : false,
@@ -64,4 +68,4 @@ FieldItem.defaultProps = {
     customKey    : "",
 };
 
-export default FieldItem;
+export default InputItem;

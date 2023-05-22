@@ -45,12 +45,21 @@ const Pages = Styled.p`
 const PagingInput = Styled(InputField)`
     margin-right: 16px;
 
+    & .input-border {
+        background: transparent;
+    }
     & .input-select.input-select {
         min-height: 24px;
+        padding-left: 8px;
         line-height: 1;
         font-size: 12px;
         font-weight: normal;
+        border: 1px solid var(--input-border);
+        border-radius: var(--border-radius);
         background-color: var(--lighter-gray);
+    }
+    & .input-select.input-select:hover {
+        border-color: var(--border-color-hover);
     }
 
     @media (max-width: 700px) {
@@ -119,6 +128,7 @@ function TablePaging(props) {
                     value={sort.amount}
                     onChange={handleAmount}
                     options={rowOptions}
+                    withBorder={false}
                 />
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 

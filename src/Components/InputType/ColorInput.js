@@ -1,14 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import Styled               from "styled-components";
 
-
-
-// Styles
-const Input = Styled.input`
-    width: 100%;
-    padding: 6px 8px 2px;
-`;
+// Components
+import InputContent         from "../Input/InputContent";
+import InputBase            from "../Input/InputBase";
 
 
 
@@ -18,7 +13,12 @@ const Input = Styled.input`
  * @returns {React.ReactElement}
  */
 function ColorInput(props) {
-    const { className, id, name, value, isDisabled, tabIndex, onChange, inputRef } = props;
+    const {
+        inputRef, className, icon, isFocused, isDisabled, isSmall,
+        withBorder, withLabel,
+        id, name, value,
+        onChange, onClear, onFocus, onBlur,
+    } = props;
 
     // Handles the Input Change
     const handleChange = (e) => {
@@ -26,17 +26,31 @@ function ColorInput(props) {
     };
 
 
-    return <Input
-        className={`input input-color ${className}`}
-        type="color"
-        id={id}
-        ref={inputRef}
-        name={name}
-        value={value || "#FFFFFF"}
-        disabled={isDisabled}
-        onChange={handleChange}
-        tabIndex={tabIndex}
-    />;
+    // Do the Render
+    return <InputContent
+        inputRef={inputRef}
+        className={className}
+        icon={icon}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        isSmall={isSmall}
+        onClear={onClear}
+        withBorder={withBorder}
+        withLabel={withLabel}
+        withPadding
+    >
+        <InputBase
+            inputRef={inputRef}
+            type="color"
+            id={id}
+            name={name}
+            value={value || "#FFFFFF"}
+            isDisabled={isDisabled}
+            onChange={handleChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
+        />
+    </InputContent>;
 }
 
 /**
@@ -44,14 +58,21 @@ function ColorInput(props) {
  * @type {Object} propTypes
  */
 ColorInput.propTypes = {
+    inputRef   : PropTypes.any,
     className  : PropTypes.string,
+    icon       : PropTypes.string,
+    isFocused  : PropTypes.bool,
+    isDisabled : PropTypes.bool,
+    isSmall    : PropTypes.bool,
+    withBorder : PropTypes.bool,
+    withLabel  : PropTypes.bool,
     id         : PropTypes.string,
     name       : PropTypes.string,
     value      : PropTypes.any,
-    isDisabled : PropTypes.bool,
-    tabIndex   : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
-    inputRef   : PropTypes.object,
+    onClear    : PropTypes.func,
+    onFocus    : PropTypes.func.isRequired,
+    onBlur     : PropTypes.func.isRequired,
 };
 
 /**
@@ -60,7 +81,11 @@ ColorInput.propTypes = {
  */
 ColorInput.defaultProps = {
     className  : "",
+    isFocused  : false,
     isDisabled : false,
+    isSmall    : false,
+    withBorder : true,
+    withLabel  : true,
 };
 
 export default ColorInput;

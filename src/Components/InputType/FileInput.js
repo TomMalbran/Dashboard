@@ -6,53 +6,25 @@ import Styled               from "styled-components";
 import NLS                  from "../../Core/NLS";
 
 // Components
+import InputContent         from "../Input/InputContent";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Container = Styled.div`
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    border: var(--input-border);
-    border-radius: var(--border-radius);
-
-    &:hover {
-        border-color: var(--border-color);
-    }
-`;
-
-const Div = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
-    box-sizing: border-box;
-    position: relative;
-    display: flex;
-    align-items: center;
+const InputValue = Styled.div`
+    flex-grow: 2;
     font-size: var(--input-font);
-    height: var(--input-height);
-    padding: var(--input-padding);
-    color: var(--gray-color);
     white-space: nowrap;
-    cursor: pointer;
-
-    ${(props) => props.hasLabel && `
-        & {
-            height: calc(var(--input-height) - 2px);
-            padding-top: 16px !important;
-        }
-    `}
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
-const FileIcon = Styled(Icon)`
-    position: absolute;
-    top: 50%;
-    right: 8px;
+const InputIcon = Styled(Icon)`
+    margin-top: -4px;
+    margin-right: -6px;
     font-size: 20px;
-    transform: translateY(-50%) rotate(45deg);
-`;
-
-const Placeholder = Styled.span`
-    color: var(--title-color);
+    transform: rotate(45deg);
 `;
 
 const Input = Styled.input`
@@ -75,11 +47,10 @@ const Input = Styled.input`
  */
 function FileInput(props) {
     const {
-        className, name, value, placeholder, tabIndex, onChange,
-        onlyImages, hasLabel,
+        inputRef, className, icon, isFocused, isDisabled,
+        name, value, placeholder, onlyImages,
+        onChange, onClear, onFocus, onBlur,
     } = props;
-
-    const inputRef = React.useRef();
 
     // Handles the File Change
     const handleChange = (e) => {
@@ -89,37 +60,34 @@ function FileInput(props) {
         }
     };
 
-    // Handles the Click
-    const handleClick = (e) => {
-        const node = inputRef.current;
-        if (node) {
-            // @ts-ignore
-            node.click();
-            e.preventDefault();
-        }
-    };
-
 
     // Do the Render
-    return <Container className={className}>
-        <Div
-            hasLabel={hasLabel}
-            onClick={handleClick}
-        >
-            {value ? value : <Placeholder>
-                {NLS.get(placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE"))}
-            </Placeholder>}
-            <FileIcon icon="attachment" />
-        </Div>
+    const message = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
+
+    return <InputContent
+        inputRef={inputRef}
+        className={className}
+        icon={icon}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        onClear={onClear}
+        withBorder
+        withPadding
+        withLabel
+        withClick
+    >
+        <InputValue>{value ? value : NLS.get(message)}</InputValue>
+        <InputIcon icon="attachment" />
         <Input
+            ref={inputRef}
             type="file"
             name={name}
-            ref={inputRef}
-            onChange={handleChange}
-            tabIndex={tabIndex}
             accept={onlyImages ? "image/*" : ""}
+            onChange={handleChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
         />
-    </Container>;
+    </InputContent>;
 }
 
 /**
@@ -127,14 +95,19 @@ function FileInput(props) {
  * @type {Object} propTypes
  */
 FileInput.propTypes = {
+    inputRef    : PropTypes.any,
     className   : PropTypes.string,
+    icon        : PropTypes.string,
+    isFocused   : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
     name        : PropTypes.string.isRequired,
     value       : PropTypes.any,
     placeholder : PropTypes.string,
-    tabIndex    : PropTypes.string,
-    onChange    : PropTypes.func.isRequired,
     onlyImages  : PropTypes.bool,
-    hasLabel    : PropTypes.bool,
+    onChange    : PropTypes.func.isRequired,
+    onClear     : PropTypes.func,
+    onFocus     : PropTypes.func.isRequired,
+    onBlur      : PropTypes.func.isRequired,
 };
 
 /**
@@ -142,8 +115,11 @@ FileInput.propTypes = {
  * @type {Object} defaultProps
  */
 FileInput.defaultProps = {
-    className  : "",
-    onlyImages : false,
+    className   : "",
+    isFocused   : false,
+    isDisabled  : false,
+    placeholder : "",
+    onlyImages  : false,
 };
 
 export default FileInput;

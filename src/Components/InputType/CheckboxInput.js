@@ -2,10 +2,12 @@ import React                 from "react";
 import PropTypes             from "prop-types";
 import Styled, { keyframes } from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                   from "../../Core/NLS";
+import Utils                 from "../../Utils/Utils";
 
 // Components
+import InputContent          from "../Input/InputContent";
 import Icon                  from "../Common/Icon";
 import Html                  from "../Common/Html";
 
@@ -18,31 +20,12 @@ const tick = keyframes`
 `;
 
 // Styles
-const Label = Styled.label.attrs(({ isDisabled, withBorder }) => ({ isDisabled, withBorder }))`
+const Label = Styled.label`
     position: relative;
     display: flex;
     align-items: center;
-
-    ${(props) => props.withBorder && `
-        box-sizing: border-box;
-        width: 100%;
-        height: var(--input-height);
-        padding: var(--input-padding);
-        border: var(--input-border);
-        border-radius: var(--border-radius);
-    `}
-
-    ${(props) => props.isDisabled && `
-        color: rgb(120, 120, 120);
-    `}
-    ${(props) => props.withBorder && props.isDisabled && `
-        border-color: rgb(205, 205, 205);
-    `}
-    ${(props) => props.withBorder && !props.isDisabled && `
-        &:hover {
-            border-color: var(--border-color);
-        }
-    `}
+    width: 100%;
+    cursor: pointer;
 `;
 
 const Input = Styled.input`
@@ -71,8 +54,8 @@ const Span = Styled(Icon)`
     position: relative;
     top: 2px;
     margin: -1px 6px 0 0;
-    cursor: pointer;
     font-size: 18px;
+    cursor: pointer;
 `;
 
 
@@ -84,8 +67,9 @@ const Span = Styled(Icon)`
  */
 function CheckboxInput(props) {
     const {
-        className, id, name, value, label, tabIndex,
-        isChecked, isDisabled, withBorder, onChange,
+        inputRef, className, isFocused, isDisabled, withBorder,
+        id, name, value, label, isChecked,
+        onChange, onFocus, onBlur,
     } = props;
 
     // Handles the Change
@@ -93,25 +77,43 @@ function CheckboxInput(props) {
         onChange(name, e.target.checked ? 1 : 0);
     };
 
+    // Handles the Click
+    const handleClick = (e) => {
+        if (withBorder) {
+            Utils.triggerClick(inputRef);
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    };
 
-    return <Label
+
+    // Do the Render
+    return <InputContent
         className={className}
+        isFocused={isFocused}
         isDisabled={isDisabled}
         withBorder={withBorder}
+        onClick={handleClick}
+        withClick={withBorder}
+        withPadding
     >
-        <Input
-            type="checkbox"
-            id={id}
-            name={name}
-            value={value}
-            checked={isChecked}
-            disabled={isDisabled}
-            onChange={handleChange}
-            tabIndex={tabIndex}
-        />
-        <Span icon={isChecked ? "checkedbox" : "checkbox"} />
-        {!!label && <Html variant="span">{NLS.get(label)}</Html>}
-    </Label>;
+        <Label>
+            <Input
+                ref={inputRef}
+                type="checkbox"
+                id={id}
+                name={name}
+                value={value}
+                checked={isChecked}
+                disabled={isDisabled}
+                onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+            />
+            <Span icon={isChecked ? "checkedbox" : "checkbox"} />
+            {!!label && <Html variant="span">{NLS.get(label)}</Html>}
+        </Label>
+    </InputContent>;
 }
 
 /**
@@ -119,16 +121,19 @@ function CheckboxInput(props) {
  * @type {Object} propTypes
  */
 CheckboxInput.propTypes = {
+    inputRef   : PropTypes.any,
     className  : PropTypes.string,
+    isFocused  : PropTypes.bool,
+    isDisabled : PropTypes.bool,
+    withBorder : PropTypes.bool,
     id         : PropTypes.string,
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
     label      : PropTypes.string,
-    tabIndex   : PropTypes.string,
     isChecked  : PropTypes.bool,
-    isDisabled : PropTypes.bool,
-    withBorder : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
+    onFocus    : PropTypes.func,
+    onBlur     : PropTypes.func,
 };
 
 /**
@@ -137,9 +142,10 @@ CheckboxInput.propTypes = {
  */
 CheckboxInput.defaultProps = {
     className  : "",
-    isChecked  : false,
+    isFocused  : false,
     isDisabled : false,
     withBorder : false,
+    isChecked  : false,
 };
 
 export default CheckboxInput;

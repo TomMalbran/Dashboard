@@ -6,6 +6,7 @@ import Styled               from "styled-components";
 import InputType            from "../../Core/InputType";
 
 // Components
+import InputContent         from "../Input/InputContent";
 import CheckboxInput        from "../InputType/CheckboxInput";
 
 
@@ -17,15 +18,9 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
     grid-gap: 4px;
     width: 100%;
-    padding: 16px 8px 8px 8px;
-    border: var(--input-border);
-    border-radius: var(--border-radius);
 
     @media (max-width: 500px) {
         display: block;
-        & > label {
-            display: block;
-        }
     }
 `;
 
@@ -38,10 +33,10 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
  */
 function MultipleInput(props) {
     const {
-        className, name, value,
-        tabIndex, columns, onChange,
+        className, isFocused, isDisabled,
+        name, value, columns,
+        onChange, onFocus, onBlur,
     } = props;
-
 
     // Create the Items
     const items = InputType.createOptions(props);
@@ -61,20 +56,29 @@ function MultipleInput(props) {
     };
 
 
-    return <Container
+    // Do the Render
+    return <InputContent
         className={className}
-        columns={columns}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
+        withBorder
+        withPadding
+        withLabel
     >
-        {items.map(({ key, value : val }) => <CheckboxInput
-            key={key}
-            name={name}
-            value={key}
-            label={val}
-            isChecked={value ? value.indexOf(key) > -1 : false}
-            onChange={(name, isChecked) => handleChange(isChecked, key, value)}
-            tabIndex={tabIndex}
-        />)}
-    </Container>;
+        <Container columns={columns}>
+            {items.map(({ key, value : val }) => <CheckboxInput
+                key={key}
+                name={name}
+                value={key}
+                label={val}
+                isChecked={value ? value.indexOf(key) > -1 : false}
+                isDisabled={isDisabled}
+                onChange={(name, isChecked) => handleChange(isChecked, key, value)}
+                onFocus={onFocus}
+                onBlur={onBlur}
+            />)}
+        </Container>
+    </InputContent>;
 }
 
 /**
@@ -82,15 +86,18 @@ function MultipleInput(props) {
  * @type {Object} propTypes
  */
 MultipleInput.propTypes = {
-    className : PropTypes.string,
-    name      : PropTypes.string.isRequired,
-    value     : PropTypes.any,
-    options   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone  : PropTypes.bool,
-    noneText  : PropTypes.string,
-    tabIndex  : PropTypes.string,
-    columns   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onChange  : PropTypes.func.isRequired,
+    className  : PropTypes.string,
+    isFocused  : PropTypes.bool,
+    isDisabled : PropTypes.bool,
+    name       : PropTypes.string.isRequired,
+    value      : PropTypes.any,
+    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone   : PropTypes.bool,
+    noneText   : PropTypes.string,
+    columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onChange   : PropTypes.func.isRequired,
+    onFocus    : PropTypes.func.isRequired,
+    onBlur     : PropTypes.func.isRequired,
 };
 
 /**
@@ -98,10 +105,12 @@ MultipleInput.propTypes = {
  * @type {Object} defaultProps
  */
 MultipleInput.defaultProps = {
-    className : "",
-    withNone  : false,
-    noneText  : "",
-    columns   : 2,
+    className  : "",
+    isFocused  : false,
+    isDisabled : false,
+    withNone   : false,
+    noneText   : "",
+    columns    : 2,
 };
 
 export default MultipleInput;

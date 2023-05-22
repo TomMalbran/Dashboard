@@ -8,34 +8,13 @@ import InputType            from "../../Core/InputType";
 import KeyCode              from "../../Utils/KeyCode";
 import Utils                from "../../Utils/Utils";
 
+// Components
+import InputContent         from "../Input/InputContent";
+import InputBase            from "../Input/InputBase";
+
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasLabel }) => ({ hasLabel }))`
-    box-sizing: border-box;
-    width: 100%;
-    padding: var(--input-padding);
-    border: var(--input-border);
-    border-radius: var(--border-radius);
-    color: var(--black-color);
-    background-color: transparent;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAICAYAAAAIloRgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAdElEQVQ4T2P4//8/AyGsLK8ggE8NIXmYXoIWgRQCDbuAy0CQOEiekINB8sRa9h+bhTCLgDTQLMIhRKxlIJ+hWIhsEbV9Bg4qJAsd0Ph445SkOIPGG7KFIF9iDVp8wUlUMMIMQA86YlMhyT5Ds3ABqRaB9AMArxAryYUamQYAAAAASUVORK5CYII=);
-    background-position: right center;
-    background-size: auto;
-    background-repeat: no-repeat;
-
-    &:hover {
-        border-color: var(--border-color);
-    }
-
-    ${(props) => props.hasLabel && `
-        & {
-            min-height: var(--input-height);
-            padding-top: 18px !important;
-        }
-    `}
-`;
-
 const List = Styled.ul`
     display: flex;
     flex-grow: 2;
@@ -44,6 +23,12 @@ const List = Styled.ul`
     margin: 0;
     padding: 0;
     gap: 4px;
+    width: 100%;
+    background-color: transparent;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAICAYAAAAIloRgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAdElEQVQ4T2P4//8/AyGsLK8ggE8NIXmYXoIWgRQCDbuAy0CQOEiekINB8sRa9h+bhTCLgDTQLMIhRKxlIJ+hWIhsEbV9Bg4qJAsd0Ph445SkOIPGG7KFIF9iDVp8wUlUMMIMQA86YlMhyT5Ds3ABqRaB9AMArxAryYUamQYAAAAASUVORK5CYII=);
+    background-position: right -6px center;
+    background-size: auto;
+    background-repeat: no-repeat;
 `;
 
 const Chip = Styled.li`
@@ -59,22 +44,11 @@ const Chip = Styled.li`
     }
 `;
 
-const Input = Styled.input`
-    border: none;
-    width: 100%;
-    margin: 0;
-    background: none;
-
-    &:focus {
-        outline: none;
-    }
-`;
-
 const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, left, width, maxHeight }))`
     box-sizing: border-box;
     display: block;
     position: fixed;
-    top: ${(props) => `${props.top}px`};
+    top: ${(props) => `${props.top + 2}px`};
     left: ${(props) => `${props.left}px`};
     width: ${(props) => `${props.width}px`};
     max-height: ${(props) => `${props.maxHeight}px`};
@@ -121,15 +95,17 @@ const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
  */
 function ChooserInput(props) {
     const {
-        className, inputRef, id, name, value, placeholder, isDisabled,
-        onChange, onFocus, onBlur, hasLabel,
+        inputRef, className, isFocused, isDisabled,
+        id, name, value, placeholder,
+        onChange, onClear, onFocus, onBlur,
     } = props;
 
     const containerRef = React.useRef(null);
 
+    // The current Status
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
-    const [ isFocused,   setFocus       ] = React.useState(false);
+    const [ hasFocus,    setFocus       ] = React.useState(false);
     const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
     const [ selectedIdx, setSelectedIdx ] = React.useState(0);
 
@@ -175,7 +151,9 @@ function ChooserInput(props) {
 
     // Handles the Click
     const handleClick = () => {
-        inputRef.current.focus();
+        if (!hasFocus) {
+            inputRef.current.focus();
+        }
     };
 
     // Handles the Add
@@ -263,12 +241,18 @@ function ChooserInput(props) {
 
 
     // Do the Render
-    const showOptions = Boolean(isFocused && options.length);
+    const showOptions = Boolean(hasFocus && options.length);
 
-    return <Container
-        ref={containerRef}
-        hasLabel={hasLabel}
+    return <InputContent
+        passedRef={containerRef}
+        className={className}
+        isFocused={isFocused}
+        isDisabled={isDisabled}
         onClick={handleClick}
+        onClear={onClear}
+        withBorder
+        withPadding
+        withLabel
     >
         <List>
             {chips.map(({ key, value }) => <Chip
@@ -279,15 +263,15 @@ function ChooserInput(props) {
             </Chip>)}
 
             <li>
-                <Input
+                <InputBase
+                    inputRef={inputRef}
                     className={`input-chooser ${className}`}
                     id={id}
-                    ref={inputRef}
                     type="text"
                     name={name}
                     value={filter}
-                    placeholder={NLS.get(placeholder)}
-                    disabled={isDisabled}
+                    placeholder={placeholder}
+                    isDisabled={isDisabled}
                     onInput={handleInput}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
@@ -311,7 +295,7 @@ function ChooserInput(props) {
                 {NLS.get(value)}
             </Option>)}
         </Options>}
-    </Container>;
+    </InputContent>;
 }
 
 /**
@@ -320,17 +304,18 @@ function ChooserInput(props) {
  */
 ChooserInput.propTypes = {
     className    : PropTypes.string,
+    isFocused    : PropTypes.bool,
+    isDisabled   : PropTypes.bool,
     id           : PropTypes.string,
     name         : PropTypes.string,
     value        : PropTypes.any,
     placeholder  : PropTypes.string,
-    isDisabled   : PropTypes.bool,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
-    hasLabel     : PropTypes.bool,
     onChange     : PropTypes.func,
+    onClear      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
     inputRef     : PropTypes.object,
@@ -342,8 +327,9 @@ ChooserInput.propTypes = {
  */
 ChooserInput.defaultProps = {
     className   : "",
-    placeholder : "",
+    isFocused   : false,
     isDisabled  : false,
+    placeholder : "",
     withNone    : false,
 };
 

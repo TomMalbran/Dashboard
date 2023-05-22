@@ -90,10 +90,21 @@ function clamp(value, min, max) {
 /**
  * Returns the Bounds of the given Ref
  * @param {React.RefObject<HTMLElement>} ref
+ * @returns {Void}
+ */
+function triggerClick(ref) {
+    if (ref && ref.current) {
+        ref.current.click();
+    }
+}
+
+/**
+ * Returns the Bounds of the given Ref
+ * @param {React.RefObject<HTMLElement>} ref
  * @returns {Object}
  */
 function getBounds(ref) {
-    if (ref.current) {
+    if (ref && ref.current) {
         return ref.current.getBoundingClientRect();
     }
     return {};
@@ -691,6 +702,7 @@ export default {
     hasProp,
     clone,
     clamp,
+    triggerClick,
     getBounds,
     inBounds,
     inRef,

@@ -2,43 +2,24 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Components
-import Html                  from "../Common/Html";
+import InputContent         from "../Input/InputContent";
+import Html                 from "../Common/Html";
 
 
 
 // Styles
-const Label = Styled.label.attrs(({ isDisabled, withBorder }) => ({ isDisabled, withBorder }))`
+const Label = Styled.label`
     position: relative;
     display: flex;
     align-items: center;
 
     --toggle-size: 14px;
     --toggle-spacing: 4px;
-
-    ${(props) => props.withBorder && `
-        box-sizing: border-box;
-        width: 100%;
-        height: var(--input-height);
-        padding: var(--input-padding);
-        border: var(--input-border);
-        border-radius: var(--border-radius);
-    `}
-
-    ${(props) => props.isDisabled && `
-        color: rgb(120, 120, 120);
-    `}
-    ${(props) => props.withBorder && props.isDisabled && `
-        border-color: rgb(205, 205, 205);
-    `}
-    ${(props) => props.withBorder && !props.isDisabled && `
-        &:hover {
-            border-color: var(--border-color);
-        }
-    `}
 `;
 
 const Input = Styled.input`
@@ -92,8 +73,8 @@ const Span = Styled.span`
  */
 function ToggleInput(props) {
     const {
-        className, name, value, label, tabIndex,
-        isDisabled, withBorder, onChange,
+        inputRef, className, isFocused, isDisabled, withBorder,
+        name, value, label, onChange, onFocus, onBlur,
     } = props;
 
     // Handles the Checkbox Change
@@ -101,24 +82,42 @@ function ToggleInput(props) {
         onChange(name, e.target.checked ? 1 : 0);
     };
 
+    // Handles the Click
+    const handleClick = (e) => {
+        if (withBorder) {
+            Utils.triggerClick(inputRef);
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    };
 
-    return <Label
+
+    // Do the Render
+    return <InputContent
         className={className}
+        isFocused={isFocused}
         isDisabled={isDisabled}
+        onClick={handleClick}
         withBorder={withBorder}
+        withClick={withBorder}
+        withPadding
     >
-        <Input
-            type="checkbox"
-            name={name}
-            value="1"
-            checked={value}
-            onChange={handleChange}
-            tabIndex={tabIndex}
-            disabled={isDisabled}
-        />
-        <Span />
-        {!!label && <Html variant="span">{NLS.get(label)}</Html>}
-    </Label>;
+        <Label>
+            <Input
+                ref={inputRef}
+                type="checkbox"
+                name={name}
+                value="1"
+                checked={value}
+                disabled={isDisabled}
+                onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+            />
+            <Span />
+            {!!label && <Html variant="span">{NLS.get(label)}</Html>}
+        </Label>
+    </InputContent>;
 }
 
 /**
@@ -126,14 +125,17 @@ function ToggleInput(props) {
  * @type {Object} propTypes
  */
 ToggleInput.propTypes = {
+    inputRef   : PropTypes.any,
     className  : PropTypes.string,
+    isFocused  : PropTypes.bool,
+    isDisabled : PropTypes.bool,
+    withBorder : PropTypes.bool,
     name       : PropTypes.string,
     value      : PropTypes.any,
     label      : PropTypes.string,
-    tabIndex   : PropTypes.string,
-    isDisabled : PropTypes.bool,
-    withBorder : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
+    onFocus    : PropTypes.func.isRequired,
+    onBlur     : PropTypes.func.isRequired,
 };
 
 /**
@@ -142,6 +144,7 @@ ToggleInput.propTypes = {
  */
 ToggleInput.defaultProps = {
     className  : "",
+    isFocused  : false,
     isDisabled : false,
     withBorder : false,
 };
