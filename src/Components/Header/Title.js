@@ -23,11 +23,18 @@ const H2 = Styled.h2`
     font-size: 22px;
     line-height: 1.2;
     letter-spacing: 1px;
+    overflow: hidden;
 
     @media (max-width: 500px) {
         font-size: 20px;
         line-height: 1;
     }
+`;
+
+const Span = Styled.span`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `;
 
 
@@ -48,7 +55,7 @@ function Title(props) {
         /> : <Icon
             icon={icon}
         />}
-        {message ? NLS.get(message) : NLS.get(fallback)}
+        <Span>{message ? NLS.get(message) : NLS.get(fallback)}</Span>
     </H2>;
 }
 

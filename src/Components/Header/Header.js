@@ -17,23 +17,27 @@ const Container = Styled.header.attrs(({ showBreadcrumbs }) => ({ showBreadcrumb
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-sizing: border-box;
     height: var(--header-height);
     padding: ${(props) => props.showBreadcrumbs ? "8px" : "12px"} var(--main-padding);
     flex-shrink: 0;
     background-color: white;
 `;
+
 const Content = Styled.div`
     flex-grow: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--main-padding);
     height: 100%;
 `;
+
 const Child = Styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
 
     .tab-item {
         margin-bottom: 0;
