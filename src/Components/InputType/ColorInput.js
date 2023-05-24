@@ -1,9 +1,40 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import Icon                 from "../Common/Icon";
+
+
+
+// Styles
+const List = Styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 6px;
+`;
+
+const Item = Styled.li.attrs(({ color }) => ({ color }))`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius);
+    background-color: ${(props) => props.color};
+    cursor: pointer;
+
+    :hover {
+        border-color: var(--input-border-hover);
+    }
+`;
 
 
 
@@ -16,7 +47,7 @@ function ColorInput(props) {
     const {
         inputRef, className, icon, isFocused, isDisabled, isSmall,
         withBorder, withLabel,
-        id, name, value,
+        id, name, value, options,
         onChange, onClear, onFocus, onBlur,
     } = props;
 
@@ -27,6 +58,8 @@ function ColorInput(props) {
 
 
     // Do the Render
+    const withOptions = Boolean(options && options.length);
+
     return <InputContent
         inputRef={inputRef}
         className={className}
@@ -39,7 +72,15 @@ function ColorInput(props) {
         withLabel={withLabel}
         withPadding
     >
-        <InputBase
+        {withOptions ? <List>
+            {options.map((color) => <Item
+                key={color}
+                color={color}
+                onClick={() => onChange(name, color)}
+            >
+                {value === color && <Icon icon="check" />}
+            </Item>)}
+        </List> : <InputBase
             inputRef={inputRef}
             type="color"
             id={id}
@@ -49,7 +90,7 @@ function ColorInput(props) {
             onChange={handleChange}
             onFocus={onFocus}
             onBlur={onBlur}
-        />
+        />}
     </InputContent>;
 }
 
@@ -69,6 +110,7 @@ ColorInput.propTypes = {
     id         : PropTypes.string,
     name       : PropTypes.string,
     value      : PropTypes.any,
+    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     onChange   : PropTypes.func.isRequired,
     onClear    : PropTypes.func,
     onFocus    : PropTypes.func.isRequired,
