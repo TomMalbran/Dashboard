@@ -14,8 +14,9 @@ const Container = Styled.div.attrs((props) => (props))`
     display: flex;
     align-items: center;
     gap: 6px;
-    color: var(--black-color);
     width: 100%;
+    color: var(--black-color);
+    background-color: white;
 
     ${(props) => props.withBorder && `
         min-height: var(--input-height);
@@ -98,7 +99,7 @@ function InputContent(props) {
     // Do the Render
     return <Container
         ref={passedRef}
-        className={`input-border ${className}`}
+        className={`input-content ${className}`}
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}

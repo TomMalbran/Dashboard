@@ -45,6 +45,7 @@ InputItem.propTypes = {
     hasClear     : PropTypes.bool,
     onClear      : PropTypes.func,
     hide         : PropTypes.func,
+    children     : PropTypes.any,
 };
 
 /**

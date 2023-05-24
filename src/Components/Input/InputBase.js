@@ -28,6 +28,9 @@ const Input = Styled.input`
     &::placeholder {
         color: var(--lighter-color);
     }
+    &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
 `;
 
 

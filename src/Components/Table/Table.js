@@ -38,6 +38,10 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     width: 100%;
     table-layout: fixed;
 
+    .input-content {
+        background-color: transparent;
+    }
+
     @media (max-width: 700px) {
         --table-header-height: 0px;
     }

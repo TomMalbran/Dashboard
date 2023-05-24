@@ -41,7 +41,7 @@ const FieldContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
         .icon {
             border-bottom-left-radius: 0;
         }
-        .input-border {
+        .input-content {
             border-bottom-right-radius: 0;
         }
     `}

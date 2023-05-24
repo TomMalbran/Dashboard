@@ -26,6 +26,7 @@ const Textarea = Styled.textarea`
     margin: 0;
     padding: var(--input-padding);
     padding-top: 0px;
+    line-height: 16px;
     border: none;
     resize: none;
 
@@ -65,7 +66,7 @@ const Text = Styled.p`
  */
 function TextareaInput(props) {
     const {
-        inputRef, className, isFocused, isDisabled,
+        inputRef, className, isFocused, isDisabled, withLabel,
         id, name, value, placeholder, rows,
         onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
         counterText, children,
@@ -120,8 +121,8 @@ function TextareaInput(props) {
         className={className}
         isFocused={isFocused}
         isDisabled={isDisabled}
+        withLabel={withLabel}
         withBorder
-        withLabel
     >
         <Container>
             <Textarea
@@ -157,6 +158,7 @@ TextareaInput.propTypes = {
     className   : PropTypes.string,
     isFocused   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
+    withLabel   : PropTypes.bool,
     id          : PropTypes.string,
     name        : PropTypes.string.isRequired,
     placeholder : PropTypes.string,

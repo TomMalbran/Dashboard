@@ -24,11 +24,7 @@ const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
     width: 100%;
 `;
 
-const Content = Styled.div.attrs(({
-    withClose, withTitle, withError, withBorder,
-}) => ({
-    withClose, withTitle, withError, withBorder,
-}))`
+const Content = Styled.div.attrs(({ withClose, withTitle, withError, withBorder }) => ({ withClose, withTitle, withError, withBorder }))`
     width: 100%;
     display: grid;
     gap: 4px;
@@ -48,6 +44,11 @@ const Content = Styled.div.attrs(({
         ;
     `}
 
+    ${(props) => props.withError && `
+        .inputfield {
+            --input-border: var(--error-color);
+        }
+    `}
     ${(props) => props.withBorder && `
         padding-bottom: 12px;
         border-bottom: 2px solid var(--dark-gray);
@@ -86,6 +87,7 @@ const Close = Styled.div`
 
 const Error = Styled(InputError)`
     grid-area: error;
+    margin-top: 0;
 `;
 
 
@@ -212,6 +214,8 @@ function FieldInput(props) {
                     value={elem[item.name] || ""}
                     onChange={(name, value) => handleChange(value, index, item.name)}
                     isDisabled={isDisabled}
+                    withLabel={!!item.label || index === 0}
+                    isSmall={!item.label && index > 0}
                     fullWidth
                 />)}
             </Items>}

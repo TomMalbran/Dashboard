@@ -45,7 +45,7 @@ const Pages = Styled.p`
 const PagingInput = Styled(InputField)`
     margin-right: 16px;
 
-    & .input-border {
+    & .input-content {
         background: transparent;
     }
     & .input-select.input-select {
