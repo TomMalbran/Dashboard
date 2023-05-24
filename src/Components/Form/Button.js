@@ -42,12 +42,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     border: none;
     line-height: 1;
     cursor: pointer;
-    border-radius: var(--border-radius);
     transition: all 0.5s;
     background: var(--button-background);
     border: 1px solid var(--button-border);
     color: var(--button-color);
     text-transform: uppercase;
+    border-radius: ${(props) => props.isSmall ? "var(--border-radius-small)" : "var(--border-radius)"};
     font-size: ${(props) => props.isSmall ? "10px" : "12px"};
     padding: ${(props) => props.isSmall ? "4px 8px" : "8px 16px"};
     width: ${(props) => props.fullWidth ? "100%" : "auto"};
