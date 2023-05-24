@@ -134,6 +134,7 @@ function Table(props) {
                     isHidden   : !!tableHead.props.isHidden,
                     isTitle    : !!tableHead.props.isTitle,
                     isSmall    : !!tableHead.props.isSmall,
+                    isFlex     : !!tableHead.props.isFlex,
                     bigMobile  : !!tableHead.props.bigMobile,
                     hideMobile : !!tableHead.props.hideMobile,
                     hideCircle : !!tableHead.props.hideCircle,
@@ -195,6 +196,7 @@ function Table(props) {
     }
 
 
+    // Do the Render
     if (isLoading) {
         return <CircularLoader top={40} />;
     }

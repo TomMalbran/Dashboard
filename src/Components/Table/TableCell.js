@@ -12,10 +12,10 @@ import Circle               from "../Common/Circle";
 
 // Styles
 const TD = Styled.td.attrs(({
-    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex,
     bigMobile, hideMobile, smallSpace, rightSpace, indent,
 }) => ({
-    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex,
     bigMobile, hideMobile, smallSpace, rightSpace, indent,
 }))`
     && {
@@ -41,6 +41,11 @@ const TD = Styled.td.attrs(({
             color: var(--title-color);
             font-weight: bold;
         `}
+        ${(props) => props.isFlex && `
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        `}
     }
 
     @media (max-width: 700px) {
@@ -64,7 +69,8 @@ const TD = Styled.td.attrs(({
 function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
-        colSpan, grow, minWidth, maxWidth, align, isSmall, isBold, isTitle,
+        colSpan, grow, minWidth, maxWidth, align,
+        isSmall, isBold, isTitle, isFlex,
         bigMobile, hideMobile, smallSpace, rightSpace, indent, children,
     } = props;
 
@@ -81,6 +87,7 @@ function TableCell(props) {
         isSmall={isSmall}
         isBold={isBold}
         isTitle={isTitle}
+        isFlex={isFlex}
         bigMobile={bigMobile}
         hideMobile={hideMobile}
         smallSpace={smallSpace}
@@ -107,8 +114,9 @@ TableCell.propTypes = {
     maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
     isBold     : PropTypes.bool,
-    isTitle    : PropTypes.bool,
     isSmall    : PropTypes.bool,
+    isTitle    : PropTypes.bool,
+    isFlex     : PropTypes.bool,
     bigMobile  : PropTypes.bool,
     hideMobile : PropTypes.bool,
     circle     : PropTypes.string,
@@ -130,8 +138,9 @@ TableCell.defaultProps = {
     grow       : "1",
     align      : "left",
     isBold     : false,
-    isTitle    : false,
     isSmall    : false,
+    isTitle    : false,
+    isFlex     : false,
     bigMobile  : false,
     hideMobile : false,
     hideCircle : false,
