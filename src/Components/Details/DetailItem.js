@@ -14,14 +14,13 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Li = Styled.li.attrs(({ topBorder, isLink }) => ({ topBorder, isLink }))`
+const Li = Styled.li.attrs(({ isLink }) => ({ isLink }))`
     display: flex;
     align-items: center;
     padding: 8px;
     overflow: hidden;
-    border-bottom: 1px solid var(--lighter-gray);
+    border-radius: var(--border-radius);
     transition: all 0.2s;
-    ${(props) => props.topBorder ? "border-top: 16px solid var(--lighter-gray);" : ""};
     ${(props) => props.isLink ? "cursor: pointer;" : ""};
 
     &:hover {
@@ -42,7 +41,7 @@ const DetailIcon = Styled(Icon)`
  */
 function DetailItem(props) {
     const {
-        isHidden, className, message, icon, tooltip, prefix, withTip, showAlways, topBorder,
+        isHidden, className, message, icon, tooltip, prefix, withTip, showAlways,
         href, url, onClick, isEmail, isPhone, isWhatsApp, children,
     } = props;
 
@@ -77,7 +76,6 @@ function DetailItem(props) {
 
     return <Li
         className={className}
-        topBorder={topBorder}
         isLink={isLink}
         title={NLS.get(tooltip)}
         onClick={handleClick}
@@ -106,7 +104,6 @@ DetailItem.propTypes = {
     isWhatsApp : PropTypes.bool,
     onClick    : PropTypes.func,
     withTip    : PropTypes.bool,
-    topBorder  : PropTypes.bool,
     showAlways : PropTypes.bool,
     children   : PropTypes.any,
 };

@@ -54,7 +54,7 @@ const Span = Styled.span`
 
 const Ul = Styled.ul`
     margin: 0;
-    padding: 0;
+    padding: 8px;
     list-style: none;
 `;
 
