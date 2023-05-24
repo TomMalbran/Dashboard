@@ -511,6 +511,26 @@ function getValue(data, idKey, idValue, key, defValue) {
 }
 
 /**
+ * Returns the Value at the given id with the given key
+ * @param {Object[]}        data
+ * @param {String}          idKey
+ * @param {(Number|String)} idValue
+ * @param {String=}         key
+ * @returns {Array.<(Object|String)>}
+ */
+function getValues(data, idKey, idValue, key) {
+    const result = [];
+    if (data) {
+        for (const elem of data) {
+            if (String(elem[idKey]) === String(idValue)) {
+                result.push(key ? elem[key] : elem);
+            }
+        }
+    }
+    return result;
+}
+
+/**
  * Combines the Values in the given Key into a String
  * @param {Object} elem
  * @param {String} key
@@ -730,6 +750,7 @@ export default {
     hasValue,
     getIndex,
     getValue,
+    getValues,
     combineValues,
 
     getChildren,
