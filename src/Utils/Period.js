@@ -92,6 +92,12 @@ function getFromDate(value) {
     let   date     = null;
 
     switch (value) {
+    case TODAY:
+        date = dateTime;
+        break;
+    case YESTERDAY:
+        date = dateTime.moveDay(-1);
+        break;
     case LAST_7_DAYS:
         date = dateTime.moveDay(-7);
         break;
@@ -106,6 +112,9 @@ function getFromDate(value) {
         break;
     case LAST_90_DAYS:
         date = dateTime.moveDay(-90);
+        break;
+    case LAST_120_DAYS:
+        date = dateTime.moveDay(-120);
         break;
     case LAST_YEAR:
         date = dateTime.moveYear(-1);
@@ -144,6 +153,12 @@ function getToDate(value) {
     let   date     = null;
 
     switch (value) {
+    case TODAY:
+        date = dateTime;
+        break;
+    case YESTERDAY:
+        date = dateTime.moveDay(-1);
+        break;
     case LAST_7_DAYS:
         date = dateTime;
         break;
@@ -157,6 +172,9 @@ function getToDate(value) {
         date = dateTime;
         break;
     case LAST_90_DAYS:
+        date = dateTime;
+        break;
+    case LAST_120_DAYS:
         date = dateTime;
         break;
     case LAST_YEAR:
