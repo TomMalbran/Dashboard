@@ -118,6 +118,17 @@ function Menu(props) {
             }
         }
 
+        if (top && top < 0) {
+            top = 0;
+        } else if (top && height && top + height > window.innerHeight) {
+            top -= (top + height) - window.innerHeight;
+        }
+        if (left && left < 0) {
+            left = 10;
+        } else if (left && width && left + width > window.innerWidth) {
+            left -= (left + width) - window.innerWidth;
+        }
+
         if (top) {
             style.top = `${top}px`;
         } else if (bottom) {
