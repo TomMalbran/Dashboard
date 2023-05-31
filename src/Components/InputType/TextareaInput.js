@@ -26,6 +26,7 @@ const Textarea = Styled.textarea`
     margin: 0;
     padding: var(--input-padding);
     padding-top: 0px;
+    padding-bottom: 8px;
     line-height: 16px;
     border: none;
     resize: none;
@@ -36,6 +37,9 @@ const Textarea = Styled.textarea`
     &:disabled {
         color: rgb(120, 120, 120);
         background: white;
+    }
+    &::placeholder {
+        color: var(--lighter-color);
     }
 `;
 
