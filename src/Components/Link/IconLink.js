@@ -73,7 +73,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
 function IconLink(props) {
     const {
         isHidden, passedRef, variant, className, isDisabled, isSmall,
-        target, icon, tooltip, onTouchEnd,
+        target, icon, tooltip, tooltipVariant, onTouchEnd,
     } = props;
 
     const defaultRef = React.useRef();
@@ -85,7 +85,7 @@ function IconLink(props) {
     // Handles the Tooltip
     const handleTooltip = () => {
         if (tooltip) {
-            showTooltip(elementRef, "bottom", tooltip);
+            showTooltip(elementRef, tooltipVariant, tooltip);
         }
     };
 
@@ -116,24 +116,25 @@ function IconLink(props) {
  * @type {Object} propTypes
  */
 IconLink.propTypes = {
-    isHidden   : PropTypes.bool,
-    passedRef  : PropTypes.any,
-    className  : PropTypes.string,
-    variant    : PropTypes.string,
-    icon       : PropTypes.string,
-    tooltip    : PropTypes.string,
-    href       : PropTypes.string,
-    url        : PropTypes.string,
-    target     : PropTypes.string,
-    isEmail    : PropTypes.bool,
-    isPhone    : PropTypes.bool,
-    isWhatsApp : PropTypes.bool,
-    onClick    : PropTypes.func,
-    onTouchEnd : PropTypes.func,
-    isDisabled : PropTypes.bool,
-    isSmall    : PropTypes.bool,
-    dontStop   : PropTypes.bool,
-    children   : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    passedRef      : PropTypes.any,
+    className      : PropTypes.string,
+    variant        : PropTypes.string,
+    icon           : PropTypes.string,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    href           : PropTypes.string,
+    url            : PropTypes.string,
+    target         : PropTypes.string,
+    isEmail        : PropTypes.bool,
+    isPhone        : PropTypes.bool,
+    isWhatsApp     : PropTypes.bool,
+    onClick        : PropTypes.func,
+    onTouchEnd     : PropTypes.func,
+    isDisabled     : PropTypes.bool,
+    isSmall        : PropTypes.bool,
+    dontStop       : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**
@@ -141,19 +142,20 @@ IconLink.propTypes = {
  * @type {Object} defaultProps
  */
 IconLink.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    variant    : Brightness.LIGHT,
-    tooltip    : "",
-    href       : "#",
-    url        : "",
-    target     : "_self",
-    isEmail    : false,
-    isPhone    : false,
-    isWhatsApp : false,
-    isDisabled : false,
-    isSmall    : false,
-    dontStop   : false,
+    isHidden       : false,
+    className      : "",
+    variant        : Brightness.LIGHT,
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    href           : "#",
+    url            : "",
+    target         : "_self",
+    isEmail        : false,
+    isPhone        : false,
+    isWhatsApp     : false,
+    isDisabled     : false,
+    isSmall        : false,
+    dontStop       : false,
 };
 
 export default IconLink;
