@@ -19,11 +19,7 @@ const open = keyframes`
 `;
 
 // Styles
-const Container = Styled.div.attrs(({
-    top, left, width, variant, isOpen,
-}) => ({
-    top, left, width, variant, isOpen,
-}))`
+const Container = Styled.div.attrs(({ top, left, width, variant, isOpen }) => ({ top, left, width, variant, isOpen }))`
     box-sizing: border-box;
     position: fixed;
     top: ${(props) => `${props.top}px`};
@@ -44,17 +40,17 @@ const Container = Styled.div.attrs(({
     z-index: var(--z-tooltip);
 
     ${(props) => props.isOpen && css`animation: ${open} 0.3s 1s ease-out forwards;`}
+
+    ${(props) => (props.variant === "top" || props.variant === "bottom") && `
+        transform: translateX(-50%);
+    `}
     ${(props) => (props.variant === "left" || props.variant === "right") && `
         transform: translateY(-50%);
-    `}
-    ${(props) => (props.variant === "bottom") && `
-        transform: translateX(-50%);
     `}
 
     &::before {
         content: "";
         position: absolute;
-        top: 50%;
         width: 0;
         height: 0;
         border-width: 6px;
@@ -63,18 +59,28 @@ const Container = Styled.div.attrs(({
         pointer-events: none;
         z-index: var(--z-tooltip);
 
-        ${(props) => props.variant === "left" && `
-            right: -12px;
-            border-color: transparent transparent transparent var(--tooltip-color);
+        ${(props) => props.variant === "top" && `
+            bottom: -18px;
+            left: calc(50% - 6px);
+            border-color: var(--tooltip-color) transparent transparent transparent;
         `}
-        ${(props) => props.variant === "right" && `
-            left: -12px;
-            border-color: transparent var(--tooltip-color) transparent transparent;
-        `}
+
         ${(props) => props.variant === "bottom" && `
             top: -6px;
             left: calc(50% - 6px);
             border-color: transparent transparent var(--tooltip-color) transparent;
+        `}
+
+        ${(props) => props.variant === "left" && `
+            top: 50%;
+            right: -12px;
+            border-color: transparent transparent transparent var(--tooltip-color);
+        `}
+
+        ${(props) => props.variant === "right" && `
+            top: 50%;
+            left: -12px;
+            border-color: transparent var(--tooltip-color) transparent transparent;
         `}
     }
 `;
@@ -102,14 +108,19 @@ function Tooltip() {
     let   width  = 0;
 
     switch (variant) {
-    case "right":
-        top  += bounds.height / 2;
-        left += bounds.width + 8;
+    case "top":
+        top  -= bounds.height + 8;
+        left += bounds.width / 2;
+        width = bounds.width;
         break;
     case "bottom":
         top  += bounds.height + 8;
         left += bounds.width / 2;
         width = bounds.width;
+        break;
+    case "right":
+        top  += bounds.height / 2;
+        left += bounds.width + 8;
         break;
     default:
     }
