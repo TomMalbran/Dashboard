@@ -14,11 +14,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Item = Styled.div.attrs(({
-    isSelected, isDisabled, inHeader,
-}) => ({
-    isSelected, isDisabled, inHeader,
-}))`
+const Item = Styled.div.attrs(({ isSelected, isDisabled, inHeader }) => ({ isSelected, isDisabled, inHeader }))`
     position: relative;
     flex-grow: 1;
     box-sizing: border-box;
@@ -194,8 +190,8 @@ function TabItem(props) {
             onClick={handleEdit}
         />}
         {icon ? <Icon icon={icon} /> : NLS.get(message)}
-        {hasAmount && <Amount>{amount}</Amount>}
-        {!!badge && <Badge>{badge}</Badge>}
+        {hasAmount && <Amount className="tab-amount">{amount}</Amount>}
+        {!!badge && <Badge className="tab-badge">{badge}</Badge>}
         {showDelete && <DeleteIcon
             icon="close"
             onClick={handleDelete}
