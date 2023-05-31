@@ -69,7 +69,7 @@ function CheckboxInput(props) {
     const {
         inputRef, className, isFocused, isDisabled, withBorder,
         id, name, value, label, isChecked,
-        onChange, onFocus, onBlur,
+        onChange, onClick, onFocus, onBlur, children,
     } = props;
 
     // Handles the Change
@@ -83,6 +83,9 @@ function CheckboxInput(props) {
             Utils.triggerClick(inputRef);
             e.preventDefault();
             e.stopPropagation();
+        }
+        if (onClick) {
+            onClick(e);
         }
     };
 
@@ -112,6 +115,7 @@ function CheckboxInput(props) {
             />
             <Span icon={isChecked ? "checkedbox" : "checkbox"} />
             {!!label && <Html variant="span">{NLS.get(label)}</Html>}
+            {children}
         </Label>
     </InputContent>;
 }
@@ -132,8 +136,10 @@ CheckboxInput.propTypes = {
     label      : PropTypes.string,
     isChecked  : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
+    onClick    : PropTypes.func,
     onFocus    : PropTypes.func,
     onBlur     : PropTypes.func,
+    children   : PropTypes.any,
 };
 
 /**
