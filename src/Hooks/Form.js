@@ -10,13 +10,13 @@ import Utils                from "../Utils/Utils";
  * Returns a Hook to use the Form Data and Errors
  * @param {String}    slice
  * @param {Object}    initialData
- * @param {Function}  edit
+ * @param {Function=} edit
  * @param {Function=} onSubmit
  * @param {Boolean=}  startInLoading
  * @param {Boolean=}  open
  * @returns {Object}
  */
-function useForm(slice, initialData, edit, onSubmit = null, startInLoading = true, open = true) {
+function useForm(slice, initialData, edit = null, onSubmit = null, startInLoading = true, open = true) {
     const { loaders                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
@@ -100,6 +100,13 @@ function useForm(slice, initialData, edit, onSubmit = null, startInLoading = tru
 
     // Starts the Submit
     const handleSubmit = async () => {
+        if (!edit) {
+            if (onSubmit) {
+                onSubmit();
+            }
+            return;
+        }
+
         if (loading) {
             return;
         }
