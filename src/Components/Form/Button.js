@@ -28,7 +28,7 @@ const Variant = {
 
 
 // Styles
-const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => ({ variant, isSmall, fullWidth, withIcon }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallRadius }) => ({ variant, isSmall, fullWidth, withIcon, smallRadius }))`
     --button-color: var(--black-color);
     --button-border: black;
     --button-background: black;
@@ -47,7 +47,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon }) => (
     border: 1px solid var(--button-border);
     color: var(--button-color);
     text-transform: uppercase;
-    border-radius: ${(props) => props.isSmall ? "var(--border-radius-small)" : "var(--border-radius)"};
+    border-radius: ${(props) => props.smallRadius ? "var(--border-radius-small)" : "var(--border-radius)"};
     font-size: ${(props) => props.isSmall ? "10px" : "12px"};
     padding: ${(props) => props.isSmall ? "4px 8px" : "8px 16px"};
     width: ${(props) => props.fullWidth ? "100%" : "auto"};
@@ -200,8 +200,9 @@ function Button(props) {
         return <React.Fragment />;
     }
 
-    const content  = children || NLS.get(message);
-    const withIcon = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
+    const content     = children || NLS.get(message);
+    const withIcon    = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
+    const smallRadius = Boolean(isSmall && !icon && !afterIcon);
 
     return <Btn
         ref={passedRef}
@@ -211,6 +212,7 @@ function Button(props) {
         isSmall={isSmall}
         fullWidth={fullWidth}
         withIcon={withIcon}
+        smallRadius={smallRadius}
         onClick={onClick}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
