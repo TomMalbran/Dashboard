@@ -84,6 +84,15 @@ function usePath() {
 }
 
 /**
+ * Returns the URL Search Params
+ * @returns {URLSearchParams}
+ */
+function useSearchParams() {
+    const location = useLocation();
+    return new URLSearchParams(location.search);
+}
+
+/**
  * Returns the Parent Path
  * @param {Number=} levels
  * @returns {String}
@@ -360,6 +369,7 @@ export default {
     unsetParams,
 
     usePath,
+    useSearchParams,
     useFrom,
     useParent,
     useMenuUrl,
