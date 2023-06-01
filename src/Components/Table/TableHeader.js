@@ -11,11 +11,15 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TH = Styled.th.attrs(({
-    flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace,
+const props = ({
+    flexGrow, flexShrink, minWidth, maxWidth,
+    align, isSmall, hasSorting, rightSpace,
 }) => ({
-    flexGrow, minWidth, maxWidth, align, isSmall, hasSorting, rightSpace,
-}))`
+    flexGrow, flexShrink, minWidth, maxWidth,
+    align, isSmall, hasSorting, rightSpace,
+});
+
+const TH = Styled.th.attrs(props)`
     && {
         box-sizing: border-box;
         border: none;
@@ -24,6 +28,7 @@ const TH = Styled.th.attrs(({
         font-weight: bold;
         font-size: 12px;
         flex-grow: ${(props) => props.flexGrow};
+        flex-shrink: ${(props) => props.flexShrink};
         min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "0"};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
@@ -54,7 +59,8 @@ function TableHeader(props) {
     const {
         isHidden, className, message,
         fetch, hasSorting, sort, field, noSorting,
-        colSpan, grow, minWidth, maxWidth, align, isSmall, rightSpace, children,
+        colSpan, grow, shrink, minWidth, maxWidth,
+        align, isSmall, rightSpace, children,
     } = props;
 
     const withSorting = hasSorting && !noSorting;
@@ -79,6 +85,7 @@ function TableHeader(props) {
     return <TH
         className={className}
         flexGrow={grow}
+        flexShrink={shrink}
         minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
@@ -110,6 +117,7 @@ TableHeader.propTypes = {
     className  : PropTypes.string,
     colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    shrink     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
@@ -133,6 +141,7 @@ TableHeader.defaultProps = {
     className  : "",
     colSpan    : "1",
     grow       : "1",
+    shrink     : "1",
     align      : "left",
     noSorting  : false,
     isSmall    : false,

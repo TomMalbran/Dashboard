@@ -141,6 +141,7 @@ function Table(props) {
                     smallSpace : !!tableHead.props.smallSpace,
                     rightSpace : !!tableHead.props.rightSpace,
                     grow       : tableHead.props.grow     || "",
+                    shrink     : tableHead.props.shrink   || "",
                     minWidth   : tableHead.props.minWidth || "",
                     maxWidth   : tableHead.props.maxWidth || "",
                     align      : tableHead.props.align    || "",

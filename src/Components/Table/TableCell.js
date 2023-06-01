@@ -11,17 +11,20 @@ import Circle               from "../Common/Circle";
 
 
 // Styles
-const TD = Styled.td.attrs(({
-    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex,
+const props = ({
+    flexGrow, flexShrink, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex,
     bigMobile, hideMobile, smallSpace, rightSpace, indent,
 }) => ({
-    flexGrow, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex,
+    flexGrow, flexShrink, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex,
     bigMobile, hideMobile, smallSpace, rightSpace, indent,
-}))`
+});
+
+const TD = Styled.td.attrs(props)`
     && {
         box-sizing: border-box;
         font-size: 13px;
         flex-grow: ${(props) => props.flexGrow};
+        flex-shrink: ${(props) => props.flexShrink};
         min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "0"};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         text-align: ${(props) => props.align};
@@ -69,7 +72,7 @@ const TD = Styled.td.attrs(({
 function TableCell(props) {
     const {
         isHidden, className, message, circle, hideCircle,
-        colSpan, grow, minWidth, maxWidth, align,
+        colSpan, grow, shrink, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex,
         bigMobile, hideMobile, smallSpace, rightSpace, indent, children,
     } = props;
@@ -81,6 +84,7 @@ function TableCell(props) {
     return <TD
         className={className}
         flexGrow={grow}
+        flexShrink={shrink}
         minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
@@ -110,6 +114,7 @@ TableCell.propTypes = {
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     colSpan    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    shrink     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align      : PropTypes.string,
@@ -136,6 +141,7 @@ TableCell.defaultProps = {
     className  : "",
     colSpan    : "1",
     grow       : "1",
+    shrink     : "1",
     align      : "left",
     isBold     : false,
     isSmall    : false,
