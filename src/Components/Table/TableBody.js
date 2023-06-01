@@ -28,19 +28,19 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
             - var(--table-filter-height)
         );
 
-        ::-webkit-scrollbar {
+        &&::-webkit-scrollbar {
             width: 14px;
             height: 14px;
             border-left: 2px solid var(--light-gray);
         }
-        ::-webkit-scrollbar-thumb {
+        &&::-webkit-scrollbar-thumb {
             border-radius: 999px;
             border: 2px solid transparent;
             border-left-width: 4px;
             box-shadow: inset 0 0 0 8px var(--light-gray);
             transition: all 0.2s;
         }
-        ::-webkit-scrollbar-thumb:hover {
+        &&::-webkit-scrollbar-thumb:hover {
             box-shadow: inset 0 0 0 8px var(--dark-gray);
         }
     `}
