@@ -39,6 +39,7 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
     --dialog-body    : calc(var(--full-height) - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
     position: static;
+    display: block;
     margin: var(--dialog-spacing);
     padding: 0;
     width: calc(100% - var(--dialog-spacing) * 2);
