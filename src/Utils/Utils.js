@@ -158,6 +158,14 @@ function unselectAll() {
 }
 
 /**
+ * Returns the Current Time
+ * @returns {Number}
+ */
+function getCurrentTime() {
+    return Math.floor(new Date().getTime() / 1000);
+}
+
+/**
  * Creates a Slug from a string
  * @param {String} value
  * @returns {String}
@@ -728,6 +736,7 @@ export default {
     inRef,
     hasSelection,
     unselectAll,
+    getCurrentTime,
     createSlug,
     formatNumber,
     formatPrice,
