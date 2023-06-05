@@ -9,16 +9,24 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.div.attrs((props) => (props))`
+const props = ({
+    isFocused, isDisabled, isSmall,
+    withBorder, withPadding, withLabel, withClick,
+}) => ({
+    isFocused, isDisabled, isSmall,
+    withBorder, withPadding, withLabel, withClick,
+});
+
+const Container = Styled.div.attrs(props)`
     box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 6px;
     width: 100%;
     color: var(--black-color);
-    background-color: white;
 
     ${(props) => props.withBorder && `
+        background-color: white;
         min-height: var(--input-height);
         border: 1px solid var(--input-border);
         border-radius: var(--border-radius);
