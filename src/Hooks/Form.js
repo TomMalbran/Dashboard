@@ -87,8 +87,12 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
 
 
     // Handles the Input Change
-    const handleChange = (name, value) => {
-        setData({ [name] : value });
+    const handleChange = (name, value, secondName, secondValue) => {
+        const data = { [name] : value };
+        if (secondName) {
+            data[secondName] = secondValue;
+        }
+        setData(data);
         setErrors({ [name] : "" });
     };
 

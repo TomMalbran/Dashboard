@@ -82,10 +82,10 @@ function InputField(props) {
     };
 
     // Handles the Change
-    const handleChange = (name, value) => {
+    const handleChange = (name, value, secondName, secondValue) => {
         setHasValue(InputType.isValueFilled(value));
         if (onChange) {
-            onChange(name, value);
+            onChange(name, value, secondName, secondValue);
         }
     };
 
@@ -104,7 +104,7 @@ function InputField(props) {
             suggestRef.current.clear();
             params = [ suggestID, 0, name, "" ];
         } else if (type === "file") {
-            params[1] = {};
+            params = [ name, undefined, `${name}File`, "" ];
         }
 
         if (onClear) {

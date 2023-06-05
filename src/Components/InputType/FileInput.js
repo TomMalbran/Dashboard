@@ -56,7 +56,7 @@ function FileInput(props) {
     const handleChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            onChange(name, file);
+            onChange(name, file, `${name}Name`, file.name);
         }
     };
 
