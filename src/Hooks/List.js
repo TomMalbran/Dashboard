@@ -42,14 +42,26 @@ function useList(slice, type = "", loadOnStart = true) {
     };
 
     // Loads the Content
-    const load = (params = data.sort) => {
-        startLoader();
+    const load = (params = data.sort, withLoader = true) => {
+        if (withLoader) {
+            startLoader();
+        }
         fetch(params);
     };
 
+    // Filters the content after Tab
+    const loadTab = (filter, withLoader = true) => {
+        if (withLoader) {
+            startLoader();
+        }
+        fetch({ ...data.sort, filter, page : 0 });
+    };
+
     // Filters the content after Filter
-    const filter = (filters) => {
-        startLoader();
+    const loadFilter = (filters, withLoader = true) => {
+        if (withLoader) {
+            startLoader();
+        }
         const params = { ...data.sort, page : 0 };
         if (type) {
             fetchList(type, elemID, filters, params);
@@ -60,7 +72,7 @@ function useList(slice, type = "", loadOnStart = true) {
 
 
     // The API
-    return { fetch, load, filter };
+    return { fetch, load, loadTab, loadFilter };
 }
 
 
