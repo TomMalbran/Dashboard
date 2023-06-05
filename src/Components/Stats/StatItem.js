@@ -17,7 +17,7 @@ const Variant = {
 
 
 // Styles
-const Li = Styled.li.attrs(({ variant, twoLines }) => ({ variant, twoLines }))`
+const Li = Styled.li.attrs(({ variant, twoLines, hasClick }) => ({ variant, twoLines, hasClick }))`
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -48,6 +48,7 @@ const Li = Styled.li.attrs(({ variant, twoLines }) => ({ variant, twoLines }))`
         justify-content: center;
         height: auto;
     `}
+    ${(props) => props.hasClick && "cursor: pointer;"}
 `;
 
 const Text = Styled.span.attrs(({ twoLines }) => ({ twoLines }))`
@@ -78,7 +79,7 @@ const Value = Styled.span.attrs(({ variant }) => ({ variant }))`
 function StatItem(props) {
     const {
         variant, twoLines, message, tooltip, value,
-        decimals, percent, isPrice, isPercent,
+        decimals, percent, isPrice, isPercent, onClick,
     } = props;
 
     const elementRef = React.useRef();
@@ -90,6 +91,18 @@ function StatItem(props) {
             showTooltip(elementRef, "bottom", tooltip);
         }
     };
+
+    // Handles the Click
+    const handleClick = () => {
+        if (!onClick) {
+            return;
+        }
+        if (tooltip) {
+            hideTooltip();
+        }
+        onClick();
+    };
+
 
 
     let content = value;
@@ -111,6 +124,8 @@ function StatItem(props) {
     return <Li
         ref={elementRef}
         variant={variant}
+        hasClick={!!onClick}
+        onClick={handleClick}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
     >
@@ -138,6 +153,7 @@ StatItem.propTypes = {
     isPrice   : PropTypes.bool,
     isPercent : PropTypes.bool,
     twoLines  : PropTypes.bool,
+    onClick   : PropTypes.func,
 };
 
 /**
