@@ -82,6 +82,7 @@ Input.propTypes = {
     autoComplete : PropTypes.string,
     spellCheck   : PropTypes.string,
     isDisabled   : PropTypes.bool,
+    withBorder   : PropTypes.bool,
     fieldButton  : PropTypes.string,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
