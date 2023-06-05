@@ -6,6 +6,7 @@ import Styled               from "styled-components";
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Status               from "../../Core/Status";
+import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -135,8 +136,12 @@ function TabItem(props) {
     const {
         className, variant, icon, message, status, value, index, selected,
         amount, badge, isDisabled, inHeader,
+        tooltip, tooltipVariant,
         canEdit, canDelete, onClick, onAction,
     } = props;
+
+    const elementRef = React.useRef();
+    const { showTooltip, hideTooltip } = Store.useAction("core");
 
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (value || index);
@@ -145,6 +150,7 @@ function TabItem(props) {
     const canAction  = !isDisabled && onAction;
     const showEdit   = Boolean(canEdit && canAction);
     const showDelete = Boolean(canDelete && canAction);
+
 
     // Handles the Action
     const handleAction = (action) => {
@@ -176,14 +182,24 @@ function TabItem(props) {
         e.preventDefault();
     };
 
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip);
+        }
+    };
+
 
     // Do the Render
     return <Component
+        ref={elementRef}
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
         inHeader={inHeader}
         onClick={handleClick}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     >
         {showEdit && <EditIcon
             icon="edit"
@@ -204,24 +220,26 @@ function TabItem(props) {
  * @type {Object} propTypes
  */
 TabItem.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    variant    : PropTypes.string,
-    status     : PropTypes.string,
-    index      : PropTypes.number,
-    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    icon       : PropTypes.string,
-    message    : PropTypes.string,
-    amount     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    badge      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    isDisabled : PropTypes.bool,
-    isSelected : PropTypes.bool,
-    inHeader   : PropTypes.bool,
-    canEdit    : PropTypes.bool,
-    canDelete  : PropTypes.bool,
-    onClick    : PropTypes.func,
-    onAction   : PropTypes.func,
+    isHidden       : PropTypes.bool,
+    className      : PropTypes.string,
+    variant        : PropTypes.string,
+    status         : PropTypes.string,
+    index          : PropTypes.number,
+    value          : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    selected       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    icon           : PropTypes.string,
+    message        : PropTypes.string,
+    amount         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge          : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    isDisabled     : PropTypes.bool,
+    isSelected     : PropTypes.bool,
+    inHeader       : PropTypes.bool,
+    canEdit        : PropTypes.bool,
+    canDelete      : PropTypes.bool,
+    onClick        : PropTypes.func,
+    onAction       : PropTypes.func,
 };
 
 /**
@@ -229,16 +247,18 @@ TabItem.propTypes = {
  * @type {Object} defaultProps
  */
 TabItem.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    variant    : Brightness.LIGHT,
-    value      : "",
-    index      : 0,
-    isDisabled : false,
-    isSelected : false,
-    inHeader   : false,
-    canEdit    : false,
-    canDelete  : false,
+    isHidden       : false,
+    className      : "",
+    variant        : Brightness.LIGHT,
+    value          : "",
+    index          : 0,
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    isDisabled     : false,
+    isSelected     : false,
+    inHeader       : false,
+    canEdit        : false,
+    canDelete      : false,
 };
 
 export default TabItem;
