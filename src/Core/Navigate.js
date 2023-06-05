@@ -72,6 +72,15 @@ function unsetParams(params) {
     return params;
 }
 
+/**
+ * Returns the Child Path
+ * @returns {Object}
+ */
+function useChildPath() {
+    const params = useRouterParams();
+    return params["*"] || "";
+}
+
 
 
 /**
@@ -107,9 +116,11 @@ function useParent(levels = 1) {
  * @returns {String}
  */
 function useFrom() {
-    const path   = usePath();
-    const levels = /[0-9]+$/.test(path) ? 3 : 2;
-    return useParent(levels);
+    const path       = usePath();
+    const childPath  = useChildPath();
+    const basePath   = path.replace(childPath, "");
+    const parentpath = basePath.split("/").slice(0, -2).join("/");
+    return parentpath;
 }
 
 /**
@@ -118,13 +129,13 @@ function useFrom() {
  * @returns {String}
  */
 function useMenuUrl(url) {
-    const route   = NLS.url(url);
-    const path    = usePath();
-    const parent  = useParent(1);
-    const grandpa = useParent(2);
+    const route     = NLS.url(url);
+    const path      = usePath();
+    const parent    = useParent(1);
+    const childPath = useChildPath();
 
-    if (/[0-9]+$/.test(path)) {
-        return `${grandpa}/${route}`;
+    if (childPath) {
+        return path.replace(childPath, route);
     }
     return `${parent}/${route}`;
 }
@@ -134,18 +145,15 @@ function useMenuUrl(url) {
  * @returns {Function}
  */
 function useSelect() {
-    let   path   = usePath();
-    const parent = useParent(1);
-    if (/[0-9]+$/.test(path)) {
-        path = parent;
-    }
+    const path      = usePath();
+    const childPath = useChildPath();
 
     return (url, startsWith) => {
         const route = NLS.url(url);
         if (startsWith) {
             return path.startsWith(`/${route}`);
         }
-        return path.endsWith(route);
+        return childPath.startsWith(route);
     };
 }
 
