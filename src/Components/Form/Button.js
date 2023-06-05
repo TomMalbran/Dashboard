@@ -110,6 +110,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
             --button-color: white;
             --button-border: var(--accent-color);
             --button-background: var(--accent-color);
+            --button-hover-color: var(--accent-color);
         `;
         case Variant.WHITE: return `
             --button-color: var(--primary-color);
@@ -178,7 +179,8 @@ function Button(props) {
     const {
         passedRef, isHidden, className, variant,
         isDisabled, isSmall, fullWidth,
-        icon, afterIcon, message, tooltip, children,
+        icon, afterIcon, message,
+        tooltip, tooltipVariant, children,
     } = props;
 
     const defaultRef = React.useRef();
@@ -190,7 +192,7 @@ function Button(props) {
     // Handles the Tooltip
     const handleTooltip = () => {
         if (tooltip) {
-            showTooltip(elementRef, "bottom", tooltip);
+            showTooltip(elementRef, tooltipVariant, tooltip);
         }
     };
 
@@ -236,26 +238,27 @@ function Button(props) {
  * @type {Object} propTypes
  */
 Button.propTypes = {
-    isHidden   : PropTypes.bool,
-    passedRef  : PropTypes.any,
-    className  : PropTypes.string,
-    message    : PropTypes.string,
-    tooltip    : PropTypes.string,
-    variant    : PropTypes.string.isRequired,
-    isDisabled : PropTypes.bool,
-    isSmall    : PropTypes.bool,
-    fullWidth  : PropTypes.bool,
-    href       : PropTypes.string,
-    url        : PropTypes.string,
-    target     : PropTypes.string,
-    isEmail    : PropTypes.bool,
-    isPhone    : PropTypes.bool,
-    isWhatsApp : PropTypes.bool,
-    propagate  : PropTypes.bool,
-    icon       : PropTypes.string,
-    afterIcon  : PropTypes.string,
-    onClick    : PropTypes.func,
-    children   : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    passedRef      : PropTypes.any,
+    className      : PropTypes.string,
+    variant        : PropTypes.string.isRequired,
+    message        : PropTypes.string,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    isDisabled     : PropTypes.bool,
+    isSmall        : PropTypes.bool,
+    fullWidth      : PropTypes.bool,
+    href           : PropTypes.string,
+    url            : PropTypes.string,
+    target         : PropTypes.string,
+    isEmail        : PropTypes.bool,
+    isPhone        : PropTypes.bool,
+    isWhatsApp     : PropTypes.bool,
+    propagate      : PropTypes.bool,
+    icon           : PropTypes.string,
+    afterIcon      : PropTypes.string,
+    onClick        : PropTypes.func,
+    children       : PropTypes.any,
 };
 
 /**
@@ -263,18 +266,20 @@ Button.propTypes = {
  * @type {Object} defaultProps
  */
 Button.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    isDisabled : false,
-    isSmall    : false,
-    fullWidth  : false,
-    href       : "",
-    url        : "",
-    target     : "_self",
-    isEmail    : false,
-    isPhone    : false,
-    isWhatsApp : false,
-    propagate  : false,
+    isHidden       : false,
+    className      : "",
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    isDisabled     : false,
+    isSmall        : false,
+    fullWidth      : false,
+    href           : "",
+    url            : "",
+    target         : "_self",
+    isEmail        : false,
+    isPhone        : false,
+    isWhatsApp     : false,
+    propagate      : false,
 };
 
 export default Button;
