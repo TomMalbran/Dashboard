@@ -30,8 +30,9 @@ const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
  */
 function ActionItem(props) {
     const {
-        action, variant, isSmall, message, icon, tooltip,
-        onClick, onAction, direction, children,
+        action, variant, isSmall, message, icon,
+        onClick, onAction, direction,
+        tooltip, tooltipVariant, children,
     } = props;
 
     // References
@@ -93,6 +94,7 @@ function ActionItem(props) {
             variant={variant}
             message={message || act.message}
             tooltip={tooltip}
+            tooltipVariant={tooltipVariant}
             icon={icon || act.icon}
             onClick={() => handleClick()}
             isSmall={isSmall}
@@ -119,17 +121,18 @@ function ActionItem(props) {
  * @type {Object} propTypes
  */
 ActionItem.propTypes = {
-    isHidden  : PropTypes.bool,
-    variant   : PropTypes.string,
-    isSmall   : PropTypes.bool,
-    action    : PropTypes.string,
-    message   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    icon      : PropTypes.string,
-    tooltip   : PropTypes.string,
-    onClick   : PropTypes.func,
-    onAction  : PropTypes.func,
-    direction : PropTypes.string,
-    children  : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    variant        : PropTypes.string,
+    isSmall        : PropTypes.bool,
+    action         : PropTypes.string,
+    message        : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    icon           : PropTypes.string,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    onClick        : PropTypes.func,
+    onAction       : PropTypes.func,
+    direction      : PropTypes.string,
+    children       : PropTypes.any,
 };
 
 /**
