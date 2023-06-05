@@ -6,6 +6,7 @@ import Utils                from "../Utils/Utils";
 
 
 
+// eslint-disable-next-line valid-jsdoc
 /**
  * Returns a Hook to use the Form Data and Errors
  * @param {String}    slice
@@ -14,7 +15,21 @@ import Utils                from "../Utils/Utils";
  * @param {Function=} onSubmit
  * @param {Boolean=}  startInLoading
  * @param {Boolean=}  open
- * @returns {Object}
+ * @returns {{
+ *   loading      : Boolean,
+ *   startLoading : Function,
+ *   endLoading   : Function,
+ *   data         : Object,
+ *   setData      : Function,
+ *   resetData    : Function,
+ *   errors       : Object,
+ *   setErrors    : Function,
+ *   resetErrors  : Function,
+ *   setElem      : Function,
+ *   handleChange : (...any) => any,
+ *   handleSearch : (...any) => any,
+ *   handleSubmit : (...any) => any,
+ * }}
  */
 function useForm(slice, initialData, edit = null, onSubmit = null, startInLoading = true, open = true) {
     const { loaders                } = Store.useState("core");

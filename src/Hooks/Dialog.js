@@ -13,7 +13,13 @@ import Store                from "../Core/Store";
  * @param {Object=}   data
  * @param {Function=} setElem
  * @param {Function=} getElem
- * @returns {Object}
+ * @returns {{
+ *   loading      : Boolean,
+ *   startLoading : Function,
+ *   endLoading   : Function,
+ *   elem         : Object,
+ *   canEdit      : Boolean,
+ * }}
  */
 function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem = null) {
     const { loaders } = Store.useState("core");
