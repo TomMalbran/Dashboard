@@ -20,7 +20,7 @@ const tick = keyframes`
 `;
 
 // Styles
-const Label = Styled.label`
+const Container = Styled.label`
     position: relative;
     display: flex;
     align-items: center;
@@ -38,8 +38,11 @@ const Input = Styled.input`
     outline: 0;
     opacity: 0;
 
+    &:checked + span {
+        color: var(--input-checkbox-check, black);
+    }
     &:focus + span {
-        color: var(--border-color);
+        color: var(--input-checkbox-focus, black);
         outline: none;
     }
     &:checked + span::before {
@@ -51,11 +54,17 @@ const Input = Styled.input`
 `;
 
 const Span = Styled(Icon)`
+    color: var(--input-checkbox-normal, black);
     position: relative;
     top: 2px;
     margin: -1px 6px 0 0;
     font-size: 18px;
     cursor: pointer;
+`;
+
+const Label = Styled(Html)`
+    font-size: var(--input-font);
+    color: var(--input-checkbox-normal, black);
 `;
 
 
@@ -100,7 +109,7 @@ function CheckboxInput(props) {
         withClick={withBorder}
         withPadding
     >
-        <Label>
+        <Container>
             <Input
                 ref={inputRef}
                 type="checkbox"
@@ -114,9 +123,9 @@ function CheckboxInput(props) {
                 onBlur={onBlur}
             />
             <Span icon={isChecked ? "checkedbox" : "checkbox"} />
-            {!!label && <Html variant="span">{NLS.get(label)}</Html>}
+            {!!label && <Label variant="span">{NLS.get(label)}</Label>}
             {children}
-        </Label>
+        </Container>
     </InputContent>;
 }
 
