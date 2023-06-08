@@ -17,10 +17,11 @@ const Div = Styled.div.attrs(({ centered }) => ({ centered }))`
     ${(props) => props.centered ? "text-align: center;" : ""}
 `;
 
-const Content = Styled(Html).attrs(({ centered }) => ({ centered }))`
+const Content = Styled(Html).attrs(({ centered, noSpace }) => ({ centered, noSpace }))`
     color: var(--black-color);
     font-weight: 400;
-    ${(props) => props.centered ? "text-align: center;" : ""}
+    ${(props) => props.centered && "text-align: center;"}
+    ${(props) => props.noSpace && "margin: 0;"}
 `;
 
 
@@ -32,7 +33,7 @@ const Content = Styled(Html).attrs(({ centered }) => ({ centered }))`
  */
 function DialogMessage(props) {
     const {
-        isHidden, className, variant, centered,
+        isHidden, className, variant, centered, noSpace,
         html, message, children,
     } = props;
 
@@ -55,6 +56,7 @@ function DialogMessage(props) {
         variant={variant}
         className={className}
         centered={centered}
+        noSpace={noSpace}
     >
         {content}
     </Content>;
@@ -69,6 +71,7 @@ DialogMessage.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
     centered  : PropTypes.bool,
+    noSpace   : PropTypes.bool,
     message   : PropTypes.string,
     html      : PropTypes.string,
     children  : PropTypes.any,
@@ -83,6 +86,7 @@ DialogMessage.defaultProps = {
     className : "",
     variant   : "div",
     centered  : false,
+    noSpace   : false,
 };
 
 export default DialogMessage;
