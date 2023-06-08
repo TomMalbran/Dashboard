@@ -13,8 +13,10 @@ const SearchField = Styled(IconField)`
     margin-left: 32px;
     width: 200px;
 
-    .input {
+    .input-content {
         background-color: var(--secondary-color);
+    }
+    .input {
         color: white;
         padding: 4px 8px;
     }
@@ -39,12 +41,14 @@ function DialogSearch(props) {
     };
 
 
+    // Do the Render
     return <SearchField
         name="search"
         icon="search"
         placeholder="GENERAL_SEARCH"
         value={value}
         onChange={handleChange}
+        withBorder={false}
     />;
 }
 
