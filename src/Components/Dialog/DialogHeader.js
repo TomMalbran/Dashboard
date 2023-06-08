@@ -41,8 +41,8 @@ const Div = Styled.div`
         margin-right: 8px;
     }
     & > .tabs {
-        margin-top: calc(var(--dialog-header) - var(--tabs-dialog));
         margin-left: 32px;
+        margin-bottom: 0;
     }
 `;
 

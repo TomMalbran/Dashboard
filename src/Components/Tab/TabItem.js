@@ -15,7 +15,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Item = Styled.div.attrs(({ isSelected, isDisabled, inHeader }) => ({ isSelected, isDisabled, inHeader }))`
+const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
     position: relative;
     flex-grow: 1;
     box-sizing: border-box;
@@ -75,15 +75,14 @@ const DarkItem = Styled(Item)`
     justify-content: center;
     align-items: center;
     height: var(--tabs-dialog);
-    color: var(--white-color);
-    border: 1px solid var(--primary-color);
-    border-bottom: 1px solid var(--border-color);
     padding: 0 24px;
+    color: var(--white-color);
+    border-radius: var(--border-radius);
     line-height: 1;
 
-    ${(props) => (!props.isSelected && !props.isDisabled) && `
+    ${(props) => !props.isDisabled && `
         &:hover {
-            box-shadow: inset 0 -4px var(--border-color);
+            box-shadow: inset 0 -3em var(--border-color);
         }
     `}
     ${(props) => props.isSelected && `
@@ -91,13 +90,7 @@ const DarkItem = Styled(Item)`
         background-color: var(--secondary-color);
         border-color: var(--border-color);
         border-bottom-color: var(--secondary-color);
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
     `}
-    ${(props) => props.isSelected && !props.inHeader && `&:first-child {
-        border-left-color: var(--secondary-color);
-        border-top-left-radius: 0;
-    }`}
     ${(props) => props.isDisabled && `
         color: rgba(255, 255, 255, 0.5);
         cursor: not-allowed;
@@ -135,7 +128,7 @@ const Components = {
 function TabItem(props) {
     const {
         className, variant, icon, message, status, value, index, selected,
-        amount, badge, isDisabled, inHeader,
+        amount, badge, isDisabled,
         tooltip, tooltipVariant,
         canEdit, canDelete, onClick, onAction,
     } = props;
@@ -196,7 +189,6 @@ function TabItem(props) {
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
-        inHeader={inHeader}
         onClick={handleClick}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
@@ -235,7 +227,6 @@ TabItem.propTypes = {
     tooltipVariant : PropTypes.string,
     isDisabled     : PropTypes.bool,
     isSelected     : PropTypes.bool,
-    inHeader       : PropTypes.bool,
     canEdit        : PropTypes.bool,
     canDelete      : PropTypes.bool,
     onClick        : PropTypes.func,
@@ -256,7 +247,6 @@ TabItem.defaultProps = {
     tooltipVariant : "bottom",
     isDisabled     : false,
     isSelected     : false,
-    inHeader       : false,
     canEdit        : false,
     canDelete      : false,
 };
