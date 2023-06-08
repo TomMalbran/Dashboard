@@ -18,11 +18,14 @@ const Container = Styled.div`
     align-items: center;
     gap: 16px;
 
+    .inputfield {
+        height: 20px;
+    }
     .inputfield:first-child::after {
         content: "";
         position: absolute;
-        top: calc(-4px - var(--input-label));
-        bottom: calc(-4px - var(--input-vert-padding));
+        top: calc(-2px - var(--input-label));
+        bottom: calc(-2px - var(--input-vert-padding));
         right: -8px;
         border-right: 1px solid var(--input-border);
     }
