@@ -27,6 +27,7 @@ const Textarea = Styled.textarea`
     padding: var(--input-padding);
     padding-top: 0px;
     padding-bottom: 8px;
+    font-size: 14px;
     line-height: 16px;
     border: none;
     resize: none;
