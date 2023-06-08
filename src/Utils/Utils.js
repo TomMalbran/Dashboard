@@ -287,6 +287,36 @@ function getTextClass(options, value) {
 
 
 /**
+ * Restores an Item from Local Storage
+ * @param {String} key
+ * @param {String} defaultValue
+ * @returns {String}
+ */
+function restoreItem(key, defaultValue = "") {
+    try {
+        const value = window.localStorage.getItem(key);
+        return value || defaultValue;
+    } catch (e) {
+        return defaultValue;
+    }
+}
+
+/**
+ * Stores an Item in Local Storage
+ * @param {String} key
+ * @param {String} value
+ * @returns {Boolean}
+ */
+function storeItem(key, value) {
+    try {
+        window.localStorage.setItem(key, value);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
  * Concats the Values
  * @param {String}    glue
  * @param {...String} values
@@ -745,6 +775,8 @@ export default {
     toYesBlank,
     getTextClass,
 
+    restoreItem,
+    storeItem,
     concat,
     removePrefix,
     toArray,
