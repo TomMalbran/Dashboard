@@ -127,7 +127,8 @@ const Components = {
  */
 function TabItem(props) {
     const {
-        className, variant, icon, message, status, value, index, selected,
+        className, variant, icon, message,
+        status, url, value, index, selected,
         amount, badge, isDisabled,
         tooltip, tooltipVariant,
         canEdit, canDelete, onClick, onAction,
@@ -137,7 +138,7 @@ function TabItem(props) {
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
     const Component  = Components[variant] || LightItem;
-    const id         = status ? Status.getID(status) : (value || index);
+    const id         = status ? Status.getID(status) : (url ? NLS.url(url) : (value || index));
     const hasAmount  = amount !== undefined;
     const isSelected = !isDisabled && String(selected) === String(id);
     const canAction  = !isDisabled && onAction;
@@ -216,8 +217,9 @@ TabItem.propTypes = {
     className      : PropTypes.string,
     variant        : PropTypes.string,
     status         : PropTypes.string,
-    index          : PropTypes.number,
+    url            : PropTypes.string,
     value          : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    index          : PropTypes.number,
     selected       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon           : PropTypes.string,
     message        : PropTypes.string,
