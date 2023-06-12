@@ -14,7 +14,7 @@ import Utils                from "../../Utils/Utils";
 function AccordionList(props) {
     const { className, initial, onChange, children } = props;
 
-    // The State
+    // The Current State
     const [ selected, setSelected ] = React.useState(initial);
 
     // Handle the Click
@@ -27,16 +27,19 @@ function AccordionList(props) {
         }
     };
 
+    // Generate the Items
     const items = Utils.cloneChildren(children, (child, index) => {
         const id = child.props.value || index;
         return {
-            isFist     : id === 0,
+            number     : index + 1,
+            isFirst    : index === 0,
             isSelected : id === selected,
             onClick    : handleClick(id, child.props.isDisabled),
         };
     });
 
 
+    // Do the Render
     return <div className={`accordion ${className}`}>
         {items}
     </div>;
@@ -48,7 +51,7 @@ function AccordionList(props) {
  */
 AccordionList.propTypes = {
     className : PropTypes.string,
-    initial   : PropTypes.number,
+    initial   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     onChange  : PropTypes.func,
     children  : PropTypes.any,
 };
@@ -59,7 +62,7 @@ AccordionList.propTypes = {
  */
 AccordionList.defaultProps = {
     className : "",
-    initial   : 0,
+    initial   : "",
 };
 
 export default AccordionList;

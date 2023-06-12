@@ -11,56 +11,107 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Header = Styled.header.attrs(({ isFirst, isSelected, isDisabled }) => ({ isFirst, isSelected, isDisabled }))`
+const Container = Styled.section.attrs(({ isFirst, isSelected, isDisabled }) => ({ isFirst, isSelected, isDisabled }))`
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box; : ""
-    width: 100%;
-    padding: 12px;
-    background-color: var(--light-gray);
-    border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
-    transition: 0.3s all;
+    gap: 16px;
+    opacity: 0.7;
+    transition: 0.2s all;
 
-    ${(props) => props.isFirst && `
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
+    aside {
+        opacity: 0.5;
+    }
+
+    ${(props) => props.isFirst ? `
+        padding-top: 16px;
+    ` : `
+        padding-top: 32px;
     `}
-    ${(props) => props.isSelected && "box-shadow: inset 0 -3px var(--primary-color)"};
-    ${(props) => props.isDisabled && `
-        cursor: not-allowed;
-        background-color: white;
+
+    ${(props) => props.isSelected && `
+        opacity: 1;
+        aside {
+            opacity: 1;
+        }
     `}
+
     ${(props) => !props.isSelected && !props.isDisabled && `:hover {
-        box-shadow: inset 0 -3px var(--primary-color);
+        opacity: 1;
+        aside {
+            opacity: 1;
+        }
     }`}
 `;
 
-const Div = Styled.div`
+const Aside = Styled.aside`
+    flex-shrink: 0;
     display: flex;
+    justify-content: center;
+    width: 48px;
+    color: var(--title-color);
+    transition: 0.2s all;
 
     .icon {
         font-size: 14px;
         margin-right: 8px;
     }
     span {
-        margin-right: 8px;
-        font-size: 16px;
-        font-weight: 800;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 28px;
+        height: 28px;
+        border: 1px solid var(--title-color);
+        font-family: var(--title-font);
+        border-radius: 100%;
     }
 `;
 
-const H2 = Styled.h2`
-    margin: 0 8px 0 0;
-    font-size: 16px;
-    font-weight: 800;
-    font-style: italic;
+const Inside = Styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    gap: 24px;
+    padding: 0 12px 32px 12px;
+    border-bottom: 1px solid var(--darker-gray);
+    transition: 0.3s all;
 `;
 
-const Section = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
+const Header = Styled.header.attrs(({ isDisabled }) => ({ isDisabled }))`
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box; : ""
+    width: 100%;
+    cursor: pointer;
+
+    ${(props) => props.isDisabled && `
+        cursor: not-allowed;
+        background-color: white;
+    `}
+`;
+
+const Div = Styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+`;
+
+const Title = Styled.h2`
+    margin: 0;
+    color: var(--title-color);
+    font-family: var(--title-font);
+    font-size: 20px;
+    font-weight: 800;
+`;
+const Description = Styled.p`
+    margin: 0;
+    color: var(--light-color);
+`;
+
+const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
+    grid-area: content;
     display: ${(props) => props.isSelected ? "block" : "none"};
-    padding: 16px;
 `;
 
 
@@ -71,25 +122,35 @@ const Section = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
  * @returns {React.ReactElement}
  */
 function AccordionItem(props) {
-    const { className, message, number, icon, isFirst, isSelected, isDisabled, onClick, children } = props;
+    const {
+        className, message, description, number, icon,
+        isFirst, isSelected, isDisabled, onClick, children,
+    } = props;
 
-    return <div className={className} onClick={onClick}>
-        <Header
-            isFirst={isFirst}
-            isSelected={isSelected}
-            isDisabled={isDisabled}
-        >
-            <Div>
-                {!!icon && <Icon icon={icon} />}
-                {!!number && <span>{number}.</span>}
-                <H2>{NLS.get(message)}</H2>
-            </Div>
-            {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
-        </Header>
-        <Section isSelected={isSelected}>
-            {children}
-        </Section>
-    </div>;
+
+    // Do the Render
+    return <Container
+        className={className}
+        isFirst={isFirst}
+        isSelected={isSelected}
+        isDisabled={isDisabled}
+    >
+        <Aside>
+            {icon ? <Icon icon={icon} /> : <span>{number}</span>}
+        </Aside>
+        <Inside>
+            <Header isDisabled={isDisabled} onClick={onClick}>
+                <Div>
+                    <Title>{NLS.get(message)}</Title>
+                    {!!description && <Description>{NLS.get(description)}</Description>}
+                </Div>
+                {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
+            </Header>
+            <Content isSelected={isSelected}>
+                {children}
+            </Content>
+        </Inside>
+    </Container>;
 }
 
 /**
@@ -97,16 +158,18 @@ function AccordionItem(props) {
  * @type {Object} propTypes
  */
 AccordionItem.propTypes = {
-    className  : PropTypes.string,
-    message    : PropTypes.string.isRequired,
-    value      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    number     : PropTypes.number,
-    icon       : PropTypes.string,
-    isFirst    : PropTypes.bool,
-    isSelected : PropTypes.bool,
-    isDisabled : PropTypes.bool,
-    onClick    : PropTypes.func,
-    children   : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    message     : PropTypes.string.isRequired,
+    description : PropTypes.string,
+    value       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    number      : PropTypes.number,
+    icon        : PropTypes.string,
+    isFirst     : PropTypes.bool,
+    isSelected  : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
+    onClick     : PropTypes.func,
+    children    : PropTypes.any,
 };
 
 /**
@@ -114,6 +177,7 @@ AccordionItem.propTypes = {
  * @type {Object} defaultProps
  */
 AccordionItem.defaultProps = {
+    isHidden   : false,
     className  : "",
     value      : "",
     isFirst    : false,
