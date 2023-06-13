@@ -43,8 +43,13 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function NoneAvailable(props) {
-    const { className, variant, message } = props;
+    const { isHidden, className, variant, message } = props;
 
+
+    // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <H3 className={className} variant={variant}>
         {NLS.get(message)}
     </H3>;
@@ -55,9 +60,10 @@ function NoneAvailable(props) {
  * @type {Object} propTypes
  */
 NoneAvailable.propTypes = {
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
     message   : PropTypes.string.isRequired,
     variant   : PropTypes.string,
-    className : PropTypes.string,
 };
 
 /**
@@ -65,8 +71,9 @@ NoneAvailable.propTypes = {
  * @type {Object} defaultProps
  */
 NoneAvailable.defaultProps = {
-    variant   : Variant.PRIMARY,
+    isHidden  : false,
     className : "",
+    variant   : Variant.PRIMARY,
 };
 
 export default NoneAvailable;
