@@ -37,7 +37,7 @@ function useParams() {
     const result = {};
     for (const key of Object.values(paramTypes)) {
         if (!params[key]) {
-            result[key] = 0;
+            result[key] = key.endsWith("Tab") ? "" : 0;
         } else if (Utils.isNumeric(params[key])) {
             result[key] = Number(params[key] || 0);
         } else {
