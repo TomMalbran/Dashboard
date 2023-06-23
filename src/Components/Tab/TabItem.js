@@ -156,7 +156,7 @@ function TabItem(props) {
     // Handle the Click
     const handleClick = () => {
         if (!isDisabled && onClick) {
-            onClick(value);
+            onClick(url || value);
         } else {
             handleAction("TAB");
         }
