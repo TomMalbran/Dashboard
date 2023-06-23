@@ -31,12 +31,9 @@ const close = keyframes`
 
 // Styles
 const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosing }) => ({ width, isWide, isNarrow, hasTabs, isClosing }))`
-    --dialog-header  : 55px;
-    --dialog-tabs    : 0px;
-    --dialog-footer  : 55px;
-    --dialog-spacing : 32px;
-    --dialog-radius  : var(--border-radius);
-    --dialog-body    : calc(var(--full-height) - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
+    --dialog-tabs   : 0px;
+    --dialog-radius : var(--border-radius);
+    --dialog-body   : calc(var(--full-height) - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
     position: static;
     display: block;
