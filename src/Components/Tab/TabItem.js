@@ -140,8 +140,8 @@ function TabItem(props) {
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (url ? NLS.url(url) : (value || index));
     const hasAmount  = amount !== undefined;
-    const isSelected = !isDisabled && String(selected) === String(id);
-    const canAction  = !isDisabled && onAction;
+    const isSelected = Boolean(!isDisabled && selected && String(selected) === String(id));
+    const canAction  = Boolean(!isDisabled && onAction);
     const showEdit   = Boolean(canEdit && canAction);
     const showDelete = Boolean(canDelete && canAction);
 

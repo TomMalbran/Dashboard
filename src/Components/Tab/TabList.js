@@ -89,7 +89,7 @@ TabList.propTypes = {
     isHidden  : PropTypes.bool,
     className : PropTypes.string,
     variant   : PropTypes.string,
-    selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]).isRequired,
+    selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     onClick   : PropTypes.func,
     onAction  : PropTypes.func,
     inDialog  : PropTypes.bool,
