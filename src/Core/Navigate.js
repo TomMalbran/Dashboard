@@ -160,6 +160,38 @@ function useSelect() {
 
 
 /**
+ * Returns true if the Url is equal to the Test one
+ * @param {String} urlKey
+ * @param {String} testUrl
+ * @returns {Boolean}
+ */
+function isUrl(urlKey, testUrl) {
+    return NLS.url(urlKey) === testUrl;
+}
+
+/**
+ * Returns the Url
+ * @param {Object} data
+ * @returns {String}
+ */
+function getUrl(data) {
+    const { href, url, message, useBase, isLink, isEmail, isPhone, isWhatsApp } = data;
+    let result = href;
+    if (url) {
+        result = useBase ? NLS.baseUrl(url) : NLS.url(url);
+    } else if (isLink) {
+        result = !message.startsWith("http") ? `http://${message}` : message;
+    } else if (isEmail) {
+        result = getEmail(href || message);
+    } else if (isPhone) {
+        result = getPhone(href || message);
+    } else if (isWhatsApp) {
+        result = getWhatsApp(href || message);
+    }
+    return result;
+}
+
+/**
  * Returns the Email Url
  * @param {String} email
  * @returns {String}
@@ -184,28 +216,6 @@ function getPhone(phone) {
  */
 function getWhatsApp(whatsapp) {
     return `https://api.whatsapp.com/send?phone=${whatsapp}`;
-}
-
-/**
- * Returns the Url
- * @param {Object} data
- * @returns {String}
- */
-function getUrl(data) {
-    const { href, url, message, useBase, isLink, isEmail, isPhone, isWhatsApp } = data;
-    let result = href;
-    if (url) {
-        result = useBase ? NLS.baseUrl(url) : NLS.url(url);
-    } else if (isLink) {
-        result = !message.startsWith("http") ? `http://${message}` : message;
-    } else if (isEmail) {
-        result = getEmail(href || message);
-    } else if (isPhone) {
-        result = getPhone(href || message);
-    } else if (isWhatsApp) {
-        result = getWhatsApp(href || message);
-    }
-    return result;
 }
 
 
@@ -368,6 +378,7 @@ function reload(...args) {
 
 
 
+
 // The public API
 export default {
     init,
@@ -383,6 +394,7 @@ export default {
     useMenuUrl,
     useSelect,
 
+    isUrl,
     getUrl,
     getEmail,
     getPhone,
