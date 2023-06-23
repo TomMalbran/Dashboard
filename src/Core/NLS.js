@@ -165,13 +165,14 @@ function formatJoin(id, list, useOr) {
 
 /**
  * Returns a formated string using the correct plural string
- * @param {String}    id
- * @param {...String} args
+ * @param {String}          id
+ * @param {(Number|String)} amount
+ * @param {...String}       args
  * @returns {String}
  */
-function pluralize(id, ...args) {
-    const suffix = Number(args[0]) === 1 ? "_SINGULAR" : "_PLURAL";
-    return format(id + suffix, ...args);
+function pluralize(id, amount, ...args) {
+    const suffix = Number(amount) === 1 ? "_SINGULAR" : "_PLURAL";
+    return format(id + suffix, String(amount), ...args);
 }
 
 /**
