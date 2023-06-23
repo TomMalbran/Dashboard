@@ -19,11 +19,20 @@ function AccordionList(props) {
 
     // Handle the Click
     const handleClick = (id, isDisabled) => () => {
-        if (!isDisabled) {
-            setSelected(id);
-            if (onChange) {
-                onChange(id);
-            }
+        if (isDisabled) {
+            return;
+        }
+        let newID = id;
+        if (id === selected && !initial) {
+            newID = 0;
+        }
+        if (newID === selected) {
+            return;
+        }
+
+        setSelected(newID);
+        if (onChange) {
+            onChange(newID);
         }
     };
 
@@ -62,7 +71,7 @@ AccordionList.propTypes = {
  */
 AccordionList.defaultProps = {
     className : "",
-    initial   : "",
+    initial   : 0,
 };
 
 export default AccordionList;

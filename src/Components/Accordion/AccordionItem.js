@@ -13,7 +13,7 @@ import Icon                 from "../Common/Icon";
 // Styles
 const Container = Styled.section.attrs(({ isFirst, isSelected, isDisabled }) => ({ isFirst, isSelected, isDisabled }))`
     display: flex;
-    gap: 16px;
+    gap: 8px;
     opacity: 0.7;
     transition: 0.2s all;
 
@@ -104,9 +104,15 @@ const Title = Styled.h2`
     font-size: 20px;
     font-weight: 800;
 `;
+
 const Description = Styled.p`
     margin: 0;
     color: var(--light-color);
+`;
+
+const Error = Styled.p`
+    margin: 0;
+    color: var(--error-color);
 `;
 
 const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
@@ -123,7 +129,7 @@ const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
  */
 function AccordionItem(props) {
     const {
-        className, message, description, number, icon,
+        className, message, description, error, number, icon,
         isFirst, isSelected, isDisabled, onClick, children,
     } = props;
 
@@ -143,6 +149,7 @@ function AccordionItem(props) {
                 <Div>
                     <Title>{NLS.get(message)}</Title>
                     {!!description && <Description>{NLS.get(description)}</Description>}
+                    {!!error && <Error>{NLS.get(error)}</Error>}
                 </Div>
                 {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
             </Header>
@@ -162,6 +169,7 @@ AccordionItem.propTypes = {
     className   : PropTypes.string,
     message     : PropTypes.string.isRequired,
     description : PropTypes.string,
+    error       : PropTypes.string,
     value       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     number      : PropTypes.number,
     icon        : PropTypes.string,
