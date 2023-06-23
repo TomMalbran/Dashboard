@@ -52,14 +52,15 @@ function InputField(props) {
         keepSuggestions, hasClear, onClear,
     } = props;
 
-    // The current Status
-    const [ timer,     setTimer    ] = React.useState(null);
-    const [ isFocused, setFocus    ] = React.useState(false);
-    const [ hasValue,  setHasValue ] = React.useState(false);
 
+    // The References
     const fieldRef   = React.useRef();
     const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();
+
+    // The Current State
+    const [ timer,     setTimer ] = React.useState(null);
+    const [ isFocused, setFocus ] = React.useState(false);
 
 
     // The Input got Focus
@@ -83,7 +84,6 @@ function InputField(props) {
 
     // Handles the Change
     const handleChange = (name, value, secondName, secondValue) => {
-        setHasValue(InputType.isValueFilled(value));
         if (onChange) {
             onChange(name, value, secondName, secondValue);
         }
@@ -122,7 +122,6 @@ function InputField(props) {
             // @ts-ignore
             node.focus();
         }
-        setHasValue(InputType.isValueFilled(value));
 
         if (suggestRef && suggestRef.current) {
             // @ts-ignore
@@ -148,8 +147,9 @@ function InputField(props) {
 
     const autoSuggest   = Boolean(suggestFetch && suggestID);
     const hasLabel      = Boolean(label && InputType.hasLabel(type));
+    const hasValue      = InputType.isValueFilled(value);
     const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
-    const withValue     = hasValue || isFocused || InputType.isValueFilled(value);
+    const withValue     = hasValue || isFocused;
     const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
