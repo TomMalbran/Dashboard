@@ -35,7 +35,7 @@ function PasswordInput(props) {
         onKeyDown, onKeyUp, onSubmit,
     } = props;
 
-    // The current Status
+    // The Current State
     const [ showPassword, setPassword ] = React.useState(false);
 
     const inputType = showPassword ? "text" : type;

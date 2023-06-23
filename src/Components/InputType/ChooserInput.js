@@ -102,7 +102,7 @@ function ChooserInput(props) {
 
     const containerRef = React.useRef(null);
 
-    // The current Status
+    // The Current State
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
     const [ hasFocus,    setFocus       ] = React.useState(false);

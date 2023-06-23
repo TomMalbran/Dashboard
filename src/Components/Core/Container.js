@@ -106,7 +106,7 @@ function Container(props) {
     const { showMenu, showDetails   } = Store.useState("core");
     const { closeMenu, closeDetails } = Store.useAction("core");
 
-    // The current State
+    // The Current State
     const [ menuTimer,      setMenuTimer      ] = React.useState(null);
     const [ showingMenu,    setShowingMenu    ] = React.useState(false);
     const [ openingMenu,    setOpeningMenu    ] = React.useState(false);

@@ -111,7 +111,7 @@ function IconField(props) {
         withLabel, label, placeholder, shrinkLabel, withNone,
     } = props;
 
-    // The current Status
+    // The Current State
     const [ isFocused, setFocus    ] = React.useState(false);
     const [ hasValue,  setHasValue ] = React.useState(false);
 
