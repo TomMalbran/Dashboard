@@ -41,8 +41,6 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
     margin: 0;
     border: none;
     line-height: 1;
-    cursor: pointer;
-    transition: all 0.5s;
     background: var(--button-background);
     border: 1px solid var(--button-border);
     color: var(--button-color);
@@ -51,6 +49,8 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
     font-size: ${(props) => props.isSmall ? "10px" : "12px"};
     padding: ${(props) => props.isSmall ? "4px 8px" : "8px 16px"};
     width: ${(props) => props.fullWidth ? "100%" : "auto"};
+    transition: all 0.5s;
+    cursor: pointer;
 
     ${(props) => props.withIcon ? `
         display: flex;
@@ -96,9 +96,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
         `;
         case Variant.CANCEL: return `
             --button-color: var(--black-color);
-            --button-border: rgb(225, 225, 225);
-            --button-background: rgb(225, 225, 225);
-            --button-hover-background: #ededed;
+            --button-border: var(--light-gray);
+            --button-background: var(--light-gray);
+            --button-hover-background: var(--lighter-gray);
         `;
         case Variant.ERROR: return `
             --button-color: white;
