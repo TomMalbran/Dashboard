@@ -46,7 +46,7 @@ const Container = Styled.div.attrs(props)`
 
     ${(props) => (props.withBorder && props.isFocused) && `
         --input-border: var(--input-border-focus);
-        box-shadow: 0 0 0 1px var(--border-color);
+        box-shadow: 0 0 0 1px var(--input-border-focus);
         .inputfield {
             --input-border: var(--input-border-focus);
         }
