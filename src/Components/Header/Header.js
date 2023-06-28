@@ -8,6 +8,7 @@ import Navigate             from "../../Core/Navigate";
 // Components
 import Breadcrumb           from "../Header/Breadcrumb";
 import Title                from "../Header/Title";
+import Subtitle             from "../Header/Subtitle";
 
 
 
@@ -33,6 +34,7 @@ const Content = Styled.div`
 `;
 
 const Child = Styled.div`
+    flex-grow: 2;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,10 +54,16 @@ const Child = Styled.div`
  * @returns {React.ReactElement}
  */
 function Header(props) {
-    const { className, icon, message, fallback, href, showBreadcrumbs, children } = props;
+    const {
+        className, showBreadcrumbs,
+        icon, message, fallback, href,
+        subtitle, subcircle, children,
+    } = props;
 
     const route = Navigate.usePath();
 
+
+    // Do the Render
     return <Container className={className} showBreadcrumbs={showBreadcrumbs}>
         {showBreadcrumbs && <Breadcrumb route={route} />}
         <Content>
@@ -64,6 +72,10 @@ function Header(props) {
                 message={message}
                 fallback={fallback}
                 href={href}
+            />
+            <Subtitle
+                message={subtitle}
+                circle={subcircle}
             />
             <Child>
                 {children}
@@ -78,11 +90,13 @@ function Header(props) {
  */
 Header.propTypes = {
     className       : PropTypes.string,
+    showBreadcrumbs : PropTypes.bool,
     icon            : PropTypes.string.isRequired,
     message         : PropTypes.string.isRequired,
     fallback        : PropTypes.string,
     href            : PropTypes.string,
-    showBreadcrumbs : PropTypes.bool,
+    subtitle        : PropTypes.string,
+    subcircle       : PropTypes.string,
     children        : PropTypes.any,
 };
 

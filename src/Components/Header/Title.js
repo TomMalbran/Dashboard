@@ -47,6 +47,8 @@ const Span = Styled.span`
 function Title(props) {
     const { icon, message, fallback, href } = props;
 
+
+    // Do the Render
     return <H2 className="title">
         {href ? <IconLink
             variant="light"
