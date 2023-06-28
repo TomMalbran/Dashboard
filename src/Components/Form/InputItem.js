@@ -44,6 +44,7 @@ InputItem.propTypes = {
     customKey    : PropTypes.string,
     hasClear     : PropTypes.bool,
     onClear      : PropTypes.func,
+    onChange     : PropTypes.func,
     hide         : PropTypes.func,
     children     : PropTypes.any,
 };

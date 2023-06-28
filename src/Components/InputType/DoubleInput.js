@@ -63,7 +63,7 @@ function DoubleInput(props) {
             {items.map((item) => <InputField
                 {...item}
                 key={item.name}
-                onChange={onChange}
+                onChange={item.onChange || onChange}
                 isDisabled={isDisabled}
                 withBorder={false}
                 onFocus={onFocus}
