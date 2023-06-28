@@ -79,6 +79,14 @@ const PERIODS_SIMPLE = [
     PAST_WEEK,
     PAST_MONTH,
 ];
+const PERIODS_LAST = [
+    LAST_7_DAYS,
+    LAST_15_DAYS,
+    LAST_30_DAYS,
+    LAST_60_DAYS,
+    LAST_90_DAYS,
+    LAST_120_DAYS,
+];
 
 
 
@@ -239,6 +247,14 @@ function getSimpleSelect() {
     return getSelect(PERIODS_SIMPLE);
 }
 
+/**
+ * Returns a Last Periods Select
+ * @returns {Object[]}
+ */
+function getLastSelect() {
+    return getSelect(PERIODS_LAST);
+}
+
 
 
 // The Public API
@@ -249,6 +265,7 @@ export default {
     getName,
     getSelect,
     getSimpleSelect,
+    getLastSelect,
 
     SELECT,
     TODAY,
