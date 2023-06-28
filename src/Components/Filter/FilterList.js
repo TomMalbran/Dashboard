@@ -18,7 +18,7 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     display: grid;
     grid-template-columns: repeat(var(--filter-columns), 1fr) 0.1fr;
     grid-gap: var(--main-gap);
-    height: var(--filter-height);
+    height: calc(var(--filter-height) - var(--main-gap));
     margin: 0 0 var(--main-gap) 0;
     padding: var(--main-gap);
     background-color: var(--lighter-gray);

@@ -49,7 +49,7 @@ const DeleteIcon = Styled(ItemIcon)`
 `;
 
 const LightItem = Styled(Item)`
-    height: calc(var(--tabs-table) - 8px);
+    height: calc(var(--tabs-table) - var(--main-gap));
     padding: 6px 12px;
     color: var(--title-color);
     background-color: var(--lighter-gray);
