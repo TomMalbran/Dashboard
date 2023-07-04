@@ -15,13 +15,14 @@ import Icon                 from "../Common/Icon";
 // Styles
 const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, isDisabled, isSmall }))`
     --link-size: ${(props) => props.isSmall ? "26px" : "32px"};
+    --link-font: ${(props) => props.isSmall ? "18px" : "22px"};
 
     display: block;
     width: var(--link-size);
     height: var(--link-size);
     line-height: var(--link-size);
     padding: 0;
-    font-size: ${(props) => props.isSmall ? "18px" : "22px"};
+    font-size: var(--link-font);
     text-align: center;
     border-radius: var(--border-radius);
     text-decoration: none;
