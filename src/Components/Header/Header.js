@@ -36,7 +36,7 @@ const Content = Styled.div`
 const Child = Styled.div`
     flex-grow: 2;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     flex-shrink: 0;
     white-space: nowrap;
