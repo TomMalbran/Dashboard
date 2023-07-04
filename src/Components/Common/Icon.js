@@ -2,10 +2,15 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import Store                from "../../Core/Store";
+
 
 
 // Styles
-const Span = Styled.span`
+const Span = Styled.span.attrs(({ cursor }) => ({ cursor }))`
+    ${(props) => props.cursor && `cursor: ${props.cursor};`}
+
     &::before {
         display: inline-block;
         padding: 0;
@@ -23,14 +28,35 @@ const Span = Styled.span`
  * @returns {React.ReactElement}
  */
 function Icon(props) {
-    const { isHidden, className, icon, onClick } = props;
+    const {
+        isHidden, className, icon, tooltip, tooltipVariant, cursor,
+        onClick, onMouseDown,
+    } = props;
 
+    const elementRef = React.useRef();
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip);
+        }
+    };
+
+
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
     return <Span
+        ref={elementRef}
         className={`icon icon-${icon} ${className}`}
+        cursor={cursor}
         onClick={onClick}
+        onMouseDown={onMouseDown}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     />;
 }
 
@@ -39,10 +65,14 @@ function Icon(props) {
  * @type {Object} propTypes
  */
 Icon.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    icon      : PropTypes.string.isRequired,
-    onClick   : PropTypes.func,
+    isHidden       : PropTypes.bool,
+    className      : PropTypes.string,
+    icon           : PropTypes.string.isRequired,
+    cursor         : PropTypes.string,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    onClick        : PropTypes.func,
+    onMouseDown    : PropTypes.func,
 };
 
 /**
@@ -50,8 +80,11 @@ Icon.propTypes = {
  * @type {Object} defaultProps
  */
 Icon.defaultProps = {
-    isHidden  : false,
-    className : "",
+    isHidden       : false,
+    className      : "",
+    cursor         : "",
+    tooltip        : "",
+    tooltipVariant : "bottom",
 };
 
 export default Icon;
