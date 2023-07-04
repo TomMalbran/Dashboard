@@ -274,6 +274,8 @@ InputField.propTypes = {
     customKey       : PropTypes.string,
     hasClear        : PropTypes.bool,
     onClear         : PropTypes.func,
+    isSortable      : PropTypes.bool,
+    onSort          : PropTypes.func,
     autoFocus       : PropTypes.bool,
     onlyImages      : PropTypes.bool,
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -308,6 +310,7 @@ InputField.defaultProps = {
     customText      : "",
     customKey       : "",
     hasClear        : false,
+    isSortable      : false,
     autoFocus       : false,
     onlyImages      : false,
 };

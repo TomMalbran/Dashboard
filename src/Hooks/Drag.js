@@ -92,7 +92,7 @@ function useDrag(onDrop) {
         stateRef.current.diffY         = startY - nodeBounds.top;
 
         node.style.boxSizing = "border-box";
-        node.style.position  = "absolute";
+        node.style.position  = "fixed";
         node.style.top       = `${nodeBounds.top}px`;
         node.style.left      = `${nodeBounds.left}px`;
         node.style.width     = `${nodeBounds.width}px`;
@@ -152,6 +152,7 @@ function useDrag(onDrop) {
             child.style.position     = "";
             child.style.top          = "";
             child.style.left         = "";
+            child.style.width        = "";
             child.style.marginTop    = "";
             child.style.marginBottom = "";
             child.style.zIndex       = "";

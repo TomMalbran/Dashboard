@@ -106,6 +106,8 @@ Input.propTypes = {
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
     onClear      : PropTypes.func,
+    isSortable   : PropTypes.bool,
+    onSort       : PropTypes.func,
     inputRef     : PropTypes.object,
     suggestRef   : PropTypes.object,
 };
@@ -130,6 +132,7 @@ Input.defaultProps = {
     customFirst  : false,
     customText   : "",
     customKey    : "",
+    isSortable   : false,
 };
 
 export default Input;

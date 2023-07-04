@@ -2,60 +2,60 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Utils
+// Core & Hooks
 import InputType            from "../../Core/InputType";
+import useDrag              from "../../Hooks/Drag";
 
 // Components
 import InputField           from "../Form/InputField";
 import Button               from "../Form/Button";
 import InputError           from "../Input/InputError";
 import IconLink             from "../Link/IconLink";
+import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
+const Container = Styled.div`;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: ${(props) => props.withBorder ? "12px" : "8px"};
-    width: 100%;
+    gap: 8px;
 `;
 
-const Content = Styled.div.attrs(({ withClose, withError, withBorder }) => ({ withClose, withError, withBorder }))`
+const Content = Styled.div.attrs(({ isSortable }) => ({ isSortable }))`
     width: 100%;
-    display: grid;
-    gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    ${(props) => props.isSortable && "margin-top: 20px;"}
+`;
 
-    ${(props) => props.withClose ? `
-        grid-template-areas:
-            "input close"
-            ${props.withError ? '"error error"' : ""}
-        ;
-        grid-template-columns: 1fr 24px;
-    ` : `
-        grid-template-areas:
-            "input"
-            ${props.withError ? '"error"' : ""}
-        ;
-    `}
+const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 
     ${(props) => props.withError && `
         .inputfield {
             --input-border: var(--error-color);
         }
     `}
-    ${(props) => props.withBorder && `
-        padding-bottom: 12px;
-        border-bottom: 2px solid var(--dark-gray);
-    `}
 `;
 
-const Close = Styled.div`
+const Inside = Styled.div`
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-area: close;
+    flex-direction: column;
+    gap: 4px;
+`;
+
+const Close = Styled(IconLink)`
+    --link-size: 20px;
+    --link-font: 14px;
+    border-radius: var(--border-radius-small);
 `;
 
 const Error = Styled(InputError)`
@@ -72,15 +72,16 @@ const Error = Styled(InputError)`
  */
 function ListInput(props) {
     const {
-        className, isDisabled, withBorder,
-        inputType, name, value, button, onChange,
+        className, isDisabled,
+        inputType, name, value, indeces, button, onChange,
         options, withNone, noneText,
-        errors,
+        isSortable, onSort, errors,
     } = props;
 
 
     // Calculate the Items Array
     let parts = [ "" ];
+    let ids   = [ 0 ];
     if (value) {
         try {
             parts = Array.isArray(value) ? value : JSON.parse(String(value));
@@ -90,6 +91,18 @@ function ListInput(props) {
         } catch(e) {
             parts = [ "" ];
         }
+    }
+    if (indeces) {
+        try {
+            ids = Array.isArray(indeces) ? indeces : JSON.parse(String(indeces));
+            if (!Array.isArray(ids)) {
+                ids = [ ids ];
+            }
+        } catch(e) {
+            ids = [ 0 ];
+        }
+    } else if (parts) {
+        ids = [ ...parts.keys() ];
     }
 
 
@@ -102,18 +115,24 @@ function ListInput(props) {
     // Adds a Field to the value
     const addField = () => {
         parts.push("");
-        fieldChanged(parts);
+        ids.push(ids.length);
+        fieldChanged(parts, ids);
     };
 
     // Removes a Field from the value at the given index
     const removeField = (index) => {
         parts.splice(index, 1);
-        fieldChanged(parts);
+        ids.splice(index, 1);
+        fieldChanged(parts, ids);
     };
 
     // Sends a Field Change Event
-    const fieldChanged = (parts) => {
-        onChange(name, JSON.stringify(parts));
+    const fieldChanged = (parts, ids) => {
+        if (onSort) {
+            onSort(name, JSON.stringify(parts), JSON.stringify(ids));
+        } else {
+            onChange(name, JSON.stringify(parts));
+        }
     };
 
     // Returns the part error
@@ -125,43 +144,65 @@ function ListInput(props) {
     };
 
 
+    // Handles the Item Grab
+    const handleGrab = (e, itemID, index) => {
+        const node = e.target.parentElement;
+        pick(e, node, node.parentElement, itemID, index);
+    };
+
+    // Handles the Drop
+    const handleDrop = () => {
+        const partsList = [ ...parts ];
+        const idsList   = [ ...ids ];
+        swap(partsList);
+        swap(idsList);
+        fieldChanged(partsList, idsList);
+    };
+
+    // The Drag
+    const { pick, swap } = useDrag(handleDrop);
+
+
 
     // Do the Render
-    return <Container
-        className={className}
-        withBorder={withBorder}
-    >
-        {parts.map((elem, index) => <Content
-            key={index}
-            className="inputfield-container"
-            withClose={parts.length > 1}
-            withError={!!getError(index)}
-            withBorder={withBorder}
-        >
-            <InputField
-                type={inputType}
-                name={`${name}-${index}`}
-                value={elem}
-                options={options}
-                withNone={withNone}
-                noneText={noneText}
-                onChange={(name, value) => handleChange(value, index)}
-                isDisabled={isDisabled}
-                withLabel={index === 0}
-                isSmall={index > 0}
-            />
+    return <Container className={className}>
+        <Content isSortable={isSortable}>
+            {parts.map((elem, index) => <Item
+                key={index}
+                className="inputfield-container"
+                withError={!!getError(index)}
+            >
+                {isSortable && <Icon
+                    icon="drag"
+                    cursor="grab"
+                    onMouseDown={(e) => handleGrab(e, elem, index)}
+                />}
 
-            {parts.length > 1 && <Close>
-                <IconLink
+                <Inside>
+                    <InputField
+                        type={inputType}
+                        name={`${name}-${index}`}
+                        value={elem}
+                        options={options}
+                        withNone={withNone}
+                        noneText={noneText}
+                        onChange={(name, value) => handleChange(value, index)}
+                        isDisabled={isDisabled}
+                        withLabel={!isSortable && index === 0}
+                        isSmall={isSortable || index > 0}
+                    />
+                    <Error error={getError(index)} />
+                </Inside>
+
+                {parts.length > 1 && <Close
                     variant="light"
                     icon="close"
                     onClick={() => removeField(index)}
                     isSmall
-                />
-            </Close>}
+                />}
+            </Item>)}
+        </Content>
 
-            <Error error={getError(index)} />
-        </Content>)}
         <Button
             variant="outlined"
             message={button}
@@ -178,10 +219,10 @@ function ListInput(props) {
 ListInput.propTypes = {
     className  : PropTypes.string,
     isDisabled : PropTypes.bool,
-    withBorder : PropTypes.bool,
     name       : PropTypes.string.isRequired,
     inputType  : PropTypes.string,
     value      : PropTypes.any,
+    indeces    : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     withNone   : PropTypes.bool,
     noneText   : PropTypes.string,
@@ -189,6 +230,8 @@ ListInput.propTypes = {
     isSmall    : PropTypes.bool,
     button     : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
+    isSortable : PropTypes.bool,
+    onSort     : PropTypes.func,
     errors     : PropTypes.object,
 };
 
@@ -199,10 +242,10 @@ ListInput.propTypes = {
 ListInput.defaultProps = {
     className  : "",
     isDisabled : false,
-    withBorder : false,
     inputType  : InputType.TEXT,
     withNone   : false,
     noneText   : "",
+    isSortable : false,
     button     : "GENERAL_ADD_FIELD",
 };
 
