@@ -54,7 +54,7 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
         } else if (getElem) {
             getElem(...Object.values(data || {}));
             startLoading();
-        } else if (elemID) {
+        } else if (fetchElem && elemID) {
             fetchElem(elemID);
             startLoading();
         } else if (fetchEditData) {
