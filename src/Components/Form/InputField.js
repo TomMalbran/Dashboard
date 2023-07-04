@@ -252,7 +252,7 @@ InputField.propTypes = {
     suggestParams   : PropTypes.object,
     suggestNone     : PropTypes.string,
     keepSuggestions : PropTypes.bool,
-    fieldButton     : PropTypes.string,
+    addButton       : PropTypes.string,
     error           : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     errors          : PropTypes.object,
     helperText      : PropTypes.string,

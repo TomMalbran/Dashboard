@@ -11,6 +11,7 @@ import ColorInput           from "../InputType/ColorInput";
 import DoubleInput          from "../InputType/DoubleInput";
 import FieldInput           from "../InputType/FieldInput";
 import FileInput            from "../InputType/FileInput";
+import ListInput            from "../InputType/ListInput";
 import MediaInput           from "../InputType/MediaInput";
 import MultipleInput        from "../InputType/MultipleInput";
 import NumberInput          from "../InputType/NumberInput";
@@ -29,7 +30,7 @@ import TextInput            from "../InputType/TextInput";
  * @returns {React.ReactElement}
  */
 function Input(props) {
-    const { type, value, onMedia, fieldButton } = props;
+    const { type, value, onMedia, addButton } = props;
 
     switch (type) {
     case InputType.CHECKBOX:
@@ -41,9 +42,11 @@ function Input(props) {
     case InputType.DOUBLE:
         return <DoubleInput {...props} />;
     case InputType.FIELDS:
-        return <FieldInput {...props} button={fieldButton} />;
+        return <FieldInput {...props} button={addButton} />;
     case InputType.FILE:
         return <FileInput {...props} />;
+    case InputType.LIST:
+        return <ListInput {...props} button={addButton} />;
     case InputType.MEDIA:
         return <MediaInput {...props} onClick={onMedia} />;
     case InputType.MULTIPLE:
@@ -83,7 +86,7 @@ Input.propTypes = {
     spellCheck   : PropTypes.string,
     isDisabled   : PropTypes.bool,
     withBorder   : PropTypes.bool,
-    fieldButton  : PropTypes.string,
+    addButton    : PropTypes.string,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     fullWidth    : PropTypes.bool,

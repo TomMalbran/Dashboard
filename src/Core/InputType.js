@@ -9,6 +9,7 @@ const COLOR    = "color";
 const DOUBLE   = "double";
 const FIELDS   = "fields";
 const FILE     = "file";
+const LIST     = "list";
 const MEDIA    = "media";
 const MULTIPLE = "multiple";
 const NUMBER   = "number";
@@ -108,6 +109,7 @@ export default {
     DOUBLE,
     FIELDS,
     FILE,
+    LIST,
     MEDIA,
     MULTIPLE,
     NUMBER,

@@ -3,8 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import NLS                  from "../../Core/NLS";
-import Utils                from "../../Utils/Utils";
+import InputType            from "../../Core/InputType";
 
 // Components
 import InputField           from "../Form/InputField";
@@ -23,21 +22,19 @@ const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
     width: 100%;
 `;
 
-const Content = Styled.div.attrs(({ withClose, withTitle, withError, withBorder }) => ({ withClose, withTitle, withError, withBorder }))`
+const Content = Styled.div.attrs(({ withClose, withError, withBorder }) => ({ withClose, withError, withBorder }))`
     width: 100%;
     display: grid;
     gap: 4px;
 
     ${(props) => props.withClose ? `
         grid-template-areas:
-            ${props.withTitle ? '"title title"' : ""}
             "input close"
             ${props.withError ? '"error error"' : ""}
         ;
         grid-template-columns: 1fr 24px;
     ` : `
         grid-template-areas:
-            ${props.withTitle ? '"title"' : ""}
             "input"
             ${props.withError ? '"error"' : ""}
         ;
@@ -51,29 +48,6 @@ const Content = Styled.div.attrs(({ withClose, withTitle, withError, withBorder 
     ${(props) => props.withBorder && `
         padding-bottom: 12px;
         border-bottom: 2px solid var(--dark-gray);
-    `}
-`;
-
-const Title = Styled.h4`
-    margin: 0 8px;
-    grid-area: title;
-    font-size: var(--input-font);
-    color: var(--title-color);
-`;
-
-const Items = Styled.div.attrs(({ columns }) => ({ columns }))`
-    width: 100%;
-    gap: 6px;
-    grid-area: input;
-
-    ${(props) => Number(props.columns) > 1 ? `
-        display: grid;
-        grid-template-columns: repeat(${props.columns}, 1fr);
-    ` : `
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     `}
 `;
 
@@ -92,30 +66,21 @@ const Error = Styled(InputError)`
 
 
 /**
- * The Field Input Component
+ * The List Input Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function FieldInput(props) {
+function ListInput(props) {
     const {
         className, isDisabled, withBorder,
-        name, value, button, onChange,
-        title, columns, errors, children,
+        inputType, name, value, button, onChange,
+        options, withNone, noneText,
+        errors,
     } = props;
 
 
-    // Parse the Items
-    const items    = [];
-    const baseElem = {};
-    if (children) {
-        for (const [ , child ] of Utils.getVisibleChildren(children)) {
-            items.push(child.props);
-            baseElem[child.props.name] = "";
-        }
-    }
-
     // Calculate the Items Array
-    let parts = [{}];
+    let parts = [ "" ];
     if (value) {
         try {
             parts = Array.isArray(value) ? value : JSON.parse(String(value));
@@ -123,26 +88,20 @@ function FieldInput(props) {
                 parts = [ parts ];
             }
         } catch(e) {
-            parts = [{}];
+            parts = [ "" ];
         }
     }
 
 
     // Handles a Field Change
     const handleChange = (newValue, index, name = "") => {
-        if (name) {
-            const value = parts[index] ? { ...parts[index] } : {};
-            value[name] = newValue;
-            parts.splice(index, 1, value);
-        }
+        parts.splice(index, 1, newValue);
         fieldChanged(parts);
     };
 
     // Adds a Field to the value
     const addField = () => {
-        if (name) {
-            parts.push({ ...baseElem });
-        }
+        parts.push("");
         fieldChanged(parts);
     };
 
@@ -168,8 +127,6 @@ function FieldInput(props) {
 
 
     // Do the Render
-    const withTitle = Boolean(title);
-
     return <Container
         className={className}
         withBorder={withBorder}
@@ -179,25 +136,20 @@ function FieldInput(props) {
             className="inputfield-container"
             withClose={parts.length > 1}
             withError={!!getError(index)}
-            withTitle={withTitle}
             withBorder={withBorder}
         >
-            {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
-            <Items className="inputfield-items" columns={columns}>
-                {items.map((item) => <InputField
-                    {...item}
-                    key={`${item.subkey || item.name}-${index}`}
-                    isHidden={item.hide ? item.hide(elem || {}) : false}
-                    type={item.type}
-                    name={`${item.name}-${index}`}
-                    value={elem[item.name] || ""}
-                    onChange={(name, value) => handleChange(value, index, item.name)}
-                    isDisabled={isDisabled}
-                    withLabel={!!item.label || index === 0}
-                    isSmall={!item.label && index > 0}
-                    fullWidth
-                />)}
-            </Items>
+            <InputField
+                type={inputType}
+                name={`${name}-${index}`}
+                value={elem}
+                options={options}
+                withNone={withNone}
+                noneText={noneText}
+                onChange={(name, value) => handleChange(value, index)}
+                isDisabled={isDisabled}
+                withLabel={index === 0}
+                isSmall={index > 0}
+            />
 
             {parts.length > 1 && <Close>
                 <IconLink
@@ -223,31 +175,35 @@ function FieldInput(props) {
  * The Property Types
  * @type {Object} propTypes
  */
-FieldInput.propTypes = {
+ListInput.propTypes = {
     className  : PropTypes.string,
     isDisabled : PropTypes.bool,
     withBorder : PropTypes.bool,
     name       : PropTypes.string.isRequired,
+    inputType  : PropTypes.string,
     value      : PropTypes.any,
-    columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    withNone   : PropTypes.bool,
+    noneText   : PropTypes.string,
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
-    title      : PropTypes.string,
     button     : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
     errors     : PropTypes.object,
-    children   : PropTypes.any,
 };
 
 /**
  * The Default Properties
  * @type {Object} defaultProps
  */
-FieldInput.defaultProps = {
+ListInput.defaultProps = {
     className  : "",
     isDisabled : false,
     withBorder : false,
+    inputType  : InputType.TEXT,
+    withNone   : false,
+    noneText   : "",
     button     : "GENERAL_ADD_FIELD",
 };
 
-export default FieldInput;
+export default ListInput;

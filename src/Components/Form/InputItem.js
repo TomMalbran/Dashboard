@@ -30,7 +30,6 @@ InputItem.propTypes = {
     spellCheck   : PropTypes.string,
     isRequired   : PropTypes.bool,
     isDisabled   : PropTypes.bool,
-    fieldButton  : PropTypes.string,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     width        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
