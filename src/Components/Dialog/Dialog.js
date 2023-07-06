@@ -114,9 +114,9 @@ function Dialog(props) {
         const node = contentRef.current;
         if (!noTab && e.which === KeyCode.DOM_VK_TAB) {
             if (e.target.closest(".dialog") === null) {
-                const focusables = node.querySelectorAll("input, a, button");
-                const backward   = e.shiftKey;
-                const target     = backward ? focusables[focusables.length - 1] : focusables[0];
+                const focusable = node.querySelectorAll("input, a, button");
+                const backward  = e.shiftKey;
+                const target    = backward ? focusable[focusable.length - 1] : focusable[0];
                 target.focus();
                 e.preventDefault();
             }

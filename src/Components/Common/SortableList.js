@@ -95,7 +95,7 @@ function SortableList(props) {
                 onChange={(name, isChecked) => onVisibility(index, isChecked)}
             /> : <Name>{name}</Name>}
             {withVisibility && <Icon
-                icon={isVisible ? "vissible" : "hidden"}
+                icon={isVisible ? "visible" : "hidden"}
                 cursor="pointer"
                 onClick={() => onVisibility(index, !isVisible)}
             />}

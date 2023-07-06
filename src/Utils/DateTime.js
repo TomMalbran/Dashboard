@@ -59,12 +59,12 @@ const FORMATS = {
  * The DateHour class, a Date object with lots of added functions
  * @constructor
  * @param {(Number|Date)} date
- * @param {Boolean=}      inMiliseconds
+ * @param {Boolean=}      inMiliSeconds
  */
 class DateHour {
-    constructor(date, inMiliseconds) {
+    constructor(date, inMiliSeconds) {
         if (date && !(date instanceof Date)) {
-            this.date = new Date(parseInt(date, 10) * (!inMiliseconds ? 1000 : 1));
+            this.date = new Date(parseInt(date, 10) * (!inMiliSeconds ? 1000 : 1));
         } else if (date) {
             this.date = new Date(date);
         } else {
@@ -194,7 +194,7 @@ class DateHour {
     }
 
     /**
-     * Returns a new DateHour with the same day, but at 0 hours, 0 minutes, 0 seconds and 0 miliseconds
+     * Returns a new DateHour with the same day, but at 0 hours, 0 minutes, 0 seconds and 0 mili seconds
      * @param {Number=} hours
      * @returns {DateHour}
      */
@@ -203,7 +203,7 @@ class DateHour {
     }
 
     /**
-     * Returns a new DateHour with the same day, but at 23 hours, 59 minutes, 59 seconds and 0 miliseconds
+     * Returns a new DateHour with the same day, but at 23 hours, 59 minutes, 59 seconds and 0 mili seconds
      * @returns {DateHour}
      */
     toDayEnd() {
@@ -324,37 +324,37 @@ class DateHour {
         const diff1 = time - today;
         const diff2 = today - time;
         const diff  = diff1 > 0 ? diff1 : diff2;
-        const dmin  = Math.round(diff / MINUTE_SECS);
-        const dhour = Math.round(diff / HOUR_SECS);
-        const dday  = Math.round(diff / DAY_SECS);
+        const dMin  = Math.round(diff / MINUTE_SECS);
+        const dHour = Math.round(diff / HOUR_SECS);
+        const dDay  = Math.round(diff / DAY_SECS);
         let   format;
 
         // In the Future
         if (diff1 > 0) {
             if (diff1 < HOUR_SECS * 2) {
-                format = dmin === 1  ? "inMin"  : "inMins";
+                format = dMin === 1  ? "inMin"  : "inMins";
             } else if (diff1 < DAY_SECS * 2) {
-                format = dhour === 1 ? "inHour" : "inHours";
+                format = dHour === 1 ? "inHour" : "inHours";
             } else if (diff1 < DAY_SECS * 3) {
-                format = dday === 1  ? "inDay"  : "inDays";
+                format = dDay === 1  ? "inDay"  : "inDays";
             }
         // In the Past
         } else if (diff2 > 0) {
             if (diff2 < HOUR_SECS * 2) {
-                format = dmin === 1  ? "minAgo"  : "minsAgo";
+                format = dMin === 1  ? "minAgo"  : "minsAgo";
             } else if (diff2 < DAY_SECS * 2) {
-                format = dhour === 1 ? "hourAgo" : "hoursAgo";
+                format = dHour === 1 ? "hourAgo" : "hoursAgo";
             } else if (diff2 < DAY_SECS * 3) {
-                format = dday === 1  ? "dayAgo"  : "daysAgo";
+                format = dDay === 1  ? "dayAgo"  : "daysAgo";
             }
         }
 
         // Show the result in mins or hours since the time
         if (format) {
             return NLS.get(FORMATS[format])
-                .replace("{i}", dmin.toString())
-                .replace("{h}", dhour.toString())
-                .replace("{d}", dday.toString());
+                .replace("{i}", dMin.toString())
+                .replace("{h}", dHour.toString())
+                .replace("{d}", dDay.toString());
         }
 
         // Show the result as a date and time
@@ -485,7 +485,7 @@ class DateHour {
 
 
     /**
-     * Returns true if the day is Suterday or Sunday
+     * Returns true if the day is Saturday or Sunday
      * @returns {Boolean}
      */
     get isWeekend() {
@@ -1017,11 +1017,11 @@ class DateHour {
 /**
  * Creates a new DateHour
  * @param {(Number|Date)=} date
- * @param {Boolean=}       inMiliseconds
+ * @param {Boolean=}       inMiliSeconds
  * @returns {DateHour}
  */
-function create(date, inMiliseconds) {
-    return new DateHour(date, inMiliseconds);
+function create(date, inMiliSeconds) {
+    return new DateHour(date, inMiliSeconds);
 }
 
 /**
@@ -1255,7 +1255,7 @@ function getMonthDays(month, year) {
 }
 
 /**
- * Returns number as a String with a 0 infront
+ * Returns number as a String with a 0 in front
  * @param {Number} time
  * @returns {String}
  */

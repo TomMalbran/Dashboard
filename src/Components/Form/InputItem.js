@@ -19,7 +19,7 @@ function InputItem() {
  * @typedef {Object} propTypes
  */
 InputItem.propTypes = {
-    subkey       : PropTypes.string,
+    subKey       : PropTypes.string,
     type         : PropTypes.string,
     name         : PropTypes.string,
     label        : PropTypes.string,

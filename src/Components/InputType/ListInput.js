@@ -73,7 +73,7 @@ const Error = Styled(InputError)`
 function ListInput(props) {
     const {
         className, isDisabled,
-        inputType, name, value, indeces, button, onChange,
+        inputType, name, value, indexes, button, onChange,
         options, withNone, noneText,
         isSortable, onSort, errors,
     } = props;
@@ -92,9 +92,9 @@ function ListInput(props) {
             parts = [ "" ];
         }
     }
-    if (indeces) {
+    if (indexes) {
         try {
-            ids = Array.isArray(indeces) ? indeces : JSON.parse(String(indeces));
+            ids = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
             if (!Array.isArray(ids)) {
                 ids = [ ids ];
             }
@@ -222,7 +222,7 @@ ListInput.propTypes = {
     name       : PropTypes.string.isRequired,
     inputType  : PropTypes.string,
     value      : PropTypes.any,
-    indeces    : PropTypes.any,
+    indexes    : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     withNone   : PropTypes.bool,
     noneText   : PropTypes.string,

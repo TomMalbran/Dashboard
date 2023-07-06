@@ -12,6 +12,7 @@ import Circle               from "../Common/Circle";
 
 // Styles
 const H3 = Styled.h3`
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -47,7 +48,7 @@ function Subtitle(props) {
     if (!message) {
         return <React.Fragment />;
     }
-    return <H3 className="title">
+    return <H3 className="subtitle">
         {!!circle && <SubCircle variant={circle} />}
         {NLS.get(message)}
     </H3>;

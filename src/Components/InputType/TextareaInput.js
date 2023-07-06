@@ -88,14 +88,14 @@ function TextareaInput(props) {
 
     // Handles the Textarea Input
     const handleInput = (e) => {
-        handleAutogrow();
+        handleAutoGrow();
         if (onInput) {
             onInput(name, e.target.value);
         }
     };
 
-    // Handles the Textarea Autogrow
-    const handleAutogrow = () => {
+    // Handles the Textarea AutoGrow
+    const handleAutoGrow = () => {
         const textareaLineHeight = 16;
         const node     = inputRef.current;
         const prevRows = node.rows;
@@ -110,10 +110,10 @@ function TextareaInput(props) {
 
     // Resize the Textarea the first time
     React.useEffect(() => {
-        handleAutogrow();
+        handleAutoGrow();
     }, []);
     React.useEffect(() => {
-        handleAutogrow();
+        handleAutoGrow();
     }, [ value ]);
 
 

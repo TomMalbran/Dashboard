@@ -119,8 +119,8 @@ function useFrom() {
     const path       = usePath();
     const childPath  = useChildPath();
     const basePath   = path.replace(childPath, "");
-    const parentpath = basePath.split("/").slice(0, -2).join("/");
-    return parentpath;
+    const parentPath = basePath.split("/").slice(0, -2).join("/");
+    return parentPath;
 }
 
 /**

@@ -29,7 +29,7 @@ const close = keyframes`
 `;
 
 // Styles
-const Drawerdrop = Styled(Backdrop)`
+const DrawerDrop = Styled(Backdrop)`
     z-index: var(--z-drawer);
 `;
 const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
@@ -113,7 +113,7 @@ function Drawer(props) {
     if (!open) {
         return <React.Fragment />;
     }
-    return <Drawerdrop
+    return <DrawerDrop
         contentRef={contentRef}
         open={open}
         isClosing={isClosing}
@@ -137,7 +137,7 @@ function Drawer(props) {
                 {children}
             </Section>
         </Div>
-    </Drawerdrop>;
+    </DrawerDrop>;
 }
 
 /**

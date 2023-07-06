@@ -18,7 +18,8 @@ const Container = Styled.div`
     align-items: center;
     gap: 16px;
 
-    .inputfield {
+    .inputfield,
+    .inputfield input {
         height: 20px;
     }
     .inputfield:first-child::after {

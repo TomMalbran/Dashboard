@@ -178,7 +178,7 @@ function Container(props) {
         }, 300));
     };
 
-    // Handles the Menu/Detials Close
+    // Handles the Menu/Details Close
     const handleClose = () => {
         if (showingMenu) {
             closeMenu();

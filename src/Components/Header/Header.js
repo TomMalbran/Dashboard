@@ -57,7 +57,7 @@ function Header(props) {
     const {
         className, showBreadcrumbs,
         icon, message, fallback, href,
-        subtitle, subcircle, children,
+        subTitle, subCircle, children,
     } = props;
 
     const route = Navigate.usePath();
@@ -74,8 +74,8 @@ function Header(props) {
                 href={href}
             />
             <Subtitle
-                message={subtitle}
-                circle={subcircle}
+                message={subTitle}
+                circle={subCircle}
             />
             <Child>
                 {children}
@@ -95,8 +95,8 @@ Header.propTypes = {
     message         : PropTypes.string.isRequired,
     fallback        : PropTypes.string,
     href            : PropTypes.string,
-    subtitle        : PropTypes.string,
-    subcircle       : PropTypes.string,
+    subTitle        : PropTypes.string,
+    subCircle       : PropTypes.string,
     children        : PropTypes.any,
 };
 

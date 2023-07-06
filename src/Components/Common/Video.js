@@ -34,7 +34,7 @@ const Frame = Styled.iframe`
 function Video(props) {
     const { className, title, source, width, height } = props;
 
-    const src = Utils.getYoutubeEmbed(source);
+    const src = Utils.getYouTubeEmbed(source);
 
     if (!src) {
         return <React.Fragment />;

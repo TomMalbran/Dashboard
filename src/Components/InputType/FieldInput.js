@@ -186,7 +186,7 @@ function FieldInput(props) {
             <Items className="inputfield-items" columns={columns}>
                 {items.map((item) => <InputField
                     {...item}
-                    key={`${item.subkey || item.name}-${index}`}
+                    key={`${item.subKey || item.name}-${index}`}
                     isHidden={item.hide ? item.hide(elem || {}) : false}
                     type={item.type}
                     name={`${item.name}-${index}`}

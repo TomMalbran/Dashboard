@@ -256,7 +256,7 @@ function getPageText(currentPage, totalPages) {
 }
 
 /**
- * Returns Yes or No depnding of the value
+ * Returns Yes or No depending of the value
  * @param {(Number|String)} value
  * @returns {String}
  */
@@ -265,7 +265,7 @@ function toYesNo(value) {
 }
 
 /**
- * Returns Yes or Blank depnding of the value
+ * Returns Yes or Blank depending of the value
  * @param {(Number|String)} value
  * @returns {String}
  */
@@ -317,7 +317,7 @@ function storeItem(key, value) {
 }
 
 /**
- * Concats the Values
+ * Concat the Values
  * @param {String}    glue
  * @param {...String} values
  * @returns {Object}
@@ -671,7 +671,7 @@ function parseList(list, callback) {
 }
 
 /**
- * Returns an ID depeding on the type
+ * Returns an ID depending on the type
  * @param {Object}    action
  * @param {...String} types
  * @returns {Boolean}
@@ -697,11 +697,11 @@ function hasFormError(errors) {
 
 
 /**
- * Returns the Youtube Embed Url
+ * Returns the YouTube Embed Url
  * @param {String} source
  * @returns {String}
  */
-function getYoutubeEmbed(source) {
+function getYouTubeEmbed(source) {
     if (!source) {
         return "";
     }
@@ -802,6 +802,6 @@ export default {
     hasError,
     hasFormError,
 
-    getYoutubeEmbed,
+    getYouTubeEmbed,
     getVimeoEmbed,
 };

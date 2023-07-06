@@ -164,7 +164,7 @@ function formatJoin(id, list, useOr) {
 }
 
 /**
- * Returns a formated string using the correct plural string
+ * Returns a formatted string using the correct plural string
  * @param {String}          id
  * @param {(Number|String)} amount
  * @param {...String}       args
@@ -176,7 +176,7 @@ function pluralize(id, amount, ...args) {
 }
 
 /**
- * Returns a formated string using the correct plural string
+ * Returns a formatted string using the correct plural string
  * @param {String}   id
  * @param {String[]} list
  * @returns {String}
