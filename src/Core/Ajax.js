@@ -131,12 +131,12 @@ function baseUrl(route) {
  * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
- * @param {Boolean=} addTimezone
+ * @param {Boolean=} addAuth
  * @returns {URL}
  */
-function createUrl(route, params = {}, addToken = true, addTimezone = false) {
+function createUrl(route, params = {}, addToken = true, addAuth = false) {
     const url = baseUrl(route);
-    addUrlParams(url, params, addToken, addTimezone);
+    addUrlParams(url, params, addToken, addAuth);
     return url;
 }
 
@@ -145,20 +145,26 @@ function createUrl(route, params = {}, addToken = true, addTimezone = false) {
  * @param {URL}      url
  * @param {Object=}  params
  * @param {Boolean=} addToken
- * @param {Boolean=} addTimezone
+ * @param {Boolean=} addAuth
  * @returns {Void}
  */
-function addUrlParams(url, params = {}, addToken = true, addTimezone = false) {
+function addUrlParams(url, params = {}, addToken = true, addAuth = false) {
     for (const [ key, value ] of Object.entries(params)) {
         url.searchParams.append(key, value);
     }
+
     if (addToken) {
         const token = Auth.getToken();
         if (token) {
             url.searchParams.append("jwt", token);
         }
     }
-    if (addTimezone) {
+
+    if (addAuth) {
+        const langcode = Auth.getLanguage();
+        if (langcode) {
+            url.searchParams.append("langcode", langcode);
+        }
         const timezone = Auth.getTimezone();
         if (timezone) {
             url.searchParams.append("timezone", timezone);
@@ -199,6 +205,7 @@ async function get(route, params = {}, showResult = true, abortController = null
 function post(route, params = {}, showResult = true, abortController = null) {
     const url      = baseUrl(route);
     const token    = Auth.getToken();
+    const langcode = Auth.getLanguage();
     const timezone = Auth.getTimezone();
     const body     = new FormData();
 
@@ -207,6 +214,9 @@ function post(route, params = {}, showResult = true, abortController = null) {
     }
     if (token) {
         body.append("jwt", token);
+    }
+    if (langcode) {
+        body.append("langcode", langcode);
     }
     if (timezone) {
         body.append("timezone", timezone);
@@ -219,11 +229,11 @@ function post(route, params = {}, showResult = true, abortController = null) {
  * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
- * @param {Boolean=} addTimezone
+ * @param {Boolean=} addAuth
  * @returns {String}
  */
-function url(route, params = {}, addToken = true, addTimezone = false) {
-    return createUrl(route, params, addToken, addTimezone).href;
+function url(route, params = {}, addToken = true, addAuth = false) {
+    return createUrl(route, params, addToken, addAuth).href;
 }
 
 /**
@@ -231,13 +241,13 @@ function url(route, params = {}, addToken = true, addTimezone = false) {
  * @param {String}   route
  * @param {Object=}  params
  * @param {Boolean=} addToken
- * @param {Boolean=} addTimezone
+ * @param {Boolean=} addAuth
  * @returns {String}
  */
-function route(route, params = {}, addToken = true, addTimezone = false) {
+function route(route, params = {}, addToken = true, addAuth = false) {
     const url = new URL(process.env.REACT_APP_ROUTE);
     url.searchParams.append("route", route);
-    addUrlParams(url, params, addToken, addTimezone);
+    addUrlParams(url, params, addToken, addAuth);
     return url.href;
 }
 

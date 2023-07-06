@@ -4,6 +4,7 @@ import NLS                  from "../Core/NLS";
 // Module Variables
 let token          = "";
 let timezone       = null;
+let language       = null;
 let timeout        = null;
 let setCurrentUser = null;
 
@@ -48,6 +49,7 @@ function getDecodeToken() {
 function setToken(jwt) {
     if (token !== jwt) {
         token    = jwt;
+        language = null;
         timezone = null;
         localStorage.setItem("token", token);
         setUser();
@@ -60,6 +62,7 @@ function setToken(jwt) {
  */
 function unsetToken() {
     token    = null;
+    language = null;
     timezone = null;
 
     localStorage.removeItem("token");
@@ -111,6 +114,20 @@ function setUser() {
 }
 
 /**
+ * Returns the Language
+ * @returns {String}
+ */
+function getLanguage() {
+    const newLanguage = NLS.getLang();
+    let result = "";
+    if (language !== newLanguage) {
+        result   = String(newLanguage);
+        language = newLanguage;
+    }
+    return result;
+}
+
+/**
  * Returns the Timezone
  * @returns {String}
  */
@@ -134,5 +151,6 @@ export default {
     unsetToken,
     getUser,
     setUser,
+    getLanguage,
     getTimezone,
 };

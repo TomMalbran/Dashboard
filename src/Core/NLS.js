@@ -31,12 +31,20 @@ function initLang(lang, strings, urls, actions) {
 }
 
 /**
+ * Gets the Language
+ * @returns {String}
+ */
+function getLang() {
+    return (navigator.languages && navigator.languages[0]) || navigator.language || defaultLang;
+}
+
+/**
  * Sets the Language
  * @param {String=} lang
  * @returns {Void}
  */
 function setLang(lang) {
-    language = lang || (navigator.languages && navigator.languages[0]) || navigator.language || defaultLang;
+    language = lang || getLang();
 
     stringData  = loadLang("strings");
     urlData     = loadLang("urls");
@@ -265,6 +273,7 @@ function getAction(id) {
 // The Public API
 export default {
     initLang,
+    getLang,
     setLang,
 
     get,
