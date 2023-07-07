@@ -123,8 +123,10 @@ function DropZone(props) {
                     files.push(file);
                 }
             }
+        }
+
         // Use DataTransfer interface to access the file(s)
-        } else {
+        if (!files.length) {
             totalFiles = e.dataTransfer.files.length;
             for (const file of e.dataTransfer.files) {
                 if (isValidType(file.type) && isValidSize(file.size)) {
