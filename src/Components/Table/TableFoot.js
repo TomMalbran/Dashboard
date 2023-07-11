@@ -12,7 +12,7 @@ import TableRowCnt          from "../Table/TableRowCnt";
 
 // Styles
 const TFoot = Styled.tfoot.attrs(({ notFixed }) => ({ notFixed }))`
-    background: var(--light-gray);
+    background: var(--table-color);
     border-bottom-right-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
 

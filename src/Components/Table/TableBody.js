@@ -11,8 +11,8 @@ import Utils                from "../../Utils/Utils";
 const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notFixed }))`
     box-sizing: border-box;
     width: 100%;
-    border-left: 2px solid var(--light-gray);
-    border-right: 2px solid var(--light-gray);
+    border-left: 2px solid var(--table-color);
+    border-right: 2px solid var(--table-color);
 
     ${(props) => !props.notFixed && `
         overflow-y: scroll;
@@ -31,13 +31,13 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
         &&::-webkit-scrollbar {
             width: 14px;
             height: 14px;
-            border-left: 2px solid var(--light-gray);
+            border-left: 2px solid var(--table-color);
         }
         &&::-webkit-scrollbar-thumb {
             border-radius: 999px;
             border: 2px solid transparent;
             border-left-width: 4px;
-            box-shadow: inset 0 0 0 8px var(--light-gray);
+            box-shadow: inset 0 0 0 8px var(--table-color);
             transition: all 0.2s;
         }
         &&::-webkit-scrollbar-thumb:hover {
@@ -46,13 +46,13 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
     `}
 
     ${(props) => !props.hasPaging && `
-        border-bottom: 2px solid var(--light-gray);
+        border-bottom: 2px solid var(--table-color);
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
     `}
 
     @media (max-width: 700px) {
-        border-top: 2px solid var(--light-gray);
+        border-top: 2px solid var(--table-color);
         border-top-left-radius: var(--border-radius);
         border-top-right-radius: var(--border-radius);
     }

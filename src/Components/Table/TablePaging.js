@@ -25,7 +25,7 @@ const TD = Styled.td`
     align-items: center;
     padding: 0 4px;
     font-size: 12px;
-    background: var(--light-gray);
+    background: var(--table-color);
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
 `;
@@ -56,10 +56,10 @@ const PagingInput = Styled(InputField)`
         font-weight: normal;
         border: 1px solid var(--input-border);
         border-radius: var(--border-radius);
-        background-color: var(--lighter-gray);
+        background-color: var(--table-pages);
     }
     & .input-select.input-select:hover {
-        border-color: var(--border-color-hover);
+        border-color: var(--input-border-hover);
     }
 
     @media (max-width: 700px) {

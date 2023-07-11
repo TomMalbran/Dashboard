@@ -17,7 +17,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         border: none;
     }
     td {
-        border-bottom: 1px solid var(--light-gray);
+        border-bottom: 1px solid var(--table-color);
     }
 
     .icon-checkbox {
@@ -26,12 +26,12 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
 
     ${(props) => props.hasHover && `
         &:hover td {
-            background-color: var(--lighter-gray);
+            background-color: var(--table-hover);
         }
     `}
     ${(props) => props.isSelected && `
         & td {
-            background-color: var(--lighter-gray);
+            background-color: var(--table-selected);
         }
     `}
     ${(props) => props.hasIDs && `
@@ -63,7 +63,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         display: grid;
         position: relative;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        border-bottom: 2px solid var(--light-gray);
+        border-bottom: 2px solid var(--table-color);
         min-height: 24px;
         padding: 8px;
 
