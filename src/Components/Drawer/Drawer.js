@@ -55,7 +55,7 @@ const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     align-items: center;
     width: var(--sidebar-width);
     padding: 16px 0;
-    ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color)" : ""};
+    ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color-dark)" : ""};
 `;
 
 const Logo = Styled(BarLogo)`

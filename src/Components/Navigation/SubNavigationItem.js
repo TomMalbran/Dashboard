@@ -13,7 +13,7 @@ import MenuLink             from "../Link/MenuLink";
 // Styles
 const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
     ${(props) => props.topBorder && `
-        border-top: 1px solid var(--border-color);
+        border-top: 1px solid var(--border-color-dark);
         padding-top: 4px;
         margin-top: 4px;
     `}

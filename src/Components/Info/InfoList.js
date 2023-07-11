@@ -17,7 +17,7 @@ const Section = Styled.section`
     align-items: flex-start;
     padding: 12px 24px;
     gap: 24px;
-    border-bottom: 1px solid var(--light-gray);
+    border-bottom: 1px solid var(border-color-light);
     color: var(--black-color);
 `;
 

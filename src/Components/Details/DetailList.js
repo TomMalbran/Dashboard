@@ -30,7 +30,7 @@ const H3 = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible,
     font-weight: 400;
     line-height: 1;
     color: var(--black-color);
-    border-bottom: 1px solid var(--lighter-gray);
+    border-bottom: 1px solid var(--border-color-light);
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     font-family: var(--title-font);

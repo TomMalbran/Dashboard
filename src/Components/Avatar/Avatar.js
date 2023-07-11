@@ -15,7 +15,7 @@ const Div = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
     display: block;
     width: ${(props) => `${props.size}px`};
     height: ${(props) => `${props.size}px`};
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--border-color-dark);
     box-shadow: 0 0 4px transparent;
     border-radius: 100%;
     transition: all 0.5s;

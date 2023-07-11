@@ -15,7 +15,7 @@ const H3 = Styled.h3`
     font-weight: 200;
     color: white;
     font-family: var(--title-font);
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color-dark);
 
     &:not(:first-child) {
         padding-top: 16px;

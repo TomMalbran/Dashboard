@@ -36,7 +36,7 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
         background-color: var(--secondary-color);
     `}
     ${(props) => props.withBorder && `
-        border-right: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color-dark);
     `}
 
     ${(props) => props.expandMobile && `

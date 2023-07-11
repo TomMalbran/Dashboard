@@ -82,13 +82,13 @@ const DarkItem = Styled(Item)`
 
     ${(props) => !props.isDisabled && `
         &:hover {
-            box-shadow: inset 0 -3em var(--border-color);
+            box-shadow: inset 0 -3em var(--border-color-dark);
         }
     `}
     ${(props) => props.isSelected && `
         color: var(--white-color);
         background-color: var(--secondary-color);
-        border-color: var(--border-color);
+        border-color: var(--border-color-dark);
         border-bottom-color: var(--secondary-color);
     `}
     ${(props) => props.isDisabled && `

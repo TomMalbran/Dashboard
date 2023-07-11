@@ -19,7 +19,7 @@ const Footer = Styled.footer`
     align-items: center;
     height: var(--dialog-footer);
     padding: 0 var(--main-padding);
-    border-top: 1px solid var(--light-gray);
+    border-top: 1px solid var(--border-color-light);
     gap: 8px;
 
     @media (max-width: 500px) {

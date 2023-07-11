@@ -14,7 +14,7 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
     height: 12px;
     margin-top: -3px;
     margin-right: 8px;
-    border: 1px solid var(--black-color);
+    border: 1px solid var(--border-color-dark);
     border-radius: 50%;
     vertical-align: middle;
 

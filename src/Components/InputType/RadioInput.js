@@ -49,7 +49,7 @@ const Radio = Styled.input`
     opacity: 0;
 
     &:focus + span {
-        border-color: var(--border-color);
+        border-color: var(--border-color-dark);
         outline: none;
     }
     &:checked + span {
@@ -64,7 +64,7 @@ const Radio = Styled.input`
         width: var(--radio-inner);
         height: var(--radio-inner);
         border-radius: 50%;
-        border-color: var(--border-color);
+        border-color: var(--border-color-dark);
         background-color: var(--primary-color);
         animation: ${tick} 0.4s cubic-bezier(0.175, 0.885, 0.320, 1.275);
     }
@@ -83,7 +83,7 @@ const Span = Styled.span`
     height: var(--radio-outer);
     width: var(--radio-outer);
     margin: 0 8px 0 calc(0px - var(--radio-outer));
-    border: 2px solid var(--lighter-color);
+    border: 2px solid var(--border-color-light);
     border-radius: 50%;
     transition: all 0.2s;
 `;

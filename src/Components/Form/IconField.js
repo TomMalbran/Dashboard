@@ -17,12 +17,12 @@ import Icon                 from "../Common/Icon";
 // Styles
 const FieldContainer = Styled(InputContainer).attrs(({ isFocused }) => ({ isFocused }))`
     &&, .inputfield {
-        --input-border: var(--border-color);
+        --input-border: var(--border-color-dark);
     }
 
     ${(props) => props.isFocused && `
         --input-border: var(--input-border-focus);
-        box-shadow: 0 0 0 1px var(--border-color);
+        box-shadow: 0 0 0 1px var(--border-color-dark);
         border-radius: var(--border-radius);
     `}
 `;

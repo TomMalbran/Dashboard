@@ -13,7 +13,7 @@ import Icon                 from "../Common/Icon";
 const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasActions }))`
     position: relative;
     cursor: pointer;
-    border: 2px solid var(--light-gray);
+    border: 2px solid var(--border-color-light);
     border-radius: var(--border-radius);
     background-color: white;
     overflow: hidden;
