@@ -26,14 +26,21 @@ const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
  * @returns {React.ReactElement}
  */
 function Html(props) {
-    const { isHidden, variant, linkify, addBreaks, className, onClick, content, children } = props;
+    const {
+        isHidden, className, variant,
+        addLinks, addBreaks, formatText,
+        onClick, content, children,
+    } = props;
     let __html = String(content || children);
 
+    // Nothing to Render
     if (isHidden || !__html) {
         return <React.Fragment />;
     }
 
-    if (linkify) {
+
+    // Parse the Content
+    if (addLinks) {
         __html = __html
             .replace(urlPattern, '<a href="$&" target="_blank">$&</a>')
             .replace(pseudoUrlPattern, '$1<a href="http://$2" target="_blank">$2</a>')
@@ -42,7 +49,16 @@ function Html(props) {
     if (addBreaks) {
         __html = __html.replace(/\n/g, "<br />");
     }
+    if (formatText) {
+        __html = __html
+            .replace(/\*\*(.+)\*\*/g, "<b>$1</b>")
+            .replace(/__(.+)__/g, "<i>$1</i>")
+            .replace(/~~(.+)~~/g, "<s>$1</s>")
+            .replace(/```(.+)```/g, "<code>$1</code>");
+    }
 
+
+    // Do the Render
     switch (variant) {
     case Variant.H2:
         return <h2
@@ -88,14 +104,15 @@ function Html(props) {
  * @typedef {Object} propTypes
  */
 Html.propTypes = {
-    isHidden  : PropTypes.bool,
-    variant   : PropTypes.string,
-    className : PropTypes.string,
-    onClick   : PropTypes.func,
-    content   : PropTypes.string,
-    children  : PropTypes.string,
-    linkify   : PropTypes.bool,
-    addBreaks : PropTypes.bool,
+    isHidden   : PropTypes.bool,
+    variant    : PropTypes.string,
+    className  : PropTypes.string,
+    onClick    : PropTypes.func,
+    content    : PropTypes.string,
+    children   : PropTypes.string,
+    addLinks   : PropTypes.bool,
+    addBreaks  : PropTypes.bool,
+    formatText : PropTypes.bool,
 };
 
 /**
@@ -103,11 +120,12 @@ Html.propTypes = {
  * @type {Object} defaultProps
  */
 Html.defaultProps = {
-    isHidden  : false,
-    variant   : Variant.DIV,
-    className : "",
-    linkify   : false,
-    addBreaks : false,
+    isHidden   : false,
+    className  : "",
+    variant    : Variant.DIV,
+    addLinks   : false,
+    addBreaks  : false,
+    formatText : false,
 };
 
 export default Html;
