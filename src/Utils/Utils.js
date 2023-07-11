@@ -175,9 +175,12 @@ function createSlug(value) {
     result = result.replace(/^\s+|\s+$/g, ""); // trim
     result = result.toLowerCase();
 
-    // Remove accents, swap ñ for n, etc
+    /* spell-checker: disable-next-line */
     const from = "ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;";
+    /* spell-checker: disable-next-line */
     const to   = "AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------";
+
+    // Remove accents, swap ñ for n, etc
     for (let i = 0, l = from.length; i < l; i++) {
         result = result.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
     }
