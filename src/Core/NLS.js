@@ -39,6 +39,14 @@ function getLang() {
 }
 
 /**
+ * Gets the Language
+ * @returns {String}
+ */
+function getCurrentLang() {
+    return language;
+}
+
+/**
  * Sets the Language
  * @param {String=} lang
  * @returns {Void}
@@ -274,6 +282,7 @@ function getAction(id) {
 export default {
     initLang,
     getLang,
+    getCurrentLang,
     setLang,
 
     get,
