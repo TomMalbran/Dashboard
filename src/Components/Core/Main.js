@@ -8,9 +8,9 @@ import Responsive           from "../../Core/Responsive";
 
 
 // Styles
-const Content = Styled.main.attrs(({ withNavigation, withDetails }) => ({ withNavigation, withDetails }))`
+const Content = Styled.main.attrs(({ withNavigation, withDetails, wideDetails }) => ({ withNavigation, withDetails, wideDetails }))`
     --main-navigation: ${(props) => props.withNavigation ? "var(--navigation-width)" : "0px"};
-    --main-details: ${(props) => props.withDetails ? "var(--details-width)" : "0px"};
+    --main-details: ${(props) => props.withDetails ? (props.wideDetails ? "var(--details-width-wide)" : "var(--details-width)") : "0px"};
 
     display: flex;
     flex-grow: 2;
@@ -36,12 +36,13 @@ const Content = Styled.main.attrs(({ withNavigation, withDetails }) => ({ withNa
  * @returns {React.ReactElement}
  */
 function Main(props) {
-    const { className, withNavigation, withDetails, children } = props;
+    const { className, withNavigation, withDetails, wideDetails, children } = props;
 
     return <Content
         className={className}
         withNavigation={withNavigation}
         withDetails={withDetails}
+        wideDetails={wideDetails}
     >
         {children}
     </Content>;
@@ -55,6 +56,7 @@ Main.propTypes = {
     className      : PropTypes.string,
     withNavigation : PropTypes.bool,
     withDetails    : PropTypes.bool,
+    wideDetails    : PropTypes.bool,
     children       : PropTypes.any,
 };
 
@@ -66,6 +68,7 @@ Main.defaultProps = {
     className      : "",
     withNavigation : true,
     withDetails    : false,
+    wideDetails    : false,
 };
 
 export default Main;

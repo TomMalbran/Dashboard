@@ -13,13 +13,13 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section.attrs(({ isInside, topSpace }) => ({ isInside, topSpace }))`
+const Section = Styled.section.attrs(({ isInside, isWider, topSpace }) => ({ isInside, isWider, topSpace }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     gap: 16px;
-    width: var(--details-width);
+    width: ${(props) => props.isWider ? "var(--details-width-wide)" : "var(--details-width)"};
     background-color: var(--lighter-gray);
     padding: 16px;
     overflow: auto;
@@ -71,7 +71,8 @@ const Error = Styled.div`
  */
 function Details(props) {
     const {
-        className, isInside, topSpace, isLoading, isEmpty, hasError, error,
+        className, isInside, isWider, topSpace,
+        isLoading, isEmpty, hasError, error,
         canEdit, onAction, collapsible, children,
     } = props;
 
@@ -99,6 +100,7 @@ function Details(props) {
     return <Section
         className={`details light-scrollbars ${className}`}
         isInside={isInside}
+        isWider={isWider}
         topSpace={topSpace}
     >
         {isLoading   && <Loading><CircularLoader /></Loading>}
@@ -114,6 +116,7 @@ function Details(props) {
 Details.propTypes = {
     className   : PropTypes.string,
     isInside    : PropTypes.bool,
+    isWider     : PropTypes.bool,
     topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     isLoading   : PropTypes.bool,
     isEmpty     : PropTypes.bool,
@@ -132,6 +135,7 @@ Details.propTypes = {
 Details.defaultProps = {
     className : "",
     isInside  : false,
+    isWider   : false,
     isLoading : false,
     isEmpty   : false,
     hasError  : false,
