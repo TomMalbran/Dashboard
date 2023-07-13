@@ -31,7 +31,7 @@ const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
 function ActionItem(props) {
     const {
         action, variant, isSmall, message, icon,
-        onClick, onAction, direction,
+        onClick, onAction, direction, menuGap,
         tooltip, tooltipVariant, children,
     } = props;
 
@@ -106,6 +106,7 @@ function ActionItem(props) {
             open={menuOpen}
             targetRef={buttonRef}
             direction={direction}
+            gap={menuGap}
             onClose={handleMenuClose}
         >
             {actions.map((elem, index) => <MenuItem
@@ -134,6 +135,7 @@ ActionItem.propTypes = {
     onClick        : PropTypes.func,
     onAction       : PropTypes.func,
     direction      : PropTypes.string,
+    menuGap        : PropTypes.number,
     children       : PropTypes.any,
 };
 
@@ -146,6 +148,7 @@ ActionItem.defaultProps = {
     variant   : "outlined",
     isSmall   : false,
     direction : "bottom left",
+    menuGap   : 4,
 };
 
 export default ActionItem;
