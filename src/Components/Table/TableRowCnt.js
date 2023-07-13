@@ -63,7 +63,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         display: grid;
         position: relative;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        border-bottom: 2px solid var(--table-color);
+        border-bottom: var(--table-border) solid var(--table-color);
         min-height: 24px;
         padding: 8px;
 
