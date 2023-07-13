@@ -9,6 +9,7 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import IconLink             from "../Link/IconLink";
+import Icon                 from "../Common/Icon";
 
 
 
@@ -67,7 +68,7 @@ const Ul = Styled.ul`
  */
 function DetailList(props) {
     const {
-        isHidden, className, message, collapsible,
+        isHidden, className, icon, message, collapsible,
         action, onAction, canEdit, children,
     } = props;
 
@@ -116,11 +117,11 @@ function DetailList(props) {
             isCollapsed={isCollapsed}
             onClick={handleClick}
         >
-            {isCollapsible && <IconLink
+            {isCollapsible ? <IconLink
                 variant="black"
                 icon={isCollapsed ? "closed" : "expand"}
                 isSmall
-            />}
+            /> : !!icon && <Icon icon={icon} />}
             <Span>{NLS.get(message)}</Span>
             {hasAction && <IconLink
                 variant="black"
@@ -140,6 +141,7 @@ function DetailList(props) {
 DetailList.propTypes = {
     isHidden    : PropTypes.bool,
     className   : PropTypes.string,
+    icon        : PropTypes.string,
     message     : PropTypes.string.isRequired,
     collapsible : PropTypes.string,
     action      : PropTypes.string,
