@@ -69,7 +69,9 @@ function ActionItem(props) {
 
     // Handles the Menu Click
     const handleMenuClick = (elem) => {
-        if (onClick) {
+        if (elem.onClick) {
+            elem.onClick();
+        } else if (onClick) {
             onClick(elem.value);
         } else if (onAction) {
             onAction(elem.act);
