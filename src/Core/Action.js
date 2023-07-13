@@ -178,18 +178,21 @@ function create(name, icon = "", message = "") {
 }
 
 /**
- * Returns the Action with the given name
- * @param {String=} name
+ * Returns the Action with the given action
+ * @param {(String|Object)=} action
  * @returns {Object}
  */
-function get(name) {
-    if (!name) {
+function get(action) {
+    if (!action) {
         return ACTIONS.NULL;
     }
-    if (ACTIONS[name]) {
-        return ACTIONS[name];
+    if (action instanceof Object) {
+        return action;
     }
-    return create(name);
+    if (ACTIONS[action]) {
+        return ACTIONS[action];
+    }
+    return create(action);
 }
 
 
@@ -204,8 +207,6 @@ function useAction() {
     const updateAction = (newAction) => {
         if (!newAction) {
             setAction(get());
-        } else if (newAction instanceof Object) {
-            setAction(newAction);
         } else {
             setAction(get(newAction));
         }
@@ -222,11 +223,7 @@ function useActionID() {
     const [ elemID, setElemID ] = React.useState(0);
 
     const startAction = (newAction, elemID) => {
-        if (newAction instanceof Object) {
-            setAction(newAction);
-        } else {
-            setAction(get(newAction));
-        }
+        setAction(get(newAction));
         setElemID(elemID);
     };
 
