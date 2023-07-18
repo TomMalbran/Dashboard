@@ -1,6 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Core
+import NLS                  from "../../Core/NLS";
+
 // Variants
 const Variant = {
     H2   : "h2",
@@ -29,9 +32,10 @@ function Html(props) {
     const {
         isHidden, className, variant,
         addLinks, addBreaks, formatText,
-        onClick, content, children,
+        onClick, message, content, children,
     } = props;
-    let __html = String(content || children);
+
+    let __html = String(NLS.get(message) || content || children);
 
     // Nothing to Render
     if (isHidden || !__html) {
@@ -108,6 +112,7 @@ Html.propTypes = {
     variant    : PropTypes.string,
     className  : PropTypes.string,
     onClick    : PropTypes.func,
+    message    : PropTypes.string,
     content    : PropTypes.string,
     children   : PropTypes.string,
     addLinks   : PropTypes.bool,
