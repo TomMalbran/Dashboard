@@ -56,7 +56,7 @@ function canShrink(type, withNone) {
     if (type === SELECT && withNone) {
         return true;
     }
-    return ![ DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, COLOR, DATE, TIME ].includes(type);
+    return ![ DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, LIST, COLOR, DATE, TIME ].includes(type);
 }
 
 /**
