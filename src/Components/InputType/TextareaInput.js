@@ -112,9 +112,23 @@ function TextareaInput(props) {
     React.useEffect(() => {
         handleAutoGrow();
     }, []);
+
     React.useEffect(() => {
         handleAutoGrow();
     }, [ value ]);
+
+    React.useEffect(() => {
+        const observer = new IntersectionObserver(([ entry ]) => {
+            if (inputRef.current && entry.isIntersecting) {
+                handleAutoGrow();
+            }
+        });
+        observer.observe(inputRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [ inputRef ]);
+
 
 
     // Do the Render
