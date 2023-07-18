@@ -82,6 +82,7 @@ Input.propTypes = {
     placeholder  : PropTypes.string,
     value        : PropTypes.any,
     minValue     : PropTypes.number,
+    maxAmount    : PropTypes.number,
     autoComplete : PropTypes.string,
     spellCheck   : PropTypes.string,
     isDisabled   : PropTypes.bool,

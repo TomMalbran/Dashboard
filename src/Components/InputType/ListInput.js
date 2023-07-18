@@ -52,7 +52,7 @@ const Inside = Styled.div`
     gap: 4px;
 `;
 
-const Close = Styled(IconLink)`
+const Remove = Styled(IconLink)`
     --link-size: 20px;
     --link-font: 14px;
     border-radius: var(--border-radius-small);
@@ -75,7 +75,7 @@ function ListInput(props) {
         className, isDisabled,
         inputType, name, value, indexes, button, onChange,
         options, withNone, noneText,
-        isSortable, onSort, errors,
+        isSortable, onSort, errors, maxAmount, maxLength,
     } = props;
 
 
@@ -165,6 +165,10 @@ function ListInput(props) {
 
 
     // Do the Render
+    const canAdd    = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
+    const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
+    const canRemove = Boolean(!isDisabled && parts.length > 1);
+
     return <Container className={className}>
         <Content isSortable={isSortable}>
             {parts.map((elem, index) => <Item
@@ -172,11 +176,12 @@ function ListInput(props) {
                 className="inputfield-container"
                 withError={!!getError(index)}
             >
-                {isSortable && <Icon
+                <Icon
+                    isHidden={!canSort}
                     icon="drag"
                     cursor="grab"
                     onMouseDown={(e) => handleGrab(e, elem, index)}
-                />}
+                />
 
                 <Inside>
                     <InputField
@@ -190,20 +195,23 @@ function ListInput(props) {
                         isDisabled={isDisabled}
                         withLabel={!isSortable && index === 0}
                         isSmall={isSortable || index > 0}
+                        maxLength={maxLength}
                     />
                     <Error error={getError(index)} />
                 </Inside>
 
-                {parts.length > 1 && <Close
+                <Remove
+                    isHidden={!canRemove}
                     variant="light"
                     icon="close"
                     onClick={() => removeField(index)}
                     isSmall
-                />}
+                />
             </Item>)}
         </Content>
 
         <Button
+            isHidden={!canAdd}
             variant="outlined"
             message={button}
             onClick={addField}
@@ -232,6 +240,8 @@ ListInput.propTypes = {
     onChange   : PropTypes.func.isRequired,
     isSortable : PropTypes.bool,
     onSort     : PropTypes.func,
+    maxAmount  : PropTypes.number,
+    maxLength  : PropTypes.number,
     errors     : PropTypes.object,
 };
 
@@ -247,6 +257,8 @@ ListInput.defaultProps = {
     noneText   : "",
     isSortable : false,
     button     : "GENERAL_ADD_FIELD",
+    maxAmount  : 0,
+    maxLength  : 0,
 };
 
 export default ListInput;

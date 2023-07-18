@@ -31,7 +31,7 @@ const Content = Styled.div.attrs(({ withClose, withTitle, withError, withBorder 
     ${(props) => props.withClose ? `
         grid-template-areas:
             ${props.withTitle ? '"title title"' : ""}
-            "input close"
+            "input remove"
             ${props.withError ? '"error error"' : ""}
         ;
         grid-template-columns: 1fr 24px;
@@ -77,11 +77,11 @@ const Items = Styled.div.attrs(({ columns }) => ({ columns }))`
     `}
 `;
 
-const Close = Styled.div`
+const Remove = Styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    grid-area: close;
+    grid-area: remove;
 `;
 
 const Error = Styled(InputError)`
@@ -100,7 +100,7 @@ function FieldInput(props) {
     const {
         className, isDisabled, withBorder,
         name, value, button, onChange,
-        title, columns, errors, children,
+        title, columns, errors, maxAmount, children,
     } = props;
 
 
@@ -169,6 +169,8 @@ function FieldInput(props) {
 
     // Do the Render
     const withTitle = Boolean(title);
+    const canAdd    = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
+    const canRemove = Boolean(!isDisabled && parts.length > 1);
 
     return <Container
         className={className}
@@ -199,18 +201,20 @@ function FieldInput(props) {
                 />)}
             </Items>
 
-            {parts.length > 1 && <Close>
+            {canRemove && <Remove>
                 <IconLink
                     variant="light"
                     icon="close"
                     onClick={() => removeField(index)}
                     isSmall
                 />
-            </Close>}
+            </Remove>}
 
             <Error error={getError(index)} />
         </Content>)}
+
         <Button
+            isHidden={!canAdd}
             variant="outlined"
             message={button}
             onClick={addField}
@@ -235,6 +239,7 @@ FieldInput.propTypes = {
     title      : PropTypes.string,
     button     : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
+    maxAmount  : PropTypes.number,
     errors     : PropTypes.object,
     children   : PropTypes.any,
 };
@@ -248,6 +253,7 @@ FieldInput.defaultProps = {
     isDisabled : false,
     withBorder : false,
     button     : "GENERAL_ADD_FIELD",
+    maxAmount  : 0,
 };
 
 export default FieldInput;

@@ -231,6 +231,7 @@ InputField.propTypes = {
     value           : PropTypes.any,
     minValue        : PropTypes.number,
     step            : PropTypes.string,
+    maxAmount       : PropTypes.number,
     autoComplete    : PropTypes.string,
     spellCheck      : PropTypes.string,
     isRequired      : PropTypes.bool,
