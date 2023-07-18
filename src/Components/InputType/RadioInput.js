@@ -31,10 +31,11 @@ const Container = Styled.div`
     margin-bottom: 4px;
 `;
 
-const Label = Styled.label`
+const Label = Styled.label.attrs(({ isDisabled }) => ({ isDisabled }))`
     display: flex;
     align-items: center;
-    cursor: pointer;
+    font-size: var(--input-font);
+    ${(props) => !props.isDisabled && "cursor: pointer;"}
 `;
 
 const Radio = Styled.input`
@@ -90,7 +91,7 @@ const Span = Styled.span`
 
 const Text = Styled(Html)`
     flex-shrink: 0;
-    margin-right: 16px;
+    max-width: calc(100% - 20px);
 `;
 
 const Input = Styled(InputBase)`
@@ -161,7 +162,10 @@ function RadioInput(props) {
         withLabel
     >
         <Container>
-            {items.map(({ key, value }) => <Label key={key}>
+            {items.map(({ key, value }) => <Label
+                key={key}
+                isDisabled={isDisabled}
+            >
                 <Radio
                     type="radio"
                     name={`${name}-${key}`}
