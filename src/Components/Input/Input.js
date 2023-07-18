@@ -83,6 +83,7 @@ Input.propTypes = {
     value        : PropTypes.any,
     minValue     : PropTypes.number,
     maxAmount    : PropTypes.number,
+    maxLength    : PropTypes.number,
     autoComplete : PropTypes.string,
     spellCheck   : PropTypes.string,
     isDisabled   : PropTypes.bool,

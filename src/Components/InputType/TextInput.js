@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Core & Utils
 import KeyCode              from "../../Utils/KeyCode";
@@ -7,6 +8,23 @@ import KeyCode              from "../../Utils/KeyCode";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+
+
+
+// Styles
+const Children = Styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: -4px;
+    margin-right: calc(2px - var(--input-horiz-padding));
+`;
+
+const Text = Styled.p`
+    margin: 0;
+    margin-right: 8px;
+    font-size: 12px;
+    color: var(--lighter-color);
+`;
 
 
 
@@ -21,17 +39,28 @@ function TextInput(props) {
         withBorder, withLabel, suggestRef, autoSuggest,
         id, type, name, value, placeholder, autoComplete, spellCheck,
         onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
+        maxLength, children,
     } = props;
+
+
+    // Returns the Value
+    const getValue = (e) => {
+        const text = String(e.target.value);
+        if (maxLength && text.length > maxLength) {
+            return text.substring(0, maxLength);
+        }
+        return e.target.value;
+    };
 
     // Handles the Change
     const handleChange = (e) => {
-        onChange(name, e.target.value);
+        onChange(name, getValue(e));
     };
 
     // Handles the Input
     const handleInput = (e) => {
         if (onInput) {
-            onInput(name, e.target.value);
+            onInput(name, getValue(e));
         }
     };
 
@@ -73,6 +102,8 @@ function TextInput(props) {
 
 
     // Do the Render
+    const characters = String(value || "").length;
+
     return <InputContent
         inputRef={inputRef}
         className={className}
@@ -102,6 +133,10 @@ function TextInput(props) {
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
         />
+        <Children>
+            {!!maxLength && <Text>{`${characters}/${maxLength}`}</Text>}
+            {children}
+        </Children>
     </InputContent>;
 }
 
@@ -127,6 +162,7 @@ TextInput.propTypes = {
     placeholder  : PropTypes.string,
     autoComplete : PropTypes.string,
     spellCheck   : PropTypes.string,
+    maxLength    : PropTypes.number,
     onChange     : PropTypes.func,
     onClear      : PropTypes.func,
     onInput      : PropTypes.func,
@@ -135,6 +171,7 @@ TextInput.propTypes = {
     onKeyDown    : PropTypes.func,
     onKeyUp      : PropTypes.func,
     onSubmit     : PropTypes.func,
+    children     : PropTypes.any,
 };
 
 /**
@@ -150,6 +187,7 @@ TextInput.defaultProps = {
     withLabel    : true,
     placeholder  : "",
     autoComplete : "off",
+    maxLength    : 0,
 };
 
 export default TextInput;
