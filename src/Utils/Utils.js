@@ -643,10 +643,11 @@ function cloneChildren(children, callback) {
 
     for (const child of list) {
         if (isFiltered(child)) {
-            const values = callback(child, key, total);
-            const isLast = key === total - 1;
+            const values  = callback(child, key, total);
+            const isFirst = key === 0;
+            const isLast  = key === total - 1;
             result.push(React.cloneElement(child, {
-                key, realKey, isLast, ...values,
+                key, realKey, isFirst, isLast, ...values,
             }));
             key += 1;
         }

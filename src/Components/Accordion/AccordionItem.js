@@ -66,14 +66,15 @@ const Aside = Styled.aside`
     }
 `;
 
-const Inside = Styled.div`
+const Inside = Styled.div.attrs(({ isLast }) => ({ isLast }))`
     display: flex;
     flex-direction: column;
     flex-grow: 2;
     gap: 24px;
     padding: 0 12px 32px 12px;
-    border-bottom: 1px solid var(--darker-gray);
     transition: 0.3s all;
+
+    ${(props) => !props.isLast && "border-bottom: 1px solid var(--border-color-light);"}
 `;
 
 const Header = Styled.header.attrs(({ isDisabled }) => ({ isDisabled }))`
@@ -112,7 +113,7 @@ const Description = Styled.p`
 
 const Error = Styled.p`
     margin: 0;
-    color: var(--error-color);
+    color: var(--error-text-color);
 `;
 
 const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
@@ -129,12 +130,14 @@ const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
  */
 function AccordionItem(props) {
     const {
-        className, message, description, error, number, icon,
-        isFirst, isSelected, isDisabled, onClick, children,
+        className, message, description, error, errorCount, number, icon,
+        isFirst, isLast, isSelected, isDisabled, onClick, children,
     } = props;
 
 
     // Do the Render
+    const errorMessage = error || (Number(errorCount) > 0 ? NLS.pluralize("GENERAL_ERROR_SECTION", errorCount) : "");
+
     return <Container
         className={className}
         isFirst={isFirst}
@@ -144,12 +147,12 @@ function AccordionItem(props) {
         <Aside>
             {icon ? <Icon icon={icon} /> : <span>{number}</span>}
         </Aside>
-        <Inside>
+        <Inside isLast={isLast}>
             <Header isDisabled={isDisabled} onClick={onClick}>
                 <Div>
                     <Title>{NLS.get(message)}</Title>
                     {!!description && <Description>{NLS.get(description)}</Description>}
-                    {!!error && <Error>{NLS.get(error)}</Error>}
+                    {!!errorMessage && <Error>{NLS.get(errorMessage)}</Error>}
                 </Div>
                 {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
             </Header>
@@ -170,10 +173,11 @@ AccordionItem.propTypes = {
     message     : PropTypes.string.isRequired,
     description : PropTypes.string,
     error       : PropTypes.string,
-    value       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    errorCount  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     number      : PropTypes.number,
     icon        : PropTypes.string,
     isFirst     : PropTypes.bool,
+    isLast      : PropTypes.bool,
     isSelected  : PropTypes.bool,
     isDisabled  : PropTypes.bool,
     onClick     : PropTypes.func,
@@ -187,8 +191,9 @@ AccordionItem.propTypes = {
 AccordionItem.defaultProps = {
     isHidden   : false,
     className  : "",
-    value      : "",
+    errorCount : 0,
     isFirst    : false,
+    isLast     : false,
     isSelected : false,
     isDisabled : false,
 };

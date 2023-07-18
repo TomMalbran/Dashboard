@@ -23,8 +23,8 @@ function AccordionList(props) {
             return;
         }
         let newID = id;
-        if (id === selected && !initial) {
-            newID = 0;
+        if (id === selected) {
+            newID = "";
         }
         if (newID === selected) {
             return;
@@ -41,7 +41,6 @@ function AccordionList(props) {
         const id = child.props.value || index;
         return {
             number     : index + 1,
-            isFirst    : index === 0,
             isSelected : id === selected,
             onClick    : handleClick(id, child.props.isDisabled),
         };
@@ -60,7 +59,7 @@ function AccordionList(props) {
  */
 AccordionList.propTypes = {
     className : PropTypes.string,
-    initial   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    initial   : PropTypes.string,
     onChange  : PropTypes.func,
     children  : PropTypes.any,
 };
