@@ -55,10 +55,10 @@ function Html(props) {
     }
     if (formatText) {
         __html = __html
-            .replace(/\*\*(.+)\*\*/g, "<b>$1</b>")
-            .replace(/__(.+)__/g, "<i>$1</i>")
-            .replace(/~~(.+)~~/g, "<s>$1</s>")
-            .replace(/```(.+)```/g, "<code>$1</code>");
+            .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+            .replace(/__([^_]+)__/g, "<i>$1</i>")
+            .replace(/~~([^~]+)~~/g, "<s>$1</s>")
+            .replace(/```([^`]+)```/g, "<code>$1</code>");
     }
 
 
