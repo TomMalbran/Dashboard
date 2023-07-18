@@ -5,26 +5,21 @@ import Styled               from "styled-components";
 // Core & Utils
 import { Outcome }          from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
-import Utils                from "../../Utils/Utils";
 
 // Components
-import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
 
 
 
 // Styles
-const Div = Styled.div.attrs(({ isOpen, isClosing, height }) => ({ isOpen, isClosing, height }))`
-    display: ${(props) => props.isOpen ? "block" : "none"}
+const Div = Styled.div`
+    display: block;
     box-sizing: border-box;
     overflow: hidden;
     transition: all 0.2s linear;
-
-    ${(props) => !!props.height  && `max-height: ${props.height}px`}
-    ${(props) => props.isClosing && "max-height: 0 !important;"}
 `;
 
-const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosing }))`
+const Content = Styled.div.attrs(({ variant }) => ({ variant }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,10 +36,6 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
         margin-left: 8px;
         cursor: pointer;
     }
-
-    ${(props) => props.isClosing && `
-        transform: translateY(-50px);
-    `}
 
     ${(props) => props.variant === Outcome.SUCCESS && `
         background-color: var(--success-color);
@@ -65,7 +56,7 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
  * @returns {React.ReactElement}
  */
 function Alert(props) {
-    const { isHidden, variant, message, onClose, noClose, children } = props;
+    const { isHidden, className, variant, message, children } = props;
 
     let content = children;
     if (message) {
@@ -76,54 +67,15 @@ function Alert(props) {
         }
     }
 
-    // The State
-    const [ open,   setOpen   ] = React.useState(true);
-    const [ timer,  setTimer  ] = React.useState(null);
-    const [ height, setHeight ] = React.useState(0);
-
-    const alertRef  = React.useRef();
-    const hasClose  = !noClose;
-    const isClosing = Boolean(timer);
-
-    // Sets the Alert Height
-    React.useEffect(() => {
-        const bounds = Utils.getBounds(alertRef);
-        setHeight(bounds.height);
-    }, [ message ]);
-
-    // Handles the Close
-    const handleClose = () => {
-        if (timer) {
-            window.clearTimeout(timer);
-        }
-        setTimer(window.setTimeout(() => {
-            setOpen(false);
-            setTimer(null);
-            if (onClose) {
-                onClose();
-            }
-        }, 200));
-    };
-
 
     // Do the Render
     if (isHidden || !content) {
         return <React.Fragment />;
     }
-    return <Div
-        className="alert"
-        isOpen={open}
-        isClosing={isClosing}
-        height={height}
-        ref={alertRef}
-    >
-        <Content variant={variant} isClosing={isClosing}>
+    return <Div className={`alert ${className}`}>
+        <Content variant={variant}>
             {!!message  && <Html>{content}</Html>}
             {!!children && <div>{children}</div>}
-            {hasClose   && <Icon
-                icon="close"
-                onClick={handleClose}
-            />}
         </Content>
     </Div>;
 }
@@ -133,12 +85,11 @@ function Alert(props) {
  * @typedef {Object} propTypes
  */
 Alert.propTypes = {
-    isHidden : PropTypes.bool,
-    variant  : PropTypes.string.isRequired,
-    onClose  : PropTypes.func,
-    noClose  : PropTypes.bool,
-    message  : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    children : PropTypes.any,
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
+    variant   : PropTypes.string.isRequired,
+    message   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    children  : PropTypes.any,
 };
 
 /**
@@ -146,8 +97,8 @@ Alert.propTypes = {
  * @type {Object} defaultProps
  */
 Alert.defaultProps = {
-    isHidden : false,
-    noClose  : false,
+    isHidden  : false,
+    className : "",
 };
 
 export default Alert;
