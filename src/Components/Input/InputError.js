@@ -21,7 +21,7 @@ const Error = Styled.p.attrs(({ useBackground }) => ({ useBackground }))`
     ` : `
         font-size: 12px;
         margin: 4px 0 0 4px;
-        color: #ff0033;
+        color: var(--error-text-color);
     `}
 `;
 
