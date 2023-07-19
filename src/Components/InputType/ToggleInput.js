@@ -32,10 +32,11 @@ const Input = Styled.input`
 
     &:checked + span::after {
         transform: translateX(var(--toggle-size));
-        background-color: #52cf71;
+        background-color: var(--input-toggle-checked);
     }
     &:disabled + span {
-        background-color: rgb(225, 225, 225);
+        background-color: var(--input-toggle-disabled);
+        cursor: not-allowed;
     }
 `;
 
@@ -45,7 +46,7 @@ const Span = Styled.span`
     flex-shrink: 0;
     display: block;
     margin-right: 12px;
-    background: var(--primary-color);
+    background: var(--input-toggle-bg);
     width: calc(var(--toggle-size) * 2 + var(--toggle-spacing) * 2);
     height: calc(var(--toggle-size) + var(--toggle-spacing) * 2);
     border-radius: var(--toggle-size);
@@ -59,7 +60,7 @@ const Span = Styled.span`
         width: var(--toggle-size);
         height: var(--toggle-size);
         border-radius: 50%;
-        background: #ccc;
+        background: var(--input-toggle-normal);
         transition: all .2s;
     }
 `;

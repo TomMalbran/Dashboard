@@ -24,6 +24,7 @@ const Input = Styled.input`
     }
     &:disabled {
         box-shadow: none;
+        color: var(--input-color-disabled);
     }
     &::placeholder {
         color: var(--lighter-color);

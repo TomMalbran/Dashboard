@@ -29,6 +29,9 @@ const Select = Styled.select`
     &:focus {
         outline: none;
     }
+    &:disabled {
+        color: var(--input-color-disabled);
+    }
 `;
 
 

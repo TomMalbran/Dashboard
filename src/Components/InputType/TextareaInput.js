@@ -36,7 +36,7 @@ const Textarea = Styled.textarea`
         outline: none;
     }
     &:disabled {
-        color: rgb(120, 120, 120);
+        color: var(--input-color-disabled);
         background: white;
     }
     &::placeholder {

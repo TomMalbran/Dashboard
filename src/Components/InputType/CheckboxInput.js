@@ -38,23 +38,26 @@ const Input = Styled.input`
     outline: 0;
     opacity: 0;
 
-    &:checked + span {
-        color: var(--input-checkbox-check, black);
-    }
     &:focus + span {
-        color: var(--input-checkbox-focus, black);
+        color: var(--input-check-focus, black);
         outline: none;
+    }
+
+    &:checked + span {
+        color: var(--input-check-checked, black);
     }
     &:checked + span::before {
         animation: ${tick} 0.4s cubic-bezier(0.175, 0.885, 0.320, 1.275);
     }
+
     &:disabled + span {
-        color: rgb(175, 175, 175);
+        color: var(--input-check-disabled);
+        cursor: not-allowed;
     }
 `;
 
 const Span = Styled(Icon)`
-    color: var(--input-checkbox-normal, black);
+    color: var(--input-check-normal, black);
     position: relative;
     top: 2px;
     margin: -1px 6px 0 0;

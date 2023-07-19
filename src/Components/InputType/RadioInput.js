@@ -53,8 +53,9 @@ const Radio = Styled.input`
         border-color: var(--border-color-dark);
         outline: none;
     }
+
     &:checked + span {
-        border-color: var(--primary-color);
+        border-color: var(--input-radio-normal);
     }
     &:checked + span::before {
         content: "";
@@ -66,13 +67,20 @@ const Radio = Styled.input`
         height: var(--radio-inner);
         border-radius: 50%;
         border-color: var(--border-color-dark);
-        background-color: var(--primary-color);
+        background-color: var(--input-radio-normal);
         animation: ${tick} 0.4s cubic-bezier(0.175, 0.885, 0.320, 1.275);
     }
+
     &:disabled + span {
         background-color: rgb(245, 245, 245);
         color: rgb(175, 175, 175);
         cursor: not-allowed;
+    }
+    &:disabled:checked + span {
+        border-color: var(--input-radio-disabled);
+    }
+    &:disabled:checked + span::before {
+        background-color: var(--input-radio-disabled);
     }
 `;
 
