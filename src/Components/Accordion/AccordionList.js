@@ -14,8 +14,15 @@ import Utils                from "../../Utils/Utils";
 function AccordionList(props) {
     const { className, initial, onChange, children } = props;
 
+
     // The Current State
     const [ selected, setSelected ] = React.useState(initial);
+
+    // Handle the Initial change
+    React.useEffect(() => {
+        setSelected(initial);
+    }, [ initial ]);
+
 
     // Handle the Click
     const handleClick = (id, isDisabled) => () => {
@@ -70,7 +77,7 @@ AccordionList.propTypes = {
  */
 AccordionList.defaultProps = {
     className : "",
-    initial   : 0,
+    initial   : "",
 };
 
 export default AccordionList;
