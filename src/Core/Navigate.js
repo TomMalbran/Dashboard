@@ -29,6 +29,15 @@ function init(params) {
 
 
 /**
+ * Returns the Default value for the given Key
+ * @param {String} key
+ * @returns {(String|Number)}
+ */
+function getParamDefault(key) {
+    return key.endsWith("ID") ? 0 : "";
+}
+
+/**
  * Returns all the params
  * @returns {Object}
  */
@@ -37,7 +46,7 @@ function useParams() {
     const result = {};
     for (const key of Object.values(paramTypes)) {
         if (!params[key]) {
-            result[key] = key.endsWith("ID") ? 0 : "";
+            result[key] = getParamDefault(key);
         } else if (Utils.isNumeric(params[key])) {
             result[key] = Number(params[key] || 0);
         } else {
@@ -49,15 +58,15 @@ function useParams() {
 
 /**
  * Returns a single param
- * @param {String} type
- * @returns {Number}
+ * @param {String} key
+ * @returns {(Number|String)}
  */
-function useOneParam(type) {
+function useOneParam(key) {
     const params = useParams();
-    if (paramTypes[type]) {
-        return params[paramTypes[type]] || 0;
+    if (paramTypes[key] && params[paramTypes[key]]) {
+        return params[paramTypes[key]];
     }
-    return 0;
+    return getParamDefault(key);
 }
 
 /**
@@ -67,18 +76,9 @@ function useOneParam(type) {
  */
 function unsetParams(params) {
     for (const key of Object.values(paramTypes)) {
-        params[key] = 0;
+        params[key] = getParamDefault(key);
     }
     return params;
-}
-
-/**
- * Returns the Child Path
- * @returns {Object}
- */
-function useChildPath() {
-    const params = useRouterParams();
-    return params["*"] || "";
 }
 
 
@@ -109,6 +109,15 @@ function useSearchParams() {
 function useParent(levels = 1) {
     const path = usePath();
     return path.split("/").slice(0, -1 * levels).join("/");
+}
+
+/**
+ * Returns the Child Path
+ * @returns {Object}
+ */
+function useChildPath() {
+    const params = useRouterParams();
+    return params["*"] || "";
 }
 
 /**
