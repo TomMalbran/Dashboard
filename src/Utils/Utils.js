@@ -750,6 +750,29 @@ function getVimeoEmbed(source, showInfo = false) {
     return result;
 }
 
+/**
+ * Creates a Google Map Embed Url
+ * @param {Number}   latitude
+ * @param {Number}   longitude
+ * @param {String=}  query
+ * @param {Number=}  zoom
+ * @param {Boolean=} satelite
+ * @returns {String}
+ */
+function getGoogleMapEmbed(latitude, longitude, query = "", zoom = 15, satelite = false) {
+    let result = "https://maps.google.com/maps?ie=UTF8&iwd=1&iwloc=B&output=embed";
+    if (query) {
+        result += `&q=${encodeURIComponent(query)}`;
+    } else if (longitude && latitude) {
+        result += `&q=${latitude},${longitude}`;
+    }
+    if (satelite) {
+        result += "&t=k";
+    }
+    result += `&z=${zoom}`;
+    return result;
+}
+
 
 
 
@@ -808,4 +831,5 @@ export default {
 
     getYouTubeEmbed,
     getVimeoEmbed,
+    getGoogleMapEmbed,
 };
