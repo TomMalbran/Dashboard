@@ -41,7 +41,7 @@ function Filter(props) {
         <FilterItem
             isHidden={!hasCredential}
             name="credentialName"
-            label="USERS_SINGULAR"
+            label="GENERAL_USER"
             suggestID="credentialID"
             suggestFetch={fetch}
             suggestParams={params}
