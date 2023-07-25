@@ -71,12 +71,13 @@ const Error = Styled.div`
  */
 function Details(props) {
     const {
-        className, isInside, isWider, topSpace,
+        className, isHidden, isInside, isWider, topSpace,
         isLoading, isEmpty, hasError, error,
         canEdit, onAction, collapsible, children,
     } = props;
 
     const { setDetails } = Store.useAction("core");
+
 
     // Set/Unset the Details on Load/Unload
     React.useEffect(() => {
@@ -97,6 +98,9 @@ function Details(props) {
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Section
         className={`details light-scrollbars ${className}`}
         isInside={isInside}
@@ -115,6 +119,7 @@ function Details(props) {
  */
 Details.propTypes = {
     className   : PropTypes.string,
+    isHidden    : PropTypes.bool,
     isInside    : PropTypes.bool,
     isWider     : PropTypes.bool,
     topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -134,6 +139,7 @@ Details.propTypes = {
  */
 Details.defaultProps = {
     className : "",
+    isHidden  : false,
     isInside  : false,
     isWider   : false,
     isLoading : false,
