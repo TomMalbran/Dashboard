@@ -22,7 +22,7 @@ const Section = Styled.section.attrs(({ withDetails }) => ({ withDetails }))`
 
     ${(props) => props.withDetails && `
         display: grid;
-        grid-template-columns: 1fr var(--details-width);
+        grid-template-columns: minmax(0, 1fr) var(--details-width);
         gap: 16px;
     `}
 `;
