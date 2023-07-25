@@ -7,6 +7,7 @@ import InputType            from "../../Core/InputType";
 import useDrag              from "../../Hooks/Drag";
 
 // Components
+import InputContent         from "../Input/InputContent";
 import InputField           from "../Form/InputField";
 import Button               from "../Form/Button";
 import InputError           from "../Input/InputError";
@@ -22,21 +23,30 @@ const Container = Styled.div`;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 6px;
 `;
 
-const Content = Styled.div.attrs(({ isSortable }) => ({ isSortable }))`
+const Content = Styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    ${(props) => props.isSortable && "margin-top: 20px;"}
 `;
 
 const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
+    box-sizing: border-box;
     width: 100%;
     display: flex;
     align-items: center;
     gap: 4px;
+    background-color: var(--lightest-gray);
+    border-radius: var(--border-radius);
+    padding: 6px 12px;
+
+    .inputfield-children {
+        margin-bottom: 0;
+    }
 
     ${(props) => props.withError && `
         .inputfield {
@@ -169,55 +179,63 @@ function ListInput(props) {
     const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
     const canRemove = Boolean(!isDisabled && parts.length > 1);
 
-    return <Container className={className}>
-        <Content isSortable={isSortable}>
-            {parts.map((elem, index) => <Item
-                key={index}
-                className="inputfield-container"
-                withError={!!getError(index)}
-            >
-                <Icon
-                    isHidden={!canSort}
-                    icon="drag"
-                    cursor="grab"
-                    onMouseDown={(e) => handleGrab(e, elem, index)}
-                />
-
-                <Inside>
-                    <InputField
-                        type={inputType}
-                        name={`${name}-${index}`}
-                        value={elem}
-                        options={options}
-                        withNone={withNone}
-                        noneText={noneText}
-                        onChange={(name, value) => handleChange(value, index)}
-                        isDisabled={isDisabled}
-                        withLabel={!isSortable && index === 0}
-                        isSmall={isSortable || index > 0}
-                        maxLength={maxLength}
+    return <InputContent
+        className={className}
+        isDisabled={isDisabled}
+        withBorder
+        withPadding
+    >
+        <Container>
+            <Content>
+                {parts.map((elem, index) => <Item
+                    key={index}
+                    className="inputfield-container"
+                    withError={!!getError(index)}
+                >
+                    <Icon
+                        isHidden={!canSort}
+                        icon="drag"
+                        cursor="grab"
+                        onMouseDown={(e) => handleGrab(e, elem, index)}
                     />
-                    <Error error={getError(index)} />
-                </Inside>
 
-                <Remove
-                    isHidden={!canRemove}
-                    variant="light"
-                    icon="close"
-                    onClick={() => removeField(index)}
-                    isSmall
-                />
-            </Item>)}
-        </Content>
+                    <Inside>
+                        <InputField
+                            type={inputType}
+                            name={`${name}-${index}`}
+                            value={elem}
+                            options={options}
+                            withNone={withNone}
+                            noneText={noneText}
+                            onChange={(name, value) => handleChange(value, index)}
+                            isDisabled={isDisabled}
+                            maxLength={maxLength}
+                            withLabel={false}
+                            withBorder={false}
+                            isSmall
+                        />
+                        <Error error={getError(index)} />
+                    </Inside>
 
-        <Button
-            isHidden={!canAdd}
-            variant="outlined"
-            message={button}
-            onClick={addField}
-            isSmall
-        />
-    </Container>;
+                    <Remove
+                        isHidden={!canRemove}
+                        variant="light"
+                        icon="close"
+                        onClick={() => removeField(index)}
+                        isSmall
+                    />
+                </Item>)}
+            </Content>
+
+            <Button
+                isHidden={!canAdd}
+                variant="outlined"
+                message={button}
+                onClick={addField}
+                isSmall
+            />
+        </Container>
+    </InputContent>;
 }
 
 /**

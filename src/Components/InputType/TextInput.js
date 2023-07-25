@@ -133,7 +133,7 @@ function TextInput(props) {
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
         />
-        <Children>
+        <Children className="inputfield-children">
             {!!maxLength && <Text>{`${characters}/${maxLength}`}</Text>}
             {children}
         </Children>
