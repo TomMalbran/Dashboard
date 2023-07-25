@@ -21,6 +21,7 @@ ActionOption.propTypes = {
     value    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     message  : PropTypes.string,
     icon     : PropTypes.string,
+    onAction : PropTypes.func,
     onClick  : PropTypes.func,
 };
 
