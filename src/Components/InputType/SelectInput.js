@@ -30,7 +30,7 @@ const Select = Styled.select`
         outline: none;
     }
     &:disabled {
-        color: var(--input-color-disabled);
+        color: var(--input-disabled-color);
     }
 `;
 

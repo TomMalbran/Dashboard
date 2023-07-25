@@ -53,7 +53,7 @@ const Container = Styled.div.attrs(props)`
     `}
 
     ${(props) => props.isDisabled && `
-        color: var(--input-color-disabled);
+        color: var(--input-disabled-color);
     `}
     ${(props) => (props.withBorder && props.isDisabled) && `
         --input-border: var(--input-border-disabled);

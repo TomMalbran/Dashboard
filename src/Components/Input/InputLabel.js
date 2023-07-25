@@ -22,7 +22,7 @@ const Label = Styled.p.attrs(({
     padding: 0 6px;
     line-height: 1;
     background-color: white;
-    color: var(--input-color-label);
+    color: var(--input-label-color);
     font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
@@ -30,7 +30,6 @@ const Label = Styled.p.attrs(({
     transition: all 0.2s;
     pointer-events: none;
     z-index: 1;
-
 
     ${(props) => props.isRequired && `
         &::after {
@@ -46,7 +45,7 @@ const Label = Styled.p.attrs(({
         transform: translateY(0) scale(1);
     `}
     ${(props) => props.isFocused && `
-        color: var(--primary-color);
+        color: var(--input-label-focus);
     `}
 `;
 
