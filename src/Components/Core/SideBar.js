@@ -35,6 +35,10 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
     ${(props) => props.variant === Brightness.DARKER && `
         background-color: var(--secondary-color);
     `}
+    ${(props) => props.variant === Brightness.ACCENT && `
+        background-color: var(--primary-color);
+    `}
+
     ${(props) => props.withBorder && `
         border-right: 1px solid var(--border-color-dark);
     `}
@@ -145,8 +149,16 @@ function SideBar(props) {
     };
 
 
-    const iconVariant = variant === Brightness.DARK ? Brightness.DARKER : Brightness.DARK;
+    // Calculate the Icon
+    let iconVariant = Brightness.DARK;
+    if (variant === Brightness.DARK) {
+        iconVariant = Brightness.DARKER;
+    } else if (variant === Brightness.ACCENT) {
+        iconVariant = Brightness.ACCENT;
+    }
 
+
+    // Do the Render
     return <Nav
         className={`sidebar ${className}`}
         variant={variant}
