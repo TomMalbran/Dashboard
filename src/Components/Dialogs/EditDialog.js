@@ -27,11 +27,13 @@ const Message = Styled(DialogMessage)`
 function EditDialog(props) {
     const {
         open, title, icon, message, className,
-        isLoading, isNarrow, isWide, fullHeight, noOverflow, withSpacing,
+        isLoading, isNarrow, isWide, fullHeight, lightHeader, noOverflow, withSpacing,
         error, isDisabled, dontClose, hidePrimary, primary, cancel, onSubmit, onClose,
         secondary, onSecondary, children,
     } = props;
 
+
+    // Do the Render
     return <Dialog
         open={open}
         onClose={onClose}
@@ -40,7 +42,11 @@ function EditDialog(props) {
         isLoading={isLoading}
         dontClose={dontClose}
     >
-        <DialogHeader message={title} icon={icon} />
+        <DialogHeader
+            message={title}
+            icon={icon}
+            lightHeader={lightHeader}
+        />
         <DialogBody
             className={className}
             fullHeight={fullHeight}
@@ -81,6 +87,7 @@ EditDialog.propTypes = {
     isNarrow    : PropTypes.bool,
     isWide      : PropTypes.bool,
     fullHeight  : PropTypes.bool,
+    lightHeader : PropTypes.bool,
     noOverflow  : PropTypes.bool,
     withSpacing : PropTypes.bool,
     hidePrimary : PropTypes.bool,
@@ -106,6 +113,7 @@ EditDialog.defaultProps = {
     isNarrow    : false,
     isWide      : false,
     fullHeight  : false,
+    lightHeader : false,
     noOverflow  : false,
     withSpacing : true,
     hidePrimary : false,

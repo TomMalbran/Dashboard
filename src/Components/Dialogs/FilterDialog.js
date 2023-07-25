@@ -15,14 +15,20 @@ import EditDialog           from "./EditDialog";
  * @returns {React.ReactElement}
  */
 function FilterDialog(props) {
-    const { open, title, isLoading, initialData, data, onSubmit, onClose, children } = props;
+    const {
+        open, title, isLoading, lightHeader,
+        initialData, data, onSubmit, onClose, children,
+    } = props;
 
     const hasFilter = !Utils.areObjectsEqual(initialData, data);
 
+
+    // Do the Render
     return <EditDialog
         open={open}
         icon="filter"
         title={title}
+        lightHeader={lightHeader}
         primary="GENERAL_FILTER"
         secondary={hasFilter ? "GENERAL_REMOVE_FILTER" : ""}
         onSubmit={() => onSubmit({ ...data })}
@@ -42,6 +48,7 @@ FilterDialog.propTypes = {
     open        : PropTypes.bool.isRequired,
     title       : PropTypes.string.isRequired,
     isLoading   : PropTypes.bool,
+    lightHeader : PropTypes.bool,
     initialData : PropTypes.object.isRequired,
     data        : PropTypes.object.isRequired,
     onSubmit    : PropTypes.func.isRequired,

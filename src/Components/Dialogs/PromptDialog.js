@@ -32,7 +32,7 @@ const Content = Styled(Html)`
  */
 function PromptDialog(props) {
     const {
-        open, title, message, content, icon,
+        open, title, message, content, icon, lightHeader,
         inputType, inputLabel, inputIcon, placeholder, initialValue, inputOptions, spellCheck,
         isOptional, onSubmit, onClose,
     } = props;
@@ -58,12 +58,17 @@ function PromptDialog(props) {
     }, [ initialValue ]);
 
 
+    // Do the Render
     const isDisabled = !isOptional && !value;
     const hasMessage = !!message;
     const body       = content ? NLS.format(message, content) : NLS.get(message);
 
     return <Dialog open={open} onClose={onClose} isNarrow>
-        <DialogHeader message={title} icon={icon} />
+        <DialogHeader
+            message={title}
+            icon={icon}
+            lightHeader={lightHeader}
+        />
         <DialogBody withSpacing>
             {hasMessage && <Content variant="h3">{body}</Content>}
             <InputField
@@ -108,6 +113,7 @@ PromptDialog.propTypes = {
     inputOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     onSubmit     : PropTypes.func.isRequired,
     onClose      : PropTypes.func.isRequired,
+    lightHeader  : PropTypes.bool,
     isOptional   : PropTypes.bool,
     spellCheck   : PropTypes.string,
 };
@@ -119,6 +125,7 @@ PromptDialog.propTypes = {
 PromptDialog.defaultProps = {
     inputType    : InputType.TEXT,
     initialValue : "",
+    lightHeader  : false,
     isOptional   : false,
 };
 

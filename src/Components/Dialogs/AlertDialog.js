@@ -31,11 +31,18 @@ const Content = Styled(Html)`
  * @returns {React.ReactElement}
  */
 function AlertDialog(props) {
-    const { open, icon, title, message, content, onClose } = props;
+    const { open, icon, title, message, content, onClose, lightHeader } = props;
+
     const body = content ? NLS.format(message, content) : NLS.get(message);
 
+
+    // Do the Render
     return <Dialog open={open} onClose={onClose} isNarrow>
-        <DialogHeader message={title} icon={icon} />
+        <DialogHeader
+            message={title}
+            icon={icon}
+            lightHeader={lightHeader}
+        />
         <DialogBody withSpacing>
             <Content variant="h3">
                 {body}
@@ -50,12 +57,13 @@ function AlertDialog(props) {
  * @typedef {Object} propTypes
  */
 AlertDialog.propTypes = {
-    open    : PropTypes.bool.isRequired,
-    icon    : PropTypes.string,
-    title   : PropTypes.string.isRequired,
-    message : PropTypes.string,
-    content : PropTypes.string,
-    onClose : PropTypes.func.isRequired,
+    open        : PropTypes.bool.isRequired,
+    icon        : PropTypes.string,
+    title       : PropTypes.string.isRequired,
+    message     : PropTypes.string,
+    content     : PropTypes.string,
+    lightHeader : PropTypes.bool,
+    onClose     : PropTypes.func.isRequired,
 };
 
 /**
@@ -63,8 +71,9 @@ AlertDialog.propTypes = {
  * @typedef {Object} defaultProps
  */
 AlertDialog.defaultProps = {
-    icon    : "view",
-    message : "",
+    icon        : "view",
+    message     : "",
+    lightHeader : false,
 };
 
 export default AlertDialog;
