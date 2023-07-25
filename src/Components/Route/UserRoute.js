@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Router
 import {
@@ -17,10 +18,13 @@ import {
  * @returns {React.ReactElement}
  */
 function UserRoute(props) {
-    const { isAuthenticated, isValid, type, withDetails, component : Component } = props;
+    const { isValid, type, withDetails, component : Component } = props;
 
     const location = useLocation();
+    const { isAuthenticated } = Store.useState("auth");
 
+
+    // Do the Render
     if (!isAuthenticated || !isValid) {
         return <Navigate
             to={NLS.baseUrl("LOGIN")}
@@ -40,14 +44,13 @@ function UserRoute(props) {
  * @typedef {Object} propTypes
  */
 UserRoute.propTypes = {
-    isHidden        : PropTypes.bool,
-    isAuthenticated : PropTypes.bool.isRequired,
-    isValid         : PropTypes.bool,
-    component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
-    type            : PropTypes.string,
-    url             : PropTypes.string,
-    exact           : PropTypes.bool,
-    withDetails     : PropTypes.bool,
+    isHidden    : PropTypes.bool,
+    isValid     : PropTypes.bool,
+    component   : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
+    type        : PropTypes.string,
+    url         : PropTypes.string,
+    exact       : PropTypes.bool,
+    withDetails : PropTypes.bool,
 };
 
 /**

@@ -1,6 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Core
+import Store                from "../../Core/Store";
+
 // Router
 import {
     Navigate, useLocation,
@@ -14,9 +17,13 @@ import {
  * @returns {React.ReactElement}
  */
 function GuestRoute(props) {
-    const { isAuthenticated, component : Component } = props;
+    const { component : Component } = props;
 
     const location = useLocation();
+    const { isAuthenticated } = Store.useState("auth");
+
+
+    // Do the Render
     if (isAuthenticated) {
         return <Navigate
             to="/"
@@ -31,11 +38,10 @@ function GuestRoute(props) {
  * @typedef {Object} propTypes
  */
 GuestRoute.propTypes = {
-    isHidden        : PropTypes.bool,
-    isAuthenticated : PropTypes.bool.isRequired,
-    component       : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
-    url             : PropTypes.string,
-    exact           : PropTypes.bool,
+    isHidden  : PropTypes.bool,
+    component : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
+    url       : PropTypes.string,
+    exact     : PropTypes.bool,
 };
 
 /**
