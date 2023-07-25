@@ -11,6 +11,7 @@ import Button               from "../Form/Button";
 import ActionOption         from "./ActionOption";
 import Menu                 from "../Menu/Menu";
 import MenuItem             from "../Menu/MenuItem";
+import MenuLine             from "../Menu/MenuLine";
 
 
 
@@ -45,12 +46,17 @@ function ActionItem(props) {
     // Menu Actions
     const actions = [];
     for (const child of Utils.toArray(children)) {
-        if (child && child.type === ActionOption) {
+        if (!child) {
+            continue;
+        }
+        if (child.type === ActionOption) {
             const action = { ...child.props };
             action.act = Action.get(action.action);
             if (!action.isHidden) {
                 actions.push(action);
             }
+        } else if (child.type === MenuLine) {
+            actions.push({ isLine : true });
         }
     }
     const showMenu = actions.length > 0;
@@ -109,7 +115,9 @@ function ActionItem(props) {
             gap={menuGap}
             onClose={handleMenuClose}
         >
-            {actions.map((elem, index) => <MenuItem
+            {actions.map((elem, index) => elem.isLine ? <MenuLine
+                key={index}
+            /> : <MenuItem
                 key={index}
                 icon={elem.icon || elem.act.icon}
                 message={elem.message || elem.act.message}
