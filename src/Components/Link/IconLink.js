@@ -16,6 +16,7 @@ import Icon                 from "../Common/Icon";
 const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, isDisabled, isSmall }))`
     --link-size: ${(props) => props.isSmall ? "26px" : "32px"};
     --link-font: ${(props) => props.isSmall ? "18px" : "22px"};
+    --link-radius: var(--border-radius);
 
     display: block;
     width: var(--link-size);
@@ -24,7 +25,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
     padding: 0;
     font-size: var(--link-font);
     text-align: center;
-    border-radius: var(--border-radius);
+    border-radius: var(--link-radius);
     text-decoration: none;
     transition: all 0.2s ease-in-out;
     color: var(--link-color, black);
