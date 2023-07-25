@@ -89,7 +89,7 @@ function ViewField(props) {
 
     const content   = value === undefined ? "" : String(value);
     const isLink    = content.startsWith("http");
-    const isHtml    = !isLink && content.includes("<br>") || content.includes("<b>") || content.includes("<i>");
+    const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
     const isText    = !isLink && !isHtml;
     const hasLabel  = !!label;
     const hasLink   = Boolean(linkIcon && linkHref);
