@@ -7,16 +7,18 @@ import Action               from "../../Core/Action";
 
 // Components
 import Icon                 from "../Common/Icon";
+import IconLink             from "../Link/IconLink";
+
 
 
 // Styles
 const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasActions }))`
     position: relative;
-    cursor: pointer;
-    border: 2px solid var(--border-color-light);
+    border: var(--media-border-width) solid var(--media-border-color);
     border-radius: var(--border-radius);
     background-color: white;
     overflow: hidden;
+    cursor: pointer;
 
     ${(props) => props.isSelected && `
         border-color: var(--primary-color);
@@ -48,12 +50,11 @@ const MediaElem = Styled.div.attrs(({ isTransparent }) => ({ isTransparent }))`
     }
 
     ${(props) => props.isTransparent && `
-        --media-dark: rgb(216, 217, 218);
-        background-color: rgb(226, 227, 228);
+        background-color: var(--media-trans-light);
         background-size: 20px 20px;
         background-position: 0 0, 10px 10px;
-        background-image: linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark)),
-                          linear-gradient(45deg, var(--media-dark) 25%, transparent 25%, transparent 75%, var(--media-dark) 75%, var(--media-dark));
+        background-image: linear-gradient(45deg, var(--media-trans-dark) 25%, transparent 25%, transparent 75%, var(--media-trans-dark) 75%, var(--media-trans-dark)),
+                          linear-gradient(45deg, var(--media-trans-dark) 25%, transparent 25%, transparent 75%, var(--media-trans-dark) 75%, var(--media-trans-dark));
     `}
 `;
 
@@ -65,7 +66,7 @@ const MediaName = Styled.div`
     white-space: nowrap;
     overflow: hidden;
     font-size: 12px;
-    background-color: var(--light-gray);
+    background-color: var(--media-name-color);
     transition: all 0.2s;
     z-index: 1;
 `;
@@ -79,7 +80,13 @@ const MediaActions = Styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--light-gray);
+    background-color: var(--media-actions-color);
+`;
+
+const MediaLink = Styled(IconLink)`
+    --link-size: 20px;
+    --link-font: 14px;
+    --link-radius: var(--border-radius-small);
 `;
 
 const Image = Styled.img`
@@ -112,6 +119,7 @@ function MediaItem(props) {
     };
 
 
+    // Do the Render
     return <Div
         className={className}
         style={style}
@@ -137,9 +145,18 @@ function MediaItem(props) {
         </MediaName>
 
         {hasActions && <MediaActions className="media-actions">
-            <Icon icon={view.icon}   onClick={(e) => handleAction(e, view)}   />
-            <Icon icon={edit.icon}   onClick={(e) => handleAction(e, edit)}   />
-            <Icon icon={remove.icon} onClick={(e) => handleAction(e, remove)} />
+            <MediaLink
+                icon={view.icon}
+                onClick={(e) => handleAction(e, view)}
+            />
+            <MediaLink
+                icon={edit.icon}
+                onClick={(e) => handleAction(e, edit)}
+            />
+            <MediaLink
+                icon={remove.icon}
+                onClick={(e) => handleAction(e, remove)}
+            />
         </MediaActions>}
     </Div>;
 }

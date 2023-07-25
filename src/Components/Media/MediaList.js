@@ -163,6 +163,7 @@ function MediaList(props) {
     });
 
 
+    // Calculate some Styles
     const style = {};
     if (isMoving) {
         style.position = "absolute";
@@ -173,6 +174,7 @@ function MediaList(props) {
     }
 
 
+    // Do the Render
     return <Div className={className} withSpacing={withSpacing}>
         {showLoader && <CircularLoader />}
         {showNone   && <NoneAvailable message="MEDIA_NONE_AVAILABLE" />}
