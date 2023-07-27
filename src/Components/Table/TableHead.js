@@ -12,7 +12,8 @@ import TableRowCnt          from "../Table/TableRowCnt";
 
 // Styles
 const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
-    background: var(--table-color);
+    border: 1px solid var(--table-color);
+    background: var(--table-background, var(--table-color));
     border-top-right-radius: var(--border-radius);
     border-top-left-radius: var(--border-radius);
 

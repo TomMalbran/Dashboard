@@ -25,7 +25,8 @@ const TD = Styled.td`
     align-items: center;
     padding: 0 4px;
     font-size: 12px;
-    background: var(--table-color);
+    background: var(--table-background, var(--table-color));
+    border: 1px solid var(--table-color);
     border-bottom-left-radius: var(--border-radius);
     border-bottom-right-radius: var(--border-radius);
 `;
