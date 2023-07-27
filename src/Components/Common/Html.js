@@ -10,6 +10,7 @@ const Variant = {
     H3   : "h3",
     H4   : "h4",
     P    : "p",
+    LI   : "li",
     SPAN : "span",
     DIV  : "div",
 };
@@ -84,6 +85,12 @@ function Html(props) {
         />;
     case Variant.P:
         return <p
+            className={className}
+            onClick={onClick}
+            dangerouslySetInnerHTML={{ __html }}
+        />;
+    case Variant.LI:
+        return <li
             className={className}
             onClick={onClick}
             dangerouslySetInnerHTML={{ __html }}
