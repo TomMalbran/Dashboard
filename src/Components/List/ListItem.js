@@ -8,7 +8,7 @@ import Styled               from "styled-components";
 const Li = Styled.li.attrs(({ columns }) => ({ columns }))`
     display: grid;
     grid-template-columns: 2fr ${(props) => "1fr ".repeat(props.columns - 1)};
-    grid-gap: 16px;
+    gap: 16px;
     color: var(--black-color);
 
     &:not(:last-child) {

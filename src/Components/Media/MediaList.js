@@ -29,7 +29,7 @@ const Section = Styled.section`
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     grid-auto-rows: 1fr;
-    grid-gap: 8px;
+    gap: 8px;
     padding-top: 12px;
 `;
 

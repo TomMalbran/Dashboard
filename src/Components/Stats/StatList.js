@@ -11,7 +11,7 @@ import Utils                from "../../Utils/Utils";
 const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, minmax(min-content, 1fr));
-    grid-gap: var(--main-gap);
+    gap: var(--main-gap);
     box-sizing: border-box;
     height: var(--stats-height);
     margin: 0 0 var(--main-gap) 0;

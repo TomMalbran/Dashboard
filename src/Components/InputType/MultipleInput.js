@@ -16,7 +16,7 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, 1fr);
-    grid-gap: 4px;
+    gap: 4px;
     width: 100%;
 
     @media (max-width: 500px) {
