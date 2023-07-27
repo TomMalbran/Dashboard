@@ -12,16 +12,25 @@ import Utils                from "../../Utils/Utils";
  * @returns {React.ReactElement}
  */
 function AccordionList(props) {
-    const { className, initial, onChange, children } = props;
+    const { className, initial, selected, onChange, children } = props;
 
 
     // The Current State
-    const [ selected, setSelected ] = React.useState(initial);
+    const [ selection, setSelection ] = React.useState(selected || initial);
 
     // Handle the Initial change
     React.useEffect(() => {
-        setSelected(initial);
+        if (initial) {
+            setSelection(initial);
+        }
     }, [ initial ]);
+
+    // Handle the Selected change
+    React.useEffect(() => {
+        if (selected) {
+            setSelection(selected);
+        }
+    }, [ selected ]);
 
 
     // Handle the Click
@@ -37,7 +46,7 @@ function AccordionList(props) {
             return;
         }
 
-        setSelected(newID);
+        setSelection(newID);
         if (onChange) {
             onChange(newID);
         }
@@ -48,7 +57,7 @@ function AccordionList(props) {
         const id = child.props.value || index;
         return {
             number     : index + 1,
-            isSelected : id === selected,
+            isSelected : id === selection,
             onClick    : handleClick(id, child.props.isDisabled),
         };
     });
@@ -67,6 +76,7 @@ function AccordionList(props) {
 AccordionList.propTypes = {
     className : PropTypes.string,
     initial   : PropTypes.string,
+    selected  : PropTypes.string,
     onChange  : PropTypes.func,
     children  : PropTypes.any,
 };
@@ -78,6 +88,7 @@ AccordionList.propTypes = {
 AccordionList.defaultProps = {
     className : "",
     initial   : "",
+    selected  : "",
 };
 
 export default AccordionList;
