@@ -81,11 +81,14 @@ function Details(props) {
 
     // Set/Unset the Details on Load/Unload
     React.useEffect(() => {
-        setDetails(true);
+        if (!isHidden) {
+            setDetails(true);
+        }
         return () => setDetails(false);
-    }, []);
+    }, [ isHidden ]);
 
 
+    // Parse the Items
     const showError   = !isLoading && hasError;
     const showContent = !isLoading && !hasError && !isEmpty;
 
