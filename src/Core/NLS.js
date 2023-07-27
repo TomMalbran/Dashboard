@@ -3,11 +3,10 @@ const langsData   = {};
 let   defaultLang = "";
 
 // The Current Strings
-let language    = null;
-let stringData  = {};
-let urlData     = {};
-let actionData  = {};
-let sectionData = {};
+let language      = null;
+let stringData    = {};
+let urlData       = {};
+let actionData    = {};
 
 
 
@@ -20,11 +19,7 @@ let sectionData = {};
  * @returns {Void}
  */
 function initLang(lang, strings, urls, actions) {
-    langsData[lang] = {
-        strings, urls,
-        actions  : actions.ACTIONS,
-        sections : actions.SECTIONS,
-    };
+    langsData[lang] = { strings, urls, actions };
     if (!defaultLang) {
         defaultLang = lang;
     }
@@ -54,10 +49,9 @@ function getCurrentLang() {
 function setLang(lang) {
     language = lang || getLang();
 
-    stringData  = loadLang("strings");
-    urlData     = loadLang("urls");
-    actionData  = loadLang("actions");
-    sectionData = loadLang("sections");
+    stringData = loadLang("strings");
+    urlData    = loadLang("urls");
+    actionData = loadLang("actions");
 }
 
 /**
@@ -259,21 +253,28 @@ function fullUrl(...args) {
 
 
 /**
- * Returns the Section with the given ID
- * @param {String} id
+ * Returns the Module name
+ * @param {String} module
  * @returns {String}
  */
-function getSection(id) {
-    return sectionData[id] || id;
+function getModule(module) {
+    if (actionData[module]) {
+        return actionData[module].name;
+    }
+    return module;
 }
 
 /**
- * Returns the Action with the given ID
- * @param {String} id
+ * Returns the Action name
+ * @param {String} module
+ * @param {String} action
  * @returns {String}
  */
-function getAction(id) {
-    return actionData[id] || id;
+function getAction(module, action) {
+    if (actionData[module] && actionData[module].actions[action]) {
+        return actionData[module].actions[action];
+    }
+    return module + action;
 }
 
 
@@ -302,6 +303,6 @@ export default {
     baseUrl,
     fullUrl,
 
-    getSection,
+    getModule,
     getAction,
 };
