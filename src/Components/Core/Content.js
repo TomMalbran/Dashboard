@@ -2,7 +2,8 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-//  Utils
+// Core & Utils
+import Responsive           from "../../Core/Responsive";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -15,7 +16,7 @@ import TabList              from "../Tab/TabList";
 
 
 // Styles
-const Section = Styled.section.attrs(({ withDetails }) => ({ withDetails }))`
+const Section = Styled.section.attrs(({ withDetails, hasTabs }) => ({ withDetails, hasTabs }))`
     flex-grow: 1;
     padding: 0 var(--main-padding) var(--main-padding);
     overflow: auto;
@@ -23,8 +24,19 @@ const Section = Styled.section.attrs(({ withDetails }) => ({ withDetails }))`
     ${(props) => props.withDetails && `
         display: grid;
         grid-template-columns: minmax(0, 1fr) var(--details-width);
-        gap: 16px;
-    `}
+        column-gap: 16px;
+
+        ${props.hasTabs && `
+            .details {
+                grid-column: 2 / 2;
+                grid-row: 1 / 3;
+            }
+        `}
+
+        @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
+            display: block;
+        }
+    `};
 `;
 
 
@@ -43,6 +55,8 @@ function Content(props) {
         </Section>;
     }
 
+
+    // Calculate the Items
     const items       = [];
     let   hasFilter   = false;
     let   statsAmount = 0;
@@ -65,7 +79,14 @@ function Content(props) {
         }
     }
 
-    return <Section className={className} ref={passedRef} withDetails={withDetails}>
+
+    // Do the Render
+    return <Section
+        ref={passedRef}
+        className={className}
+        withDetails={withDetails}
+        hasTabs={hasTabs}
+    >
         {items}
     </Section>;
 }
