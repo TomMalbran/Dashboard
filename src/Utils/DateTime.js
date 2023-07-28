@@ -1284,4 +1284,5 @@ export default {
     dayToShortName,
     monthToName,
     getMonthDays,
+    parseTime,
 };
