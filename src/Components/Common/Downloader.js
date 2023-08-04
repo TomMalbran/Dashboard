@@ -11,15 +11,17 @@ import PropTypes            from "prop-types";
 function Downloader(props) {
     const { download, source, onLoad } = props;
 
+    // Call the on Load
     React.useEffect(() => {
         if (download) {
             window.setTimeout(() => {
                 onLoad();
-            }, 30 * 1000);
+            }, 1000);
         }
     }, [ download, source ]);
 
 
+    // Do the Render
     if (!download) {
         return <React.Fragment />;
     }
