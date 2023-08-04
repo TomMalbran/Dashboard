@@ -43,7 +43,7 @@ const Img = Styled.img`
 function Avatar(props) {
     const {
         passedRef, className, size, name, email, avatar, edition, withReload,
-        url, href, target, onClick,
+        url, href, target, onClick, defaultValue,
     } = props;
 
     const hasClick = Boolean(url || href || onClick);
@@ -54,10 +54,12 @@ function Avatar(props) {
         return <React.Fragment />;
     }
 
+
+    // Calculate the Source
     let source = avatar;
     if (!source && email) {
         const username = MD5(email.toLowerCase().trim());
-        source = `https://gravatar.com/avatar/${username}?default=identicon`;
+        source = `https://gravatar.com/avatar/${username}?default=${defaultValue}`;
     } else if (edition) {
         source += `?rdm=${edition}`;
     } else if (withReload) {
@@ -81,6 +83,7 @@ function Avatar(props) {
     };
 
 
+    // Do the Render
     return <Div
         ref={passedRef}
         className={className}
@@ -97,18 +100,19 @@ function Avatar(props) {
  * @typedef {Object} propTypes
  */
 Avatar.propTypes = {
-    passedRef  : PropTypes.any,
-    className  : PropTypes.string,
-    size       : PropTypes.number,
-    name       : PropTypes.string,
-    email      : PropTypes.string,
-    avatar     : PropTypes.string,
-    url        : PropTypes.string,
-    href       : PropTypes.string,
-    target     : PropTypes.string,
-    edition    : PropTypes.number,
-    withReload : PropTypes.bool,
-    onClick    : PropTypes.func,
+    passedRef    : PropTypes.any,
+    className    : PropTypes.string,
+    size         : PropTypes.number,
+    name         : PropTypes.string,
+    email        : PropTypes.string,
+    avatar       : PropTypes.string,
+    url          : PropTypes.string,
+    href         : PropTypes.string,
+    target       : PropTypes.string,
+    defaultValue : PropTypes.string,
+    edition      : PropTypes.number,
+    withReload   : PropTypes.bool,
+    onClick      : PropTypes.func,
 };
 
 /**
@@ -116,10 +120,11 @@ Avatar.propTypes = {
  * @type {Object} defaultProps
  */
 Avatar.defaultProps = {
-    className  : "",
-    size       : 36,
-    target     : "_self",
-    withReload : false,
+    className    : "",
+    size         : 36,
+    target       : "_self",
+    withReload   : false,
+    defaultValue : "mp",
 };
 
 export default Avatar;
