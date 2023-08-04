@@ -5,11 +5,7 @@ import Styled               from "styled-components";
 
 
 // Styles
-const Container = Styled.div.attrs(({
-    width, fullWidth, hasError,
-}) => ({
-    width, fullWidth, hasError,
-}))`
+const Container = Styled.div.attrs(({ width, fullWidth, hasError }) => ({ width, fullWidth, hasError }))`
     --input-border: var(--input-border-color);
     position: relative;
     display: block;

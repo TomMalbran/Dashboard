@@ -48,10 +48,15 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
         ${(props) => props.withLink ? "cursor: pointer;" : ""}
         padding-top: 16px;
     }
+
     .inputview-link {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    &:hover {
+        --input-border: var(--input-border-hover);
     }
 `;
 
@@ -82,12 +87,14 @@ const FieldHelper = Styled.p`
  */
 function ViewField(props) {
     const {
-        isHidden, showEmpty, className, viewClass, label, value, icon,
+        isHidden, showEmpty, className, viewClass, label,
+        value, message, icon,
         fullWidth, isSmall, isSelected, error, helperText,
-        linkIcon, linkVariant, linkUrl, linkHref, linkTarget, isEmail, isPhone, isWhatsApp, onClick,
+        linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
+        isEmail, isPhone, isWhatsApp, onClick,
     } = props;
 
-    const content   = value === undefined ? "" : String(value);
+    const content   = message ? NLS.get(message) : (value === undefined ? "" : String(value));
     const isLink    = content.startsWith("http");
     const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
     const isText    = !isLink && !isHtml;
@@ -96,6 +103,8 @@ function ViewField(props) {
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
 
+
+    // Do the Render
     if (isHidden || (!content && !showEmpty)) {
         return <React.Fragment />;
     }
@@ -118,12 +127,23 @@ function ViewField(props) {
         >
             {!!icon && <Icon icon={icon} />}
             {isLink && <div className="inputview-value inputview-link">
-                <HyperLink variant="primary" href={content} message={content} target="_blank" />
+                <HyperLink
+                    variant="primary"
+                    href={content}
+                    message={content}
+                    target="_blank"
+                />
             </div>}
-            {isHtml && <Html className="inputview-value" onClick={onClick}>{content}</Html>}
-            {isText && <MultiLine className={`inputview-value ${viewClass}`} onClick={onClick}>
-                {content || " "}
-            </MultiLine>}
+            {isHtml && <Html
+                className="inputview-value"
+                onClick={onClick}
+                content={content}
+            />}
+            {isText && <MultiLine
+                className={`inputview-value ${viewClass}`}
+                onClick={onClick}
+                content={content || " "}
+            />}
             {hasLink && <FieldLink
                 variant={linkVariant}
                 icon={linkIcon}
@@ -152,6 +172,7 @@ ViewField.propTypes = {
     label       : PropTypes.string,
     icon        : PropTypes.string,
     value       : PropTypes.any,
+    message     : PropTypes.string,
     error       : PropTypes.string,
     helperText  : PropTypes.string,
     fullWidth   : PropTypes.bool,
