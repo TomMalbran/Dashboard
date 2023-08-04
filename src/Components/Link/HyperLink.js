@@ -145,20 +145,26 @@ const Components = {
  */
 function HyperLink(props) {
     const {
-        passedRef, variant, className,
+        passedRef, isHidden, variant, className,
         target, message, html, children,
     } = props;
 
     const Component = Components[variant] || Link;
     const content   = children || NLS.get(message);
+    const onClick   = Navigate.useLink(props);
 
+
+    // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Component
         ref={passedRef}
         className={`link ${className}`}
         variant={variant}
         href={Navigate.getUrl(props)}
         target={target}
-        onClick={Navigate.useLink(props)}
+        onClick={onClick}
     >
         {html ? <Html className="link-content" variant="span">
             {html}
@@ -171,6 +177,8 @@ function HyperLink(props) {
  * @type {Object} propTypes
  */
 HyperLink.propTypes = {
+    passedRef  : PropTypes.any,
+    isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     variant    : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -184,7 +192,6 @@ HyperLink.propTypes = {
     isWhatsApp : PropTypes.bool,
     onClick    : PropTypes.func,
     dontStop   : PropTypes.bool,
-    passedRef  : PropTypes.any,
     children   : PropTypes.any,
 };
 
@@ -193,6 +200,7 @@ HyperLink.propTypes = {
  * @type {Object} defaultProps
  */
 HyperLink.defaultProps = {
+    isHidden   : false,
     className  : "",
     variant    : Variant.PRIMARY,
     href       : "#",
