@@ -142,6 +142,37 @@ function inRef(x, y, ref, scrollTop = 0) {
 }
 
 /**
+ * Inserts an Text in the given Message
+ * @param {React.RefObject<HTMLInputElement>} ref
+ * @param {String}                            message
+ * @param {String}                            text
+ * @returns {String}
+ */
+function insertText(ref, message, text) {
+    if (!ref.current) {
+        return message + text;
+    }
+    const end = ref.current.selectionEnd;
+    return message.substring(0, end) + text + message.substring(end);
+}
+
+/**
+ * Formats the given Message
+ * @param {React.RefObject<HTMLInputElement>} ref
+ * @param {String}                            message
+ * @param {String}                            character
+ * @returns {String}
+ */
+function formatText(ref, message, character) {
+    if (!ref.current) {
+        return message;
+    }
+    const start = ref.current.selectionStart;
+    const end   = ref.current.selectionEnd;
+    return message.substring(0, start) + character + message.substring(start, end) + character + message.substring(end);
+}
+
+/**
  * Returns true if something is Selected
  * @returns {Boolean}
  */
@@ -791,6 +822,8 @@ export default {
     getBounds,
     inBounds,
     inRef,
+    insertText,
+    formatText,
     hasSelection,
     unselectAll,
     getCurrentTime,
