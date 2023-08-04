@@ -17,7 +17,7 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ variant, withBorder, expandMobile }))`
+const Nav = Styled.nav.attrs(({ variant, withBorder, topSpace, expandMobile }) => ({ variant, withBorder, topSpace, expandMobile }))`
     grid-area: sidebar;
     box-sizing: border-box;
     display: flex;
@@ -47,7 +47,10 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, expandMobile }) => ({ varia
         .baricon-text {
             display: none;
         }
+
         @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
+            ${props.topSpace && `padding-top: ${props.topSpace}px;`}
+
             & > div {
                 align-items: flex-start;
             }
@@ -124,7 +127,7 @@ const CloseIcon = Styled(IconLink)`
 function SideBar(props) {
     const {
         className, variant, withBorder, expandMobile,
-        logo, logoWidth, logoHeight,
+        topSpace, logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         children,
@@ -163,6 +166,7 @@ function SideBar(props) {
         className={`sidebar ${className}`}
         variant={variant}
         withBorder={withBorder}
+        topSpace={topSpace}
         expandMobile={expandMobile}
     >
         {expandMobile && <CloseIcon
@@ -233,6 +237,7 @@ SideBar.propTypes = {
     withBorder    : PropTypes.bool,
     withTopBar    : PropTypes.bool,
     expandMobile  : PropTypes.bool,
+    topSpace      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     children      : PropTypes.any,
 };
 
