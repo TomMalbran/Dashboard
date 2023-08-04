@@ -36,6 +36,14 @@ const Item = Styled.li.attrs(({ color }) => ({ color }))`
     }
 `;
 
+const Input = Styled(InputBase)`
+    height: 16px;
+
+    &::-webkit-color-swatch-wrapper {
+        padding: 0;
+    }
+`;
+
 
 
 /**
@@ -80,7 +88,7 @@ function ColorInput(props) {
             >
                 {value === color && <Icon icon="check" />}
             </Item>)}
-        </List> : <InputBase
+        </List> : <Input
             inputRef={inputRef}
             type="color"
             id={id}
