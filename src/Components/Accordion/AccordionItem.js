@@ -22,9 +22,9 @@ const Container = Styled.section.attrs(({ isFirst, isSelected, isDisabled }) => 
     }
 
     ${(props) => props.isFirst ? `
-        padding-top: 16px;
+        margin-top: 16px;
     ` : `
-        padding-top: 32px;
+        margin-top: 32px;
     `}
 
     ${(props) => props.isSelected && `
@@ -40,6 +40,11 @@ const Container = Styled.section.attrs(({ isFirst, isSelected, isDisabled }) => 
             opacity: 1;
         }
     }`}
+
+    @media (max-width: 500px) {
+        display: block;
+        position: relative;
+    }
 `;
 
 const Aside = Styled.aside`
@@ -63,6 +68,13 @@ const Aside = Styled.aside`
         border: 1px solid var(--title-color);
         font-family: var(--title-font);
         border-radius: 100%;
+    }
+
+    @media (max-width: 500px) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
     }
 `;
 
@@ -90,6 +102,10 @@ const Header = Styled.header.attrs(({ isDisabled }) => ({ isDisabled }))`
         cursor: not-allowed;
         background-color: white;
     `}
+
+    @media (max-width: 500px) {
+        margin-left: 38px;
+    }
 `;
 
 const Div = Styled.div`
