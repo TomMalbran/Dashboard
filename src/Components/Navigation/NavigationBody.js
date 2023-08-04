@@ -29,6 +29,7 @@ const None = Styled(NoneAvailable)`
     padding: 4px 0 24px 0;
     font-size: 14px;
     text-align: center;
+    background-color: transparent;
 `;
 
 const Ul = Styled.ul`
@@ -60,6 +61,7 @@ function NavigationBody(props) {
     };
 
 
+    // Parse the Items
     const items   = [];
     let   addList = true;
     for (const [ key, child ] of Utils.getChildren(children)) {
@@ -73,6 +75,8 @@ function NavigationBody(props) {
         }
     }
 
+
+    // Do the Render
     const showLoader  = isLoading;
     const showNone    = Boolean(!isLoading && !items.length && none);
     const showAdd     = Boolean(showNone && canAdd && add);
