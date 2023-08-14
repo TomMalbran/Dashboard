@@ -67,7 +67,7 @@ const Span = Styled(Icon)`
 
 const Label = Styled(Html)`
     font-size: var(--input-font);
-    color: var(--input-checkbox-normal, black);
+    color: var(--input-check-normal, black);
 `;
 
 
