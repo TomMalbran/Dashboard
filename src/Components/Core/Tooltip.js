@@ -41,7 +41,10 @@ const Container = Styled.div.attrs(({ top, left, width, variant, isOpen }) => ({
 
     ${(props) => props.isOpen && css`animation: ${open} 0.3s 1s ease-out forwards;`}
 
-    ${(props) => (props.variant === "top" || props.variant === "bottom") && `
+    ${(props) => props.variant === "top" && `
+        transform: translateX(-50%) translateY(-100%);
+    `}
+    ${(props) => props.variant === "bottom" && `
         transform: translateX(-50%);
     `}
     ${(props) => (props.variant === "left" || props.variant === "right") && `
@@ -109,7 +112,7 @@ function Tooltip() {
 
     switch (variant) {
     case "top":
-        top  -= bounds.height + 8;
+        top  -= 8;
         left += bounds.width / 2;
         width = bounds.width;
         break;
