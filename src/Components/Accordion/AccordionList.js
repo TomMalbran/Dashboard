@@ -12,7 +12,7 @@ import Utils                from "../../Utils/Utils";
  * @returns {React.ReactElement}
  */
 function AccordionList(props) {
-    const { className, initial, selected, onChange, children } = props;
+    const { className, initial, selected, onChange, noClose, children } = props;
 
 
     // The Current State
@@ -39,7 +39,7 @@ function AccordionList(props) {
             return;
         }
         let newID = id;
-        if (id === selected) {
+        if (!noClose && id === selected) {
             newID = "";
         }
         if (newID === selected) {
@@ -78,6 +78,7 @@ AccordionList.propTypes = {
     initial   : PropTypes.string,
     selected  : PropTypes.string,
     onChange  : PropTypes.func,
+    noClose   : PropTypes.bool,
     children  : PropTypes.any,
 };
 
@@ -89,6 +90,7 @@ AccordionList.defaultProps = {
     className : "",
     initial   : "",
     selected  : "",
+    noClose   : false,
 };
 
 export default AccordionList;
