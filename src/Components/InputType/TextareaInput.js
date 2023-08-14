@@ -74,7 +74,7 @@ function TextareaInput(props) {
         inputRef, className, isFocused, isDisabled, withLabel,
         id, name, value, placeholder, rows,
         onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
-        counterText, children,
+        maxLength, children,
     } = props;
 
     const minRows = Number(rows) || 1;
@@ -132,8 +132,9 @@ function TextareaInput(props) {
 
 
     // Do the Render
-    const hasFooter  = Boolean(counterText || (children && children.length));
-    const characters = String(String(value || "").length);
+    const hasFooter   = Boolean(maxLength || (children && children.length));
+    const counterText = maxLength ? "GENERAL_CHARACTERS_MAX" : "GENERAL_CHARACTERS";
+    const characters  = String(String(value || "").length);
 
     return <InputContent
         inputRef={inputRef}
@@ -161,7 +162,7 @@ function TextareaInput(props) {
                 onKeyUp={onKeyUp}
             />
             {hasFooter && <Editor>
-                <Text>{NLS.format(counterText, characters)}</Text>
+                <Text>{NLS.format(counterText, characters, maxLength)}</Text>
                 {!isDisabled && children}
             </Editor>}
         </Container>
@@ -183,6 +184,7 @@ TextareaInput.propTypes = {
     placeholder : PropTypes.string,
     value       : PropTypes.any,
     rows        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxLength   : PropTypes.number,
     onChange    : PropTypes.func,
     onInput     : PropTypes.func,
     onFocus     : PropTypes.func,
@@ -202,6 +204,7 @@ TextareaInput.defaultProps = {
     isFocused   : false,
     isDisabled  : false,
     placeholder : "",
+    maxLength   : 0,
 };
 
 export default TextareaInput;
