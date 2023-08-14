@@ -463,6 +463,18 @@ function createArrayOf(amount, start = 1) {
 }
 
 /**
+ * Returns true if 2 objects are equal
+ * @param {Object} object1
+ * @param {Object} object2
+ * @returns {Boolean}
+ */
+function areEqual(object1, object2) {
+    const string1 = JSON.stringify(object1);
+    const string2 = JSON.stringify(object2);
+    return string1 === string2;
+}
+
+/**
  * Returns true if both given objects are the same at 1 level deep
  * @param {Object} a
  * @param {Object} b
@@ -845,6 +857,7 @@ export default {
     toSelect,
     stringsToSelect,
     createArrayOf,
+    areEqual,
     areObjectsEqual,
     extend,
     merge,
