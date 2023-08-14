@@ -32,11 +32,11 @@ const Section = Styled.section.attrs(({ withDetails, hasTabs }) => ({ withDetail
                 grid-row: 1 / 3;
             }
         `}
-
-        @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
-            display: block;
-        }
     `};
+
+    @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
+        display: block;
+    }
 `;
 
 
