@@ -14,7 +14,10 @@ let   actions = {};
 
 /**
  * Creates the Store Provider
- * @param {Object} props
+ * @param {{
+ *   config   : Object,
+ *   children : Array,
+ * }} props
  * @returns {React.ReactElement}
  */
 function Provider({ config, children }) {
