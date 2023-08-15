@@ -19,14 +19,15 @@ const Section = Styled.section.attrs(({ isInside, isWider, topSpace }) => ({ isI
     flex-direction: column;
     flex-shrink: 0;
     gap: 16px;
+    padding: 16px;
     width: ${(props) => props.isWider ? "var(--details-width-wide)" : "var(--details-width)"};
     background-color: var(--lighter-gray);
-    padding: 16px;
     overflow: auto;
 
     ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
     ${(props) => props.isInside ? `
         border-radius: var(--border-radius);
+        border: 1px solid var(--border-color-light);
     ` : `
         height: var(--main-height);
     `}
