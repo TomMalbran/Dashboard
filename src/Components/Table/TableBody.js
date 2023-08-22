@@ -14,7 +14,11 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
     border-left: var(--table-border) solid var(--table-color);
     border-right: var(--table-border) solid var(--table-color);
 
-    ${(props) => !props.notFixed && `
+    ${(props) => props.notFixed ? `
+        tr:last-child td {
+            border-bottom: none;
+        }
+    ` : `
         overflow-y: scroll;
         overflow-x: auto;
         height: calc(

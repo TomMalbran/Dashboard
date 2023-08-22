@@ -11,9 +11,6 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
 
     td, th {
         flex: 1 0 0;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
         border: none;
     }
     td {

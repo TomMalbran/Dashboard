@@ -25,7 +25,7 @@ const Wrapper = Styled.div`
 `;
 
 const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }))`
-    --table-height: ${(props) => props.inDialog ? "calc(var(--full-height) - 32px * 2 - 55px * 2 - var(--main-padding) * 2 + 72px)" : "calc(var(--main-height) - var(--main-padding))"};
+    --table-height: ${(props) => props.inDialog ? "var(--dialog-body)" : "calc(var(--main-height) - var(--main-padding))"};
     --table-header-height: 27px;
     --table-filter-height: ${(props) => props.hasFilter ? "var(--filter-height)" : "0px"};
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
@@ -131,20 +131,22 @@ function Table(props) {
             colSpan = tableHeads.length;
             for (const tableHead of tableHeads) {
                 columns.push({
-                    isHidden   : !!tableHead.props.isHidden,
-                    isTitle    : !!tableHead.props.isTitle,
-                    isSmall    : !!tableHead.props.isSmall,
-                    isFlex     : !!tableHead.props.isFlex,
-                    bigMobile  : !!tableHead.props.bigMobile,
-                    hideMobile : !!tableHead.props.hideMobile,
-                    hideCircle : !!tableHead.props.hideCircle,
-                    smallSpace : !!tableHead.props.smallSpace,
-                    rightSpace : !!tableHead.props.rightSpace,
-                    grow       : tableHead.props.grow     || "",
-                    shrink     : tableHead.props.shrink   || "",
-                    minWidth   : tableHead.props.minWidth || "",
-                    maxWidth   : tableHead.props.maxWidth || "",
-                    align      : tableHead.props.align    || "",
+                    isHidden    : !!tableHead.props.isHidden,
+                    isTitle     : !!tableHead.props.isTitle,
+                    isSmall     : !!tableHead.props.isSmall,
+                    isFlex      : !!tableHead.props.isFlex,
+                    isMultiline : !!tableHead.props.isMultiline,
+                    bigMobile   : !!tableHead.props.bigMobile,
+                    hideMobile  : !!tableHead.props.hideMobile,
+                    hideCircle  : !!tableHead.props.hideCircle,
+                    noSpace     : !!tableHead.props.noSpace,
+                    smallSpace  : !!tableHead.props.smallSpace,
+                    rightSpace  : !!tableHead.props.rightSpace,
+                    grow        : tableHead.props.grow     || "",
+                    shrink      : tableHead.props.shrink   || "",
+                    minWidth    : tableHead.props.minWidth || "",
+                    maxWidth    : tableHead.props.maxWidth || "",
+                    align       : tableHead.props.align    || "",
                 });
             }
             columns[columns.length - 1].rightSpace = rightSpace;
