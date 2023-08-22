@@ -8,6 +8,7 @@ import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
 
 // Components
+import Menu                 from "./Menu";
 import Icon                 from "../Common/Icon";
 
 
@@ -53,6 +54,7 @@ function MenuItem(props) {
     const {
         className, action, icon, title, message, url, href, target,
         isDisabled, isSelected, isSmall, onAction, onClick, onClose,
+        direction, children,
     } = props;
 
     const act      = Action.get(action);
@@ -60,6 +62,14 @@ function MenuItem(props) {
     const content  = message || act.message;
     const uri      = url ? NLS.baseUrl(url) : href;
     const navigate = Navigate.useUrl(uri, target);
+    const hasMenu  = Boolean(children && children.length);
+
+    // References
+    const itemRef = React.useRef();
+
+    // State
+    const [ menuOpen, setMenuOpen ] = React.useState(false);
+
 
     // Handles the Click
     const handleClick = (e) => {
@@ -71,7 +81,7 @@ function MenuItem(props) {
         } else if (onClick) {
             onClick(e);
         }
-        if (onClose) {
+        if (!hasMenu && onClose) {
             onClose(e);
         }
         e.preventDefault();
@@ -79,17 +89,35 @@ function MenuItem(props) {
     };
 
 
-    return <Li
-        className={className}
-        isSelected={!isDisabled && isSelected}
-        isDisabled={isDisabled}
-        isSmall={isSmall}
-        onClick={handleClick}
-    >
-        {!!icn && <Icon icon={icn} />}
-        {!!title && <b>{NLS.get(title)}</b>}
-        {NLS.get(content)}
-    </Li>;
+    // Do the Render
+    return <>
+        <Li
+            ref={itemRef}
+            className={className}
+            isSelected={!isDisabled && isSelected}
+            isDisabled={isDisabled}
+            isSmall={isSmall}
+            onMouseDown={handleClick}
+            onMouseEnter={() => setMenuOpen(true)}
+            onMouseLeave={() => setMenuOpen(false)}
+        >
+            {!!icn && <Icon icon={icn} />}
+            {!!title && <b>{NLS.get(title)}</b>}
+            {NLS.get(content)}
+        </Li>
+
+        {hasMenu && <Menu
+            open={menuOpen}
+            targetRef={itemRef}
+            direction={direction}
+            onMouseEnter={() => setMenuOpen(true)}
+            onMouseLeave={() => setMenuOpen(false)}
+            onClose={onClose}
+            isSubmenu
+        >
+            {children}
+        </Menu>}
+    </>;
 }
 
 /**
@@ -111,6 +139,8 @@ MenuItem.propTypes = {
     onAction   : PropTypes.func,
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
+    direction  : PropTypes.string,
+    children   : PropTypes.any,
 };
 
 /**
@@ -123,6 +153,7 @@ MenuItem.defaultProps = {
     isDisabled : false,
     isSelected : false,
     isSmall    : false,
+    direction  : "right",
 };
 
 export default MenuItem;

@@ -14,12 +14,12 @@ const Variant = {
 
 
 // Styles
-const Backdrop = Styled.div`
+const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
     display: block;
-    box-sizing: border-box;
     position: fixed;
     inset: 0;
     z-index: var(--z-menu);
+    ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
 const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft, isRight }))`
@@ -32,6 +32,7 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft,
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     overflow: hidden;
+    pointer-events: all;
 
     ${(props) => props.withPos && "transform: none;"}
     ${(props) => props.isLeft  && "left: 7px;"}
@@ -48,7 +49,8 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft,
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        selected, bottom, gap, onAction, onClose, targetRef, children,
+        selected, bottom, gap, onAction, onClose, targetRef,
+        onMouseEnter, onMouseLeave, isSubmenu, children,
     } = props;
     let { top, left, right } = props;
 
@@ -82,26 +84,42 @@ function Menu(props) {
 
 
     // Set the position
+    const dir       = direction || "";
+    const forTop    = dir.includes("top");
+    const forBottom = dir.includes("bottom");
+    const forLeft   = dir.includes("left");
+
     if (!hasStyles && targetRef) {
         const bounds = Utils.getBounds(targetRef);
-        if (direction.includes("top")) {
+        if (forTop) {
             top = bounds.top - gap;
-        } else {
+        } else if (forBottom) {
             top = bounds.bottom + gap;
-        }
-        if (top && direction.includes("left")) {
-            right = window.innerWidth - bounds.right;
         } else {
-            left = bounds.left;
+            top = bounds.top;
+        }
+
+        if (forTop || forBottom) {
+            if (forLeft) {
+                right = window.innerWidth - bounds.right;
+            } else {
+                left = bounds.left;
+            }
+        } else {
+            if (forLeft) {
+                right = window.innerWidth - bounds.left;
+            } else {
+                left = bounds.right;
+            }
         }
         hasStyles = true;
     }
 
     if (hasStyles) {
-        if (top && direction.includes("top")) {
+        if (top && forTop) {
             top -= height;
         }
-        if (left && direction.includes("left")) {
+        if (left && forLeft) {
             left -= width;
         }
 
@@ -153,7 +171,12 @@ function Menu(props) {
     if (!open) {
         return <React.Fragment />;
     }
-    return <Backdrop onMouseDown={handleClose}>
+    return <Backdrop
+        isSubmenu={isSubmenu}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseDown={handleClose}
+    >
         <Ul
             ref={contentRef}
             className={className}
@@ -187,6 +210,9 @@ Menu.propTypes = {
     selected     : PropTypes.number,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
+    onMouseEnter : PropTypes.func,
+    onMouseLeave : PropTypes.func,
+    isSubmenu    : PropTypes.bool,
     children     : PropTypes.any,
 };
 
@@ -201,6 +227,7 @@ Menu.defaultProps = {
     direction  : "",
     iconHeight : 0,
     gap        : 0,
+    isSubmenu  : false,
 };
 
 export default Menu;

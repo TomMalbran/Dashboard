@@ -110,6 +110,7 @@ function ActionItem(props) {
             isSmall={isSmall}
             propagate
         />
+
         {showMenu && <Menu
             open={menuOpen}
             targetRef={buttonRef}
@@ -123,8 +124,9 @@ function ActionItem(props) {
                 key={index}
                 icon={elem.icon || elem.act.icon}
                 message={elem.message || elem.act.message}
+                direction={elem.direction}
                 onClick={() => handleMenuClick(elem)}
-            />)}
+            >{elem.children}</MenuItem>)}
         </Menu>}
     </Li>;
 }
