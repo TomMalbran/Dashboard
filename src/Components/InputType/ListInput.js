@@ -36,13 +36,14 @@ const Content = Styled.div`
 
 const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
     box-sizing: border-box;
-    width: 100%;
     display: flex;
     align-items: center;
     gap: 4px;
+    width: 100%;
+    min-height: 32px;
+    padding: 6px 12px;
     background-color: var(--lightest-gray);
     border-radius: var(--border-radius);
-    padding: 6px 12px;
 
     .inputfield-children {
         margin-bottom: 0;
