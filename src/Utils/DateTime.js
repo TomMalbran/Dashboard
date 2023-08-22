@@ -875,7 +875,7 @@ class DateTime {
 
     /**
      * Returns the amount of years between the saved date and the given date (or today) AKA the age
-     * @param {DateTime} otherDate
+     * @param {DateTime=} otherDate
      * @returns {Number}
      */
     getAge(otherDate) {
