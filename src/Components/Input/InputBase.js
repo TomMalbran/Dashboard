@@ -44,7 +44,7 @@ const Input = Styled.input`
 function InputBase(props) {
     const {
         inputRef, type, className, id, name, value,
-        minValue, maxValue, step, placeholder,
+        step, minValue, maxValue, placeholder,
         isDisabled, autoComplete, spellCheck,
         onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
     } = props;
@@ -56,9 +56,9 @@ function InputBase(props) {
         type={type}
         name={name}
         value={value}
+        step={step}
         min={minValue}
         max={maxValue}
-        step={step}
         placeholder={NLS.get(placeholder)}
         disabled={isDisabled}
         autoComplete={autoComplete}
@@ -83,9 +83,9 @@ InputBase.propTypes = {
     id           : PropTypes.string,
     name         : PropTypes.string,
     value        : PropTypes.any,
-    minValue     : PropTypes.number,
-    maxValue     : PropTypes.number,
-    step         : PropTypes.string,
+    step         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     placeholder  : PropTypes.string,
     isDisabled   : PropTypes.bool,
     autoComplete : PropTypes.string,

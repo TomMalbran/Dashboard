@@ -19,9 +19,13 @@ function NumberInput(props) {
     const {
         inputRef, className, icon, isFocused, isDisabled, isSmall,
         withBorder, withLabel,
-        id, name, value, minValue, step, placeholder,
+        id, name, value, step, minValue, maxValue, placeholder,
         onChange, onClear, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
     } = props;
+
+    const minNumber = minValue !== undefined && minValue !== null ? Number.MIN_SAFE_INTEGER : Number(minValue);
+    const maxNumber = maxValue !== undefined && maxValue !== null ? Number.MAX_SAFE_INTEGER : Number(maxValue);
+
 
     // Handles a Number
     const handleChange = (e) => {
@@ -34,10 +38,12 @@ function NumberInput(props) {
         if (e.keyCode === KeyCode.DOM_VK_UP || e.keyCode === KeyCode.DOM_VK_DOWN) {
             const mult   = e.metaKey ? 100 : (e.shiftKey ? 10 : 1);
             const amount = e.keyCode === KeyCode.DOM_VK_UP ? 1 : -1;
-            val          = Number(val) + amount * mult;
+            val          = Number(val) + amount * mult * Number(step);
 
-            if (isNaN(value) || (minValue !== undefined && minValue !== null && val < minValue)) {
-                val = minValue;
+            if (isNaN(value) || val < minNumber) {
+                val = minNumber;
+            } else if (val > maxNumber) {
+                val = maxNumber;
             }
             onChange(name, val);
             e.preventDefault();
@@ -78,8 +84,9 @@ function NumberInput(props) {
             id={id}
             name={name}
             value={value}
-            minValue={minValue}
             step={step}
+            minValue={minValue}
+            maxValue={maxValue}
             placeholder={placeholder}
             isDisabled={isDisabled}
             onChange={handleChange}
@@ -108,8 +115,9 @@ NumberInput.propTypes = {
     name        : PropTypes.string.isRequired,
     placeholder : PropTypes.string,
     value       : PropTypes.any,
-    minValue    : PropTypes.number,
-    step        : PropTypes.string,
+    step        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange    : PropTypes.func.isRequired,
     onClear     : PropTypes.func,
     onFocus     : PropTypes.func,
