@@ -83,8 +83,11 @@ function FilterList(props) {
 
 
     // Handles the Input Change
-    const handleChange = (name, value) => {
-        const filterData = { ...data, [name] : value };
+    const handleChange = (name, value, onChange) => {
+        let filterData = { ...data, [name] : value };
+        if (onChange) {
+            filterData = onChange(data, value);
+        }
         setData(filterData);
         setErrors({ ...errors, [name] : "" });
         return filterData;
@@ -133,7 +136,7 @@ function FilterList(props) {
             key={item.name}
             value={data[item.name]}
             error={errors[item.name]}
-            onChange={handleChange}
+            onChange={(name, value) => handleChange(name, value, item.onChange)}
             onSearch={handleSearch}
             onSuggest={handleUpdate}
             onSubmit={handleSubmit}

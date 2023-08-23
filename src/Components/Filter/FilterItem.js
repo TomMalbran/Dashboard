@@ -44,6 +44,7 @@ FilterItem.propTypes = {
     suggestNone   : PropTypes.string,
     hasClear      : PropTypes.bool,
     shrinkLabel   : PropTypes.bool,
+    onChange      : PropTypes.func,
 };
 
 /**

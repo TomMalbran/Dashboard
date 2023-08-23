@@ -1,6 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
+// Utils
+import Period               from "../../Utils/Period";
+
 // Components
 import FilterList           from "./FilterList";
 import FilterItem           from "./FilterItem";
@@ -14,18 +17,31 @@ import FilterItem           from "./FilterItem";
  * @returns {React.ReactElement}
  */
 function Filter(props) {
-    const { hasSearch, hasCredential, values, fetch, params, onFilter } = props;
+    const {
+        hasSearch, hasCredential, hasPeriod,
+        values, fetch, params, onFilter,
+    } = props;
 
     // The Initial Data
     const initialData = {
         search         : "",
         credentialID   : 0,
         credentialName : "",
+        period         : "",
         fromDate       : "",
         toDate         : "",
     };
 
 
+    // Handles the Period Change
+    const handlePeriod = (data, period) => {
+        const fromDate = Period.getFromDate(period);
+        const toDate   = Period.getToDate(period);
+        return { ...data, period, fromDate, toDate };
+    };
+
+
+    // Do the Render
     return <FilterList
         initialData={initialData}
         values={values}
@@ -45,6 +61,16 @@ function Filter(props) {
             suggestID="credentialID"
             suggestFetch={fetch}
             suggestParams={params}
+            shrinkLabel
+        />
+
+        <FilterItem
+            isHidden={!hasPeriod}
+            type="select"
+            name="period"
+            label="PERIOD_NAME"
+            onChange={handlePeriod}
+            options={Period.getSelect()}
             shrinkLabel
         />
         <FilterItem
@@ -70,6 +96,7 @@ Filter.propTypes = {
     onFilter      : PropTypes.func.isRequired,
     hasCredential : PropTypes.bool,
     hasSearch     : PropTypes.bool,
+    hasPeriod     : PropTypes.bool,
     values        : PropTypes.object,
     fetch         : PropTypes.func,
     params        : PropTypes.object,
@@ -82,6 +109,7 @@ Filter.propTypes = {
 Filter.defaultProps = {
     hasCredential : false,
     hasSearch     : false,
+    hasPeriod     : false,
 };
 
 export default Filter;
