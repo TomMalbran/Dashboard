@@ -25,7 +25,12 @@ const Wrapper = Styled.div`
 `;
 
 const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }))`
-    --table-height: ${(props) => props.inDialog ? "var(--dialog-body)" : "calc(var(--main-height) - var(--main-padding))"};
+    ${(props) => props.inDialog ? `
+        --table-height: calc(var(--dialog-body) - 2 * var(--main-padding));
+    ` : `
+        --table-height: calc(var(--main-height) - var(--main-padding) - var(--header-height));
+    `}
+
     --table-header-height: 27px;
     --table-filter-height: ${(props) => props.hasFilter ? "var(--filter-height)" : "0px"};
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
