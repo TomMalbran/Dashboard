@@ -22,11 +22,6 @@
             "label": "4. Build Dist",
             "type": "shell",
             "command": "npm run dist"
-        },
-        {
-            "label": "5. Example",
-            "type": "shell",
-            "command": "npm run example"
         }
     ]
 }
