@@ -8,21 +8,25 @@ import Utils                from "../Utils/Utils";
 /**
  * The Drag Hook
  * @param {Function} onDrop
+ * @param {Boolean=} gridMode
  * @returns {Object}
  */
-function useDrag(onDrop) {
+function useDrag(onDrop, gridMode = false) {
     const stateRef = React.useRef({
         isDragging    : false,
         node          : null,
         nodeBounds    : {},
         wrapper       : null,
         wrapperBounds : {},
+        children      : [],
+        isChild       : false,
         startX        : 0,
         startY        : 0,
         diffX         : 0,
         diffY         : 0,
         gap           : 0,
-        newOrder      : 0,
+        columns       : 1,
+        newOrder      : null,
         origOrder     : 0,
         itemID        : null,
     });
@@ -40,12 +44,15 @@ function useDrag(onDrop) {
             isDragging    : false,
             nodeBounds    : {},
             wrapperBounds : {},
+            children      : [],
+            isChild       : false,
             startX        : e.clientX,
             startY        : e.clientY,
             diffX         : 0,
             diffY         : 0,
             gap           : 0,
-            newOrder      : origOrder,
+            columns       : 1,
+            newOrder      : null,
         };
 
         window.addEventListener("mousemove", drag);
@@ -81,16 +88,35 @@ function useDrag(onDrop) {
 
         const nodeBounds    = node.getBoundingClientRect();
         const wrapperBounds = wrapper.getBoundingClientRect();
-        const childCount    = wrapper.children.length;
-        const gap           = (wrapperBounds.height - nodeBounds.height * childCount) / (childCount - 1);
+        const children      = [ ...wrapper.children ];
+        const isChild       = children.findIndex((elem) => elem === node) > -1;
 
         stateRef.current.isDragging    = true;
         stateRef.current.nodeBounds    = nodeBounds;
         stateRef.current.wrapperBounds = wrapperBounds;
-        stateRef.current.gap           = gap;
+        stateRef.current.children      = children;
+        stateRef.current.isChild       = isChild;
         stateRef.current.diffX         = startX - nodeBounds.left;
         stateRef.current.diffY         = startY - nodeBounds.top;
 
+        if (gridMode) {
+            startGrid();
+        } else {
+            startList();
+        }
+    };
+
+    // Start the List Drag
+    const startList = () => {
+        const { node, nodeBounds, wrapperBounds, isChild, children } = stateRef.current;
+
+        const childCount = children.length;
+        const gap        = (wrapperBounds.height - nodeBounds.height * childCount) / (childCount - 1);
+        const height     = nodeBounds.height + gap;
+
+        stateRef.current.gap = gap;
+
+        // Set the Node Styles for dragging
         node.style.boxSizing = "border-box";
         node.style.position  = "fixed";
         node.style.top       = `${nodeBounds.top}px`;
@@ -98,76 +124,200 @@ function useDrag(onDrop) {
         node.style.width     = `${nodeBounds.width}px`;
         node.style.zIndex    = 10000;
 
+        // Make space for the Node
         if (node.nextSibling) {
-            node.nextSibling.style.marginTop = `${nodeBounds.height + gap}px`;
-        } else {
-            node.previousSibling.style.marginBottom = `${nodeBounds.height + gap}px`;
+            node.nextSibling.style.marginTop = `${height}px`;
+        } else if (node.previousSibling) {
+            node.previousSibling.style.marginBottom = `${height}px`;
+        }
+
+        // The Node is not a Child of the Wrapper
+        if (!isChild) {
+            stateRef.current.origOrder = childCount;
+            if (childCount > 0) {
+                children[childCount - 1].marginBottom = `${height}px`;
+            }
+            children.push(node);
         }
     };
+
+    // Start the Grid Drag
+    const startGrid = () => {
+        const { node, nodeBounds, wrapperBounds } = stateRef.current;
+
+        const columns = Math.floor(wrapperBounds.width / nodeBounds.width);
+        const gap     = Math.round((wrapperBounds.width - columns * nodeBounds.width) / (columns - 1));
+
+        stateRef.current.columns = columns;
+        stateRef.current.gap     = gap;
+
+        node.style.zIndex = 10000;
+    };
+
+
 
     // Does the Drag Move Action
     const move = (e) => {
-        const { node, wrapper, startX, startY, diffY, gap, origOrder, nodeBounds, wrapperBounds } = stateRef.current;
+        const { node, startX, startY } = stateRef.current;
 
         const posX = e.clientX - startX;
         const posY = e.clientY - startY;
-
         node.style.transform = `translate(${posX}px, ${posY}px)`;
 
-        if (Utils.inBounds(e.clientX, e.clientY, wrapperBounds)) {
-            const nodeTop  = e.clientY - diffY;
-            let   newOrder = 0;
+        stateRef.current.newOrder = null;
+        if (!inBounds(e.clientX, e.clientY)) {
+            return;
+        }
 
-            for (const child of wrapper.children) {
-                const bounds = child.getBoundingClientRect();
-                if ((nodeTop + nodeBounds.height / 2) > (bounds.top + bounds.height / 2)) {
-                    newOrder++;
-                }
-            }
-
-            for (const [ index, child ] of Object.entries(wrapper.children)) {
-                if (child === node) {
-                    continue;
-                }
-                child.style.transform = "";
-
-                const currIndex = Number(index);
-                const translate = nodeBounds.height + gap;
-                if (currIndex <= newOrder && currIndex > origOrder) {
-                    child.style.transform = `translateY(${-translate}px)`;
-                } else if (currIndex >= newOrder && currIndex < origOrder) {
-                    child.style.transform = `translateY(${translate}px)`;
-                }
-            }
-            stateRef.current.newOrder = newOrder;
+        if (gridMode) {
+            setGridOrder(e.clientX, e.clientY);
+        } else {
+            setListOrder(e.clientY);
         }
     };
 
-    // Drops the Element
-    const drop = () => {
-        const { wrapper, itemID, newOrder } = stateRef.current;
+    // Returns true if the given Point is in the Bounds
+    const inBounds = (x, y) => {
+        const { nodeBounds, wrapperBounds } = stateRef.current;
+        const extra = nodeBounds.height * 2;
+        return (
+            y > wrapperBounds.top && y < wrapperBounds.bottom + extra &&
+            x > wrapperBounds.left && x < wrapperBounds.right
+        );
+    };
 
-        stateRef.current.isDragging = false;
-        for (const child of wrapper.children) {
-            child.style.position     = "";
-            child.style.top          = "";
-            child.style.left         = "";
-            child.style.width        = "";
-            child.style.marginTop    = "";
-            child.style.marginBottom = "";
-            child.style.zIndex       = "";
-            child.style.transform    = "";
+    // Sets the new Order for a List
+    const setListOrder = (clientY) => {
+        const { node, children, diffY, gap, origOrder, nodeBounds } = stateRef.current;
+
+        const nodeTop  = clientY - diffY;
+        let   newOrder = 0;
+
+        for (const child of children) {
+            const bounds = child.getBoundingClientRect();
+            if ((nodeTop + nodeBounds.height / 2) > (bounds.top + bounds.height / 2)) {
+                newOrder++;
+            }
         }
+
+        const translate = nodeBounds.height + gap;
+        for (const [ index, child ] of Object.entries(children)) {
+            if (child === node) {
+                continue;
+            }
+
+            child.style.transform = "";
+            if (newOrder === origOrder) {
+                continue;
+            }
+
+            const childIndex = Number(index);
+            if (childIndex <= newOrder && childIndex > origOrder) {
+                child.style.transform = `translateY(${-translate}px)`;
+            } else if (childIndex >= newOrder && childIndex < origOrder) {
+                child.style.transform = `translateY(${translate}px)`;
+            }
+        }
+        stateRef.current.newOrder = newOrder;
+    };
+
+    // Sets the new Order for a Grid
+    const setGridOrder = (clientX, clientY) => {
+        const { node, children, nodeBounds, wrapperBounds, gap, columns, origOrder } = stateRef.current;
+
+        const relX       = clientX - wrapperBounds.left;
+        const relY       = clientY - wrapperBounds.top;
+        const newCol     = Math.floor(relX / nodeBounds.width);
+        const newRow     = Math.floor(relY / nodeBounds.height);
+        const newOrder   = newRow * columns + newCol;
+
+        const translateX = nodeBounds.width  + gap;
+        const translateY = nodeBounds.height + gap;
+
+        for (const [ index, child ] of Object.entries(children)) {
+            if (child === node) {
+                continue;
+            }
+
+            child.style.transform = "";
+            if (newOrder === origOrder) {
+                continue;
+            }
+
+            const bounds     = child.getBoundingClientRect();
+            const relX       = bounds.x - wrapperBounds.left;
+            const childCol   = Math.floor(relX / nodeBounds.width);
+            const childIndex = Number(index);
+
+            if (childIndex <= newOrder && childIndex > origOrder) {
+                if (childCol === 0) {
+                    child.style.transform = `translate(${(columns - 1) * translateX}px, ${-translateY}px)`;
+                } else {
+                    child.style.transform = `translateX(${-translateX}px)`;
+                }
+            } else if (childIndex >= newOrder && childIndex < origOrder) {
+                if (childCol === columns - 1) {
+                    child.style.transform = `translate(${(columns - 1) * -translateX}px, ${translateY}px)`;
+                } else {
+                    child.style.transform = `translateX(${translateX}px)`;
+                }
+            }
+        }
+
+        stateRef.current.newOrder = Math.min(newOrder, children.length);
+    };
+
+
+
+    // Drops the Node
+    const drop = () => {
+        const { isDragging, isChild, node, children, itemID, newOrder } = stateRef.current;
+
+        if (isDragging) {
+            for (const child of children) {
+                removeStyles(child);
+            }
+            if (!gridMode && !isChild) {
+                if (node.nextSibling) {
+                    removeStyles(node.nextSibling);
+                } else if (node.previousSibling) {
+                    removeStyles(node.previousSibling);
+                }
+            }
+        }
+        stateRef.current.isDragging = false;
 
         window.removeEventListener("mousemove", drag);
         window.removeEventListener("mouseup",   drop);
 
-        if (orderChanged()) {
-            onDrop(itemID, newOrder);
-        }
+        onDrop(itemID, newOrder);
+    };
+
+    // Removes the Styles
+    const removeStyles = (node) => {
+        node.style.position     = "";
+        node.style.top          = "";
+        node.style.left         = "";
+        node.style.width        = "";
+        node.style.marginTop    = "";
+        node.style.marginBottom = "";
+        node.style.zIndex       = "";
+        node.style.transform    = "";
     };
 
 
+
+    // Returns true if the order was set
+    const hasOrder = () => {
+        const { newOrder } = stateRef.current;
+        return newOrder !== null;
+    };
+
+    // Returns true if the order changed
+    const orderChanged = () => {
+        const { newOrder, origOrder } = stateRef.current;
+        return newOrder !== null && newOrder !== origOrder;
+    };
 
     // Swaps 2 Elements
     const swap = (elements) => {
@@ -177,56 +327,10 @@ function useDrag(onDrop) {
         elements.splice(newOrder, 0, item);
     };
 
-    // Returns true if the order changed
-    const orderChanged = () => {
-        const { newOrder, origOrder } = stateRef.current;
-        return newOrder !== origOrder;
-    };
-
-    // Returns true if the given item should be displayed
-    const show = (newItemID) => {
-        const { isDragging, itemID } = stateRef.current;
-        return !isDragging || (isDragging && itemID !== newItemID);
-    };
-
-    // Returns true if the moved element is the first
-    const isFirst = () => {
-        const { isDragging, newOrder } = stateRef.current;
-        return isDragging && newOrder === 0;
-    };
-
-    // Returns true if the moved element comes after the given one
-    const isNext = (index) => {
-        const { isDragging, newOrder } = stateRef.current;
-        return isDragging && newOrder === index + 1;
-    };
-
-    // Returns true if the moved element comes after the given one
-    const isBefore = (index) => {
-        const { isDragging, newOrder, origOrder } = stateRef.current;
-        return isDragging && origOrder >= newOrder && newOrder === index;
-    };
-
-    // Returns true if the moved element comes after the given one
-    const isAfter = (index) => {
-        const { isDragging, newOrder, origOrder } = stateRef.current;
-        return isDragging && origOrder < newOrder && newOrder === index;
-    };
-
 
 
     // The public API
-    return {
-        pick,
-        drag,
-        swap,
-        orderChanged,
-        show,
-        isFirst,
-        isNext,
-        isBefore,
-        isAfter,
-    };
+    return { pick, hasOrder, orderChanged, swap };
 }
 
 export default useDrag;
