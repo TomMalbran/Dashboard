@@ -48,6 +48,9 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
     ${(props) => props.hasActions && `
         th:last-child, td:last-child {
             flex: 0 0 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 4px 8px;
             text-align: right;
             white-space: nowrap;
