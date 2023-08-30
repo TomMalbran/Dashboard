@@ -19,6 +19,7 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelecte
     align-items: center;
     gap: 6px;
     width: auto;
+    min-width: 50px;
     margin: 0;
     padding: 8px;
     text-align: left;
@@ -40,6 +41,9 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelecte
         gap: 4px;
         padding: 4px 8px;
         font-size: 13px;
+    `}
+    ${(props) => props.isSelected && `
+        background-color: var(--light-gray);
     `}
 `;
 

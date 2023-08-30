@@ -49,7 +49,7 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft,
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        selected, bottom, gap, onAction, onClose, targetRef,
+        bottom, gap, onAction, onClose, targetRef,
         onMouseEnter, onMouseLeave, isSubmenu, children,
     } = props;
     let { top, left, right } = props;
@@ -162,8 +162,7 @@ function Menu(props) {
     // Clone the children
     const items = Utils.cloneChildren(children, (child, key) => ({
         onAction, onClose,
-        index      : key,
-        isSelected : key === selected,
+        index : key,
     }));
 
 
@@ -207,7 +206,6 @@ Menu.propTypes = {
     right        : PropTypes.number,
     iconHeight   : PropTypes.number,
     gap          : PropTypes.number,
-    selected     : PropTypes.number,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
     onMouseEnter : PropTypes.func,
