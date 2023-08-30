@@ -337,13 +337,13 @@ function restoreItem(key, defaultValue = "") {
 
 /**
  * Stores an Item in Local Storage
- * @param {String} key
- * @param {String} value
+ * @param {String}          key
+ * @param {(String|Number)} value
  * @returns {Boolean}
  */
 function storeItem(key, value) {
     try {
-        window.localStorage.setItem(key, value);
+        window.localStorage.setItem(key, String(value));
         return true;
     } catch (e) {
         return false;
