@@ -99,7 +99,7 @@ const Error = Styled(InputError)`
 function FieldInput(props) {
     const {
         className, isDisabled, withBorder,
-        name, value, button, onChange,
+        name, value, addButton, onChange,
         title, columns, errors, maxAmount, children,
     } = props;
 
@@ -216,7 +216,7 @@ function FieldInput(props) {
         <Button
             isHidden={!canAdd}
             variant="outlined"
-            message={button}
+            message={addButton}
             onClick={addField}
             isSmall
         />
@@ -237,7 +237,7 @@ FieldInput.propTypes = {
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
     title      : PropTypes.string,
-    button     : PropTypes.string,
+    addButton  : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
     maxAmount  : PropTypes.number,
     errors     : PropTypes.object,
@@ -252,7 +252,7 @@ FieldInput.defaultProps = {
     className  : "",
     isDisabled : false,
     withBorder : false,
-    button     : "GENERAL_ADD_FIELD",
+    addButton  : "GENERAL_ADD_FIELD",
     maxAmount  : 0,
 };
 

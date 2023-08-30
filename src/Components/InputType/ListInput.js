@@ -83,8 +83,9 @@ const Error = Styled(InputError)`
  */
 function ListInput(props) {
     const {
-        className, isDisabled,
-        inputType, name, value, indexes, button, onChange,
+        className, isFocused, isDisabled,
+        inputType, name, value, indexes, addButton,
+        onFocus, onBlur, onChange,
         options, withNone, noneText,
         isSortable, onSort, errors, maxAmount, maxLength,
     } = props;
@@ -124,17 +125,19 @@ function ListInput(props) {
     };
 
     // Adds a Field to the value
-    const addField = () => {
+    const handleAdd = () => {
         parts.push("");
         ids.push(ids.length);
         fieldChanged(parts, ids);
+        onFocus();
     };
 
     // Removes a Field from the value at the given index
-    const removeField = (index) => {
+    const handleRemove = (index) => {
         parts.splice(index, 1);
         ids.splice(index, 1);
         fieldChanged(parts, ids);
+        onFocus();
     };
 
     // Sends a Field Change Event
@@ -163,15 +166,19 @@ function ListInput(props) {
 
     // Handles the Drop
     const handleDrop = () => {
+        if (!orderChanged()) {
+            return;
+        }
         const partsList = [ ...parts ];
         const idsList   = [ ...ids ];
         swap(partsList);
         swap(idsList);
         fieldChanged(partsList, idsList);
+        onFocus();
     };
 
     // The Drag
-    const { pick, swap } = useDrag(handleDrop);
+    const { pick, orderChanged, swap } = useDrag(handleDrop);
 
 
 
@@ -182,6 +189,7 @@ function ListInput(props) {
 
     return <InputContent
         className={className}
+        isFocused={isFocused}
         isDisabled={isDisabled}
         withBorder
         withPadding
@@ -208,6 +216,8 @@ function ListInput(props) {
                             options={options}
                             withNone={withNone}
                             noneText={noneText}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
                             onChange={(name, value) => handleChange(value, index)}
                             isDisabled={isDisabled}
                             maxLength={maxLength}
@@ -222,7 +232,7 @@ function ListInput(props) {
                         isHidden={!canRemove}
                         variant="light"
                         icon="close"
-                        onClick={() => removeField(index)}
+                        onClick={() => handleRemove(index)}
                         isSmall
                     />
                 </Item>)}
@@ -231,8 +241,8 @@ function ListInput(props) {
             <Button
                 isHidden={!canAdd}
                 variant="outlined"
-                message={button}
-                onClick={addField}
+                message={addButton}
+                onClick={handleAdd}
                 isSmall
             />
         </Container>
@@ -245,6 +255,7 @@ function ListInput(props) {
  */
 ListInput.propTypes = {
     className  : PropTypes.string,
+    isFocused  : PropTypes.bool,
     isDisabled : PropTypes.bool,
     name       : PropTypes.string.isRequired,
     inputType  : PropTypes.string,
@@ -255,7 +266,9 @@ ListInput.propTypes = {
     noneText   : PropTypes.string,
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
-    button     : PropTypes.string,
+    addButton  : PropTypes.string,
+    onFocus    : PropTypes.func,
+    onBlur     : PropTypes.func,
     onChange   : PropTypes.func.isRequired,
     isSortable : PropTypes.bool,
     onSort     : PropTypes.func,
@@ -270,12 +283,13 @@ ListInput.propTypes = {
  */
 ListInput.defaultProps = {
     className  : "",
+    isFocused  : false,
     isDisabled : false,
     inputType  : InputType.TEXT,
     withNone   : false,
     noneText   : "",
     isSortable : false,
-    button     : "GENERAL_ADD_FIELD",
+    addButton  : "GENERAL_ADD_FIELD",
     maxAmount  : 0,
     maxLength  : 0,
 };

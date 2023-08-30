@@ -179,9 +179,7 @@ function ChooserInput(props) {
             maxHeight : window.innerHeight - bounds.bottom - 10,
         });
         setFocus(true);
-        if (onFocus) {
-            onFocus();
-        }
+        onFocus();
     };
 
     // Handles the Blur
@@ -189,9 +187,7 @@ function ChooserInput(props) {
         setTimer(window.setTimeout(() => {
             setFilter("");
             triggerBlur();
-            if (onBlur) {
-                onBlur();
-            }
+            onBlur();
         }, 200));
     };
 

@@ -30,7 +30,7 @@ import TextInput            from "../InputType/TextInput";
  * @returns {React.ReactElement}
  */
 function Input(props) {
-    const { type, value, onMedia, addButton } = props;
+    const { type, value, onMedia } = props;
 
     switch (type) {
     case InputType.CHECKBOX:
@@ -42,11 +42,11 @@ function Input(props) {
     case InputType.DOUBLE:
         return <DoubleInput {...props} />;
     case InputType.FIELDS:
-        return <FieldInput {...props} button={addButton} />;
+        return <FieldInput {...props} />;
     case InputType.FILE:
         return <FileInput {...props} />;
     case InputType.LIST:
-        return <ListInput {...props} button={addButton} />;
+        return <ListInput {...props} />;
     case InputType.MEDIA:
         return <MediaInput {...props} onClick={onMedia} />;
     case InputType.MULTIPLE:
