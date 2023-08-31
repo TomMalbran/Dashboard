@@ -31,14 +31,15 @@ function useList(slice, type = "", loadOnStart = true) {
     // Fetch the content
     const fetch = (params = data.sort) => {
         if (type && data.filters) {
-            fetchList(type, elemID, data.filters, params);
-        } else if (type) {
-            fetchList(type, elemID, params);
-        } else if (data.filters) {
-            fetchList(data.filters, params);
-        } else {
-            fetchList(params);
+            return fetchList(type, elemID, data.filters, params);
         }
+        if (type) {
+            return fetchList(type, elemID, params);
+        }
+        if (data.filters) {
+            return fetchList(data.filters, params);
+        }
+        return fetchList(params);
     };
 
     // Loads the Content
