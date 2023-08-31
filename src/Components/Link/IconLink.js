@@ -13,11 +13,12 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, isDisabled, isSmall }))`
+const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ variant, isDisabled, isSmall, withMark }))`
     --link-size: ${(props) => props.isSmall ? "26px" : "32px"};
     --link-font: ${(props) => props.isSmall ? "18px" : "22px"};
     --link-radius: var(--border-radius);
 
+    position: relative;
     display: block;
     width: var(--link-size);
     height: var(--link-size);
@@ -63,6 +64,19 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
         --link-background: transparent;
         cursor: not-allowed;
     `}
+
+    ${(props) => props.withMark && `
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -2px;
+            width: 11px;
+            height: 11px;
+            border-radius: 100%;
+            background-color: red;
+        }
+    `}
 `;
 
 
@@ -75,7 +89,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall }) => ({ variant, is
 function IconLink(props) {
     const {
         isHidden, passedRef, variant, className, isDisabled, isSmall,
-        target, icon, tooltip, tooltipVariant, onTouchEnd,
+        target, icon, tooltip, tooltipVariant, withMark, onTouchEnd,
     } = props;
 
     const defaultRef = React.useRef();
@@ -102,6 +116,7 @@ function IconLink(props) {
         variant={variant}
         isDisabled={isDisabled}
         isSmall={isSmall}
+        withMark={withMark}
         href={Navigate.getUrl(props)}
         target={target}
         onClick={onClick}
@@ -135,6 +150,7 @@ IconLink.propTypes = {
     onTouchEnd     : PropTypes.func,
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
+    withMark       : PropTypes.bool,
     dontStop       : PropTypes.bool,
     children       : PropTypes.any,
 };
@@ -157,6 +173,7 @@ IconLink.defaultProps = {
     isWhatsApp     : false,
     isDisabled     : false,
     isSmall        : false,
+    withMark       : false,
     dontStop       : false,
 };
 

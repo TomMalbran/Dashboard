@@ -42,8 +42,8 @@ const Ul = Styled.ul`
  */
 function ActionList(props) {
     const {
-        className, data, onAction, createText,
-        useAdd, useAssign, withImport, withExport, children,
+        className, data, onAction, createText, useAdd, useAssign,
+        withImport, withExport, hasFilters, children,
     } = props;
 
     const items      = Utils.cloneChildren(children, () => ({ onAction }));
@@ -54,6 +54,8 @@ function ActionList(props) {
     const canExport  = Boolean(withExport && data.canExport && data.total > 0);
     const hasActions = canCreate || canFilter || canImport || canExport || items.length > 0;
 
+
+    // Do the Render
     if (!hasActions) {
         return <React.Fragment />;
     }
@@ -66,6 +68,7 @@ function ActionList(props) {
         {canFilter && <ActionItem
             action="FILTER"
             onAction={onAction}
+            withMark={hasFilters}
         />}
         {canImport && <ActionItem
             action="IMPORT"
@@ -92,6 +95,7 @@ ActionList.propTypes = {
     useAssign  : PropTypes.bool,
     withImport : PropTypes.bool,
     withExport : PropTypes.bool,
+    hasFilters : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -107,6 +111,7 @@ ActionList.defaultProps = {
     useAssign  : false,
     withImport : true,
     withExport : true,
+    hasFilters : false,
 };
 
 export default ActionList;

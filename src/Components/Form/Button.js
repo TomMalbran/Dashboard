@@ -28,7 +28,7 @@ const Variant = {
 
 
 // Styles
-const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallRadius }) => ({ variant, isSmall, fullWidth, withIcon, smallRadius }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIcon, smallRadius }) => ({ variant, isSmall, fullWidth, withMark, withIcon, smallRadius }))`
     --button-color: var(--black-color);
     --button-border: black;
     --button-background: black;
@@ -36,6 +36,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
     --button-hover-border: var(--button-border);
     --button-hover-background: white;
 
+    position: relative;
     display: inline-block;
     box-sizing: border-box;
     margin: 0;
@@ -52,13 +53,13 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
     transition: all 0.5s;
     cursor: pointer;
 
-    ${(props) => props.withIcon ? `
+    ${(props) => props.withIcon && `
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 4px 12px 4px 8px;
         gap: 4px;
-    ` : ""}
+    `}
 
     &:disabled,
     &:disabled:hover,
@@ -166,6 +167,19 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
         default: return "";
         }
     }};
+
+    ${(props) => props.withMark && `
+        &::after {
+            content: "";
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 11px;
+            height: 11px;
+            border-radius: 100%;
+            background-color: red;
+        }
+    `}
 `;
 
 
@@ -178,7 +192,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withIcon, smallR
 function Button(props) {
     const {
         passedRef, isHidden, className, variant,
-        isDisabled, isSmall, fullWidth,
+        isDisabled, isSmall, fullWidth, withMark,
         icon, afterIcon, message,
         tooltip, tooltipVariant, children,
     } = props;
@@ -213,6 +227,7 @@ function Button(props) {
         disabled={isDisabled}
         isSmall={isSmall}
         fullWidth={fullWidth}
+        withMark={withMark}
         withIcon={withIcon}
         smallRadius={smallRadius}
         onClick={onClick}
@@ -248,6 +263,7 @@ Button.propTypes = {
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
     fullWidth      : PropTypes.bool,
+    withMark       : PropTypes.bool,
     href           : PropTypes.string,
     url            : PropTypes.string,
     target         : PropTypes.string,
@@ -273,6 +289,7 @@ Button.defaultProps = {
     isDisabled     : false,
     isSmall        : false,
     fullWidth      : false,
+    withMark       : false,
     href           : "",
     url            : "",
     target         : "_self",

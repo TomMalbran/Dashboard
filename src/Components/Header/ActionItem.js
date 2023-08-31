@@ -31,7 +31,7 @@ const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
  */
 function ActionItem(props) {
     const {
-        action, variant, isSmall, message, icon,
+        action, variant, isSmall, withMark, message, icon,
         onClick, onAction, direction, menuGap,
         tooltip, tooltipVariant, children,
     } = props;
@@ -108,6 +108,7 @@ function ActionItem(props) {
             icon={icon || act.icon}
             onClick={() => handleClick()}
             isSmall={isSmall}
+            withMark={withMark}
             propagate
         />
 
@@ -139,6 +140,7 @@ ActionItem.propTypes = {
     isHidden       : PropTypes.bool,
     variant        : PropTypes.string,
     isSmall        : PropTypes.bool,
+    withMark       : PropTypes.bool,
     action         : PropTypes.string,
     message        : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon           : PropTypes.string,
@@ -159,6 +161,7 @@ ActionItem.defaultProps = {
     isHidden  : false,
     variant   : "outlined",
     isSmall   : false,
+    withMark  : false,
     direction : "bottom left",
     menuGap   : 4,
 };

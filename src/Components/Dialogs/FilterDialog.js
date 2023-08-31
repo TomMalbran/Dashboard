@@ -22,6 +22,15 @@ function FilterDialog(props) {
 
     const hasFilter = !Utils.areObjectsEqual(initialData, data);
 
+    // Handles the Submit
+    const handleSubmit = () => {
+        if (hasFilter) {
+            onSubmit({ ...data }, true);
+        } else {
+            onSubmit({ ...initialData }, false);
+        }
+    };
+
 
     // Do the Render
     return <EditDialog
@@ -31,8 +40,8 @@ function FilterDialog(props) {
         lightHeader={lightHeader}
         primary="GENERAL_FILTER"
         secondary={hasFilter ? "GENERAL_REMOVE_FILTER" : ""}
-        onSubmit={() => onSubmit({ ...data })}
-        onSecondary={() => onSubmit({ ...initialData })}
+        onSubmit={handleSubmit}
+        onSecondary={() => onSubmit({ ...initialData }, false)}
         onClose={onClose}
         isLoading={isLoading}
     >
