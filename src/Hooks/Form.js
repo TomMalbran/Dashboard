@@ -118,7 +118,7 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
     };
 
     // Starts the Submit
-    const handleSubmit = async () => {
+    const handleSubmit = async (extraData = {}) => {
         if (!edit) {
             if (onSubmit) {
                 onSubmit();
@@ -132,7 +132,7 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         startLoading();
         resetErrors();
         try {
-            const response = await edit(data);
+            const response = await edit({ ...data, ...extraData });
             endLoading();
             if (onSubmit) {
                 onSubmit(response);
