@@ -250,6 +250,21 @@ function fullUrl(...args) {
     return process.env.REACT_APP_URL + url(...args);
 }
 
+/**
+ * Returns the Key of the given Url
+ * @param {String}    currUrl
+ * @param {...String} keys
+ * @returns {String}
+ */
+function urlToKey(currUrl, ...keys) {
+    for (const key of keys) {
+        if (currUrl === url(key)) {
+            return key;
+        }
+    }
+    return currUrl;
+}
+
 
 
 /**
@@ -302,6 +317,7 @@ export default {
     url,
     baseUrl,
     fullUrl,
+    urlToKey,
 
     getModule,
     getAction,
