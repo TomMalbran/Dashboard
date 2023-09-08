@@ -26,7 +26,7 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
     const { startLoader, endLoader } = Store.useAction("core");
 
     const { elem, canEdit, edition, position } = Store.useState(slice);
-    const { fetchElem, fetchEditData } = Store.useAction(slice);
+    const { fetchElem, fetchEditData, fetchFilterData } = Store.useAction(slice);
 
     const loading = loaders[slice] || false;
 
@@ -59,6 +59,9 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
             startLoading();
         } else if (fetchEditData) {
             fetchEditData(...Object.values(data || {}));
+            startLoading();
+        } else if (fetchFilterData) {
+            fetchFilterData(...Object.values(data || {}));
             startLoading();
         } else if (setElem) {
             if (data) {
