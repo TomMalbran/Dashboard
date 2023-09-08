@@ -31,8 +31,11 @@ const TH = Styled.th.attrs(props)`
         flex-shrink: ${(props) => props.flexShrink};
         min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "0"};
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
-        text-align: ${(props) => props.align};
         padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
+        text-align: ${(props) => props.align};
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
 
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
