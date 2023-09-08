@@ -209,7 +209,9 @@ function Table(props) {
         return <CircularLoader top={40} />;
     }
     if (!hasContent && none) {
-        return <NoneAvailable message={none} />;
+        return <div>
+            <NoneAvailable message={none} />
+        </div>;
     }
     if (!hasContent && hideEmpty) {
         return <React.Fragment />;

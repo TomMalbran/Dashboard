@@ -25,13 +25,14 @@ const Section = Styled.section.attrs(({ withDetails, hasTabs }) => ({ withDetail
         display: grid;
         grid-template-columns: minmax(0, 1fr) var(--details-width);
         column-gap: 16px;
+    `};
 
-        ${props.hasTabs && `
-            .details {
-                grid-column: 2 / 2;
-                grid-row: 1 / 3;
-            }
-        `}
+    ${(props) => (props.withDetails && props.hasTabs) && `
+        grid-template-rows: var(--tabs-table) 1fr;
+        .details {
+            grid-column: 2 / 2;
+            grid-row: 1 / 3;
+        }
     `};
 
     @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
@@ -49,6 +50,7 @@ const Section = Styled.section.attrs(({ withDetails, hasTabs }) => ({ withDetail
 function Content(props) {
     const { className, isLoading, passedRef, withDetails, children } = props;
 
+    // Render the Loading
     if (isLoading) {
         return <Section className={className} ref={passedRef}>
             <CircularLoader top={40} />
