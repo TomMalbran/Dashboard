@@ -229,11 +229,11 @@ function createSlug(value) {
 
 /**
  * Formats a number
- * @param {Number} number
- * @param {Number} decimals
+ * @param {Number}  number
+ * @param {Number=} decimals
  * @returns {String}
  */
-function formatNumber(number, decimals) {
+function formatNumber(number, decimals = 0) {
     const amount  = Math.pow(10, decimals);
     const float   = Math.round(number * amount) / amount;
     const integer = Math.floor(float);
@@ -279,7 +279,7 @@ function formatPercent(number, total, decimals = 0, withPercent = true) {
  * @param {String=}  symbol
  * @returns {String}
  */
-function formatPrice(price, skipZeros, zeroStr, symbol = "$") {
+function formatPrice(price, skipZeros = false, zeroStr = "", symbol = "$") {
     if (skipZeros && price === 0) {
         return zeroStr || "";
     }
