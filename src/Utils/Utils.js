@@ -258,6 +258,20 @@ function formatNumber(number, decimals) {
 }
 
 /**
+ * Calculates and formats a percent
+ * @param {Number}   number
+ * @param {Number}   total
+ * @param {Number=}  decimals
+ * @param {Boolean=} withPercent
+ * @returns {String}
+ */
+function formatPercent(number, total, decimals = 0, withPercent = true) {
+    const percent   = total === 0 ? 0 : number * 100 / total;
+    const formatted = formatNumber(percent, decimals);
+    return formatted + (withPercent ? "%" : "");
+}
+
+/**
  * Gives an html format to prices
  * @param {Number}   price
  * @param {Boolean=} skipZeros
@@ -841,6 +855,7 @@ export default {
     getCurrentTime,
     createSlug,
     formatNumber,
+    formatPercent,
     formatPrice,
     getPageText,
     toYesNo,
