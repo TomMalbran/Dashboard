@@ -20,7 +20,13 @@ const Container = Styled.section.attrs(({ variant, inDialog }) => ({ variant, in
     ${(props) => props.variant === Brightness.DARK && `
         background-color: var(--primary-color);
     `}
-    ${(props) => !props.inDialog && "margin-bottom: var(--main-gap);"}
+    ${(props) => props.variant === Brightness.DARKER && `
+        background-color: var(--secondary-color);
+    `}
+
+    ${(props) => !props.inDialog && `
+        margin-bottom: var(--main-gap);
+    `}
 `;
 
 const Div = Styled.div.attrs(({ size }) => ({ size }))`

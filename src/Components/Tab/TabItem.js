@@ -16,17 +16,72 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
+    --tab-disabled-color: rgba(255, 255, 255, 0.5);
+    --tab-selected-font: var(--white-color);
+
     position: relative;
-    flex-grow: 1;
     box-sizing: border-box;
-    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
     white-space: nowrap;
+    border-radius: var(--border-radius);
     transition: all 0.2s;
     cursor: pointer;
 
     &:hover .icon {
         display: block;
     }
+
+    ${(props) => (!props.isSelected && !props.isDisabled) && `
+        &:hover {
+            box-shadow: inset 0 0 0 2em var(--tab-hover-color);
+        }
+    `}
+    ${(props) => props.isSelected && `
+        && {
+            box-shadow: inset 0 -3em var(--tab-selected-color);
+            color: var(--tab-selected-font);
+        }
+    `}
+    ${(props) => props.isDisabled && `
+        && {
+            color: var(--tab-disabled-color);
+            cursor: not-allowed;
+        }
+    `}
+`;
+
+const LightItem = Styled(Item)`
+    --tab-hover-color: var(--light-gray);
+    --tab-selected-color: var(--primary-color);
+
+    height: calc(var(--tabs-table) - var(--main-gap));
+    padding: 6px 12px;
+    color: var(--title-color);
+    background-color: var(--lighter-gray);
+`;
+
+const DarkItem = Styled(Item)`
+    --tab-hover-color: var(--border-color-dark);
+    --tab-selected-color: var(--secondary-color);
+
+    height: var(--tabs-dialog);
+    padding: 0 24px;
+    color: var(--white-color);
+    background-color: var(--tertiary-color);
+`;
+
+const DarkerItem = Styled(Item)`
+    --tab-hover-color: var(--border-color-dark);
+    --tab-selected-color: var(--border-color-dark);
+
+    height: var(--tabs-dialog);
+    padding: 0 24px;
+    color: var(--white-color);
+    background-color: var(--primary-color);
 `;
 
 const ItemIcon = Styled(Icon)`
@@ -48,55 +103,6 @@ const DeleteIcon = Styled(ItemIcon)`
     right: 2px;
 `;
 
-const LightItem = Styled(Item)`
-    height: calc(var(--tabs-table) - var(--main-gap));
-    padding: 6px 12px;
-    color: var(--title-color);
-    background-color: var(--lighter-gray);
-    border-radius: var(--border-radius);
-
-    ${(props) => (!props.isSelected && !props.isDisabled) && `
-        &:hover {
-            box-shadow: inset 0 0 0 2em var(--light-gray);
-        }
-    `}
-    ${(props) => props.isSelected && `
-        box-shadow: inset 0 -3em var(--primary-color);
-        color: var(--white-color);
-    `}
-    ${(props) => props.isDisabled && `
-        color: rgba(255, 255, 255, 0.5);
-        cursor: not-allowed;
-    `}
-`;
-
-const DarkItem = Styled(Item)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: var(--tabs-dialog);
-    padding: 0 24px;
-    color: var(--white-color);
-    border-radius: var(--border-radius);
-    line-height: 1;
-
-    ${(props) => !props.isDisabled && `
-        &:hover {
-            box-shadow: inset 0 -3em var(--border-color-dark);
-        }
-    `}
-    ${(props) => props.isSelected && `
-        color: var(--white-color);
-        background-color: var(--secondary-color);
-        border-color: var(--border-color-dark);
-        border-bottom-color: var(--secondary-color);
-    `}
-    ${(props) => props.isDisabled && `
-        color: rgba(255, 255, 255, 0.5);
-        cursor: not-allowed;
-    `}
-`;
-
 const Amount = Styled.span`
     font-size: 12px;
     margin-left: 6px;
@@ -114,8 +120,9 @@ const Badge = Styled.span`
 
 // Components
 const Components = {
-    [Brightness.LIGHT] : LightItem,
-    [Brightness.DARK]  : DarkItem,
+    [Brightness.LIGHT]  : LightItem,
+    [Brightness.DARK]   : DarkItem,
+    [Brightness.DARKER] : DarkerItem,
 };
 
 
