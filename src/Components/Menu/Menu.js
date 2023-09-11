@@ -58,7 +58,7 @@ function Menu(props) {
     const contentRef = React.useRef();
     const style      = {};
 
-    // The State
+    // The Current State
     const [ width,  setWidth  ] = React.useState(0);
     const [ height, setHeight ] = React.useState(0);
 

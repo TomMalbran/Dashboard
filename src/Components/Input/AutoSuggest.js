@@ -60,12 +60,13 @@ function AutoSuggest(props) {
         params, fetch, onChange, onSuggest,
     } = props;
 
-    // The State
+    // The Current State
     const [ timer,       setTimer       ] = React.useState(null);
     const [ value,       setValue       ] = React.useState("");
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ selectedIdx, setSelectedIdx ] = React.useState(0);
     const [ selectedVal, setSelectedVal ] = React.useState("");
+
 
     // Initializes the Value
     const initValue = async (newValue) => {

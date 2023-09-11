@@ -90,7 +90,7 @@ function Result() {
     const { open, variant, message } = result;
 
 
-    // The State
+    // The Current State
     const [ timer,     setTimer   ] = React.useState(null);
     const [ isClosing, setClosing ] = React.useState(false);
 

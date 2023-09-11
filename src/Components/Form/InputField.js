@@ -53,7 +53,7 @@ function InputField(props) {
     } = props;
 
 
-    // The References
+    // References
     const fieldRef   = React.useRef();
     const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();

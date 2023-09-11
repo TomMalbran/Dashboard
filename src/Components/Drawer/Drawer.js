@@ -93,7 +93,7 @@ function Drawer(props) {
         message, onClose, children,
     } = props;
 
-    // The State
+    // The Current State
     const [ isClosing, setClosing ] = React.useState(false);
     const contentRef = React.useRef();
 

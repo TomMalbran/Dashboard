@@ -66,11 +66,12 @@ function Table(props) {
         noSorting, hasIDs, notFixed, rightSpace, checked, setChecked, children,
     } = props;
 
+    // References
     const tableRef = React.useRef();
     const navigate = Navigate.useGoto();
     const path     = Navigate.usePath();
 
-    // The State
+    // The Current State
     const [ menuID,     setMenuID     ] = React.useState(null);
     const [ menuTop,    setMenuTop    ] = React.useState(null);
     const [ menuLeft,   setMenuLeft   ] = React.useState(null);

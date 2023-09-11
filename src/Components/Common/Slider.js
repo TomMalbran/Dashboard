@@ -166,7 +166,7 @@ const Dot = Styled.button.attrs(({ isActive }) => ({ isActive }))`
 function Slider(props) {
     const { variant, data, className, height, withDots, autoSlide, time, onClick, onSlide } = props;
 
-    // The State
+    // The Current State
     const [ timer, setTimer ] = React.useState(null);
     const [ index, setIndex ] = React.useState(0);
 
