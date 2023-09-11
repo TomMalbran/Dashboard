@@ -63,7 +63,8 @@ function Table(props) {
     const {
         sort, fetch, className, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
-        noSorting, hasIDs, notFixed, rightSpace, checked, setChecked, children,
+        noSorting, hasIDs, notFixed, rightSpace,
+        checked, setChecked, hasCheckAll, children,
     } = props;
 
     // References
@@ -125,6 +126,7 @@ function Table(props) {
     const actions     = [];
     const items       = [];
     const columns     = [];
+    const elemIDs     = [];
     let   firstAction = {};
     let   colSpan     = 0;
     let   hasContent  = false;
@@ -157,12 +159,19 @@ function Table(props) {
             }
             columns[columns.length - 1].rightSpace = rightSpace;
         }
+
         if (child.type === TableBody) {
             hasContent = child.props.children && child.props.children.length > 0;
+            const tableRows = Utils.toArray(child.props.children);
+            for (const tableRow of tableRows) {
+                elemIDs.push(tableRow.props.elemID);
+            }
         }
+
         if (child.type === TablePaging) {
             hasPaging = true;
         }
+
         if (child.type === TableActionList) {
             for (const tableAction of Utils.toArray(child.props.children)) {
                 const action = { ...tableAction.props };
@@ -185,20 +194,30 @@ function Table(props) {
         }
     }
 
-    const showMenu   = hasActions && Boolean(menuID !== null && menuTop);
-    const hasSorting = !noSorting && !Utils.isEmpty(sort);
-    const hasChecks  = Boolean(checked && setChecked);
+    const showMenu     = hasActions && Boolean(menuID !== null && menuTop);
+    const hasSorting   = !noSorting && !Utils.isEmpty(sort);
+    const hasChecks    = Boolean(checked && setChecked);
+    const isCheckedAll = hasChecks && elemIDs.length === checked.length;
     if (hasActions) {
         colSpan += 1;
     }
+
+    // Checks all the columns
+    const setCheckedAll = () => {
+        if (isCheckedAll) {
+            setChecked([]);
+        } else {
+            setChecked(elemIDs);
+        }
+    };
 
     // Get the Children
     for (const [ key, child ] of Utils.getChildren(children)) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasChecks, hasActions, hasSorting, hasPaging,
-                notFixed, rightSpace, checked, setChecked,
+                hasIDs, hasChecks, hasActions, hasSorting, hasPaging, notFixed, rightSpace,
+                checked, setChecked, hasCheckAll, setCheckedAll, isCheckedAll,
                 handleRowClick, handleMenuOpen,
             }));
         }
@@ -274,6 +293,7 @@ Table.propTypes = {
     rightSpace  : PropTypes.bool,
     checked     : PropTypes.array,
     setChecked  : PropTypes.func,
+    hasCheckAll : PropTypes.bool,
     children    : PropTypes.any,
 };
 
@@ -294,6 +314,7 @@ Table.defaultProps = {
     noSorting   : false,
     notFixed    : false,
     rightSpace  : false,
+    hasCheckAll : false,
 };
 
 export default Table;

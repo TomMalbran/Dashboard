@@ -7,6 +7,7 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import TableRowCnt          from "../Table/TableRowCnt";
+import CheckboxInput        from "../InputType/CheckboxInput";
 
 
 
@@ -24,6 +25,10 @@ const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
     }
 `;
 
+const CheckHead = Styled.th`
+    padding-top: 3px !important;
+`;
+
 
 
 /**
@@ -32,19 +37,34 @@ const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
  * @returns {React.ReactElement}
  */
 function TableHead(props) {
-    const { notFixed, hasIDs, hasChecks, hasActions, hasSorting, sort, fetch, columns, children } = props;
+    const {
+        notFixed, hasIDs, hasChecks, hasActions, hasSorting,
+        hasCheckAll, isCheckedAll, setCheckedAll,
+        sort, fetch, columns, children,
+    } = props;
+
 
     const items = Utils.cloneChildren(children, (child) => ({
         hasSorting, sort, fetch, ...columns[child.props.realKey],
     }));
 
+
+    // Do the Render
     return <THead notFixed={notFixed}>
         <TableRowCnt
             hasIDs={hasIDs}
             hasChecks={hasChecks}
             hasActions={hasActions}
         >
-            {hasChecks && <th />}
+            {hasChecks && hasCheckAll && <CheckHead>
+                <CheckboxInput
+                    name="checked"
+                    isChecked={isCheckedAll}
+                    onChange={() => setCheckedAll()}
+                />
+            </CheckHead>}
+            {hasChecks && !hasCheckAll && <th />}
+
             {items}
             {hasActions && <th />}
         </TableRowCnt>
@@ -56,15 +76,18 @@ function TableHead(props) {
  * @typedef {Object} propTypes
  */
 TableHead.propTypes = {
-    notFixed   : PropTypes.bool,
-    hasIDs     : PropTypes.bool,
-    hasChecks  : PropTypes.bool,
-    hasActions : PropTypes.bool,
-    hasSorting : PropTypes.bool,
-    fetch      : PropTypes.func,
-    sort       : PropTypes.object,
-    columns    : PropTypes.array,
-    children   : PropTypes.any,
+    notFixed      : PropTypes.bool,
+    hasIDs        : PropTypes.bool,
+    hasChecks     : PropTypes.bool,
+    hasActions    : PropTypes.bool,
+    hasSorting    : PropTypes.bool,
+    hasCheckAll   : PropTypes.bool,
+    setCheckedAll : PropTypes.func,
+    isCheckedAll  : PropTypes.bool,
+    fetch         : PropTypes.func,
+    sort          : PropTypes.object,
+    columns       : PropTypes.array,
+    children      : PropTypes.any,
 };
 
 /**
@@ -72,10 +95,11 @@ TableHead.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableHead.defaultProps = {
-    hasIDs     : false,
-    hasChecks  : false,
-    hasActions : false,
-    hasSorting : false,
+    hasIDs       : false,
+    hasChecks    : false,
+    hasActions   : false,
+    hasSorting   : false,
+    isCheckedAll : false,
 };
 
 export default TableHead;

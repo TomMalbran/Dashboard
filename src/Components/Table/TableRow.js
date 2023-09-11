@@ -25,6 +25,7 @@ function TableRow(props) {
     // References
     const linkRef = React.useRef();
 
+
     // Handles the Row Click
     const handleClick = () => {
         handleRowClick(elemID);
@@ -37,6 +38,11 @@ function TableRow(props) {
         } else {
             setChecked(checked.filter((id) => id !== elemID));
         }
+    };
+
+    // Handles the Checkbox Click
+    const handleCheckboxClick = (e) => {
+        e.stopPropagation();
     };
 
     // Handles the Menu Click
@@ -54,10 +60,10 @@ function TableRow(props) {
         return false;
     };
 
-    const items = Utils.cloneChildren(children, (child, key) => ({ ...columns[key] }));
-
 
     // Do the Render
+    const items = Utils.cloneChildren(children, (child, key) => ({ ...columns[key] }));
+
     return <TableRowCnt
         onClick={handleClick}
         onContextMenu={handleContextMenu}
@@ -72,9 +78,12 @@ function TableRow(props) {
                 name="checked"
                 isChecked={checked.includes(elemID)}
                 onChange={handleChange}
+                onClick={handleCheckboxClick}
             />
         </td>}
+
         {items}
+
         {hasActions && <td ref={linkRef}>
             <IconLink
                 variant="light"
