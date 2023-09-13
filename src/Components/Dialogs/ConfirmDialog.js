@@ -33,14 +33,19 @@ const Content = Styled(Html)`
 function ConfirmDialog(props) {
     const {
         open, icon, title, message, content,
-        lightHeader, primary, onSubmit, onClose,
+        isLoading, lightHeader, primary, onSubmit, onClose,
     } = props;
 
     const body = content ? NLS.format(message, content) : NLS.get(message);
 
 
     // Do the Render
-    return <Dialog open={open} onClose={onClose} isNarrow>
+    return <Dialog
+        open={open}
+        onClose={onClose}
+        isLoading={isLoading}
+        isNarrow
+    >
         <DialogHeader
             message={title}
             icon={icon}
@@ -49,7 +54,11 @@ function ConfirmDialog(props) {
         <DialogBody withSpacing>
             <Content variant="h3">{body}</Content>
         </DialogBody>
-        <DialogFooter primary={primary} onSubmit={onSubmit} />
+        <DialogFooter
+            isDisabled={isLoading}
+            primary={primary}
+            onSubmit={onSubmit}
+        />
     </Dialog>;
 }
 
@@ -64,6 +73,7 @@ ConfirmDialog.propTypes = {
     message     : PropTypes.string.isRequired,
     content     : PropTypes.string,
     primary     : PropTypes.string,
+    isLoading   : PropTypes.bool,
     lightHeader : PropTypes.bool,
     onSubmit    : PropTypes.func.isRequired,
     onClose     : PropTypes.func.isRequired,

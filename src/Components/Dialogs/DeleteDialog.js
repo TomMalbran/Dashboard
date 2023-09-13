@@ -12,7 +12,10 @@ import ConfirmDialog        from "./ConfirmDialog";
  * @returns {React.ReactElement}
  */
 function DeleteDialog(props) {
-    const { open, title, message, content, lightHeader, onSubmit, onClose } = props;
+    const {
+        open, title, message, content,
+        isLoading, lightHeader, onSubmit, onClose,
+    } = props;
 
 
     // Do the Render
@@ -22,6 +25,7 @@ function DeleteDialog(props) {
         title={title}
         message={message}
         content={content}
+        isLoading={isLoading}
         lightHeader={lightHeader}
         primary="GENERAL_DELETE"
         onSubmit={onSubmit}
@@ -38,6 +42,7 @@ DeleteDialog.propTypes = {
     title       : PropTypes.string.isRequired,
     message     : PropTypes.string.isRequired,
     content     : PropTypes.string,
+    isLoading   : PropTypes.bool,
     lightHeader : PropTypes.bool,
     onSubmit    : PropTypes.func.isRequired,
     onClose     : PropTypes.func.isRequired,
