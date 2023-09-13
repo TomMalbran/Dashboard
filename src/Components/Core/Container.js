@@ -40,13 +40,7 @@ const detailsClose = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({
-    withTopBar, showingMenu, openingMenu, closingMenu,
-    showingDetails, openingDetails, closingDetails,
-}) => ({
-    withTopBar, showingMenu, openingMenu, closingMenu,
-    showingDetails, openingDetails, closingDetails,
-}))`
+const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMenu, showingDetails, openingDetails, closingDetails }) => ({ withTopBar, showingMenu, openingMenu, closingMenu, showingDetails, openingDetails, closingDetails }))`
     height: var(--full-height);
     width: 100vw;
 
@@ -103,16 +97,18 @@ function Container(props) {
     const { className, withTopBar, children } = props;
     const width = window.innerWidth;
 
-    const { showMenu, showDetails   } = Store.useState("core");
+    const { showMenu, showDetails } = Store.useState("core");
     const { closeMenu, closeDetails } = Store.useAction("core");
 
+    // The References
+    const detailsTimer = React.useRef(null);
+    const menuTimer    = React.useRef(null);
+
     // The Current State
-    const [ menuTimer,      setMenuTimer      ] = React.useState(null);
     const [ showingMenu,    setShowingMenu    ] = React.useState(false);
     const [ openingMenu,    setOpeningMenu    ] = React.useState(false);
     const [ closingMenu,    setClosingMenu    ] = React.useState(false);
 
-    const [ detailsTimer,   setDetailsTimer   ] = React.useState(null);
     const [ showingDetails, setShowingDetails ] = React.useState(false);
     const [ openingDetails, setOpeningDetails ] = React.useState(false);
     const [ closingDetails, setClosingDetails ] = React.useState(false);
@@ -123,14 +119,12 @@ function Container(props) {
         if (openingMenu || width > Responsive.WIDTH_FOR_MENU) {
             return;
         }
+
         setShowingMenu(true);
         setOpeningMenu(true);
-        if (menuTimer) {
-            window.clearTimeout(menuTimer);
-        }
-        setMenuTimer(window.setTimeout(() => {
+        Utils.setTimeout(menuTimer, () => {
             setOpeningMenu(false);
-        }, 300));
+        }, 300);
     };
 
     // Closes the Menu
@@ -138,14 +132,12 @@ function Container(props) {
         if (closingMenu || width > Responsive.WIDTH_FOR_MENU) {
             return;
         }
+
         setClosingMenu(true);
-        if (menuTimer) {
-            window.clearTimeout(menuTimer);
-        }
-        setMenuTimer(window.setTimeout(() => {
+        Utils.setTimeout(menuTimer, () => {
             setClosingMenu(false);
             setShowingMenu(false);
-        }, 300));
+        }, 300);
     };
 
     // Opens the Details
@@ -153,14 +145,14 @@ function Container(props) {
         if (openingDetails || width > Responsive.WIDTH_FOR_DETAILS) {
             return;
         }
+
         setShowingDetails(true);
         setOpeningDetails(true);
-        if (detailsTimer) {
-            window.clearTimeout(detailsTimer);
-        }
-        setDetailsTimer(window.setTimeout(() => {
+        Utils.setTimeout(detailsTimer, () => {
             setOpeningDetails(false);
-        }, 300));
+            setClosingDetails(false);
+            setShowingDetails(true);
+        }, 300);
     };
 
     // Closes the Details
@@ -168,14 +160,13 @@ function Container(props) {
         if (closingDetails || width > Responsive.WIDTH_FOR_DETAILS) {
             return;
         }
+
         setClosingDetails(true);
-        if (detailsTimer) {
-            window.clearTimeout(detailsTimer);
-        }
-        setDetailsTimer(window.setTimeout(() => {
+        Utils.setTimeout(detailsTimer, () => {
+            setOpeningDetails(false);
             setClosingDetails(false);
             setShowingDetails(false);
-        }, 300));
+        }, 300);
     };
 
     // Handles the Menu/Details Close
@@ -197,9 +188,7 @@ function Container(props) {
             handleMenuClose();
         }
         return () => {
-            if (menuTimer) {
-                window.clearTimeout(menuTimer);
-            }
+            Utils.clearTimeout(menuTimer);
         };
     }, [ showMenu, width ]);
 
@@ -211,9 +200,7 @@ function Container(props) {
             handleDetailsClose();
         }
         return () => {
-            if (detailsTimer) {
-                window.clearTimeout(detailsTimer);
-            }
+            Utils.clearTimeout(detailsTimer);
         };
     }, [ showDetails, width ]);
 
