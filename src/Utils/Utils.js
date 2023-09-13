@@ -196,6 +196,58 @@ function getCurrentTime() {
     return Math.floor(new Date().getTime() / 1000);
 }
 
+
+
+/**
+ * Sets a Timeout
+ * @param {React.MutableRefObject<Number>} timerRef
+ * @param {Function}                       callback
+ * @param {Number}                         milliseconds
+ * @returns {Void}
+ */
+function setTimeout(timerRef, callback, milliseconds) {
+    clearTimeout(timerRef);
+    timerRef.current = window.setTimeout(callback, milliseconds);
+}
+
+/**
+ * Clears the Timeout for the auto update
+ * @param {React.MutableRefObject<Number>} timerRef
+ * @returns {Void}
+ */
+function clearTimeout(timerRef) {
+    if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+        timerRef.current = 0;
+    }
+}
+
+/**
+ * Sets a Interval
+ * @param {React.MutableRefObject<Number>} timerRef
+ * @param {Function}                       callback
+ * @param {Number}                         milliseconds
+ * @returns {Void}
+ */
+function setInterval(timerRef, callback, milliseconds) {
+    clearInterval(timerRef);
+    timerRef.current = window.setInterval(callback, milliseconds);
+}
+
+/**
+ * Clears the Interval for the auto update
+ * @param {React.MutableRefObject<Number>} timerRef
+ * @returns {Void}
+ */
+function clearInterval(timerRef) {
+    if (timerRef.current) {
+        window.clearInterval(timerRef.current);
+        timerRef.current = 0;
+    }
+}
+
+
+
 /**
  * Creates a Slug from a string
  * @param {String} value
@@ -853,6 +905,12 @@ export default {
     hasSelection,
     unselectAll,
     getCurrentTime,
+
+    setTimeout,
+    clearTimeout,
+    setInterval,
+    clearInterval,
+
     createSlug,
     formatNumber,
     formatPercent,
