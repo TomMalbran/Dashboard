@@ -68,7 +68,7 @@ function ActionList(props) {
         {canFilter && <ActionItem
             action="FILTER"
             onAction={onAction}
-            withMark={hasFilters}
+            withMark={hasFilters || data.hasFilters}
         />}
         {canImport && <ActionItem
             action="IMPORT"
