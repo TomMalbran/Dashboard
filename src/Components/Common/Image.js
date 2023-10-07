@@ -24,6 +24,11 @@ const Container = Styled.img.attrs(({ size }) => ({ size }))`
 function Image(props) {
     const { source, message, size } = props;
 
+
+    // Do the Render
+    if (!source) {
+        return <React.Fragment />;
+    }
     return <Container
         src={source}
         alt={NLS.get(message || "")}
