@@ -176,7 +176,7 @@ function Table(props) {
             for (const tableAction of Utils.toArray(child.props.children)) {
                 const action = { ...tableAction.props };
                 action.act = Action.get(action.action);
-                if (!action.isHidden && ((action.act.isCED && child.props.canEdit) || !action.act.isCED)) {
+                if (!action.isHidden && ((action.act.isCCED && child.props.canEdit) || !action.act.isCCED)) {
                     hasActions = true;
                     if (!action.navigate && !action.onClick) {
                         action.onClick  = child.props.onClick;
