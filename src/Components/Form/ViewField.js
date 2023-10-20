@@ -24,15 +24,15 @@ const FieldLabel = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected })
 const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ isSmall, withLink, isSelected }))`
     display: flex;
     align-items: center;
+    background-color: white;
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
 
     .inputview-value {
         width: 100%;
         box-sizing: border-box;
         color: var(--black-color);
-        background-color: white;
-        border: 1px solid var(--input-border);
-        border-radius: var(--border-radius);
-        transition: all 0.2s;
         overflow: auto;
 
         ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
@@ -45,7 +45,7 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
             padding: var(--input-padding);
             line-height: 1.5;
         `}
-        ${(props) => props.withLink ? "cursor: pointer;" : ""}
+        ${(props) => props.withLink && "cursor: pointer;"}
         padding-top: 16px;
     }
 
@@ -58,6 +58,11 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
     &:hover {
         --input-border: var(--input-border-hover);
     }
+`;
+
+const FieldIcon = Styled(Icon)`
+    margin-top: 8px;
+    margin-left: 8px;
 `;
 
 const FieldLink = Styled(IconLink)`
@@ -78,6 +83,23 @@ const FieldHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
+const Copy = Styled.div`
+    position: relative;
+`;
+
+const InputCopy = Styled(IconLink)`
+    margin-top: 4px;
+    margin-right: 2px;
+`;
+
+const IconCheck = Styled(Icon)`
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    color: green;
+    font-size: 16px;
+`;
+
 
 
 /**
@@ -91,7 +113,7 @@ function ViewField(props) {
         value, message, icon,
         fullWidth, isSmall, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
-        isEmail, isPhone, isWhatsApp, onClick,
+        isEmail, isPhone, isWhatsApp, hasCopy, onClick,
     } = props;
 
     const content   = message ? NLS.get(message) : (value === undefined ? "" : String(value));
@@ -102,6 +124,17 @@ function ViewField(props) {
     const hasLink   = Boolean(linkIcon && linkHref);
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
+
+
+    // The Current State
+    const [ showCopied, setCopied ] = React.useState(false);
+
+    // Handles the Text Copy
+    const handleCopy = () => {
+        navigator.clipboard.writeText(content);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 2000);
+    };
 
 
     // Do the Render
@@ -125,7 +158,7 @@ function ViewField(props) {
             withLink={!!onClick}
             isSelected={isSelected}
         >
-            {!!icon && <Icon icon={icon} />}
+            {!!icon && <FieldIcon icon={icon} />}
             {isLink && <div className="inputview-value inputview-link">
                 <HyperLink
                     variant="primary"
@@ -154,6 +187,15 @@ function ViewField(props) {
                 isPhone={isPhone}
                 isWhatsApp={isWhatsApp}
             />}
+            {hasCopy && <Copy>
+                <InputCopy
+                    variant="black"
+                    icon="copy"
+                    onClick={handleCopy}
+                    isSmall
+                />
+                {showCopied && <IconCheck icon="check" />}
+            </Copy>}
         </FieldContent>
         {hasError  && <FieldError>{NLS.get(error)}</FieldError>}
         {hasHelper && <FieldHelper>{NLS.get(helperText)}</FieldHelper>}
@@ -186,6 +228,7 @@ ViewField.propTypes = {
     isEmail     : PropTypes.bool,
     isPhone     : PropTypes.bool,
     isWhatsApp  : PropTypes.bool,
+    hasCopy     : PropTypes.bool,
     onClick     : PropTypes.func,
 };
 
@@ -205,6 +248,7 @@ ViewField.defaultProps = {
     isEmail    : false,
     isPhone    : false,
     isWhatsApp : false,
+    hasCopy    : false,
 };
 
 export default ViewField;
