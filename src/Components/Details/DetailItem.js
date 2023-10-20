@@ -14,7 +14,7 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isLink }) => ({ isLink }))`
+const Li = Styled.li.attrs(({ isLink, isSelected }) => ({ isLink, isSelected }))`
     display: flex;
     align-items: center;
     padding: 8px;
@@ -26,6 +26,7 @@ const Li = Styled.li.attrs(({ isLink }) => ({ isLink }))`
     &:hover {
         background-color: var(--light-gray);
     }
+    ${(props) => props.isSelected && "background-color: var(--light-gray);"}
 `;
 
 const DetailIcon = Styled(Icon)`
@@ -42,7 +43,7 @@ const DetailIcon = Styled(Icon)`
 function DetailItem(props) {
     const {
         isHidden, className, message, icon, tooltip, prefix, withTip, showAlways,
-        href, url, onClick, isEmail, isPhone, isWhatsApp, children,
+        href, url, onClick, isEmail, isPhone, isWhatsApp, isSelected, children,
     } = props;
 
     const navigate = Navigate.useClick(props);
@@ -55,10 +56,13 @@ function DetailItem(props) {
     };
 
 
+    // Get the Content
     let   content = message ? NLS.get(String(message)) : children;
     const isHtml  = message && (content.includes("\n") || content.includes("</b>") || content.includes("</span>"));
     const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
 
+
+    // Nothing to Render
     if (isHidden || (!message && !children && !showAlways)) {
         return <React.Fragment />;
     }
@@ -74,10 +78,13 @@ function DetailItem(props) {
         }
     }
 
+
+    // Do the Render
     return <Li
         className={className}
         isLink={isLink}
         title={NLS.get(tooltip)}
+        isSelected={isSelected}
         onClick={handleClick}
     >
         {!!icon && <DetailIcon icon={icon} />}
@@ -105,6 +112,7 @@ DetailItem.propTypes = {
     onClick    : PropTypes.func,
     withTip    : PropTypes.bool,
     showAlways : PropTypes.bool,
+    isSelected : PropTypes.bool,
     children   : PropTypes.any,
 };
 
@@ -119,6 +127,7 @@ DetailItem.defaultProps = {
     isEmail    : false,
     isPhone    : false,
     isWhatsApp : false,
+    isSelected : false,
 };
 
 export default DetailItem;
