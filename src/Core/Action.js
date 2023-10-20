@@ -21,6 +21,7 @@ const OPTIONS = {
     isCopy     : false,
     isEdit     : false,
     isDelete   : false,
+    isRemove   : false,
 
     isImport   : false,
     isExport   : false,
@@ -95,6 +96,12 @@ const ACTIONS = {
         isDelete   : true,
         isCCED     : true,
         isCED      : true,
+    },
+    "REMOVE" : {
+        ...OPTIONS,
+        icon       : "delete",
+        message    : "GENERAL_DELETE",
+        isRemove   : true,
     },
 
 
