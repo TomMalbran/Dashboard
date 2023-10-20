@@ -13,14 +13,14 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section.attrs(({ isInside, isWider, topSpace }) => ({ isInside, isWider, topSpace }))`
+const Section = Styled.section.attrs(({ isInside, isWide, isLarge, topSpace }) => ({ isInside, isWide, isLarge, topSpace }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     gap: 16px;
     padding: 16px;
-    width: ${(props) => props.isWider ? "var(--details-width-wide)" : "var(--details-width)"};
+    width: ${(props) => props.isLarge ? "var(--details-width-large)" : (props.isWide ? "var(--details-width-wide)" : "var(--details-width)")};
     background-color: var(--lighter-gray);
     overflow: auto;
 
@@ -72,7 +72,7 @@ const Error = Styled.div`
  */
 function Details(props) {
     const {
-        className, isHidden, isInside, isWider, topSpace,
+        className, isHidden, isInside, isWide, isLarge, topSpace,
         isLoading, isEmpty, hasError, error,
         canEdit, onAction, collapsible, children,
     } = props;
@@ -108,7 +108,8 @@ function Details(props) {
     return <Section
         className={`details light-scrollbars ${className}`}
         isInside={isInside}
-        isWider={isWider}
+        isWide={isWide}
+        isLarge={isLarge}
         topSpace={topSpace}
     >
         {isLoading   && <Loading><CircularLoader /></Loading>}
@@ -125,7 +126,8 @@ Details.propTypes = {
     className   : PropTypes.string,
     isHidden    : PropTypes.bool,
     isInside    : PropTypes.bool,
-    isWider     : PropTypes.bool,
+    isWide      : PropTypes.bool,
+    isLarge     : PropTypes.bool,
     topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     isLoading   : PropTypes.bool,
     isEmpty     : PropTypes.bool,
@@ -145,7 +147,8 @@ Details.defaultProps = {
     className : "",
     isHidden  : false,
     isInside  : false,
-    isWider   : false,
+    isWide    : false,
+    isLarge   : false,
     isLoading : false,
     isEmpty   : false,
     hasError  : false,
