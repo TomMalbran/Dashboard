@@ -8,10 +8,18 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Container = Styled.img.attrs(({ size }) => ({ size }))`
+const Container = Styled.img.attrs(({ size, width }) => ({ size, width }))`
     display: block;
-    width: 100%;
-    max-width: ${(props) => `${props.size}px`};
+    ${(props) => props.width ? `
+        width: 100%;
+        max-width: ${props.width}px;
+    ` : `
+        width: ${props.size}px;
+        height: ${props.size}px;
+        object-fit: contain;
+        object-position: center;
+    `}
+
 `;
 
 
@@ -22,7 +30,7 @@ const Container = Styled.img.attrs(({ size }) => ({ size }))`
  * @returns {React.ReactElement}
  */
 function Image(props) {
-    const { source, message, size } = props;
+    const { source, message, size, width } = props;
 
 
     // Do the Render
@@ -33,6 +41,7 @@ function Image(props) {
         src={source}
         alt={NLS.get(message || "")}
         size={size || 24}
+        width={width}
     />;
 }
 
@@ -44,6 +53,7 @@ Image.propTypes = {
     source  : PropTypes.string.isRequired,
     message : PropTypes.string,
     size    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    width   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
 };
 
 export default Image;
