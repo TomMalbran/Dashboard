@@ -46,7 +46,8 @@ function SelectInput(props) {
         inputRef, className, icon, isFocused, isDisabled, isSmall,
         withBorder, withLabel,
         id, name, value, placeholder,
-        withNone, noneText, withCustom, customFirst, customText,
+        withNone, noneText, noneValue,
+        withCustom, customFirst, customText,
         options, extraOptions, onChange, onClear, onFocus, onBlur,
     } = props;
 
@@ -94,7 +95,7 @@ function SelectInput(props) {
             {useLabel && <option key="placeholder" value="">
                 {NLS.get(placeholder)}
             </option>}
-            {withNone && <option key="none" value="">
+            {withNone && <option key="none" value={noneValue}>
                 {NLS.get(noneText || "")}
             </option>}
             {(withCustom && customFirst) && <option key="custom" value={-1}>
@@ -134,6 +135,7 @@ SelectInput.propTypes = {
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
+    noneValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withCustom   : PropTypes.bool,
     customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
@@ -157,6 +159,7 @@ SelectInput.defaultProps = {
     placeholder : "",
     withNone    : false,
     noneText    : "",
+    noneValue   : "",
     withCustom  : false,
     customFirst : false,
     customText  : "",
