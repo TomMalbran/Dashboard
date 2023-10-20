@@ -68,6 +68,15 @@ function hasProp(object, property) {
 }
 
 /**
+ * Returns the amount of items in the Object
+ * @param {Object} object
+ * @returns {Number}
+ */
+function count(object) {
+    return object ? Object.keys(object).length : 0;
+}
+
+/**
  * Clones an Object
  * @param {Object} object
  * @returns {Object}
@@ -894,6 +903,7 @@ export default {
     isEmpty,
     isActive,
     hasProp,
+    count,
     clone,
     clamp,
     triggerClick,
