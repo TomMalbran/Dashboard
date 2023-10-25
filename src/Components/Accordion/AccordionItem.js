@@ -132,9 +132,14 @@ const Error = Styled.p`
     color: var(--error-text-color);
 `;
 
-const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
+const Content = Styled.section.attrs(({ isSelected, withGap }) => ({ isSelected, withGap }))`
     grid-area: content;
-    display: ${(props) => props.isSelected ? "block" : "none"};
+    display: ${(props) => props.isSelected ? (props.withGap ? "flex" : "block") : "none"};
+
+    ${(props) => props.withGap && `
+        gap: var(--main-gap);
+        flex-direction: column;
+    `}
 `;
 
 
@@ -147,7 +152,7 @@ const Content = Styled.section.attrs(({ isSelected }) => ({ isSelected }))`
 function AccordionItem(props) {
     const {
         className, message, description, error, errorCount, number, icon,
-        isFirst, isLast, isSelected, isDisabled, onClick, children,
+        withGap, isFirst, isLast, isSelected, isDisabled, onClick, children,
     } = props;
 
 
@@ -172,7 +177,7 @@ function AccordionItem(props) {
                 </Div>
                 {!isDisabled && <Icon icon={isSelected ? "down" : "up"} />}
             </Header>
-            <Content isSelected={isSelected}>
+            <Content isSelected={isSelected} withGap={withGap}>
                 {children}
             </Content>
         </Inside>
@@ -192,6 +197,7 @@ AccordionItem.propTypes = {
     errorCount  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     number      : PropTypes.number,
     icon        : PropTypes.string,
+    withGap     : PropTypes.bool,
     isFirst     : PropTypes.bool,
     isLast      : PropTypes.bool,
     isSelected  : PropTypes.bool,
@@ -208,6 +214,7 @@ AccordionItem.defaultProps = {
     isHidden   : false,
     className  : "",
     errorCount : 0,
+    withGap    : false,
     isFirst    : false,
     isLast     : false,
     isSelected : false,
