@@ -57,7 +57,7 @@ const Editor = Styled.div`
 const Text = Styled.p`
     flex-grow: 2;
     margin: 0;
-    padding-left: 8px;
+    padding-left: 4px;
     font-size: 12px;
     color: var(--lighter-color);
 `;
