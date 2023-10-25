@@ -190,7 +190,8 @@ function FieldInput(props) {
                     {...item}
                     key={`${item.subKey || item.name}-${index}`}
                     isHidden={item.hide ? item.hide(elem || {}) : false}
-                    type={item.type}
+                    type={item.getType ? item.getType(elem || {}) : item.type}
+                    options={item.getOptions ? item.getOptions(elem || {}) : item.options}
                     name={`${item.name}-${index}`}
                     value={elem[item.name] || ""}
                     onChange={(name, value) => handleChange(value, index, item.name)}
@@ -198,7 +199,12 @@ function FieldInput(props) {
                     withLabel={!!item.label || index === 0}
                     isSmall={!item.label && index > 0}
                     fullWidth
-                />)}
+                >
+                    {Utils.cloneChildren(item.children, () => ({
+                        value    : elem[item.name] || "",
+                        onChange : (value) => handleChange(value, index, item.name),
+                    }))}
+                </InputField>)}
             </Items>
 
             {canRemove && <Remove>

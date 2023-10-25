@@ -45,6 +45,8 @@ InputItem.propTypes = {
     onClear      : PropTypes.func,
     onChange     : PropTypes.func,
     hide         : PropTypes.func,
+    getType      : PropTypes.func,
+    getOptions   : PropTypes.func,
     children     : PropTypes.any,
 };
 
