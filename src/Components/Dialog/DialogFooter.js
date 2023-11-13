@@ -49,9 +49,10 @@ const Secondary = Styled.div`
  */
 function DialogFooter(props) {
     const {
-        isHidden, className, primary, onAction, onSubmit,
+        isHidden, className, onAction,
+        primary, primaryVariant, onSubmit,
         secondary, onSecondary, tertiary, onTertiary,
-        cancel, dontClose, onClose,
+        cancel, cancelVariant, dontClose, onClose, onCancel,
         isLoading, isDisabled, children,
     } = props;
 
@@ -100,16 +101,16 @@ function DialogFooter(props) {
         <Primary>
             <Button
                 isHidden={!primary}
-                variant="primary"
+                variant={primaryVariant}
                 message={primary}
                 isDisabled={isDisabled}
                 onClick={handleSubmit}
             />
             <Button
                 isHidden={dontClose}
-                variant="outlined"
+                variant={cancelVariant}
                 message={cancel}
-                onClick={onClose}
+                onClick={onCancel || onClose}
             />
         </Primary>
     </Footer>;
@@ -120,21 +121,24 @@ function DialogFooter(props) {
  * @type {Object} propTypes
  */
 DialogFooter.propTypes = {
-    isHidden    : PropTypes.bool,
-    className   : PropTypes.string,
-    primary     : PropTypes.string,
-    onAction    : PropTypes.func,
-    onSubmit    : PropTypes.func,
-    tertiary    : PropTypes.string,
-    onTertiary  : PropTypes.func,
-    secondary   : PropTypes.string,
-    onSecondary : PropTypes.func,
-    cancel      : PropTypes.string,
-    dontClose   : PropTypes.bool,
-    onClose     : PropTypes.func,
-    isLoading   : PropTypes.bool,
-    isDisabled  : PropTypes.bool,
-    children    : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    className      : PropTypes.string,
+    onAction       : PropTypes.func,
+    primary        : PropTypes.string,
+    primaryVariant : PropTypes.string,
+    onSubmit       : PropTypes.func,
+    secondary      : PropTypes.string,
+    onSecondary    : PropTypes.func,
+    tertiary       : PropTypes.string,
+    onTertiary     : PropTypes.func,
+    cancel         : PropTypes.string,
+    cancelVariant  : PropTypes.string,
+    dontClose      : PropTypes.bool,
+    onClose        : PropTypes.func,
+    onCancel       : PropTypes.func,
+    isLoading      : PropTypes.bool,
+    isDisabled     : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**
@@ -142,12 +146,14 @@ DialogFooter.propTypes = {
  * @type {Object} defaultProps
  */
 DialogFooter.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    cancel     : "GENERAL_CANCEL",
-    dontClose  : false,
-    isLoading  : false,
-    isDisabled : false,
+    isHidden       : false,
+    className      : "",
+    primaryVariant : "primary",
+    cancel         : "GENERAL_CANCEL",
+    cancelVariant  : "outlined",
+    dontClose      : false,
+    isLoading      : false,
+    isDisabled     : false,
 };
 
 export default DialogFooter;

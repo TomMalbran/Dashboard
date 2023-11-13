@@ -27,9 +27,12 @@ const Message = Styled(DialogMessage)`
 function EditDialog(props) {
     const {
         open, title, icon, message, className,
-        isLoading, isNarrow, isWide, fullHeight, lightHeader, noOverflow, withSpacing,
-        error, isDisabled, dontClose, hidePrimary, primary, cancel, onSubmit, onClose,
-        secondary, onSecondary, children,
+        isLoading, isNarrow, isWide, fullHeight,
+        lightHeader, noOverflow, withSpacing,
+        error, isDisabled, dontClose,
+        hidePrimary, primary, primaryVariant, onSubmit,
+        cancel, cancelVariant, onClose, onCancel,
+        secondary, onSecondary, tertiary, onTertiary, children,
     } = props;
 
 
@@ -61,10 +64,15 @@ function EditDialog(props) {
         <DialogFooter
             isDisabled={isLoading || isDisabled}
             primary={hidePrimary ? "" : primary}
-            cancel={cancel}
+            primaryVariant={primaryVariant}
             onSubmit={onSubmit}
+            cancel={cancel}
+            cancelVariant={cancelVariant}
+            onCancel={onCancel}
             secondary={secondary}
             onSecondary={onSecondary}
+            tertiary={tertiary}
+            onTertiary={onTertiary}
         />
     </Dialog>;
 }
@@ -74,29 +82,34 @@ function EditDialog(props) {
  * @typedef {Object} propTypes
  */
 EditDialog.propTypes = {
-    open        : PropTypes.bool.isRequired,
-    title       : PropTypes.string.isRequired,
-    icon        : PropTypes.string,
-    className   : PropTypes.string,
-    message     : PropTypes.string,
-    error       : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    dontClose   : PropTypes.bool,
-    onClose     : PropTypes.func.isRequired,
-    isLoading   : PropTypes.bool,
-    isDisabled  : PropTypes.bool,
-    isNarrow    : PropTypes.bool,
-    isWide      : PropTypes.bool,
-    fullHeight  : PropTypes.bool,
-    lightHeader : PropTypes.bool,
-    noOverflow  : PropTypes.bool,
-    withSpacing : PropTypes.bool,
-    hidePrimary : PropTypes.bool,
-    primary     : PropTypes.string,
-    secondary   : PropTypes.string,
-    cancel      : PropTypes.string,
-    onSubmit    : PropTypes.func.isRequired,
-    onSecondary : PropTypes.func,
-    children    : PropTypes.any,
+    open           : PropTypes.bool.isRequired,
+    title          : PropTypes.string.isRequired,
+    icon           : PropTypes.string,
+    className      : PropTypes.string,
+    message        : PropTypes.string,
+    error          : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    dontClose      : PropTypes.bool,
+    onClose        : PropTypes.func.isRequired,
+    isLoading      : PropTypes.bool,
+    isDisabled     : PropTypes.bool,
+    isNarrow       : PropTypes.bool,
+    isWide         : PropTypes.bool,
+    fullHeight     : PropTypes.bool,
+    lightHeader    : PropTypes.bool,
+    noOverflow     : PropTypes.bool,
+    withSpacing    : PropTypes.bool,
+    hidePrimary    : PropTypes.bool,
+    primary        : PropTypes.string,
+    primaryVariant : PropTypes.string,
+    onSubmit       : PropTypes.func.isRequired,
+    cancel         : PropTypes.string,
+    cancelVariant  : PropTypes.string,
+    onCancel       : PropTypes.func,
+    secondary      : PropTypes.string,
+    onSecondary    : PropTypes.func,
+    tertiary       : PropTypes.string,
+    onTertiary     : PropTypes.func,
+    children       : PropTypes.any,
 };
 
 /**
