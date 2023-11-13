@@ -50,7 +50,7 @@ function Image(props) {
  * @typedef {Object} propTypes
  */
 Image.propTypes = {
-    source  : PropTypes.string.isRequired,
+    source  : PropTypes.string,
     message : PropTypes.string,
     size    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     width   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
