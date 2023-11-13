@@ -17,8 +17,14 @@ import Html                 from "../Common/Html";
 
 
 // Styles
+const Container = Styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+`;
+
 const Content = Styled(Html)`
-    margin: 0 0 16px 0;
+    margin: 0;
     color: var(--black-color);
     font-weight: 400;
 `;
@@ -32,30 +38,43 @@ const Content = Styled(Html)`
  */
 function PromptDialog(props) {
     const {
-        open, title, message, content, icon, lightHeader,
-        inputType, inputLabel, inputIcon, placeholder, initialValue, inputOptions, spellCheck,
+        open, title, message, content, icon, primary, primaryVariant, lightHeader,
+        inputType, inputLabel, inputIcon, placeholder,
+        initialValue, inputOptions, maxLength, spellCheck,
+        secInputType, secInputLabel, secInputIcon,
+        secPlaceholder, secInitialValue, secInputOptions, secMaxLength,
         isOptional, onSubmit, onClose,
     } = props;
 
-    const [ value, setValue ] = React.useState(initialValue);
+
+    // The Current State
+    const [ value,    setValue    ] = React.useState(initialValue);
+    const [ secValue, setSecValue ] = React.useState(secInitialValue);
+
 
     // Handles the Input Change
     const handleChange = (name, value) => {
-        setValue(value);
+        if (name === "prompt") {
+            setValue(value);
+        } else {
+            setSecValue(value);
+        }
     };
 
     // Handles the Submit
     const handleSubmit = () => {
         if (isOptional || value) {
-            onSubmit(value);
+            onSubmit(value, secValue);
             setValue("");
+            setSecValue("");
         }
     };
 
     // Update the Initial Value
     React.useEffect(() => {
         setValue(initialValue);
-    }, [ initialValue ]);
+        setSecValue(secInitialValue);
+    }, [ initialValue, secInitialValue ]);
 
 
     // Do the Render
@@ -70,25 +89,44 @@ function PromptDialog(props) {
             lightHeader={lightHeader}
         />
         <DialogBody withSpacing>
-            {hasMessage && <Content variant="h3">{body}</Content>}
-            <InputField
-                name="prompt"
-                type={inputType}
-                label={inputLabel}
-                icon={inputIcon}
-                placeholder={placeholder}
-                value={value}
-                options={inputOptions}
-                autoFocus={open}
-                onChange={handleChange}
-                onSubmit={handleSubmit}
-                spellCheck={spellCheck}
-                isRequired
-                withNone
-            />
+            <Container>
+                {hasMessage && <Content variant="h3">{body}</Content>}
+                <InputField
+                    name="prompt"
+                    type={inputType}
+                    label={inputLabel}
+                    icon={inputIcon}
+                    placeholder={placeholder}
+                    value={value}
+                    options={inputOptions}
+                    autoFocus={open}
+                    maxLength={maxLength}
+                    spellCheck={spellCheck}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    isRequired={!isOptional}
+                    withNone
+                />
+                <InputField
+                    isHidden={!secInputLabel}
+                    name="secPrompt"
+                    type={secInputType}
+                    label={secInputLabel}
+                    icon={secInputIcon}
+                    placeholder={secPlaceholder}
+                    value={secValue}
+                    options={secInputOptions}
+                    maxLength={secMaxLength}
+                    spellCheck={spellCheck}
+                    onChange={handleChange}
+                    onSubmit={handleSubmit}
+                    withNone
+                />
+            </Container>
         </DialogBody>
         <DialogFooter
-            primary="GENERAL_SAVE"
+            primary={primary}
+            primaryVariant={primaryVariant}
             onSubmit={handleSubmit}
             isDisabled={isDisabled}
         />
@@ -100,22 +138,32 @@ function PromptDialog(props) {
  * @typedef {Object} propTypes
  */
 PromptDialog.propTypes = {
-    open         : PropTypes.bool.isRequired,
-    title        : PropTypes.string.isRequired,
-    message      : PropTypes.string,
-    content      : PropTypes.string,
-    placeholder  : PropTypes.string,
-    icon         : PropTypes.string,
-    inputType    : PropTypes.string,
-    inputLabel   : PropTypes.string,
-    inputIcon    : PropTypes.string,
-    initialValue : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    inputOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    onSubmit     : PropTypes.func.isRequired,
-    onClose      : PropTypes.func.isRequired,
-    lightHeader  : PropTypes.bool,
-    isOptional   : PropTypes.bool,
-    spellCheck   : PropTypes.string,
+    open            : PropTypes.bool.isRequired,
+    title           : PropTypes.string.isRequired,
+    message         : PropTypes.string,
+    content         : PropTypes.string,
+    icon            : PropTypes.string,
+    primary         : PropTypes.string,
+    primaryVariant  : PropTypes.string,
+    inputType       : PropTypes.string,
+    inputLabel      : PropTypes.string,
+    placeholder     : PropTypes.string,
+    inputIcon       : PropTypes.string,
+    initialValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    inputOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    maxLength       : PropTypes.number,
+    secInputType    : PropTypes.string,
+    secInputLabel   : PropTypes.string,
+    secPlaceholder  : PropTypes.string,
+    secInputIcon    : PropTypes.string,
+    secInitialValue : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    secInputOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    secMaxLength    : PropTypes.number,
+    onSubmit        : PropTypes.func.isRequired,
+    onClose         : PropTypes.func.isRequired,
+    lightHeader     : PropTypes.bool,
+    isOptional      : PropTypes.bool,
+    spellCheck      : PropTypes.string,
 };
 
 /**
@@ -123,10 +171,13 @@ PromptDialog.propTypes = {
  * @type {Object} defaultProps
  */
 PromptDialog.defaultProps = {
-    inputType    : InputType.TEXT,
-    initialValue : "",
-    lightHeader  : false,
-    isOptional   : false,
+    primary         : "GENERAL_SAVE",
+    inputType       : InputType.TEXT,
+    initialValue    : "",
+    secInputType    : InputType.TEXT,
+    secInitialValue : "",
+    lightHeader     : false,
+    isOptional      : false,
 };
 
 export default PromptDialog;
