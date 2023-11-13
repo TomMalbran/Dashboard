@@ -23,8 +23,9 @@ function NumberInput(props) {
         onChange, onClear, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
     } = props;
 
-    const minNumber = minValue !== undefined && minValue !== null ? Number.MIN_SAFE_INTEGER : Number(minValue);
-    const maxNumber = maxValue !== undefined && maxValue !== null ? Number.MAX_SAFE_INTEGER : Number(maxValue);
+    // Variables
+    const minNumber = minValue === undefined || minValue === null ? Number.MIN_SAFE_INTEGER : Number(minValue);
+    const maxNumber = maxValue === undefined || maxValue === null ? Number.MAX_SAFE_INTEGER : Number(maxValue);
 
 
     // Handles a Number
