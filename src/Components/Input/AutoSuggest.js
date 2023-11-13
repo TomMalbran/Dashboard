@@ -87,15 +87,20 @@ function AutoSuggest(props) {
             } else {
                 setSuggestions([]);
             }
-            onChange(id, 0, name, newValue);
+            if (onChange) {
+                onChange(id, 0, name, newValue);
+            }
         }
     };
 
     // Clears the Value
     const clearValue = async () => {
         setValue("");
-        onChange(id, 0, name, "");
         setSuggestions([]);
+
+        if (onChange) {
+            onChange(id, 0, name, "");
+        }
         if (timer) {
             window.clearTimeout(timer);
         }
