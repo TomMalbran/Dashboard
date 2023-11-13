@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import KeyCode              from "../../Utils/KeyCode";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
@@ -30,9 +31,9 @@ function PasswordInput(props) {
         inputRef, icon, className, isFocused, isDisabled, isSmall,
         withBorder, withLabel,
         id, type, name, value, placeholder,
-        autoComplete, spellCheck,
+        autoComplete, spellCheck, suggestPassword,
         onChange, onClear, onInput, onFocus, onBlur,
-        onKeyDown, onKeyUp, onSubmit,
+        onKeyDown, onKeyUp, onSubmit, children,
     } = props;
 
     // The Current State
@@ -87,6 +88,14 @@ function PasswordInput(props) {
             onKeyDown={onKeyDown}
             onKeyUp={handleKeyUp}
         />
+
+        {children}
+        {suggestPassword && <InputIcon
+            variant="black"
+            icon="add"
+            onClick={() => onChange(name, Utils.generatePassword())}
+            isSmall
+        />}
         <InputIcon
             variant="black"
             icon={showPassword ? "hide" : "view"}
@@ -101,31 +110,33 @@ function PasswordInput(props) {
  * @type {Object} propTypes
  */
 PasswordInput.propTypes = {
-    inputRef     : PropTypes.object,
-    className    : PropTypes.string,
-    icon         : PropTypes.string,
-    isFocused    : PropTypes.bool,
-    isDisabled   : PropTypes.bool,
-    isSmall      : PropTypes.bool,
-    withBorder   : PropTypes.bool,
-    withLabel    : PropTypes.bool,
-    suggestRef   : PropTypes.object,
-    autoSuggest  : PropTypes.bool,
-    id           : PropTypes.string,
-    type         : PropTypes.string.isRequired,
-    name         : PropTypes.string,
-    value        : PropTypes.any,
-    placeholder  : PropTypes.string,
-    autoComplete : PropTypes.string,
-    spellCheck   : PropTypes.string,
-    onChange     : PropTypes.func,
-    onClear      : PropTypes.func,
-    onInput      : PropTypes.func,
-    onFocus      : PropTypes.func,
-    onBlur       : PropTypes.func,
-    onKeyDown    : PropTypes.func,
-    onKeyUp      : PropTypes.func,
-    onSubmit     : PropTypes.func,
+    inputRef        : PropTypes.object,
+    className       : PropTypes.string,
+    icon            : PropTypes.string,
+    isFocused       : PropTypes.bool,
+    isDisabled      : PropTypes.bool,
+    isSmall         : PropTypes.bool,
+    withBorder      : PropTypes.bool,
+    withLabel       : PropTypes.bool,
+    suggestRef      : PropTypes.object,
+    autoSuggest     : PropTypes.bool,
+    id              : PropTypes.string,
+    type            : PropTypes.string.isRequired,
+    name            : PropTypes.string,
+    value           : PropTypes.any,
+    placeholder     : PropTypes.string,
+    autoComplete    : PropTypes.string,
+    spellCheck      : PropTypes.string,
+    suggestPassword : PropTypes.bool,
+    onChange        : PropTypes.func,
+    onClear         : PropTypes.func,
+    onInput         : PropTypes.func,
+    onFocus         : PropTypes.func,
+    onBlur          : PropTypes.func,
+    onKeyDown       : PropTypes.func,
+    onKeyUp         : PropTypes.func,
+    onSubmit        : PropTypes.func,
+    children        : PropTypes.any,
 };
 
 /**

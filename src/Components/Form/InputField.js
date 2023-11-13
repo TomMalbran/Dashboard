@@ -53,7 +53,7 @@ function InputField(props) {
     } = props;
 
 
-    // References
+    // The References
     const fieldRef   = React.useRef();
     const inputRef   = passedRef || fieldRef;
     const suggestRef = React.useRef();
@@ -269,6 +269,7 @@ InputField.propTypes = {
     withLabel       : PropTypes.bool,
     isSmall         : PropTypes.bool,
     errorBackground : PropTypes.bool,
+    suggestPassword : PropTypes.bool,
     withNone        : PropTypes.bool,
     noneText        : PropTypes.string,
     withCustom      : PropTypes.bool,
