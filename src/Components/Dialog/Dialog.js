@@ -86,12 +86,14 @@ function Dialog(props) {
         dontClose, onClose, children,
     } = props;
 
+    // The References
+    const contentRef   = React.useRef(null);
+    const savedHandler = React.useRef(null);
+
+    // The Current State
     const [ level,     setLevel   ] = React.useState(0);
     const [ opened,    setOpened  ] = React.useState(false);
     const [ isClosing, setClosing ] = React.useState(false);
-
-    const contentRef              = React.useRef(null);
-    const savedHandler            = React.useRef(null);
 
 
     // Handles the Dialog Close

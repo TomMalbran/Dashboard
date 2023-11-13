@@ -8,11 +8,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Main = Styled.main.attrs(({
-    isLoading, isCentered, isNarrow, withSpacing, fullHeight, hideFooter, noOverflow,
-}) => ({
-    isLoading, isCentered, withSpacing, isNarrow, fullHeight, hideFooter, noOverflow,
-}))`
+const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, fullHeight, hideFooter, noOverflow }) => ({ isLoading, isCentered, withSpacing, isNarrow, fullHeight, hideFooter, noOverflow }))`
     box-sizing: border-box;
     flex-grow: 2;
     color: var(--secondary-color);
@@ -60,8 +56,10 @@ function DialogBody(props) {
         passedRef, onScroll, children,
     } = props;
 
+    // The References
     const defaultRef = React.useRef();
     const elementRef = passedRef || defaultRef;
+
 
     // Handle the Scroll
     const handleScroll = () => {
@@ -71,6 +69,7 @@ function DialogBody(props) {
     };
 
 
+    // Do the Render
     return <Main
         ref={elementRef}
         className={className}
