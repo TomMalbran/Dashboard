@@ -39,10 +39,10 @@ function AccordionList(props) {
             return;
         }
         let newID = id;
-        if (!noClose && id === selected) {
+        if (!noClose && id === selection) {
             newID = "";
         }
-        if (newID === selected) {
+        if (newID === selection) {
             return;
         }
 
