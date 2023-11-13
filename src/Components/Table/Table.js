@@ -26,9 +26,9 @@ const Wrapper = Styled.div`
 
 const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }))`
     ${(props) => props.inDialog ? `
-        --table-height: calc(var(--dialog-body) - 2 * var(--main-padding));
+        --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
-        --table-height: calc(var(--main-height) - var(--main-padding) - var(--header-height));
+        --table-height: calc(var(--main-height) - var(--main-padding) - var(--header-height) - 2px);
     `}
 
     --table-header-height: 27px;
@@ -36,7 +36,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
-    --table-paging-height: ${(props) => props.hasPaging ? "34px" : "0px"};
+    --table-paging-height: ${(props) => props.hasPaging ? "32px" : "0px"};
 
     display: flex;
     flex-direction: column;
