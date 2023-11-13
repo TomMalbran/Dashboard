@@ -15,6 +15,7 @@ const Variant = {
     NONE            : "none",
     PRIMARY         : "primary",
     CANCEL          : "cancel",
+    SUCCESS         : "success",
     ERROR           : "error",
     ACCENT          : "accent",
     WHITE           : "white",
@@ -100,6 +101,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
             --button-border: var(--light-gray);
             --button-background: var(--light-gray);
             --button-hover-background: var(--lighter-gray);
+        `;
+        case Variant.SUCCESS: return `
+            --button-color: white;
+            --button-border: var(--success-color);
+            --button-background: var(--success-color);
+            --button-hover-color: var(--success-color);
         `;
         case Variant.ERROR: return `
             --button-color: white;
