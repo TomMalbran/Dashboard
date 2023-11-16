@@ -327,9 +327,9 @@ function formatNumber(number, decimals = 0) {
  * @returns {String}
  */
 function formatPercent(number, total, decimals = 0, withPercent = true) {
-    const percent   = total === 0 ? 0 : number * 100 / total;
-    const formatted = formatNumber(percent, decimals);
-    return formatted + (withPercent ? "%" : "");
+    const percent  = total === 0 ? 0 : (number * 100 / total);
+    const formated = formatNumber(percent, decimals);
+    return formated + (withPercent ? "%" : "");
 }
 
 /**
@@ -893,6 +893,73 @@ function getGoogleMapEmbed(latitude, longitude, query = "", zoom = 15, satelite 
 
 
 
+/**
+ * Returns a random value between from and to
+ * @param {Number} from
+ * @param {Number} to
+ * @returns {Number}
+ */
+function randomNumber(from, to) {
+    return Math.floor(Math.random() * (to - from + 1) + from);
+}
+
+/**
+ * Generates a random password with the given length and sets
+ * (l = letters, u = uppercase leters, d = digits, s = simbols)
+ * @param {Number=} length
+ * @param {String=} availableSets
+ * @returns {String}
+ */
+function generatePassword(length = 10, availableSets = "lud") {
+    const sets     = [];
+    let   all      = "";
+    let   password = "";
+
+    if (availableSets.indexOf("l") > -1) {
+        sets.push("abcdefghjkmnpqrstuvwxyz");
+    }
+    if (availableSets.indexOf("u") > -1) {
+        sets.push("ABCDEFGHJKMNPQRSTUVWXYZ");
+    }
+    if (availableSets.indexOf("d") > -1) {
+        sets.push("23456789");
+    }
+    if (availableSets.indexOf("s") > -1) {
+        sets.push("!@#$%&*?");
+    }
+
+    for (const set of sets) {
+        password += set[randomNumber(0, set.length - 1)];
+        all      += set;
+    }
+
+    for (let i = 0; i < length - sets.length; i += 1) {
+        password += all.charAt(randomNumber(0, all.length - 1));
+    }
+
+    password = shuffleString(password);
+    return password;
+}
+
+/**
+ * Shuffles the given string
+ * @param {String} string
+ * @returns {String}
+ */
+function shuffleString(string) {
+    const parts = string.split("");
+    for (let i = 1; i < parts.length; i += 1) {
+        const random = randomNumber(0, i - 1);
+        const temp   = parts[i];
+
+        parts[i]      = parts[random];
+        parts[random] = temp;
+    }
+    return parts.join("");
+}
+
+
+
 
 // The public API
 export default {
@@ -961,4 +1028,7 @@ export default {
     getYouTubeEmbed,
     getVimeoEmbed,
     getGoogleMapEmbed,
+
+    randomNumber,
+    generatePassword,
 };
