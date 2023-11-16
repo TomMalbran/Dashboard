@@ -2,8 +2,13 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Utils
+// Core & Utils
+import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
+import KeyCode              from "../../Utils/KeyCode";
+
+// Components
+import InputField           from "../Form/InputField";
 
 // Variants
 const Variant = {
@@ -39,6 +44,11 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft,
     ${(props) => props.isRight && "right: 7px;"}
 `;
 
+const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
+    ${(props) => props.atBottom  && "margin-top: 12px;"}
+    ${(props) => !props.atBottom && "margin-bottom: 12px;"}
+`;
+
 
 
 /**
@@ -50,20 +60,55 @@ function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
         bottom, gap, onAction, onClose, targetRef,
-        onMouseEnter, onMouseLeave, isSubmenu, children,
+        withSearch, onMouseEnter, onMouseLeave, isSubmenu, children,
     } = props;
     let { top, left, right } = props;
 
-    let   hasStyles  = (top || bottom) && (left || right);
+
+    // Variables
+    let   hasStyles = (top || bottom) && (left || right);
+    const style     = {};
+
+    // The References
     const contentRef = React.useRef();
-    const style      = {};
 
     // The Current State
-    const [ width,  setWidth  ] = React.useState(0);
-    const [ height, setHeight ] = React.useState(0);
+    const [ width,       setWidth       ] = React.useState(0);
+    const [ height,      setHeight      ] = React.useState(0);
+    const [ filter,      setFilter      ] = React.useState("");
+    const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
+    const [ trigger,     setTrigger     ] = React.useState(false);
+
+    // Clone the children
+    const items = [];
+    let   index = 0;
+    for (const child of children) {
+        const { act, title, message } = child.props;
+        const titleMsg   = NLS.get(title || "");
+        const contentMsg = NLS.get(message || act?.message || "");
+        const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
+        if (!isFiltered) {
+            items.push(React.cloneElement(child, {
+                key : index,
+                index, selectedIdx, onAction, onClose,
+                trigger, setTrigger,
+            }));
+            index += 1;
+        }
+    }
 
 
-    // Close the Menu
+    // Save the Width and add the Close handler
+    React.useEffect(() => {
+        if (open) {
+            const bounds = Utils.getBounds(contentRef);
+            setWidth(bounds.width);
+            setHeight(bounds.height);
+        }
+    }, [ open, filter ]);
+
+
+    // Handles the Menu Close
     const handleClose = (e) => {
         if (!open || Utils.inRef(e.clientX, e.clientY, contentRef)) {
             return;
@@ -73,14 +118,38 @@ function Menu(props) {
         e.preventDefault();
     };
 
-    // Save the Width and add the Close handler
-    React.useEffect(() => {
-        if (open) {
-            const bounds = Utils.getBounds(contentRef);
-            setWidth(bounds.width);
-            setHeight(bounds.height);
+    // Handles the Menu Search
+    const handleSearch = (name, value) => {
+        setFilter(value.toLocaleLowerCase());
+        setSelectedIdx(-1);
+    };
+
+    // Handles the Key Down
+    const handleKeyDown = (e) => {
+        switch (e.keyCode) {
+        case KeyCode.DOM_VK_DOWN: {
+            const newSelectedIdx = (selectedIdx + 1) % items.length;
+            setSelectedIdx(newSelectedIdx);
+            e.preventDefault();
+            break;
         }
-    }, [ open ]);
+        case KeyCode.DOM_VK_UP: {
+            const newSelectedIdx = (selectedIdx - 1) < 0 ? items.length - 1 : selectedIdx - 1;
+            setSelectedIdx(newSelectedIdx);
+            e.preventDefault();
+            break;
+        }
+        default:
+        }
+    };
+
+    // Handles the Key Down
+    const handleKeyUp = (e) => {
+        if (e.keyCode === KeyCode.DOM_VK_RETURN && selectedIdx >= 0) {
+            setTrigger(true);
+        }
+        e.preventDefault();
+    };
 
 
     // Set the position
@@ -159,14 +228,11 @@ function Menu(props) {
         }
     }
 
-    // Clone the children
-    const items = Utils.cloneChildren(children, (child, key) => ({
-        onAction, onClose,
-        index : key,
-    }));
-
 
     // Do the Render
+    const showSearch   = withSearch && (filter || items.length > 5);
+    const bottomSearch = showSearch && forTop;
+
     if (!open) {
         return <React.Fragment />;
     }
@@ -184,7 +250,21 @@ function Menu(props) {
             isRight={!hasStyles && variant === Variant.RIGHT}
             style={style}
         >
-            {items}
+            {bottomSearch && items}
+            {showSearch && <Li atBottom={bottomSearch}>
+                <InputField
+                    name="search"
+                    icon="search"
+                    placeholder="GENERAL_SEARCH"
+                    value={filter}
+                    onChange={handleSearch}
+                    onKeyDown={handleKeyDown}
+                    onKeyUp={handleKeyUp}
+                    autoFocus
+                    isSmall
+                />
+            </Li>}
+            {!bottomSearch && items}
         </Ul>
     </Backdrop>;
 }
@@ -206,6 +286,7 @@ Menu.propTypes = {
     right        : PropTypes.number,
     iconHeight   : PropTypes.number,
     gap          : PropTypes.number,
+    withSearch   : PropTypes.bool,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
     onMouseEnter : PropTypes.func,
@@ -225,6 +306,7 @@ Menu.defaultProps = {
     direction  : "",
     iconHeight : 0,
     gap        : 0,
+    withSearch : false,
     isSubmenu  : false,
 };
 

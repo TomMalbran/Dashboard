@@ -58,38 +58,54 @@ function MenuItem(props) {
     const {
         className, action, icon, title, message, url, href, target,
         isDisabled, isSelected, isSmall, onAction, onClick, onClose,
-        direction, children,
+        direction, index, selectedIdx, trigger, setTrigger, children,
     } = props;
 
-    const act      = Action.get(action);
-    const icn      = icon    || act.icon;
-    const content  = message || act.message;
-    const uri      = url ? NLS.baseUrl(url) : href;
-    const navigate = Navigate.useUrl(uri, target);
-    const hasMenu  = Boolean(children && children.length);
 
-    // References
+    // Variables
+    const act         = Action.get(action);
+    const icn         = icon    || act.icon;
+    const content     = message || act.message;
+    const uri         = url ? NLS.baseUrl(url) : href;
+    const navigate    = Navigate.useUrl(uri, target);
+    const isSelection = !isDisabled && (isSelected || selectedIdx === index);
+    const hasMenu     = Boolean(children && children.length);
+
+    // The References
     const itemRef = React.useRef();
 
-    // State
+    // The Current State
     const [ menuOpen, setMenuOpen ] = React.useState(false);
 
 
+    // Handles the Trigger
+    React.useEffect(() => {
+        if (trigger && isSelection) {
+            handleAction();
+            setTrigger(false);
+        }
+    }, [ trigger ]);
+
     // Handles the Click
     const handleClick = (e) => {
+        handleAction();
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    // Handles the Action
+    const handleAction = () => {
         if (url) {
             navigate();
         }
         if (onAction) {
             onAction(act);
         } else if (onClick) {
-            onClick(e);
+            onClick();
         }
         if (!hasMenu && onClose) {
-            onClose(e);
+            onClose();
         }
-        e.preventDefault();
-        e.stopPropagation();
     };
 
 
@@ -98,7 +114,7 @@ function MenuItem(props) {
         <Li
             ref={itemRef}
             className={className}
-            isSelected={!isDisabled && isSelected}
+            isSelected={isSelection}
             isDisabled={isDisabled}
             isSmall={isSmall}
             onMouseDown={handleClick}
@@ -129,22 +145,26 @@ function MenuItem(props) {
  * @type {Object} propTypes
  */
 MenuItem.propTypes = {
-    className  : PropTypes.string,
-    action     : PropTypes.string,
-    icon       : PropTypes.string,
-    title      : PropTypes.string,
-    message    : PropTypes.string,
-    url        : PropTypes.string,
-    href       : PropTypes.string,
-    target     : PropTypes.string,
-    isDisabled : PropTypes.bool,
-    isSelected : PropTypes.bool,
-    isSmall    : PropTypes.bool,
-    onAction   : PropTypes.func,
-    onClick    : PropTypes.func,
-    onClose    : PropTypes.func,
-    direction  : PropTypes.string,
-    children   : PropTypes.any,
+    className   : PropTypes.string,
+    action      : PropTypes.string,
+    icon        : PropTypes.string,
+    title       : PropTypes.string,
+    message     : PropTypes.string,
+    url         : PropTypes.string,
+    href        : PropTypes.string,
+    target      : PropTypes.string,
+    isDisabled  : PropTypes.bool,
+    isSelected  : PropTypes.bool,
+    isSmall     : PropTypes.bool,
+    onAction    : PropTypes.func,
+    onClick     : PropTypes.func,
+    onClose     : PropTypes.func,
+    direction   : PropTypes.string,
+    index       : PropTypes.number,
+    selectedIdx : PropTypes.number,
+    trigger     : PropTypes.bool,
+    setTrigger  : PropTypes.func,
+    children    : PropTypes.any,
 };
 
 /**
