@@ -35,15 +35,23 @@ const Error = Styled.p.attrs(({ useBackground }) => ({ useBackground }))`
 function InputError(props) {
     const { className, error, useBackground } = props;
 
+    // Nothing to Render
     if (!error) {
         return <React.Fragment />;
     }
 
+    // Variables
     let errorText = NLS.get(error);
     if (Array.isArray(error)) {
         errorText = NLS.format(error[0], ...error.slice(1));
     }
-    return <Error className={className} useBackground={useBackground}>
+
+
+    // Do the Render
+    return <Error
+        className={`inputfield-error ${className}`}
+        useBackground={useBackground}
+    >
         {errorText}
     </Error>;
 }
