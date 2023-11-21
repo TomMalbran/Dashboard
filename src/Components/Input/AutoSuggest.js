@@ -15,6 +15,7 @@ const Ul = Styled.ul.attrs(({ isOpen }) => ({ isOpen }))`
     overflow: auto;
     width: 100%;
     min-width: 200px;
+    max-height: 300px;
     margin: 0;
     padding: 8px;
     list-style: none;
@@ -59,6 +60,10 @@ function AutoSuggest(props) {
         suggestRef, open, id, name, noneText, keepSuggestions,
         params, fetch, onChange, onSuggest,
     } = props;
+
+
+    // The References
+    const listRef = React.useRef(null);
 
     // The Current State
     const [ timer,       setTimer       ] = React.useState(null);
@@ -131,12 +136,24 @@ function AutoSuggest(props) {
     const selectNext = () => {
         const newSelectedIdx = (selectedIdx + 1) % suggestions.length;
         setSelectedIdx(newSelectedIdx);
+        scrollIntoView(newSelectedIdx);
     };
 
     // Selects the Prev Elem
     const selectPrev = () => {
         const newSelectedIdx = (selectedIdx - 1) < 0 ? suggestions.length - 1 : selectedIdx - 1;
         setSelectedIdx(newSelectedIdx);
+        scrollIntoView(newSelectedIdx);
+    };
+
+    // Scroll the result into view
+    const scrollIntoView = (index) => {
+        if (listRef.current) {
+            listRef.current.querySelector(`.auto-suggest-${index}`).scrollIntoView({
+                behaviour : "instant",
+                block     : "nearest",
+            });
+        }
     };
 
     // Selects the Elem
@@ -185,9 +202,10 @@ function AutoSuggest(props) {
     }
 
     // There are some results
-    return <Ul isOpen={open}>
+    return <Ul ref={listRef} isOpen={open}>
         {suggestions.map((elem, index) => <Li
             key={index}
+            className={`auto-suggest-${index}`}
             isSelected={selectedIdx === index}
             onMouseDown={(e) => handleClick(e, elem.id, elem.title, elem)}
         >{elem.title}</Li>)}
