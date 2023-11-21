@@ -52,8 +52,13 @@ const Input = Styled.input`
  * @returns {React.ReactElement}
  */
 function DropZone(props) {
-    const { open, onlyImages, maxSize, onStart, onDrop, onEnd, onError } = props;
+    const {
+        isHidden, open, onlyImages, maxSize,
+        onStart, onDrop, onEnd, onError,
+    } = props;
 
+
+    // The References
     const containerRef = React.useRef(null);
     const inputRef     = React.useRef(null);
 
@@ -194,7 +199,11 @@ function DropZone(props) {
     });
 
 
+    // Do the Render
     const prefix = onlyImages ? "DROPZONE_IMAGES_" : "DROPZONE_FILES_";
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <>
         <Drop ref={containerRef} isOpen={open}>
             {NLS.get(`${prefix}DROP`)}
@@ -224,13 +233,14 @@ function DropZone(props) {
  * @typedef {Object} propTypes
  */
 DropZone.propTypes = {
+    isHidden   : PropTypes.bool,
+    open       : PropTypes.bool.isRequired,
+    onlyImages : PropTypes.bool,
+    maxSize    : PropTypes.number,
     onStart    : PropTypes.func.isRequired,
     onEnd      : PropTypes.func.isRequired,
     onDrop     : PropTypes.func.isRequired,
     onError    : PropTypes.func,
-    open       : PropTypes.bool.isRequired,
-    onlyImages : PropTypes.bool,
-    maxSize    : PropTypes.number,
 };
 
 export default DropZone;
