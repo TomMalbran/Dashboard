@@ -205,6 +205,24 @@ function getCurrentTime() {
     return Math.floor(new Date().getTime() / 1000);
 }
 
+/**
+ * Scrolls the Selector into View
+ * @param {String}  selector
+ * @param {String=} block
+ * @param {String=} inline
+ * @returns {Void}
+ */
+function scrollIntoView(selector, block, inline = "center") {
+    const node = document.querySelector(selector);
+    if (node) {
+        node.scrollIntoView({
+            // @ts-ignore
+            block, inline,
+            behavior : "smooth",
+        });
+    }
+}
+
 
 
 /**
@@ -982,6 +1000,7 @@ export default {
     hasSelection,
     unselectAll,
     getCurrentTime,
+    scrollIntoView,
 
     setTimeout,
     clearTimeout,
