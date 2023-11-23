@@ -53,7 +53,7 @@ function AccordionList(props) {
     };
 
     // Generate the Items
-    const items = Utils.cloneChildren(children, (child, index) => {
+    const items = Utils.cloneChildren(children.flat(), (child, index) => {
         const id = child.props.value || index;
         return {
             number     : index + 1,
