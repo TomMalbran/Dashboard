@@ -11,11 +11,11 @@ import InputContent         from "../Input/InputContent";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ hasFooter }) => ({ hasFooter }))`
     box-sizing: border-box;
     width: 100%;
     border-radius: var(--border-radius);
-    overflow: hidden;
+    ${(props) => props.hasFooter && "overflow: hidden;"}
 `;
 
 const Textarea = Styled.textarea`
@@ -44,7 +44,7 @@ const Textarea = Styled.textarea`
     }
 `;
 
-const Editor = Styled.div`
+const Footer = Styled.footer`
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -54,12 +54,23 @@ const Editor = Styled.div`
     border-top: 1px dashed var(--input-border-color);
 `;
 
-const Text = Styled.p`
+const Aside = Styled.aside`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+
+    p {
+        flex-grow: 0;
+    }
+`;
+
+const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
     flex-grow: 2;
     margin: 0;
     padding-left: 4px;
     font-size: 12px;
-    color: var(--lighter-color);
+    color: ${(props) => props.atMaxLength ? "var(--error-color)" : "var(--lighter-color)"};
 `;
 
 
@@ -72,40 +83,63 @@ const Text = Styled.p`
 function TextareaInput(props) {
     const {
         inputRef, className, isFocused, isDisabled, withLabel,
-        id, name, value, placeholder, rows,
+        id, name, value, placeholder, rows, withEditor,
         onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
         maxLength, children,
     } = props;
 
+    // Variables
     const minRows = Number(rows) || 1;
+
+    // The Current State
     const [ actualRows, setActualRows ] = React.useState(minRows);
 
 
+    // Returns the Value
+    const getValue = (e) => {
+        const text = String(e.target.value);
+        if (maxLength && text.length > maxLength) {
+            return text.substring(0, maxLength);
+        }
+        return e.target.value;
+    };
+
     // Handles the Input Change
     const handleChange = (e) => {
-        onChange(name, e.target.value);
+        onChange(name, getValue(e));
     };
 
     // Handles the Textarea Input
     const handleInput = (e) => {
         handleAutoGrow();
         if (onInput) {
-            onInput(name, e.target.value);
+            onInput(name, getValue(e));
         }
     };
 
     // Handles the Textarea AutoGrow
     const handleAutoGrow = () => {
-        const textareaLineHeight = 16;
-        const node     = inputRef.current;
-        const prevRows = node.rows;
-        node.rows = minRows;
+        const lineHeight  = 16;
+        const node        = inputRef.current;
+        let   currentRows = ~~(node.scrollHeight / lineHeight);
+        let   rows        = currentRows;
 
-        const currentRows = ~~(node.scrollHeight / textareaLineHeight);
-        if (currentRows === prevRows) {
-            node.rows = currentRows;
+        if (currentRows <= node.rows) {
+            rows = node.rows - 1;
+            while (rows > minRows) {
+                node.rows   = rows;
+                rows       -= 1;
+                currentRows = ~~(node.scrollHeight / lineHeight);
+                if (currentRows > rows) {
+                    rows = currentRows;
+                    break;
+                }
+            }
         }
-        setActualRows(currentRows);
+
+        rows = Math.max(rows, minRows);
+        node.rows = rows;
+        setActualRows(rows);
     };
 
     // Resize the Textarea the first time
@@ -132,9 +166,12 @@ function TextareaInput(props) {
 
 
     // Do the Render
-    const hasFooter   = Boolean(maxLength || (children && children.length));
+    const hasEditor   = Boolean(maxLength || (children && children.length));
+    const hasFooter   = Boolean(hasEditor && withEditor);
+    const hasAside    = Boolean(hasEditor && !withEditor);
     const counterText = maxLength ? "GENERAL_CHARACTERS_MAX" : "GENERAL_CHARACTERS";
-    const characters  = String(String(value || "").length);
+    const characters  = String(value || "").length;
+    const atMaxLength = characters >= maxLength;
 
     return <InputContent
         inputRef={inputRef}
@@ -144,7 +181,7 @@ function TextareaInput(props) {
         withLabel={withLabel}
         withBorder
     >
-        <Container>
+        <Container hasFooter={hasFooter}>
             <Textarea
                 ref={inputRef}
                 className="input-textarea"
@@ -161,10 +198,18 @@ function TextareaInput(props) {
                 onKeyDown={onKeyDown}
                 onKeyUp={onKeyUp}
             />
-            {hasFooter && <Editor>
-                <Text>{NLS.format(counterText, characters, maxLength)}</Text>
+            {hasFooter && <Footer className="inputfield-editor">
+                <Text atMaxLength={atMaxLength}>
+                    {NLS.format(counterText, String(characters), maxLength)}
+                </Text>
                 {!isDisabled && children}
-            </Editor>}
+            </Footer>}
+            {hasAside && <Aside className="inputfield-editor">
+                {!!maxLength && <Text atMaxLength={atMaxLength}>
+                    {`${characters}/${maxLength}`}
+                </Text>}
+                {!isDisabled && children}
+            </Aside>}
         </Container>
     </InputContent>;
 }
@@ -179,6 +224,7 @@ TextareaInput.propTypes = {
     isFocused   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
     withLabel   : PropTypes.bool,
+    withEditor  : PropTypes.bool,
     id          : PropTypes.string,
     name        : PropTypes.string.isRequired,
     placeholder : PropTypes.string,
@@ -203,6 +249,7 @@ TextareaInput.defaultProps = {
     className   : "",
     isFocused   : false,
     isDisabled  : false,
+    withEditor  : true,
     placeholder : "",
     maxLength   : 0,
 };

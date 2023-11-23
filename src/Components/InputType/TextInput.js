@@ -19,11 +19,11 @@ const Children = Styled.div`
     margin-right: calc(2px - var(--input-horiz-padding));
 `;
 
-const Text = Styled.p`
+const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
     margin: 0;
     margin-right: 8px;
     font-size: 12px;
-    color: var(--lighter-color);
+    color: ${(props) => props.atMaxLength ? "var(--error-color)" : "var(--lighter-color)"};
 `;
 
 
@@ -102,7 +102,8 @@ function TextInput(props) {
 
 
     // Do the Render
-    const characters = String(value || "").length;
+    const characters  = String(value || "").length;
+    const atMaxLength = characters >= maxLength;
 
     return <InputContent
         inputRef={inputRef}
@@ -134,7 +135,9 @@ function TextInput(props) {
             onKeyUp={handleKeyUp}
         />
         <Children className="inputfield-children">
-            {!!maxLength && <Text>{`${characters}/${maxLength}`}</Text>}
+            {!!maxLength && <Text atMaxLength={atMaxLength}>
+                {`${characters}/${maxLength}`}
+            </Text>}
             {children}
         </Children>
     </InputContent>;

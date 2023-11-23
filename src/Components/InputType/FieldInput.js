@@ -206,7 +206,11 @@ function FieldInput(props) {
                     withLabel={!!item.label || index === 0}
                     isSmall={!item.label && index > 0}
                     fullWidth
-                />)}
+                >
+                    {Utils.cloneChildren(item.children, () => ({
+                        onChange : (value) => handleChange(index, item.name, value),
+                    }))}
+                </InputField>)}
             </Items>
 
             {canRemove && <Remove>
