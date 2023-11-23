@@ -39,6 +39,7 @@ const H2 = Styled.h2`
     margin: 0;
     font-family: var(--title-font);
     font-size: 22px;
+    font-weight: 400;
     line-height: 1.2;
     letter-spacing: 1px;
     color: var(--navtitle-color);
