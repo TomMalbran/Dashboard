@@ -8,16 +8,12 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Label = Styled.p.attrs(({
-    isRequired, withTransform, withValue, isFocused,
-}) => ({
-    isRequired, withTransform, withValue, isFocused,
-}))`
+const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, isFocused }) => ({ isRequired, withTransform, withValue, isFocused }))`
     box-sizing: border-box;
     position: absolute;
     top: 4px;
     left: 6px;
-    max-width: calc(100% - 8px);
+    max-width: calc(100% - 12px);
     margin: 0;
     padding: 0 6px;
     line-height: 1;
@@ -62,6 +58,8 @@ function InputLabel(props) {
         isFocused, message,
     } = props;
 
+
+    // Do the Render
     return <Label
         className={className}
         isRequired={isRequired}
