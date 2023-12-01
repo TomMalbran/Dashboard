@@ -11,11 +11,11 @@ import InputContent         from "../Input/InputContent";
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasFooter }) => ({ hasFooter }))`
+const Container = Styled.div.attrs(({ hideOverflow }) => ({ hideOverflow }))`
     box-sizing: border-box;
     width: 100%;
     border-radius: var(--border-radius);
-    ${(props) => props.hasFooter && "overflow: hidden;"}
+    ${(props) => props.hideOverflow && "overflow: hidden;"}
 `;
 
 const Textarea = Styled.textarea`
@@ -126,14 +126,14 @@ function TextareaInput(props) {
 
         if (currentRows <= node.rows) {
             rows = node.rows - 1;
-            while (rows > minRows) {
+            while (rows >= minRows) {
                 node.rows   = rows;
-                rows       -= 1;
                 currentRows = ~~(node.scrollHeight / lineHeight);
                 if (currentRows > rows) {
                     rows = currentRows;
                     break;
                 }
+                rows -= 1;
             }
         }
 
@@ -181,7 +181,7 @@ function TextareaInput(props) {
         withLabel={withLabel}
         withBorder
     >
-        <Container hasFooter={hasFooter}>
+        <Container hideOverflow={!hasAside}>
             <Textarea
                 ref={inputRef}
                 className="input-textarea"
