@@ -53,7 +53,10 @@ InputItem.propTypes = {
     suggestParams   : PropTypes.object,
     suggestNone     : PropTypes.string,
     keepSuggestions : PropTypes.bool,
+    columns         : PropTypes.string,
     hide            : PropTypes.func,
+    getType         : PropTypes.func,
+    getOptions      : PropTypes.func,
     children        : PropTypes.any,
 };
 

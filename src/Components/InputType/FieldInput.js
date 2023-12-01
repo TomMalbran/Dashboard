@@ -77,6 +77,15 @@ const Items = Styled.div.attrs(({ columns }) => ({ columns }))`
     `}
 `;
 
+const Input = Styled.div.attrs(({ columns }) => ({ columns }))`
+    ${(props) => props.columns && `grid-column-end: span ${props.columns};`}
+    width: 100%;
+
+    :empty {
+        display: none;
+    }
+`;
+
 const Remove = Styled.div`
     display: flex;
     align-items: center;
@@ -193,24 +202,28 @@ function FieldInput(props) {
         >
             {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
             <Items className="inputfield-items" columns={columns}>
-                {items.map((item) => <InputField
-                    {...item}
+                {items.map((item) => <Input
                     key={`${item.subKey || item.name}-${index}`}
-                    isHidden={item.hide ? item.hide(elem || {}) : false}
-                    type={item.type}
-                    name={`${item.name}-${index}`}
-                    value={elem[item.name] || ""}
-                    onChange={(name, value) => handleChange(index, item.name, value)}
-                    onSuggest={(idName, idValue, name, value) => handleSuggest(index, idName, idValue, item.name, value)}
-                    isDisabled={isDisabled}
-                    withLabel={!!item.label || index === 0}
-                    isSmall={!item.label && index > 0}
-                    fullWidth
+                    columns={item.columns}
                 >
-                    {Utils.cloneChildren(item.children, () => ({
-                        onChange : (value) => handleChange(index, item.name, value),
-                    }))}
-                </InputField>)}
+                    <InputField
+                        {...item}
+                        isHidden={item.hide ? item.hide(elem || {}) : false}
+                        type={item.type}
+                        name={`${item.name}-${index}`}
+                        value={elem[item.name] || ""}
+                        onChange={(name, value) => handleChange(index, item.name, value)}
+                        onSuggest={(idName, idValue, name, value) => handleSuggest(index, idName, idValue, item.name, value)}
+                        isDisabled={isDisabled}
+                        withLabel={!!item.label || index === 0}
+                        isSmall={!item.label && index > 0}
+                        fullWidth
+                    >
+                        {Utils.cloneChildren(item.children, () => ({
+                            onChange : (value) => handleChange(index, item.name, value),
+                        }))}
+                    </InputField>
+                </Input>)}
             </Items>
 
             {canRemove && <Remove>
