@@ -13,7 +13,9 @@ import CircularLoader       from "../Loader/CircularLoader";
  * @returns {React.ReactElement}
  */
 function PDFViewer(props) {
-    const { source, currentPage, onLoad } = props;
+    const { source, currentPage, maxWidth, onLoad } = props;
+
+    // The Current State
     const [ isMounted, setMounted ] = React.useState(false);
 
     // Handles the Mounted state
@@ -30,6 +32,7 @@ function PDFViewer(props) {
     };
 
 
+    // Do the Render
     if (!source) {
         return <React.Fragment />;
     }
@@ -38,7 +41,10 @@ function PDFViewer(props) {
         onLoadSuccess={handleLoaded}
         loading={<CircularLoader withSpacing />}
     >
-        <Page pageNumber={currentPage} width={800} />
+        <Page
+            pageNumber={currentPage}
+            width={maxWidth}
+        />
     </Document>;
 }
 
@@ -49,7 +55,17 @@ function PDFViewer(props) {
 PDFViewer.propTypes = {
     source      : PropTypes.string,
     currentPage : PropTypes.number,
+    maxWidth    : PropTypes.number,
     onLoad      : PropTypes.func,
+};
+
+/**
+ * The Default Properties
+ * @typedef {Object} defaultProps
+ */
+PDFViewer.defaultProps = {
+    currentPage : 1,
+    maxWidth    : 800,
 };
 
 export default PDFViewer;
