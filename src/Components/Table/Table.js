@@ -93,9 +93,14 @@ function Table(props) {
 
     // Handles the Row Click
     const handleRowClick = (elemID) => {
-        if (!noClick && firstAction.action && menuID === null && !Utils.hasSelection()
-            && (!firstAction.hide || !firstAction.hide(elemID))) {
-            handleClick(firstAction, elemID);
+        if (noClick || menuID !== null || Utils.hasSelection()) {
+            return;
+        }
+        for (const action of actions) {
+            if (action.action && (!action.hide || !action.hide(elemID))) {
+                handleClick(action, elemID);
+                break;
+            }
         }
     };
 
@@ -123,15 +128,15 @@ function Table(props) {
 
 
     // Get the Actions and ColSpan
-    const actions     = [];
-    const items       = [];
-    const columns     = [];
-    const elemIDs     = [];
-    let   firstAction = {};
-    let   colSpan     = 0;
-    let   hasContent  = false;
-    let   hasPaging   = false;
-    let   hasActions  = false;
+    const actions    = [];
+    const items      = [];
+    const columns    = [];
+    const elemIDs    = [];
+
+    let   colSpan    = 0;
+    let   hasContent = false;
+    let   hasPaging  = false;
+    let   hasActions = false;
 
     for (const child of Utils.toArray(children)) {
         if (child.type === TableHead) {
@@ -183,9 +188,6 @@ function Table(props) {
                         action.onAction = child.props.onAction;
                     }
                     if (!menuID || !action.hide || !action.hide(menuID)) {
-                        if (!firstAction.action) {
-                            firstAction = action;
-                        }
                         actions.push(action);
                     }
                 }
