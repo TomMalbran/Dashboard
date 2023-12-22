@@ -27,7 +27,7 @@ const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
     ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
-const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft, isRight }))`
+const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width, maxHeight }) => ({ withPos, isLeft, isRight, width, maxHeight }))`
     position: absolute;
     list-style: none;
     margin: 0;
@@ -42,11 +42,31 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight }) => ({ withPos, isLeft,
     ${(props) => props.withPos && "transform: none;"}
     ${(props) => props.isLeft  && "left: 7px;"}
     ${(props) => props.isRight && "right: 7px;"}
+    ${(props) => props.width && `width: ${props.width}px;`}
+
+    ${(props) => props.maxHeight && `
+        max-height: ${props.maxHeight}px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    `}
 `;
 
 const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
-    ${(props) => props.atBottom  && "margin-top: 12px;"}
-    ${(props) => !props.atBottom && "margin-bottom: 12px;"}
+    position: sticky;
+    background-color: white;
+
+    ${(props) => props.atBottom  && `
+        bottom: -8px;
+        margin-top: 8px;
+        margin-bottom: -8px;
+        padding-bottom: 8px;
+    `}
+    ${(props) => !props.atBottom && `
+        top: -8px;
+        margin-top: -8px;
+        margin-bottom: 8px;
+        padding-top: 8px;
+    `}
 `;
 
 
@@ -59,7 +79,7 @@ const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        bottom, gap, onAction, onClose, targetRef,
+        bottom, gap, width, maxHeight, onAction, onClose, targetRef,
         withSearch, onMouseEnter, onMouseLeave, isSubmenu, children,
     } = props;
     let { top, left, right } = props;
@@ -73,8 +93,8 @@ function Menu(props) {
     const contentRef = React.useRef();
 
     // The Current State
-    const [ width,       setWidth       ] = React.useState(0);
-    const [ height,      setHeight      ] = React.useState(0);
+    const [ boundWidth,  setBoundWidth  ] = React.useState(0);
+    const [ boundHeight, setBoundHeight ] = React.useState(0);
     const [ filter,      setFilter      ] = React.useState("");
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
     const [ trigger,     setTrigger     ] = React.useState(false);
@@ -102,8 +122,12 @@ function Menu(props) {
     React.useEffect(() => {
         if (open) {
             const bounds = Utils.getBounds(contentRef);
-            setWidth(bounds.width);
-            setHeight(bounds.height);
+            if (maxHeight) {
+                setBoundHeight(Math.min(bounds.height, maxHeight));
+            } else {
+                setBoundHeight(bounds.height);
+            }
+            setBoundWidth(width || bounds.width);
         }
     }, [ open, filter ]);
 
@@ -113,6 +137,7 @@ function Menu(props) {
         if (!open || Utils.inRef(e.clientX, e.clientY, contentRef)) {
             return;
         }
+        setFilter("");
         onClose();
         e.stopPropagation();
         e.preventDefault();
@@ -151,6 +176,12 @@ function Menu(props) {
         e.preventDefault();
     };
 
+    // Handles the Click to prevent
+    const handleClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
 
     // Set the position
     const dir       = direction || "";
@@ -186,34 +217,34 @@ function Menu(props) {
 
     if (hasStyles) {
         if (top && forTop) {
-            top -= height;
+            top -= boundHeight;
         }
         if (left && forLeft) {
-            left -= width;
+            left -= boundWidth;
         }
 
-        if (containerRef && width) {
+        if (containerRef && boundWidth) {
             const bounds = Utils.getBounds(containerRef);
-            if (top + height > bounds.bottom) {
-                top -= height - iconHeight;
+            if (top + boundHeight > bounds.bottom) {
+                top -= boundHeight - iconHeight;
             }
-            if (left && left + width > bounds.right) {
-                left -= width;
+            if (left && left + boundWidth > bounds.right) {
+                left -= boundWidth;
             }
-            if (right && right - width < bounds.left) {
-                right += width;
+            if (right && right - boundWidth < bounds.left) {
+                right += boundWidth;
             }
         }
 
         if (top && top < 0) {
             top = 0;
-        } else if (top && height && top + height > window.innerHeight) {
-            top -= (top + height) - window.innerHeight;
+        } else if (top && boundHeight && top + boundHeight > window.innerHeight) {
+            top -= (top + boundHeight) - window.innerHeight;
         }
         if (left && left < 0) {
             left = 10;
-        } else if (left && width && left + width > window.innerWidth) {
-            left -= (left + width) - window.innerWidth;
+        } else if (left && boundWidth && left + boundWidth > window.innerWidth) {
+            left -= (left + boundWidth) - window.innerWidth;
         }
 
         if (top) {
@@ -248,6 +279,9 @@ function Menu(props) {
             withPos={hasStyles}
             isLeft={!hasStyles && variant === Variant.LEFT}
             isRight={!hasStyles && variant === Variant.RIGHT}
+            width={width}
+            onClick={handleClick}
+            maxHeight={maxHeight}
             style={style}
         >
             {bottomSearch && items}
@@ -286,6 +320,8 @@ Menu.propTypes = {
     right        : PropTypes.number,
     iconHeight   : PropTypes.number,
     gap          : PropTypes.number,
+    width        : PropTypes.number,
+    maxHeight    : PropTypes.number,
     withSearch   : PropTypes.bool,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
@@ -306,6 +342,8 @@ Menu.defaultProps = {
     direction  : "",
     iconHeight : 0,
     gap        : 0,
+    width      : 0,
+    maxHeight  : 0,
     withSearch : false,
     isSubmenu  : false,
 };
