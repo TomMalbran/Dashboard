@@ -19,7 +19,6 @@ const Container = Styled.img.attrs(({ size, width }) => ({ size, width }))`
         object-fit: contain;
         object-position: center;
     `}
-
 `;
 
 
@@ -30,7 +29,7 @@ const Container = Styled.img.attrs(({ size, width }) => ({ size, width }))`
  * @returns {React.ReactElement}
  */
 function Image(props) {
-    const { source, message, size, width } = props;
+    const { className, source, message, size, width } = props;
 
 
     // Do the Render
@@ -38,6 +37,7 @@ function Image(props) {
         return <React.Fragment />;
     }
     return <Container
+        className={className}
         src={source}
         alt={NLS.get(message || "")}
         size={size || 24}
@@ -50,10 +50,11 @@ function Image(props) {
  * @typedef {Object} propTypes
  */
 Image.propTypes = {
-    source  : PropTypes.string,
-    message : PropTypes.string,
-    size    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    width   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    className : PropTypes.string,
+    source    : PropTypes.string,
+    message   : PropTypes.string,
+    size      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    width     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
 };
 
 export default Image;
