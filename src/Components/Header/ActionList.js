@@ -46,13 +46,15 @@ function ActionList(props) {
         withImport, withExport, hasFilters, children,
     } = props;
 
+
+    // Variables
     const items      = Utils.cloneChildren(children, () => ({ onAction }));
-    const createName = createText || (useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE"));
-    const canCreate  = Boolean(data.canCreate);
     const canFilter  = Boolean(data.canFilter);
+    const canCreate  = Boolean(data.canCreate);
     const canImport  = Boolean(withImport && data.canImport);
     const canExport  = Boolean(withExport && data.canExport && data.total > 0);
-    const hasActions = canCreate || canFilter || canImport || canExport || items.length > 0;
+    const createName = createText || (useAdd ? "GENERAL_ADD" : (useAssign ? "GENERAL_ASSIGN" : "GENERAL_CREATE"));
+    const hasActions = canFilter || canCreate || canImport || canExport || items.length > 0;
 
 
     // Do the Render
@@ -60,15 +62,15 @@ function ActionList(props) {
         return <React.Fragment />;
     }
     return <Ul className={className}>
-        {canCreate && <ActionItem
-            action="CREATE"
-            message={createName}
-            onAction={onAction}
-        />}
         {canFilter && <ActionItem
             action="FILTER"
             onAction={onAction}
             withMark={hasFilters || data.hasFilters}
+        />}
+        {canCreate && <ActionItem
+            action="CREATE"
+            message={createName}
+            onAction={onAction}
         />}
         {canImport && <ActionItem
             action="IMPORT"
