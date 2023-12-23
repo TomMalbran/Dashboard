@@ -185,17 +185,20 @@ function isUrl(urlKey, testUrl) {
  */
 function getUrl(data) {
     const { href, url, message, useBase, isLink, isEmail, isPhone, isWhatsApp } = data;
-    let result = href;
+
+    const value  = href !== "#" ? href : message;
+    let   result = href;
+
     if (url) {
         result = useBase ? NLS.baseUrl(url) : NLS.url(url);
     } else if (isLink) {
         result = !message.startsWith("http") ? `http://${message}` : message;
     } else if (isEmail) {
-        result = getEmail(href || message);
+        result = getEmail(value);
     } else if (isPhone) {
-        result = getPhone(href || message);
+        result = getPhone(value);
     } else if (isWhatsApp) {
-        result = getWhatsApp(href || message);
+        result = getWhatsApp(value);
     }
     return result;
 }
@@ -224,7 +227,7 @@ function getPhone(phone) {
  * @returns {String}
  */
 function getWhatsApp(whatsapp) {
-    return `https://api.whatsapp.com/send?phone=${whatsapp}`;
+    return `https://wa.me/${whatsapp}`;
 }
 
 
