@@ -32,7 +32,7 @@ const Content = Styled(Html)`
  */
 function ConfirmDialog(props) {
     const {
-        open, icon, title, message, content,
+        open, icon, title, message, content, isLoading,
         lightHeader, primary, primaryVariant, onSubmit, onClose,
     } = props;
 
@@ -41,7 +41,12 @@ function ConfirmDialog(props) {
 
 
     // Do the Render
-    return <Dialog open={open} onClose={onClose} isNarrow>
+    return <Dialog
+        open={open}
+        onClose={onClose}
+        isLoading={isLoading}
+        isNarrow
+    >
         <DialogHeader
             message={title}
             icon={icon}
@@ -70,6 +75,7 @@ ConfirmDialog.propTypes = {
     content        : PropTypes.string,
     primary        : PropTypes.string,
     primaryVariant : PropTypes.string,
+    isLoading      : PropTypes.bool,
     lightHeader    : PropTypes.bool,
     onSubmit       : PropTypes.func.isRequired,
     onClose        : PropTypes.func.isRequired,
@@ -81,6 +87,7 @@ ConfirmDialog.propTypes = {
  */
 ConfirmDialog.defaultProps = {
     primary     : "GENERAL_ACCEPT",
+    isLoading   : false,
     lightHeader : false,
 };
 

@@ -38,7 +38,8 @@ const Content = Styled(Html)`
  */
 function PromptDialog(props) {
     const {
-        open, title, message, content, icon, primary, primaryVariant, lightHeader,
+        open, title, message, content, icon, isLoading,
+        primary, primaryVariant, lightHeader,
         inputType, inputLabel, inputIcon, placeholder,
         initialValue, inputOptions, maxLength, spellCheck,
         secInputType, secInputLabel, secInputIcon,
@@ -82,7 +83,12 @@ function PromptDialog(props) {
     const hasMessage = !!message;
     const body       = content ? NLS.format(message, content) : NLS.get(message);
 
-    return <Dialog open={open} onClose={onClose} isNarrow>
+    return <Dialog
+        open={open}
+        onClose={onClose}
+        isLoading={isLoading}
+        isNarrow
+    >
         <DialogHeader
             message={title}
             icon={icon}
@@ -159,11 +165,12 @@ PromptDialog.propTypes = {
     secInitialValue : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     secInputOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     secMaxLength    : PropTypes.number,
+    isOptional      : PropTypes.bool,
+    isLoading       : PropTypes.bool,
+    lightHeader     : PropTypes.bool,
+    spellCheck      : PropTypes.string,
     onSubmit        : PropTypes.func.isRequired,
     onClose         : PropTypes.func.isRequired,
-    lightHeader     : PropTypes.bool,
-    isOptional      : PropTypes.bool,
-    spellCheck      : PropTypes.string,
 };
 
 /**
@@ -176,8 +183,9 @@ PromptDialog.defaultProps = {
     initialValue    : "",
     secInputType    : InputType.TEXT,
     secInitialValue : "",
-    lightHeader     : false,
     isOptional      : false,
+    isLoading       : false,
+    lightHeader     : false,
 };
 
 export default PromptDialog;
