@@ -2,20 +2,23 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 
 
 // Styles
-const Ul = Styled.ul.attrs(({ isOpen }) => ({ isOpen }))`
+const Options = Styled.ul.attrs(({ isOpen, top, left, width, minWidth, maxHeight }) => ({ isOpen, top, left, width, minWidth, maxHeight }))`
     box-sizing: border-box;
     display: ${(props)=> props.isOpen ? "block" : "none"};
-    position: absolute;
+    position: fixed;
+    top: ${(props) => `${props.top + 2}px`};
+    left: ${(props) => `${props.left}px`};
+    width: ${(props) => `${props.width}px`};
+    max-height: ${(props) => `${props.maxHeight}px`};
+    min-width: ${(props) => `${props.minWidth || 200}px`};
     overflow: auto;
-    width: 100%;
-    min-width: 200px;
-    max-height: 300px;
     margin: 0;
     padding: 8px;
     list-style: none;
@@ -26,7 +29,7 @@ const Ul = Styled.ul.attrs(({ isOpen }) => ({ isOpen }))`
     z-index: 2;
 `;
 
-const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
+const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
     margin: 0;
     padding: 8px;
     font-size: 14px;
@@ -57,7 +60,8 @@ const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
  */
 function AutoSuggest(props) {
     const {
-        suggestRef, open, id, name, noneText, keepSuggestions,
+        inputRef, suggestRef, open, minWidth,
+        id, name, noneText, keepSuggestions,
         params, fetch, onChange, onSuggest,
     } = props;
 
@@ -71,7 +75,21 @@ function AutoSuggest(props) {
     const [ suggestions, setSuggestions ] = React.useState([]);
     const [ selectedIdx, setSelectedIdx ] = React.useState(0);
     const [ selectedVal, setSelectedVal ] = React.useState("");
+    const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
 
+
+    // Clear the Timer
+    React.useEffect(() => {
+        if (open) {
+            const bounds = Utils.getBounds(inputRef);
+            setBounds({
+                top       : bounds.bottom,
+                left      : bounds.left,
+                width     : bounds.width,
+                maxHeight : window.innerHeight - bounds.bottom - 10,
+            });
+        }
+    }, [ open ]);
 
     // Initializes the Value
     const initValue = async (newValue) => {
@@ -194,22 +212,37 @@ function AutoSuggest(props) {
     // There is nothing to show
     if (!suggestions.length) {
         if (value && value.length > 1 && noneText) {
-            return <Ul isOpen={open}>
-                <Li>{NLS.get(noneText)}</Li>
-            </Ul>;
+            return <Options
+                isOpen={open}
+                top={bounds.top}
+                left={bounds.left}
+                width={bounds.width}
+                maxHeight={bounds.maxHeight}
+                minWidth={minWidth}
+            >
+                <Option>{NLS.get(noneText)}</Option>
+            </Options>;
         }
         return <React.Fragment />;
     }
 
     // There are some results
-    return <Ul ref={listRef} isOpen={open}>
-        {suggestions.map((elem, index) => <Li
+    return <Options
+        ref={listRef}
+        isOpen={open}
+        top={bounds.top}
+        left={bounds.left}
+        width={bounds.width}
+        maxHeight={bounds.maxHeight}
+        minWidth={minWidth}
+    >
+        {suggestions.map((elem, index) => <Option
             key={index}
             className={`auto-suggest-${index}`}
             isSelected={selectedIdx === index}
             onMouseDown={(e) => handleClick(e, elem.id, elem.title, elem)}
-        >{elem.title}</Li>)}
-    </Ul>;
+        >{elem.title}</Option>)}
+    </Options>;
 }
 
 /**
@@ -217,16 +250,18 @@ function AutoSuggest(props) {
  * @typedef {Object} propTypes
  */
 AutoSuggest.propTypes = {
+    inputRef        : PropTypes.object.isRequired,
     suggestRef      : PropTypes.object.isRequired,
     open            : PropTypes.bool.isRequired,
+    name            : PropTypes.string.isRequired,
+    id              : PropTypes.string.isRequired,
+    fetch           : PropTypes.func.isRequired,
+    params          : PropTypes.object,
+    minWidth        : PropTypes.number,
     noneText        : PropTypes.string,
     keepSuggestions : PropTypes.bool,
-    fetch           : PropTypes.func.isRequired,
     onChange        : PropTypes.func,
     onSuggest       : PropTypes.func,
-    id              : PropTypes.string.isRequired,
-    name            : PropTypes.string.isRequired,
-    params          : PropTypes.object,
 };
 
 /**

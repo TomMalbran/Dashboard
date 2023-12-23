@@ -49,14 +49,15 @@ function InputField(props) {
         width, fullWidth, isRequired, withNone,
         withLabel, shrinkLabel, errorBackground,
         suggestFetch, suggestID, suggestParams, suggestNone,
-        keepSuggestions, hasClear, onClear,
+        suggestWidth, keepSuggestions, hasClear, onClear,
     } = props;
 
 
     // The References
-    const fieldRef   = React.useRef();
-    const inputRef   = passedRef || fieldRef;
-    const suggestRef = React.useRef();
+    const fieldRef     = React.useRef();
+    const inputRef     = passedRef || fieldRef;
+    const containerRef = React.useRef();
+    const suggestRef   = React.useRef();
 
     // The Current State
     const [ timer,     setTimer ] = React.useState(null);
@@ -168,7 +169,7 @@ function InputField(props) {
             isFocused={isFocused}
             message={label}
         />}
-        <FieldContent>
+        <FieldContent ref={containerRef}>
             <Input
                 {...props}
                 className="inputfield-input"
@@ -198,6 +199,7 @@ function InputField(props) {
         </FieldHelper>}
 
         {autoSuggest && <AutoSuggest
+            inputRef={containerRef}
             suggestRef={suggestRef}
             open={isFocused}
             name={name}
@@ -206,6 +208,7 @@ function InputField(props) {
             params={suggestParams}
             noneText={suggestNone}
             keepSuggestions={keepSuggestions}
+            minWidth={suggestWidth}
             onChange={onSearch}
             onSuggest={onSuggest}
         />}
@@ -255,6 +258,7 @@ InputField.propTypes = {
     suggestFetch    : PropTypes.func,
     suggestParams   : PropTypes.object,
     suggestNone     : PropTypes.string,
+    suggestWidth    : PropTypes.number,
     keepSuggestions : PropTypes.bool,
     addButton       : PropTypes.string,
     error           : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
