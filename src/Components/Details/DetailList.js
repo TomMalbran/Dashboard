@@ -74,8 +74,17 @@ function DetailList(props) {
 
     const { closeDetails } = Store.useAction("core");
 
+
     // The Current State
     const [ isCollapsed, setCollapsed ] = React.useState(false);
+
+
+    // Variables
+    const isCollapsible   = Boolean(collapsible);
+    const hasPreCollapse  = Boolean(isCollapsible && !icon);
+    const hasPreIcon      = Boolean(icon);
+    const hasPostAction   = Boolean(action && onAction && canEdit);
+    const hasPostCollapse = Boolean(isCollapsible && !hasPostAction && icon);
 
 
     // Handles the Initial Collapsed state
@@ -107,28 +116,34 @@ function DetailList(props) {
     };
 
 
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
-
-    const isCollapsible = Boolean(collapsible);
-    const hasAction     = Boolean(action && onAction && canEdit);
     return <Div className={className}>
         <H3
             isCollapsible={isCollapsible}
             isCollapsed={isCollapsed}
             onClick={handleClick}
         >
-            {isCollapsible ? <IconLink
+            {hasPreCollapse && <IconLink
                 variant="black"
                 icon={isCollapsed ? "closed" : "expand"}
                 isSmall
-            /> : !!icon && <Icon icon={icon} />}
+            />}
+            {hasPreIcon && <Icon icon={icon} />}
+
             <Span>{NLS.get(message)}</Span>
-            {hasAction && <IconLink
+
+            {hasPostAction && <IconLink
                 variant="black"
                 icon="edit"
                 onClick={handleAction}
+                isSmall
+            />}
+            {hasPostCollapse && <IconLink
+                variant="black"
+                icon={isCollapsed ? "closed" : "expand"}
                 isSmall
             />}
         </H3>
