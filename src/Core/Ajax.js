@@ -66,13 +66,16 @@ async function ajax(url, options = {}, showResult = true, abortController = null
 
     // The session ended
     if (result.userLoggedOut) {
-        Auth.unsetToken();
-        return {};
+        Auth.unsetAll();
+        return { error : true };
     }
 
-    // Update the Token
+    // Update the Tokens
     if (result.jwt) {
         Auth.setToken(result.jwt);
+    }
+    if (result.refreshToken) {
+        Auth.setRefreshToken(result.refreshToken);
     }
 
     // There was an error
@@ -158,6 +161,10 @@ function addUrlParams(url, params = {}, addToken = true, addAuth = false) {
         if (token) {
             url.searchParams.append("jwt", token);
         }
+        const refreshToken = Auth.getRefreshToken();
+        if (refreshToken) {
+            url.searchParams.append("refreshToken", refreshToken);
+        }
     }
 
     if (addAuth) {
@@ -203,17 +210,21 @@ async function get(route, params = {}, showResult = true, abortController = null
  * @returns {Promise}
  */
 function post(route, params = {}, showResult = true, abortController = null) {
-    const url      = baseUrl(route);
-    const token    = Auth.getToken();
-    const langcode = Auth.getLanguage();
-    const timezone = Auth.getTimezone();
-    const body     = new FormData();
+    const url          = baseUrl(route);
+    const token        = Auth.getToken();
+    const refreshToken = Auth.getRefreshToken();
+    const langcode     = Auth.getLanguage();
+    const timezone     = Auth.getTimezone();
+    const body         = new FormData();
 
     for (const [ key, value ] of Object.entries(params)) {
         body.append(key, value);
     }
     if (token) {
         body.append("jwt", token);
+    }
+    if (refreshToken) {
+        body.append("refreshToken", refreshToken);
     }
     if (langcode) {
         body.append("langcode", langcode);

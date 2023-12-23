@@ -3,9 +3,9 @@ import NLS                  from "../Core/NLS";
 
 // Module Variables
 let token          = "";
+let refreshToken   = "";
 let timezone       = null;
 let language       = null;
-let timeout        = null;
 let setCurrentUser = null;
 
 
@@ -20,7 +20,20 @@ function init(onUserChange) {
     if (localStorage.token) {
         token = localStorage.token;
     }
+    if (localStorage.refreshToken) {
+        refreshToken = localStorage.refreshToken;
+    }
     setUser();
+}
+
+/**
+ * Unsets all the Data
+ * @returns {Void}
+ */
+function unsetAll() {
+    unsetToken();
+    unsetRefreshToken();
+    unsetUser();
 }
 
 
@@ -43,12 +56,12 @@ function getDecodeToken() {
 
 /**
  * Sets the JWT Token
- * @param {String} jwt
+ * @param {String} newToken
  * @returns {Void}
  */
-function setToken(jwt) {
-    if (token !== jwt) {
-        token    = jwt;
+function setToken(newToken) {
+    if (token !== newToken) {
+        token    = newToken;
         language = null;
         timezone = null;
         localStorage.setItem("token", token);
@@ -61,12 +74,39 @@ function setToken(jwt) {
  * @returns {Void}
  */
 function unsetToken() {
-    token    = null;
-    language = null;
-    timezone = null;
-
+    token = "";
     localStorage.removeItem("token");
-    setCurrentUser({});
+}
+
+
+
+/**
+ * Returns the Refresh Token
+ * @returns {String}
+ */
+function getRefreshToken() {
+    return refreshToken;
+}
+
+/**
+ * Sets the Refresh Token
+ * @param {String} newRefreshToken
+ * @returns {Void}
+ */
+function setRefreshToken(newRefreshToken) {
+    if (refreshToken !== newRefreshToken) {
+        refreshToken = newRefreshToken;
+        localStorage.setItem("refreshToken", refreshToken);
+    }
+}
+
+/**
+ * Unsets the Refresh Token
+ * @returns {Void}
+ */
+function unsetRefreshToken() {
+    refreshToken = "";
+    localStorage.removeItem("refreshToken");
 }
 
 
@@ -92,7 +132,11 @@ function setUser() {
         const jwt  = getDecodeToken();
         const time = Math.floor(Date.now() / 1000);
         if (jwt.exp < time) {
-            unsetToken();
+            if (!refreshToken) {
+                unsetAll();
+            } else {
+                unsetToken();
+            }
             return false;
         }
 
@@ -100,18 +144,29 @@ function setUser() {
         if (jwt.data.language) {
             NLS.setLang(jwt.data.language);
         }
-
-        if (timeout) {
-            window.clearTimeout(timeout);
-        }
-        timeout = window.setTimeout(unsetToken, (jwt.exp - time) * 1000);
         return true;
 
     } catch (e) {
-        unsetToken();
+        if (!refreshToken) {
+            unsetAll();
+        } else {
+            unsetToken();
+        }
         return false;
     }
 }
+
+/**
+ * Unsets the User
+ * @returns {Void}
+ */
+function unsetUser() {
+    language = null;
+    timezone = null;
+    setCurrentUser({});
+}
+
+
 
 /**
  * Returns the Language
@@ -146,11 +201,20 @@ function getTimezone() {
 // The public API
 export default {
     init,
+    unsetAll,
+
     getToken,
     setToken,
     unsetToken,
+
+    getRefreshToken,
+    setRefreshToken,
+    unsetRefreshToken,
+
     getUser,
     setUser,
+    unsetUser,
+
     getLanguage,
     getTimezone,
 };
