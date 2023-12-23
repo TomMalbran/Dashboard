@@ -138,20 +138,31 @@ function FieldInput(props) {
 
 
     // Handles a Field Change
-    const handleChange = (index, name, newValue) => {
+    const handleChange = (item, index, newValue) => {
         const value = parts[index] ? { ...parts[index] } : {};
-        value[name] = newValue;
+        value[item.name] = newValue;
         parts.splice(index, 1, value);
         fieldChanged(parts);
     };
 
-    // Handles a Suggest Change
-    const handleSuggest = (index, idName, idValue, name, newValue) => {
-        const value   = parts[index] ? { ...parts[index] } : {};
-        value[idName] = idValue;
-        value[name]   = newValue;
+    // Handles a Field Clear
+    const handleClear = (item, index, newValue) => {
+        handleChange(item, index, newValue);
+        if (item.onClear) {
+            item.onClear(index, item.name, newValue);
+        }
+    };
+
+    // Handles a Field Suggest
+    const handleSuggest = (item, index, idName, idValue, newValue, data) => {
+        const value = parts[index] ? { ...parts[index] } : {};
+        value[idName]    = idValue;
+        value[item.name] = newValue;
         parts.splice(index, 1, value);
         fieldChanged(parts);
+        if (item.onSuggest) {
+            item.onSuggest(index, idName, idValue, item.name, newValue, data);
+        }
     };
 
     // Adds a Field to the value
@@ -211,16 +222,17 @@ function FieldInput(props) {
                         isHidden={item.hide ? item.hide(elem || {}) : false}
                         type={item.type}
                         name={`${item.name}-${index}`}
-                        value={elem[item.name] || ""}
-                        onChange={(name, value) => handleChange(index, item.name, value)}
-                        onSuggest={(idName, idValue, name, value) => handleSuggest(index, idName, idValue, item.name, value)}
-                        isDisabled={isDisabled}
+                        value={item.getValue ? item.getValue(index) : (elem[item.name] || "")}
+                        onChange={(name, value) => handleChange(item, index, value)}
+                        onClear={(name, value) => handleClear(item, index, value)}
+                        onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
+                        isDisabled={isDisabled || item.isDisabled}
                         withLabel={!!item.label || index === 0}
                         isSmall={!item.label && index > 0}
                         fullWidth
                     >
                         {Utils.cloneChildren(item.children, () => ({
-                            onChange : (value) => handleChange(index, item.name, value),
+                            onChange : (value) => handleChange(item, index, value),
                         }))}
                     </InputField>
                 </Input>)}
