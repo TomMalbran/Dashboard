@@ -23,6 +23,7 @@ import Utils                from "../Utils/Utils";
  *   setData      : Function,
  *   resetData    : Function,
  *   errors       : Object,
+ *   setError     : (...any) => any,
  *   setErrors    : Function,
  *   resetErrors  : Function,
  *   setElem      : Function,
@@ -73,6 +74,11 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         setDataInt({ ...initialData });
     };
 
+
+    // Sets an Error
+    const setError = (field, error) => {
+        setErrorsInt({ ...errors, [field] : error });
+    };
 
     // Sets the Errors
     const setErrors = (fields) => {
@@ -148,7 +154,7 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
     return {
         loading, startLoading, endLoading,
         data, setData, resetData,
-        errors, setErrors, resetErrors,
+        errors, setError, setErrors, resetErrors,
         setElem, handleChange, handleSearch, handleSubmit,
     };
 }
