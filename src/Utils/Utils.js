@@ -357,8 +357,8 @@ function formatNumber(number, decimals = 0) {
  */
 function formatPercent(number, total, decimals = 0, withPercent = true) {
     const percent  = total === 0 ? 0 : (number * 100 / total);
-    const formated = formatNumber(percent, decimals);
-    return formated + (withPercent ? "%" : "");
+    const formatted = formatNumber(percent, decimals);
+    return formatted + (withPercent ? "%" : "");
 }
 
 /**
@@ -935,7 +935,7 @@ function randomNumber(from, to) {
 
 /**
  * Generates a random password with the given length and sets
- * (l = letters, u = uppercase leters, d = digits, s = simbols)
+ * (l = letters, u = uppercase letters, d = digits, s = symbols)
  * @param {Number=} length
  * @param {String=} availableSets
  * @returns {String}
