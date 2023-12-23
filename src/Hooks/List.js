@@ -51,11 +51,11 @@ function useList(slice, type = "", loadOnStart = true) {
     };
 
     // Filters the content after Tab
-    const loadTab = (filter, withLoader = true) => {
+    const loadTab = (filter, amount = 50, withLoader = true) => {
         if (withLoader) {
             startLoader();
         }
-        fetch({ ...data.sort, filter, page : 0 });
+        fetch({ ...data.sort, filter, page : 0, amount });
     };
 
     // Filters the content after Filter
