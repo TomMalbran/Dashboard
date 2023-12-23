@@ -22,8 +22,10 @@ const FieldLabel = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected })
 `;
 
 const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ isSmall, withLink, isSelected }))`
+    box-sizing: border-box;
     display: flex;
     align-items: center;
+    font-size: var(--input-font);
     background-color: white;
     border: 1px solid var(--input-border);
     border-radius: var(--border-radius);
@@ -35,18 +37,21 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
         color: var(--black-color);
         overflow: auto;
 
-        ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
+        ${(props) => props.isSelected && `
+            border-radius: var(--border-radius);
+            background-color: var(--lighter-gray);
+        `}
         ${(props) => props.isSmall ? `
-            min-height: calc(var(--input-height) - 7px);
+            min-height: calc(var(--input-height) - 7px - 2px);
             padding: 4px 8px;
             line-height: 1;
         ` : `
-            min-height: var(--input-height);
+            min-height: calc(var(--input-height) - 2px);
             padding: var(--input-padding);
             line-height: 1.5;
         `}
         ${(props) => props.withLink && "cursor: pointer;"}
-        padding-top: 16px;
+        padding-top: var(--input-label);
     }
 
     .inputview-link {
@@ -116,6 +121,8 @@ function ViewField(props) {
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
     } = props;
 
+
+    // Variables
     const content   = message ? NLS.get(message) : (value === undefined ? "" : String(value));
     const isLink    = content.startsWith("http");
     const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
