@@ -19,6 +19,7 @@ function InputItem() {
  * @typedef {Object} propTypes
  */
 InputItem.propTypes = {
+    passedRef       : PropTypes.any,
     subKey          : PropTypes.string,
     type            : PropTypes.string,
     name            : PropTypes.string,
@@ -48,6 +49,9 @@ InputItem.propTypes = {
     hasClear        : PropTypes.bool,
     onClear         : PropTypes.func,
     onChange        : PropTypes.func,
+    onInput         : PropTypes.func,
+    onKeyUp         : PropTypes.func,
+    onKeyDown       : PropTypes.func,
     onSuggest       : PropTypes.func,
     suggestID       : PropTypes.string,
     suggestFetch    : PropTypes.func,
