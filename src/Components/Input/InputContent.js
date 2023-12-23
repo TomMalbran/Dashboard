@@ -88,7 +88,7 @@ function InputContent(props) {
         passedRef, inputRef, className,
         isFocused, isDisabled, isSmall,
         withBorder, withPadding, withLabel, withClick,
-        onClick, onClear, icon, children,
+        onClick, onClear, icon, postIcon, children,
     } = props;
 
     // Handles the Click
@@ -125,6 +125,7 @@ function InputContent(props) {
             onClick={onClear}
             isSmall
         />}
+        {!!postIcon && <InputIcon icon={postIcon} />}
     </Container>;
 }
 
@@ -146,6 +147,7 @@ InputContent.propTypes = {
     onClick     : PropTypes.func,
     onClear     : PropTypes.func,
     icon        : PropTypes.string,
+    postIcon    : PropTypes.string,
     children    : PropTypes.any,
 };
 

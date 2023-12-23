@@ -53,7 +53,8 @@ const Input = Styled(InputBase)`
  */
 function ColorInput(props) {
     const {
-        inputRef, className, icon, isFocused, isDisabled, isSmall,
+        inputRef, className, icon, postIcon,
+        isFocused, isDisabled, isSmall,
         withBorder, withLabel,
         id, name, value, options,
         onChange, onClear, onFocus, onBlur,
@@ -72,6 +73,7 @@ function ColorInput(props) {
         inputRef={inputRef}
         className={className}
         icon={icon}
+        postIcon={postIcon}
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
@@ -110,6 +112,7 @@ ColorInput.propTypes = {
     inputRef   : PropTypes.any,
     className  : PropTypes.string,
     icon       : PropTypes.string,
+    postIcon   : PropTypes.string,
     isFocused  : PropTypes.bool,
     isDisabled : PropTypes.bool,
     isSmall    : PropTypes.bool,

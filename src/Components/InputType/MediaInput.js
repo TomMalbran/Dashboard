@@ -36,7 +36,7 @@ const InputIcon = Styled(Icon)`
  */
 function MediaInput(props) {
     const {
-        className, icon, isFocused, isDisabled,
+        className, icon, postIcon, isFocused, isDisabled,
         value, placeholder, onlyImages, onClick, onClear,
     } = props;
 
@@ -47,6 +47,7 @@ function MediaInput(props) {
     return <InputContent
         className={className}
         icon={icon}
+        postIcon={postIcon}
         isFocused={isFocused}
         isDisabled={isDisabled}
         onClick={onClick}
@@ -68,6 +69,7 @@ function MediaInput(props) {
 MediaInput.propTypes = {
     className   : PropTypes.string,
     icon        : PropTypes.string,
+    postIcon    : PropTypes.string,
     isFocused   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
     value       : PropTypes.any,

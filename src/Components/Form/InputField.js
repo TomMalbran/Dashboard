@@ -228,6 +228,7 @@ InputField.propTypes = {
     placeholder     : PropTypes.string,
     title           : PropTypes.string,
     icon            : PropTypes.string,
+    postIcon        : PropTypes.string,
     value           : PropTypes.any,
     step            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minValue        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),

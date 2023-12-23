@@ -28,7 +28,7 @@ const InputIcon = Styled(IconLink)`
  */
 function PasswordInput(props) {
     const {
-        inputRef, icon, className, isFocused, isDisabled, isSmall,
+        inputRef, icon, postIcon, className, isFocused, isDisabled, isSmall,
         withBorder, withLabel,
         id, type, name, value, placeholder,
         autoComplete, spellCheck, suggestPassword,
@@ -63,6 +63,7 @@ function PasswordInput(props) {
         inputRef={inputRef}
         className={className}
         icon={icon}
+        postIcon={postIcon}
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
@@ -113,6 +114,7 @@ PasswordInput.propTypes = {
     inputRef        : PropTypes.object,
     className       : PropTypes.string,
     icon            : PropTypes.string,
+    postIcon        : PropTypes.string,
     isFocused       : PropTypes.bool,
     isDisabled      : PropTypes.bool,
     isSmall         : PropTypes.bool,
