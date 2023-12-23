@@ -89,9 +89,11 @@ function DetailList(props) {
     // Handles the Collapsed click
     const handleClick = (e) => {
         e.preventDefault();
-        setCollapsed(!isCollapsed);
-        if (collapsible) {
-            localStorage.setItem(`dashboard-collapsed-${collapsible}-${message}`, isCollapsed ? "0" : "1");
+        if (isCollapsible) {
+            setCollapsed(!isCollapsed);
+            if (collapsible) {
+                localStorage.setItem(`dashboard-collapsed-${collapsible}-${message}`, isCollapsed ? "0" : "1");
+            }
         }
     };
 
