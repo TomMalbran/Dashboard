@@ -288,6 +288,8 @@ InputField.propTypes = {
     onSort          : PropTypes.func,
     autoFocus       : PropTypes.bool,
     onlyImages      : PropTypes.bool,
+    maxSize         : PropTypes.number,
+    onError         : PropTypes.func,
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     children        : PropTypes.any,

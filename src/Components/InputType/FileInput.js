@@ -47,9 +47,9 @@ const Input = Styled.input`
  */
 function FileInput(props) {
     const {
-        name, value, placeholder, onlyImages,
-        onChange, onClear, onFocus, onBlur,
         inputRef, className, icon, postIcon, isFocused, isDisabled,
+        name, value, placeholder, onlyImages, maxSize,
+        onChange, onClear, onError, onFocus, onBlur,
     } = props;
 
 
@@ -57,7 +57,16 @@ function FileInput(props) {
     const handleChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            onChange(name, file, `${name}Name`, file.name);
+            if (maxSize) {
+                const size = file.size / (1024 * 1024);
+                if (size <= maxSize) {
+                    onChange(name, file, `${name}Name`, file.name);
+                } else if (onError) {
+                    onError(name, NLS.get("GENERAL_ERROR_FILE_SIZE"));
+                }
+            } else {
+                onChange(name, file, `${name}Name`, file.name);
+            }
         }
     };
 
