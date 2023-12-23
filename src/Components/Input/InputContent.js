@@ -105,6 +105,8 @@ function InputContent(props) {
 
 
     // Do the Render
+    const hasClear = Boolean(!isDisabled && onClear);
+
     return <Container
         ref={passedRef}
         className={`input-content ${className}`}
@@ -119,7 +121,7 @@ function InputContent(props) {
     >
         {!!icon && <InputIcon icon={icon} />}
         {children}
-        {!!onClear && <InputClear
+        {hasClear && <InputClear
             variant="black"
             icon="close"
             onClick={onClear}
