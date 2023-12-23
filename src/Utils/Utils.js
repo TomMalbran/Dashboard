@@ -86,6 +86,17 @@ function clone(object) {
 }
 
 /**
+ * Rounds a Value with the given decimals
+ * @param {Number} value
+ * @param {Number} decimals
+ * @returns {Number}
+ */
+function round(value, decimals) {
+    const padding = Math.pow(10, decimals);
+    return Math.round(value * padding) / padding;
+}
+
+/**
  * Clamps a Value between the Min and Max
  * @param {Number} value
  * @param {Number} min
@@ -990,6 +1001,7 @@ export default {
     hasProp,
     count,
     clone,
+    round,
     clamp,
     triggerClick,
     getBounds,
