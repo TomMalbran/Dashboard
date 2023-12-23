@@ -374,13 +374,14 @@ function formatPrice(price, skipZeros = false, zeroStr = "", symbol = "$") {
         return zeroStr || "";
     }
 
-    const sign     = price < 0 ? "-" : "";
-    const positive = Math.abs(price);
-    const noCents  = Math.floor(positive);
-    const cents    = Math.round(positive * 100 - noCents * 100);
-    const centsStr = cents < 10 ? "0" + cents : String(cents);
+    const sign       = price < 0 ? "-" : "";
+    const positive   = Math.abs(price);
+    const noCents    = Math.floor(positive);
+    const noCentsStr = noCents.toLocaleString(window.navigator.language);
+    const cents      = Math.round(positive * 100 - noCents * 100);
+    const centsStr   = cents < 10 ? "0" + cents : String(cents);
 
-    return `${symbol} ${sign}${noCents.toLocaleString()}<sup>${centsStr}</sup>`;
+    return `${symbol} ${sign}${noCentsStr}<sup>${centsStr}</sup>`;
 }
 
 /**
