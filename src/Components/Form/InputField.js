@@ -65,22 +65,22 @@ function InputField(props) {
 
 
     // The Input got Focus
-    const handleFocus = () => {
+    const handleFocus = (e) => {
         setFocus(true);
         if (onFocus) {
-            onFocus();
+            onFocus(e);
         }
     };
 
     // The Input lost Focus
-    const handleBlur = () => {
+    const handleBlur = (e) => {
         setTimer(window.setTimeout(() => {
             setFocus(false);
             setTimer(null);
             if (onBlur) {
-                onBlur();
+                onBlur(e);
             }
-        }, 300));
+        }, 200));
     };
 
     // Handles the Change
