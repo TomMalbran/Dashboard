@@ -1,4 +1,10 @@
 /**
+ * The width for Mobile
+ * @constant {Number}
+ */
+const WIDTH_FOR_MOBILE = 700;
+
+/**
  * The width to hide the Menu
  * @constant {Number}
  */
@@ -15,6 +21,7 @@ const WIDTH_FOR_DETAILS = 1200;
 
 // The Public API
 export default {
+    WIDTH_FOR_MOBILE,
     WIDTH_FOR_MENU,
     WIDTH_FOR_DETAILS,
 };

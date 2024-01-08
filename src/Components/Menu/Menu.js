@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import NLS                  from "../../Core/NLS";
+import Responsive           from "../../Core/Responsive";
 import Utils                from "../../Utils/Utils";
 import KeyCode              from "../../Utils/KeyCode";
 
@@ -28,6 +29,7 @@ const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
 `;
 
 const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width, maxHeight }) => ({ withPos, isLeft, isRight, width, maxHeight }))`
+    box-sizing: border-box;
     position: absolute;
     list-style: none;
     margin: 0;
@@ -36,6 +38,7 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width, maxHeight }) => (
     background-color: white;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    max-width: calc(100vw - var(--main-padding) * 2);
     overflow: hidden;
     pointer-events: all;
 
@@ -118,6 +121,13 @@ function Menu(props) {
     }
 
 
+    // Remove the filter on Open
+    React.useEffect(() => {
+        if (open) {
+            setFilter("");
+        }
+    }, [ open ]);
+
     // Save the Width and add the Close handler
     React.useEffect(() => {
         if (open) {
@@ -137,7 +147,6 @@ function Menu(props) {
         if (!open || Utils.inRef(e.clientX, e.clientY, contentRef)) {
             return;
         }
-        setFilter("");
         onClose();
         e.stopPropagation();
         e.preventDefault();
@@ -146,7 +155,7 @@ function Menu(props) {
     // Handles the Menu Search
     const handleSearch = (name, value) => {
         setFilter(value.toLocaleLowerCase());
-        setSelectedIdx(-1);
+        setSelectedIdx(0);
     };
 
     // Handles the Key Down
@@ -188,6 +197,8 @@ function Menu(props) {
     const forTop    = dir.includes("top");
     const forBottom = dir.includes("bottom");
     const forLeft   = dir.includes("left");
+    const winWidth  = window.innerWidth;
+    const winHeight = window.innerHeight;
 
     if (!hasStyles && targetRef) {
         const bounds = Utils.getBounds(targetRef);
@@ -201,13 +212,13 @@ function Menu(props) {
 
         if (forTop || forBottom) {
             if (forLeft) {
-                right = window.innerWidth - bounds.right;
+                right = winWidth - bounds.right;
             } else {
                 left = bounds.left;
             }
         } else {
             if (forLeft) {
-                right = window.innerWidth - bounds.left;
+                right = winWidth - bounds.left;
             } else {
                 left = bounds.right;
             }
@@ -238,13 +249,16 @@ function Menu(props) {
 
         if (top && top < 0) {
             top = 0;
-        } else if (top && boundHeight && top + boundHeight > window.innerHeight) {
-            top -= (top + boundHeight) - window.innerHeight;
+        } else if (top && boundHeight && top + boundHeight > winHeight) {
+            top -= (top + boundHeight) - winHeight;
         }
         if (left && left < 0) {
             left = 10;
-        } else if (left && boundWidth && left + boundWidth > window.innerWidth) {
-            left -= (left + boundWidth) - window.innerWidth;
+        } else if (left && boundWidth && left + boundWidth > winWidth) {
+            left -= (left + boundWidth) - winWidth;
+        }
+        if (right && boundWidth && right + boundWidth > winWidth) {
+            right -= (right + boundWidth) - winWidth;
         }
 
         if (top) {
@@ -261,7 +275,7 @@ function Menu(props) {
 
 
     // Do the Render
-    const showSearch   = withSearch && (filter || items.length > 5);
+    const showSearch   = withSearch && (filter || items.length > 5) && winWidth > Responsive.WIDTH_FOR_MOBILE;
     const bottomSearch = showSearch && forTop;
 
     if (!open) {
