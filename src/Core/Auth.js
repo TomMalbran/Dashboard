@@ -132,11 +132,8 @@ function setUser() {
         const jwt  = getDecodeToken();
         const time = Math.floor(Date.now() / 1000);
         if (jwt.exp < time) {
-            if (!refreshToken) {
-                unsetAll();
-            } else {
-                unsetToken();
-            }
+            unsetToken();
+            unsetUser();
             return false;
         }
 
@@ -147,11 +144,8 @@ function setUser() {
         return true;
 
     } catch (e) {
-        if (!refreshToken) {
-            unsetAll();
-        } else {
-            unsetToken();
-        }
+        unsetToken();
+        unsetUser();
         return false;
     }
 }
