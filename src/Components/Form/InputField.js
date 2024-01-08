@@ -292,6 +292,7 @@ InputField.propTypes = {
     onError         : PropTypes.func,
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxRows         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     children        : PropTypes.any,
 };
 

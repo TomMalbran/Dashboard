@@ -83,8 +83,8 @@ const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
 function TextareaInput(props) {
     const {
         inputRef, className, isFocused, isDisabled, withLabel,
-        id, name, value, placeholder, rows, withEditor,
         onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
+        id, name, value, placeholder, rows, maxRows, withEditor,
         maxLength, children,
     } = props;
 
@@ -138,6 +138,9 @@ function TextareaInput(props) {
         }
 
         rows = Math.max(rows, minRows);
+        if (maxRows) {
+            rows = Math.min(rows, maxRows);
+        }
         node.rows = rows;
         setActualRows(rows);
     };
@@ -230,6 +233,7 @@ TextareaInput.propTypes = {
     placeholder : PropTypes.string,
     value       : PropTypes.any,
     rows        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxRows     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxLength   : PropTypes.number,
     onChange    : PropTypes.func,
     onInput     : PropTypes.func,
