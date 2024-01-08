@@ -2,33 +2,49 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Utils
+// Core, Utils & Hooks
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
+import useDrag              from "../../Hooks/Drag";
 
 // Components
 import InputField           from "../Form/InputField";
 import Button               from "../Form/Button";
 import InputError           from "../Input/InputError";
 import IconLink             from "../Link/IconLink";
+import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
+const Container = Styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: ${(props) => props.withBorder ? "12px" : "8px"};
+    gap: 8px;
     width: 100%;
 `;
 
-const Content = Styled.div.attrs(({ withClose, withTitle, withError, withBorder }) => ({ withClose, withTitle, withError, withBorder }))`
+const Content = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${(props) => props.withBorder ? "12px" : "8px"};
+`;
+
+const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, withBorder }) => ({ withSort, withRemove, withTitle, withError, withBorder }))`
     width: 100%;
     display: grid;
     gap: 4px;
 
-    ${(props) => props.withClose ? `
+    ${(props) => props.withSort ? `
+        grid-template-areas:
+            ${props.withTitle ? '"title title title"' : ""}
+            "sort input remove"
+            ${props.withError ? '"error error error"' : ""}
+        ;
+        grid-template-columns: 24px 1fr 24px;
+    ` : (props.withRemove ? `
         grid-template-areas:
             ${props.withTitle ? '"title title"' : ""}
             "input remove"
@@ -41,7 +57,7 @@ const Content = Styled.div.attrs(({ withClose, withTitle, withError, withBorder 
             "input"
             ${props.withError ? '"error"' : ""}
         ;
-    `}
+    `)}
 
     ${(props) => props.withError && `
         .inputfield {
@@ -61,7 +77,7 @@ const Title = Styled.h4`
     color: var(--title-color);
 `;
 
-const Items = Styled.div.attrs(({ columns }) => ({ columns }))`
+const Inside = Styled.div.attrs(({ columns }) => ({ columns }))`
     width: 100%;
     gap: 6px;
     grid-area: input;
@@ -86,6 +102,13 @@ const Input = Styled.div.attrs(({ columns }) => ({ columns }))`
     }
 `;
 
+const Sort = Styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: sort;
+`;
+
 const Remove = Styled.div`
     display: flex;
     align-items: center;
@@ -108,8 +131,9 @@ const Error = Styled(InputError)`
 function FieldInput(props) {
     const {
         className, isDisabled, withBorder,
-        name, value, addButton, onChange,
-        title, columns, errors, maxAmount, children,
+        name, value, indexes, addButton, onChange,
+        title, columns, errors, maxAmount,
+        isSortable, onSort, children,
     } = props;
 
 
@@ -125,6 +149,7 @@ function FieldInput(props) {
 
     // Calculate the Items Array
     let parts = [{}];
+    let ids   = [ 0 ];
     if (value) {
         try {
             parts = Array.isArray(value) ? value : JSON.parse(String(value));
@@ -135,53 +160,102 @@ function FieldInput(props) {
             parts = [{}];
         }
     }
+    if (indexes) {
+        try {
+            ids = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
+            if (!Array.isArray(ids)) {
+                ids = [ ids ];
+            }
+        } catch(e) {
+            ids = [ 0 ];
+        }
+    } else if (parts) {
+        ids = [ ...parts.keys() ];
+    }
 
 
     // Handles a Field Change
-    const handleChange = (item, index, newValue) => {
+    const handleChange = (index, name, newValue) => {
         const value = parts[index] ? { ...parts[index] } : {};
-        value[item.name] = newValue;
+        value[name] = newValue;
         parts.splice(index, 1, value);
         fieldChanged(parts);
     };
 
-    // Handles a Field Clear
-    const handleClear = (item, index, newValue) => {
-        handleChange(item, index, newValue);
-        if (item.onClear) {
-            item.onClear(index, item.name, newValue);
-        }
-    };
-
-    // Handles a Field Suggest
+    // Handles a Suggest Change
     const handleSuggest = (item, index, idName, idValue, newValue, data) => {
-        const value = parts[index] ? { ...parts[index] } : {};
+        const value      = parts[index] ? { ...parts[index] } : {};
         value[idName]    = idValue;
         value[item.name] = newValue;
         parts.splice(index, 1, value);
         fieldChanged(parts);
+
         if (item.onSuggest) {
             item.onSuggest(index, idName, idValue, item.name, newValue, data);
         }
     };
 
+    // Handles a Clear Change
+    const handleClear = (item, index, idName) => {
+        const value      = parts[index] ? { ...parts[index] } : {};
+        value[idName]    = 0;
+        value[item.name] = "";
+        parts.splice(index, 1, value);
+        fieldChanged(parts);
+
+        if (item.onClear) {
+            item.onClear(index);
+        }
+    };
+
     // Adds a Field to the value
-    const addField = () => {
+    const handleAdd = () => {
         if (name) {
             parts.push({ ...baseElem });
+            ids.push(ids.length);
         }
-        fieldChanged(parts);
+        fieldChanged(parts, ids);
     };
 
     // Removes a Field from the value at the given index
-    const removeField = (index) => {
+    const handleRemove = (index) => {
         parts.splice(index, 1);
-        fieldChanged(parts);
+        ids.splice(index, 1);
+        fieldChanged(parts, ids);
     };
 
     // Sends a Field Change Event
-    const fieldChanged = (parts) => {
-        onChange(name, JSON.stringify(parts));
+    const fieldChanged = (parts, ids) => {
+        if (onSort) {
+            onSort(name, JSON.stringify(parts), JSON.stringify(ids));
+        } else {
+            onChange(name, JSON.stringify(parts));
+        }
+    };
+
+
+    // Returns the Type of the item
+    const getType = (item, elem) => {
+        if (item.getType) {
+            return item.getType(elem || {});
+        }
+        return item.type;
+    };
+
+    // Returns the Value of the item
+    const getValue = (item, elem, index) => {
+        if (item.getValue) {
+            return item.getValue(index);
+        }
+        return (elem[item.name] || "");
+    };
+
+    // Returns the Options of the item
+    const getOptions = (item, elem) => {
+        if (item.getOptions) {
+            return item.getOptions(elem || {});
+        }
+        return item.options;
     };
 
     // Returns the part error
@@ -193,68 +267,101 @@ function FieldInput(props) {
     };
 
 
+    // Handles the Item Grab
+    const handleGrab = (e, itemID, index) => {
+        const node = e.target.parentElement.parentElement;
+        pick(e, node, node.parentElement, itemID, index);
+    };
+
+    // Handles the Drop
+    const handleDrop = () => {
+        if (!orderChanged()) {
+            return;
+        }
+        const partsList = [ ...parts ];
+        const idsList   = [ ...ids ];
+        swap(partsList);
+        swap(idsList);
+        fieldChanged(partsList, idsList);
+    };
+
+    // The Drag
+    const { pick, orderChanged, swap } = useDrag(handleDrop);
+
+
 
     // Do the Render
     const withTitle = Boolean(title);
     const canAdd    = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
+    const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
     const canRemove = Boolean(!isDisabled && parts.length > 1);
 
-    return <Container
-        className={className}
-        withBorder={withBorder}
-    >
-        {parts.map((elem, index) => <Content
-            key={index}
-            className="inputfield-container"
-            withClose={parts.length > 1}
-            withError={!!getError(index)}
-            withTitle={withTitle}
-            withBorder={withBorder}
-        >
-            {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
-            <Items className="inputfield-items" columns={columns}>
-                {items.map((item) => <Input
-                    key={`${item.subKey || item.name}-${index}`}
-                    columns={item.columns}
-                >
-                    <InputField
-                        {...item}
-                        isHidden={item.hide ? item.hide(elem || {}) : false}
-                        type={item.type}
-                        name={`${item.name}-${index}`}
-                        value={item.getValue ? item.getValue(index) : (elem[item.name] || "")}
-                        onChange={(name, value) => handleChange(item, index, value)}
-                        onClear={(name, value) => handleClear(item, index, value)}
-                        onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
-                        isDisabled={isDisabled || item.isDisabled}
-                        withLabel={!!item.label || index === 0}
-                        isSmall={!item.label && index > 0}
-                        fullWidth
+    return <Container className={className}>
+        <Content withBorder={withBorder}>
+            {parts.map((elem, index) => <Item
+                key={index}
+                className="inputfield-container"
+                withSort={canSort}
+                withRemove={canRemove}
+                withError={!!getError(index)}
+                withTitle={withTitle}
+                withBorder={withBorder}
+            >
+                {canSort && <Sort>
+                    <Icon
+                        variant="light"
+                        icon="drag"
+                        cursor="grab"
+                        onMouseDown={(e) => handleGrab(e, elem, index)}
+                    />
+                </Sort>}
+
+                {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
+                <Inside className="inputfield-items" columns={columns}>
+                    {items.map((item) => <Input
+                        key={`${item.subKey || item.name}-${index}`}
+                        columns={item.columns}
                     >
-                        {Utils.cloneChildren(item.children, () => ({
-                            onChange : (value) => handleChange(item, index, value),
-                        }))}
-                    </InputField>
-                </Input>)}
-            </Items>
+                        <InputField
+                            {...item}
+                            isHidden={item.hide ? item.hide(elem || {}) : false}
+                            name={`${item.name}-${index}`}
+                            type={getType(item, elem)}
+                            value={getValue(item, elem, index)}
+                            options={getOptions(item, elem)}
+                            onChange={(name, value) => handleChange(index, item.name, value)}
+                            onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
+                            onClear={(idName) => handleClear(item, index, idName)}
+                            withLabel={!!item.label || (!withTitle && index === 0)}
+                            isSmall={!item.label && (withTitle || index > 0)}
+                            isDisabled={isDisabled || item.isDisabled}
+                            fullWidth
+                        >
+                            {Utils.cloneChildren(item.children, () => ({
+                                onChange : (value) => handleChange(index, item.name, value),
+                            }))}
+                        </InputField>
+                    </Input>)}
+                </Inside>
 
-            {canRemove && <Remove>
-                <IconLink
-                    variant="light"
-                    icon="close"
-                    onClick={() => removeField(index)}
-                    isSmall
-                />
-            </Remove>}
+                {canRemove && <Remove>
+                    <IconLink
+                        variant="light"
+                        icon="close"
+                        onClick={() => handleRemove(index)}
+                        isSmall
+                    />
+                </Remove>}
 
-            <Error error={getError(index)} />
-        </Content>)}
+                <Error error={getError(index)} />
+            </Item>)}
+        </Content>
 
         <Button
             isHidden={!canAdd}
             variant="outlined"
             message={addButton}
-            onClick={addField}
+            onClick={handleAdd}
             isSmall
         />
     </Container>;
@@ -270,12 +377,15 @@ FieldInput.propTypes = {
     withBorder : PropTypes.bool,
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
+    indexes    : PropTypes.any,
     columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
     title      : PropTypes.string,
     addButton  : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
+    isSortable : PropTypes.bool,
+    onSort     : PropTypes.func,
     maxAmount  : PropTypes.number,
     errors     : PropTypes.object,
     children   : PropTypes.any,
@@ -290,6 +400,7 @@ FieldInput.defaultProps = {
     isDisabled : false,
     withBorder : false,
     addButton  : "GENERAL_ADD_FIELD",
+    isSortable : false,
     maxAmount  : 0,
 };
 
