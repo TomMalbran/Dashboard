@@ -459,30 +459,33 @@ class DateTime {
 
 
     /**
-     * Returns a color depending on the amount of expired hours
-     * @param {Number} greenHours
-     * @param {Number} yellowHours
+     * Returns a color depending on the amount of expired hours or minutes
+     * @param {Number} greenTime
+     * @param {Number} yellowTime
      * @returns {String}
      */
-    getExpiredColor(greenHours, yellowHours) {
-        const hours = this.getHoursDiff();
-        if (hours < greenHours) {
+    getExpiredColor(greenTime, yellowTime) {
+        const mins       = this.getMinutesDiff();
+        const greenMins  = greenTime  < 30 ? greenTime  * 60 : greenTime;
+        const yellowMins = yellowTime < 30 ? yellowTime * 60 : yellowTime;
+
+        if (mins < greenMins) {
             return "green";
         }
-        if (hours < yellowHours) {
+        if (mins < yellowMins) {
             return "yellow";
         }
         return "red";
     }
 
     /**
-     * Returns a text class depending on the amount of expired hours
-     * @param {Number} greenHours
-     * @param {Number} yellowHours
+     * Returns a text class depending on the amount of expired hours or minutes
+     * @param {Number} greenTime
+     * @param {Number} yellowTime
      * @returns {String}
      */
-    getExpiredClass(greenHours, yellowHours) {
-        const color = this.getExpiredColor(greenHours, yellowHours);
+    getExpiredClass(greenTime, yellowTime) {
+        const color = this.getExpiredColor(greenTime, yellowTime);
         return `text-${color}`;
     }
 
@@ -1196,15 +1199,15 @@ function formatShort(date) {
 }
 
 /**
- * Returns a text class depending on the amount of expired hours
+ * Returns a text class depending on the amount of expired hours or minutes
  * @param {(Number|Date)} date
- * @param {Number}        greenHours
- * @param {Number}        yellowHours
+ * @param {Number}        greenTime
+ * @param {Number}        yellowTime
  * @returns {String}
  */
-function getExpiredColor(date, greenHours, yellowHours) {
+function getExpiredColor(date, greenTime, yellowTime) {
     if (date) {
-        return new DateTime(date).getExpiredColor(greenHours, yellowHours);
+        return new DateTime(date).getExpiredColor(greenTime, yellowTime);
     }
     return "red";
 }
