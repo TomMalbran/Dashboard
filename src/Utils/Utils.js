@@ -321,15 +321,16 @@ function createSlug(value) {
  * Formats a number
  * @param {Number}  number
  * @param {Number=} decimals
+ * @param {Number=} maxForDecimals
  * @returns {String}
  */
-function formatNumber(number, decimals = 0) {
+function formatNumber(number, decimals = 0, maxForDecimals = 1000) {
     const amount  = Math.pow(10, decimals);
     const float   = Math.round(number * amount) / amount;
     const integer = Math.floor(float);
     let   result  = String(integer);
 
-    if (float < 1000) {
+    if (!maxForDecimals || float < maxForDecimals) {
         const fraction = Math.round(float * amount - integer * amount);
         const start    = String(fraction).length;
 
@@ -356,7 +357,7 @@ function formatNumber(number, decimals = 0) {
  * @returns {String}
  */
 function formatPercent(number, total, decimals = 0, withPercent = true) {
-    const percent  = total === 0 ? 0 : (number * 100 / total);
+    const percent   = total === 0 ? 0 : (number * 100 / total);
     const formatted = formatNumber(percent, decimals);
     return formatted + (withPercent ? "%" : "");
 }
