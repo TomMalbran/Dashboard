@@ -11,7 +11,19 @@ import InputContent         from "../Input/InputContent";
 
 
 // Styles
-const Container = Styled.div.attrs(({ hideOverflow }) => ({ hideOverflow }))`
+const Container = Styled(InputContent)`
+    position: relative;
+
+    .input-clear {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 0;
+        margin-right: 0;
+    }
+`;
+
+const Content = Styled.div.attrs(({ hideOverflow }) => ({ hideOverflow }))`
     box-sizing: border-box;
     width: 100%;
     border-radius: var(--border-radius);
@@ -83,8 +95,8 @@ const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
 function TextareaInput(props) {
     const {
         inputRef, className, isFocused, isDisabled, withLabel,
-        onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
         id, name, value, placeholder, rows, maxRows, withEditor,
+        onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
         maxLength, children,
     } = props;
 
@@ -176,15 +188,16 @@ function TextareaInput(props) {
     const characters  = String(value || "").length;
     const atMaxLength = characters >= maxLength;
 
-    return <InputContent
+    return <Container
         inputRef={inputRef}
         className={className}
         isFocused={isFocused}
         isDisabled={isDisabled}
+        onClear={onClear}
         withLabel={withLabel}
         withBorder
     >
-        <Container hideOverflow={!hasAside}>
+        <Content hideOverflow={!hasAside}>
             <Textarea
                 ref={inputRef}
                 className="input-textarea"
@@ -213,8 +226,8 @@ function TextareaInput(props) {
                 </Text>}
                 {!isDisabled && children}
             </Aside>}
-        </Container>
-    </InputContent>;
+        </Content>
+    </Container>;
 }
 
 /**
@@ -236,6 +249,7 @@ TextareaInput.propTypes = {
     maxRows     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxLength   : PropTypes.number,
     onChange    : PropTypes.func,
+    onClear     : PropTypes.func,
     onInput     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
