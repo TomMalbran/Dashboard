@@ -262,7 +262,7 @@ function urlToKey(currUrl, ...keys) {
             return key;
         }
     }
-    return currUrl;
+    return "";
 }
 
 
