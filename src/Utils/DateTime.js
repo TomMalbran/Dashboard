@@ -795,6 +795,16 @@ class DateTime {
         return Math.floor(Math.abs(this.time - other.time) / HOUR_SECS);
     }
 
+    /**
+     * Returns the minute difference between the Current Day and the given one
+     * @param {DateTime=} otherDate
+     * @returns {Number}
+     */
+    getMinutesDiff(otherDate) {
+        const other = otherDate || new DateTime();
+        return Math.floor(Math.abs(this.time - other.time) / MINUTE_SECS);
+    }
+
 
 
     /**
