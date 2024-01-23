@@ -14,7 +14,7 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isLink, isSelected }) => ({ isLink, isSelected }))`
+const Container = Styled.div.attrs(({ isLink, isSelected }) => ({ isLink, isSelected }))`
     display: flex;
     align-items: center;
     padding: 8px;
@@ -80,7 +80,7 @@ function DetailItem(props) {
 
 
     // Do the Render
-    return <Li
+    return <Container
         className={className}
         isLink={isLink}
         title={NLS.get(tooltip)}
@@ -89,7 +89,7 @@ function DetailItem(props) {
     >
         {!!icon && <DetailIcon icon={icon} />}
         {isHtml ? <Html addBreaks>{content}</Html> : content}
-    </Li>;
+    </Container>;
 }
 
 /**

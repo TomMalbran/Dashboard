@@ -14,7 +14,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Div = Styled.div`
+const Container = Styled.div`
     color: var(--font-lighter);
     background-color: white;
     border-radius: var(--border-radius);
@@ -53,10 +53,9 @@ const Span = Styled.span`
     flex-grow: 2;
 `;
 
-const Ul = Styled.ul`
+const Content = Styled.section`
     margin: 0;
     padding: 8px;
-    list-style: none;
 `;
 
 
@@ -120,7 +119,7 @@ function DetailList(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Div className={className}>
+    return <Container className={className}>
         <H3
             isCollapsible={isCollapsible}
             isCollapsed={isCollapsed}
@@ -147,8 +146,10 @@ function DetailList(props) {
                 isSmall
             />}
         </H3>
-        {!isCollapsed && <Ul>{children}</Ul>}
-    </Div>;
+        {!isCollapsed && <Content className="details-content">
+            {children}
+        </Content>}
+    </Container>;
 }
 
 /**
