@@ -96,9 +96,11 @@ const ItemIcon = Styled(Icon)`
         opacity: 0.8;
     }
 `;
+
 const EditIcon = Styled(ItemIcon)`
     left: 2px;
 `;
+
 const DeleteIcon = Styled(ItemIcon)`
     right: 2px;
 `;
@@ -107,10 +109,11 @@ const Amount = Styled.span`
     font-size: 12px;
     margin-left: 6px;
 `;
+
 const Badge = Styled.span`
     position: absolute;
     top: 0;
-    right: -4px;
+    right: 0;
     padding: 2px 4px;
     font-size: 10px;
     color: white;
@@ -141,9 +144,13 @@ function TabItem(props) {
         canEdit, canDelete, onClick, onAction,
     } = props;
 
-    const elementRef = React.useRef();
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
+
+    // The References
+    const elementRef = React.useRef();
+
+    // Variables
     const Component  = Components[variant] || LightItem;
     const id         = status ? Status.getID(status) : (url ? NLS.url(url) : (value || index));
     const hasAmount  = amount !== undefined;
