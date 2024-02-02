@@ -2,8 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core & Hooks
+// Core, Utils & Hooks
 import InputType            from "../../Core/InputType";
+import KeyCode              from "../../Utils/KeyCode";
 import useDrag              from "../../Hooks/Drag";
 
 // Components
@@ -119,9 +120,34 @@ function ListInput(props) {
 
 
     // Handles a Field Change
-    const handleChange = (newValue, index, name = "") => {
+    const handleChange = (newValue, index) => {
         parts.splice(index, 1, newValue);
         fieldChanged(parts);
+    };
+
+    // Handles the Key Down
+    const handleKeyDown = (e, value, index) => {
+        if (value && e.keyCode === KeyCode.DOM_VK_RETURN) {
+            parts.splice(index + 1, 0, "");
+            ids.splice(index + 1, ids.length);
+            fieldChanged(parts, ids);
+            focusItem(index + 1);
+            onFocus();
+        } else if (!value && parts.length && e.keyCode === KeyCode.DOM_VK_BACK_SPACE) {
+            handleRemove(index);
+        } else if (index > 0 && e.keyCode === KeyCode.DOM_VK_UP) {
+            if (isSortable && (e.ctrlKey || e.metaKey)) {
+                swapItems(index, -1);
+            }
+            focusItem(index - 1);
+            e.preventDefault();
+        } else if (index < parts.length - 1 && e.keyCode === KeyCode.DOM_VK_DOWN) {
+            if (isSortable && (e.ctrlKey || e.metaKey)) {
+                swapItems(index, 1);
+            }
+            focusItem(index + 1);
+            e.preventDefault();
+        }
     };
 
     // Adds a Field to the value
@@ -129,6 +155,7 @@ function ListInput(props) {
         parts.push("");
         ids.push(ids.length);
         fieldChanged(parts, ids);
+        focusItem(parts.length - 1);
         onFocus();
     };
 
@@ -137,6 +164,7 @@ function ListInput(props) {
         parts.splice(index, 1);
         ids.splice(index, 1);
         fieldChanged(parts, ids);
+        focusItem(index - 1);
         onFocus();
     };
 
@@ -147,6 +175,28 @@ function ListInput(props) {
         } else {
             onChange(name, JSON.stringify(parts));
         }
+    };
+
+    // Swaps 2 items
+    const swapItems = (index, direction) => {
+        const part = parts[index];
+        const id   = ids[index];
+        parts.splice(index, 1);
+        parts.splice(index + direction, 0, part);
+        ids.splice(index, 1);
+        ids.splice(index + direction, 0, id);
+        fieldChanged(parts, ids);
+    };
+
+    // Focuses an Item
+    const focusItem = (index) => {
+        window.setTimeout(() => {
+            /** @type {HTMLInputElement} */
+            const elem = document.querySelector(`.inputfield-item-${name}-${index} input`);
+            if (elem) {
+                elem.focus();
+            }
+        }, 10);
     };
 
     // Returns the part error
@@ -210,6 +260,7 @@ function ListInput(props) {
 
                     <Inside>
                         <InputField
+                            className={`inputfield-item-${name}-${index}`}
                             type={inputType}
                             name={`${name}-${index}`}
                             value={elem}
@@ -219,6 +270,7 @@ function ListInput(props) {
                             onFocus={onFocus}
                             onBlur={onBlur}
                             onChange={(name, value) => handleChange(value, index)}
+                            onKeyDown={(e) => handleKeyDown(e, elem, index)}
                             isDisabled={isDisabled}
                             maxLength={maxLength}
                             withLabel={false}
