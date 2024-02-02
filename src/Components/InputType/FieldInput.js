@@ -259,11 +259,14 @@ function FieldInput(props) {
     };
 
     // Returns the part error
-    const getError = (index) => {
-        if (errors) {
-            return errors[`${name}-${index}`] || "";
+    const getError = (index, item) => {
+        if (!errors) {
+            return "";
         }
-        return "";
+        if (item) {
+            return errors[`${name}-${index}-${item}`] || "";
+        }
+        return errors[`${name}-${index}`] || "";
     };
 
 
@@ -335,6 +338,7 @@ function FieldInput(props) {
                             withLabel={!!item.label || (!withTitle && index === 0)}
                             isSmall={!item.label && (withTitle || index > 0)}
                             isDisabled={isDisabled || item.isDisabled}
+                            error={getError(index, item.name)}
                             fullWidth
                         >
                             {Utils.cloneChildren(item.children, () => ({
