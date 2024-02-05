@@ -20,6 +20,7 @@ const OPTIONS = {
     isCreate   : false,
     isCopy     : false,
     isEdit     : false,
+    isMulti    : false,
     isDelete   : false,
     isRemove   : false,
 
@@ -33,6 +34,7 @@ const OPTIONS = {
     isSelect   : false,
     isUpload   : false,
     isManage   : false,
+    isResolve  : false,
 };
 
 // All the Actions
@@ -88,6 +90,12 @@ const ACTIONS = {
         isCCE      : true,
         isCED      : true,
         isCE       : true,
+    },
+    "MULTI" : {
+        ...OPTIONS,
+        icon       : "edit",
+        message    : "GENERAL_EDIT",
+        isMulti    : true,
     },
     "DELETE" : {
         ...OPTIONS,
@@ -158,6 +166,11 @@ const ACTIONS = {
         icon       : "settings",
         message    : "GENERAL_MANAGE",
         isManage   : true,
+    },
+    "RESOLVE" : {
+        ...OPTIONS,
+        icon        : "check",
+        isResolve   : true,
     },
 };
 
