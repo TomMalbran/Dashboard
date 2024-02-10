@@ -5,6 +5,7 @@ const IMAGE = "image";
 const VIDEO = "video";
 const AUDIO = "audio";
 const PDF   = "pdf";
+const TEXT  = "text";
 const FILE  = "file";
 
 
@@ -28,6 +29,7 @@ export default {
     VIDEO,
     AUDIO,
     PDF,
+    TEXT,
     FILE,
 
     onlyImages,
