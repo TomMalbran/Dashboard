@@ -15,13 +15,11 @@ import MediaItem            from "../Media/MediaItem";
 
 
 // Styles
-const Div = Styled.div.attrs(({ withSpacing }) => ({ withSpacing }))`
+const Div = Styled.div.attrs(({ inDialog }) => ({ inDialog }))`
     color: var(--secondary-color);
-    ${(props) => props.withSpacing ? `
-        padding: 24px;
+    padding-top: 24px;
+    ${(props) => props.inDialog && `
         min-height: calc(131px * 2 + 8px);
-    ` : `
-        padding-top: 24px;
     `}
 `;
 
@@ -43,7 +41,7 @@ const Section = Styled.section`
 function MediaList(props) {
     const {
         className, onAction, onDrop, isLoading, canEdit, canSelect, canDrag,
-        withSpacing, selectedPath, items, path,
+        inDialog, selectedPath, items, path,
     } = props;
 
     const showLoader = isLoading;
@@ -175,7 +173,7 @@ function MediaList(props) {
 
 
     // Do the Render
-    return <Div className={className} withSpacing={withSpacing}>
+    return <Div className={className} inDialog={inDialog}>
         {showLoader && <CircularLoader />}
         {showNone   && <NoneAvailable message="MEDIA_NONE_AVAILABLE" />}
         {showItems  && <>
@@ -211,7 +209,7 @@ MediaList.propTypes = {
     canSelect    : PropTypes.bool,
     canEdit      : PropTypes.bool,
     canDrag      : PropTypes.bool,
-    withSpacing  : PropTypes.bool,
+    inDialog     : PropTypes.bool,
     selectedPath : PropTypes.string,
     items        : PropTypes.array,
     path         : PropTypes.string,
@@ -222,12 +220,12 @@ MediaList.propTypes = {
  * @typedef {Object} defaultProps
  */
 MediaList.defaultProps = {
-    className   : "",
-    isLoading   : false,
-    canSelect   : false,
-    canEdit     : false,
-    canDrag     : false,
-    withSpacing : false,
+    className : "",
+    isLoading : false,
+    canSelect : false,
+    canEdit   : false,
+    canDrag   : false,
+    inDialog  : false,
 };
 
 export default MediaList;
