@@ -94,6 +94,7 @@ const Inside = Styled.div.attrs(({ columns }) => ({ columns }))`
 `;
 
 const Input = Styled.div.attrs(({ columns }) => ({ columns }))`
+    position: relative;
     ${(props) => props.columns && `grid-column-end: span ${props.columns};`}
     width: 100%;
 
@@ -245,9 +246,9 @@ function FieldInput(props) {
     // Returns the Value of the item
     const getValue = (item, elem, index) => {
         if (item.getValue) {
-            return item.getValue(index);
+            return item.getValue(index, elem);
         }
-        return (elem[item.name] || "");
+        return elem[item.name] || "";
     };
 
     // Returns the Options of the item
@@ -256,6 +257,17 @@ function FieldInput(props) {
             return item.getOptions(elem || {});
         }
         return item.options;
+    };
+
+    // Returns true if is Disabled
+    const getDisabled = (item, elem) => {
+        if (isDisabled) {
+            return true;
+        }
+        if (item.getDisabled) {
+            return item.getDisabled(elem || {});
+        }
+        return item.isDisabled;
     };
 
     // Returns the part error
@@ -335,9 +347,10 @@ function FieldInput(props) {
                             onChange={(name, value) => handleChange(index, item.name, value)}
                             onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
                             onClear={(idName) => handleClear(item, index, idName)}
+                            onMedia={() => item.onMedia?.(index, item.name)}
                             withLabel={!!item.label || (!withTitle && index === 0)}
                             isSmall={!item.label && (withTitle || index > 0)}
-                            isDisabled={isDisabled || item.isDisabled}
+                            isDisabled={getDisabled(item, elem)}
                             error={getError(index, item.name)}
                             fullWidth
                         >
@@ -345,6 +358,7 @@ function FieldInput(props) {
                                 onChange : (value) => handleChange(index, item.name, value),
                             }))}
                         </InputField>
+                        {item.component}
                     </Input>)}
                 </Inside>
 

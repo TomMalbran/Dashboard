@@ -21,6 +21,7 @@ function InputItem() {
 InputItem.propTypes = {
     passedRef       : PropTypes.any,
     subKey          : PropTypes.string,
+    className       : PropTypes.string,
     type            : PropTypes.string,
     name            : PropTypes.string,
     label           : PropTypes.string,
@@ -38,6 +39,7 @@ InputItem.propTypes = {
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     width           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    withBorder      : PropTypes.bool,
     fullWidth       : PropTypes.bool,
     withNone        : PropTypes.bool,
     noneText        : PropTypes.string,
@@ -49,6 +51,7 @@ InputItem.propTypes = {
     hasClear        : PropTypes.bool,
     onClear         : PropTypes.func,
     onChange        : PropTypes.func,
+    onMedia         : PropTypes.func,
     onInput         : PropTypes.func,
     onKeyUp         : PropTypes.func,
     onKeyDown       : PropTypes.func,
@@ -64,6 +67,8 @@ InputItem.propTypes = {
     getType         : PropTypes.func,
     getOptions      : PropTypes.func,
     getValue        : PropTypes.func,
+    getDisabled     : PropTypes.func,
+    component       : PropTypes.any,
     children        : PropTypes.any,
 };
 
