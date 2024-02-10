@@ -172,8 +172,13 @@ function insertText(ref, message, text) {
     if (!ref.current) {
         return message + text;
     }
-    const end = ref.current.selectionEnd;
-    return message.substring(0, end) + text + message.substring(end);
+    const start = ref.current.selectionStart;
+    const end   = ref.current.selectionEnd;
+    return (
+        message.substring(0, start) +
+        text +
+        message.substring(end)
+    );
 }
 
 /**
@@ -189,7 +194,13 @@ function formatText(ref, message, character) {
     }
     const start = ref.current.selectionStart;
     const end   = ref.current.selectionEnd;
-    return message.substring(0, start) + character + message.substring(start, end) + character + message.substring(end);
+    return (
+        message.substring(0, start) +
+        character +
+        message.substring(start, end) +
+        character +
+        message.substring(end)
+    );
 }
 
 /**
