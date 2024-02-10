@@ -22,6 +22,7 @@ function Filter(props) {
         values, fetch, params, onFilter,
     } = props;
 
+
     // The Initial Data
     const initialData = {
         search         : "",
@@ -51,6 +52,7 @@ function Filter(props) {
             isHidden={!hasSearch}
             name="search"
             label="GENERAL_SEARCH"
+            icon="search"
             hasClear
             shrinkLabel
         />
@@ -58,6 +60,7 @@ function Filter(props) {
             isHidden={!hasCredential}
             name="credentialName"
             label="GENERAL_USER"
+            icon="search"
             suggestID="credentialID"
             suggestFetch={fetch}
             suggestParams={params}

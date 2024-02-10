@@ -24,6 +24,7 @@ FilterItem.propTypes = {
     name          : PropTypes.string,
     label         : PropTypes.string,
     placeholder   : PropTypes.string,
+    icon          : PropTypes.string,
     step          : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minValue      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxValue      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
