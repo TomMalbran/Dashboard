@@ -39,11 +39,12 @@ const Content = Styled(Html)`
 function PromptDialog(props) {
     const {
         open, title, message, content, icon, isLoading,
-        inputType, inputLabel, inputIcon, placeholder,
-        initialValue, inputOptions, maxLength, spellCheck,
-        secInputType, secInputLabel, secInputIcon,
-        secPlaceholder, secInitialValue, secInputOptions, secMaxLength,
         isWide, isNarrow, bigSpacing, primary, primaryVariant,
+        inputType, inputLabel, inputIcon, placeholder, helperText,
+        initialValue, inputOptions, maxLength, rows, maxRows, spellCheck,
+        secInputType, secInputLabel, secInputIcon, secPlaceholder,
+        secHelperText, secInitialValue, secInputOptions,
+        secMaxLength, secRows, secMaxRows,
         isOptional, onSubmit, onClose,
     } = props;
 
@@ -102,10 +103,13 @@ function PromptDialog(props) {
                     label={inputLabel}
                     icon={inputIcon}
                     placeholder={placeholder}
+                    helperText={helperText}
                     value={value}
                     options={inputOptions}
                     autoFocus={open}
                     maxLength={maxLength}
+                    rows={rows}
+                    maxRows={maxRows}
                     spellCheck={spellCheck}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
@@ -119,9 +123,12 @@ function PromptDialog(props) {
                     label={secInputLabel}
                     icon={secInputIcon}
                     placeholder={secPlaceholder}
+                    helperText={secHelperText}
                     value={secValue}
                     options={secInputOptions}
                     maxLength={secMaxLength}
+                    rows={secRows}
+                    maxRows={secMaxRows}
                     spellCheck={spellCheck}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
@@ -153,17 +160,24 @@ PromptDialog.propTypes = {
     inputType       : PropTypes.string,
     inputLabel      : PropTypes.string,
     placeholder     : PropTypes.string,
+    helperText      : PropTypes.string,
     inputIcon       : PropTypes.string,
     initialValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     inputOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxRows         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxLength       : PropTypes.number,
     secInputType    : PropTypes.string,
     secInputLabel   : PropTypes.string,
     secPlaceholder  : PropTypes.string,
+    secHelperText   : PropTypes.string,
     secInputIcon    : PropTypes.string,
     secInitialValue : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     secInputOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    secRows         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    secMaxRows      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     secMaxLength    : PropTypes.number,
+    secMinRows      : PropTypes.number,
     isOptional      : PropTypes.bool,
     isLoading       : PropTypes.bool,
     spellCheck      : PropTypes.string,
