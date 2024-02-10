@@ -28,7 +28,7 @@ function EditDialog(props) {
     const {
         open, title, icon, message, className,
         isLoading, isNarrow, isWide, fullHeight,
-        lightHeader, noOverflow, withSpacing,
+        noOverflow, withSpacing, bigSpacing,
         error, isDisabled, dontClose,
         hidePrimary, primary, primaryVariant, onSubmit,
         cancel, cancelVariant, onClose, onCancel,
@@ -45,16 +45,13 @@ function EditDialog(props) {
         isLoading={isLoading}
         dontClose={dontClose}
     >
-        <DialogHeader
-            message={title}
-            icon={icon}
-            lightHeader={lightHeader}
-        />
+        <DialogHeader message={title} icon={icon} />
         <DialogBody
             className={className}
             fullHeight={fullHeight}
             noOverflow={noOverflow}
             withSpacing={withSpacing}
+            bigSpacing={bigSpacing}
         >
             <Message variant="h3" message={message} />
             <Form error={error} onSubmit={onSubmit}>
@@ -95,9 +92,9 @@ EditDialog.propTypes = {
     isNarrow       : PropTypes.bool,
     isWide         : PropTypes.bool,
     fullHeight     : PropTypes.bool,
-    lightHeader    : PropTypes.bool,
     noOverflow     : PropTypes.bool,
     withSpacing    : PropTypes.bool,
+    bigSpacing     : PropTypes.bool,
     hidePrimary    : PropTypes.bool,
     primary        : PropTypes.string,
     primaryVariant : PropTypes.string,
@@ -126,9 +123,9 @@ EditDialog.defaultProps = {
     isNarrow    : false,
     isWide      : false,
     fullHeight  : false,
-    lightHeader : false,
     noOverflow  : false,
     withSpacing : true,
+    bigSpacing  : false,
     hidePrimary : false,
 };
 

@@ -16,11 +16,12 @@ import EditDialog           from "./EditDialog";
  */
 function FilterDialog(props) {
     const {
-        open, title, isLoading, lightHeader,
+        open, title, isLoading,
         initialData, data, onSubmit, onClose, children,
     } = props;
 
     const hasFilter = !Utils.areObjectsEqual(initialData, data);
+
 
     // Handles the Submit
     const handleSubmit = () => {
@@ -37,7 +38,6 @@ function FilterDialog(props) {
         open={open}
         icon="filter"
         title={title}
-        lightHeader={lightHeader}
         primary="GENERAL_FILTER"
         secondary={hasFilter ? "GENERAL_REMOVE_FILTER" : ""}
         onSubmit={handleSubmit}
@@ -57,7 +57,6 @@ FilterDialog.propTypes = {
     open        : PropTypes.bool.isRequired,
     title       : PropTypes.string.isRequired,
     isLoading   : PropTypes.bool,
-    lightHeader : PropTypes.bool,
     initialData : PropTypes.object.isRequired,
     data        : PropTypes.object.isRequired,
     onSubmit    : PropTypes.func.isRequired,

@@ -8,7 +8,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, fullHeight, hideFooter, noOverflow }) => ({ isLoading, isCentered, withSpacing, isNarrow, fullHeight, hideFooter, noOverflow }))`
+const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, bigSpacing, fullHeight, hideFooter, noOverflow }) => ({ isLoading, isCentered, withSpacing, bigSpacing, isNarrow, fullHeight, hideFooter, noOverflow }))`
     box-sizing: border-box;
     flex-grow: 2;
     color: var(--secondary-color);
@@ -24,7 +24,10 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
         padding: 32px;
     `}
     ${(props) => props.withSpacing && `
-        padding: var(--main-padding);
+        padding: 2px var(--dialog-padding);
+    `}
+    ${(props) => props.bigSpacing && `
+        padding: var(--dialog-padding);
     `}
     ${(props) => props.fullHeight && `
         height: var(--dialog-body);
@@ -32,6 +35,13 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
     ${(props) => !props.noOverflow && `
         overflow: auto;
     `}
+
+    ::-webkit-scrollbar:vertical {
+        border-left: none !important;
+    }
+    ::-webkit-scrollbar:horizontal {
+        border-top: none !important;
+    }
 
     @media (max-width: 500px) {
         ${(props) => props.hideFooter && "--dialog-footer: 0;"}
@@ -51,7 +61,7 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
  */
 function DialogBody(props) {
     const {
-        className, isLoading, isCentered, isNarrow, withSpacing,
+        className, isLoading, isCentered, isNarrow, bigSpacing, withSpacing,
         noOverflow, fullHeight, hideFooter,
         passedRef, onScroll, children,
     } = props;
@@ -77,6 +87,7 @@ function DialogBody(props) {
         isCentered={isCentered}
         isNarrow={isNarrow}
         withSpacing={withSpacing}
+        bigSpacing={bigSpacing}
         fullHeight={fullHeight}
         hideFooter={hideFooter}
         noOverflow={noOverflow}
@@ -97,6 +108,7 @@ DialogBody.propTypes = {
     isCentered  : PropTypes.bool,
     isNarrow    : PropTypes.bool,
     withSpacing : PropTypes.bool,
+    bigSpacing  : PropTypes.bool,
     fullHeight  : PropTypes.bool,
     noOverflow  : PropTypes.bool,
     hideFooter  : PropTypes.bool,
@@ -114,6 +126,7 @@ DialogBody.defaultProps = {
     isCentered  : false,
     isNarrow    : false,
     withSpacing : false,
+    bigSpacing  : false,
     fullHeight  : false,
     noOverflow  : false,
     hideFooter  : false,

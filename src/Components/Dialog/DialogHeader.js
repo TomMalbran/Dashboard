@@ -12,24 +12,17 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Header = Styled.header.attrs(({ lightHeader }) => ({ lightHeader }))`
+const Header = Styled.header`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 var(--dialog-padding);
     border-bottom: none;
     border-top-left-radius: var(--dialog-radius);
     border-top-right-radius: var(--dialog-radius);
     height: var(--dialog-header);
-
-    ${(props) => props.lightHeader ? `
-        color: var(--title-color);
-        border-bottom: 1px solid var(--border-color-light);
-    ` : `
-        color: white;
-        background-color: var(--primary-color);
-    `}
+    color: var(--title-color);
 
     @media (max-width: 500px) {
         padding-right: 8px;
@@ -71,12 +64,12 @@ const H2 = Styled.h2`
 function DialogHeader(props) {
     const {
         className, message, icon,
-        dontClose, onClose, lightHeader, children,
+        dontClose, onClose, children,
     } = props;
 
 
     // Do the Render
-    return <Header className={className} lightHeader={lightHeader}>
+    return <Header className={className}>
         <Div>
             {!!icon && <Icon icon={icon} />}
             <H2>{NLS.get(message)}</H2>
@@ -84,7 +77,7 @@ function DialogHeader(props) {
         </Div>
         <IconLink
             isHidden={dontClose}
-            variant={lightHeader ? "black" : "darker"}
+            variant="black"
             icon="close"
             onClick={onClose}
             isSmall
@@ -97,13 +90,12 @@ function DialogHeader(props) {
  * @type {Object} propTypes
  */
 DialogHeader.propTypes = {
-    className   : PropTypes.string,
-    message     : PropTypes.string,
-    icon        : PropTypes.string,
-    lightHeader : PropTypes.bool,
-    dontClose   : PropTypes.bool,
-    onClose     : PropTypes.func,
-    children    : PropTypes.any,
+    className : PropTypes.string,
+    message   : PropTypes.string,
+    icon      : PropTypes.string,
+    dontClose : PropTypes.bool,
+    onClose   : PropTypes.func,
+    children  : PropTypes.any,
 };
 
 /**
@@ -111,10 +103,9 @@ DialogHeader.propTypes = {
  * @type {Object} defaultProps
  */
 DialogHeader.defaultProps = {
-    className   : "",
-    message     : "",
-    lightHeader : false,
-    dontClose   : false,
+    className : "",
+    message   : "",
+    dontClose : false,
 };
 
 export default DialogHeader;

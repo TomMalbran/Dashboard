@@ -39,11 +39,11 @@ const Content = Styled(Html)`
 function PromptDialog(props) {
     const {
         open, title, message, content, icon, isLoading,
-        primary, primaryVariant, lightHeader,
         inputType, inputLabel, inputIcon, placeholder,
         initialValue, inputOptions, maxLength, spellCheck,
         secInputType, secInputLabel, secInputIcon,
         secPlaceholder, secInitialValue, secInputOptions, secMaxLength,
+        isWide, isNarrow, bigSpacing, primary, primaryVariant,
         isOptional, onSubmit, onClose,
     } = props;
 
@@ -78,23 +78,22 @@ function PromptDialog(props) {
     }, [ initialValue, secInitialValue ]);
 
 
-    // Do the Render
+    // Variables
     const isDisabled = !isOptional && !value;
     const hasMessage = !!message;
     const body       = content ? NLS.format(message, content) : NLS.get(message);
 
+
+    // Do the Render
     return <Dialog
         open={open}
         onClose={onClose}
         isLoading={isLoading}
-        isNarrow
+        isWide={isWide}
+        isNarrow={isNarrow}
     >
-        <DialogHeader
-            message={title}
-            icon={icon}
-            lightHeader={lightHeader}
-        />
-        <DialogBody withSpacing>
+        <DialogHeader message={title} icon={icon} />
+        <DialogBody bigSpacing={bigSpacing} withSpacing>
             <Container>
                 {hasMessage && <Content variant="h3">{body}</Content>}
                 <InputField
@@ -167,8 +166,10 @@ PromptDialog.propTypes = {
     secMaxLength    : PropTypes.number,
     isOptional      : PropTypes.bool,
     isLoading       : PropTypes.bool,
-    lightHeader     : PropTypes.bool,
     spellCheck      : PropTypes.string,
+    isWide          : PropTypes.bool,
+    isNarrow        : PropTypes.bool,
+    bigSpacing      : PropTypes.bool,
     onSubmit        : PropTypes.func.isRequired,
     onClose         : PropTypes.func.isRequired,
 };
@@ -185,7 +186,9 @@ PromptDialog.defaultProps = {
     secInitialValue : "",
     isOptional      : false,
     isLoading       : false,
-    lightHeader     : false,
+    isWide          : false,
+    isNarrow        : true,
+    bigSpacing      : false,
 };
 
 export default PromptDialog;
