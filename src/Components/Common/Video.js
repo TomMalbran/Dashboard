@@ -8,6 +8,16 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
+const Container = Styled.video`
+    display: block;
+    height: 100%;
+    max-width: 100%;
+    max-height: var(--dialog-body);
+    margin: 0 auto;
+    object-fit: contain;
+    object-position: center;
+`;
+
 const Div = Styled.div`
     position: relative;
     overflow: hidden;
@@ -34,17 +44,28 @@ const Frame = Styled.iframe`
 function Video(props) {
     const { className, title, source, width, height } = props;
 
-    const src = Utils.getYouTubeEmbed(source);
+    const youtube = Utils.getYouTubeEmbed(source);
 
-    if (!src) {
+
+    // Do the Render
+    if (!source) {
         return <React.Fragment />;
+    }
+    if (!youtube && source) {
+        return <Container
+            className={className}
+            src={source}
+            width={width}
+            height={height}
+            controls
+        />;
     }
     return <Div className={className}>
         <Frame
             width={width}
             height={height}
             title={title}
-            src={src}
+            src={youtube}
             frameBorder="0"
             allow="encrypted-media;"
             allowFullScreen
