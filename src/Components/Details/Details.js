@@ -39,6 +39,7 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, topSpace }) =
         right: 0;
         bottom: 0;
         height: auto;
+        max-width: 90%;
         border-radius: 0;
         z-index: var(--z-details);
     }
