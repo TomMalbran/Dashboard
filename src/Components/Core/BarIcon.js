@@ -67,9 +67,21 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
         --bicon-background: var(--accent-color);
     `}
 `;
+
 const Span = Styled.span`
     font-size: 13px;
     margin-left: 6px;
+`;
+
+const Badge = Styled.span`
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 2px 4px;
+    font-size: 10px;
+    color: white;
+    background-color: #ff0033;
+    border-radius: 9999px;
 `;
 
 
@@ -82,7 +94,7 @@ const Span = Styled.span`
 function BarIcon(props) {
     const {
         passedRef, isHidden, className, variant, isSelected,
-        icon, withText, withTooltip, message, url, startsWith,
+        icon, withText, withTooltip, message, url, startsWith, badge,
     } = props;
 
     const { showTooltip, hideTooltip } = Store.useAction("core");
@@ -132,6 +144,7 @@ function BarIcon(props) {
         {hasContent && <Span className="baricon-text">
             {content}
         </Span>}
+        {!!badge && <Badge className="baricon-badge">{badge}</Badge>}
     </Div>;
 }
 
@@ -154,6 +167,7 @@ BarIcon.propTypes = {
     target      : PropTypes.string,
     onClick     : PropTypes.func,
     startsWith  : PropTypes.bool,
+    badge       : PropTypes.number,
 };
 
 /**
