@@ -186,7 +186,7 @@ function TextareaInput(props) {
     const hasAside    = Boolean(hasEditor && !withEditor);
     const counterText = maxLength ? "GENERAL_CHARACTERS_MAX" : "GENERAL_CHARACTERS";
     const characters  = String(value || "").length;
-    const atMaxLength = characters >= maxLength;
+    const atMaxLength = Boolean(maxLength && characters >= maxLength);
 
     return <Container
         inputRef={inputRef}
