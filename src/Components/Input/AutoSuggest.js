@@ -142,7 +142,7 @@ function AutoSuggest(props) {
             return null;
         }
         const newValue = suggestions[selectedIdx].title;
-        selectElem(suggestions[selectedIdx].id, newValue);
+        selectElem(suggestions[selectedIdx].id, newValue, suggestions[selectedIdx]);
         if (newValue) {
             setValue(newValue);
             setSuggestions([]);
