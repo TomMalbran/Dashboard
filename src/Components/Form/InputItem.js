@@ -56,6 +56,7 @@ InputItem.propTypes = {
     onKeyUp         : PropTypes.func,
     onKeyDown       : PropTypes.func,
     onSuggest       : PropTypes.func,
+    onSearch        : PropTypes.func,
     suggestID       : PropTypes.string,
     suggestFetch    : PropTypes.func,
     suggestParams   : PropTypes.object,
