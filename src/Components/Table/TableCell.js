@@ -75,6 +75,8 @@ const TD = Styled.td.attrs(props)`
             text-align: left;
             padding: 4px;
             border: none;
+            min-width: 0;
+            max-width: none;
             ${(props) => props.bigMobile  && "grid-column: 1/-1;"}
             ${(props) => props.hideMobile && "display: none;"}
         }
