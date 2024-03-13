@@ -232,15 +232,15 @@ function getCurrentTime() {
  * @param {String}  selector
  * @param {String=} block
  * @param {String=} inline
+ * @param {String=} behavior
  * @returns {Void}
  */
-function scrollIntoView(selector, block, inline = "center") {
+function scrollIntoView(selector, block, inline = "center", behavior = "smooth") {
     const node = document.querySelector(selector);
     if (node) {
         node.scrollIntoView({
             // @ts-ignore
-            block, inline,
-            behavior : "smooth",
+            block, inline, behavior,
         });
     }
 }
