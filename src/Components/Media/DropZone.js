@@ -33,13 +33,17 @@ const Div = Styled.div`
     border-radius: var(--border-radius);
     text-align: center;
     padding: var(--main-padding);
+    color: var(--black-color);
 `;
+
 const H3 = Styled.h3`
     margin: 0;
 `;
+
 const P = Styled.p`
     margin: 8px 0;
 `;
+
 const Input = Styled.input`
     display: none;
 `;

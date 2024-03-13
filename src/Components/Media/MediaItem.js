@@ -66,6 +66,7 @@ const MediaName = Styled.div`
     white-space: nowrap;
     overflow: hidden;
     font-size: 12px;
+    color: var(--black-color);
     background-color: var(--media-name-color);
     transition: all 0.2s;
     z-index: 1;
