@@ -303,6 +303,11 @@ function FieldInput(props) {
     // The Drag
     const { pick, orderChanged, swap } = useDrag(handleDrop);
 
+    // Create the References
+    const inputRefs = React.useMemo(() => {
+        return Array.from({ length : parts.length * items.length }).map(() => React.createRef());
+    }, [ parts.length ]);
+
 
 
     // Do the Render
@@ -333,33 +338,40 @@ function FieldInput(props) {
 
                 {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
                 <Inside className="inputfield-items" columns={columns}>
-                    {items.map((item) => <Input
-                        key={`${item.subKey || item.name}-${index}`}
-                        columns={item.columns}
-                    >
-                        <InputField
-                            {...item}
-                            isHidden={item.hide ? item.hide(elem || {}) : false}
-                            name={`${item.name}-${index}`}
-                            type={getType(item, elem)}
-                            value={getValue(item, elem, index)}
-                            options={getOptions(item, elem)}
-                            onChange={(name, value) => handleChange(index, item.name, value)}
-                            onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
-                            onClear={(idName) => handleClear(item, index, idName)}
-                            onMedia={() => item.onMedia?.(index, item.name)}
-                            withLabel={!!item.label || (!withTitle && index === 0)}
-                            isSmall={!item.label && (withTitle || index > 0)}
-                            isDisabled={getDisabled(item, elem)}
-                            error={getError(index, item.name)}
-                            fullWidth
+                    {items.map((item, idx) => {
+                        const inputRef = inputRefs[index * items.length + idx];
+                        const value    = getValue(item, elem, index);
+
+                        return <Input
+                            key={`${item.subKey || item.name}-${index}`}
+                            columns={item.columns}
                         >
-                            {Utils.cloneChildren(item.children, () => ({
-                                onChange : (value) => handleChange(index, item.name, value),
-                            }))}
-                        </InputField>
-                        {item.component}
-                    </Input>)}
+                            <InputField
+                                {...item}
+                                passedRef={inputRef}
+                                isHidden={item.hide ? item.hide(elem || {}) : false}
+                                name={`${item.name}-${index}`}
+                                type={getType(item, elem)}
+                                value={value}
+                                options={getOptions(item, elem)}
+                                onChange={(name, value) => handleChange(index, item.name, value)}
+                                onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
+                                onClear={(idName) => handleClear(item, index, idName)}
+                                onMedia={() => item.onMedia?.(index, item.name)}
+                                withLabel={!!item.label || (!withTitle && index === 0)}
+                                isSmall={!item.label && (withTitle || index > 0)}
+                                isDisabled={getDisabled(item, elem)}
+                                error={getError(index, item.name)}
+                                fullWidth
+                            >
+                                {Utils.cloneChildren(item.children, () => ({
+                                    inputRef, value,
+                                    onChange : (value) => handleChange(index, item.name, value),
+                                }))}
+                            </InputField>
+                            {item.component}
+                        </Input>;
+                    })}
                 </Inside>
 
                 {canRemove && <Remove>
