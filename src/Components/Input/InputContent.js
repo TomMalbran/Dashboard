@@ -71,9 +71,10 @@ const InputIcon = Styled(Icon)`
     color: var(--black-color);
 `;
 
-const InputClear = Styled(IconLink)`
+const InputClear = Styled(IconLink).attrs(({ smallInput }) => ({ smallInput }))`
     margin-top: -4px;
     margin-right: calc(2px - var(--input-horiz-padding));
+    ${(props) => props.smallInput && "margin-bottom: -4px;"}
 `;
 
 
@@ -125,6 +126,7 @@ function InputContent(props) {
             variant="black"
             icon="close"
             onClick={onClear}
+            smallInput={isSmall}
             isSmall
         />}
         {!!postIcon && <InputIcon icon={postIcon} />}
