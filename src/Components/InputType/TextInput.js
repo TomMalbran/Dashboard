@@ -4,10 +4,12 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import KeyCode              from "../../Utils/KeyCode";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import IconLink             from "../Link/IconLink";
 
 
 
@@ -15,8 +17,8 @@ import InputBase            from "../Input/InputBase";
 const Children = Styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: -4px;
-    margin-right: calc(2px - var(--input-horiz-padding));
+    margin-top: -4px;
+    margin-right: -6px;
 `;
 
 const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
@@ -38,6 +40,7 @@ function TextInput(props) {
         inputRef, className, icon, postIcon, isFocused, isDisabled, isSmall,
         withBorder, withLabel, suggestRef, autoSuggest,
         id, type, name, value, placeholder, autoComplete, spellCheck,
+        generateCode, codeLength, codeSets,
         onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
         maxLength, children,
     } = props;
@@ -100,6 +103,12 @@ function TextInput(props) {
         }
     };
 
+    // Handles the Generate Code
+    const handleGenerateCode = (e) => {
+        onChange(name, Utils.generatePassword(codeLength, codeSets));
+        e.preventDefault();
+    };
+
 
     // Do the Render
     const characters  = String(value || "").length;
@@ -140,6 +149,12 @@ function TextInput(props) {
                 {`${characters}/${maxLength}`}
             </Text>}
             {children}
+            {generateCode && <IconLink
+                variant="black"
+                icon="add"
+                onClick={handleGenerateCode}
+                isSmall
+            />}
         </Children>
     </InputContent>;
 }
@@ -167,6 +182,9 @@ TextInput.propTypes = {
     placeholder  : PropTypes.string,
     autoComplete : PropTypes.string,
     spellCheck   : PropTypes.string,
+    generateCode : PropTypes.bool,
+    codeSets     : PropTypes.string,
+    codeLength   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxLength    : PropTypes.number,
     onChange     : PropTypes.func,
     onClear      : PropTypes.func,

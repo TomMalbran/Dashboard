@@ -31,7 +31,7 @@ function PasswordInput(props) {
         inputRef, icon, postIcon, className, isFocused, isDisabled, isSmall,
         withBorder, withLabel,
         id, type, name, value, placeholder,
-        autoComplete, spellCheck, suggestPassword,
+        autoComplete, spellCheck, generateCode, codeLength, codeSets,
         onChange, onClear, onInput, onFocus, onBlur,
         onKeyDown, onKeyUp, onSubmit, children,
     } = props;
@@ -55,6 +55,12 @@ function PasswordInput(props) {
         if (onKeyUp) {
             onKeyUp(e);
         }
+    };
+
+    // Handles the Generate Code
+    const handleGenerateCode = (e) => {
+        onChange(name, Utils.generatePassword(codeLength, codeSets));
+        e.preventDefault();
     };
 
 
@@ -91,10 +97,10 @@ function PasswordInput(props) {
         />
 
         {children}
-        {suggestPassword && <InputIcon
+        {generateCode && <InputIcon
             variant="black"
             icon="add"
-            onClick={() => onChange(name, Utils.generatePassword())}
+            onClick={handleGenerateCode}
             isSmall
         />}
         <InputIcon
@@ -111,34 +117,36 @@ function PasswordInput(props) {
  * @type {Object} propTypes
  */
 PasswordInput.propTypes = {
-    inputRef        : PropTypes.object,
-    className       : PropTypes.string,
-    icon            : PropTypes.string,
-    postIcon        : PropTypes.string,
-    isFocused       : PropTypes.bool,
-    isDisabled      : PropTypes.bool,
-    isSmall         : PropTypes.bool,
-    withBorder      : PropTypes.bool,
-    withLabel       : PropTypes.bool,
-    suggestRef      : PropTypes.object,
-    autoSuggest     : PropTypes.bool,
-    id              : PropTypes.string,
-    type            : PropTypes.string.isRequired,
-    name            : PropTypes.string,
-    value           : PropTypes.any,
-    placeholder     : PropTypes.string,
-    autoComplete    : PropTypes.string,
-    spellCheck      : PropTypes.string,
-    suggestPassword : PropTypes.bool,
-    onChange        : PropTypes.func,
-    onClear         : PropTypes.func,
-    onInput         : PropTypes.func,
-    onFocus         : PropTypes.func,
-    onBlur          : PropTypes.func,
-    onKeyDown       : PropTypes.func,
-    onKeyUp         : PropTypes.func,
-    onSubmit        : PropTypes.func,
-    children        : PropTypes.any,
+    inputRef     : PropTypes.object,
+    className    : PropTypes.string,
+    icon         : PropTypes.string,
+    postIcon     : PropTypes.string,
+    isFocused    : PropTypes.bool,
+    isDisabled   : PropTypes.bool,
+    isSmall      : PropTypes.bool,
+    withBorder   : PropTypes.bool,
+    withLabel    : PropTypes.bool,
+    suggestRef   : PropTypes.object,
+    autoSuggest  : PropTypes.bool,
+    id           : PropTypes.string,
+    type         : PropTypes.string.isRequired,
+    name         : PropTypes.string,
+    value        : PropTypes.any,
+    placeholder  : PropTypes.string,
+    autoComplete : PropTypes.string,
+    spellCheck   : PropTypes.string,
+    generateCode : PropTypes.bool,
+    codeSets     : PropTypes.string,
+    codeLength   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onChange     : PropTypes.func,
+    onClear      : PropTypes.func,
+    onInput      : PropTypes.func,
+    onFocus      : PropTypes.func,
+    onBlur       : PropTypes.func,
+    onKeyDown    : PropTypes.func,
+    onKeyUp      : PropTypes.func,
+    onSubmit     : PropTypes.func,
+    children     : PropTypes.any,
 };
 
 /**
