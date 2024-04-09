@@ -9,6 +9,7 @@ const OPTIONS = {
     message    : "",
 
     isVCE      : false,     // View, Create, Edit
+    isVC       : false,     // View, Create
     isVE       : false,     // View, Edit
     isCCED     : false,     // Create, Copy, Edit, Delete
     isCCE      : false,     // Create, Copy, Edit
@@ -47,6 +48,7 @@ const ACTIONS = {
         message    : "GENERAL_VIEW",
         isView     : true,
         isVCE      : true,
+        isVC       : true,
         isVE       : true,
     },
     "ADD" : {
@@ -55,6 +57,7 @@ const ACTIONS = {
         message    : "GENERAL_ADD",
         isAdd      : true,
         isVCE      : true,
+        isVC       : true,
         isCCED     : true,
         isCCE      : true,
         isCED      : true,
@@ -66,6 +69,7 @@ const ACTIONS = {
         message    : "GENERAL_CREATE",
         isCreate   : true,
         isVCE      : true,
+        isVC       : true,
         isCCED     : true,
         isCCE      : true,
         isCED      : true,
