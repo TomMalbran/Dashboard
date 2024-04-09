@@ -105,15 +105,17 @@ function MediaItem(props) {
     const { isSelected, hasActions, onAction, elem, className, style, onMouseDown } = props;
     const { isFile, isImage, isTransparent, icon, source, thumb, name             } = elem;
 
+    // Variables
     const select = Action.get("SELECT");
     const view   = Action.get("VIEW");
     const edit   = Action.get("EDIT");
     const remove = Action.get("DELETE");
 
+
     // Handles the Action
     const handleAction = (e, action) => {
         if (onAction) {
-            onAction(action, elem);
+            onAction(action, elem, e);
         }
         e.stopPropagation();
         e.preventDefault();
@@ -134,6 +136,7 @@ function MediaItem(props) {
         >
             <Icon icon={icon} />
         </MediaElem>}
+
         {isImage && <MediaElem
             className="media-image"
             isTransparent={isTransparent}
@@ -141,6 +144,7 @@ function MediaItem(props) {
         >
             <Image src={thumb || source} alt={name} />
         </MediaElem>}
+
         <MediaName className="media-name">
             {name}
         </MediaName>

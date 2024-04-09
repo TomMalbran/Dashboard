@@ -41,7 +41,7 @@ const Section = Styled.section`
 function MediaList(props) {
     const {
         className, onAction, onDrop, isLoading, canEdit, canSelect, canDrag,
-        inDialog, selectedPath, items, path,
+        inDialog, selectedPath, selectedPaths, items, path,
     } = props;
 
     const showLoader = isLoading;
@@ -150,6 +150,20 @@ function MediaList(props) {
         }
     };
 
+    // Returns true if the elem is selected
+    const isSelected = (elem) => {
+        if (!canSelect || elem.isBack) {
+            return false;
+        }
+        if (selectedPaths && selectedPaths.length && selectedPaths.includes(elem.path)) {
+            return true;
+        }
+        if (selectedPath && selectedPath === elem.path) {
+            return true;
+        }
+        return false;
+    };
+
     // Adds the Listeners
     React.useEffect(() => {
         window.addEventListener("mousemove", handleDrag);
@@ -186,7 +200,7 @@ function MediaList(props) {
                         elem={elem}
                         className={`media-item-${index}`}
                         style={isCurrent ? style : null}
-                        isSelected={canSelect && !elem.isBack && selectedPath === elem.path}
+                        isSelected={isSelected(elem)}
                         hasActions={!isCurrent && canEdit && !elem.isBack}
                         onAction={onAction}
                         onMouseDown={(e) => handleGrab(e, elem, index)}
@@ -202,17 +216,18 @@ function MediaList(props) {
  * @type {Object} propTypes
  */
 MediaList.propTypes = {
-    className    : PropTypes.string,
-    onAction     : PropTypes.func,
-    onDrop       : PropTypes.func,
-    isLoading    : PropTypes.bool,
-    canSelect    : PropTypes.bool,
-    canEdit      : PropTypes.bool,
-    canDrag      : PropTypes.bool,
-    inDialog     : PropTypes.bool,
-    selectedPath : PropTypes.string,
-    items        : PropTypes.array,
-    path         : PropTypes.string,
+    className     : PropTypes.string,
+    onAction      : PropTypes.func,
+    onDrop        : PropTypes.func,
+    isLoading     : PropTypes.bool,
+    canSelect     : PropTypes.bool,
+    canEdit       : PropTypes.bool,
+    canDrag       : PropTypes.bool,
+    inDialog      : PropTypes.bool,
+    selectedPath  : PropTypes.string,
+    selectedPaths : PropTypes.arrayOf(PropTypes.string),
+    items         : PropTypes.array,
+    path          : PropTypes.string,
 };
 
 /**
