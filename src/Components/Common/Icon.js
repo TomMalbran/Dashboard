@@ -8,8 +8,9 @@ import Store                from "../../Core/Store";
 
 
 // Styles
-const Span = Styled.span.attrs(({ cursor }) => ({ cursor }))`
+const Span = Styled.span.attrs(({ color, cursor }) => ({ color, cursor }))`
     ${(props) => props.cursor && `cursor: ${props.cursor};`}
+    ${(props) => props.color && `color: ${props.color};`}
 
     &::before {
         display: inline-block;
@@ -29,7 +30,7 @@ const Span = Styled.span.attrs(({ cursor }) => ({ cursor }))`
  */
 function Icon(props) {
     const {
-        isHidden, className, icon, tooltip, tooltipVariant, cursor,
+        isHidden, className, icon, color, tooltip, tooltipVariant, cursor,
         onClick, onMouseDown,
     } = props;
 
@@ -52,6 +53,7 @@ function Icon(props) {
     return <Span
         ref={elementRef}
         className={`icon icon-${icon} ${className}`}
+        color={color}
         cursor={cursor}
         onClick={onClick}
         onMouseDown={onMouseDown}
@@ -68,6 +70,7 @@ Icon.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
     icon           : PropTypes.string.isRequired,
+    color          : PropTypes.string,
     cursor         : PropTypes.string,
     tooltip        : PropTypes.string,
     tooltipVariant : PropTypes.string,
