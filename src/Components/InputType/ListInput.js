@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core, Utils & Hooks
 import InputType            from "../../Core/InputType";
 import KeyCode              from "../../Utils/KeyCode";
+import Utils                from "../../Utils/Utils";
 import useDrag              from "../../Hooks/Drag";
 
 // Components
@@ -67,6 +68,7 @@ const Inside = Styled.div`
 const Remove = Styled(IconLink)`
     --link-size: 20px;
     --link-font: 14px;
+    margin-left: 4px;
     border-radius: var(--border-radius-small);
 `;
 
@@ -89,22 +91,27 @@ function ListInput(props) {
         onFocus, onBlur, onChange,
         options, withNone, noneText,
         isSortable, onSort, errors, maxAmount, maxLength,
+        children,
     } = props;
 
 
     // Calculate the Items Array
     let parts = [ "" ];
     let ids   = [ 0 ];
+
     if (value) {
         try {
             parts = Array.isArray(value) ? value : JSON.parse(String(value));
             if (!Array.isArray(parts)) {
                 parts = [ parts ];
+            } else if (!parts.length) {
+                parts = [ "" ];
             }
         } catch(e) {
             parts = [ "" ];
         }
     }
+
     if (indexes) {
         try {
             ids = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
@@ -230,6 +237,11 @@ function ListInput(props) {
     // The Drag
     const { pick, orderChanged, swap } = useDrag(handleDrop);
 
+    // Create the References
+    const inputRefs = React.useMemo(() => {
+        return Array.from({ length : parts.length }).map(() => React.createRef());
+    }, [ parts.length ]);
+
 
 
     // Do the Render
@@ -260,6 +272,7 @@ function ListInput(props) {
 
                     <Inside>
                         <InputField
+                            passedRef={inputRefs[index]}
                             className={`inputfield-item-${name}-${index}`}
                             type={inputType}
                             name={`${name}-${index}`}
@@ -276,7 +289,13 @@ function ListInput(props) {
                             withLabel={false}
                             withBorder={false}
                             isSmall
-                        />
+                        >
+                            {Utils.cloneChildren(children, () => ({
+                                inputRef : inputRefs[index],
+                                value    : elem,
+                                onChange : (value) => handleChange(value, index),
+                            }))}
+                        </InputField>
                         <Error error={getError(index)} />
                     </Inside>
 
@@ -327,6 +346,7 @@ ListInput.propTypes = {
     maxAmount  : PropTypes.number,
     maxLength  : PropTypes.number,
     errors     : PropTypes.object,
+    children   : PropTypes.any,
 };
 
 /**
