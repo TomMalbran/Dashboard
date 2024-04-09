@@ -858,6 +858,70 @@ function hasFormError(errors) {
     return false;
 }
 
+/**
+ * Returns the Select items
+ * @param {Number[]} itemIDs
+ * @param {Object[]} options
+ * @param {Object}   idsPerItem
+ * @returns {Object[]}
+ */
+function getSelectItems(itemIDs, options, idsPerItem) {
+    const result = [];
+    for (const itemID of itemIDs) {
+        if (idsPerItem[itemID]) {
+            for (const id of idsPerItem[itemID]) {
+                const item = getValue(options, "key", id);
+                result.push(item);
+            }
+        }
+    }
+    return result;
+}
+
+/**
+ * Returns the Select list based on a Parent
+ * @param {Boolean}  loading
+ * @param {Number[]} itemIDs
+ * @param {Object[]} options
+ * @param {Object}   idsPerItem
+ * @returns {Function}
+ */
+function useSelectList(loading, itemIDs, options, idsPerItem) {
+    const itemList = JSON.stringify(itemIDs);
+
+    return React.useCallback(() => {
+        if (!itemIDs.length) {
+            return options;
+        }
+        return getSelectItems(itemIDs, options, idsPerItem);
+    }, [ loading, itemList ]);
+}
+
+/**
+ * Returns the Select list based on a Parent
+ * @param {Boolean}  loading
+ * @param {Number[]} itemIDs
+ * @param {Number[]} subItemIDs
+ * @param {Object[]} options
+ * @param {Object}   idsPerItem
+ * @param {Object}   subIdsPerItem
+ * @returns {Function}
+ */
+function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, subIdsPerItem) {
+    const itemList    = JSON.stringify(itemIDs);
+    const subItemList = JSON.stringify(subItemIDs);
+
+    return React.useCallback(() => {
+        if (!itemIDs.length && !subItemIDs.length) {
+            return options;
+        }
+        if (subItemIDs.length) {
+            return getSelectItems(subItemIDs, options, subIdsPerItem);
+        }
+        return getSelectItems(itemIDs, options, idsPerItem);
+    }, [ loading, itemList, subItemList ]);
+}
+
 
 
 /**
@@ -1068,6 +1132,8 @@ export default {
     parseList,
     hasError,
     hasFormError,
+    useSelectList,
+    useSubSelectList,
 
     getYouTubeEmbed,
     getVimeoEmbed,
