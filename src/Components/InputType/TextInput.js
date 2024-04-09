@@ -21,9 +21,9 @@ const Children = Styled.div`
     margin-right: -6px;
 `;
 
-const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
+const Text = Styled.p.attrs(({ atMaxLength, hasButtons }) => ({ atMaxLength, hasButtons }))`
     margin: 0;
-    margin-right: 8px;
+    margin-right: ${(props) => props.hasButtons ? "8px" : "0"};
     font-size: 12px;
     color: ${(props) => props.atMaxLength ? "var(--error-color)" : "var(--lighter-color)"};
 `;
@@ -112,7 +112,8 @@ function TextInput(props) {
 
     // Do the Render
     const characters  = String(value || "").length;
-    const atMaxLength = characters >= maxLength;
+    const atMaxLength = characters > maxLength;
+    const hasButtons  = Boolean((children && children.length) || generateCode);
 
     return <InputContent
         inputRef={inputRef}
@@ -145,7 +146,10 @@ function TextInput(props) {
             onKeyUp={handleKeyUp}
         />
         <Children className="inputfield-children">
-            {!!maxLength && <Text atMaxLength={atMaxLength}>
+            {!!maxLength && <Text
+                atMaxLength={atMaxLength}
+                hasButtons={hasButtons}
+            >
                 {`${characters}/${maxLength}`}
             </Text>}
             {children}
