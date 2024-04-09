@@ -17,22 +17,32 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
     width: 100%;
+
+    ${(props) => props.withBorder && `
+        padding: 12px;
+        border: 1px solid var(--input-border);
+        border-radius: var(--border-radius);
+
+        &:hover {
+            --input-border: var(--input-border-hover);
+        }
+    `}
 `;
 
-const Content = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
+const Content = Styled.div.attrs(({ withLine }) => ({ withLine }))`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${(props) => props.withBorder ? "12px" : "8px"};
+    gap: ${(props) => props.withLine ? "12px" : "8px"};
 `;
 
-const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, withBorder }) => ({ withSort, withRemove, withTitle, withError, withBorder }))`
+const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, withLine }) => ({ withSort, withRemove, withTitle, withError, withLine }))`
     width: 100%;
     display: grid;
     gap: 4px;
@@ -64,7 +74,7 @@ const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, wit
             --input-border: var(--error-color);
         }
     `}
-    ${(props) => props.withBorder && `
+    ${(props) => props.withLine && `
         padding-bottom: 12px;
         border-bottom: 2px solid var(--dark-gray);
     `}
@@ -131,7 +141,7 @@ const Error = Styled(InputError)`
  */
 function FieldInput(props) {
     const {
-        className, isDisabled, withBorder,
+        className, isDisabled, withBorder, withLine,
         name, value, indexes, addButton, onChange,
         title, columns, errors, maxAmount,
         isSortable, onSort, children,
@@ -316,8 +326,8 @@ function FieldInput(props) {
     const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
     const canRemove = Boolean(!isDisabled && parts.length > 1);
 
-    return <Container className={className}>
-        <Content withBorder={withBorder}>
+    return <Container className={className} withBorder={withBorder}>
+        <Content withLine={withLine}>
             {parts.map((elem, index) => <Item
                 key={index}
                 className="inputfield-container"
@@ -325,7 +335,7 @@ function FieldInput(props) {
                 withRemove={canRemove}
                 withError={!!getError(index)}
                 withTitle={withTitle}
-                withBorder={withBorder}
+                withLine={withLine}
             >
                 {canSort && <Sort>
                     <Icon
@@ -405,6 +415,7 @@ FieldInput.propTypes = {
     className  : PropTypes.string,
     isDisabled : PropTypes.bool,
     withBorder : PropTypes.bool,
+    withLine   : PropTypes.bool,
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
     indexes    : PropTypes.any,
@@ -429,6 +440,7 @@ FieldInput.defaultProps = {
     className  : "",
     isDisabled : false,
     withBorder : false,
+    withLine   : false,
     addButton  : "GENERAL_ADD_FIELD",
     isSortable : false,
     maxAmount  : 0,

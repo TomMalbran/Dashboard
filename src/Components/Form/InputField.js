@@ -272,6 +272,7 @@ InputField.propTypes = {
     shrinkLabel     : PropTypes.bool,
     withLabel       : PropTypes.bool,
     withBorder      : PropTypes.bool,
+    withLine        : PropTypes.bool,
     withEditor      : PropTypes.bool,
     isSmall         : PropTypes.bool,
     errorBackground : PropTypes.bool,
