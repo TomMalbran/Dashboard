@@ -69,13 +69,18 @@ const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
 function Columns(props) {
     const {
         isHidden, className, amount, topSpace,
-        onSubmit, autoFocus, children,
+        onSubmit, autoFocus, lastDouble, children,
     } = props;
 
-    const items = Utils.cloneChildren(children, (child, key) => ({
-        onSubmit, autoFocus : autoFocus && key === 0,
+
+    const items = Utils.cloneChildren(children, (child, key, total) => ({
+        onSubmit,
+        className : child.props.className || ((lastDouble && total % 2 === 1 && key === total - 1) ? "columns-double" : ""),
+        autoFocus : autoFocus && key === 0,
     }));
 
+
+    // Do the Render
     if (isHidden || !items.length) {
         return <React.Fragment />;
     }
@@ -93,13 +98,14 @@ function Columns(props) {
  * @type {Object} propTypes
  */
 Columns.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    amount    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    topSpace  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onSubmit  : PropTypes.func,
-    autoFocus : PropTypes.bool,
-    children  : PropTypes.any,
+    isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    amount     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    topSpace   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onSubmit   : PropTypes.func,
+    autoFocus  : PropTypes.bool,
+    lastDouble : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -107,10 +113,11 @@ Columns.propTypes = {
  * @typedef {Object} defaultProps
  */
 Columns.defaultProps = {
-    isHidden  : false,
-    className : "",
-    amount    : 2,
-    autoFocus : false,
+    isHidden   : false,
+    className  : "",
+    amount     : 2,
+    autoFocus  : false,
+    lastDouble : false,
 };
 
 export default Columns;
