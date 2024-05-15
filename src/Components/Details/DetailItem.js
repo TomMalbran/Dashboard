@@ -58,7 +58,7 @@ function DetailItem(props) {
 
     // Get the Content
     let   content = message ? NLS.get(String(message)) : children;
-    const isHtml  = message && (content.includes("\n") || content.includes("</b>") || content.includes("</span>"));
+    let   isHtml  = message && (content.includes("\n") || content.includes("</b>") || content.includes("</span>"));
     const isLink  = href || url || onClick || isEmail || isPhone || isWhatsApp;
 
 
@@ -72,9 +72,11 @@ function DetailItem(props) {
     }
     if (!children) {
         if (prefix) {
-            content = `${NLS.get(prefix)}: ${content}`;
+            content = `<b>${NLS.get(prefix)}</b>: ${content}`;
+            isHtml  = true;
         } else if (withTip) {
-            content = `${NLS.get(tooltip)}: ${content}`;
+            content = `<b>${NLS.get(tooltip)}</b>: ${content}`;
+            isHtml  = true;
         }
     }
 
