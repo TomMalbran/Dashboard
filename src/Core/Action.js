@@ -8,6 +8,7 @@ const OPTIONS = {
     icon       : "",
     message    : "",
 
+    isVCCE     : false,     // View, Create, Copy, Edit
     isVCE      : false,     // View, Create, Edit
     isVC       : false,     // View, Create
     isVE       : false,     // View, Edit
@@ -47,6 +48,7 @@ const ACTIONS = {
         icon       : "view",
         message    : "GENERAL_VIEW",
         isView     : true,
+        isVCCE     : true,
         isVCE      : true,
         isVC       : true,
         isVE       : true,
@@ -56,6 +58,7 @@ const ACTIONS = {
         icon       : "create",
         message    : "GENERAL_ADD",
         isAdd      : true,
+        isVCCE     : true,
         isVCE      : true,
         isVC       : true,
         isCCED     : true,
@@ -68,6 +71,7 @@ const ACTIONS = {
         icon       : "create",
         message    : "GENERAL_CREATE",
         isCreate   : true,
+        isVCCE     : true,
         isVCE      : true,
         isVC       : true,
         isCCED     : true,
@@ -79,6 +83,7 @@ const ACTIONS = {
         ...OPTIONS,
         icon       : "copy",
         message    : "GENERAL_COPY",
+        isVCCE     : true,
         isCCED     : true,
         isCCE      : true,
         isCopy     : true,
@@ -88,6 +93,7 @@ const ACTIONS = {
         icon       : "edit",
         message    : "GENERAL_EDIT",
         isEdit     : true,
+        isVCCE     : true,
         isVCE      : true,
         isVE       : true,
         isCCED     : true,
