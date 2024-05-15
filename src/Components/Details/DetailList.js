@@ -68,7 +68,7 @@ const Content = Styled.section`
 function DetailList(props) {
     const {
         isHidden, className, icon, message, collapsible,
-        action, onAction, canEdit, children,
+        action, onAction, canEdit, editIcon, children,
     } = props;
 
     const { closeDetails } = Store.useAction("core");
@@ -136,7 +136,7 @@ function DetailList(props) {
 
             {hasPostAction && <IconLink
                 variant="black"
-                icon="edit"
+                icon={editIcon}
                 onClick={handleAction}
                 isSmall
             />}
@@ -164,6 +164,7 @@ DetailList.propTypes = {
     collapsible : PropTypes.string,
     action      : PropTypes.string,
     canEdit     : PropTypes.bool,
+    editIcon    : PropTypes.string,
     onAction    : PropTypes.func,
     children    : PropTypes.any,
 };
@@ -176,6 +177,7 @@ DetailList.defaultProps = {
     isHidden  : false,
     className : "",
     action    : "",
+    editIcon  : "edit",
 };
 
 export default DetailList;
