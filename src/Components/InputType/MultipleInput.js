@@ -15,7 +15,7 @@ import CheckboxInput        from "../InputType/CheckboxInput";
 const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(${(props) => props.columns}, 1fr);
+    grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
     gap: 4px;
     width: 100%;
 
@@ -71,9 +71,9 @@ function MultipleInput(props) {
                 name={name}
                 value={key}
                 label={val}
-                isChecked={value ? value.indexOf(key) > -1 : false}
+                isChecked={value ? value.indexOf(Number(key)) > -1 : false}
                 isDisabled={isDisabled}
-                onChange={(name, isChecked) => handleChange(isChecked, key, value)}
+                onChange={(name, isChecked) => handleChange(isChecked, Number(key), value)}
                 onFocus={onFocus}
                 onBlur={onBlur}
             />)}
