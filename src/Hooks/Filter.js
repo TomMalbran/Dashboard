@@ -22,6 +22,7 @@ import Period               from "../Utils/Period";
  *   data         : Object,
  *   setData      : Function,
  *   handleChange : (...any) => any,
+ *   handleSearch : (...any) => any,
  *   handlePeriod : (...any) => any,
  *   handleSubmit : (...any) => any,
  * }}
@@ -79,6 +80,11 @@ function useFilter(slice, open, initialData, filters, onSubmit = null, sendData 
         setData({ ...data, [name] : value });
     };
 
+    // Handles the Search Change
+    const handleSearch = (id, idValue, name, nameValue) => {
+        setData({ ...data, [id] : idValue, [name] : nameValue });
+    };
+
     // Handles the Period Change
     const handlePeriod = (name, period) => {
         const fromDate = Period.getFromDate(period);
@@ -99,7 +105,7 @@ function useFilter(slice, open, initialData, filters, onSubmit = null, sendData 
     return {
         loading, startLoading, endLoading,
         data, setData,
-        handleChange, handlePeriod, handleSubmit,
+        handleChange, handleSearch, handlePeriod, handleSubmit,
     };
 }
 
