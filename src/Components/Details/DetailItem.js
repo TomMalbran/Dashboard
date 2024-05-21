@@ -42,7 +42,8 @@ const DetailIcon = Styled(Icon)`
  */
 function DetailItem(props) {
     const {
-        isHidden, className, message, icon, tooltip, prefix, withTip, showAlways,
+        isHidden, className, textColor,
+        message, icon, tooltip, prefix, withTip, showAlways,
         href, url, onClick, isEmail, isPhone, isWhatsApp, isSelected, children,
     } = props;
 
@@ -83,7 +84,7 @@ function DetailItem(props) {
 
     // Do the Render
     return <Container
-        className={className}
+        className={textColor ? `text-${textColor} ${className}` : className}
         isLink={isLink}
         title={NLS.get(tooltip)}
         isSelected={isSelected}
@@ -101,6 +102,7 @@ function DetailItem(props) {
 DetailItem.propTypes = {
     isHidden   : PropTypes.bool,
     className  : PropTypes.string,
+    textColor  : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon       : PropTypes.string,
     tooltip    : PropTypes.string,
@@ -125,6 +127,7 @@ DetailItem.propTypes = {
 DetailItem.defaultProps = {
     isHidden   : false,
     className  : "",
+    textColor  : "",
     target     : "_self",
     isEmail    : false,
     isPhone    : false,
