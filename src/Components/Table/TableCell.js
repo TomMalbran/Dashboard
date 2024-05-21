@@ -92,7 +92,8 @@ const TD = Styled.td.attrs(props)`
  */
 function TableCell(props) {
     const {
-        isHidden, className, message, circle, hideCircle,
+        isHidden, message,
+        className, textColor, circle, hideCircle,
         colSpan, grow, shrink, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex, isMultiline,
         bigMobile, hideMobile,
@@ -100,11 +101,12 @@ function TableCell(props) {
     } = props;
 
 
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
     return <TD
-        className={className}
+        className={textColor ? `text-${textColor}` : className}
         flexGrow={grow}
         flexShrink={shrink}
         minWidth={minWidth}
@@ -135,6 +137,7 @@ function TableCell(props) {
 TableCell.propTypes = {
     isHidden    : PropTypes.bool,
     className   : PropTypes.string,
+    textColor   : PropTypes.string,
     message     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     colSpan     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -165,6 +168,7 @@ TableCell.propTypes = {
 TableCell.defaultProps = {
     isHidden    : false,
     className   : "",
+    textColor   : "",
     colSpan     : "1",
     grow        : "1",
     shrink      : "1",
