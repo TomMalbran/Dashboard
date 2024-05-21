@@ -27,15 +27,14 @@ const Container = Styled.div.attrs(({ top, left, width, variant, isOpen }) => ({
     min-width: ${(props) => `${props.width}px`};
     opacity: 0;
     padding: 5px 8px;
-    font-size: 13px;
-    font-weight: 200;
+    font-size: 12px;
     line-height: 1.5em;
-    color: #fff;
     white-space: normal;
     word-wrap: break-word;
     text-align: center;
+    color: var(--tooltip-color);
+    background-color: var(--tooltip-background);
     border-radius: var(--border-radius);
-    background-color: var(--tooltip-color);
     pointer-events: none;
     z-index: var(--z-tooltip);
 
@@ -65,25 +64,25 @@ const Container = Styled.div.attrs(({ top, left, width, variant, isOpen }) => ({
         ${(props) => props.variant === "top" && `
             bottom: -18px;
             left: calc(50% - 6px);
-            border-color: var(--tooltip-color) transparent transparent transparent;
+            border-color: var(--tooltip-background) transparent transparent transparent;
         `}
 
         ${(props) => props.variant === "bottom" && `
             top: -6px;
             left: calc(50% - 6px);
-            border-color: transparent transparent var(--tooltip-color) transparent;
+            border-color: transparent transparent var(--tooltip-background) transparent;
         `}
 
         ${(props) => props.variant === "left" && `
             top: 50%;
             right: -12px;
-            border-color: transparent transparent transparent var(--tooltip-color);
+            border-color: transparent transparent transparent var(--tooltip-background);
         `}
 
         ${(props) => props.variant === "right" && `
             top: 50%;
             left: -12px;
-            border-color: transparent var(--tooltip-color) transparent transparent;
+            border-color: transparent var(--tooltip-background) transparent transparent;
         `}
     }
 `;
