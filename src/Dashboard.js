@@ -39,7 +39,6 @@ Dashboard.propTypes = {
     actions  : PropTypes.array.isRequired,
     params   : PropTypes.object.isRequired,
     access   : PropTypes.object.isRequired,
-    status   : PropTypes.object.isRequired,
     children : PropTypes.any,
 };
 

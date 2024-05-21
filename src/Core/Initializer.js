@@ -7,7 +7,6 @@ import Ajax                 from "../Core/Ajax";
 import Access               from "../Core/Access";
 import Action               from "../Core/Action";
 import Auth                 from "../Core/Auth";
-import Status               from "../Core/Status";
 import Navigate             from "../Core/Navigate";
 
 
@@ -18,7 +17,7 @@ import Navigate             from "../Core/Navigate";
  * @returns {React.ReactElement}
  */
 function Initializer(props) {
-    const { actions, params, access, status } = props;
+    const { actions, params, access } = props;
 
     const { showResult     } = Store.useAction("core");
     const { setCurrentUser } = Store.useAction("auth");
@@ -39,7 +38,6 @@ function Initializer(props) {
         Action.init(actions);
         Navigate.init(params);
         Access.init(access.values, access.groups);
-        Status.init(status.values, status.groups);
         Auth.init(onUserChange);
     }, []);
 
@@ -54,7 +52,6 @@ Initializer.propTypes = {
     actions : PropTypes.array.isRequired,
     params  : PropTypes.object.isRequired,
     access  : PropTypes.object.isRequired,
-    status  : PropTypes.object.isRequired,
 };
 
 export default Initializer;

@@ -5,7 +5,6 @@ import Styled               from "styled-components";
 // Core
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
-import Status               from "../../Core/Status";
 import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 
@@ -138,7 +137,7 @@ const Components = {
 function TabItem(props) {
     const {
         className, variant, icon, message,
-        status, url, value, index, selected,
+        url, value, index, selected,
         amount, badge, isDisabled,
         tooltip, tooltipVariant,
         canEdit, canDelete, onClick, onAction,
@@ -152,7 +151,7 @@ function TabItem(props) {
 
     // Variables
     const Component  = Components[variant] || LightItem;
-    const id         = status ? Status.getID(status) : (url ? NLS.url(url) : (value || index));
+    const id         = url ? NLS.url(url) : (value || index);
     const hasAmount  = amount !== undefined;
     const isSelected = Boolean(!isDisabled && selected !== undefined && String(selected) === String(id));
     const canAction  = Boolean(!isDisabled && onAction);
@@ -230,7 +229,6 @@ TabItem.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
     variant        : PropTypes.string,
-    status         : PropTypes.string,
     url            : PropTypes.string,
     value          : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     index          : PropTypes.number,
