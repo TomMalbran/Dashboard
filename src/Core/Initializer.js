@@ -4,7 +4,6 @@ import PropTypes            from "prop-types";
 // Core
 import Store                from "../Core/Store";
 import Ajax                 from "../Core/Ajax";
-import Access               from "../Core/Access";
 import Action               from "../Core/Action";
 import Auth                 from "../Core/Auth";
 import Navigate             from "../Core/Navigate";
@@ -17,7 +16,7 @@ import Navigate             from "../Core/Navigate";
  * @returns {React.ReactElement}
  */
 function Initializer(props) {
-    const { actions, params, access } = props;
+    const { actions, params } = props;
 
     const { showResult     } = Store.useAction("core");
     const { setCurrentUser } = Store.useAction("auth");
@@ -37,7 +36,6 @@ function Initializer(props) {
         Ajax.init(onResult);
         Action.init(actions);
         Navigate.init(params);
-        Access.init(access.values, access.groups);
         Auth.init(onUserChange);
     }, []);
 
@@ -51,7 +49,6 @@ function Initializer(props) {
 Initializer.propTypes = {
     actions : PropTypes.array.isRequired,
     params  : PropTypes.object.isRequired,
-    access  : PropTypes.object.isRequired,
 };
 
 export default Initializer;
