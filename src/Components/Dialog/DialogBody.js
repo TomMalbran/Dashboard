@@ -11,7 +11,6 @@ import CircularLoader       from "../Loader/CircularLoader";
 const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, bigSpacing, fullHeight, hideFooter, noOverflow }) => ({ isLoading, isCentered, withSpacing, bigSpacing, isNarrow, fullHeight, hideFooter, noOverflow }))`
     box-sizing: border-box;
     flex-grow: 2;
-    color: var(--secondary-color);
     max-height: var(--dialog-body);
     overscroll-behavior-y: none;
 

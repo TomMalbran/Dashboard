@@ -16,7 +16,7 @@ import MediaItem            from "../Media/MediaItem";
 
 // Styles
 const Div = Styled.div.attrs(({ inDialog }) => ({ inDialog }))`
-    color: var(--secondary-color);
+    color: var(--media-main-color);
     padding-top: 24px;
     ${(props) => props.inDialog && `
         min-height: calc(131px * 2 + 8px);
