@@ -12,8 +12,6 @@ const Container = Styled.div`
     box-sizing: border-box;
     flex-grow: 2;
     width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
     padding: var(--main-padding);
     overflow: auto;
 `;
