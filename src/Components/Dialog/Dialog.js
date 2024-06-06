@@ -30,13 +30,18 @@ const close = keyframes`
 `;
 
 // Styles
-const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosing }) => ({ width, isWide, isNarrow, hasTabs, isClosing }))`
+const Container = Styled(Backdrop)`
     --dialog-tabs: 0px;
-    --dialog-body: calc(var(--full-height) - var(--dialog-spacing) * 2 - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
+    --dialog-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
+    --dialog-body: calc(var(--dialog-height) - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
+    padding: var(--dialog-spacing);
+`;
+
+const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosing }) => ({ width, isWide, isNarrow, hasTabs, isClosing }))`
     position: static;
     display: block;
-    margin: var(--dialog-spacing);
+    margin: 0;
     padding: 0;
     width: calc(100% - var(--dialog-spacing) * 2);
     max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
@@ -82,8 +87,9 @@ const Container = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClo
 function Dialog(props) {
     const {
         open, className, isLoading, width, isWide, isNarrow, noTab,
-        dontClose, onClose, children,
+        dontClose, onClose, aside, children,
     } = props;
+
 
     // The References
     const contentRef   = React.useRef(null);
@@ -160,8 +166,12 @@ function Dialog(props) {
         return <React.Fragment />;
     }
 
-    const items   = [];
-    let   hasTabs = false;
+
+    // Variables
+    const showAside = open && !isClosing && !isLoading;
+    const items     = [];
+    let   hasTabs   = false;
+
     for (const [ key, child ] of Utils.getChildren(children)) {
         if (child.type === TabList) {
             hasTabs = true;
@@ -173,13 +183,13 @@ function Dialog(props) {
 
 
     // Do the Render
-    return <Backdrop
+    return <Container
         contentRef={contentRef}
         open={open}
         isClosing={isClosing}
         onClose={handleClose}
     >
-        <Container
+        <Content
             className={`dialog ${className}`}
             ref={contentRef}
             width={width}
@@ -190,8 +200,10 @@ function Dialog(props) {
             open
         >
             {items}
-        </Container>
-    </Backdrop>;
+        </Content>
+
+        {showAside && aside}
+    </Container>;
 }
 
 /**
@@ -208,6 +220,7 @@ Dialog.propTypes = {
     isNarrow  : PropTypes.bool,
     noTab     : PropTypes.bool,
     isLoading : PropTypes.bool,
+    aside     : PropTypes.any,
     children  : PropTypes.any,
 };
 

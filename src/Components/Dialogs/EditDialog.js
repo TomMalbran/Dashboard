@@ -26,13 +26,14 @@ const Message = Styled(DialogMessage)`
  */
 function EditDialog(props) {
     const {
-        open, title, icon, message, className,
-        isLoading, isNarrow, isWide, fullHeight,
+        open, title, icon, message, className, isLoading,
+        width, isNarrow, isWide, fullHeight,
         noOverflow, withSpacing, bigSpacing,
         error, isDisabled, dontClose,
         hidePrimary, primary, primaryVariant, onSubmit,
         cancel, cancelVariant, onClose, onCancel,
-        secondary, onSecondary, tertiary, onTertiary, children,
+        secondary, onSecondary, tertiary, onTertiary,
+        aside, children,
     } = props;
 
 
@@ -40,10 +41,12 @@ function EditDialog(props) {
     return <Dialog
         open={open}
         onClose={onClose}
+        width={width}
         isNarrow={isNarrow}
         isWide={isWide}
         isLoading={isLoading}
         dontClose={dontClose}
+        aside={aside}
     >
         <DialogHeader message={title} icon={icon} />
         <DialogBody
@@ -89,6 +92,7 @@ EditDialog.propTypes = {
     onClose        : PropTypes.func.isRequired,
     isLoading      : PropTypes.bool,
     isDisabled     : PropTypes.bool,
+    width          : PropTypes.number,
     isNarrow       : PropTypes.bool,
     isWide         : PropTypes.bool,
     fullHeight     : PropTypes.bool,
@@ -106,6 +110,7 @@ EditDialog.propTypes = {
     onSecondary    : PropTypes.func,
     tertiary       : PropTypes.string,
     onTertiary     : PropTypes.func,
+    aside          : PropTypes.any,
     children       : PropTypes.any,
 };
 
