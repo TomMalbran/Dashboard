@@ -16,14 +16,14 @@ import TabList              from "../Tab/TabList";
 
 
 // Styles
-const Section = Styled.section.attrs(({ withDetails, hasTabs }) => ({ withDetails, hasTabs }))`
+const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs }) => ({ withDetails, wideDetails, hasTabs }))`
     flex-grow: 1;
     padding: 0 var(--main-padding) var(--main-padding);
     overflow: auto;
 
     ${(props) => props.withDetails && `
         display: grid;
-        grid-template-columns: minmax(0, 1fr) var(--details-width);
+        grid-template-columns: minmax(0, 1fr) var(--details-width${props.wideDetails ? "-wide" : ""});
         column-gap: 16px;
     `};
 
@@ -55,7 +55,11 @@ const Section = Styled.section.attrs(({ withDetails, hasTabs }) => ({ withDetail
  * @returns {React.ReactElement}
  */
 function Content(props) {
-    const { className, isLoading, passedRef, withDetails, children } = props;
+    const {
+        className, isLoading, passedRef,
+        withDetails, wideDetails, children,
+    } = props;
+
 
     // Render the Loading
     if (isLoading) {
@@ -94,6 +98,7 @@ function Content(props) {
         ref={passedRef}
         className={className}
         withDetails={withDetails}
+        wideDetails={wideDetails}
         hasTabs={hasTabs}
     >
         {items}
@@ -109,6 +114,7 @@ Content.propTypes = {
     isLoading   : PropTypes.bool,
     passedRef   : PropTypes.any,
     withDetails : PropTypes.bool,
+    wideDetails : PropTypes.bool,
     children    : PropTypes.any,
 };
 
