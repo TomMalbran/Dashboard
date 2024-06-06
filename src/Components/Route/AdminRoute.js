@@ -15,13 +15,13 @@ import UserRoute            from "./UserRoute";
  * @returns {React.ReactElement}
  */
 function AdminRoute(props) {
-    const { isAdmin } = Store.useState("auth");
+    const { isAnyAdmin } = Store.useState("auth");
 
 
     // Do the Render
     return <UserRoute
         {...props}
-        isValid={isAdmin}
+        isValid={isAnyAdmin}
     />;
 }
 
