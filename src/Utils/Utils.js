@@ -162,6 +162,22 @@ function inRef(x, y, ref, scrollTop = 0) {
 }
 
 /**
+ * Scrolls to the Bottom
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {Boolean}                      instant
+ * @returns {Void}
+ */
+function scrollToBottom(ref, instant) {
+    const node = ref.current;
+    if (node) {
+        node.scrollTo({
+            top      : node.scrollHeight - node.offsetHeight,
+            behavior : instant ? "instant" : "smooth",
+        });
+    }
+}
+
+/**
  * Inserts an Text in the given Message
  * @param {React.RefObject<HTMLInputElement>} ref
  * @param {String}                            message
@@ -1064,6 +1080,17 @@ function shuffleString(string) {
     return parts.join("");
 }
 
+/**
+ * Returns true if the given text has only Emojis
+ * @param {String} text
+ * @returns {Boolean}
+ */
+function isEmojiOnly(text) {
+    const stringToTest = text.replace(/ /g, "");
+    const emojiRegex = /^(?:(?:\p{RI}\p{RI}|\p{Emoji}(?:\p{Emoji_Modifier}|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(?:\u{200D}\p{Emoji}(?:\p{Emoji_Modifier}|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)*)|[\u{1f900}-\u{1f9ff}\u{2600}-\u{26ff}\u{2700}-\u{27bf}])+$/u;
+    return emojiRegex.test(stringToTest) && Number.isNaN(Number(stringToTest));
+}
+
 
 
 
@@ -1084,6 +1111,7 @@ export default {
     getBounds,
     inBounds,
     inRef,
+    scrollToBottom,
     insertText,
     formatText,
     hasSelection,
@@ -1141,4 +1169,5 @@ export default {
 
     randomNumber,
     generatePassword,
+    isEmojiOnly,
 };
