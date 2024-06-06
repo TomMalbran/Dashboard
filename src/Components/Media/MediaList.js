@@ -19,7 +19,7 @@ const Div = Styled.div.attrs(({ inDialog }) => ({ inDialog }))`
     color: var(--media-main-color);
     padding-top: 24px;
     ${(props) => props.inDialog && `
-        min-height: calc(131px * 2 + 8px);
+        min-height: calc(130px * 2 + 8px + 16px + 12px);
     `}
 `;
 
