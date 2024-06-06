@@ -37,7 +37,10 @@ const loaderDots = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({ variant, withSpacing, top }) => ({ variant, withSpacing, top }))`
+const Container = Styled.div.attrs(({ variant, isSmall, withSpacing, top }) => ({ variant, isSmall, withSpacing, top }))`
+    --loader-size: ${(props) => props.isSmall ? "26px" : "64px"};
+    --loader-border-width: ${(props) => props.isSmall ? "3px" : "6px"};
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,12 +49,12 @@ const Div = Styled.div.attrs(({ variant, withSpacing, top }) => ({ variant, with
     z-index: 200;
 
     ${(props) => props.variant === Variant.PRIMARY && `
-        --loader-border: var(--primary-color, black);
-        --loader-font: var(--font-dark, black);
+        --loader-border-color: var(--primary-color, black);
+        --loader-font-color: var(--font-dark, black);
     `}
     ${(props) => props.variant === Variant.WHITE && `
-        --loader-border: white;
-        --loader-font: white;
+        --loader-border-color: white;
+        --loader-font-color: white;
     `}
 
     ${(props) => props.withSpacing ? `
@@ -61,14 +64,14 @@ const Div = Styled.div.attrs(({ variant, withSpacing, top }) => ({ variant, with
     `}
 `;
 
-const Ring = Styled.div`
+const Ring = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
     flex-grow: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    width: 64px;
-    height: 64px;
+    width: var(--loader-size);
+    height: var(--loader-size);
 
     & > div {
         box-sizing: border-box;
@@ -76,13 +79,12 @@ const Ring = Styled.div`
         position: absolute;
         top: 0;
         left: 0;
-        width: 51px;
-        height: 51px;
-        margin: 6px;
-        border: 6px solid var(--loader-border);
+        width: var(--loader-size);
+        height: var(--loader-size);
+        border: var(--loader-border-width) solid var(--loader-border-color);
         border-radius: 50%;
         animation: ${loader} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-        border-color: var(--loader-border) transparent transparent transparent;
+        border-color: var(--loader-border-color) transparent transparent transparent;
     }
     & > div:nth-child(1) {
         animation-delay: -0.45s;
@@ -97,7 +99,7 @@ const Ring = Styled.div`
 
 const Text = Styled.div`
     padding-top: 32px;
-    color: var(--loader-font);
+    color: var(--loader-font-color);
 
     &::after {
         content: " .";
@@ -114,11 +116,20 @@ const Text = Styled.div`
  * @returns {React.ReactElement}
  */
 function CircularLoader(props) {
-    const { className, variant, message, withSpacing, top } = props;
+    const {
+        isHidden, className, variant, message,
+        isSmall, withSpacing, top,
+    } = props;
 
-    return <Div
+
+    // Do the render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
+    return <Container
         className={className}
         variant={variant}
+        isSmall={isSmall}
         withSpacing={withSpacing}
         top={top}
     >
@@ -128,8 +139,8 @@ function CircularLoader(props) {
             <div />
             <div />
         </Ring>
-        <Text>{NLS.get(message)}</Text>
-    </Div>;
+        {!isSmall && <Text>{NLS.get(message)}</Text>}
+    </Container>;
 }
 
 /**
@@ -137,9 +148,11 @@ function CircularLoader(props) {
  * @typedef {Object} propTypes
  */
 CircularLoader.propTypes = {
-    variant     : PropTypes.string,
+    isHidden    : PropTypes.bool,
     className   : PropTypes.string,
+    variant     : PropTypes.string,
     message     : PropTypes.string,
+    isSmall     : PropTypes.bool,
     withSpacing : PropTypes.bool,
     top         : PropTypes.number,
 };
@@ -149,9 +162,11 @@ CircularLoader.propTypes = {
  * @type {Object} defaultProps
  */
 CircularLoader.defaultProps = {
-    variant     : Variant.PRIMARY,
+    isHidden    : false,
     className   : "",
+    variant     : Variant.PRIMARY,
     message     : "GENERAL_LOADING",
+    isSmall     : false,
     withSpacing : false,
     top         : 0,
 };
