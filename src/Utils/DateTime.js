@@ -297,6 +297,14 @@ class DateTime {
     }
 
     /**
+     * Returns the date as a string in the format "YYYY-MM-DD"
+     * @returns {String}
+     */
+    toInputString() {
+        return `${this.year}-${parseTime(this.month)}-${parseTime(this.day)}`;
+    }
+
+    /**
      * Returns the date as a string choosing the format depending on the date
      * @returns {String}
      */
@@ -453,7 +461,11 @@ class DateTime {
      * @returns {String}
      */
     parseDuration(otherDate) {
-        return NLS.format("DATE_DURATION", this.toString("time"), otherDate.toString("time"));
+        return NLS.format(
+            "DATE_DURATION",
+            this.toString("time"),
+            otherDate.toString("time"),
+        );
     }
 
 
@@ -1140,6 +1152,21 @@ function formatIf(date, format) {
 }
 
 /**
+ * Formats the give date for an Input
+ * @param {(Number|Date|String)} date
+ * @returns {String}
+ */
+function formatInput(date) {
+    if (!date) {
+        return "";
+    }
+    if (Utils.isString(date)) {
+        return fromString(String(date)).toInputString();
+    }
+    return new DateTime(date).toInputString();
+}
+
+/**
  * Formats the give date as a String
  * @param {(Number|Date)} date
  * @returns {String}
@@ -1289,6 +1316,7 @@ export default {
     formatDate,
     formatDateTime,
     formatIf,
+    formatInput,
     formatString,
     formatDay,
     formatTime,
