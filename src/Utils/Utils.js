@@ -276,6 +276,20 @@ function setTimeout(timerRef, callback, milliseconds) {
 }
 
 /**
+ * Returns the Timeout for the auto update
+ * @param {React.MutableRefObject<Number>} timerRef
+ * @param {Function}                       setUpdate
+ * @param {Number=}                        update
+ * @param {Number=}                        seconds
+ * @returns {Void}
+ */
+function setUpdateTimeout(timerRef, setUpdate, update = 0, seconds = 10) {
+    setTimeout(timerRef, () => {
+        setUpdate(update + 1);
+    }, seconds * 1000);
+}
+
+/**
  * Clears the Timeout for the auto update
  * @param {React.MutableRefObject<Number>} timerRef
  * @returns {Void}
@@ -1120,6 +1134,7 @@ export default {
     scrollIntoView,
 
     setTimeout,
+    setUpdateTimeout,
     clearTimeout,
     setInterval,
     clearInterval,
