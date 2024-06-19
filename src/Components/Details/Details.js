@@ -13,7 +13,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section.attrs(({ isInside, isWide, isLarge, topSpace }) => ({ isInside, isWide, isLarge, topSpace }))`
+const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasTabs, topSpace }) => ({ isInside, isWide, isLarge, hasTabs, topSpace }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -24,7 +24,9 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, topSpace }) =
     background-color: var(--lighter-gray);
     overflow: auto;
 
+    ${(props) => props.hasTabs && "padding-top: 0px;"}
     ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
+
     ${(props) => props.isInside ? `
         border-radius: var(--border-radius);
         border: 1px solid var(--border-color-light);
@@ -73,7 +75,7 @@ const Error = Styled.div`
  */
 function Details(props) {
     const {
-        className, isHidden, isInside, isWide, isLarge, topSpace,
+        className, isHidden, isInside, isWide, isLarge, hasTabs, topSpace,
         isLoading, isEmpty, hasError, error,
         canEdit, onAction, collapsible, children,
     } = props;
@@ -111,6 +113,7 @@ function Details(props) {
         isInside={isInside}
         isWide={isWide}
         isLarge={isLarge}
+        hasTabs={hasTabs}
         topSpace={topSpace}
     >
         {isLoading   && <Loading><CircularLoader /></Loading>}
@@ -129,6 +132,7 @@ Details.propTypes = {
     isInside    : PropTypes.bool,
     isWide      : PropTypes.bool,
     isLarge     : PropTypes.bool,
+    hasTabs     : PropTypes.bool,
     topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     isLoading   : PropTypes.bool,
     isEmpty     : PropTypes.bool,
@@ -150,6 +154,7 @@ Details.defaultProps = {
     isInside  : false,
     isWide    : false,
     isLarge   : false,
+    hasTabs   : false,
     isLoading : false,
     isEmpty   : false,
     hasError  : false,
