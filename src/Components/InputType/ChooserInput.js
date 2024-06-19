@@ -27,23 +27,25 @@ const List = Styled.ul`
     width: 100%;
 `;
 
-const Chip = Styled.li`
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
     font-size: 18px;
 `;
 
+const Chip = Styled.li.attrs(({ isDisabled }) => ({ isDisabled }))`
     padding: 2px 8px;
     font-size: 12px;
     background-color: var(--light-gray);
     border-radius: var(--border-radius);
     transition: all 0.2s;
-    cursor: pointer;
 
-    &:hover {
-        background-color: var(--lighter-gray);
-    }
+    ${(props) => !props.isDisabled && `
+        cursor: pointer;
+        &:hover {
+            background-color: var(--lighter-gray);
+        }
+    `}
 `;
 
 const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, left, width, maxHeight }))`
@@ -114,22 +116,6 @@ function ChooserInput(props) {
     const [ selectedIdx, setSelectedIdx ] = React.useState(0);
 
 
-    // Calculate the Values
-    const items   = InputType.createOptions(props);
-    const values  = !Array.isArray(value) ? [] : value;
-    const options = [];
-    const chips   = [];
-
-    for (const key of values) {
-        chips.push({ key, value : Utils.getValue(items, "key", key, "value") });
-    }
-    for (const item of items) {
-        if (!Utils.hasValue(values, item.key) && (!filter || item.value.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) {
-            options.push(item);
-        }
-    }
-
-
     // Clear the Timer
     React.useEffect(() => {
         return () => {
@@ -169,8 +155,10 @@ function ChooserInput(props) {
 
     // Handles the Remove
     const handleRemove = (e, key) => {
-        setValues(key);
-        triggerBlur();
+        if (!isDisabled) {
+            setValues(key);
+            triggerBlur();
+        }
     };
 
     // Handles the Focus
@@ -240,9 +228,34 @@ function ChooserInput(props) {
     };
 
 
-    // Do the Render
+    // Variables
+    const options     = InputType.useOptions(props);
+    const values      = !Array.isArray(value) ? [] : value;
     const showOptions = Boolean(hasFocus && options.length);
 
+
+    // Get the Options List
+    const optionList = React.useMemo(() => {
+        const result = [];
+        for (const item of options) {
+            if (!Utils.hasValue(values, item.key) && (!filter || item.value.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) {
+                result.push(item);
+            }
+        }
+        return result;
+    }, [ JSON.stringify(values), JSON.stringify(options), filter ]);
+
+    // Get the Chips
+    const chips = React.useMemo(() => {
+        const result = [];
+        for (const key of values) {
+            result.push({ key, value : Utils.getValue(options, "key", key, "value") });
+        }
+        return result;
+    }, [ JSON.stringify(values), JSON.stringify(options) ]);
+
+
+    // Do the Render
     return <InputContent
         passedRef={containerRef}
         className={className}
@@ -258,27 +271,27 @@ function ChooserInput(props) {
             {chips.map(({ key, value }) => <Chip
                 key={key}
                 onClick={(e) => handleRemove(e, key)}
+                isDisabled={isDisabled}
             >
                 {value}
             </Chip>)}
 
-            <li>
+            {!isDisabled && <li>
                 <InputBase
                     inputRef={inputRef}
-                    className={`input-chooser ${className}`}
+                    className="input-chooser"
                     id={id}
                     type="text"
                     name={name}
                     value={filter}
                     placeholder={placeholder}
-                    isDisabled={isDisabled}
                     onInput={handleInput}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
                     onKeyUp={handleKeyUp}
                 />
-            </li>
+            </li>}
         </List>
         <InputIcon icon="expand" />
 
@@ -288,7 +301,7 @@ function ChooserInput(props) {
             width={bounds.width}
             maxHeight={bounds.maxHeight}
         >
-            {options.map(({ key, value }, index) => <Option
+            {optionList.map(({ key, value }, index) => <Option
                 key={key}
                 isSelected={selectedIdx === index}
                 onMouseDown={(e) => handleAdd(e, key)}
