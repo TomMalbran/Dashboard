@@ -23,7 +23,7 @@ const InputValue = Styled.div`
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
-    font-size: 20px;
+    font-size: 18px;
     transform: rotate(45deg);
 `;
 
