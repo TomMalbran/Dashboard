@@ -45,7 +45,7 @@ function PromptDialog(props) {
         maxLength, rows, maxRows, spellCheck,
         secInputType, secInputLabel, secInputIcon, secPlaceholder,
         secHelperText, secInitialValue, secInputOptions,
-        secMaxLength, secRows, secMaxRows,
+        secMaxLength, secRows, secMaxRows, secRequired,
         isOptional, onSubmit, onClose,
     } = props;
 
@@ -66,7 +66,7 @@ function PromptDialog(props) {
 
     // Handles the Submit
     const handleSubmit = () => {
-        if (isOptional || value) {
+        if (!isDisabled) {
             onSubmit(value, secValue);
             setValue("");
             setSecValue("");
@@ -80,8 +80,19 @@ function PromptDialog(props) {
     }, [ initialValue, secInitialValue ]);
 
 
+    // Is the Form Disabled
+    const isDisabled = React.useMemo(() => {
+        let result = false;
+        if (!isOptional && !value) {
+            result = true;
+        } else if (secRequired && !secValue) {
+            result = true;
+        }
+        return result;
+    }, [ value, isOptional, secValue, secRequired ]);
+
+
     // Variables
-    const isDisabled = !isOptional && !value;
     const hasMessage = !!message;
     const body       = content ? NLS.format(message, content) : NLS.get(message);
 
@@ -134,6 +145,7 @@ function PromptDialog(props) {
                     onChange={handleChange}
                     onSubmit={handleSubmit}
                     withNone
+                    isRequired={secRequired}
                 />
             </Container>
         </DialogBody>
@@ -180,6 +192,7 @@ PromptDialog.propTypes = {
     secMaxRows      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     secMaxLength    : PropTypes.number,
     secMinRows      : PropTypes.number,
+    secRequired     : PropTypes.bool,
     isOptional      : PropTypes.bool,
     isLoading       : PropTypes.bool,
     spellCheck      : PropTypes.string,
@@ -201,6 +214,7 @@ PromptDialog.defaultProps = {
     inputWithNone   : true,
     secInputType    : InputType.TEXT,
     secInitialValue : "",
+    secRequired     : false,
     isOptional      : false,
     isLoading       : false,
     isWide          : false,
