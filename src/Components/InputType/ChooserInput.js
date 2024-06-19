@@ -65,7 +65,7 @@ const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, lef
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     transform: translateY(2px);
-    z-index: 2;
+    z-index: var(--z-input, 3);
 `;
 
 const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`

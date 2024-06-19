@@ -26,7 +26,7 @@ const Options = Styled.ul.attrs(({ isOpen, top, left, width, minWidth, maxHeight
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     transform: translateY(1px);
-    z-index: 2;
+    z-index: var(--z-input, 3);
 `;
 
 const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
