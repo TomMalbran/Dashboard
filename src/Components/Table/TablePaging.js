@@ -7,7 +7,6 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import IconLink             from "../Link/IconLink";
-import InputField           from "../Form/InputField";
 
 
 
@@ -43,23 +42,25 @@ const Pages = Styled.p`
     margin: 0 16px 0 0;
 `;
 
-const PagingInput = Styled(InputField)`
+const Select = Styled.select`
+    appearance: none;
+    display: block;
     margin-right: 16px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1;
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--border-radius);
+    padding-right: 16px !important;
+    background-color: transparent;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAICAYAAAAIloRgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAdElEQVQ4T2P4//8/AyGsLK8ggE8NIXmYXoIWgRQCDbuAy0CQOEiekINB8sRa9h+bhTCLgDTQLMIhRKxlIJ+hWIhsEbV9Bg4qJAsd0Ph445SkOIPGG7KFIF9iDVp8wUlUMMIMQA86YlMhyT5Ds3ABqRaB9AMArxAryYUamQYAAAAASUVORK5CYII=);
+    background-position: right -3px center;
+    background-size: auto;
+    background-repeat: no-repeat;
+    outline: none;
 
-    & .input-content {
-        background: transparent;
-    }
-    & .input-select.input-select {
-        min-height: 24px;
-        padding-left: 8px;
-        line-height: 1;
-        font-size: 12px;
-        font-weight: normal;
-        border: 1px solid var(--input-border);
-        border-radius: var(--border-radius);
-        background-color: var(--table-pages);
-    }
-    & .input-select.input-select:hover {
+    :hover {
         border-color: var(--input-border-hover);
     }
 
@@ -88,8 +89,8 @@ function TablePaging(props) {
 
 
     // Handles the Amount Change
-    const handleAmount = (name, amount) => {
-        fetch({ ...sort, page : 0, amount });
+    const handleAmount = (e) => {
+        fetch({ ...sort, page : 0, amount : e.target.value });
     };
 
     // Handles the Page Change
@@ -123,14 +124,11 @@ function TablePaging(props) {
         <TR>
             <TD colSpan={colSpan} className="table-paging">
                 <Rows>{NLS.get("GENERAL_ROWS_PER_PAGE")}</Rows>
-                <PagingInput
-                    type="select"
-                    name="amount"
-                    value={sort.amount}
-                    onChange={handleAmount}
-                    options={rowOptions}
-                    withBorder={false}
-                />
+                <Select value={sort.amount} onChange={handleAmount}>
+                    {rowOptions.map((option) => <option key={option.key} value={option.key}>
+                        {option.value}
+                    </option>)}
+                </Select>
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 
                 <IconLink
