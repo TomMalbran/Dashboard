@@ -100,15 +100,17 @@ function InputContent(props) {
         onClick, onClear, icon, postIcon, children,
     } = props;
 
+
     // Handles the Click
     const handleClick = (e) => {
-        if (!isDisabled && inputRef) {
-            if (inputRef && inputRef.current) {
-                inputRef.current.click();
-                inputRef.current.focus();
-            }
-        } else if (!isDisabled && onClick) {
+        if (isDisabled) {
+            return;
+        }
+        if (onClick) {
             onClick(e);
+        } else if (inputRef && inputRef.current) {
+            inputRef.current.click();
+            inputRef.current.focus();
         }
     };
 
