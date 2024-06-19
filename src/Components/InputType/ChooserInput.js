@@ -11,6 +11,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import Icon                 from "../Common/Icon";
 
 
 
@@ -24,14 +25,15 @@ const List = Styled.ul`
     padding: 0;
     gap: 4px;
     width: 100%;
-    background-color: transparent;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAICAYAAAAIloRgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAdElEQVQ4T2P4//8/AyGsLK8ggE8NIXmYXoIWgRQCDbuAy0CQOEiekINB8sRa9h+bhTCLgDTQLMIhRKxlIJ+hWIhsEbV9Bg4qJAsd0Ph445SkOIPGG7KFIF9iDVp8wUlUMMIMQA86YlMhyT5Ds3ABqRaB9AMArxAryYUamQYAAAAASUVORK5CYII=);
-    background-position: right -6px center;
-    background-size: auto;
-    background-repeat: no-repeat;
 `;
 
 const Chip = Styled.li`
+const InputIcon = Styled(Icon)`
+    margin-top: -4px;
+    margin-right: -6px;
+    font-size: 18px;
+`;
+
     padding: 2px 8px;
     font-size: 12px;
     background-color: var(--light-gray);
@@ -278,6 +280,7 @@ function ChooserInput(props) {
                 />
             </li>
         </List>
+        <InputIcon icon="expand" />
 
         {showOptions && <Options
             top={bounds.top}
