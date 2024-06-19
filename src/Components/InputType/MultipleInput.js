@@ -92,7 +92,6 @@ MultipleInput.propTypes = {
     name       : PropTypes.string.isRequired,
     value      : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone   : PropTypes.bool,
     noneText   : PropTypes.string,
     columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange   : PropTypes.func.isRequired,
@@ -108,7 +107,6 @@ MultipleInput.defaultProps = {
     className  : "",
     isFocused  : false,
     isDisabled : false,
-    withNone   : false,
     noneText   : "",
     columns    : 2,
 };

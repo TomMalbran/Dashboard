@@ -108,7 +108,7 @@ function IconField(props) {
     const {
         passedRef, isHidden, className, type, icon, autoFocus, value,
         isRequired, error, fullWidth, onChange, onFocus, onBlur,
-        withLabel, label, placeholder, shrinkLabel, withNone,
+        withLabel, label, placeholder, shrinkLabel,
     } = props;
 
     // The Current State
@@ -137,7 +137,7 @@ function IconField(props) {
 
     // Handles the Input Change
     const handleChange = (name, value) => {
-        setHasValue(InputType.isValueFilled(value));
+        setHasValue(InputType.isValueFilled(type, value));
         if (onChange) {
             onChange(name, value);
         }
@@ -151,7 +151,7 @@ function IconField(props) {
             // @ts-ignore
             node.focus();
         }
-        setHasValue(InputType.isValueFilled(value));
+        setHasValue(InputType.isValueFilled(type, value));
     }, []);
 
 
@@ -162,7 +162,7 @@ function IconField(props) {
 
     const hasLabel      = Boolean(withLabel && label && InputType.hasLabel(type));
     const withValue     = isFocused || hasValue || Boolean(value);
-    const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
+    const withTransform = !shrinkLabel && InputType.canShrink(type);
     const hasError      = Boolean(error);
 
     return <FieldContainer
@@ -230,7 +230,6 @@ IconField.propTypes = {
     withLabel    : PropTypes.bool,
     fullWidth    : PropTypes.bool,
     shrinkLabel  : PropTypes.bool,
-    withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     withCustom   : PropTypes.bool,
     customFirst  : PropTypes.bool,
@@ -256,7 +255,6 @@ IconField.defaultProps = {
     withLabel    : true,
     fullWidth    : false,
     shrinkLabel  : false,
-    withNone     : false,
     noneText     : "",
     withCustom   : false,
     customFirst  : false,

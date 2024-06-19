@@ -46,7 +46,7 @@ function InputField(props) {
         passedRef, isHidden, className, type, name, label, autoFocus, value,
         button, onClick, error, helperText,
         onChange, onSearch, onInput, onSuggest, onFocus, onBlur,
-        width, fullWidth, isRequired, withNone,
+        width, fullWidth, isRequired,
         withLabel, shrinkLabel, errorBackground,
         suggestFetch, suggestID, suggestParams, suggestNone,
         suggestWidth, keepSuggestions, hasClear, onClear,
@@ -148,8 +148,8 @@ function InputField(props) {
 
     const autoSuggest   = Boolean(suggestFetch && suggestID);
     const hasLabel      = Boolean(label && InputType.hasLabel(type));
-    const hasValue      = InputType.isValueFilled(value);
-    const withTransform = !shrinkLabel && InputType.canShrink(type, withNone);
+    const hasValue      = InputType.isValueFilled(type, value);
+    const withTransform = !shrinkLabel && InputType.canShrink(type);
     const withValue     = hasValue || isFocused;
     const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
     const hasError      = Boolean(error);
@@ -279,7 +279,6 @@ InputField.propTypes = {
     generateCode    : PropTypes.bool,
     codeSets        : PropTypes.string,
     codeLength      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    withNone        : PropTypes.bool,
     noneText        : PropTypes.string,
     withCustom      : PropTypes.bool,
     customFirst     : PropTypes.bool,
@@ -319,7 +318,6 @@ InputField.defaultProps = {
     shrinkLabel     : false,
     isSmall         : false,
     errorBackground : false,
-    withNone        : false,
     noneText        : "",
     withCustom      : false,
     customFirst     : false,

@@ -326,7 +326,6 @@ ChooserInput.propTypes = {
     placeholder  : PropTypes.string,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone     : PropTypes.bool,
     noneText     : PropTypes.string,
     onChange     : PropTypes.func,
     onClear      : PropTypes.func,
@@ -344,7 +343,6 @@ ChooserInput.defaultProps = {
     isFocused   : false,
     isDisabled  : false,
     placeholder : "",
-    withNone    : false,
 };
 
 export default ChooserInput;

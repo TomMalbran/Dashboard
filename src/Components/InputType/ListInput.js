@@ -89,7 +89,7 @@ function ListInput(props) {
         className, isFocused, isDisabled,
         inputType, name, value, indexes, addButton,
         onFocus, onBlur, onChange,
-        options, withNone, noneText,
+        options, noneText,
         isSortable, onSort, errors, maxAmount, maxLength,
         children,
     } = props;
@@ -278,7 +278,6 @@ function ListInput(props) {
                             name={`${name}-${index}`}
                             value={elem}
                             options={options}
-                            withNone={withNone}
                             noneText={noneText}
                             onFocus={onFocus}
                             onBlur={onBlur}
@@ -333,7 +332,6 @@ ListInput.propTypes = {
     value      : PropTypes.any,
     indexes    : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    withNone   : PropTypes.bool,
     noneText   : PropTypes.string,
     hasLabel   : PropTypes.bool,
     isSmall    : PropTypes.bool,
@@ -358,7 +356,6 @@ ListInput.defaultProps = {
     isFocused  : false,
     isDisabled : false,
     inputType  : InputType.TEXT,
-    withNone   : false,
     noneText   : "",
     isSortable : false,
     addButton  : "GENERAL_ADD_FIELD",

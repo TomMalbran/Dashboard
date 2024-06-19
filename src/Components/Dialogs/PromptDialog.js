@@ -41,7 +41,7 @@ function PromptDialog(props) {
         open, title, message, content, icon, isLoading,
         isWide, isNarrow, bigSpacing, primary, primaryVariant,
         inputType, inputLabel, inputIcon, placeholder, helperText,
-        initialValue, inputOptions, inputWithNone,
+        initialValue, inputOptions,
         maxLength, rows, maxRows, spellCheck,
         secInputType, secInputLabel, secInputIcon, secPlaceholder,
         secHelperText, secInitialValue, secInputOptions,
@@ -125,7 +125,6 @@ function PromptDialog(props) {
                     spellCheck={spellCheck}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
-                    withNone={inputWithNone}
                     isRequired={!isOptional}
                 />
                 <InputField
@@ -144,7 +143,6 @@ function PromptDialog(props) {
                     spellCheck={spellCheck}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
-                    withNone
                     isRequired={secRequired}
                 />
             </Container>
@@ -177,7 +175,6 @@ PromptDialog.propTypes = {
     inputIcon       : PropTypes.string,
     initialValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     inputOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    inputWithNone   : PropTypes.bool,
     rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxRows         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxLength       : PropTypes.number,
@@ -211,7 +208,6 @@ PromptDialog.defaultProps = {
     primary         : "GENERAL_SAVE",
     inputType       : InputType.TEXT,
     initialValue    : "",
-    inputWithNone   : true,
     secInputType    : InputType.TEXT,
     secInitialValue : "",
     secRequired     : false,

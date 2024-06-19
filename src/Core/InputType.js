@@ -1,5 +1,6 @@
 import React                from "react";
 import NLS                  from "../Core/NLS";
+import Utils                from "../Utils/Utils";
 
 
 
@@ -58,12 +59,16 @@ function canShrink(type) {
 
 /**
  * Returns true if there is a value
- * @param {*} value
+ * @param {String} type
+ * @param {*}      value
  * @returns {Boolean}
  */
-function isValueFilled(value) {
+function isValueFilled(type, value) {
     if (Array.isArray(value)) {
         return Boolean(value.length);
+    }
+    if (type === NUMBER && Utils.isNumeric(value)) {
+        return Boolean(String(value));
     }
     return Boolean(value);
 }
