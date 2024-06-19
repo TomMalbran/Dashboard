@@ -67,6 +67,14 @@ const Container = Styled.div.attrs(props)`
 
 const InputIcon = Styled(Icon)`
     flex-shrink: 0;
+    font-size: 18px;
+    color: var(--black-color);
+`;
+
+const PostInputIcon = Styled(InputIcon)`
+    flex-shrink: 0;
+    margin-top: -4px;
+    margin-right: -6px;
     font-size: 16px;
     color: var(--black-color);
 `;
@@ -122,6 +130,7 @@ function InputContent(props) {
     >
         {!!icon && <InputIcon icon={icon} />}
         {children}
+        {!!postIcon && <PostInputIcon icon={postIcon} />}
         {hasClear && <InputClear
             variant="black"
             icon="close"
@@ -129,7 +138,6 @@ function InputContent(props) {
             smallInput={isSmall}
             isSmall
         />}
-        {!!postIcon && <InputIcon icon={postIcon} />}
     </Container>;
 }
 
