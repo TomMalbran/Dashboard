@@ -44,12 +44,14 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
     margin: 0;
     padding: 0;
     width: calc(100% - var(--dialog-spacing) * 2);
-    max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     max-width: 600px;
+    min-height: 200px;
+    max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     border: none;
     border-radius: var(--dialog-radius);
     background-color: white;
-    animation: ${(props) => props.isClosing ? css`${close}` : css`${open}`} 0.3s ease-out;
+    animation: ${(props) => props.isClosing ? css`${close}` : css`${open}`} 0.2s ease-out;
+    animation-fill-mode: ${(props) => props.isClosing ? "forwards" : "none"};
 
     &[open]:not(:focus-within) {
         background-color: rgb(255, 255, 254);
@@ -106,11 +108,13 @@ function Dialog(props) {
         if (dontClose || isClosing || dialogLevel !== level) {
             return;
         }
+
+        setOpened(false);
         setClosing(true);
         window.setTimeout(() => {
             setClosing(false);
             onClose();
-        }, 300);
+        }, 200);
     };
 
     // Handle the Key
@@ -118,10 +122,10 @@ function Dialog(props) {
         if (!open || isClosing || dialogLevel !== level) {
             return;
         }
-        const node = contentRef.current;
+
         if (!noTab && e.which === KeyCode.DOM_VK_TAB) {
             if (e.target.closest(".dialog") === null) {
-                const focusable = node.querySelectorAll("input, a, button");
+                const focusable = contentRef.current.querySelectorAll("input, a, button");
                 const backward  = e.shiftKey;
                 const target    = backward ? focusable[focusable.length - 1] : focusable[0];
                 target.focus();
@@ -131,6 +135,11 @@ function Dialog(props) {
             handleClose();
             e.preventDefault();
         }
+    };
+
+    // Handles the Mouse Down
+    const handleMouseDown = (e) => {
+        e.stopPropagation();
     };
 
 
@@ -147,9 +156,11 @@ function Dialog(props) {
 
         if (open) {
             dialogLevel += 1;
-            setOpened(true);
             setLevel(dialogLevel);
             window.addEventListener("keyup", eventListener);
+            window.setTimeout(() => {
+                setOpened(true);
+            }, 200);
         } else if (opened) {
             dialogLevel -= 1;
             setOpened(false);
@@ -184,14 +195,15 @@ function Dialog(props) {
 
     // Do the Render
     return <Container
-        contentRef={contentRef}
         open={open}
+        contentRef={contentRef}
         isClosing={isClosing}
         onClose={handleClose}
     >
         <Content
-            className={`dialog ${className}`}
             ref={contentRef}
+            className={`dialog ${className}`}
+            onMouseDown={handleMouseDown}
             width={width}
             isWide={isWide}
             isNarrow={isNarrow}
@@ -199,10 +211,12 @@ function Dialog(props) {
             isClosing={isClosing}
             open
         >
-            {items}
+            {opened && items}
         </Content>
 
-        {showAside && aside}
+        {showAside && <div onMouseDown={handleMouseDown}>
+            {aside}
+        </div>}
     </Container>;
 }
 
