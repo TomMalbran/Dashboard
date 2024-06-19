@@ -2,36 +2,69 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
+import KeyCode              from "../../Utils/KeyCode";
 
 // Components
 import InputContent         from "../Input/InputContent";
+import InputBase            from "../Input/InputBase";
+import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Select = Styled.select`
-    box-sizing: border-box;
-    appearance: none;
-    font-size: var(--input-font);
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    border: none;
-    padding-right: 18px !important;
-    background-color: transparent;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAICAYAAAAIloRgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAdElEQVQ4T2P4//8/AyGsLK8ggE8NIXmYXoIWgRQCDbuAy0CQOEiekINB8sRa9h+bhTCLgDTQLMIhRKxlIJ+hWIhsEbV9Bg4qJAsd0Ph445SkOIPGG7KFIF9iDVp8wUlUMMIMQA86YlMhyT5Ds3ABqRaB9AMArxAryYUamQYAAAAASUVORK5CYII=);
-    background-position: right -6px center;
-    background-size: auto;
-    background-repeat: no-repeat;
+const Input = Styled(InputBase).attrs(({ isDisabled }) => ({ isDisabled }))`
+    {(props) => !props.isDisabled && "cursor: pointer;"}
+`;
 
-    &:focus {
-        outline: none;
+const InputIcon = Styled(Icon)`
+    margin-top: -4px;
+    margin-right: -6px;
+    font-size: 18px;
+`;
+
+const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, left, width, maxHeight }))`
+    box-sizing: border-box;
+    display: block;
+    position: fixed;
+    top: ${(props) => `${props.top + 2}px`};
+    left: ${(props) => `${props.left}px`};
+    width: ${(props) => `${props.width}px`};
+    max-height: ${(props) => `${props.maxHeight}px`};
+    overflow: auto;
+    min-width: 200px;
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    transform: translateY(2px);
+    overflow-x: hidden;
+    z-index: var(--z-input, 3);
+`;
+
+const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
+    margin: 0;
+    padding: 8px;
+    font-size: 14px;
+    color: var(--title-color);
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--light-gray);
     }
-    &:disabled {
-        color: var(--input-disabled-color);
-    }
+
+    ${(props) => props.isSelected && `
+        background-color: var(--primary-color);
+        color: white;
+        &:hover {
+            background-color: var(--primary-color);
+        }
+    `}
 `;
 
 
@@ -46,72 +79,233 @@ function SelectInput(props) {
         inputRef, className, icon, postIcon,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, name, value, placeholder,
-        withNone, noneText, noneValue,
+        noneText, noneValue,
         withCustom, customFirst, customText,
         options, extraOptions, onChange, onClear, onFocus, onBlur,
     } = props;
 
-    const useLabel   = Boolean(placeholder);
+
+    // The References
+    const containerRef = React.useRef(null);
+    const optionsRef   = React.useRef(null);
+
+    // The Current State
+    const [ filter,      setFilter      ] = React.useState("");
+    const [ timer,       setTimer       ] = React.useState(null);
+    const [ hasFocus,    setFocus       ] = React.useState(false);
+    const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
+    const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
+
+    // Variables
+    const valueKey   = String(value || noneValue);
     const items      = Array.isArray(options)      ? options      : NLS.select(options);
     const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
 
-    // Handles the Input Change
-    const handleChange = (e) => {
-        onChange(name, e.target.value);
+
+    // Clear the Timer
+    React.useEffect(() => {
+        return () => {
+            if (timer) {
+                window.clearTimeout(timer);
+            }
+        };
+    }, [ timer ]);
+
+
+    // Handles the Click
+    const handleClick = () => {
+        if (!hasFocus) {
+            inputRef.current.focus();
+        }
     };
 
-    // Stop other Events
-    const handleClick = (e) => {
+    // Handles the Focus
+    const handleFocus = () => {
+        const node   = containerRef.current.closest(".inputfield-double") || containerRef.current;
+        const bounds = node.getBoundingClientRect();
+        setBounds({
+            top       : bounds.bottom,
+            left      : bounds.left,
+            width     : bounds.width,
+            maxHeight : window.innerHeight - bounds.bottom - 10,
+        });
+        const index = optionList.findIndex((option) => String(option.value) === valueKey) ?? -1;
+
+        setSelectedIdx(index);
+        setFocus(true);
+        onFocus();
+
+        setTimer(window.setTimeout(() => {
+            scrollToIndex(index, true);
+        }, 200));
+    };
+
+    // Handles the Blur
+    const handleBlur = () => {
+        setTimer(window.setTimeout(() => {
+            triggerBlur();
+            onBlur();
+        }, 200));
+    };
+
+    // Handles the Blur
+    const triggerBlur = () => {
+        setFilter("");
+        setFocus(false);
+        setTimer(null);
+    };
+
+    // Handles the Input
+    const handleInput = (e) => {
+        setFilter(e.target.value);
+    };
+
+    // Handles the Select
+    const handleSelect = (e, value) => {
         e.stopPropagation();
+        onChange(name, value);
+        triggerBlur();
+    };
+
+    // Handles the Key Down
+    const handleKeyDown = (e) => {
+        switch (e.keyCode) {
+        case KeyCode.DOM_VK_DOWN: {
+            const newSelectedIdx = (selectedIdx + 1) % options.length;
+            setSelectedIdx(newSelectedIdx);
+            scrollToIndex(newSelectedIdx, false);
+            e.preventDefault();
+            break;
+        }
+        case KeyCode.DOM_VK_UP: {
+            const newSelectedIdx = (selectedIdx - 1) < 0 ? options.length - 1 : selectedIdx - 1;
+            setSelectedIdx(newSelectedIdx);
+            scrollToIndex(newSelectedIdx, false);
+            e.preventDefault();
+            break;
+        }
+        default:
+        }
+    };
+
+    // Handles the Key Up
+    const handleKeyUp = (e) => {
+        if (e.keyCode === KeyCode.DOM_VK_RETURN && optionList[selectedIdx]) {
+            onChange(name, optionList[selectedIdx].value);
+            triggerBlur();
+        }
         e.preventDefault();
     };
 
+    // Scrolls to the Index
+    const scrollToIndex = (index, isInitial) => {
+        if (optionsRef.current) {
+            const elem = optionsRef.current.querySelector(`.input-option-${index}`);
+            if (elem) {
+                elem.scrollIntoView({
+                    behavior : "instant",
+                    block    : isInitial ? "center" : "nearest",
+                });
+            }
+        }
+    };
+
+
+    // Get the Options List
+    const optionList = React.useMemo(() => {
+        const result = [];
+        if (noneText) {
+            result.push({ key : "none", value : noneValue, message : noneText });
+        }
+        if (withCustom && customFirst) {
+            result.push({ key : "custom", value : -1, message : customText  || "GENERAL_CUSTOM" });
+        }
+        for (const { key, value } of items) {
+            result.push({ key, value : key, message : value });
+        }
+        for (const { key, value } of extraItems) {
+            result.push({ key, value : key, message : value });
+        }
+        if (withCustom && !customFirst) {
+            result.push({ key : "custom", value : -1, message : customText || "GENERAL_CUSTOM" });
+        }
+
+        if (filter) {
+            return result.filter(({ message }) => {
+                return NLS.get(message).toLowerCase().includes(filter.toLowerCase());
+            });
+        }
+        return result;
+    }, [
+        noneValue, noneText,
+        withCustom, customFirst, customText,
+        JSON.stringify(items), JSON.stringify(extraItems),
+        filter,
+    ]);
+
+    // Get the Option Value
+    const optionValue = React.useMemo(() => {
+        let result = "";
+        for (const item of optionList) {
+            if (String(item.value) === valueKey) {
+                result = item.message;
+                break;
+            }
+        }
+        return NLS.get(result);
+    }, [ valueKey, JSON.stringify(optionList) ]);
+
 
     // Do the Render
+    const showOptions = Boolean(hasFocus && optionList.length);
+
     return <InputContent
-        inputRef={inputRef}
+        passedRef={containerRef}
         className={className}
         icon={icon}
         postIcon={postIcon}
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
+        onClick={handleClick}
         onClear={onClear}
         withBorder={withBorder}
         withLabel={withLabel}
         withPadding
     >
-        <Select
-            ref={inputRef}
+        <Input
+            inputRef={inputRef}
             className="input-select"
             id={id}
+            type="text"
             name={name}
-            value={value}
-            disabled={isDisabled}
-            onClick={handleClick}
-            onChange={handleChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            value={hasFocus ? filter : optionValue}
+            placeholder={placeholder}
+            isDisabled={isDisabled}
+            onInput={handleInput}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            onKeyUp={handleKeyUp}
+        />
+        <InputIcon icon="expand" />
+
+        {showOptions && <Options
+            ref={optionsRef}
+            top={bounds.top}
+            left={bounds.left}
+            width={bounds.width}
+            maxHeight={bounds.maxHeight}
         >
-            {useLabel && <option key="placeholder" value="">
-                {NLS.get(placeholder)}
-            </option>}
-            {withNone && <option key="none" value={noneValue}>
-                {NLS.get(noneText || "")}
-            </option>}
-            {(withCustom && customFirst) && <option key="custom" value={-1}>
-                {NLS.get(customText || "GENERAL_CUSTOM")}
-            </option>}
-            {items.map(({ key, value }) => <option key={key} value={key}>
-                {NLS.get(value)}
-            </option>)}
-            {extraItems.map(({ key, value }) => <option key={key} value={key}>
-                {NLS.get(value)}
-            </option>)}
-            {(withCustom && !customFirst) && <option key="custom" value={-1}>
-                {NLS.get(customText || "GENERAL_CUSTOM")}
-            </option>}
-        </Select>
+            {optionList.map(({ key, value, message }, index) => <Option
+                className={`input-option-${index}`}
+                key={key}
+                isSelected={selectedIdx === index}
+                onMouseDown={(e) => handleSelect(e, value)}
+            >
+                {NLS.get(message)}
+            </Option>)}
+        </Options>}
     </InputContent>;
 }
 

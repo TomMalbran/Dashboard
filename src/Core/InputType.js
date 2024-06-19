@@ -43,19 +43,15 @@ function hasLabel(type) {
  * @returns {Boolean}
  */
 function hasClear(type) {
-    return [ FILE, MEDIA ].includes(type);
+    return [ SELECT, FILE, MEDIA ].includes(type);
 }
 
 /**
  * Returns true if the Input label can shrink
- * @param {String}  type
- * @param {Boolean} withNone
+ * @param {String} type
  * @returns {Boolean}
  */
-function canShrink(type, withNone) {
-    if (type === SELECT && withNone) {
-        return true;
-    }
+function canShrink(type) {
     return ![ DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, LIST, COLOR, DATE, TIME ].includes(type);
 }
 
