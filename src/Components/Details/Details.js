@@ -18,8 +18,8 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, topSpace }) =
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    gap: 16px;
-    padding: 16px;
+    gap: var(--details-spacing);
+    padding: var(--details-spacing);
     width: ${(props) => props.isLarge ? "var(--details-width-large)" : (props.isWide ? "var(--details-width-wide)" : "var(--details-width)")};
     background-color: var(--lighter-gray);
     overflow: auto;
