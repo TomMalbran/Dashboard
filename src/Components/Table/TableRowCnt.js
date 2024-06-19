@@ -26,11 +26,13 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
             background-color: var(--table-hover);
         }
     `}
+
     ${(props) => props.isSelected && `
         & td {
             background-color: var(--table-selected);
         }
     `}
+
     ${(props) => props.hasIDs && `
         th:first-child, td:first-child {
             flex: 0 1 50px;
@@ -38,13 +40,18 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
             font-weight: bold;
         }
     `}
+
     ${(props) => props.hasChecks && `
         th:first-child, td:first-child {
             flex: 0 1 24px;
             width: 24px;
-            padding: 8px 0 0 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 8px;
         }
     `}
+
     ${(props) => props.hasActions && `
         th:last-child, td:last-child {
             flex: 0 0 32px;
@@ -77,6 +84,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         &:hover td {
             background-color: transparent;
         }
+
         ${(props) => props.hasActions && `td:last-child {
             position: absolute;
             top: 50%;
