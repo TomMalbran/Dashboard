@@ -1,3 +1,4 @@
+import React                from "react";
 import NLS                  from "../Core/NLS";
 
 
@@ -72,21 +73,23 @@ function isValueFilled(value) {
  * @param {Object} props
  * @returns {Array}
  */
-function createOptions(props) {
-    const items      = Array.isArray(props.options)      ? props.options      : NLS.select(props.options);
-    const extraItems = Array.isArray(props.extraOptions) ? props.extraOptions : NLS.select(props.extraOptions);
-    const result     = [];
+function useOptions(props) {
+    return React.useMemo(() => {
+        const items      = Array.isArray(props.options)      ? props.options      : NLS.select(props.options);
+        const extraItems = Array.isArray(props.extraOptions) ? props.extraOptions : NLS.select(props.extraOptions);
+        const result     = [];
 
-    if (props.withNone) {
-        result.push({ key : 0, value : NLS.get(props.noneText) });
-    }
-    for (const item of items) {
-        result.push(item);
-    }
-    for (const extraItem of extraItems) {
-        result.push(extraItem);
-    }
-    return result;
+        if (props.noneText) {
+            result.push({ key : 0, value : NLS.get(props.noneText) });
+        }
+        for (const item of items) {
+            result.push(item);
+        }
+        for (const extraItem of extraItems) {
+            result.push(extraItem);
+        }
+        return result;
+    }, [ props.options, props.extraOptions, props.noneText ]);
 }
 
 
@@ -97,7 +100,7 @@ export default {
     hasClear,
     canShrink,
     isValueFilled,
-    createOptions,
+    useOptions,
 
     CHECKBOX,
     CHOOSER,

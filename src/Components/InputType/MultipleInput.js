@@ -39,7 +39,7 @@ function MultipleInput(props) {
     } = props;
 
     // Create the Items
-    const items = InputType.createOptions(props);
+    const items = InputType.useOptions(props);
 
     // Handles the Change
     const handleChange = (isChecked, key, value = []) => {

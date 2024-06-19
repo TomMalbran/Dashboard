@@ -122,14 +122,19 @@ function RadioInput(props) {
         onChange, onFocus, onBlur,
     } = props;
 
+
+    // The References
     const inputRef  = React.useRef();
+
+    // Variables
     const valString = String(value);
     const isSelect  = !Array.isArray(options);
-    const items     = InputType.createOptions(props);
+    const items     = InputType.useOptions(props);
     const valParts  = valString.split("|");
     const radioVal  = valParts.length > 1 ? valParts[0] : valString;
     const customVal = valParts.length > 1 ? valParts[1] : "";
     const customKey = props.customKey || "custom";
+
 
     // Handles the Radio Change
     const handleCheck = (e, newValue) => {
