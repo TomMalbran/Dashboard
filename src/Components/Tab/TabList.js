@@ -13,7 +13,7 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.section.attrs(({ variant, inDialog }) => ({ variant, inDialog }))`
+const Container = Styled.section.attrs(({ variant, inDialog, inDetails }) => ({ variant, inDialog, inDetails }))`
     display: flex;
     align-items: center;
 
@@ -24,8 +24,16 @@ const Container = Styled.section.attrs(({ variant, inDialog }) => ({ variant, in
         background-color: var(--secondary-color);
     `}
 
-    ${(props) => !props.inDialog && `
+    ${(props) => (!props.inDialog && !props.inDetails) && `
         margin-bottom: var(--main-gap);
+    `}
+
+    ${(props) => props.inDetails && `
+        position: sticky;
+        top: 0;
+        padding-top: var(--details-spacing);
+        background-color: var(--lighter-gray);
+        z-index: 2;
     `}
 `;
 
@@ -58,7 +66,7 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, variant, size, selected,
-        onClick, onAction, inDialog, canAdd, children,
+        onClick, onAction, inDialog, inDetails, canAdd, children,
     } = props;
 
     if (isHidden) {
@@ -75,6 +83,7 @@ function TabList(props) {
         className={`tabs ${className}`}
         variant={variant}
         inDialog={inDialog}
+        inDetails={inDetails}
     >
         <Div className="tabs-content no-scrollbars" size={size}>
             {items}
@@ -99,6 +108,7 @@ TabList.propTypes = {
     onClick   : PropTypes.func,
     onAction  : PropTypes.func,
     inDialog  : PropTypes.bool,
+    inDetails : PropTypes.bool,
     canAdd    : PropTypes.bool,
     size      : PropTypes.number,
     children  : PropTypes.any,
@@ -114,6 +124,7 @@ TabList.defaultProps = {
     variant   : Brightness.LIGHT,
     size      : 0,
     inDialog  : false,
+    inDetails : false,
     canAdd    : false,
 };
 
