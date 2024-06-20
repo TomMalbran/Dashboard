@@ -1,5 +1,6 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Core & Utils
 import KeyCode              from "../../Utils/KeyCode";
@@ -9,25 +10,10 @@ import Utils                from "../../Utils/Utils";
 import Backdrop             from "../Common/Backdrop";
 import TabList              from "../Tab/TabList";
 
-// Styled
-import Styled, {
-    keyframes, css,
-} from "styled-components";
-
 // Module Variables
 let dialogLevel = 0;
 
 
-
-// Animations
-const open = keyframes`
-    from { opacity: 0; transform: scale(0.8); }
-    to   { opacity: 1; transform: scale(1);   }
-`;
-const close = keyframes`
-    from { opacity: 1; transform: scale(1);   }
-    to   { opacity: 0; transform: scale(0.8); }
-`;
 
 // Styles
 const Container = Styled(Backdrop)`
@@ -50,8 +36,6 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
     border: none;
     border-radius: var(--dialog-radius);
     background-color: white;
-    animation: ${(props) => props.isClosing ? css`${close}` : css`${open}`} 0.2s ease-out;
-    animation-fill-mode: ${(props) => props.isClosing ? "forwards" : "none"};
 
     &[open]:not(:focus-within) {
         background-color: rgb(255, 255, 254);
@@ -157,10 +141,8 @@ function Dialog(props) {
         if (open) {
             dialogLevel += 1;
             setLevel(dialogLevel);
+            setOpened(true);
             window.addEventListener("keyup", eventListener);
-            window.setTimeout(() => {
-                setOpened(true);
-            }, 200);
         } else if (opened) {
             dialogLevel -= 1;
             setOpened(false);
@@ -211,7 +193,7 @@ function Dialog(props) {
             isClosing={isClosing}
             open
         >
-            {opened && items}
+            {items}
         </Content>
 
         {showAside && <div onMouseDown={handleMouseDown}>
