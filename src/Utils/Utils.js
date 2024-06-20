@@ -4,6 +4,14 @@ import NLS                  from "../Core/NLS";
 
 
 /**
+ * Returns true if is Mobile
+ * @returns {Boolean}
+ */
+function isMobile() {
+    return window.innerWidth < 700;
+}
+
+/**
  * Returns true if the value is a Boolean
  * @param {*} value
  * @returns {Boolean}
@@ -1110,6 +1118,7 @@ function isEmojiOnly(text) {
 
 // The public API
 export default {
+    isMobile,
     isBoolean,
     isString,
     isNumeric,
