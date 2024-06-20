@@ -1113,6 +1113,38 @@ function isEmojiOnly(text) {
     return emojiRegex.test(stringToTest) && Number.isNaN(Number(stringToTest));
 }
 
+/**
+ * Prints the given Content
+ * @param {String} title
+ * @param {String} content
+ * @returns {Void}
+ */
+function print(title, content) {
+    const printer = window.open("", "PRINT", "height=600,width=1000");
+    printer.document.write(`<html><head><title>${title}</title>`);
+    printer.document.write("<style>");
+    printer.document.write("body {margin:24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;background-color:white;color:rgb(22,25,28);backface-visibility:hidden;overscroll-behavior:none;}");
+    printer.document.write("h1 {font-size:2em;}");
+    printer.document.write("a {color:hsl(216,98%,44%);} a:hover{text-decoration:none;}");
+    printer.document.write("img {max-width:calc(100vw-4*24px-4px);}");
+    printer.document.write("table {width:100%;border-spacing:0;font-size:12px;}");
+    printer.document.write("tr td {padding:8px 12px;border-bottom:1px solid #ebedf2;border-right:1px solid #ebedf2;}");
+    printer.document.write("tr:first-child td {background:#fafbfd;border-top:1px solid #ebedf2;}");
+    printer.document.write("tr td:first-child {border-left:1px solid #ebedf2;}");
+    printer.document.write("tr:first-child td:first-child {border-top-left-radius:8px;}");
+    printer.document.write("tr:first-child td:last-child {border-top-right-radius:8px;}");
+    printer.document.write("tr:last-child td:first-child {border-bottom-left-radius:8px;}");
+    printer.document.write("tr:last-child td:last-child {border-bottom-right-radius:8px;}");
+    printer.document.write("tr td p {margin:0;}");
+    printer.document.write("pre {padding:16px;border:1px solid #ebedf2;border-radius:10px;}");
+    printer.document.write("</style>");
+    printer.document.write("</head><body>");
+    printer.document.write(content);
+    printer.document.write("</body></html>");
+    printer.document.write('<script type="text/javascript">window.onload = function() { window.print(); };</script>');
+    printer.document.close();
+}
+
 
 
 
@@ -1194,4 +1226,5 @@ export default {
     randomNumber,
     generatePassword,
     isEmojiOnly,
+    print,
 };
