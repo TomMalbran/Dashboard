@@ -29,7 +29,7 @@ function EditDialog(props) {
         open, title, icon, message, className, isLoading,
         width, isNarrow, isWide, fullHeight,
         noOverflow, withSpacing, bigSpacing,
-        error, isDisabled, dontClose,
+        error, isDisabled, dontClose, noAutoFocus,
         hidePrimary, primary, primaryVariant, onSubmit,
         cancel, cancelVariant, onClose, onCancel,
         secondary, onSecondary, tertiary, onTertiary,
@@ -57,7 +57,11 @@ function EditDialog(props) {
             bigSpacing={bigSpacing}
         >
             <Message variant="h3" message={message} />
-            <Form error={error} onSubmit={onSubmit}>
+            <Form
+                error={error}
+                onSubmit={onSubmit}
+                noAutoFocus={noAutoFocus}
+            >
                 {children}
             </Form>
         </DialogBody>
@@ -92,6 +96,7 @@ EditDialog.propTypes = {
     onClose        : PropTypes.func.isRequired,
     isLoading      : PropTypes.bool,
     isDisabled     : PropTypes.bool,
+    noAutoFocus    : PropTypes.bool,
     width          : PropTypes.number,
     isNarrow       : PropTypes.bool,
     isWide         : PropTypes.bool,
@@ -125,6 +130,7 @@ EditDialog.defaultProps = {
     dontClose   : false,
     isLoading   : false,
     isDisabled  : false,
+    noAutoFocus : false,
     isNarrow    : false,
     isWide      : false,
     fullHeight  : false,

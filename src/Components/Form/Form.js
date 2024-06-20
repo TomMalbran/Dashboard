@@ -28,20 +28,21 @@ const Content = Styled.div`
 function Form(props) {
     const { className, error, noAutoFocus, onSubmit, children } = props;
 
+
+    // Clone the Children
     const items   = [];
     let   isFirst = true;
     for (const [ key, child ] of Utils.getChildren(children)) {
-        let autoFocus = child && (child.type === Columns || !child.props.isHidden) && isFirst;
-        if (noAutoFocus) {
-            autoFocus = false;
-        }
+        const autoFocus = !noAutoFocus && child && (child.type === Columns || (!child.props.isHidden && !child.props.isDisabled)) && isFirst;
+
         items.push(React.cloneElement(child, { key, onSubmit, autoFocus }));
-        if (child && (child.type === Columns || !child.props.isHidden) && isFirst) {
+        if (autoFocus) {
             isFirst = false;
         }
     }
 
 
+    // Do the Render
     return <Content className={className}>
         <Alert variant="error" message={error} noClose />
         {items}
