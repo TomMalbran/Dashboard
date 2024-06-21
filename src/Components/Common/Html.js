@@ -33,7 +33,8 @@ function Html(props) {
     const {
         isHidden, className, variant,
         addLinks, addBreaks, formatText,
-        onClick, message, content, children,
+        onClick, onMouseDown,
+        message, content, children,
     } = props;
 
     let __html = String(NLS.get(message) || content || children);
@@ -69,42 +70,49 @@ function Html(props) {
         return <h2
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     case Variant.H3:
         return <h3
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     case Variant.H4:
         return <h4
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     case Variant.P:
         return <p
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     case Variant.LI:
         return <li
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     case Variant.SPAN:
         return <span
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     default:
         return <div
             className={className}
             onClick={onClick}
+            onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
         />;
     }
@@ -115,16 +123,17 @@ function Html(props) {
  * @typedef {Object} propTypes
  */
 Html.propTypes = {
-    isHidden   : PropTypes.bool,
-    variant    : PropTypes.string,
-    className  : PropTypes.string,
-    onClick    : PropTypes.func,
-    message    : PropTypes.string,
-    content    : PropTypes.string,
-    children   : PropTypes.string,
-    addLinks   : PropTypes.bool,
-    addBreaks  : PropTypes.bool,
-    formatText : PropTypes.bool,
+    isHidden    : PropTypes.bool,
+    variant     : PropTypes.string,
+    className   : PropTypes.string,
+    onClick     : PropTypes.func,
+    onMouseDown : PropTypes.func,
+    message     : PropTypes.string,
+    content     : PropTypes.string,
+    children    : PropTypes.string,
+    addLinks    : PropTypes.bool,
+    addBreaks   : PropTypes.bool,
+    formatText  : PropTypes.bool,
 };
 
 /**
