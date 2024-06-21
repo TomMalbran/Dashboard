@@ -20,6 +20,7 @@ function InputItem() {
  */
 InputItem.propTypes = {
     passedRef       : PropTypes.any,
+    isHidden        : PropTypes.bool,
     subKey          : PropTypes.string,
     className       : PropTypes.string,
     type            : PropTypes.string,
@@ -77,6 +78,7 @@ InputItem.propTypes = {
  * @typedef {Object} defaultProps
  */
 InputItem.defaultProps = {
+    isHidden     : false,
     type         : InputType.TEXT,
     placeholder  : "",
     isRequired   : false,
