@@ -9,6 +9,7 @@ import KeyCode              from "../../Utils/KeyCode";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import Html                 from "../Common/Html";
 import Icon                 from "../Common/Icon";
 
 
@@ -45,7 +46,7 @@ const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, lef
     z-index: var(--z-input, 3);
 `;
 
-const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
+const Option = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
     margin: 0;
     padding: 8px;
     font-size: 14px;
@@ -81,20 +82,21 @@ function SelectInput(props) {
         id, name, value, placeholder,
         noneText, noneValue,
         withCustom, customFirst, customText,
-        options, extraOptions, onChange, onClear, onFocus, onBlur,
+        options, extraOptions,
+        onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
 
     // The References
     const containerRef = React.useRef(null);
     const optionsRef   = React.useRef(null);
+    const selectedRef  = React.useRef(-1);
 
     // The Current State
+    const [ showOptions, setShowOptions ] = React.useState(false);
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
-    const [ hasFocus,    setFocus       ] = React.useState(false);
     const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
-    const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
 
     // Variables
     const valueKey   = String(value || noneValue);
@@ -111,11 +113,17 @@ function SelectInput(props) {
         };
     }, [ timer ]);
 
+    // Sets the Selected Index
+    const setSelectedIndex = (value) => {
+        selectedRef.current = optionList.findIndex((option) => String(option.value) === String(value)) ?? -1;
+    };
+
 
     // Handles the Click
     const handleClick = () => {
-        if (!hasFocus) {
+        if (!showOptions) {
             inputRef.current.focus();
+            setShowOptions(true);
         }
     };
 
@@ -129,20 +137,21 @@ function SelectInput(props) {
             width     : bounds.width,
             maxHeight : window.innerHeight - bounds.bottom - 10,
         });
-        const index = optionList.findIndex((option) => String(option.value) === valueKey) ?? -1;
 
-        setSelectedIdx(index);
-        setFocus(true);
+        setSelectedIndex(valueKey);
         onFocus();
 
         setTimer(window.setTimeout(() => {
-            scrollToIndex(index, true);
+            scrollToIndex(selectedRef.current, true);
         }, 200));
     };
 
     // Handles the Blur
     const handleBlur = () => {
         setTimer(window.setTimeout(() => {
+            if (selectedRef.current >= 0) {
+                onChange(name, optionList[selectedRef.current].value);
+            }
             triggerBlur();
             onBlur();
         }, 200));
@@ -151,7 +160,7 @@ function SelectInput(props) {
     // Handles the Blur
     const triggerBlur = () => {
         setFilter("");
-        setFocus(false);
+        setShowOptions(false);
         setTimer(null);
     };
 
@@ -163,36 +172,103 @@ function SelectInput(props) {
     // Handles the Select
     const handleSelect = (e, value) => {
         e.stopPropagation();
-        onChange(name, value);
-        triggerBlur();
+        setSelectedIndex(value);
     };
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
+        const specialKeys = [
+            KeyCode.DOM_VK_ESCAPE, KeyCode.DOM_VK_TAB,
+            KeyCode.DOM_VK_SHIFT, KeyCode.DOM_VK_CONTROL,
+            KeyCode.DOM_VK_META, KeyCode.DOM_VK_ALT,
+            KeyCode.DOM_VK_RETURN, KeyCode.DOM_VK_ENTER,
+        ];
+        if (specialKeys.includes(e.keyCode)) {
+            return;
+        }
+
+        let newSelectedIdx = 0;
+
         switch (e.keyCode) {
-        case KeyCode.DOM_VK_DOWN: {
-            const newSelectedIdx = (selectedIdx + 1) % options.length;
-            setSelectedIdx(newSelectedIdx);
-            scrollToIndex(newSelectedIdx, false);
+        case KeyCode.DOM_VK_SPACE:
+            if (!filter) {
+                e.preventDefault();
+            }
+            break;
+
+        case KeyCode.DOM_VK_UP:
+            newSelectedIdx = (selectedRef.current - 1) < 0 ? options.length - 1 : selectedRef.current - 1;
             e.preventDefault();
             break;
-        }
-        case KeyCode.DOM_VK_UP: {
-            const newSelectedIdx = (selectedIdx - 1) < 0 ? options.length - 1 : selectedIdx - 1;
-            setSelectedIdx(newSelectedIdx);
-            scrollToIndex(newSelectedIdx, false);
+        case KeyCode.DOM_VK_DOWN:
+            newSelectedIdx = (selectedRef.current + 1) % options.length;
             e.preventDefault();
             break;
-        }
+
+        case KeyCode.DOM_VK_HOME:
+            newSelectedIdx = 0;
+            e.preventDefault();
+            break;
+        case KeyCode.DOM_VK_END:
+            newSelectedIdx = options.length - 1;
+            e.preventDefault();
+            break;
+
+        case KeyCode.DOM_VK_PAGE_UP:
+            if (selectedRef.current === 0) {
+                newSelectedIdx = options.length - 1;
+            } else if (selectedRef.current - 5 < 0) {
+                newSelectedIdx = 0;
+            } else {
+                newSelectedIdx = selectedRef.current - 5;
+            }
+            e.preventDefault();
+            break;
+        case KeyCode.DOM_VK_PAGE_DOWN:
+            if (selectedRef.current === options.length - 1) {
+                newSelectedIdx = 0;
+            } else if (selectedRef.current + 5 >= options.length) {
+                newSelectedIdx = options.length - 1;
+            } else {
+                newSelectedIdx = selectedRef.current + 5;
+            }
+            e.preventDefault();
+            break;
+
         default:
         }
+
+        setShowOptions(true);
+        scrollToIndex(newSelectedIdx, false);
+        selectedRef.current = newSelectedIdx;
     };
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_RETURN && optionList[selectedIdx]) {
-            onChange(name, optionList[selectedIdx].value);
-            triggerBlur();
+        switch (e.keyCode) {
+        case KeyCode.DOM_VK_ESCAPE:
+            if (showOptions) {
+                setShowOptions(false);
+                e.stopPropagation();
+            }
+            break;
+
+        case KeyCode.DOM_VK_RETURN:
+            if (!showOptions) {
+                if (onSubmit) {
+                    onSubmit();
+                }
+                return;
+            }
+            if (optionList[selectedRef.current]) {
+                onChange(name, optionList[selectedRef.current].value);
+            } else {
+                onChange(name, optionList[0].value);
+            }
+            setShowOptions(false);
+            break;
+
+        default:
         }
         e.preventDefault();
     };
@@ -200,7 +276,7 @@ function SelectInput(props) {
     // Scrolls to the Index
     const scrollToIndex = (index, isInitial) => {
         if (optionsRef.current) {
-            const elem = optionsRef.current.querySelector(`.input-option-${index}`);
+            const elem = optionsRef.current.querySelector(`.input-select-${index}`);
             if (elem) {
                 elem.scrollIntoView({
                     behavior : "instant",
@@ -215,27 +291,62 @@ function SelectInput(props) {
     const optionList = React.useMemo(() => {
         const result = [];
         if (noneText) {
-            result.push({ key : "none", value : noneValue, message : noneText });
-        }
-        if (withCustom && customFirst) {
-            result.push({ key : "custom", value : -1, message : customText  || "GENERAL_CUSTOM" });
-        }
-        for (const { key, value } of items) {
-            result.push({ key, value : key, message : value });
-        }
-        for (const { key, value } of extraItems) {
-            result.push({ key, value : key, message : value });
-        }
-        if (withCustom && !customFirst) {
-            result.push({ key : "custom", value : -1, message : customText || "GENERAL_CUSTOM" });
-        }
-
-        if (filter) {
-            return result.filter(({ message }) => {
-                return NLS.get(message).toLowerCase().includes(filter.toLowerCase());
+            result.push({
+                key     : "none",
+                value   : noneValue,
+                message : NLS.get(noneText),
             });
         }
-        return result;
+        if (withCustom && customFirst) {
+            result.push({
+                key     : "custom",
+                value   : -1,
+                message : NLS.get(customText  || "GENERAL_CUSTOM"),
+            });
+        }
+        for (const { key, value } of items) {
+            result.push({
+                key     : `item-${key}`,
+                value   : key,
+                message : NLS.get(value),
+            });
+        }
+        for (const { key, value } of extraItems) {
+            result.push({
+                key     : `extra-${key}`,
+                value   : key,
+                message : NLS.get(value),
+            });
+        }
+        if (withCustom && !customFirst) {
+            result.push({
+                key     : "custom",
+                value   : -1,
+                message : NLS.get(customText || "GENERAL_CUSTOM"),
+            });
+        }
+
+        if (!filter) {
+            return result;
+        }
+
+        const filtered = [];
+        const search   = filter.toLowerCase();
+        for (const item of result) {
+            const text  = item.message;
+            const parts = text.split(" ");
+            for (const part of parts) {
+                if (part.trim().toLowerCase().startsWith(search)) {
+                    const pos = text.toLowerCase().indexOf(search);
+                    filtered.push({
+                        ...item,
+                        text : `${text.substring(0, pos)}<u>${text.substring(pos, search.length)}</u>${text.substring(pos + search.length)}`,
+                    });
+                    break;
+                }
+            }
+        }
+        return filtered;
     }, [
         noneValue, noneText,
         withCustom, customFirst, customText,
@@ -257,7 +368,7 @@ function SelectInput(props) {
 
 
     // Do the Render
-    const showOptions = Boolean(hasFocus && optionList.length);
+    const hasOptions = Boolean(showOptions && optionList.length);
 
     return <InputContent
         passedRef={containerRef}
@@ -279,7 +390,7 @@ function SelectInput(props) {
             id={id}
             type="text"
             name={name}
-            value={hasFocus ? filter : optionValue}
+            value={showOptions ? filter : optionValue}
             placeholder={placeholder}
             isDisabled={isDisabled}
             onInput={handleInput}
@@ -290,21 +401,21 @@ function SelectInput(props) {
         />
         <InputIcon icon="expand" />
 
-        {showOptions && <Options
+        {hasOptions && <Options
             ref={optionsRef}
             top={bounds.top}
             left={bounds.left}
             width={bounds.width}
             maxHeight={bounds.maxHeight}
         >
-            {optionList.map(({ key, value, message }, index) => <Option
-                className={`input-option-${index}`}
+            {optionList.map(({ key, value, text, message }, index) => <Option
                 key={key}
-                isSelected={selectedIdx === index}
+                variant="li"
+                className={`input-select-${index}`}
+                content={text || message}
+                isSelected={selectedRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
-            >
-                {NLS.get(message)}
-            </Option>)}
+            />)}
         </Options>}
     </InputContent>;
 }
@@ -338,6 +449,7 @@ SelectInput.propTypes = {
     onClear      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
+    onSubmit     : PropTypes.func,
 };
 
 /**
