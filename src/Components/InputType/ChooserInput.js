@@ -11,6 +11,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import Html                 from "../Common/Html";
 import Icon                 from "../Common/Icon";
 
 
@@ -68,7 +69,7 @@ const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, lef
     z-index: var(--z-input, 3);
 `;
 
-const Option = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
+const Option = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
     margin: 0;
     padding: 8px;
     font-size: 14px;
@@ -107,13 +108,14 @@ function ChooserInput(props) {
 
     // The References
     const containerRef = React.useRef(null);
+    const optionsRef   = React.useRef(null);
+    const selectedRef  = React.useRef(0);
 
     // The Current State
-    const [ filter,      setFilter      ] = React.useState("");
-    const [ timer,       setTimer       ] = React.useState(null);
-    const [ hasFocus,    setFocus       ] = React.useState(false);
-    const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
-    const [ selectedIdx, setSelectedIdx ] = React.useState(0);
+    const [ filter,   setFilter ] = React.useState("");
+    const [ timer,    setTimer  ] = React.useState(null);
+    const [ hasFocus, setFocus  ] = React.useState(false);
+    const [ bounds,   setBounds ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
 
 
     // Clear the Timer
@@ -136,7 +138,7 @@ function ChooserInput(props) {
         }
         onChange(name, values);
         setFilter("");
-        setSelectedIdx(0);
+        selectedRef.current = 0;
     };
 
     // Handles the Click
@@ -172,6 +174,7 @@ function ChooserInput(props) {
         });
         setFocus(true);
         onFocus();
+        selectedRef.current = 0;
     };
 
     // Handles the Blur
@@ -196,19 +199,48 @@ function ChooserInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
+        let newSelectedIdx = 0;
+
         switch (e.keyCode) {
-        case KeyCode.DOM_VK_DOWN: {
-            const newSelectedIdx = (selectedIdx + 1) % options.length;
-            setSelectedIdx(newSelectedIdx);
+        case KeyCode.DOM_VK_DOWN:
+            newSelectedIdx = (selectedRef.current + 1) % optionList.length;
             e.preventDefault();
             break;
-        }
-        case KeyCode.DOM_VK_UP: {
-            const newSelectedIdx = (selectedIdx - 1) < 0 ? options.length - 1 : selectedIdx - 1;
-            setSelectedIdx(newSelectedIdx);
+        case KeyCode.DOM_VK_UP:
+            newSelectedIdx = (selectedRef.current - 1) < 0 ? optionList.length - 1 : selectedRef.current - 1;
             e.preventDefault();
             break;
-        }
+
+        case KeyCode.DOM_VK_HOME:
+            newSelectedIdx = 0;
+            e.preventDefault();
+            break;
+        case KeyCode.DOM_VK_END:
+            newSelectedIdx = options.length - 1;
+            e.preventDefault();
+            break;
+
+        case KeyCode.DOM_VK_PAGE_UP:
+            if (selectedRef.current === 0) {
+                newSelectedIdx = options.length - 1;
+            } else if (selectedRef.current - 5 < 0) {
+                newSelectedIdx = 0;
+            } else {
+                newSelectedIdx = selectedRef.current - 5;
+            }
+            e.preventDefault();
+            break;
+        case KeyCode.DOM_VK_PAGE_DOWN:
+            if (selectedRef.current === options.length - 1) {
+                newSelectedIdx = 0;
+            } else if (selectedRef.current + 5 >= options.length) {
+                newSelectedIdx = options.length - 1;
+            } else {
+                newSelectedIdx = selectedRef.current + 5;
+            }
+            e.preventDefault();
+            break;
+
         case KeyCode.DOM_VK_BACK_SPACE:
             if (!filter.length && values.length > 0) {
                 setValues(values[values.length - 1]);
@@ -217,14 +249,30 @@ function ChooserInput(props) {
             break;
         default:
         }
+
+        scrollToIndex(newSelectedIdx);
+        selectedRef.current = newSelectedIdx;
     };
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_RETURN && options[selectedIdx]) {
-            setValues(options[selectedIdx].key);
+        if (e.keyCode === KeyCode.DOM_VK_RETURN && optionList[selectedRef.current]) {
+            setValues(optionList[selectedRef.current].key);
         }
         e.preventDefault();
+    };
+
+    // Scrolls to the Index
+    const scrollToIndex = (index) => {
+        if (optionsRef.current) {
+            const elem = optionsRef.current.querySelector(`.input-chooser-${index}`);
+            if (elem) {
+                elem.scrollIntoView({
+                    behavior : "instant",
+                    block    : "nearest",
+                });
+            }
+        }
     };
 
 
@@ -236,10 +284,28 @@ function ChooserInput(props) {
 
     // Get the Options List
     const optionList = React.useMemo(() => {
+        const search = filter.toLowerCase();
         const result = [];
         for (const item of options) {
-            if (!Utils.hasValue(values, item.key) && (!filter || item.value.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))) {
+            if (Utils.hasValue(values, item.key)) {
+                continue;
+            }
+            if (!filter) {
                 result.push(item);
+                continue;
+            }
+
+            const text  = item.value;
+            const parts = text.split(" ");
+            for (const part of parts) {
+                if (part.trim().toLowerCase().startsWith(search)) {
+                    const pos = text.toLowerCase().indexOf(search);
+                    result.push({
+                        ...item,
+                        text : `${text.substring(0, pos)}<u>${text.substring(pos, search.length)}</u>${text.substring(pos + search.length)}`,
+                    });
+                    break;
+                }
             }
         }
         return result;
@@ -256,6 +322,8 @@ function ChooserInput(props) {
 
 
     // Do the Render
+    const hasOptions = Boolean(showOptions && optionList.length);
+
     return <InputContent
         passedRef={containerRef}
         className={className}
@@ -295,19 +363,21 @@ function ChooserInput(props) {
         </List>
         <InputIcon icon="expand" />
 
-        {showOptions && <Options
+        {hasOptions && <Options
+            ref={optionsRef}
             top={bounds.top}
             left={bounds.left}
             width={bounds.width}
             maxHeight={bounds.maxHeight}
         >
-            {optionList.map(({ key, value }, index) => <Option
+            {optionList.map(({ key, value, text }, index) => <Option
                 key={key}
-                isSelected={selectedIdx === index}
+                variant="li"
+                className={`input-chooser-${index}`}
+                content={text || NLS.get(value)}
+                isSelected={selectedRef.current === index}
                 onMouseDown={(e) => handleAdd(e, key)}
-            >
-                {NLS.get(value)}
-            </Option>)}
+            />)}
         </Options>}
     </InputContent>;
 }
