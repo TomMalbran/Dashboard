@@ -15,7 +15,7 @@ import NavigationBody       from "../Navigation/NavigationBody";
  */
 function SecondaryNav(props) {
     const {
-        message, fallback, href, flexStart,
+        message, fallback, href,
         canAdd, canEdit, canManage, onAction, children,
     } = props;
 
@@ -32,7 +32,7 @@ function SecondaryNav(props) {
             fallback={fallback}
             href={href}
         />
-        <NavigationBody flexStart={flexStart}>
+        <NavigationBody>
             {children}
         </NavigationBody>
     </Navigation>;
@@ -46,7 +46,6 @@ SecondaryNav.propTypes = {
     message   : PropTypes.string,
     fallback  : PropTypes.string,
     href      : PropTypes.string,
-    flexStart : PropTypes.bool,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,

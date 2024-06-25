@@ -16,11 +16,11 @@ import Button               from "../Form/Button";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ withSpacing, flexStart }) => ({ withSpacing, flexStart }))`
+const Nav = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: ${(props) => props.flexStart ? "flex-start" : "space-between"};
+    justify-content: flex-start;
     padding: ${(props) => props.withSpacing && "0 12px 16px"};
     overflow: auto;
 `;
@@ -48,7 +48,7 @@ const Ul = Styled.ul`
 function NavigationBody(props) {
     const {
         className, variant, onAction, onClose,
-        isLoading, none, canAdd, add, withSpacing, flexStart, children,
+        isLoading, none, canAdd, add, withSpacing, children,
     } = props;
 
     // Handles the Action
@@ -84,7 +84,7 @@ function NavigationBody(props) {
     const compVariant = variant === Brightness.DARK ? "white" : "primary";
     const scrollbars  = variant === Brightness.DARK ? "dark-scrollbars" : "light-scrollbars";
 
-    return <Nav className={`${scrollbars} ${className}`} withSpacing={withSpacing} flexStart={flexStart}>
+    return <Nav className={`${scrollbars} ${className}`} withSpacing={withSpacing}>
         {showLoader && <CircularLoader variant={compVariant} />}
         {showNone   && <div>
             <None variant={compVariant} message={none} />
@@ -112,7 +112,6 @@ NavigationBody.propTypes = {
     canAdd      : PropTypes.bool,
     add         : PropTypes.string,
     withSpacing : PropTypes.bool,
-    flexStart   : PropTypes.bool,
     onAction    : PropTypes.func,
     onClose     : PropTypes.func,
     children    : PropTypes.any,
@@ -127,7 +126,6 @@ NavigationBody.defaultProps = {
     none        : "",
     isLoading   : false,
     withSpacing : true,
-    flexStart   : false,
 };
 
 export default NavigationBody;

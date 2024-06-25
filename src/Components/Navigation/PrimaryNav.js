@@ -14,11 +14,11 @@ import NavigationBody       from "../Navigation/NavigationBody";
  * @returns {React.ReactElement}
  */
 function PrimaryNav(props) {
-    const { logo, flexStart, children } = props;
+    const { logo, children } = props;
 
     return <Navigation variant="dark">
         <NavigationHeader className="navigation-header" logo={logo} />
-        <NavigationBody flexStart={flexStart}>
+        <NavigationBody>
             {children}
         </NavigationBody>
     </Navigation>;
@@ -29,9 +29,8 @@ function PrimaryNav(props) {
  * @type {Object} propTypes
  */
 PrimaryNav.propTypes = {
-    logo      : PropTypes.string,
-    flexStart : PropTypes.bool,
-    children  : PropTypes.any,
+    logo     : PropTypes.string,
+    children : PropTypes.any,
 };
 
 export default PrimaryNav;
