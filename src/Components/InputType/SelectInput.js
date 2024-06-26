@@ -149,7 +149,7 @@ function SelectInput(props) {
     // Handles the Blur
     const handleBlur = () => {
         setTimer(window.setTimeout(() => {
-            if (selectedRef.current >= 0) {
+            if (selectedRef.current >= 0 && optionList[selectedRef.current]) {
                 onChange(name, optionList[selectedRef.current].value);
             }
             triggerBlur();
@@ -187,7 +187,8 @@ function SelectInput(props) {
             return;
         }
 
-        let newSelectedIdx = 0;
+        const selectedIdx    = selectedRef.current;
+        let   newSelectedIdx = 0;
 
         switch (e.keyCode) {
         case KeyCode.DOM_VK_SPACE:
@@ -197,11 +198,11 @@ function SelectInput(props) {
             break;
 
         case KeyCode.DOM_VK_UP:
-            newSelectedIdx = (selectedRef.current - 1) < 0 ? options.length - 1 : selectedRef.current - 1;
+            newSelectedIdx = (selectedIdx - 1) < 0 ? options.length - 1 : selectedIdx - 1;
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_DOWN:
-            newSelectedIdx = (selectedRef.current + 1) % options.length;
+            newSelectedIdx = (selectedIdx + 1) % options.length;
             e.preventDefault();
             break;
 
@@ -215,22 +216,22 @@ function SelectInput(props) {
             break;
 
         case KeyCode.DOM_VK_PAGE_UP:
-            if (selectedRef.current === 0) {
+            if (selectedIdx === 0) {
                 newSelectedIdx = options.length - 1;
-            } else if (selectedRef.current - 5 < 0) {
+            } else if (selectedIdx - 5 < 0) {
                 newSelectedIdx = 0;
             } else {
-                newSelectedIdx = selectedRef.current - 5;
+                newSelectedIdx = selectedIdx - 5;
             }
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedRef.current === options.length - 1) {
+            if (selectedIdx === options.length - 1) {
                 newSelectedIdx = 0;
-            } else if (selectedRef.current + 5 >= options.length) {
+            } else if (selectedIdx + 5 >= options.length) {
                 newSelectedIdx = options.length - 1;
             } else {
-                newSelectedIdx = selectedRef.current + 5;
+                newSelectedIdx = selectedIdx + 5;
             }
             e.preventDefault();
             break;
@@ -260,12 +261,14 @@ function SelectInput(props) {
                 }
                 return;
             }
+
             if (optionList[selectedRef.current]) {
                 onChange(name, optionList[selectedRef.current].value);
-            } else {
+                setShowOptions(false);
+            } else if (optionList[0]) {
                 onChange(name, optionList[0].value);
+                setShowOptions(false);
             }
-            setShowOptions(false);
             break;
 
         default:
@@ -276,7 +279,7 @@ function SelectInput(props) {
     // Scrolls to the Index
     const scrollToIndex = (index, isInitial) => {
         if (optionsRef.current) {
-            const elem = optionsRef.current.querySelector(`.input-select-${index}`);
+            const elem = optionsRef.current.querySelector(`.input-option-${index}`);
             if (elem) {
                 elem.scrollIntoView({
                     behavior : "instant",
@@ -411,7 +414,7 @@ function SelectInput(props) {
             {optionList.map(({ key, value, text, message }, index) => <Option
                 key={key}
                 variant="li"
-                className={`input-select-${index}`}
+                className={`input-option-${index}`}
                 content={text || message}
                 isSelected={selectedRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
