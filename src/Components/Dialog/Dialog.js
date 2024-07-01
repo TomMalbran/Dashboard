@@ -31,7 +31,7 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
     padding: 0;
     width: calc(100% - var(--dialog-spacing) * 2);
     max-width: 600px;
-    min-height: 200px;
+    min-height: 180px;
     max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     border: none;
     border-radius: var(--dialog-radius);
@@ -93,7 +93,7 @@ function Dialog(props) {
             return;
         }
 
-        setOpened(false);
+        // setOpened(false);
         setClosing(true);
         window.setTimeout(() => {
             setClosing(false);
