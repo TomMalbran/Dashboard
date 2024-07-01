@@ -43,7 +43,8 @@ const FieldButton = Styled(Button)`
  */
 function InputField(props) {
     const {
-        passedRef, isHidden, className, type, name, label, autoFocus, value,
+        passedRef, isHidden, className, type, name,
+        label, icon, postIcon, autoFocus, value,
         button, onClick, error, helperText,
         onChange, onSearch, onInput, onSuggest, onFocus, onBlur,
         width, fullWidth, isRequired,
@@ -140,21 +141,22 @@ function InputField(props) {
     }, [ timer ]);
 
 
+    // Variables
+    const autoSuggest   = Boolean(suggestFetch && suggestID);
+    const hasLabel      = Boolean(label && InputType.hasLabel(type));
+    const hasValue      = InputType.isValueFilled(type, value);
+    const withTransform = !shrinkLabel && InputType.canShrink(type);
+    const withValue     = Boolean(hasValue || isFocused);
+    const withIcon      = hasValue || isFocused || shrinkLabel;
+    const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
+    const hasError      = Boolean(error);
+    const hasHelper     = !hasError && Boolean(helperText);
+
 
     // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
-
-    const autoSuggest   = Boolean(suggestFetch && suggestID);
-    const hasLabel      = Boolean(label && InputType.hasLabel(type));
-    const hasValue      = InputType.isValueFilled(type, value);
-    const withTransform = !shrinkLabel && InputType.canShrink(type);
-    const withValue     = hasValue || isFocused;
-    const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
-    const hasError      = Boolean(error);
-    const hasHelper     = !hasError && Boolean(helperText);
-
     return <InputContainer
         className={`inputfield inputfield-${type} ${className}`}
         width={width}
@@ -181,6 +183,8 @@ function InputField(props) {
                 onInput={handleInput}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                icon={withIcon ? icon : undefined}
+                postIcon={withIcon ? postIcon : undefined}
                 onClear={withClear ? handleClear : undefined}
                 withLabel={withLabel || hasLabel}
             />
