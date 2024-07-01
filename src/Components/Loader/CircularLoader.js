@@ -25,14 +25,14 @@ const loaderDots = keyframes`
         text-shadow: 0.25em 0 0 transparent, 0.5em 0 0 transparent;
     }
     40% {
-        color: var(--loader-font);
+        color: var(--loader-font-color);
         text-shadow: 0.25em 0 0 transparent, 0.5em 0 0 transparent;
     }
     60% {
-        text-shadow: 0.25em 0 0 var(--loader-font), 0.5em 0 0 transparent;
+        text-shadow: 0.25em 0 0 var(--loader-font-color), 0.5em 0 0 transparent;
     }
     80%, 100% {
-        text-shadow: 0.25em 0 0 var(--loader-font), 0.5em 0 0 var(--loader-font);
+        text-shadow: 0.25em 0 0 var(--loader-font-color), 0.5em 0 0 var(--loader-font-color);
     }
 `;
 
