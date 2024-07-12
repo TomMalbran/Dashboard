@@ -68,7 +68,7 @@ ConfirmDialog.propTypes = {
     icon           : PropTypes.string.isRequired,
     title          : PropTypes.string.isRequired,
     message        : PropTypes.string.isRequired,
-    content        : PropTypes.string,
+    content        : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     primary        : PropTypes.string,
     primaryVariant : PropTypes.string,
     isLoading      : PropTypes.bool,

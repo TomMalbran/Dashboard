@@ -40,7 +40,7 @@ DeleteDialog.propTypes = {
     open      : PropTypes.bool.isRequired,
     title     : PropTypes.string.isRequired,
     message   : PropTypes.string.isRequired,
-    content   : PropTypes.string,
+    content   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isLoading : PropTypes.bool,
     onSubmit  : PropTypes.func.isRequired,
     onClose   : PropTypes.func.isRequired,
