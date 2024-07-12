@@ -44,18 +44,17 @@ function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem
     // Dialog Opens
     React.useEffect(() => {
         if (!open) {
-            startLoading();
             return;
         }
 
         if (getElem && elemID) {
-            getElem(elemID);
+            getElem(elemID, ...Object.values(data || {}));
             startLoading();
         } else if (getElem) {
             getElem(...Object.values(data || {}));
             startLoading();
         } else if (fetchElem && elemID) {
-            fetchElem(elemID);
+            fetchElem(elemID, ...Object.values(data || {}));
             startLoading();
         } else if (fetchEditData) {
             fetchEditData(...Object.values(data || {}));
