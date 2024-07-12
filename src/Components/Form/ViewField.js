@@ -114,8 +114,8 @@ const IconCheck = Styled(Icon)`
  */
 function ViewField(props) {
     const {
-        isHidden, showEmpty, className, viewClass, label,
-        value, message, icon,
+        isHidden, showEmpty, className, viewClass, textColor,
+        label, value, message, icon,
         fullWidth, isSmall, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
@@ -180,7 +180,7 @@ function ViewField(props) {
                 content={content}
             />}
             {isText && <MultiLine
-                className={`inputview-value ${viewClass}`}
+                className={`inputview-value ${textColor ? `text-${textColor}` : viewClass}`}
                 onClick={onClick}
                 content={content || " "}
             />}
@@ -218,6 +218,7 @@ ViewField.propTypes = {
     showEmpty   : PropTypes.bool,
     className   : PropTypes.string,
     viewClass   : PropTypes.string,
+    textColor   : PropTypes.string,
     label       : PropTypes.string,
     icon        : PropTypes.string,
     value       : PropTypes.any,
@@ -248,6 +249,7 @@ ViewField.defaultProps = {
     showEmpty  : false,
     className  : "",
     viewClass  : "",
+    textColor  : "",
     fullWidth  : false,
     isSmall    : false,
     isSelected : false,
