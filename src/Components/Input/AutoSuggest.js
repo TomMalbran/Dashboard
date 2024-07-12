@@ -132,8 +132,10 @@ function AutoSuggest(props) {
     // Does the Actual Fetch
     const fetchValue = async (value) => {
         const newSuggestions = await fetch({ value, ...params || {} });
-        setSelectedIdx(0);
-        setSuggestions(newSuggestions);
+        if (newSuggestions && Array.isArray(newSuggestions)) {
+            setSelectedIdx(0);
+            setSuggestions(newSuggestions);
+        }
     };
 
     // Applies the Selection
