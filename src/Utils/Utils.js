@@ -1114,6 +1114,32 @@ function isEmojiOnly(text) {
 }
 
 /**
+ * Downloads the given File
+ * @param {String} source
+ * @param {String} fileName
+ * @returns {Promise}
+ */
+function download(source, fileName) {
+    return fetch(source)
+        .then((response) => response.blob())
+        .then((blob) => {
+            const url = window.URL.createObjectURL(new Blob([ blob ]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName || "downloaded-file";
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => {
+            console.error("Error fetching the file:", error);
+        });
+}
+
+/**
  * Prints the given Content
  * @param {String} title
  * @param {String} content
@@ -1226,5 +1252,6 @@ export default {
     randomNumber,
     generatePassword,
     isEmojiOnly,
+    download,
     print,
 };
