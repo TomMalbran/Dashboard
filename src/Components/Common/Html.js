@@ -31,16 +31,16 @@ const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
  */
 function Html(props) {
     const {
-        isHidden, className, variant,
+        isHidden, className, style, variant,
         addLinks, addBreaks, formatText,
         onClick, onMouseDown,
-        message, content, children,
+        message, content, showEmpty, children,
     } = props;
 
-    let __html = String(NLS.get(message) || content || children);
+    let __html = String(NLS.get(message) || content || children || "");
 
     // Nothing to Render
-    if (isHidden || !__html) {
+    if (isHidden || (!showEmpty && !__html)) {
         return <React.Fragment />;
     }
 
@@ -69,6 +69,7 @@ function Html(props) {
     case Variant.H2:
         return <h2
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -76,6 +77,7 @@ function Html(props) {
     case Variant.H3:
         return <h3
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -83,6 +85,7 @@ function Html(props) {
     case Variant.H4:
         return <h4
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -90,6 +93,7 @@ function Html(props) {
     case Variant.P:
         return <p
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -97,6 +101,7 @@ function Html(props) {
     case Variant.LI:
         return <li
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -104,6 +109,7 @@ function Html(props) {
     case Variant.SPAN:
         return <span
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -111,6 +117,7 @@ function Html(props) {
     default:
         return <div
             className={className}
+            style={style}
             onClick={onClick}
             onMouseDown={onMouseDown}
             dangerouslySetInnerHTML={{ __html }}
@@ -126,6 +133,7 @@ Html.propTypes = {
     isHidden    : PropTypes.bool,
     variant     : PropTypes.string,
     className   : PropTypes.string,
+    style       : PropTypes.object,
     onClick     : PropTypes.func,
     onMouseDown : PropTypes.func,
     message     : PropTypes.string,
@@ -134,6 +142,7 @@ Html.propTypes = {
     addLinks    : PropTypes.bool,
     addBreaks   : PropTypes.bool,
     formatText  : PropTypes.bool,
+    showEmpty   : PropTypes.bool,
 };
 
 /**
@@ -147,6 +156,7 @@ Html.defaultProps = {
     addLinks   : false,
     addBreaks  : false,
     formatText : false,
+    showEmpty  : false,
 };
 
 export default Html;
