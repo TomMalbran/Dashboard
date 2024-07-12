@@ -37,7 +37,7 @@ function useFilter(slice, open, initialData, filters, onSubmit = null, sendData 
     const loading = loaders[slice] || false;
 
     // The Current State
-    const [ data, setData ] = React.useState({ ...initialData, ...filters });
+    const [ data, setDataInt ] = React.useState({ ...initialData, ...filters });
 
 
     // Dialog Opens
@@ -56,7 +56,7 @@ function useFilter(slice, open, initialData, filters, onSubmit = null, sendData 
         } else {
             endLoading();
         }
-        setData({ ...initialData, ...filters });
+        setDataInt({ ...initialData, ...filters });
     }, [ open ]);
 
     // Data Updated
@@ -73,6 +73,11 @@ function useFilter(slice, open, initialData, filters, onSubmit = null, sendData 
     // Ends the Loading
     const endLoading = () => {
         endLoader(slice);
+    };
+
+    // Sets the Data
+    const setData = (fields) => {
+        setDataInt({ ...data, ...fields });
     };
 
     // Handles the Input Change
