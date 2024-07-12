@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import NLS                  from "../../Core/NLS";
 import KeyCode              from "../../Utils/KeyCode";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
@@ -93,6 +94,7 @@ function SelectInput(props) {
     const selectedRef  = React.useRef(-1);
 
     // The Current State
+    const [ initialIdx,  setInitialIdx  ] = React.useState(0);
     const [ showOptions, setShowOptions ] = React.useState(false);
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
@@ -139,6 +141,7 @@ function SelectInput(props) {
         });
 
         setSelectedIndex(valueKey);
+        setInitialIdx(selectedRef.current);
         onFocus();
 
         setTimer(window.setTimeout(() => {
@@ -149,7 +152,7 @@ function SelectInput(props) {
     // Handles the Blur
     const handleBlur = () => {
         setTimer(window.setTimeout(() => {
-            if (selectedRef.current >= 0 && optionList[selectedRef.current]) {
+            if (selectedRef.current >= 0 && optionList[selectedRef.current] && selectedRef.current !== initialIdx) {
                 onChange(name, optionList[selectedRef.current].value);
             }
             triggerBlur();
@@ -334,19 +337,22 @@ function SelectInput(props) {
         }
 
         const filtered = [];
-        const search   = filter.toLowerCase();
+        const search   = Utils.convertToSearch(filter);
         for (const item of result) {
-            const text  = item.message;
-            const parts = text.split(" ");
+            const text      = item.message;
+            const parts     = text.split(" ");
+            let   fromIndex = 0;
             for (const part of parts) {
-                if (part.trim().toLowerCase().startsWith(search)) {
-                    const pos = text.toLowerCase().indexOf(search);
+                const searchText = text.substring(text.indexOf(part));
+                if (Utils.convertToSearch(searchText).startsWith(search)) {
+                    const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
                     filtered.push({
                         ...item,
-                        text : `${text.substring(0, pos)}<u>${text.substring(pos, search.length)}</u>${text.substring(pos + search.length)}`,
+                        text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
                     });
                     break;
                 }
+                fromIndex += part.length + 1;
             }
         }
         return filtered;

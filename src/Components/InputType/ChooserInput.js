@@ -284,7 +284,7 @@ function ChooserInput(props) {
 
     // Get the Options List
     const optionList = React.useMemo(() => {
-        const search = filter.toLowerCase();
+        const search = Utils.convertToSearch(filter);
         const result = [];
         for (const item of options) {
             if (Utils.hasValue(values, item.key)) {
@@ -295,17 +295,20 @@ function ChooserInput(props) {
                 continue;
             }
 
-            const text  = item.value;
-            const parts = text.split(" ");
+            const text      = item.value;
+            const parts     = text.split(" ");
+            let   fromIndex = 0;
             for (const part of parts) {
-                if (part.trim().toLowerCase().startsWith(search)) {
-                    const pos = text.toLowerCase().indexOf(search);
+                const searchText = text.substring(text.indexOf(part));
+                if (Utils.convertToSearch(searchText).startsWith(search)) {
+                    const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
                     result.push({
                         ...item,
-                        text : `${text.substring(0, pos)}<u>${text.substring(pos, search.length)}</u>${text.substring(pos + search.length)}`,
+                        text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
                     });
                     break;
                 }
+                fromIndex += part.length + 1;
             }
         }
         return result;

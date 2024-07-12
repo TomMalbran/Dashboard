@@ -1103,6 +1103,20 @@ function shuffleString(string) {
 }
 
 /**
+ * Converts the text to Search
+ * @param {String} text
+ * @returns {String}
+ */
+function convertToSearch(text) {
+    return text.trim().toLowerCase()
+        .replaceAll("á", "a")
+        .replaceAll("é", "e")
+        .replaceAll("í", "i")
+        .replaceAll("ó", "o")
+        .replaceAll("ú", "u");
+}
+
+/**
  * Returns true if the given text has only Emojis
  * @param {String} text
  * @returns {Boolean}
@@ -1251,6 +1265,7 @@ export default {
 
     randomNumber,
     generatePassword,
+    convertToSearch,
     isEmojiOnly,
     download,
     print,
