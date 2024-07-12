@@ -37,9 +37,9 @@ const loaderDots = keyframes`
 `;
 
 // Styles
-const Container = Styled.div.attrs(({ variant, isSmall, withSpacing, top }) => ({ variant, isSmall, withSpacing, top }))`
-    --loader-size: ${(props) => props.isSmall ? "26px" : "64px"};
-    --loader-border-width: ${(props) => props.isSmall ? "3px" : "6px"};
+const Container = Styled.div.attrs(({ variant, isTiny, isSmall, withSpacing, top }) => ({ variant, isTiny, isSmall, withSpacing, top }))`
+    --loader-size: ${(props) => props.isTiny ? "18px" : (props.isSmall ? "26px" : "64px")};
+    --loader-border-width: ${(props) => props.isTiny ? "2px" : (props.isSmall ? "3px" : "6px")};
 
     display: flex;
     flex-direction: column;
@@ -64,7 +64,7 @@ const Container = Styled.div.attrs(({ variant, isSmall, withSpacing, top }) => (
     `}
 `;
 
-const Ring = Styled.div.attrs(({ isSmall }) => ({ isSmall }))`
+const Ring = Styled.div`
     flex-grow: 2;
     display: flex;
     justify-content: center;
@@ -118,8 +118,11 @@ const Text = Styled.div`
 function CircularLoader(props) {
     const {
         isHidden, className, variant, message,
-        isSmall, withSpacing, top,
+        isTiny, isSmall, withSpacing, top,
     } = props;
+
+
+    const showMessage = Boolean(!isSmall && !isTiny && message);
 
 
     // Do the render
@@ -129,6 +132,7 @@ function CircularLoader(props) {
     return <Container
         className={className}
         variant={variant}
+        isTiny={isTiny}
         isSmall={isSmall}
         withSpacing={withSpacing}
         top={top}
@@ -139,7 +143,7 @@ function CircularLoader(props) {
             <div />
             <div />
         </Ring>
-        {!isSmall && <Text>{NLS.get(message)}</Text>}
+        {showMessage && <Text>{NLS.get(message)}</Text>}
     </Container>;
 }
 
@@ -152,6 +156,7 @@ CircularLoader.propTypes = {
     className   : PropTypes.string,
     variant     : PropTypes.string,
     message     : PropTypes.string,
+    isTiny      : PropTypes.bool,
     isSmall     : PropTypes.bool,
     withSpacing : PropTypes.bool,
     top         : PropTypes.number,
@@ -166,6 +171,7 @@ CircularLoader.defaultProps = {
     className   : "",
     variant     : Variant.PRIMARY,
     message     : "GENERAL_LOADING",
+    isTiny      : false,
     isSmall     : false,
     withSpacing : false,
     top         : 0,

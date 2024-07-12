@@ -43,7 +43,7 @@ const Ul = Styled.ul`
 function ActionList(props) {
     const {
         className, data, onAction, createText, useAdd, useAssign,
-        withImport, withExport, hasFilters, children,
+        hasFilters, withImport, withExport, isExporting, children,
     } = props;
 
 
@@ -77,6 +77,7 @@ function ActionList(props) {
             onAction={onAction}
         />}
         {canExport && <ActionItem
+            isLoading={isExporting}
             action="EXPORT"
             onAction={onAction}
         />}
@@ -89,16 +90,17 @@ function ActionList(props) {
  * @typedef {Object} propTypes
  */
 ActionList.propTypes = {
-    data       : PropTypes.object,
-    className  : PropTypes.string,
-    onAction   : PropTypes.func,
-    createText : PropTypes.string,
-    useAdd     : PropTypes.bool,
-    useAssign  : PropTypes.bool,
-    withImport : PropTypes.bool,
-    withExport : PropTypes.bool,
-    hasFilters : PropTypes.bool,
-    children   : PropTypes.any,
+    data        : PropTypes.object,
+    className   : PropTypes.string,
+    onAction    : PropTypes.func,
+    createText  : PropTypes.string,
+    useAdd      : PropTypes.bool,
+    useAssign   : PropTypes.bool,
+    hasFilters  : PropTypes.bool,
+    withImport  : PropTypes.bool,
+    withExport  : PropTypes.bool,
+    isExporting : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -106,14 +108,15 @@ ActionList.propTypes = {
  * @type {Object} defaultProps
  */
 ActionList.defaultProps = {
-    className  : "",
-    data       : {},
-    createText : "",
-    useAdd     : false,
-    useAssign  : false,
-    withImport : true,
-    withExport : true,
-    hasFilters : false,
+    className   : "",
+    data        : {},
+    createText  : "",
+    useAdd      : false,
+    useAssign   : false,
+    withImport  : true,
+    withExport  : true,
+    isExporting : false,
+    hasFilters  : false,
 };
 
 export default ActionList;

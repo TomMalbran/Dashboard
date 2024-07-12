@@ -9,6 +9,7 @@ import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
+import CircularLoader       from "../Loader/CircularLoader";
 
 // Variants
 const Variant = {
@@ -29,7 +30,7 @@ const Variant = {
 
 
 // Styles
-const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIcon, smallRadius }) => ({ variant, isSmall, fullWidth, withMark, withIcon, smallRadius }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, withMark, withIcon, onlyIcon, smallRadius }))`
     --button-color: var(--black-color);
     --button-border: black;
     --button-background: black;
@@ -61,6 +62,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
         padding: 4px 12px 4px 8px;
         gap: 4px;
     `}
+    ${(props) => props.onlyIcon && `
+        padding: 4px 8px;
+    `}
 
     &:disabled,
     &:disabled:hover,
@@ -72,6 +76,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
         box-shadow: none;
         cursor: not-allowed;
     }
+
     &:hover,
     &:focus,
     &:active {
@@ -79,6 +84,13 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
         box-shadow: inset 0 0 0 2em var(--button-hover-background);
         border-color: var(--button-hover-border);
         outline: none;
+    }
+
+    &:hover .btn-loader,
+    &:focus .btn-loader,
+    &:active .btn-loader {
+        --loader-border-color: var(--button-hover-color);
+        --loader-font-color: var(--button-hover-color);
     }
 
     .btn-preicon {
@@ -199,7 +211,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
 function Button(props) {
     const {
         passedRef, isHidden, className, variant,
-        isDisabled, isSmall, fullWidth, withMark,
+        isDisabled, isSmall, fullWidth, isLoading, withMark,
         icon, afterIcon, message,
         tooltip, tooltipVariant, children,
     } = props;
@@ -225,6 +237,7 @@ function Button(props) {
 
     const content     = children || NLS.get(message);
     const withIcon    = Boolean((icon || afterIcon) && variant !== Variant.ICON && !!content);
+    const onlyIcon    = Boolean((icon || afterIcon) && variant !== Variant.ICON && !content);
     const smallRadius = Boolean(isSmall && !icon && !afterIcon);
 
     return <Btn
@@ -236,6 +249,7 @@ function Button(props) {
         fullWidth={fullWidth}
         withMark={withMark}
         withIcon={withIcon}
+        onlyIcon={onlyIcon}
         smallRadius={smallRadius}
         onClick={onClick}
         onMouseEnter={handleTooltip}
@@ -251,6 +265,10 @@ function Button(props) {
         {!!afterIcon && <Icon
             className="btn-aftericon"
             icon={afterIcon}
+        />}
+        {isLoading && <CircularLoader
+            className="btn-loader"
+            isTiny
         />}
     </Btn>;
 }
@@ -270,6 +288,7 @@ Button.propTypes = {
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
     fullWidth      : PropTypes.bool,
+    isLoading      : PropTypes.bool,
     withMark       : PropTypes.bool,
     href           : PropTypes.string,
     url            : PropTypes.string,
