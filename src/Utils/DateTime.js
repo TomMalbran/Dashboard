@@ -1258,8 +1258,9 @@ function getExpiredColor(date, greenTime, yellowTime) {
  * @returns {String}
  */
 function dayToName(day) {
-    const days = NLS.get("DATE_DAY_NAMES");
-    return days[day] || "";
+    const index = day % 7;
+    const days  = NLS.get("DATE_DAY_NAMES");
+    return days[index] || "";
 }
 
 /**
@@ -1268,8 +1269,9 @@ function dayToName(day) {
  * @returns {String}
  */
 function dayToShortName(day) {
-    const days = NLS.get("DATE_DAY_SHORTS");
-    return days[day] || "";
+    const index = day % 7;
+    const days  = NLS.get("DATE_DAY_SHORTS");
+    return days[index] || "";
 }
 
 /**
