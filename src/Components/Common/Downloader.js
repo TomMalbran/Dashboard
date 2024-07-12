@@ -9,7 +9,7 @@ import PropTypes            from "prop-types";
  * @returns {React.ReactElement}
  */
 function Downloader(props) {
-    const { download, source, onLoad } = props;
+    const { download, source, seconds, onLoad } = props;
 
     const frameRef = React.useRef(null);
 
@@ -39,7 +39,7 @@ function Downloader(props) {
             window.setTimeout(() => {
                 onLoad();
                 setCount(count + 1);
-            }, 10000);
+            }, seconds * 1000);
         }
     };
 
@@ -64,7 +64,16 @@ function Downloader(props) {
 Downloader.propTypes = {
     download : PropTypes.bool.isRequired,
     source   : PropTypes.string.isRequired,
+    seconds  : PropTypes.number,
     onLoad   : PropTypes.func.isRequired,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+Downloader.defaultProps = {
+    seconds : 10,
 };
 
 export default Downloader;
