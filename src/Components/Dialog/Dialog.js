@@ -73,7 +73,7 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
 function Dialog(props) {
     const {
         open, className, isLoading, width, isWide, isNarrow, noTab,
-        dontClose, onClose, aside, children,
+        zIndex, dontClose, onClose, aside, children,
     } = props;
 
 
@@ -179,6 +179,7 @@ function Dialog(props) {
     return <Container
         open={open}
         contentRef={contentRef}
+        zIndex={zIndex}
         isClosing={isClosing}
         onClose={handleClose}
     >
@@ -211,6 +212,7 @@ Dialog.propTypes = {
     className : PropTypes.string,
     dontClose : PropTypes.bool,
     onClose   : PropTypes.func.isRequired,
+    zIndex    : PropTypes.number,
     width     : PropTypes.number,
     isWide    : PropTypes.bool,
     isNarrow  : PropTypes.bool,
@@ -228,6 +230,7 @@ Dialog.defaultProps = {
     className : "",
     open      : false,
     dontClose : false,
+    zIndex    : 0,
     isWide    : false,
     isNarrow  : false,
     noTab     : false,

@@ -19,7 +19,7 @@ const close = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))`
+const Div = Styled.div.attrs(({ isOpen, isClosing, zIndex }) => ({ isOpen, isClosing, zIndex }))`
     display: ${(props) => props.isOpen ? "flex" : "none"};
     box-sizing: border-box;
     position: fixed;
@@ -31,7 +31,7 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
     justify-content: center;
     align-items: center;
     background-color: var(--drop-color);
-    z-index: var(--z-backdrop);
+    z-index: ${(props) => props.zIndex ? props.zIndex : "var(--z-backdrop)"};
 
     ${(props) => props.isClosing ?
         css`animation: ${close} 0.3s ease-out both;` :
@@ -46,7 +46,10 @@ const Div = Styled.div.attrs(({ isOpen, isClosing }) => ({ isOpen, isClosing }))
  * @returns {React.ReactElement}
  */
 function Backdrop(props) {
-    const { className, open, isClosing, contentRef, onClick, onClose, children } = props;
+    const {
+        className, open, isClosing, contentRef, zIndex,
+        onClick, onClose, children,
+    } = props;
 
     // Handles the Click
     const handleClick = (e) => {
@@ -65,10 +68,12 @@ function Backdrop(props) {
     };
 
 
+    // Do the Render
     return <Div
         className={className}
         isOpen={open}
         isClosing={isClosing}
+        zIndex={zIndex}
         onMouseDown={handleClick}
     >
         {children}
@@ -83,6 +88,7 @@ Backdrop.propTypes = {
     contentRef : PropTypes.object,
     className  : PropTypes.string,
     open       : PropTypes.bool,
+    zIndex     : PropTypes.number,
     isClosing  : PropTypes.bool,
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
@@ -97,6 +103,7 @@ Backdrop.defaultProps = {
     className : "",
     open      : false,
     isClosing : false,
+    zIndex    : 0,
 };
 
 export default Backdrop;
