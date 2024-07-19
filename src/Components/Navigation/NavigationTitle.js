@@ -64,7 +64,7 @@ const Span1 = Styled.span`
 `;
 const Span2 = Styled.span`
     display: block;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--navtitle-color);
 `;
 
