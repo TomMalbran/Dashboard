@@ -10,6 +10,7 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import IconLink             from "../Link/IconLink";
+import Icon                 from "../Common/Icon";
 
 
 
@@ -30,6 +31,15 @@ const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
         --navtitle-color: var(--title-color);
         --navsubtitle-color: var(--subtitle-color);
     `}
+`;
+
+const HeaderIcon = Styled(Icon)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
 `;
 
 const H2 = Styled.h2`
@@ -67,8 +77,8 @@ const Span2 = Styled.span`
  */
 function NavigationTitle(props) {
     const {
-        className, variant, href, message, fallback, onClick, noBack,
-        onAction, canAdd, canEdit, canManage,
+        className, variant, icon, href, message, fallback,
+        onClick, noBack, onAction, canAdd, canEdit, canManage,
     } = props;
 
     const parent = Navigate.useParent();
@@ -86,8 +96,9 @@ function NavigationTitle(props) {
 
     // Do the Render
     return <Header className={className} variant={variant}>
+        {!!icon && <HeaderIcon icon={icon} />}
         <IconLink
-            isHidden={noBack}
+            isHidden={!!icon || noBack}
             variant={variant}
             icon="back"
             href={onClick ? null : (href || parent)}
@@ -124,6 +135,7 @@ function NavigationTitle(props) {
 NavigationTitle.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
+    icon      : PropTypes.string,
     href      : PropTypes.string,
     message   : PropTypes.string,
     fallback  : PropTypes.string,
@@ -142,6 +154,7 @@ NavigationTitle.propTypes = {
 NavigationTitle.defaultProps = {
     className : "",
     variant   : Brightness.DARK,
+    icon      : "",
     href      : "",
     noBack    : false,
     canAdd    : false,

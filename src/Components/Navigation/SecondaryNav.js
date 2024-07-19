@@ -15,11 +15,12 @@ import NavigationBody       from "../Navigation/NavigationBody";
  */
 function SecondaryNav(props) {
     const {
-        message, fallback, href,
+        message, fallback, icon, href,
         canAdd, canEdit, canManage, onAction, children,
     } = props;
 
 
+    // Do the Render
     return <Navigation
         variant="light"
         canAdd={canAdd}
@@ -30,6 +31,7 @@ function SecondaryNav(props) {
         <NavigationTitle
             message={message}
             fallback={fallback}
+            icon={icon}
             href={href}
         />
         <NavigationBody>
@@ -45,6 +47,7 @@ function SecondaryNav(props) {
 SecondaryNav.propTypes = {
     message   : PropTypes.string,
     fallback  : PropTypes.string,
+    icon      : PropTypes.string,
     href      : PropTypes.string,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
