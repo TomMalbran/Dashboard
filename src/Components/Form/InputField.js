@@ -147,7 +147,7 @@ function InputField(props) {
     const hasValue      = InputType.isValueFilled(type, value);
     const withTransform = !shrinkLabel && InputType.canShrink(type);
     const withValue     = Boolean(hasValue || isFocused);
-    const withIcon      = hasValue || isFocused || shrinkLabel;
+    const withIcon      = !hasLabel || hasValue || isFocused || shrinkLabel;
     const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
     const hasError      = Boolean(error);
     const hasHelper     = !hasError && Boolean(helperText);
