@@ -164,7 +164,7 @@ PromptDialog.propTypes = {
     open            : PropTypes.bool.isRequired,
     title           : PropTypes.string.isRequired,
     message         : PropTypes.string,
-    content         : PropTypes.string,
+    content         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon            : PropTypes.string,
     primary         : PropTypes.string,
     primaryVariant  : PropTypes.string,
