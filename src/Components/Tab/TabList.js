@@ -28,6 +28,13 @@ const Container = Styled.section.attrs(({ variant, inDialog, inDetails }) => ({ 
         margin-bottom: var(--main-gap);
     `}
 
+    ${(props) => props.inDialog && `
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 2;
+    `};
+
     ${(props) => props.inDetails && `
         position: sticky;
         top: 0;
