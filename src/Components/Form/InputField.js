@@ -147,10 +147,10 @@ function InputField(props) {
     const hasValue      = InputType.isValueFilled(type, value);
     const withTransform = !shrinkLabel && InputType.canShrink(type);
     const withValue     = Boolean(hasValue || isFocused);
-    const withIcon      = !hasLabel || hasValue || isFocused || shrinkLabel;
+    const withInsideCnt = !hasLabel || hasValue || isFocused || shrinkLabel;
     const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
     const hasError      = Boolean(error);
-    const hasHelper     = !hasError && Boolean(helperText);
+    const hasHelperText = !hasError && Boolean(helperText);
 
 
     // Do the Render
@@ -183,8 +183,8 @@ function InputField(props) {
                 onInput={handleInput}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
-                icon={withIcon ? icon : undefined}
-                postIcon={withIcon ? postIcon : undefined}
+                icon={withInsideCnt ? icon : undefined}
+                postIcon={withInsideCnt ? postIcon : undefined}
                 onClear={withClear ? handleClear : undefined}
                 withLabel={withLabel || hasLabel}
             />
@@ -198,7 +198,7 @@ function InputField(props) {
             error={error}
             useBackground={errorBackground}
         />
-        {hasHelper && <FieldHelper>
+        {hasHelperText && <FieldHelper>
             {NLS.get(helperText)}
         </FieldHelper>}
 
