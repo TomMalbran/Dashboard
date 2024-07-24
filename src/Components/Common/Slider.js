@@ -17,37 +17,40 @@ const Variant = {
 
 
 // Styles
-const Section = Styled.section`
-    --slider-box: 40px;
-    --slider-bottom: 40px;
+const Container = Styled.section`
     --slider-gap: 18px;
-    --slider-dot-gap: 5px;
-    --slider-arrow-width: 36px;
+    --slider-dot-bottom: 16px;
+    --slider-dot-size: 16px;
+    --slider-dot-gap: 8px;
+    --slider-arrow-width: 16px;
     --slider-arrow-gap: 16px;
+    --slider-border-radius: var(--border-radius);
 
     position: relative;
+    border-radius: var(--slider-border-radius);
+    touch-action: none;
     overflow: hidden;
 
-    &:hover .slider-nav button,
+    &:hover .slider-arrows button,
     &:hover .slider-dots {
         opacity: 1;
     }
 `;
 
-const Div = Styled.div`
+const Content = Styled.div`
     position: relative;
     width: 400%;
     display: flex;
     transition: transform ease-in-out 0.5s;
 `;
 
-const Img = Styled.img`
+const Image = Styled.img`
     display: block;
     max-width: 100%;
     cursor: pointer;
 `;
 
-const Nav = Styled.nav`
+const Arrows = Styled.nav`
     position: absolute;
     top: 0;
     left: 0;
@@ -60,21 +63,17 @@ const Nav = Styled.nav`
 const Button = Styled.button`
     appearance: none;
     position: absolute;
-    top: calc(50% - 40px);
-    width: 60px;
-    height: 80px;
+    top: calc(50% - var(--slider-arrow-width) * 2);
+    width: calc(var(--slider-arrow-width) * 2 + var(--slider-arrow-gap));
+    height: calc(var(--slider-arrow-width) * 4);
     padding: 0;
     border: none;
     background-color: transparent;
-    cursor: pointer;
     pointer-events: all;
     outline: none;
     opacity: 0;
     z-index: 1;
-
-    :hover button {
-        opacity: 1;
-    }
+    cursor: pointer;
 
     &::before,
     &::after {
@@ -120,16 +119,17 @@ const Next = Styled(Button)`
     }
 `;
 
-const Dots = Styled.ul`
+const Dots = Styled.ul.attrs(({ showAlways }) => ({ showAlways }))`
     position: absolute;
-    bottom: var(--slider-bottom);
+    bottom: var(--slider-dot-bottom);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    opacity: 0;
+    gap: var(--slider-dot-gap);
+    opacity: ${(props) => props.showAlways ? 1 : 0};
     margin: 0;
     padding: 0;
     list-style: none;
@@ -140,16 +140,17 @@ const Dot = Styled.button.attrs(({ isActive }) => ({ isActive }))`
     background-color: ${(props) => props.isActive ? "white" : "rgba(0, 0, 0, 0.7)"};
     appearance: none;
     display: block;
-    height: var(--slider-box);
-    width: var(--slider-box);
+    height: var(--slider-dot-size);
+    width: var(--slider-dot-size);
     padding: 0;
-    margin: 2px var(--slider-dot-gap);
+    margin: 0;
     border: none;
+    border-radius: 100%;
     overflow: hidden;
     text-indent: 100%;
-    cursor: pointer;
     outline: none;
     transition: all 0.5s;
+    cursor: pointer;
 
     &:hover {
         background-color: rgb(0, 0, 0);
@@ -164,36 +165,19 @@ const Dot = Styled.button.attrs(({ isActive }) => ({ isActive }))`
  * @returns {React.ReactElement}
  */
 function Slider(props) {
-    const { variant, data, className, height, withDots, autoSlide, time, onClick, onSlide } = props;
+    const {
+        variant, data, className, height, withArrows, withDots, alwaysDots,
+        autoSlide, time, onClick, onSlide,
+    } = props;
+
 
     // The Current State
-    const [ timer, setTimer ] = React.useState(null);
-    const [ index, setIndex ] = React.useState(0);
+    const [ update,     setUpdate     ] = React.useState(0);
+    const [ timer,      setTimer      ] = React.useState(null);
+    const [ index,      setIndex      ] = React.useState(0);
+    const [ touchStart, setTouchStart ] = React.useState(0);
+    const [ touchDiff,  setTouchDiff  ] = React.useState(0);
 
-    // Moves the Slider to the given Index
-    const gotoIndex = (index) => {
-        if (timer) {
-            window.clearTimeout(timer);
-        }
-        let newIndex = index;
-        if (index < 0) {
-            newIndex = data.length - 1;
-        } else if (index > data.length - 1) {
-            newIndex = 0;
-        }
-        setIndex(newIndex);
-        if (onSlide) {
-            onSlide(newIndex);
-        }
-        if (autoSlide) {
-            setTimer(window.setTimeout(() => gotoDir(1), time * 1000));
-        }
-    };
-
-    // Moves the Slider to the given Direction
-    const gotoDir = (direction) => {
-        gotoIndex(index + direction);
-    };
 
     // Start the Slider
     React.useEffect(() => {
@@ -208,27 +192,97 @@ function Slider(props) {
                 window.clearTimeout(timer);
             }
         };
-    }, [ autoSlide ]);
+    }, [ autoSlide, update ]);
 
+    // Moves the Slider to the given Index
+    const gotoIndex = (index) => {
+        if (timer) {
+            window.clearTimeout(timer);
+        }
 
-    const dots     = Utils.createArrayOf(data.length, 0);
-    const showNav  = data.length > 1;
-    const showDots = withDots && data.length > 1;
-    const slStyle  = { width : `calc(100% / ${data.length})` };
-    const cntStyle = {
-        height    : height ? `${height}px` : "inherit",
-        width     : `calc(100% * ${data.length})`,
-        transform : `translateX(calc(-100%/${data.length}*${index}))`,
+        let newIndex = index;
+        if (index < 0) {
+            newIndex = data.length - 1;
+        } else if (index > data.length - 1) {
+            newIndex = 0;
+        }
+        setIndex(newIndex);
+
+        if (onSlide) {
+            onSlide(newIndex);
+        }
+        if (autoSlide) {
+            setUpdate(update + 1);
+        }
     };
 
-    return <Section className={`slider ${className}`}>
-        <Div className="slider-content" style={cntStyle}>
+    // Moves the Slider to the given Direction
+    const gotoDir = (direction) => {
+        gotoIndex(index + direction);
+    };
+
+
+    // Handle the Touch Start
+    const handleTouchStart = (e) => {
+        if (data.length > 1) {
+            setTouchStart(e.touches[0].clientX);
+        }
+    };
+
+    // Handle the Touch Move
+    const handleTouchMove = (e) => {
+        if (data.length > 1) {
+            setTouchDiff(e.touches[0].clientX - touchStart);
+        }
+    };
+
+    // Handle the Touch End
+    const handleTouchEnd = () => {
+        if (data.length === 1) {
+            return;
+        }
+
+        setTouchStart(0);
+        setTouchDiff(0);
+        if (Math.abs(touchDiff) < 50) {
+            if (onClick && data[index]) {
+                onClick(data[index]);
+            }
+        } else if (touchDiff < 0 && index < data.length - 1) {
+            gotoDir(1);
+        } else if (touchDiff > 0 && index > 0) {
+            gotoDir(-1);
+        }
+    };
+
+
+    // Variables
+    const dots       = Utils.createArrayOf(data.length, 0);
+    const showArrows = Boolean(withArrows && data.length > 1);
+    const showDots   = Boolean(withDots && data.length > 1);
+    const slStyle    = { width : `calc(100% / ${data.length})` };
+    const cntStyle   = {
+        height     : height ? `${height}px` : "inherit",
+        width      : `calc(100% * ${data.length})`,
+        transform  : `translateX(calc(-100% / ${data.length} * ${index} + ${touchDiff}px))`,
+        transition : touchDiff ? "none" : "transform ease-in-out 0.5s",
+    };
+
+
+    // Do the Render
+    return <Container
+        className={`slider ${className}`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+    >
+        <Content className="slider-content" style={cntStyle}>
             {Object.entries(data).map(([ type, elem ]) => (
                 <div key={type} style={slStyle}>
-                    {variant === Variant.IMAGE && <Img
+                    {variant === Variant.IMAGE && <Image
                         alt={elem.name}
                         src={elem.source}
-                        onClick={onClick(elem)}
+                        onClick={() => onClick(elem)}
                     />}
                     {variant === Variant.VIDEO && <Video
                         title={elem.name}
@@ -236,14 +290,14 @@ function Slider(props) {
                     />}
                 </div>
             ))}
-        </Div>
+        </Content>
 
-        {showNav && <Nav className="slider-nav">
+        {showArrows && <Arrows className="slider-arrows">
             <Prev onClick={() => gotoDir(-1)} />
             <Next onClick={() => gotoDir(1)}  />
-        </Nav>}
+        </Arrows>}
 
-        {showDots && <Dots className="slider-dots">
+        {showDots && <Dots className="slider-dots" showAlways={alwaysDots}>
             {dots.map((elem) => <li key={elem}>
                 <Dot
                     isActive={Number(index) === Number(elem)}
@@ -253,7 +307,7 @@ function Slider(props) {
                 </Dot>
             </li>)}
         </Dots>}
-    </Section>;
+    </Container>;
 }
 
 /**
@@ -261,16 +315,18 @@ function Slider(props) {
  * @typedef {Object} propTypes
  */
 Slider.propTypes = {
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    data      : PropTypes.array.isRequired,
-    onClick   : PropTypes.func,
-    onSlide   : PropTypes.func,
-    height    : PropTypes.number,
-    index     : PropTypes.number,
-    autoSlide : PropTypes.bool,
-    withDots  : PropTypes.bool,
-    time      : PropTypes.number,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
+    data       : PropTypes.array.isRequired,
+    onClick    : PropTypes.func,
+    onSlide    : PropTypes.func,
+    height     : PropTypes.number,
+    index      : PropTypes.number,
+    withArrows : PropTypes.bool,
+    withDots   : PropTypes.bool,
+    alwaysDots : PropTypes.bool,
+    autoSlide  : PropTypes.bool,
+    time       : PropTypes.number,
 };
 
 /**
@@ -278,14 +334,16 @@ Slider.propTypes = {
  * @typedef {Object} defaultProps
  */
 Slider.defaultProps = {
-    onClick   : (() => {}),
-    variant   : Variant.IMAGE,
-    className : "",
-    height    : 0,
-    index     : 0,
-    autoSlide : false,
-    withDots  : false,
-    time      : 5,
+    onClick    : (() => {}),
+    variant    : Variant.IMAGE,
+    className  : "",
+    height     : 0,
+    index      : 0,
+    withArrows : false,
+    withDots   : false,
+    alwaysDots : false,
+    autoSlide  : false,
+    time       : 5,
 };
 
 export default Slider;
