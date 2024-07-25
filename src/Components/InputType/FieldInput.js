@@ -18,6 +18,7 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -143,7 +144,7 @@ function FieldInput(props) {
     const {
         className, isDisabled, withBorder, withLine,
         name, value, indexes, addButton, onChange,
-        title, columns, errors, maxAmount,
+        title, columns, errors, maxAmount, allowEmpty, noneText,
         isSortable, onSort, children,
     } = props;
 
@@ -319,13 +320,15 @@ function FieldInput(props) {
     }, [ parts.length ]);
 
 
-
-    // Do the Render
+    // Variables
     const withTitle = Boolean(title);
     const canAdd    = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
     const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
-    const canRemove = Boolean(!isDisabled && parts.length > 1);
+    const canRemove = Boolean(!isDisabled && (allowEmpty || parts.length > 1));
+    const isEmpty   = Boolean(allowEmpty && noneText && !parts.length);
 
+
+    // Do the Render
     return <Container className={className} withBorder={withBorder}>
         <Content withLine={withLine}>
             {parts.map((elem, index) => <Item
@@ -386,8 +389,8 @@ function FieldInput(props) {
 
                 {canRemove && <Remove>
                     <IconLink
-                        variant="light"
-                        icon="close"
+                        variant="error"
+                        icon="delete"
                         onClick={() => handleRemove(index)}
                         isSmall
                     />
@@ -396,6 +399,10 @@ function FieldInput(props) {
                 <Error error={getError(index)} />
             </Item>)}
         </Content>
+
+        {isEmpty && <Container withBorder={!withBorder}>
+            <b>{NLS.get(noneText)}</b>
+        </Container>}
 
         <Button
             isHidden={!canAdd}
@@ -425,6 +432,8 @@ FieldInput.propTypes = {
     title      : PropTypes.string,
     addButton  : PropTypes.string,
     onChange   : PropTypes.func.isRequired,
+    allowEmpty : PropTypes.bool,
+    noneText   : PropTypes.string,
     isSortable : PropTypes.bool,
     onSort     : PropTypes.func,
     maxAmount  : PropTypes.number,
@@ -442,6 +451,7 @@ FieldInput.defaultProps = {
     withBorder : false,
     withLine   : false,
     addButton  : "GENERAL_ADD_FIELD",
+    allowEmpty : false,
     isSortable : false,
     maxAmount  : 0,
 };
