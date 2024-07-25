@@ -8,7 +8,7 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
+const Div = Styled.div.attrs(({ amount, topSpace, doubleWidth, singleWidth }) => ({ amount, topSpace, doubleWidth, singleWidth }))`
     display: grid;
     grid-template-columns: repeat(${(props) => props.amount}, 1fr);
     gap: var(--main-gap);
@@ -31,7 +31,7 @@ const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
         margin-top: 0;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: ${(props) => props.doubleWidth}) {
         ${(props) => (Number(props.amount) === 3 || Number(props.amount) === 4) && `
             grid-template-columns: repeat(2, 1fr);
         `}
@@ -47,7 +47,7 @@ const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
         }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: ${(props) => props.singleWidth}px) {
         grid-template-columns: 1fr;
 
         .columns-triple {
@@ -68,7 +68,8 @@ const Div = Styled.div.attrs(({ amount, topSpace }) => ({ amount, topSpace }))`
  */
 function Columns(props) {
     const {
-        isHidden, className, amount, topSpace,
+        isHidden, className, amount,
+        topSpace, doubleWidth, singleWidth,
         onSubmit, autoFocus, lastDouble, children,
     } = props;
 
@@ -88,6 +89,8 @@ function Columns(props) {
         className={className}
         amount={amount}
         topSpace={topSpace}
+        doubleWidth={doubleWidth}
+        singleWidth={singleWidth}
     >
         {items}
     </Div>;
@@ -98,14 +101,16 @@ function Columns(props) {
  * @type {Object} propTypes
  */
 Columns.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    amount     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    topSpace   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onSubmit   : PropTypes.func,
-    autoFocus  : PropTypes.bool,
-    lastDouble : PropTypes.bool,
-    children   : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    amount      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    doubleWidth : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    singleWidth : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onSubmit    : PropTypes.func,
+    autoFocus   : PropTypes.bool,
+    lastDouble  : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
@@ -113,11 +118,13 @@ Columns.propTypes = {
  * @typedef {Object} defaultProps
  */
 Columns.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    amount     : 2,
-    autoFocus  : false,
-    lastDouble : false,
+    isHidden    : false,
+    className   : "",
+    amount      : 2,
+    doubleWidth : 750,
+    singleWidth : 500,
+    autoFocus   : false,
+    lastDouble  : false,
 };
 
 export default Columns;
