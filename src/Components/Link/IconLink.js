@@ -58,6 +58,10 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ v
         --link-color: var(--black-color);
         --link-background: rgba(0, 0, 0, 0.1);
     `}
+    ${(props) => props.variant === Brightness.ERROR && `
+        --link-color: var(--error-color);
+        --link-background: rgba(0, 0, 0, 0.1);
+    `}
 
     ${(props) => props.isDisabled && `
         --link-color: var(--darker-gray);
