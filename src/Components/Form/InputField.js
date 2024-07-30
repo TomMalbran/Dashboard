@@ -50,7 +50,7 @@ function InputField(props) {
         width, fullWidth, isRequired,
         withLabel, shrinkLabel, errorBackground,
         suggestFetch, suggestID, suggestParams, suggestNone,
-        suggestWidth, keepSuggestions, hasClear, onClear,
+        suggestWidth, keepSuggestions, hasClear, hideClear, onClear,
     } = props;
 
 
@@ -148,7 +148,7 @@ function InputField(props) {
     const withTransform = !shrinkLabel && InputType.canShrink(type);
     const withValue     = Boolean(hasValue || isFocused);
     const withInsideCnt = !hasLabel || hasValue || isFocused || shrinkLabel;
-    const withClear     = hasValue && (hasClear || InputType.hasClear(type) || autoSuggest);
+    const withClear     = hasValue && !hideClear && (hasClear || InputType.hasClear(type) || autoSuggest);
     const hasError      = Boolean(error);
     const hasHelperText = !hasError && Boolean(helperText);
 
@@ -289,6 +289,7 @@ InputField.propTypes = {
     customText      : PropTypes.string,
     customKey       : PropTypes.string,
     hasClear        : PropTypes.bool,
+    hideClear       : PropTypes.bool,
     onClear         : PropTypes.func,
     allowEmpty      : PropTypes.bool,
     isSortable      : PropTypes.bool,
@@ -329,6 +330,7 @@ InputField.defaultProps = {
     customText      : "",
     customKey       : "",
     hasClear        : false,
+    hideClear       : false,
     allowEmpty      : false,
     isSortable      : false,
     autoFocus       : false,
