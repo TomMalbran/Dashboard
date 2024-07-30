@@ -187,31 +187,27 @@ function FieldInput(props) {
 
 
     // Handles a Field Change
-    const handleChange = (index, name, newValue) => {
-        const value = parts[index] ? { ...parts[index] } : {};
-        value[name] = newValue;
-        parts.splice(index, 1, value);
-        fieldChanged(parts);
-    };
-
-    // Handles a Suggest Change
-    const handleSuggest = (item, index, idName, idValue, newValue, data) => {
+    const handleChange = (item, index, name, newValue, secName, secValue, data) => {
         const value      = parts[index] ? { ...parts[index] } : {};
-        value[idName]    = idValue;
         value[item.name] = newValue;
+        if (secName) {
+            value[secName] = secValue;
+        }
         parts.splice(index, 1, value);
         fieldChanged(parts);
 
-        if (item.onSuggest) {
-            item.onSuggest(index, idName, idValue, item.name, newValue, data);
+        if (item.onChange) {
+            item.onChange(index, item.name, newValue, secName, secValue, data);
         }
     };
 
     // Handles a Clear Change
     const handleClear = (item, index, idName) => {
         const value      = parts[index] ? { ...parts[index] } : {};
-        value[idName]    = 0;
         value[item.name] = "";
+        if (idName) {
+            value[idName] = 0;
+        }
         parts.splice(index, 1, value);
         fieldChanged(parts);
 
@@ -358,9 +354,12 @@ function FieldInput(props) {
                                 postIcon={item.getPostIcon?.(data) || item.postIcon}
                                 isDisabled={getDisabled(item, data)}
                                 error={getError(index, item.name)}
-                                onChange={(name, value) => handleChange(index, item.name, value)}
-                                onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
-                                onClear={(idName) => handleClear(item, index, idName)}
+                                onChange={(name, value, secName, secValue, newData) => {
+                                    handleChange(item, index, name, value, secName, secValue, newData);
+                                }}
+                                onClear={(name, value, secName, secValue) => {
+                                    handleClear(item, index, secName);
+                                }}
                                 onMedia={() => item.onMedia?.(index, item.name)}
                                 withLabel={!!item.label || (!withTitle && index === 0)}
                                 isSmall={!item.label && (withTitle || index > 0)}
@@ -443,6 +442,7 @@ FieldInput.defaultProps = {
     allowEmpty : false,
     isSortable : false,
     maxAmount  : 0,
+    noneText   : "",
 };
 
 export default FieldInput;

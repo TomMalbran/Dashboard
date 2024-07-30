@@ -28,7 +28,6 @@ import Utils                from "../Utils/Utils";
  *   resetErrors  : Function,
  *   setElem      : Function,
  *   handleChange : (...any) => any,
- *   handleSearch : (...any) => any,
  *   handleSubmit : (...any) => any,
  * }}
  */
@@ -117,12 +116,6 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         setErrors({ [name] : "" });
     };
 
-    // Handles the Input Change
-    const handleSearch = (id, idValue, name, nameValue) => {
-        setData({ [id] : idValue,  [name] : nameValue });
-        setErrors({ [name] : "" });
-    };
-
     // Starts the Submit
     const handleSubmit = async (extraData = {}) => {
         if (!edit) {
@@ -155,7 +148,7 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         loading, startLoading, endLoading,
         data, setData, resetData,
         errors, setError, setErrors, resetErrors,
-        setElem, handleChange, handleSearch, handleSubmit,
+        setElem, handleChange, handleSubmit,
     };
 }
 

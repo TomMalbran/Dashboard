@@ -11,7 +11,6 @@ import Input                from "../Input/Input";
 import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
-import AutoSuggest          from "../Input/AutoSuggest";
 import Button               from "../Form/Button";
 
 
@@ -46,11 +45,10 @@ function InputField(props) {
         passedRef, isHidden, className, type, name,
         label, icon, postIcon, autoFocus, value,
         button, onClick, error, helperText,
-        onChange, onSearch, onInput, onSuggest, onFocus, onBlur,
+        onChange, onInput, onFocus, onBlur,
         width, fullWidth, isRequired,
         withLabel, shrinkLabel, errorBackground,
-        suggestFetch, suggestID, suggestParams, suggestNone,
-        suggestWidth, keepSuggestions, hasClear, hideClear, onClear,
+        suggestID, hasClear, hideClear, onClear,
     } = props;
 
 
@@ -58,7 +56,6 @@ function InputField(props) {
     const fieldRef     = React.useRef();
     const inputRef     = passedRef || fieldRef;
     const containerRef = React.useRef();
-    const suggestRef   = React.useRef();
 
     // The Current State
     const [ timer,     setTimer ] = React.useState(null);
@@ -85,9 +82,9 @@ function InputField(props) {
     };
 
     // Handles the Change
-    const handleChange = (name, value, secondName, secondValue) => {
+    const handleChange = (name, value, secName, secValue, data) => {
         if (onChange) {
-            onChange(name, value, secondName, secondValue);
+            onChange(name, value, secName, secValue, data);
         }
     };
 
@@ -101,10 +98,8 @@ function InputField(props) {
     // Handles the Clear
     const handleClear = () => {
         let params = [ name, "" ];
-        if (suggestRef && suggestRef.current) {
-            // @ts-ignore
-            suggestRef.current.clear();
-            params = [ suggestID, 0, name, "" ];
+        if (suggestID) {
+            params = [ name, "", suggestID, 0 ];
         } else if (type === "file") {
             params = [ name, undefined, `${name}File`, "" ];
         }
@@ -124,11 +119,6 @@ function InputField(props) {
             // @ts-ignore
             node.focus();
         }
-
-        if (suggestRef && suggestRef.current) {
-            // @ts-ignore
-            suggestRef.current.initValue(value);
-        }
     }, []);
 
     // Clear the Timer
@@ -142,13 +132,12 @@ function InputField(props) {
 
 
     // Variables
-    const autoSuggest   = Boolean(suggestFetch && suggestID);
     const hasLabel      = Boolean(label && InputType.hasLabel(type));
     const hasValue      = InputType.isValueFilled(type, value);
     const withTransform = !shrinkLabel && InputType.canShrink(type);
     const withValue     = Boolean(hasValue || isFocused);
     const withInsideCnt = !hasLabel || hasValue || isFocused || shrinkLabel;
-    const withClear     = hasValue && !hideClear && (hasClear || InputType.hasClear(type) || autoSuggest);
+    const withClear     = hasValue && !hideClear && (hasClear || InputType.hasClear(type));
     const hasError      = Boolean(error);
     const hasHelperText = !hasError && Boolean(helperText);
 
@@ -176,8 +165,6 @@ function InputField(props) {
                 {...props}
                 className="inputfield-input"
                 inputRef={inputRef}
-                suggestRef={suggestRef}
-                autoSuggest={autoSuggest}
                 isFocused={isFocused}
                 onChange={handleChange}
                 onInput={handleInput}
@@ -201,21 +188,6 @@ function InputField(props) {
         {hasHelperText && <FieldHelper>
             {NLS.get(helperText)}
         </FieldHelper>}
-
-        {autoSuggest && <AutoSuggest
-            inputRef={containerRef}
-            suggestRef={suggestRef}
-            open={isFocused}
-            name={name}
-            id={suggestID}
-            fetch={suggestFetch}
-            params={suggestParams}
-            noneText={suggestNone}
-            keepSuggestions={keepSuggestions}
-            minWidth={suggestWidth}
-            onChange={onSearch}
-            onSuggest={onSuggest}
-        />}
     </InputContainer>;
 }
 
@@ -247,7 +219,6 @@ InputField.propTypes = {
     isRequired      : PropTypes.bool,
     isDisabled      : PropTypes.bool,
     onChange        : PropTypes.func,
-    onSearch        : PropTypes.func,
     onInput         : PropTypes.func,
     onFocus         : PropTypes.func,
     onBlur          : PropTypes.func,
@@ -257,7 +228,6 @@ InputField.propTypes = {
     onKeyDown       : PropTypes.func,
     onKeyUp         : PropTypes.func,
     onMedia         : PropTypes.func,
-    onSuggest       : PropTypes.func,
     suggestID       : PropTypes.string,
     suggestFetch    : PropTypes.func,
     suggestParams   : PropTypes.object,
@@ -324,7 +294,6 @@ InputField.defaultProps = {
     shrinkLabel     : false,
     isSmall         : false,
     errorBackground : false,
-    noneText        : "",
     withCustom      : false,
     customFirst     : false,
     customText      : "",

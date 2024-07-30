@@ -83,8 +83,11 @@ function FilterList(props) {
 
 
     // Handles the Input Change
-    const handleChange = (name, value, onChange) => {
+    const handleChange = (name, value, secName, secValue, onChange) => {
         let filterData = { ...data, [name] : value };
+        if (secName) {
+            filterData = { ...filterData, [secName] : secValue };
+        }
         if (onChange) {
             filterData = onChange(data, value);
         }
@@ -93,22 +96,9 @@ function FilterList(props) {
         return filterData;
     };
 
-    // Handles the Input Search
-    const handleSearch = (id, idValue, name, nameValue) => {
-        const filterData = { ...data, [id] : idValue, [name] : nameValue };
-        setData(filterData);
-        setErrors({ ...errors, [name] : "" });
-        return filterData;
-    };
-
     // Handles the Update
-    const handleUpdate = async (id, idValue, name, nameValue) => {
-        let filterData = {};
-        if (name) {
-            filterData = handleSearch(id, idValue, name, nameValue);
-        } else {
-            filterData = handleChange(id, idValue);
-        }
+    const handleUpdate = async (name, value, secName, secValue) => {
+        const filterData = handleChange(name, value, secName, secValue);
         handleSubmit(filterData);
     };
 
@@ -136,9 +126,7 @@ function FilterList(props) {
             key={item.name}
             value={data[item.name]}
             error={errors[item.name]}
-            onChange={(name, value) => handleChange(name, value, item.onChange)}
-            onSearch={handleSearch}
-            onSuggest={handleUpdate}
+            onChange={(name, value, secName, secValue) => handleChange(name, value, secName, secValue, item.onChange)}
             onSubmit={handleSubmit}
             onClear={handleUpdate}
         />)}

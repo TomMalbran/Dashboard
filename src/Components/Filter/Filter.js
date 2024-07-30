@@ -58,6 +58,7 @@ function Filter(props) {
         />
         <FilterItem
             isHidden={!hasCredential}
+            type="search"
             name="credentialName"
             label="GENERAL_USER"
             icon="search"

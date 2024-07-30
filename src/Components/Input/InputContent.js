@@ -67,15 +67,16 @@ const Container = Styled.div.attrs(props)`
 
 const InputIcon = Styled(Icon)`
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 16px;
+    margin-left: -4px;
     color: var(--black-color);
 `;
 
-const PostInputIcon = Styled(InputIcon)`
+const PostInputIcon = Styled(Icon)`
     flex-shrink: 0;
+    font-size: 16px;
     margin-top: -4px;
     margin-right: -6px;
-    font-size: 16px;
     color: var(--black-color);
 `;
 

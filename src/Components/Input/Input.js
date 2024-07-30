@@ -17,6 +17,7 @@ import MultipleInput        from "../InputType/MultipleInput";
 import NumberInput          from "../InputType/NumberInput";
 import PasswordInput        from "../InputType/PasswordInput";
 import RadioInput           from "../InputType/RadioInput";
+import SearchInput          from "../InputType/SearchInput";
 import SelectInput          from "../InputType/SelectInput";
 import TextareaInput        from "../InputType/TextareaInput";
 import ToggleInput          from "../InputType/ToggleInput";
@@ -57,6 +58,8 @@ function Input(props) {
         return <PasswordInput {...props} />;
     case InputType.RADIO:
         return <RadioInput {...props} />;
+    case InputType.SEARCH:
+        return <SearchInput {...props} />;
     case InputType.SELECT:
         return <SelectInput {...props} />;
     case InputType.TEXTAREA:
@@ -110,7 +113,6 @@ Input.propTypes = {
     isSortable   : PropTypes.bool,
     onSort       : PropTypes.func,
     inputRef     : PropTypes.object,
-    suggestRef   : PropTypes.object,
 };
 
 /**
@@ -127,7 +129,6 @@ Input.defaultProps = {
     options      : [],
     extraOptions : [],
     fullWidth    : false,
-    noneText     : "",
     withCustom   : false,
     customFirst  : false,
     customText   : "",

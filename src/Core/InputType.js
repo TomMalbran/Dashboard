@@ -17,6 +17,7 @@ const MULTIPLE = "multiple";
 const NUMBER   = "number";
 const PASSWORD = "password";
 const RADIO    = "radio";
+const SEARCH   = "search";
 const SELECT   = "select";
 const TEXTAREA = "textarea";
 const TOGGLE   = "toggle";
@@ -45,7 +46,7 @@ function hasLabel(type) {
  * @returns {Boolean}
  */
 function hasClear(type) {
-    return [ SELECT, FILE, MEDIA ].includes(type);
+    return [ SEARCH, SELECT, FILE, MEDIA ].includes(type);
 }
 
 /**
@@ -118,6 +119,7 @@ export default {
     MULTIPLE,
     NUMBER,
     RADIO,
+    SEARCH,
     SELECT,
     TEXTAREA,
     TOGGLE,

@@ -37,8 +37,8 @@ const Text = Styled.p.attrs(({ atMaxLength, hasButtons }) => ({ atMaxLength, has
  */
 function TextInput(props) {
     const {
-        inputRef, className, icon, postIcon, isFocused, isDisabled, isSmall,
-        withBorder, withLabel, suggestRef, autoSuggest,
+        inputRef, className, icon, postIcon, isFocused, isDisabled,
+        isSmall, withBorder, withLabel,
         id, type, name, value, placeholder, autoComplete, spellCheck,
         generateCode, codeLength, codeSets,
         onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
@@ -69,13 +69,6 @@ function TextInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_DOWN && autoSuggest) {
-            suggestRef.current.selectNext();
-            e.preventDefault();
-        } else if (e.keyCode === KeyCode.DOM_VK_UP && autoSuggest) {
-            suggestRef.current.selectPrev();
-            e.preventDefault();
-        }
         if (onKeyDown) {
             onKeyDown(e);
         }
@@ -83,20 +76,8 @@ function TextInput(props) {
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (autoSuggest) {
-            suggestRef.current.setValue(e.target.value);
-        }
-        if (e.keyCode === KeyCode.DOM_VK_RETURN) {
-            let handled = false;
-            if (autoSuggest) {
-                const suggestVal = suggestRef.current.apply();
-                if (suggestVal) {
-                    handled = true;
-                }
-            }
-            if (onSubmit && !handled) {
-                onSubmit();
-            }
+        if (e.keyCode === KeyCode.DOM_VK_RETURN && onSubmit) {
+            onSubmit();
         }
         if (onKeyUp) {
             onKeyUp(e);
@@ -177,8 +158,6 @@ TextInput.propTypes = {
     isSmall      : PropTypes.bool,
     withBorder   : PropTypes.bool,
     withLabel    : PropTypes.bool,
-    suggestRef   : PropTypes.object,
-    autoSuggest  : PropTypes.bool,
     id           : PropTypes.string,
     type         : PropTypes.string.isRequired,
     name         : PropTypes.string,

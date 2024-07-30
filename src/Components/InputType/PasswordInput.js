@@ -126,8 +126,6 @@ PasswordInput.propTypes = {
     isSmall      : PropTypes.bool,
     withBorder   : PropTypes.bool,
     withLabel    : PropTypes.bool,
-    suggestRef   : PropTypes.object,
-    autoSuggest  : PropTypes.bool,
     id           : PropTypes.string,
     type         : PropTypes.string.isRequired,
     name         : PropTypes.string,
