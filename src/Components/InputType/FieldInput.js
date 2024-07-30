@@ -246,28 +246,12 @@ function FieldInput(props) {
     };
 
 
-    // Returns the Type of the item
-    const getType = (item, elem) => {
-        if (item.getType) {
-            return item.getType(elem || {});
-        }
-        return item.type;
-    };
-
     // Returns the Value of the item
     const getValue = (item, elem, index) => {
         if (item.getValue) {
             return item.getValue(index, elem);
         }
         return elem[item.name] || "";
-    };
-
-    // Returns the Options of the item
-    const getOptions = (item, elem) => {
-        if (item.getOptions) {
-            return item.getOptions(elem || {});
-        }
-        return item.options;
     };
 
     // Returns true if is Disabled
@@ -352,29 +336,34 @@ function FieldInput(props) {
                 {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
                 <Inside className="inputfield-items" columns={columns}>
                     {items.map((item, idx) => {
+                        const data     = elem || {};
+                        const key      = `${item.subKey || item.name}-${index}`;
                         const inputRef = inputRefs[index * items.length + idx];
                         const value    = getValue(item, elem, index);
+                        const columns  = item.getColumns?.(data) || item.columns || 1;
+                        const isHidden = item.hide?.(data) ?? false;
 
-                        return <Input
-                            key={`${item.subKey || item.name}-${index}`}
-                            columns={item.columns}
-                        >
+                        if (isHidden) {
+                            return <React.Fragment key={key} />;
+                        }
+                        return <Input key={key} columns={columns}>
                             <InputField
                                 {...item}
                                 passedRef={inputRef}
-                                isHidden={item.hide ? item.hide(elem || {}) : false}
                                 name={`${item.name}-${index}`}
-                                type={getType(item, elem)}
+                                type={item.getType?.(data) || item.type}
                                 value={value}
-                                options={getOptions(item, elem)}
+                                options={item.getOptions?.(data) || item.options}
+                                icon={item.getIcon?.(data) || item.icon}
+                                postIcon={item.getPostIcon?.(data) || item.postIcon}
+                                isDisabled={getDisabled(item, data)}
+                                error={getError(index, item.name)}
                                 onChange={(name, value) => handleChange(index, item.name, value)}
                                 onSuggest={(idName, idValue, name, value, data) => handleSuggest(item, index, idName, idValue, value, data)}
                                 onClear={(idName) => handleClear(item, index, idName)}
                                 onMedia={() => item.onMedia?.(index, item.name)}
                                 withLabel={!!item.label || (!withTitle && index === 0)}
                                 isSmall={!item.label && (withTitle || index > 0)}
-                                isDisabled={getDisabled(item, elem)}
-                                error={getError(index, item.name)}
                                 fullWidth
                             >
                                 {Utils.cloneChildren(item.children, () => ({
