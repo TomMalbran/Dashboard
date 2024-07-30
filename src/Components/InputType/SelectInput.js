@@ -201,11 +201,11 @@ function SelectInput(props) {
             break;
 
         case KeyCode.DOM_VK_UP:
-            newSelectedIdx = (selectedIdx - 1) < 0 ? options.length - 1 : selectedIdx - 1;
+            newSelectedIdx = (selectedIdx - 1) < 0 ? optionList.length - 1 : selectedIdx - 1;
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_DOWN:
-            newSelectedIdx = (selectedIdx + 1) % options.length;
+            newSelectedIdx = (selectedIdx + 1) % optionList.length;
             e.preventDefault();
             break;
 
@@ -214,13 +214,13 @@ function SelectInput(props) {
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_END:
-            newSelectedIdx = options.length - 1;
+            newSelectedIdx = optionList.length - 1;
             e.preventDefault();
             break;
 
         case KeyCode.DOM_VK_PAGE_UP:
             if (selectedIdx === 0) {
-                newSelectedIdx = options.length - 1;
+                newSelectedIdx = optionList.length - 1;
             } else if (selectedIdx - 5 < 0) {
                 newSelectedIdx = 0;
             } else {
@@ -229,10 +229,10 @@ function SelectInput(props) {
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedIdx === options.length - 1) {
+            if (selectedIdx === optionList.length - 1) {
                 newSelectedIdx = 0;
-            } else if (selectedIdx + 5 >= options.length) {
-                newSelectedIdx = options.length - 1;
+            } else if (selectedIdx + 5 >= optionList.length) {
+                newSelectedIdx = optionList.length - 1;
             } else {
                 newSelectedIdx = selectedIdx + 5;
             }
