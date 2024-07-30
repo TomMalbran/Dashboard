@@ -11,7 +11,8 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
-import Html                 from "../Common/Html";
+import InputOptions         from "../Input/InputOptions";
+import InputOption          from "../Input/InputOption";
 import Icon                 from "../Common/Icon";
 
 
@@ -49,48 +50,6 @@ const Chip = Styled.li.attrs(({ isDisabled }) => ({ isDisabled }))`
     `}
 `;
 
-const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, left, width, maxHeight }))`
-    box-sizing: border-box;
-    display: block;
-    position: fixed;
-    top: ${(props) => `${props.top + 2}px`};
-    left: ${(props) => `${props.left}px`};
-    width: ${(props) => `${props.width}px`};
-    max-height: ${(props) => `${props.maxHeight}px`};
-    overflow: auto;
-    min-width: 200px;
-    margin: 0;
-    padding: 8px;
-    list-style: none;
-    background-color: white;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
-    transform: translateY(2px);
-    z-index: var(--z-input, 3);
-`;
-
-const Option = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
-    margin: 0;
-    padding: 8px;
-    font-size: 14px;
-    color: var(--title-color);
-    border-radius: var(--border-radius);
-    transition: all 0.2s;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--light-gray);
-    }
-
-    ${(props) => props.isSelected && `
-        background-color: var(--primary-color);
-        color: white;
-        &:hover {
-            background-color: var(--primary-color);
-        }
-    `}
-`;
-
 
 
 /**
@@ -116,6 +75,7 @@ function ChooserInput(props) {
     const [ timer,    setTimer  ] = React.useState(null);
     const [ hasFocus, setFocus  ] = React.useState(false);
     const [ bounds,   setBounds ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
+    const [ update,   setUpdate ] = React.useState(0);
 
 
     // Clear the Timer
@@ -252,12 +212,24 @@ function ChooserInput(props) {
 
         scrollToIndex(newSelectedIdx);
         selectedRef.current = newSelectedIdx;
+        setUpdate(update + 1);
     };
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_RETURN && optionList[selectedRef.current]) {
-            setValues(optionList[selectedRef.current].key);
+        switch (e.keyCode) {
+        case KeyCode.DOM_VK_ESCAPE:
+            if (showOptions) {
+                setFocus(false);
+                e.stopPropagation();
+            }
+            break;
+        case KeyCode.DOM_VK_RETURN:
+            if (optionList[selectedRef.current]) {
+                setValues(optionList[selectedRef.current].key);
+            }
+            break;
+        default:
         }
         e.preventDefault();
     };
@@ -366,22 +338,21 @@ function ChooserInput(props) {
         </List>
         <InputIcon icon="expand" />
 
-        {hasOptions && <Options
-            ref={optionsRef}
+        {hasOptions && <InputOptions
+            passedRef={optionsRef}
             top={bounds.top}
             left={bounds.left}
             width={bounds.width}
             maxHeight={bounds.maxHeight}
         >
-            {optionList.map(({ key, value, text }, index) => <Option
+            {optionList.map(({ key, value, text }, index) => <InputOption
                 key={key}
-                variant="li"
                 className={`input-chooser-${index}`}
                 content={text || NLS.get(value)}
                 isSelected={selectedRef.current === index}
                 onMouseDown={(e) => handleAdd(e, key)}
             />)}
-        </Options>}
+        </InputOptions>}
     </InputContent>;
 }
 
@@ -416,6 +387,7 @@ ChooserInput.defaultProps = {
     isFocused   : false,
     isDisabled  : false,
     placeholder : "",
+    noneText    : "",
 };
 
 export default ChooserInput;

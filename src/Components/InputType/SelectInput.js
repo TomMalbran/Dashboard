@@ -10,7 +10,8 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
-import Html                 from "../Common/Html";
+import InputOptions         from "../Input/InputOptions";
+import InputOption          from "../Input/InputOption";
 import Icon                 from "../Common/Icon";
 
 
@@ -24,49 +25,6 @@ const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
     font-size: 18px;
-`;
-
-const Options = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, left, width, maxHeight }))`
-    box-sizing: border-box;
-    display: block;
-    position: fixed;
-    top: ${(props) => `${props.top + 2}px`};
-    left: ${(props) => `${props.left}px`};
-    width: ${(props) => `${props.width}px`};
-    max-height: ${(props) => `${props.maxHeight}px`};
-    overflow: auto;
-    min-width: 200px;
-    margin: 0;
-    padding: 8px;
-    list-style: none;
-    background-color: white;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
-    transform: translateY(2px);
-    overflow-x: hidden;
-    z-index: var(--z-input, 3);
-`;
-
-const Option = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
-    margin: 0;
-    padding: 8px;
-    font-size: 14px;
-    color: var(--title-color);
-    border-radius: var(--border-radius);
-    transition: all 0.2s;
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--light-gray);
-    }
-
-    ${(props) => props.isSelected && `
-        background-color: var(--primary-color);
-        color: white;
-        &:hover {
-            background-color: var(--primary-color);
-        }
-    `}
 `;
 
 
@@ -99,6 +57,7 @@ function SelectInput(props) {
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
     const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
+    const [ update,      setUpdate      ] = React.useState(0);
 
     // Variables
     const valueKey   = String(value || noneValue);
@@ -155,16 +114,12 @@ function SelectInput(props) {
             if (selectedRef.current >= 0 && optionList[selectedRef.current] && selectedRef.current !== initialIdx) {
                 onChange(name, optionList[selectedRef.current].value);
             }
-            triggerBlur();
+
+            setFilter("");
+            setShowOptions(false);
+            setTimer(null);
             onBlur();
         }, 200));
-    };
-
-    // Handles the Blur
-    const triggerBlur = () => {
-        setFilter("");
-        setShowOptions(false);
-        setTimer(null);
     };
 
     // Handles the Input
@@ -245,6 +200,7 @@ function SelectInput(props) {
         setShowOptions(true);
         scrollToIndex(newSelectedIdx, false);
         selectedRef.current = newSelectedIdx;
+        setUpdate(update + 1);
     };
 
     // Handles the Key Up
@@ -410,22 +366,21 @@ function SelectInput(props) {
         />
         <InputIcon icon="expand" />
 
-        {hasOptions && <Options
-            ref={optionsRef}
+        {hasOptions && <InputOptions
+            passedRef={optionsRef}
             top={bounds.top}
             left={bounds.left}
             width={bounds.width}
             maxHeight={bounds.maxHeight}
         >
-            {optionList.map(({ key, value, text, message }, index) => <Option
+            {optionList.map(({ key, value, text, message }, index) => <InputOption
                 key={key}
-                variant="li"
                 className={`input-option-${index}`}
                 content={text || message}
                 isSelected={selectedRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
             />)}
-        </Options>}
+        </InputOptions>}
     </InputContent>;
 }
 
