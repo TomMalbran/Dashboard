@@ -19,12 +19,13 @@ const open = keyframes`
 `;
 
 // Styles
-const Container = Styled.div.attrs(({ top, left, width, variant, isOpen }) => ({ top, left, width, variant, isOpen }))`
+const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpen }) => ({ variant, top, left, width, maxWidth, isOpen }))`
     box-sizing: border-box;
     position: fixed;
     top: ${(props) => `${props.top}px`};
     left: ${(props) => `${props.left}px`};
     min-width: ${(props) => `${props.width}px`};
+    max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "auto"};
     opacity: 0;
     padding: 5px 8px;
     font-size: 12px;
@@ -95,15 +96,19 @@ const Container = Styled.div.attrs(({ top, left, width, variant, isOpen }) => ({
  */
 function Tooltip() {
     const { tooltip } = Store.useState("core");
-    const { open, targetRef, variant, message } = tooltip;
+    const { open, targetRef, variant, message, maxWidth } = tooltip;
 
     const content    = NLS.get(message);
     const hasTooltip = open && !!content;
 
+
+    // Nothing to Do
     if (!hasTooltip) {
         return <React.Fragment />;
     }
 
+
+    // Get the Position
     const bounds = Utils.getBounds(targetRef);
     let   top    = bounds.top;
     let   left   = bounds.left;
@@ -131,10 +136,11 @@ function Tooltip() {
     // Do the Render
     return <Container
         className="tooltip"
+        variant={variant}
         top={top}
         left={left}
         width={width}
-        variant={variant}
+        maxWidth={maxWidth}
         isOpen
     >
         {content}

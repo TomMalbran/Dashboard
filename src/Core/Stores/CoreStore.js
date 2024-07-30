@@ -91,10 +91,11 @@ const actions = {
      * @param {Object}   targetRef
      * @param {String}   variant
      * @param {String}   message
+     * @param {Number}   maxWidth
      * @returns {Void}
      */
-    showTooltip(dispatch, targetRef, variant, message) {
-        const tooltip = { open : true, targetRef, variant, message };
+    showTooltip(dispatch, targetRef, variant, message, maxWidth) {
+        const tooltip = { open : true, targetRef, variant, message, maxWidth };
         return dispatch({ type : "CORE_TOOLTIP", tooltip });
     },
 

@@ -30,7 +30,8 @@ const Span = Styled.span.attrs(({ color, cursor }) => ({ color, cursor }))`
  */
 function Icon(props) {
     const {
-        isHidden, className, icon, color, tooltip, tooltipVariant, cursor,
+        isHidden, className, icon, color, cursor,
+        tooltip, tooltipVariant, tooltipWidth,
         onClick, onMouseDown,
     } = props;
 
@@ -41,7 +42,7 @@ function Icon(props) {
     // Handles the Tooltip
     const handleTooltip = () => {
         if (tooltip) {
-            showTooltip(elementRef, tooltipVariant, tooltip);
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth);
         }
     };
 
@@ -74,6 +75,7 @@ Icon.propTypes = {
     cursor         : PropTypes.string,
     tooltip        : PropTypes.string,
     tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
     onClick        : PropTypes.func,
     onMouseDown    : PropTypes.func,
 };
@@ -88,6 +90,7 @@ Icon.defaultProps = {
     cursor         : "",
     tooltip        : "",
     tooltipVariant : "bottom",
+    tooltipWidth   : 0,
 };
 
 export default Icon;
