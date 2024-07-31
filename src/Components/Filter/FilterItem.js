@@ -41,7 +41,7 @@ FilterItem.propTypes = {
     suggestID     : PropTypes.string,
     suggestFetch  : PropTypes.func,
     suggestParams : PropTypes.object,
-    suggestNone   : PropTypes.string,
+    suggestWidth  : PropTypes.number,
     hasClear      : PropTypes.bool,
     shrinkLabel   : PropTypes.bool,
     onChange      : PropTypes.func,

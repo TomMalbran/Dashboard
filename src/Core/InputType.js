@@ -17,8 +17,8 @@ const MULTIPLE = "multiple";
 const NUMBER   = "number";
 const PASSWORD = "password";
 const RADIO    = "radio";
-const SEARCH   = "search";
 const SELECT   = "select";
+const SUGGEST  = "suggest";
 const TEXTAREA = "textarea";
 const TOGGLE   = "toggle";
 
@@ -46,7 +46,7 @@ function hasLabel(type) {
  * @returns {Boolean}
  */
 function hasClear(type) {
-    return [ SEARCH, SELECT, FILE, MEDIA ].includes(type);
+    return [ FILE, MEDIA, SELECT, SUGGEST ].includes(type);
 }
 
 /**
@@ -55,7 +55,10 @@ function hasClear(type) {
  * @returns {Boolean}
  */
 function canShrink(type) {
-    return ![ DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, TOGGLE, FIELDS, LIST, COLOR, DATE, TIME ].includes(type);
+    return ![
+        DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO,
+        TOGGLE, FIELDS, LIST, COLOR, DATE, TIME,
+    ].includes(type);
 }
 
 /**
@@ -119,8 +122,8 @@ export default {
     MULTIPLE,
     NUMBER,
     RADIO,
-    SEARCH,
     SELECT,
+    SUGGEST,
     TEXTAREA,
     TOGGLE,
 

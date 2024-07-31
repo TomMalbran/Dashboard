@@ -5,7 +5,6 @@ import Styled               from "styled-components";
 // Core & Utils
 import NLS                  from "../../Core/NLS";
 import KeyCode              from "../../Utils/KeyCode";
-import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
@@ -31,15 +30,15 @@ const InputIcon = Styled(Icon)`
 
 
 /**
- * The Search Input Component
+ * The Suggest Input Component
  * @param {Object} props
  * @returns {React.ReactElement}
  */
-function SearchInput(props) {
+function SuggestInput(props) {
     const {
         inputRef, className, icon, postIcon,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
-        id, name, value, placeholder, noneText,
+        id, name, value, placeholder, noneText, searchText,
         suggestID, suggestFetch, suggestParams, keepSuggestions,
         suggestWidth, onChange, onClear, onFocus, onBlur,
     } = props;
@@ -82,9 +81,14 @@ function SearchInput(props) {
         if (search !== newSearch && value !== newSearch) {
             if (timerRef.current) {
                 window.clearTimeout(timerRef.current);
+                setSearching(false);
             }
+
             if (shouldSearch(newSearch)) {
-                timerRef.current = window.setTimeout(() => fetchValue(newSearch), 500);
+                setSearching(true);
+                timerRef.current = window.setTimeout(() => {
+                    fetchValue(newSearch);
+                }, 1000);
             } else {
                 setSuggestions([]);
             }
@@ -93,7 +97,6 @@ function SearchInput(props) {
 
     // Does the Actual Fetch
     const fetchValue = async (value) => {
-        setSearching(true);
         const newSuggestions = await suggestFetch({ value, ...suggestParams || {} });
         setSearching(false);
 
@@ -126,7 +129,8 @@ function SearchInput(props) {
 
     // Handles the Focus
     const handleFocus = () => {
-        const bounds = Utils.getBounds(containerRef);
+        const node   = containerRef.current.closest(".inputfield-double") || containerRef.current;
+        const bounds = node.getBoundingClientRect();
         setBounds({
             top       : bounds.bottom,
             left      : bounds.left,
@@ -261,11 +265,13 @@ function SearchInput(props) {
 
 
     // Variables
-    const hasValue   = Boolean(value);
-    const hasSearch  = shouldSearch(search);
-    const showNone   = Boolean(hasSearch && !searching && !suggestions.length && noneText);
-    const showLine   = Boolean(hasValue && (showNone || suggestions.length));
-    const hasOptions = Boolean(showOptions && (hasValue || showNone || suggestions.length));
+    const hasValue        = Boolean(value);
+    const hasSearch       = shouldSearch(search);
+    const showSearch      = Boolean(hasSearch && searching && searchText);
+    const showNone        = Boolean(hasSearch && !searching && !suggestions.length && noneText);
+    const showLine        = Boolean(hasValue && (showSearch || showNone || suggestions.length));
+    const showSuggestions = Boolean(suggestions.length && !searching);
+    const hasOptions      = Boolean(showOptions && (hasValue || showSearch || showNone || suggestions.length));
 
 
     // Do the Render
@@ -304,14 +310,15 @@ function SearchInput(props) {
             passedRef={optionsRef}
             top={bounds.top}
             left={bounds.left}
-            width={Math.max(suggestWidth, bounds.width)}
+            width={Math.max(suggestWidth ?? 0, bounds.width)}
             maxHeight={bounds.maxHeight}
         >
             {hasValue && <InputOption content={`<b>${value}</b>`} />}
             {showLine && <MenuLine />}
+            {showSearch && <InputOption content={NLS.get(searchText)} />}
             {showNone && <InputOption content={NLS.get(noneText)} />}
 
-            {suggestions.map((elem, index) => <InputOption
+            {showSuggestions && suggestions.map((elem, index) => <InputOption
                 key={index}
                 className={`input-suggestion-${index}`}
                 content={elem.title}
@@ -326,7 +333,7 @@ function SearchInput(props) {
  * The Property Types
  * @type {Object} propTypes
  */
-SearchInput.propTypes = {
+SuggestInput.propTypes = {
     inputRef        : PropTypes.any,
     className       : PropTypes.string,
     icon            : PropTypes.string,
@@ -340,6 +347,7 @@ SearchInput.propTypes = {
     name            : PropTypes.string.isRequired,
     placeholder     : PropTypes.string,
     noneText        : PropTypes.string,
+    searchText      : PropTypes.string,
     value           : PropTypes.any,
     onChange        : PropTypes.func.isRequired,
     onClear         : PropTypes.func,
@@ -358,15 +366,17 @@ SearchInput.propTypes = {
  * The Default Properties
  * @type {Object} defaultProps
  */
-SearchInput.defaultProps = {
-    className   : "",
-    isFocused   : false,
-    isDisabled  : false,
-    isSmall     : false,
-    withBorder  : true,
-    withLabel   : true,
-    placeholder : "",
-    noneText    : "GENERAL_NONE_RESULTS",
+SuggestInput.defaultProps = {
+    className    : "",
+    isFocused    : false,
+    isDisabled   : false,
+    isSmall      : false,
+    withBorder   : true,
+    withLabel    : true,
+    placeholder  : "",
+    noneText     : "GENERAL_NONE_RESULTS",
+    searchText   : "GENERAL_SEARCHING",
+    suggestWidth : 0,
 };
 
-export default SearchInput;
+export default SuggestInput;

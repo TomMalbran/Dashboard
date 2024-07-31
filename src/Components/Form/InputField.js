@@ -231,7 +231,6 @@ InputField.propTypes = {
     suggestID       : PropTypes.string,
     suggestFetch    : PropTypes.func,
     suggestParams   : PropTypes.object,
-    suggestNone     : PropTypes.string,
     suggestWidth    : PropTypes.number,
     keepSuggestions : PropTypes.bool,
     addButton       : PropTypes.string,
