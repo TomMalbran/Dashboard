@@ -14,10 +14,10 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelected, isDisabled, isSmall }))`
+const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace }) => ({ isSelected, isDisabled, isSmall, leftSpace }))`
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     width: auto;
     min-width: 50px;
     margin: 0;
@@ -27,6 +27,7 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelecte
     white-space: nowrap;
     color: var(--title-color);
     border-radius: var(--border-radius);
+    overflow: hidden;
     transition: all 0.2s;
     cursor: pointer;
 
@@ -45,6 +46,9 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelecte
     ${(props) => props.isSelected && `
         background-color: var(--light-gray);
     `}
+    ${(props) => props.leftSpace && `
+        margin-left: 16px;
+    `}
 `;
 
 
@@ -57,8 +61,10 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelecte
 function MenuItem(props) {
     const {
         className, action, icon, title, message, url, href, target,
-        isDisabled, isSelected, isSmall, onAction, onClick, onClose,
-        direction, index, selectedIdx, trigger, setTrigger, children,
+        isDisabled, isSelected, isSmall, leftSpace,
+        onAction, onClick, onClose,
+        direction, index, selectedIdx,
+        trigger, setTrigger, children,
     } = props;
 
 
@@ -113,10 +119,11 @@ function MenuItem(props) {
     return <>
         <Li
             ref={itemRef}
-            className={className}
+            className={`menu-item-${index} ${className}`}
             isSelected={isSelection}
             isDisabled={isDisabled}
             isSmall={isSmall}
+            leftSpace={leftSpace}
             onMouseDown={handleClick}
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
@@ -156,6 +163,7 @@ MenuItem.propTypes = {
     isDisabled  : PropTypes.bool,
     isSelected  : PropTypes.bool,
     isSmall     : PropTypes.bool,
+    leftSpace   : PropTypes.bool,
     onAction    : PropTypes.func,
     onClick     : PropTypes.func,
     onClose     : PropTypes.func,
