@@ -7,7 +7,7 @@ import DateTime     from "../Utils/DateTime";
 const SELECT        = "select";
 const TODAY         = "today";
 const YESTERDAY     = "yesterday";
-const LAST_7_DAYS   = "las7Days";
+const LAST_7_DAYS   = "last7Days";
 const LAST_15_DAYS  = "last15Days";
 const LAST_30_DAYS  = "last30Days";
 const LAST_60_DAYS  = "last60Days";
