@@ -54,7 +54,7 @@ const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, wit
             "sort input remove"
             ${props.withError ? '"error error error"' : ""}
         ;
-        grid-template-columns: 24px 1fr 24px;
+        grid-template-columns: 16px 1fr 24px;
     ` : (props.withRemove ? `
         grid-template-areas:
             ${props.withTitle ? '"title title"' : ""}
