@@ -22,6 +22,10 @@ const Container = Styled(Backdrop)`
     --dialog-body: calc(var(--dialog-height) - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
     padding: var(--dialog-spacing);
+
+    @media (max-width: 500px) {
+        padding: 0;
+    }
 `;
 
 const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosing }) => ({ width, isWide, isNarrow, hasTabs, isClosing }))`
