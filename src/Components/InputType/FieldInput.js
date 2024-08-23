@@ -50,31 +50,26 @@ const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, wit
 
     ${(props) => props.withSort ? `
         grid-template-areas:
-            ${props.withTitle ? '"title title title"' : ""}
+            ${props.withTitle ? '"title title extra"' : ""}
+            ${props.withError ? '"error error extra"' : ""}
             "sort input remove"
-            ${props.withError ? '"error error error"' : ""}
         ;
-        grid-template-columns: 16px 1fr 24px;
+        grid-template-columns: 24px 1fr 24px;
     ` : (props.withRemove ? `
         grid-template-areas:
-            ${props.withTitle ? '"title title"' : ""}
+            ${props.withTitle ? '"title extra"' : ""}
+            ${props.withError ? '"error extra"' : ""}
             "input remove"
-            ${props.withError ? '"error error"' : ""}
         ;
         grid-template-columns: 1fr 24px;
     ` : `
         grid-template-areas:
             ${props.withTitle ? '"title"' : ""}
-            "input"
             ${props.withError ? '"error"' : ""}
+            "input"
         ;
     `)}
 
-    ${(props) => props.withError && `
-        .inputfield {
-            --input-border: var(--error-color);
-        }
-    `}
     ${(props) => props.withLine && `
         padding-bottom: 12px;
         border-bottom: 2px solid var(--dark-gray);
@@ -82,16 +77,19 @@ const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, wit
 `;
 
 const Title = Styled.h4`
-    margin: 0 8px;
     grid-area: title;
-    font-size: var(--input-font);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 8px;
+    font-size: calc(var(--input-font) * 1.1);
     color: var(--title-color);
 `;
 
 const Inside = Styled.div.attrs(({ columns }) => ({ columns }))`
+    grid-area: input;
     width: 100%;
     gap: 6px;
-    grid-area: input;
 
     ${(props) => Number(props.columns) > 1 ? `
         display: grid;
@@ -125,12 +123,17 @@ const Remove = Styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     grid-area: remove;
+    gap: 8px;
 `;
 
 const Error = Styled(InputError)`
     grid-area: error;
-    margin-top: 0;
+    margin-bottom: 4px;
+    text-align: left;
+    border-radius: var(--border-radius);
+    padding: 6px 12px;
 `;
 
 
@@ -144,8 +147,9 @@ function FieldInput(props) {
     const {
         className, isDisabled, withBorder, withLine,
         name, value, indexes, addButton, onChange,
-        title, columns, errors, maxAmount, allowEmpty, noneText,
-        isSortable, onSort, children,
+        title, getAfterTitle, columns,
+        errors, maxAmount, allowEmpty, noneText,
+        isSortable, onSort, extraIcon, onExtraIcon, children,
     } = props;
 
 
@@ -301,11 +305,13 @@ function FieldInput(props) {
 
 
     // Variables
-    const withTitle = Boolean(title);
-    const canAdd    = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
-    const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
-    const canRemove = Boolean(!isDisabled && (allowEmpty || parts.length > 1));
-    const isEmpty   = Boolean(allowEmpty && noneText && !parts.length);
+    const withTitle    = Boolean(title);
+    const canAdd       = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
+    const canSort      = Boolean(!isDisabled && isSortable && parts.length > 1);
+    const canRemove    = Boolean(!isDisabled && (allowEmpty || parts.length > 1));
+    const hasExtraIcon = Boolean(extraIcon && onExtraIcon);
+    const hasPostIcons = Boolean(canRemove || hasExtraIcon);
+    const isEmpty      = Boolean(allowEmpty && noneText && !parts.length);
 
 
     // Do the Render
@@ -329,7 +335,16 @@ function FieldInput(props) {
                     />
                 </Sort>}
 
-                {withTitle && <Title>{NLS.format(title, String(index + 1))}</Title>}
+                {withTitle && <Title>
+                    <span>{NLS.format(title, String(index + 1))}</span>
+                    {getAfterTitle?.(elem, index)}
+                </Title>}
+
+                <Error
+                    error={getError(index)}
+                    useBackground
+                />
+
                 <Inside className="inputfield-items" columns={columns}>
                     {items.map((item, idx) => {
                         const data     = elem || {};
@@ -375,7 +390,14 @@ function FieldInput(props) {
                     })}
                 </Inside>
 
-                {canRemove && <Remove>
+                {hasPostIcons && <Remove>
+                    <IconLink
+                        isHidden={!hasExtraIcon}
+                        variant="light"
+                        icon={extraIcon}
+                        onClick={() => onExtraIcon(index)}
+                        isSmall
+                    />
                     <IconLink
                         variant="error"
                         icon="delete"
@@ -383,8 +405,6 @@ function FieldInput(props) {
                         isSmall
                     />
                 </Remove>}
-
-                <Error error={getError(index)} />
             </Item>)}
         </Content>
 
@@ -407,26 +427,29 @@ function FieldInput(props) {
  * @type {Object} propTypes
  */
 FieldInput.propTypes = {
-    className  : PropTypes.string,
-    isDisabled : PropTypes.bool,
-    withBorder : PropTypes.bool,
-    withLine   : PropTypes.bool,
-    name       : PropTypes.string.isRequired,
-    value      : PropTypes.any,
-    indexes    : PropTypes.any,
-    columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    hasLabel   : PropTypes.bool,
-    isSmall    : PropTypes.bool,
-    title      : PropTypes.string,
-    addButton  : PropTypes.string,
-    onChange   : PropTypes.func.isRequired,
-    allowEmpty : PropTypes.bool,
-    noneText   : PropTypes.string,
-    isSortable : PropTypes.bool,
-    onSort     : PropTypes.func,
-    maxAmount  : PropTypes.number,
-    errors     : PropTypes.object,
-    children   : PropTypes.any,
+    className     : PropTypes.string,
+    isDisabled    : PropTypes.bool,
+    withBorder    : PropTypes.bool,
+    withLine      : PropTypes.bool,
+    name          : PropTypes.string.isRequired,
+    value         : PropTypes.any,
+    indexes       : PropTypes.any,
+    columns       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    hasLabel      : PropTypes.bool,
+    isSmall       : PropTypes.bool,
+    title         : PropTypes.string,
+    getAfterTitle : PropTypes.func,
+    addButton     : PropTypes.string,
+    onChange      : PropTypes.func.isRequired,
+    allowEmpty    : PropTypes.bool,
+    noneText      : PropTypes.string,
+    isSortable    : PropTypes.bool,
+    onSort        : PropTypes.func,
+    extraIcon     : PropTypes.string,
+    onExtraIcon   : PropTypes.func,
+    maxAmount     : PropTypes.number,
+    errors        : PropTypes.object,
+    children      : PropTypes.any,
 };
 
 /**
@@ -443,6 +466,7 @@ FieldInput.defaultProps = {
     isSortable : false,
     maxAmount  : 0,
     noneText   : "",
+    extraIcon  : "",
 };
 
 export default FieldInput;
