@@ -125,6 +125,7 @@ function PromptDialog(props) {
                     spellCheck={spellCheck}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
+                    hasClear={isOptional}
                     isRequired={!isOptional}
                 />
                 <InputField
@@ -143,6 +144,7 @@ function PromptDialog(props) {
                     spellCheck={spellCheck}
                     onChange={handleChange}
                     onSubmit={handleSubmit}
+                    hasClear={!secRequired}
                     isRequired={secRequired}
                 />
             </Container>
