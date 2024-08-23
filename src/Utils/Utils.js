@@ -116,6 +116,28 @@ function clamp(value, min, max) {
 }
 
 /**
+ * Maps a Value between the Low and High to the target Low and High
+ * @param {Number} value
+ * @param {Number} fromLow
+ * @param {Number} fromHigh
+ * @param {Number} toLow
+ * @param {Number} toHigh
+ * @returns {Number}
+ */
+function mapValue(value, fromLow, fromHigh, toLow, toHigh) {
+    const fromRange = fromHigh - fromLow;
+    const toRange   = toHigh - toLow;
+    if (fromRange === 0) {
+        return toLow;
+    }
+
+    const scaleFactor = toRange / fromRange;
+    let   tmpValue = value - fromLow;
+    tmpValue *= scaleFactor;
+    return tmpValue + toLow;
+}
+
+/**
  * Returns the Bounds of the given Ref
  * @param {React.RefObject<HTMLElement>} ref
  * @returns {Void}
@@ -1202,6 +1224,7 @@ export default {
     clone,
     round,
     clamp,
+    mapValue,
     triggerClick,
     getBounds,
     inBounds,
