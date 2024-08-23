@@ -67,18 +67,18 @@ function ActionList(props) {
             onAction={onAction}
             withMark={hasFilters || data.hasFilters}
         />}
-        {canCreate && <ActionItem
-            action="CREATE"
-            message={createName}
+        {canExport && <ActionItem
+            isLoading={isExporting}
+            action="EXPORT"
             onAction={onAction}
         />}
         {canImport && <ActionItem
             action="IMPORT"
             onAction={onAction}
         />}
-        {canExport && <ActionItem
-            isLoading={isExporting}
-            action="EXPORT"
+        {canCreate && <ActionItem
+            action="CREATE"
+            message={createName}
             onAction={onAction}
         />}
         {items}
