@@ -10,6 +10,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import TableHead            from "../Table/TableHead";
 import TableBody            from "../Table/TableBody";
+import TableFoot            from "../Table/TableFoot";
 import TablePaging          from "../Table/TablePaging";
 import TableActionList      from "../Table/TableActionList";
 import Menu                 from "../Menu/Menu";
@@ -136,6 +137,7 @@ function Table(props) {
     let   colSpan    = 0;
     let   hasContent = false;
     let   hasPaging  = false;
+    let   hasFooter  = false;
     let   hasActions = false;
 
     for (const child of Utils.toArray(children)) {
@@ -175,6 +177,9 @@ function Table(props) {
 
         if (child.type === TablePaging) {
             hasPaging = true;
+        }
+        if (child.type === TableFoot) {
+            hasFooter = true;
         }
 
         if (child.type === TableActionList) {
@@ -218,7 +223,8 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasChecks, hasActions, hasSorting, hasPaging, notFixed, rightSpace,
+                hasIDs, hasChecks, hasActions, hasSorting, hasPaging,
+                hasFooter, notFixed, rightSpace,
                 checked, setChecked, hasCheckAll, setCheckedAll, isCheckedAll,
                 handleRowClick, handleMenuOpen,
             }));

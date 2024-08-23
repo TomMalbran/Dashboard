@@ -8,7 +8,7 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notFixed }))`
+const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notFixed }))`
     box-sizing: border-box;
     width: 100%;
     border-left: var(--table-border) solid var(--table-color);
@@ -48,7 +48,7 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
         }
     `}
 
-    ${(props) => !props.hasPaging && `
+    ${(props) => !props.hasFooter && `
         border-bottom: var(--table-border) solid var(--table-color);
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
@@ -70,7 +70,7 @@ const TBody = Styled.tbody.attrs(({ hasPaging, notFixed }) => ({ hasPaging, notF
  */
 function TableBody(props) {
     const {
-        notFixed, hasIDs, hasChecks, hasActions, hasPaging,
+        notFixed, hasIDs, hasChecks, hasActions, hasPaging, hasFooter,
         handleRowClick, handleMenuOpen, columns, checked, setChecked, children,
     } = props;
 
@@ -80,7 +80,7 @@ function TableBody(props) {
         columns, checked, setChecked,
     }));
 
-    return <TBody notFixed={notFixed} hasPaging={hasPaging}>
+    return <TBody notFixed={notFixed} hasFooter={hasPaging || hasFooter}>
         {items}
     </TBody>;
 }
@@ -95,6 +95,7 @@ TableBody.propTypes = {
     hasChecks      : PropTypes.bool,
     hasActions     : PropTypes.bool,
     hasPaging      : PropTypes.bool,
+    hasFooter      : PropTypes.bool,
     handleRowClick : PropTypes.func,
     handleMenuOpen : PropTypes.func,
     columns        : PropTypes.array,
