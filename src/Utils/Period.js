@@ -87,6 +87,16 @@ const PERIODS_LAST = [
     LAST_90_DAYS,
     LAST_120_DAYS,
 ];
+const PERIODS_LAST_TODAY = [
+    TODAY,
+    YESTERDAY,
+    LAST_7_DAYS,
+    LAST_15_DAYS,
+    LAST_30_DAYS,
+    LAST_60_DAYS,
+    LAST_90_DAYS,
+    LAST_120_DAYS,
+];
 
 
 
@@ -249,10 +259,11 @@ function getSimpleSelect() {
 
 /**
  * Returns a Last Periods Select
+ * @param {Boolean=} withToday
  * @returns {Object[]}
  */
-function getLastSelect() {
-    return getSelect(PERIODS_LAST);
+function getLastSelect(withToday) {
+    return withToday ? getSelect(PERIODS_LAST_TODAY) : getSelect(PERIODS_LAST);
 }
 
 
