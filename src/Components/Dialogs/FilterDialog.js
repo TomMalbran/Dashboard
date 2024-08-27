@@ -16,7 +16,7 @@ import EditDialog           from "./EditDialog";
  */
 function FilterDialog(props) {
     const {
-        open, title, isLoading, noAutoFocus,
+        open, title, isNarrow, isLoading, noAutoFocus,
         initialData, data, onSubmit, onClose, children,
     } = props;
 
@@ -45,6 +45,7 @@ function FilterDialog(props) {
         onClose={onClose}
         isLoading={isLoading}
         noAutoFocus={noAutoFocus}
+        isNarrow={isNarrow}
     >
         {children}
     </EditDialog>;
@@ -57,6 +58,7 @@ function FilterDialog(props) {
 FilterDialog.propTypes = {
     open        : PropTypes.bool.isRequired,
     title       : PropTypes.string.isRequired,
+    isNarrow    : PropTypes.bool,
     isLoading   : PropTypes.bool,
     noAutoFocus : PropTypes.bool,
     initialData : PropTypes.object.isRequired,
