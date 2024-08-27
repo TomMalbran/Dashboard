@@ -20,7 +20,8 @@ function NumberInput(props) {
         inputRef, className, icon, postIcon,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, name, value, step, minValue, maxValue, placeholder,
-        onChange, onClear, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
+        onChange, onInput, onPaste, onClear,
+        onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
     } = props;
 
     // Variables
@@ -28,9 +29,14 @@ function NumberInput(props) {
     const maxNumber = maxValue === undefined || maxValue === null ? Number.MAX_SAFE_INTEGER : Number(maxValue);
 
 
-    // Handles a Number
+    // Handles a Change
     const handleChange = (e) => {
         onChange(name, e.target.value);
+    };
+
+    // Handles the Input
+    const handleInput = (e) => {
+        onInput(name, e.target.value);
     };
 
     // Handles the Key Down
@@ -92,6 +98,8 @@ function NumberInput(props) {
             placeholder={placeholder}
             isDisabled={isDisabled}
             onChange={handleChange}
+            onInput={handleInput}
+            onPaste={onPaste}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
             onFocus={onFocus}
@@ -122,6 +130,8 @@ NumberInput.propTypes = {
     minValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange    : PropTypes.func.isRequired,
+    onInput     : PropTypes.func.isRequired,
+    onPaste     : PropTypes.func,
     onClear     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,

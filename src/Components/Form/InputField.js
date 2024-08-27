@@ -221,6 +221,7 @@ InputField.propTypes = {
     isDisabled      : PropTypes.bool,
     onChange        : PropTypes.func,
     onInput         : PropTypes.func,
+    onPaste         : PropTypes.func,
     onFocus         : PropTypes.func,
     onBlur          : PropTypes.func,
     onSubmit        : PropTypes.func,

@@ -41,7 +41,8 @@ function TextInput(props) {
         isSmall, withBorder, withLabel,
         id, type, name, value, placeholder, autoComplete, spellCheck,
         generateCode, codeLength, codeSets,
-        onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
+        onChange, onInput, onPaste, onClear,
+        onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
         maxLength, children,
     } = props;
 
@@ -121,6 +122,7 @@ function TextInput(props) {
             spellCheck={spellCheck}
             onChange={handleChange}
             onInput={handleInput}
+            onPaste={onPaste}
             onFocus={onFocus}
             onBlur={onBlur}
             onKeyDown={handleKeyDown}
@@ -170,8 +172,9 @@ TextInput.propTypes = {
     codeLength   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxLength    : PropTypes.number,
     onChange     : PropTypes.func,
-    onClear      : PropTypes.func,
     onInput      : PropTypes.func,
+    onPaste      : PropTypes.func,
+    onClear      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
     onKeyDown    : PropTypes.func,

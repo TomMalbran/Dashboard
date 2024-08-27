@@ -46,9 +46,12 @@ function InputBase(props) {
         inputRef, type, className, id, name, value,
         step, minValue, maxValue, placeholder,
         isDisabled, autoComplete, spellCheck,
-        onChange, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
+        onChange, onInput, onPaste,
+        onFocus, onBlur, onKeyDown, onKeyUp,
     } = props;
 
+
+    // Do the Render
     return <Input
         ref={inputRef}
         className={`input input-${type} ${className}`}
@@ -65,6 +68,7 @@ function InputBase(props) {
         spellCheck={spellCheck}
         onChange={onChange}
         onInput={onInput}
+        onPaste={onPaste}
         onFocus={onFocus}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
@@ -92,6 +96,7 @@ InputBase.propTypes = {
     spellCheck   : PropTypes.string,
     onChange     : PropTypes.func,
     onInput      : PropTypes.func,
+    onPaste      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
     onKeyDown    : PropTypes.func,

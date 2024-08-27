@@ -43,7 +43,7 @@ const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
     gap: 4px;
     width: 100%;
     min-height: 32px;
-    padding: 6px 12px;
+    padding: 6px 6px 6px 12px;
     background-color: var(--lightest-gray);
     border-radius: var(--border-radius);
 
@@ -132,6 +132,35 @@ function ListInput(props) {
         fieldChanged(parts);
     };
 
+    // Handles a Paste
+    const handlePaste = (e, index) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        // Get pasted data via clipboard API and split it by lines
+        const pastedData = e.clipboardData.getData("Text");
+        const lines      = pastedData.split(/\r?\n|\r/g);
+
+        // Filter out empty lines and parse the values
+        const values = [];
+        for (const line of lines) {
+            if (!line) {
+                continue;
+            }
+            if (inputType === InputType.NUMBER) {
+                const number = Number(line.replace(/[^0-9]/g, ""));
+                if (!isNaN(number)) {
+                    values.push(number);
+                }
+            } else {
+                values.push(line);
+            }
+        }
+
+        parts.splice(index, 1, ...values);
+        fieldChanged(parts);
+    };
+
     // Handles the Key Down
     const handleKeyDown = (e, value, index) => {
         if (value && e.keyCode === KeyCode.DOM_VK_RETURN) {
@@ -174,6 +203,7 @@ function ListInput(props) {
         focusItem(index - 1);
         onFocus();
     };
+
 
     // Sends a Field Change Event
     const fieldChanged = (parts, ids) => {
@@ -243,12 +273,13 @@ function ListInput(props) {
     }, [ parts.length ]);
 
 
-
-    // Do the Render
+    // Variables
     const canAdd    = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
     const canSort   = Boolean(!isDisabled && isSortable && parts.length > 1);
-    const canRemove = Boolean(!isDisabled && parts.length > 1);
+    const canRemove = Boolean(!isDisabled && (parts.length > 1 || String(parts[0]).length));
 
+
+    // Do the Render
     return <InputContent
         className={className}
         isFocused={isFocused}
@@ -279,10 +310,11 @@ function ListInput(props) {
                             value={elem}
                             options={options}
                             noneText={noneText}
-                            onFocus={onFocus}
-                            onBlur={onBlur}
                             onChange={(name, value) => handleChange(value, index)}
                             onKeyDown={(e) => handleKeyDown(e, elem, index)}
+                            onPaste={(e) => handlePaste(e, index)}
+                            onFocus={onFocus}
+                            onBlur={onBlur}
                             isDisabled={isDisabled}
                             maxLength={maxLength}
                             withLabel={false}
