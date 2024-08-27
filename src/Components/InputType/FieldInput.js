@@ -310,7 +310,7 @@ function FieldInput(props) {
     const canSort      = Boolean(!isDisabled && isSortable && parts.length > 1);
     const canRemove    = Boolean(!isDisabled && (allowEmpty || parts.length > 1));
     const hasExtraIcon = Boolean(extraIcon && onExtraIcon);
-    const hasPostIcons = Boolean(canRemove || hasExtraIcon);
+    const hasPostIcons = Boolean(!isDisabled && (canRemove || hasExtraIcon));
     const isEmpty      = Boolean(allowEmpty && noneText && !parts.length);
 
 
