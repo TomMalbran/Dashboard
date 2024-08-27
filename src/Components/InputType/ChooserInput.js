@@ -110,6 +110,9 @@ function ChooserInput(props) {
 
     // Handles the Add
     const handleAdd = (e, key) => {
+        if (isDisabled) {
+            return;
+        }
         e.stopPropagation();
         setValues(key);
         triggerBlur();
@@ -117,10 +120,12 @@ function ChooserInput(props) {
 
     // Handles the Remove
     const handleRemove = (e, key) => {
-        if (!isDisabled) {
-            setValues(key);
-            triggerBlur();
+        if (isDisabled) {
+            return;
         }
+        e.stopPropagation();
+        setValues(key);
+        triggerBlur();
     };
 
     // Handles the Focus
