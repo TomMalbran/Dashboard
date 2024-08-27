@@ -89,17 +89,17 @@ async function ajax(url, options = {}, showResult = true, abortController = null
     }
     if (result.success) {
         if (showResult) {
-            setResult("success", result.success);
+            setResult("success", result.success, result.param);
         }
         result.data.success = result.success;
     } else if (result.warning) {
         if (showResult) {
-            setResult("warning", result.warning);
+            setResult("warning", result.warning, result.param);
         }
         result.data.warning = result.warning;
     } else if (result.error) {
         if (showResult) {
-            setResult("error", result.error);
+            setResult("error", result.error, result.param);
         }
         result.data.error = result.error;
     }

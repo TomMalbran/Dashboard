@@ -6,6 +6,7 @@ import NLS                  from "../../Core/NLS";
 import Store                from "../../Core/Store";
 
 // Components
+import Html                 from "../Common/Html";
 import Icon                 from "../Common/Icon";
 
 // Styled
@@ -85,14 +86,16 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
  * @returns {React.ReactElement}
  */
 function Result() {
-    const { result                 } = Store.useState("core");
-    const { hideResult             } = Store.useAction("core");
-    const { open, variant, message } = result;
+    const { result } = Store.useState("core");
+    const { hideResult } = Store.useAction("core");
+
+    const { open, variant, message, param } = result;
 
 
     // The Current State
     const [ timer,     setTimer   ] = React.useState(null);
     const [ isClosing, setClosing ] = React.useState(false);
+
 
     // The Close Function
     const handleClose = () => {
@@ -126,9 +129,22 @@ function Result() {
     }, [ open ]);
 
 
+    // Creates the message
+    const content = React.useMemo(() => {
+        if (!message) {
+            return "";
+        }
+        if (param) {
+            return NLS.format(message, param);
+        }
+        return NLS.get(message);
+    }, [ message, param ]);
+
+
+    // Do the Render
     return <Div className="result" open={open}>
         <Content variant={variant} isClosing={isClosing}>
-            {NLS.get(message)}
+            <Html content={content} />
             <Icon icon="close" onClick={handleClose} />
         </Content>
     </Div>;

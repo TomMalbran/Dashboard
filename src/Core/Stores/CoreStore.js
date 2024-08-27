@@ -10,6 +10,7 @@ const initialState = {
         open    : false,
         variant : "",
         message : "",
+        param   : "",
     },
     tooltip     : {
         open      : false,
@@ -68,10 +69,11 @@ const actions = {
      * @param {Function} dispatch
      * @param {String}   variant
      * @param {String}   message
+     * @param {String}   param
      * @returns {Void}
      */
-    showResult(dispatch, variant, message) {
-        const result = { open : true, variant, message };
+    showResult(dispatch, variant, message, param) {
+        const result = { open : true, variant, message, param };
         dispatch({ type : "CORE_RESULT", result });
     },
 

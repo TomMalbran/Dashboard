@@ -22,8 +22,8 @@ function Initializer(props) {
     const { setCurrentUser } = Store.useAction("auth");
 
     // Show a Result
-    const onResult = (variant, message) => {
-        showResult(variant, message);
+    const onResult = (variant, message, param) => {
+        showResult(variant, message, param);
     };
 
     // Sets the Current User
