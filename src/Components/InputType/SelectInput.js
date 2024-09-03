@@ -45,6 +45,8 @@ function SelectInput(props) {
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
+    const initStyle = { top : 0, left : 0, width : 0, maxHeight : 0, opacity : 0 };
+
 
     // The References
     const containerRef = React.useRef(null);
@@ -56,13 +58,97 @@ function SelectInput(props) {
     const [ showOptions, setShowOptions ] = React.useState(false);
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
-    const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
+    const [ style,       setStyle       ] = React.useState({ ...initStyle });
     const [ update,      setUpdate      ] = React.useState(0);
 
     // Variables
     const valueKey   = String(value || noneValue);
     const items      = Array.isArray(options)      ? options      : NLS.select(options);
     const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
+
+
+    // Get the Options List
+    const optionList = React.useMemo(() => {
+        const result = [];
+        if (noneText) {
+            result.push({
+                key     : "none",
+                value   : noneValue,
+                message : NLS.get(noneText),
+            });
+        }
+        if (withCustom && customFirst) {
+            result.push({
+                key     : "custom",
+                value   : -1,
+                message : NLS.get(customText  || "GENERAL_CUSTOM"),
+            });
+        }
+        for (const { key, value } of items) {
+            result.push({
+                key     : `item-${key}`,
+                value   : key,
+                message : NLS.get(value),
+            });
+        }
+        for (const { key, value } of extraItems) {
+            result.push({
+                key     : `extra-${key}`,
+                value   : key,
+                message : NLS.get(value),
+            });
+        }
+        if (withCustom && !customFirst) {
+            result.push({
+                key     : "custom",
+                value   : -1,
+                message : NLS.get(customText || "GENERAL_CUSTOM"),
+            });
+        }
+
+        if (!filter) {
+            return result;
+        }
+
+        const filtered = [];
+        const search   = Utils.convertToSearch(filter);
+        for (const item of result) {
+            const text      = item.message;
+            const parts     = text.split(" ");
+            let   fromIndex = 0;
+            for (const part of parts) {
+                const searchText = text.substring(text.indexOf(part));
+                if (Utils.convertToSearch(searchText).startsWith(search)) {
+                    const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
+                    filtered.push({
+                        ...item,
+                        text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
+                    });
+                    break;
+                }
+                fromIndex += part.length + 1;
+            }
+        }
+        return filtered;
+    }, [
+        noneValue, noneText,
+        withCustom, customFirst, customText,
+        JSON.stringify(items), JSON.stringify(extraItems),
+        filter,
+    ]);
+    const hasOptions = Boolean(showOptions && optionList.length);
+
+    // Get the Option Value
+    const optionValue = React.useMemo(() => {
+        let result = "";
+        for (const item of optionList) {
+            if (String(item.value) === valueKey) {
+                result = item.message;
+                break;
+            }
+        }
+        return NLS.get(result);
+    }, [ valueKey, JSON.stringify(optionList) ]);
 
 
     // Clear the Timer
@@ -90,23 +176,37 @@ function SelectInput(props) {
 
     // Handles the Focus
     const handleFocus = () => {
-        const node   = containerRef.current.closest(".inputfield-double") || containerRef.current;
-        const bounds = node.getBoundingClientRect();
-        setBounds({
-            top       : bounds.bottom,
-            left      : bounds.left,
-            width     : bounds.width,
-            maxHeight : window.innerHeight - bounds.bottom - 10,
-        });
-
+        setStyle({ ...initStyle });
         setSelectedIndex(valueKey);
         setInitialIdx(selectedRef.current);
         onFocus();
-
-        setTimer(window.setTimeout(() => {
-            scrollToIndex(selectedRef.current, true);
-        }, 200));
     };
+
+    // Handle the After Focus
+    React.useEffect(() => {
+        if (!hasOptions || !containerRef.current || !optionsRef.current) {
+            return;
+        }
+
+        const node    = containerRef.current.closest(".inputfield-double") || containerRef.current;
+        const bounds  = node.getBoundingClientRect();
+        const options = optionsRef.current.getBoundingClientRect();
+
+        const left    = bounds.left;
+        const width   = bounds.width;
+        const height  = options.height;
+
+        let top       = bounds.bottom;
+        let maxHeight = window.innerHeight - bounds.bottom - 10;
+
+        if (top + 50 > window.innerHeight) {
+            top       = bounds.top - height - 5;
+            maxHeight = height;
+        }
+
+        setStyle({ top, left, width, maxHeight, opacity : 1 });
+        scrollToIndex(selectedRef.current, true);
+    }, [ hasOptions, optionsRef.current ]);
 
     // Handles the Blur
     const handleBlur = () => {
@@ -249,92 +349,7 @@ function SelectInput(props) {
     };
 
 
-    // Get the Options List
-    const optionList = React.useMemo(() => {
-        const result = [];
-        if (noneText) {
-            result.push({
-                key     : "none",
-                value   : noneValue,
-                message : NLS.get(noneText),
-            });
-        }
-        if (withCustom && customFirst) {
-            result.push({
-                key     : "custom",
-                value   : -1,
-                message : NLS.get(customText  || "GENERAL_CUSTOM"),
-            });
-        }
-        for (const { key, value } of items) {
-            result.push({
-                key     : `item-${key}`,
-                value   : key,
-                message : NLS.get(value),
-            });
-        }
-        for (const { key, value } of extraItems) {
-            result.push({
-                key     : `extra-${key}`,
-                value   : key,
-                message : NLS.get(value),
-            });
-        }
-        if (withCustom && !customFirst) {
-            result.push({
-                key     : "custom",
-                value   : -1,
-                message : NLS.get(customText || "GENERAL_CUSTOM"),
-            });
-        }
-
-        if (!filter) {
-            return result;
-        }
-
-        const filtered = [];
-        const search   = Utils.convertToSearch(filter);
-        for (const item of result) {
-            const text      = item.message;
-            const parts     = text.split(" ");
-            let   fromIndex = 0;
-            for (const part of parts) {
-                const searchText = text.substring(text.indexOf(part));
-                if (Utils.convertToSearch(searchText).startsWith(search)) {
-                    const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
-                    filtered.push({
-                        ...item,
-                        text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
-                    });
-                    break;
-                }
-                fromIndex += part.length + 1;
-            }
-        }
-        return filtered;
-    }, [
-        noneValue, noneText,
-        withCustom, customFirst, customText,
-        JSON.stringify(items), JSON.stringify(extraItems),
-        filter,
-    ]);
-
-    // Get the Option Value
-    const optionValue = React.useMemo(() => {
-        let result = "";
-        for (const item of optionList) {
-            if (String(item.value) === valueKey) {
-                result = item.message;
-                break;
-            }
-        }
-        return NLS.get(result);
-    }, [ valueKey, JSON.stringify(optionList) ]);
-
-
     // Do the Render
-    const hasOptions = Boolean(showOptions && optionList.length);
-
     return <InputContent
         passedRef={containerRef}
         className={className}
@@ -368,10 +383,11 @@ function SelectInput(props) {
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}
-            top={bounds.top}
-            left={bounds.left}
-            width={bounds.width}
-            maxHeight={bounds.maxHeight}
+            top={style.top}
+            left={style.left}
+            width={style.width}
+            maxHeight={style.maxHeight}
+            opacity={style.opacity}
         >
             {optionList.map(({ key, value, text, message }, index) => <InputOption
                 key={key}

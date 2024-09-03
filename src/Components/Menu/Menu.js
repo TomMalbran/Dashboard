@@ -102,6 +102,7 @@ function Menu(props) {
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
     const [ trigger,     setTrigger     ] = React.useState(false);
 
+
     // Clone the children
     const items = [];
     let   index = 0;

@@ -5,14 +5,14 @@ import Styled               from "styled-components";
 
 
 // Styles
-const Container = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, left, width, maxHeight }))`
+const Container = Styled.ul.attrs(({ top, left, width, maxHeight, opacity }) => ({ top, left, width, maxHeight, opacity }))`
     box-sizing: border-box;
     display: block;
     position: fixed;
     top: ${(props) => `${props.top + 2}px`};
     left: ${(props) => `${props.left}px`};
     width: ${(props) => `${props.width}px`};
-    max-height: ${(props) => `${props.maxHeight}px`};
+    opacity: ${(props) => props.opacity};
     overflow: auto;
     min-width: 200px;
     margin: 0;
@@ -24,6 +24,8 @@ const Container = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, l
     transform: translateY(2px);
     overflow-x: hidden;
     z-index: var(--z-input, 3);
+
+    ${(props) => props.maxHeight && `max-height: ${props.maxHeight}px`};
 `;
 
 
@@ -34,7 +36,7 @@ const Container = Styled.ul.attrs(({ top, left, width, maxHeight }) => ({ top, l
  * @returns {React.ReactElement}
  */
 function InputOptions(props) {
-    const { passedRef, top, left, width, maxHeight, children } = props;
+    const { passedRef, top, left, width, maxHeight, opacity, children } = props;
 
 
     // Do the Render
@@ -44,6 +46,7 @@ function InputOptions(props) {
         left={left}
         width={width}
         maxHeight={maxHeight}
+        opacity={opacity}
     >
         {children}
     </Container>;
@@ -59,6 +62,7 @@ InputOptions.propTypes = {
     left      : PropTypes.number,
     width     : PropTypes.number,
     maxHeight : PropTypes.number,
+    opacity   : PropTypes.number,
     children  : PropTypes.any,
 };
 
@@ -71,6 +75,7 @@ InputOptions.defaultProps = {
     left      : 0,
     width     : 0,
     maxHeight : 0,
+    opacity   : 1,
 };
 
 export default InputOptions;
