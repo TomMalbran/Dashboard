@@ -112,8 +112,31 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         if (secondName) {
             fields[secondName] = secondValue;
         }
+
         setData(fields);
-        setErrors({ [name] : "" });
+        const removeErrors = { [name] : "" };
+
+        // Handle the Errors of a Field input
+        try {
+            const data = JSON.parse(value);
+            console.log({ name, errors, data });
+            for (const key of Object.keys(errors)) {
+                if (!key.startsWith(name)) {
+                    continue;
+                }
+                const parts = key.split("-");
+                if (parts.length !== 3) {
+                    continue;
+                }
+                if (data[parts[1]]?.[parts[2]]) {
+                    console.log({ key, parts });
+                    removeErrors[key] = "";
+                }
+            }
+        } catch {
+            // Do Nothing
+        }
+        setErrors(removeErrors);
     };
 
     // Starts the Submit
