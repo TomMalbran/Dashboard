@@ -81,8 +81,12 @@ function useFilter(slice, open, initialData, filters, onSubmit = null, sendData 
     };
 
     // Handles the Input Change
-    const handleChange = (name, value) => {
-        setData({ ...data, [name] : value });
+    const handleChange = (name, value, secondName, secondValue) => {
+        const fields = { [name] : value };
+        if (secondName) {
+            fields[secondName] = secondValue;
+        }
+        setData(fields);
     };
 
     // Handles the Search Change
