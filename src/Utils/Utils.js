@@ -402,13 +402,13 @@ function formatNumber(number, decimals = 0, maxForDecimals = 1000) {
     let   result  = String(integer);
 
     if (!maxForDecimals || float < maxForDecimals) {
-        const fraction = Math.round(float * amount - integer * amount);
-        const start    = String(fraction).length;
+        let fraction = String(Math.round(float * amount - integer * amount));
+        const start  = fraction.length;
 
-        result = String(`${integer}.${fraction}`);
         for (let i = start; i < decimals; i++) {
-            result += "0";
+            fraction = `0${fraction}`;
         }
+        result = String(`${integer}.${fraction}`);
     }
 
     const parts = result.split(".");
