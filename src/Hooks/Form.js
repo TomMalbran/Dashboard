@@ -119,7 +119,6 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         // Handle the Errors of a Field input
         try {
             const data = JSON.parse(value);
-            console.log({ name, errors, data });
             for (const key of Object.keys(errors)) {
                 if (!key.startsWith(name)) {
                     continue;
@@ -129,7 +128,6 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
                     continue;
                 }
                 if (data[parts[1]]?.[parts[2]]) {
-                    console.log({ key, parts });
                     removeErrors[key] = "";
                 }
             }
