@@ -9,10 +9,9 @@ import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
 
 // Components
+import TopAvatar            from "./TopAvatar";
 import BarIcon              from "../Core/BarIcon";
 import BarLogo              from "../Core/BarLogo";
-import Avatar               from "../Avatar/Avatar";
-import Menu                 from "../Menu/Menu";
 
 
 
@@ -98,34 +97,16 @@ function TopBar(props) {
     const {
         className, variant, logo, logoWidth, logoHeight, withTitle,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        onLogout, withTopBar, menuItems, children,
+        parentTitle, parentName, onLogout, withTopBar, menuItems, children,
     } = props;
-
-    const avatarRef = React.useRef(null);
 
     const { hasDetails            } = Store.useState("core");
     const { openMenu, openDetails } = Store.useAction("core");
 
-    // The Current State
-    const [ showMenu, setShowMenu ] = React.useState(false);
 
-    // Handles the Profile Menu Open
-    const openProfileMenu = (e) => {
-        setShowMenu(!showMenu);
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
-    // Handles the Profile Menu Close
-    const closeProfileMenu = () => {
-        setShowMenu(false);
-    };
-
-
-    // Render the Content
+    // Variables
     const hasMenu    = Boolean(menuItems && menuItems.length);
     const showLogout = Boolean(!hasMenu && onLogout);
-    const showAvatar = Boolean(avatarUrl);
 
     let iconVariant = Brightness.DARK;
     if (variant === Brightness.DARK) {
@@ -134,6 +115,8 @@ function TopBar(props) {
         iconVariant = Brightness.LIGHT;
     }
 
+
+    // Do the Render
     return <>
         <Nav
             className={`topbar ${className}`}
@@ -166,27 +149,18 @@ function TopBar(props) {
                     icon="details"
                     onClick={openDetails}
                 />}
-                {showAvatar && <Avatar
-                    passedRef={avatarRef}
-                    url={!hasMenu ? avatarUrl : null}
-                    email={avatarEmail}
-                    avatar={avatarAvatar}
-                    edition={avatarEdition}
-                    size={36}
-                    onClick={hasMenu ? openProfileMenu : null}
-                />}
+
+                <TopAvatar
+                    avatarUrl={avatarUrl}
+                    avatarEmail={avatarEmail}
+                    avatarAvatar={avatarAvatar}
+                    avatarEdition={avatarEdition}
+                    parentTitle={parentTitle}
+                    parentName={parentName}
+                    menuItems={menuItems}
+                />
             </Div>
         </Nav>
-
-        {hasMenu && <Menu
-            open={showMenu}
-            targetRef={avatarRef}
-            direction="bottom left"
-            gap={8}
-            onClose={closeProfileMenu}
-        >
-            {menuItems}
-        </Menu>}
     </>;
 }
 
@@ -205,6 +179,8 @@ TopBar.propTypes = {
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
+    parentTitle   : PropTypes.string,
+    parentName    : PropTypes.string,
     onLogout      : PropTypes.func,
     withTopBar    : PropTypes.bool,
     menuItems     : PropTypes.array,
