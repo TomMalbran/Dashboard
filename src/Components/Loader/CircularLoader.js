@@ -38,7 +38,7 @@ const loaderDots = keyframes`
 
 // Styles
 const Container = Styled.div.attrs(({ variant, isTiny, isSmall, withSpacing, top }) => ({ variant, isTiny, isSmall, withSpacing, top }))`
-    --loader-size: ${(props) => props.isTiny ? "18px" : (props.isSmall ? "26px" : "64px")};
+    --loader-size: ${(props) => props.isTiny ? "18px" : (props.isSmall ? "24px" : "64px")};
     --loader-border-width: ${(props) => props.isTiny ? "2px" : (props.isSmall ? "3px" : "6px")};
 
     display: flex;
