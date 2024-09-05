@@ -28,7 +28,7 @@ const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
     ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
-const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width, maxHeight }) => ({ withPos, isLeft, isRight, width, maxHeight }))`
+const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, isLeft, isRight, width }))`
     box-sizing: border-box;
     position: absolute;
     list-style: none;
@@ -39,19 +39,14 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width, maxHeight }) => (
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     max-width: calc(100vw - var(--main-padding) * 2);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     pointer-events: all;
 
     ${(props) => props.withPos && "transform: none;"}
     ${(props) => props.isLeft  && "left: 7px;"}
     ${(props) => props.isRight && "right: 7px;"}
     ${(props) => props.width && `width: ${props.width}px;`}
-
-    ${(props) => props.maxHeight && `
-        max-height: ${props.maxHeight}px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    `}
 `;
 
 const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
@@ -82,15 +77,11 @@ const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        bottom, gap, width, maxHeight, onAction, onClose, targetRef,
-        withSearch, onMouseEnter, onMouseLeave, isSubmenu, children,
+        top, left, right, bottom, gap, width, maxHeight, targetRef,
+        onAction, onClose, onMouseEnter, onMouseLeave,
+        withSearch, isSubmenu, children,
     } = props;
-    let { top, left, right } = props;
 
-
-    // Variables
-    let   hasStyles = (top || bottom) && (left || right);
-    const style     = {};
 
     // The References
     const contentRef = React.useRef();
@@ -101,7 +92,6 @@ function Menu(props) {
     const [ filter,      setFilter      ] = React.useState("");
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
     const [ trigger,     setTrigger     ] = React.useState(false);
-
 
     // Clone the children
     const items = [];
@@ -193,92 +183,104 @@ function Menu(props) {
     };
 
 
-    // Set the position
-    const dir       = direction || "";
-    const forTop    = dir.includes("top");
-    const forBottom = dir.includes("bottom");
-    const forLeft   = dir.includes("left");
-    const winWidth  = window.innerWidth;
-    const winHeight = window.innerHeight;
+    // Calculate the Styles
+    const [ hasStyles, style, winWidth, forTop ] = React.useMemo(() => {
+        let { top, left, right } = props;
+        let hasStyles = (top || bottom) && (left || right);
 
-    if (!hasStyles && targetRef) {
-        const bounds = Utils.getBounds(targetRef);
-        if (forTop) {
-            top = bounds.top - gap;
-        } else if (forBottom) {
-            top = bounds.bottom + gap;
-        } else {
-            top = bounds.top;
-        }
+        const style     = {};
+        const dir       = direction || "";
+        const forTop    = dir.includes("top");
+        const forBottom = dir.includes("bottom");
+        const forLeft   = dir.includes("left");
+        const winWidth  = window.innerWidth;
+        const winHeight = window.innerHeight;
 
-        if (forTop || forBottom) {
-            if (forLeft) {
-                right = winWidth - bounds.right;
+        if (!hasStyles && targetRef) {
+            const bounds = Utils.getBounds(targetRef);
+            if (forTop) {
+                top = bounds.top - gap;
+            } else if (forBottom) {
+                top = bounds.bottom + gap;
             } else {
-                left = bounds.left;
+                top = bounds.top;
             }
-        } else {
-            if (forLeft) {
-                right = winWidth - bounds.left;
+
+            if (forTop || forBottom) {
+                if (forLeft) {
+                    right = winWidth - bounds.right;
+                } else {
+                    left = bounds.left;
+                }
             } else {
-                left = bounds.right;
+                if (forLeft) {
+                    right = winWidth - bounds.left;
+                } else {
+                    left = bounds.right;
+                }
             }
-        }
-        hasStyles = true;
-    }
-
-    if (hasStyles) {
-        if (top && forTop) {
-            top -= boundHeight;
-        }
-        if (left && forLeft) {
-            left -= boundWidth;
+            hasStyles = true;
         }
 
-        if (containerRef && boundWidth) {
-            const bounds = Utils.getBounds(containerRef);
-            if (top + boundHeight > bounds.bottom) {
-                top -= boundHeight - iconHeight;
+        if (hasStyles) {
+            if (top && forTop) {
+                top -= boundHeight;
             }
-            if (left && left + boundWidth > bounds.right) {
+            if (left && forLeft) {
                 left -= boundWidth;
             }
-            if (right && right - boundWidth < bounds.left) {
-                right += boundWidth;
+
+            if (containerRef && boundWidth) {
+                const bounds = Utils.getBounds(containerRef);
+                if (top + boundHeight > bounds.bottom) {
+                    top -= boundHeight - iconHeight;
+                }
+                if (left && left + boundWidth > bounds.right) {
+                    left -= boundWidth;
+                }
+                if (right && right - boundWidth < bounds.left) {
+                    right += boundWidth;
+                }
+            }
+
+            if (top && top < 0) {
+                top = 0;
+            } else if (top && boundHeight && top + boundHeight > winHeight) {
+                top -= (top + boundHeight) - winHeight;
+            }
+            if (left && left < 0) {
+                left = 10;
+            } else if (left && boundWidth && left + boundWidth > winWidth) {
+                left -= (left + boundWidth) - winWidth;
+            }
+            if (right && boundWidth && right + boundWidth > winWidth) {
+                right -= (right + boundWidth) - winWidth;
+            }
+
+            if (top) {
+                style.top = `${top}px`;
+            } else if (bottom) {
+                style.bottom = `${bottom}px`;
+            }
+            if (left) {
+                style.left = `${left}px`;
+            } else if (right) {
+                style.right = `${right}px`;
+            }
+            if (maxHeight) {
+                style.maxHeight = `${maxHeight}px`;
             }
         }
-
-        if (top && top < 0) {
-            top = 0;
-        } else if (top && boundHeight && top + boundHeight > winHeight) {
-            top -= (top + boundHeight) - winHeight;
-        }
-        if (left && left < 0) {
-            left = 10;
-        } else if (left && boundWidth && left + boundWidth > winWidth) {
-            left -= (left + boundWidth) - winWidth;
-        }
-        if (right && boundWidth && right + boundWidth > winWidth) {
-            right -= (right + boundWidth) - winWidth;
-        }
-
-        if (top) {
-            style.top = `${top}px`;
-        } else if (bottom) {
-            style.bottom = `${bottom}px`;
-        }
-        if (left) {
-            style.left = `${left}px`;
-        } else if (right) {
-            style.right = `${right}px`;
-        }
-    }
+        return [ hasStyles, style, winWidth, forTop ];
+    }, [ open, top, left, right, boundWidth, boundHeight, iconHeight, gap, width, maxHeight ]);
 
 
-    // Do the Render
+    // Variables
     const showSearch   = withSearch && (filter || items.length > 5) && winWidth > Responsive.WIDTH_FOR_MOBILE;
     const bottomSearch = showSearch && forTop;
 
+
+    // Do the Render
     if (!open) {
         return <React.Fragment />;
     }
@@ -296,7 +298,6 @@ function Menu(props) {
             isRight={!hasStyles && variant === Variant.RIGHT}
             width={width}
             onClick={handleClick}
-            maxHeight={maxHeight}
             style={style}
         >
             {bottomSearch && items}
