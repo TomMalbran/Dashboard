@@ -206,7 +206,7 @@ function SelectInput(props) {
         let top       = bounds.bottom;
         let maxHeight = window.innerHeight - bounds.bottom - 10;
 
-        if (top + 50 > window.innerHeight) {
+        if (top + 100 > window.innerHeight) {
             top       = bounds.top - height - 5;
             maxHeight = height;
         }
