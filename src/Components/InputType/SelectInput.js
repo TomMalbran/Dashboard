@@ -21,10 +21,17 @@ const Input = Styled(InputBase).attrs(({ isDisabled }) => ({ isDisabled }))`
     {(props) => !props.isDisabled && "cursor: pointer;"}
 `;
 
-const InputIcon = Styled(Icon)`
+const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
     margin-top: -4px;
     margin-right: -6px;
     font-size: 18px;
+
+    ${(props) => props.withLabel ? `
+        margin-top: -4px;
+    ` : `
+        margin-top: 0;
+        margin-bottom: -4px;
+    `}
 `;
 
 
@@ -379,7 +386,10 @@ function SelectInput(props) {
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
         />
-        <InputIcon icon="expand" />
+        <InputIcon
+            icon="expand"
+            withLabel={withLabel}
+        />
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}
