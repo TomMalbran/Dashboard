@@ -49,9 +49,9 @@ const H2 = Styled.h2`
     margin: 0;
     font-family: var(--title-font);
     font-size: 22px;
-    font-weight: 400;
+    font-weight: var(--title-font-weight);
     line-height: 1.2;
-    letter-spacing: 1px;
+    letter-spacing: var(--title-letter-spacing);
     color: var(--navtitle-color);
 `;
 

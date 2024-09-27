@@ -19,10 +19,10 @@ const H2 = Styled.h2`
     margin: 0;
     color: var(--title-color);
     font-family: var(--title-font);
-    font-weight: 400;
-    font-size: 22px;
+    font-weight: var(--title-font-weight);
+    font-size: var(--title-font-size);
     line-height: 1.2;
-    letter-spacing: 1px;
+    letter-spacing: var(--title-letter-spacing);
     overflow: hidden;
 
     @media (max-width: 500px) {
