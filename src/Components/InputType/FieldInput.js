@@ -382,7 +382,7 @@ function FieldInput(props) {
                             >
                                 {Utils.cloneChildren(item.children, () => ({
                                     inputRef, value,
-                                    onChange : (value) => handleChange(index, item.name, value),
+                                    onChange : (value) => handleChange(item, index, item.name, value),
                                 }))}
                             </InputField>
                             {item.component}
