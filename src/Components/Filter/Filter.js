@@ -19,7 +19,7 @@ import FilterItem           from "./FilterItem";
 function Filter(props) {
     const {
         hasSearch, hasCredential, hasPeriod,
-        values, fetch, params, onFilter,
+        values, fetch, params, onFilter, children,
     } = props;
 
 
@@ -68,6 +68,8 @@ function Filter(props) {
             shrinkLabel
         />
 
+        {children}
+
         <FilterItem
             isHidden={!hasPeriod}
             type="select"
@@ -104,6 +106,7 @@ Filter.propTypes = {
     values        : PropTypes.object,
     fetch         : PropTypes.func,
     params        : PropTypes.object,
+    children      : PropTypes.any,
 };
 
 /**
