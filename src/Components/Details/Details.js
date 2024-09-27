@@ -21,7 +21,7 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasTabs, topS
     gap: var(--details-spacing);
     padding: var(--details-spacing);
     width: ${(props) => props.isLarge ? "var(--details-width-large)" : (props.isWide ? "var(--details-width-wide)" : "var(--details-width)")};
-    background-color: var(--lighter-gray);
+    background-color: var(--details-background);
     overflow: auto;
 
     ${(props) => props.hasTabs && "padding-top: 0px;"}
@@ -29,7 +29,7 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasTabs, topS
 
     ${(props) => props.isInside ? `
         border-radius: var(--border-radius);
-        border: 1px solid var(--border-color-light);
+        border: 1px solid var(--details-border-color);
     ` : `
         height: var(--main-height);
     `}

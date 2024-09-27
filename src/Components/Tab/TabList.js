@@ -39,7 +39,7 @@ const Container = Styled.section.attrs(({ variant, inDialog, inDetails }) => ({ 
         position: sticky;
         top: 0;
         padding-top: var(--details-spacing);
-        background-color: var(--lighter-gray);
+        background-color: var(--details-background);
         z-index: 2;
     `}
 `;
