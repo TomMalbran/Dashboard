@@ -358,6 +358,19 @@ function clearInterval(timerRef) {
 
 
 /**
+ * Makes a String shorter
+ * @param {String} value
+ * @param {Number} length
+ * @returns {String}
+ */
+function makeShort(value, length) {
+    if (!length || value.length <= length) {
+        return value;
+    }
+    return value.substring(0, length - 3) + "...";
+}
+
+/**
  * Creates a Slug from a string
  * @param {String} value
  * @returns {String}
@@ -1243,6 +1256,7 @@ export default {
     setInterval,
     clearInterval,
 
+    makeShort,
     createSlug,
     formatNumber,
     formatPercent,
