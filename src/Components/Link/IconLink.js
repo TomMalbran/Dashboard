@@ -42,6 +42,12 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ v
         background-color: var(--link-background, transparent);
     }
 
+    ${(props) => props.variant === Brightness.PRIMARY && `
+        color: white;
+        background-color: var(--primary-color);
+        --link-color: white;
+        --link-background: var(--secondary-color);
+    `}
     ${(props) => props.variant === Brightness.LIGHT && `
         --link-color: var(--primary-color);
         --link-background: rgba(0, 0, 0, 0.1);

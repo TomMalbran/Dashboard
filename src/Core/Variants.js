@@ -3,12 +3,13 @@
  * @constant {Object}
  */
 export const Brightness = {
-    LIGHT  : "light",
-    DARK   : "dark",
-    DARKER : "darker",
-    BLACK  : "black",
-    ACCENT : "accent",
-    ERROR  : "error",
+    PRIMARY : "primary",
+    LIGHT   : "light",
+    DARK    : "dark",
+    DARKER  : "darker",
+    BLACK   : "black",
+    ACCENT  : "accent",
+    ERROR   : "error",
 };
 
 /**
