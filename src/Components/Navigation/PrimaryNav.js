@@ -16,6 +16,8 @@ import NavigationBody       from "../Navigation/NavigationBody";
 function PrimaryNav(props) {
     const { logo, children } = props;
 
+
+    // Do the Render
     return <Navigation variant="dark">
         <NavigationHeader className="navigation-header" logo={logo} />
         <NavigationBody>

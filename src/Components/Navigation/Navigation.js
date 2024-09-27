@@ -17,13 +17,15 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
     box-sizing: border-box;
     width: var(--navigation-width);
     max-height: var(--main-height);
+    border-right: var(--navigation-border);
+    font-size: var(--navigation-font-size, var(--font-size));
 
     ${(props) => props.variant === Brightness.DARK && `
         background-color: var(--secondary-color);
         color: white;
     `}
     ${(props) => props.variant === Brightness.LIGHT && `
-        background-color: var(--lighter-gray);
+        background-color: var(--navigation-background);
         color: var(--font-light);
     `}
 
@@ -52,10 +54,14 @@ function Navigation(props) {
         canAdd, canEdit, canManage, onAction, children,
     } = props;
 
+
+    // The Items
     const items = Utils.cloneChildren(children, () => ({
         variant, none, add, isLoading, canAdd, canEdit, canManage, onAction,
     }));
 
+
+    // Do the Render
     return <Nav className={`navigation ${className}`} variant={variant}>
         {items}
     </Nav>;
