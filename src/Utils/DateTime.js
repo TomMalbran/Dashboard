@@ -1302,6 +1302,27 @@ function getMonthDays(month, year) {
 }
 
 /**
+ * Creates an Hour Select
+ * @param {Number=}   fromHour
+ * @param {Number=}   toHour
+ * @param {Number[]=} minutes
+ * @returns {Array.<{key:String, value:String}>}
+ */
+function getHourSelect(fromHour = 6, toHour = 20, minutes = [ 0, 30 ]) {
+    const result = [];
+    for (let hour = fromHour; hour < toHour; hour += 1) {
+        for (const minute of minutes) {
+            const value = `${parseTime(hour)}:${parseTime(minute)}`;
+            result.push({
+                key   : value,
+                value : value,
+            });
+        }
+    }
+    return result;
+}
+
+/**
  * Returns number as a String with a 0 in front
  * @param {Number} time
  * @returns {String}
@@ -1332,5 +1353,6 @@ export default {
     dayToShortName,
     monthToName,
     getMonthDays,
+    getHourSelect,
     parseTime,
 };
