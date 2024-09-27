@@ -118,8 +118,8 @@ const Title = Styled.h2`
     margin: 0;
     color: var(--title-color);
     font-family: var(--title-font);
-    font-size: 20px;
-    font-weight: 800;
+    font-size: 18px;
+    font-weight: 600;
 `;
 
 const Description = Styled.p`
