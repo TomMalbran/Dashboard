@@ -14,14 +14,16 @@ import Button               from "../Form/Button";
 // Styles
 const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     --filter-columns: ${(props) => props.columns};
+
     box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(var(--filter-columns), 1fr) 37px;
     gap: var(--main-gap);
     height: calc(var(--filter-height) - var(--main-gap));
     margin: 0 0 var(--main-gap) 0;
-    padding: var(--main-gap);
-    background-color: var(--lighter-gray);
+    padding: var(--filter-padding);
+    background-color: var(--filter-background);
+    border: var(--filter-border);
     border-radius: var(--border-radius);
 
     @media (max-width: 700px) {
