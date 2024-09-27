@@ -88,8 +88,14 @@ const FieldHelper = Styled.p`
     color: var(--lighter-color);
 `;
 
-const Copy = Styled.div`
+const Copy = Styled.div.attrs(({ isFloating }) => ({ isFloating }))`
     position: relative;
+
+    ${(props) => props.isFloating && `
+        position: absolute;
+        right: 2px;
+        top: 2px;
+    `}
 `;
 
 const InputCopy = Styled(IconLink)`
@@ -131,6 +137,7 @@ function ViewField(props) {
     const hasLink   = Boolean(linkIcon && linkHref);
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
+    const floatCopy = content.length > 1000;
 
 
     // The Current State
@@ -194,7 +201,7 @@ function ViewField(props) {
                 isPhone={isPhone}
                 isWhatsApp={isWhatsApp}
             />}
-            {hasCopy && <Copy>
+            {hasCopy && <Copy isFloating={floatCopy}>
                 <InputCopy
                     variant="black"
                     icon="copy"
