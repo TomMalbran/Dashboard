@@ -94,11 +94,14 @@ const Badge = Styled.span`
 function BarIcon(props) {
     const {
         passedRef, isHidden, className, variant, isSelected,
-        icon, withText, withTooltip, message, url, startsWith, badge,
+        icon, withText, withTooltip, tooltipDelay,
+        message, url, startsWith, badge,
     } = props;
 
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
+
+    // Variables
     const defaultRef = React.useRef();
     const elementRef = passedRef || defaultRef;
 
@@ -106,6 +109,7 @@ function BarIcon(props) {
     const isSelect   = Navigate.useSelect();
     const hasContent = withText && !!message;
     const content    = NLS.get(message);
+
 
     // Returns true if the Menu should be selected
     const shouldSelect = () => {
@@ -121,7 +125,7 @@ function BarIcon(props) {
     // Handles the Tooltip
     const handleTooltip = () => {
         if (withTooltip && window.innerWidth > 1000) {
-            showTooltip(elementRef, "right", message);
+            showTooltip(elementRef, "right", message, 0, tooltipDelay);
         }
     };
 
@@ -153,21 +157,22 @@ function BarIcon(props) {
  * @type {Object} propTypes
  */
 BarIcon.propTypes = {
-    passedRef   : PropTypes.any,
-    isHidden    : PropTypes.bool,
-    className   : PropTypes.string,
-    variant     : PropTypes.string,
-    isSelected  : PropTypes.bool,
-    icon        : PropTypes.string.isRequired,
-    message     : PropTypes.string,
-    withText    : PropTypes.bool,
-    withTooltip : PropTypes.bool,
-    href        : PropTypes.string,
-    url         : PropTypes.string,
-    target      : PropTypes.string,
-    onClick     : PropTypes.func,
-    startsWith  : PropTypes.bool,
-    badge       : PropTypes.number,
+    passedRef    : PropTypes.any,
+    isHidden     : PropTypes.bool,
+    className    : PropTypes.string,
+    variant      : PropTypes.string,
+    isSelected   : PropTypes.bool,
+    icon         : PropTypes.string.isRequired,
+    message      : PropTypes.string,
+    withText     : PropTypes.bool,
+    withTooltip  : PropTypes.bool,
+    tooltipDelay : PropTypes.number,
+    href         : PropTypes.string,
+    url          : PropTypes.string,
+    target       : PropTypes.string,
+    onClick      : PropTypes.func,
+    startsWith   : PropTypes.bool,
+    badge        : PropTypes.number,
 };
 
 /**
@@ -175,16 +180,17 @@ BarIcon.propTypes = {
  * @type {Object} defaultProps
  */
 BarIcon.defaultProps = {
-    isHidden    : false,
-    className   : "",
-    variant     : Brightness.LIGHT,
-    isSelected  : false,
-    withText    : false,
-    withTooltip : false,
-    href        : "",
-    url         : "",
-    target      : "_self",
-    startsWith  : false,
+    isHidden     : false,
+    className    : "",
+    variant      : Brightness.LIGHT,
+    isSelected   : false,
+    withText     : false,
+    withTooltip  : false,
+    tooltipDelay : 1,
+    href         : "",
+    url          : "",
+    target       : "_self",
+    startsWith   : false,
 };
 
 export default BarIcon;

@@ -17,6 +17,8 @@ const initialState = {
         targetRef : null,
         variant   : "",
         message   : "",
+        maxWidth  : 0,
+        delay     : 0,
     },
 };
 
@@ -94,10 +96,11 @@ const actions = {
      * @param {String}   variant
      * @param {String}   message
      * @param {Number}   maxWidth
+     * @param {Number}   delay
      * @returns {Void}
      */
-    showTooltip(dispatch, targetRef, variant, message, maxWidth) {
-        const tooltip = { open : true, targetRef, variant, message, maxWidth };
+    showTooltip(dispatch, targetRef, variant, message, maxWidth, delay) {
+        const tooltip = { open : true, targetRef, variant, message, maxWidth, delay };
         return dispatch({ type : "CORE_TOOLTIP", tooltip });
     },
 

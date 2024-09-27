@@ -19,7 +19,7 @@ const open = keyframes`
 `;
 
 // Styles
-const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpen }) => ({ variant, top, left, width, maxWidth, isOpen }))`
+const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpen, delay }) => ({ variant, top, left, width, maxWidth, isOpen, delay }))`
     box-sizing: border-box;
     position: fixed;
     top: ${(props) => `${props.top}px`};
@@ -39,7 +39,7 @@ const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpe
     pointer-events: none;
     z-index: var(--z-tooltip);
 
-    ${(props) => props.isOpen && css`animation: ${open} 0.3s 1s ease-out forwards;`}
+    ${(props) => props.isOpen && css`animation: ${open} 0.3s ${props.delay}s ease-out forwards;`}
 
     ${(props) => props.variant === "top" && `
         transform: translateX(-50%) translateY(-100%);
@@ -96,8 +96,10 @@ const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpe
  */
 function Tooltip() {
     const { tooltip } = Store.useState("core");
-    const { open, targetRef, variant, message, maxWidth } = tooltip;
+    const { open, targetRef, variant, message, maxWidth, delay } = tooltip;
 
+
+    // Variables
     const content    = NLS.get(message);
     const hasTooltip = open && !!content;
 
@@ -141,6 +143,7 @@ function Tooltip() {
         left={left}
         width={width}
         maxWidth={maxWidth}
+        delay={delay || 1}
         isOpen
     >
         {content}
