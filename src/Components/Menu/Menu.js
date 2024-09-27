@@ -262,13 +262,17 @@ function Menu(props) {
             } else if (bottom) {
                 style.bottom = `${bottom}px`;
             }
+
             if (left) {
                 style.left = `${left}px`;
             } else if (right) {
                 style.right = `${right}px`;
             }
+
             if (maxHeight) {
                 style.maxHeight = `${maxHeight}px`;
+            } else {
+                style.maxHeight = `${winHeight - 16}px`;
             }
         }
         return [ hasStyles, style, winWidth, forTop ];
@@ -292,7 +296,7 @@ function Menu(props) {
     >
         <Ul
             ref={contentRef}
-            className={className}
+            className={`${className} light-scrollbars`}
             withPos={hasStyles}
             isLeft={!hasStyles && variant === Variant.LEFT}
             isRight={!hasStyles && variant === Variant.RIGHT}
