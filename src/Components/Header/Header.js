@@ -19,9 +19,8 @@ const Container = Styled.header.attrs(({ showBreadcrumbs }) => ({ showBreadcrumb
     flex-direction: column;
     justify-content: space-between;
     height: var(--header-height);
-    padding: ${(props) => props.showBreadcrumbs ? "8px" : "12px"} var(--main-padding);
+    padding: ${(props) => props.showBreadcrumbs ? "8px" : "calc(var(--main-padding) / 2)"} var(--main-padding);
     flex-shrink: 0;
-    background-color: white;
 `;
 
 const Content = Styled.div`
