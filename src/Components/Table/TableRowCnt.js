@@ -14,6 +14,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         border: none;
     }
     td {
+        background-color: white;
         border-bottom: 1px solid var(--table-color);
     }
 

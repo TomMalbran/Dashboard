@@ -22,7 +22,7 @@ const props = ({
 const TD = Styled.td.attrs(props)`
     && {
         box-sizing: border-box;
-        font-size: 13px;
+        font-size: var(--table-font-size);
         flex-grow: ${(props) => props.flexGrow};
         flex-shrink: ${(props) => props.flexShrink};
         min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "0"};
@@ -47,7 +47,7 @@ const TD = Styled.td.attrs(props)`
 
         ${(props) => props.isTitle && `
             color: var(--title-color);
-            font-weight: bold;
+            font-weight: var(--title-font-weight);
         `}
 
         ${(props) => props.isFlex && `

@@ -43,6 +43,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     flex-direction: column;
     width: 100%;
     table-layout: fixed;
+    color: var(--table-font-color);
 
     .input-content {
         background-color: transparent;
