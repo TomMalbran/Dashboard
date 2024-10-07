@@ -12,7 +12,8 @@ import TableRowCnt          from "../Table/TableRowCnt";
 
 // Styles
 const TFoot = Styled.tfoot.attrs(({ notFixed }) => ({ notFixed }))`
-    background: var(--table-color);
+    border: 1px solid var(--table-color);
+    background: var(--table-background, var(--table-color));
     border-bottom-right-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
 
@@ -29,8 +30,13 @@ const TFoot = Styled.tfoot.attrs(({ notFixed }) => ({ notFixed }))`
 function TableFoot(props) {
     const { notFixed, hasIDs, hasActions, columns, children } = props;
 
-    const items = Utils.cloneChildren(children, (child, key) => ({ ...columns[key] }));
 
+    const items = Utils.cloneChildren(children, (child, key) => ({
+        ...columns[key],
+    }));
+
+
+    // Do the Render
     return <TFoot notFixed={notFixed}>
         <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
             {items}
