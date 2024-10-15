@@ -5,17 +5,9 @@
     "author": "TomMalbran",
     "license": "MIT",
     "repository": "TomMalbran/Dashboard",
-    "main": "dist/index.js",
-    "module": "dist/index.es.js",
-    "jsnext:main": "dist/index.es.js",
     "engines": {
         "node": ">=8",
         "npm": ">=5"
-    },
-    "scripts": {
-        "build": "rollup -c",
-        "dist": "rollup -c --config-dist",
-        "start": "rollup -c -w"
     },
     "dependencies": {
         "jwt-decode": "^4.0.0"
@@ -27,23 +19,12 @@
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
         "react-pdf": "^5.2.0",
-        "react-redux": "^8.0.0",
         "react-router": "^6.3.0",
         "react-router-dom": "^6.3.0",
         "styled-components": "^5.3.5"
     },
     "devDependencies": {
-        "@babel/core": "^7.18.2",
-        "@babel/preset-env": "^7.18.2",
-        "@babel/preset-react": "^7.17.12",
-        "@rollup/plugin-babel": "^5.3.1",
-        "@rollup/plugin-commonjs": "^22.0.0",
-        "@rollup/plugin-node-resolve": "^13.3.0",
-        "@rollup/plugin-url": "^7.0.0",
-        "@svgr/rollup": "^6.2.1",
         "@tinymce/tinymce-react": "^5.1.1",
-        "babel-eslint": "^10.0.3",
-        "cross-env": "^7.0.3",
         "eslint": "^8.16.0",
         "eslint-config-standard": "^17.0.0",
         "eslint-plugin-import": "^2.26.0",
@@ -51,22 +32,8 @@
         "eslint-plugin-promise": "^6.0.0",
         "eslint-plugin-react": "^7.30.0",
         "eslint-plugin-standard": "^4.1.0",
-        "fast-glob": "^3.2.11",
-        "gh-pages": "^4.0.0",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
-        "react-router-dom": "^6.3.0",
-        "react-scripts": "^5.0.1",
-        "rollup": "^2.74.1",
-        "rollup-plugin-cleaner": "^1.0.0",
-        "rollup-plugin-cleanup": "^3.2.1",
-        "rollup-plugin-peer-deps-external": "^2.2.4"
-    },
-    "files": [
-        "dist",
-        "Components",
-        "Core",
-        "Hooks",
-        "Utils"
-    ]
+        "react-router-dom": "^6.3.0"
+    }
 }
