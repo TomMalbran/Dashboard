@@ -9,7 +9,6 @@ const HOUR_SECS   = 3600;
 const DAY_SECS    = 24 * 3600;
 const WEEK_SECS   = 7 * 24 * 3600;
 
-
 /** The formats used in toString */
 const FORMATS = {
     time           : "DATE_TIME",
@@ -280,21 +279,30 @@ class DateTime {
      */
     toString(type) {
         if (FORMATS[type]) {
-            return NLS.get(FORMATS[type])
-                .replace("{d}",  this.day.toString())
-                .replace("{d0}", parseTime(this.day))
-                .replace("{dn}", this.getDayName())
-                .replace("{d3}", this.getDayName(3))
-                .replace("{m}",  this.month.toString())
-                .replace("{m0}", parseTime(this.month))
-                .replace("{mn}", this.getMonthName())
-                .replace("{m3}", this.getMonthName(3))
-                .replace("{y}",  this.year.toString())
-                .replace("{h}",  parseTime(this.hours))
-                .replace("{i}",  parseTime(this.minutes))
-                .replace("{s}",  parseTime(this.seconds));
+            return this.formatString(NLS.get(FORMATS[type]));
         }
         return "";
+    }
+
+    /**
+     * Formats the String
+     * @param {String} format
+     * @returns {String}
+     */
+    formatString(format) {
+        return format
+            .replace("{d}",  this.day.toString())
+            .replace("{d0}", parseTime(this.day))
+            .replace("{dn}", this.getDayName())
+            .replace("{d3}", this.getDayName(3))
+            .replace("{m}",  this.month.toString())
+            .replace("{m0}", parseTime(this.month))
+            .replace("{mn}", this.getMonthName())
+            .replace("{m3}", this.getMonthName(3))
+            .replace("{y}",  this.year.toString())
+            .replace("{h}",  parseTime(this.hours))
+            .replace("{i}",  parseTime(this.minutes))
+            .replace("{s}",  parseTime(this.seconds));
     }
 
     /**
@@ -307,24 +315,30 @@ class DateTime {
 
     /**
      * Returns the date as a string choosing the format depending on the date
+     * @param {Boolean=} withSeconds
      * @returns {String}
      */
-    toDateString() {
-        let format;
+    toDateString(withSeconds = false) {
+        let type;
         if (this.isToday) {
-            format = "today";
+            type = "today";
         } else if (this.isYesterday) {
-            format = "yesterday";
+            type = "yesterday";
         } else if (this.isTomorrow) {
-            format = "tomorrow";
+            type = "tomorrow";
         } else if (this.isThisWeek) {
-            format = "thisWeek";
+            type = "thisWeek";
         } else if (this.isThisYear) {
-            format = "thisYear";
+            type = "thisYear";
         } else {
-            format = "otherYear";
+            type = "otherYear";
         }
-        return this.toString(format);
+
+        let format = NLS.get(FORMATS[type]);
+        if (withSeconds) {
+            format += ":{s}";
+        }
+        return this.formatString(format);
     }
 
     /**
@@ -1170,11 +1184,12 @@ function formatInput(date) {
 /**
  * Formats the give date as a String
  * @param {(Number|Date)} date
+ * @param {Boolean=}      withSeconds
  * @returns {String}
  */
-function formatString(date) {
+function formatString(date, withSeconds = false) {
     if (date) {
-        return new DateTime(date).toDateString();
+        return new DateTime(date).toDateString(withSeconds);
     }
     return "";
 }
