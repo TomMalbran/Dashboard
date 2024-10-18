@@ -47,7 +47,7 @@ const TD = Styled.td.attrs(props)`
 
         ${(props) => props.isTitle && `
             color: var(--title-color);
-            font-weight: var(--title-font-weight);
+            font-weight: var(--table-title-weight, var(--title-font-weight));
         `}
 
         ${(props) => props.isFlex && `
