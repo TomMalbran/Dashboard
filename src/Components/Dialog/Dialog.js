@@ -33,10 +33,10 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
     display: block;
     margin: 0;
     padding: 0;
-    width: calc(100% - var(--dialog-spacing) * 2);
+    width: 100%;
     max-width: 600px;
     min-height: 180px;
-    max-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
+    max-height: var(--full-height);
     border: none;
     border-radius: var(--dialog-radius);
     background-color: white;

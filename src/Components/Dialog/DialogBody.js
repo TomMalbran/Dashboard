@@ -43,6 +43,8 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
     }
 
     @media (max-width: 500px) {
+        --dialog-padding: 16px;
+
         ${(props) => props.hideFooter && "--dialog-footer: 0;"}
         ${(props) => !props.isNarrow && `
             height: calc(var(--full-height) - var(--dialog-header) - var(--dialog-footer));
