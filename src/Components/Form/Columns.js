@@ -31,14 +31,12 @@ const Div = Styled.div.attrs(({ amount, topSpace, doubleWidth, singleWidth }) =>
         margin-top: 0;
     }
 
-    @media (max-width: ${(props) => props.doubleWidth}) {
+    @media (max-width: ${(props) => props.doubleWidth}px) {
         ${(props) => (Number(props.amount) === 3 || Number(props.amount) === 4) && `
             grid-template-columns: repeat(2, 1fr);
         `}
 
-        .columns-double {
-            grid-column-end: span 1;
-        }
+        .columns-double,
         .columns-triple {
             grid-column-end: span 2;
         }
@@ -50,6 +48,7 @@ const Div = Styled.div.attrs(({ amount, topSpace, doubleWidth, singleWidth }) =>
     @media (max-width: ${(props) => props.singleWidth}px) {
         grid-template-columns: 1fr;
 
+        .columns-double,
         .columns-triple {
             grid-column-end: span 1;
         }
