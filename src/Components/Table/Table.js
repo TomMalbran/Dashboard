@@ -65,7 +65,7 @@ function Table(props) {
     const {
         sort, fetch, className, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
-        noSorting, hasIDs, notFixed, rightSpace,
+        noSorting, hasIDs, notFixed,
         checked, setChecked, hasCheckAll, children,
     } = props;
 
@@ -157,15 +157,14 @@ function Table(props) {
                     hideCircle  : !!tableHead.props.hideCircle,
                     noSpace     : !!tableHead.props.noSpace,
                     smallSpace  : !!tableHead.props.smallSpace,
-                    rightSpace  : !!tableHead.props.rightSpace,
                     grow        : tableHead.props.grow     || "",
                     shrink      : tableHead.props.shrink   || "",
                     minWidth    : tableHead.props.minWidth || "",
                     maxWidth    : tableHead.props.maxWidth || "",
                     align       : tableHead.props.align    || "",
+                    rightSpace  : false,
                 });
             }
-            columns[columns.length - 1].rightSpace = rightSpace;
         }
 
         if (child.type === TableBody) {
@@ -202,12 +201,16 @@ function Table(props) {
         }
     }
 
+
     const showMenu     = hasActions && Boolean(menuID !== null && menuTop);
     const hasSorting   = !noSorting && !Utils.isEmpty(sort);
     const hasChecks    = Boolean(checked && setChecked);
     const isCheckedAll = hasChecks && elemIDs.length === checked.length;
+
     if (hasActions) {
         colSpan += 1;
+    } else {
+        columns[columns.length - 1].rightSpace = true;
     }
 
     // Checks all the columns
@@ -224,8 +227,8 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasChecks, hasActions, hasSorting, hasPaging,
-                hasFooter, notFixed, rightSpace,
+                hasIDs, hasChecks, hasActions, hasSorting,
+                hasPaging, hasFooter, notFixed,
                 checked, setChecked, hasCheckAll, setCheckedAll, isCheckedAll,
                 handleRowClick, handleMenuOpen,
             }));
@@ -299,7 +302,6 @@ Table.propTypes = {
     noSorting   : PropTypes.bool,
     noClick     : PropTypes.bool,
     notFixed    : PropTypes.bool,
-    rightSpace  : PropTypes.bool,
     checked     : PropTypes.array,
     setChecked  : PropTypes.func,
     hasCheckAll : PropTypes.bool,
@@ -322,7 +324,6 @@ Table.defaultProps = {
     hasIDs      : false,
     noSorting   : false,
     notFixed    : false,
-    rightSpace  : false,
     hasCheckAll : false,
 };
 
