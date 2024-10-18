@@ -1265,6 +1265,21 @@ function getExpiredColor(date, greenTime, yellowTime) {
     return "red";
 }
 
+/**
+ * Returns the age of the given date
+ * @param {(Number|Date)} date
+ * @returns {Number}
+ */
+function getAge(date) {
+    if (!date) {
+        return 0;
+    }
+    if (Utils.isString(date)) {
+        return fromString(String(date)).getAge();
+    }
+    return new DateTime(date).getAge();
+}
+
 
 
 /**
@@ -1363,6 +1378,7 @@ export default {
     formatMedium,
     formatShort,
     getExpiredColor,
+    getAge,
 
     dayToName,
     dayToShortName,
