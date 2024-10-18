@@ -31,8 +31,9 @@ function TableFoot(props) {
     const { notFixed, hasIDs, hasActions, columns, children } = props;
 
 
-    const items = Utils.cloneChildren(children, (child, key) => ({
-        ...columns[key],
+    // Clone the Children
+    const items = Utils.cloneChildren(children, (child, index) => ({
+        ...columns[index],
     }));
 
 

@@ -43,10 +43,14 @@ const Li = Styled.li.attrs(({ variant }) => ({ variant }))`
 function NavigationList(props) {
     const { className, message, variant, onAction, onClose, children } = props;
 
+
+    // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
         variant, onAction, onClose,
     }));
 
+
+    // Do the Render
     return <Ul className={className}>
         {!!message && <Li variant={variant}>{NLS.get(message)}</Li>}
         {items}

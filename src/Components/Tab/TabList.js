@@ -79,13 +79,16 @@ function TabList(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
+
+
+    // Clone the Children
     const items = Utils.cloneChildren(children, (child, index) => ({
         index, variant, onClick, onAction, selected, inDialog,
     }));
-    const showAdd = Boolean(canAdd && onAction);
 
 
     // Do the Render
+    const showAdd = Boolean(canAdd && onAction);
     return <Container
         className={`tabs ${className}`}
         variant={variant}

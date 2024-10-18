@@ -55,7 +55,7 @@ function Navigation(props) {
     } = props;
 
 
-    // The Items
+    // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
         variant, none, add, isLoading, canAdd, canEdit, canManage, onAction,
     }));

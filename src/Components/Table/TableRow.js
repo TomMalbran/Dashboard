@@ -61,9 +61,13 @@ function TableRow(props) {
     };
 
 
-    // Do the Render
-    const items = Utils.cloneChildren(children, (child, key) => ({ ...columns[key] }));
+    // Clone the Children
+    const items = Utils.cloneChildren(children, (child, index) => ({
+        ...columns[index],
+    }));
 
+
+    // Do the Render
     return <TableRowCnt
         onClick={handleClick}
         onContextMenu={handleContextMenu}

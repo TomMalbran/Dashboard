@@ -73,10 +73,11 @@ function Columns(props) {
     } = props;
 
 
-    const items = Utils.cloneChildren(children, (child, key, total) => ({
+    // Clone the Children
+    const items = Utils.cloneChildren(children, (child, index, realIndex, total) => ({
         onSubmit,
-        className : child.props.className || ((lastDouble && total % 2 === 1 && key === total - 1) ? "columns-double" : ""),
-        autoFocus : autoFocus && key === 0,
+        className : child.props.className || ((lastDouble && total % 2 === 1 && index === total - 1) ? "columns-double" : ""),
+        autoFocus : autoFocus && index === 0,
     }));
 
 

@@ -28,10 +28,14 @@ const Ul = Styled.ul.attrs(({ withSpacing }) => ({ withSpacing }))`
 function List(props) {
     const { className, withSpacing, columns, children } = props;
 
+
+    // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
         columns : Number(columns),
     }));
 
+
+    // Do the Render
     return <Ul className={className} withSpacing={withSpacing}>
         {items}
     </Ul>;

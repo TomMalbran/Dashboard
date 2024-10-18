@@ -81,12 +81,16 @@ function TableBody(props) {
         handleRowClick, handleMenuOpen, columns, checked, setChecked, children,
     } = props;
 
+
+    // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
         hasIDs, hasChecks, hasActions,
         handleRowClick, handleMenuOpen,
         columns, checked, setChecked,
     }));
 
+
+    // Do the Render
     return <TBody notFixed={notFixed} hasFooter={hasPaging || hasFooter}>
         {items}
     </TBody>;

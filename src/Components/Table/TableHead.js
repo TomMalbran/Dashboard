@@ -44,8 +44,9 @@ function TableHead(props) {
     } = props;
 
 
-    const items = Utils.cloneChildren(children, (child) => ({
-        hasSorting, sort, fetch, ...columns[child.props.realKey],
+    // Clone the Children
+    const items = Utils.cloneChildren(children, (child, index, realIndex) => ({
+        hasSorting, sort, fetch, ...columns[realIndex],
     }));
 
 
