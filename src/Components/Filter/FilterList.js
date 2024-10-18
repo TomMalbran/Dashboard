@@ -98,12 +98,6 @@ function FilterList(props) {
         return filterData;
     };
 
-    // Handles the Update
-    const handleUpdate = async (name, value, secName, secValue) => {
-        const filterData = handleChange(name, value, secName, secValue);
-        handleSubmit(filterData);
-    };
-
     // Handles the Submit
     const handleSubmit = async (filterData = data) => {
         setLoading(true);
@@ -130,7 +124,7 @@ function FilterList(props) {
             error={errors[item.name]}
             onChange={(name, value, secName, secValue) => handleChange(name, value, secName, secValue, item.onChange)}
             onSubmit={handleSubmit}
-            onClear={handleUpdate}
+            onClear={handleChange}
         />)}
         <Div>
             <FilterButton
