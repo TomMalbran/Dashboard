@@ -54,7 +54,6 @@ function Filter(props) {
             label="GENERAL_SEARCH"
             icon="search"
             hasClear
-            shrinkLabel
         />
         <FilterItem
             isHidden={!hasCredential}
@@ -65,7 +64,6 @@ function Filter(props) {
             suggestID="credentialID"
             suggestFetch={fetch}
             suggestParams={params}
-            shrinkLabel
         />
 
         {children}
@@ -77,7 +75,6 @@ function Filter(props) {
             label="PERIOD_NAME"
             onChange={handlePeriod}
             options={Period.getSelect()}
-            shrinkLabel
         />
         <FilterItem
             type="date"
