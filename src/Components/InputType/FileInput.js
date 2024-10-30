@@ -2,8 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
@@ -57,15 +58,10 @@ function FileInput(props) {
     const handleChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            if (maxSize) {
-                const size = file.size / (1024 * 1024);
-                if (size <= maxSize) {
-                    onChange(name, file, `${name}Name`, file.name);
-                } else if (onError) {
-                    onError(name, NLS.get("GENERAL_ERROR_FILE_SIZE"));
-                }
-            } else {
+            if (Utils.isValidFile(file, false, maxSize)) {
                 onChange(name, file, `${name}Name`, file.name);
+            } else if (onError) {
+                onError(name, NLS.get("GENERAL_ERROR_FILE_SIZE"));
             }
         }
     };
@@ -117,7 +113,7 @@ FileInput.propTypes = {
     value       : PropTypes.any,
     placeholder : PropTypes.string,
     onlyImages  : PropTypes.bool,
-    maxSize     : PropTypes.number,
+    maxSize     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange    : PropTypes.func.isRequired,
     onClear     : PropTypes.func,
     onError     : PropTypes.func,
