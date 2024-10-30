@@ -1163,6 +1163,29 @@ function isEmojiOnly(text) {
 }
 
 /**
+ * Returns true if the File is Valid
+ * @param {Object}  file
+ * @param {Boolean} onlyImages
+ * @param {Number}  maxSize
+ * @returns {Boolean}
+ */
+function isValidFile(file, onlyImages, maxSize) {
+    if (onlyImages) {
+        const imageTypes = [ "image/png", "image/gif", "image/bmp", "image/jpg", "image/jpeg" ];
+        if (!imageTypes.includes(file.type.toLowerCase())) {
+            return false;
+        }
+    }
+    if (Number(maxSize)) {
+        const size = file.size / (1024 * 1024);
+        if (size > Number(maxSize)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
  * Downloads the given File
  * @param {String} source
  * @param {String} fileName
@@ -1304,6 +1327,7 @@ export default {
     generatePassword,
     convertToSearch,
     isEmojiOnly,
+    isValidFile,
     download,
     print,
 };
