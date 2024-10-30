@@ -96,7 +96,8 @@ function TextareaInput(props) {
     const {
         inputRef, className, isFocused, isDisabled, withLabel,
         id, name, value, placeholder, rows, maxRows, withEditor,
-        onChange, onClear, onInput, onFocus, onBlur, onKeyDown, onKeyUp,
+        onChange, onClear, onInput, onPaste,
+        onFocus, onBlur, onKeyDown, onKeyUp,
         maxLength, children,
     } = props;
 
@@ -207,8 +208,9 @@ function TextareaInput(props) {
                 rows={actualRows}
                 placeholder={NLS.get(placeholder)}
                 disabled={isDisabled}
-                onInput={handleInput}
                 onChange={handleChange}
+                onInput={handleInput}
+                onPaste={onPaste}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onKeyDown={onKeyDown}
@@ -251,6 +253,7 @@ TextareaInput.propTypes = {
     onChange    : PropTypes.func,
     onClear     : PropTypes.func,
     onInput     : PropTypes.func,
+    onPaste     : PropTypes.func,
     onFocus     : PropTypes.func,
     onBlur      : PropTypes.func,
     onKeyDown   : PropTypes.func,
