@@ -20,12 +20,14 @@ const Container = Styled.div.attrs(({ hasMenu, hasContent }) => ({ hasMenu, hasC
             background: hsla(0, 0%, 60%, .12);
         }
     `}
-    ${(props) => props.hasContent && `
+    ${(props) => props.hasContent ? `
         display: flex;
         gap: 8px;
         padding: 4px 4px 4px 12px;
         border-radius: 4px;
         border: var(--border-width) solid var(--border-color-light);
+        border-radius: 9999px;
+    ` : `
         border-radius: 9999px;
     `}
 `;
@@ -56,6 +58,8 @@ function TopAvatar(props) {
         parentTitle, parentName, menuItems,
     } = props;
 
+
+    // The References
     const avatarRef = React.useRef(null);
 
     // The Current State
