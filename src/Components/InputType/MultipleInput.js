@@ -93,6 +93,7 @@ MultipleInput.propTypes = {
     value      : PropTypes.any,
     options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     noneText   : PropTypes.string,
+    noneValue  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange   : PropTypes.func.isRequired,
     onFocus    : PropTypes.func.isRequired,

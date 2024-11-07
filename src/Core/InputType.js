@@ -89,7 +89,8 @@ function useOptions(props) {
         const result     = [];
 
         if (props.noneText) {
-            result.push({ key : 0, value : NLS.get(props.noneText) });
+            const noneValue = props.noneValue ?? 0;
+            result.push({ key : noneValue, value : NLS.get(props.noneText) });
         }
         for (const item of items) {
             result.push(item);

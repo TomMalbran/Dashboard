@@ -255,6 +255,7 @@ InputField.propTypes = {
     codeSets        : PropTypes.string,
     codeLength      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     noneText        : PropTypes.string,
+    noneValue       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withCustom      : PropTypes.bool,
     customFirst     : PropTypes.bool,
     customText      : PropTypes.string,

@@ -376,6 +376,7 @@ ChooserInput.propTypes = {
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     noneText     : PropTypes.string,
+    noneValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange     : PropTypes.func,
     onClear      : PropTypes.func,
     onFocus      : PropTypes.func,
