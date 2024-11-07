@@ -5,6 +5,9 @@ import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
+// Components
+import Html                 from "../Common/Html";
+
 // Styled
 import Styled, {
     keyframes, css,
@@ -19,7 +22,7 @@ const open = keyframes`
 `;
 
 // Styles
-const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpen, delay }) => ({ variant, top, left, width, maxWidth, isOpen, delay }))`
+const Container = Styled(Html).attrs(({ variant, top, left, width, maxWidth, delay }) => ({ variant, top, left, width, maxWidth, delay }))`
     box-sizing: border-box;
     position: fixed;
     top: ${(props) => `${props.top}px`};
@@ -39,7 +42,7 @@ const Container = Styled.div.attrs(({ variant, top, left, width, maxWidth, isOpe
     pointer-events: none;
     z-index: var(--z-tooltip);
 
-    ${(props) => props.isOpen && css`animation: ${open} 0.3s ${props.delay}s ease-out forwards;`}
+    ${(props) => css`animation: ${open} 0.3s ${props.delay}s ease-out forwards;`}
 
     ${(props) => props.variant === "top" && `
         transform: translateX(-50%) translateY(-100%);
@@ -144,10 +147,8 @@ function Tooltip() {
         width={width}
         maxWidth={maxWidth}
         delay={delay || 1}
-        isOpen
-    >
-        {content}
-    </Container>;
+        content={content}
+    />;
 }
 
 export default Tooltip;
