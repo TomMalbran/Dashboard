@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -43,16 +44,28 @@ const DetailIcon = Styled(Icon)`
 function DetailItem(props) {
     const {
         isHidden, className, textColor,
-        message, icon, tooltip, prefix, withTip, showAlways,
+        message, icon, prefix, showAlways,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay, withTip,
         href, url, onClick, isEmail, isPhone, isWhatsApp, isSelected, children,
     } = props;
 
-    const navigate = Navigate.useClick(props);
+    const navigate   = Navigate.useClick(props);
+    const elementRef = React.useRef();
+
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
 
     // Handles the Click
     const handleClick = (e) => {
         if (!Utils.hasSelection()) {
             navigate(e);
+        }
+    };
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
         }
     };
 
@@ -84,11 +97,13 @@ function DetailItem(props) {
 
     // Do the Render
     return <Container
+        ref={elementRef}
         className={textColor ? `text-${textColor} ${className}` : className}
         isLink={isLink}
-        title={NLS.get(tooltip)}
         isSelected={isSelected}
         onClick={handleClick}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     >
         {!!icon && <DetailIcon icon={icon} />}
         {isHtml ? <Html addBreaks>{content}</Html> : content}
@@ -100,24 +115,27 @@ function DetailItem(props) {
  * @typedef {Object} propTypes
  */
 DetailItem.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    textColor  : PropTypes.string,
-    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    icon       : PropTypes.string,
-    tooltip    : PropTypes.string,
-    prefix     : PropTypes.string,
-    href       : PropTypes.string,
-    url        : PropTypes.string,
-    target     : PropTypes.string,
-    isEmail    : PropTypes.bool,
-    isPhone    : PropTypes.bool,
-    isWhatsApp : PropTypes.bool,
-    onClick    : PropTypes.func,
-    withTip    : PropTypes.bool,
-    showAlways : PropTypes.bool,
-    isSelected : PropTypes.bool,
-    children   : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    className      : PropTypes.string,
+    textColor      : PropTypes.string,
+    message        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    icon           : PropTypes.string,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
+    tooltipDelay   : PropTypes.number,
+    withTip        : PropTypes.bool,
+    prefix         : PropTypes.string,
+    href           : PropTypes.string,
+    url            : PropTypes.string,
+    target         : PropTypes.string,
+    isEmail        : PropTypes.bool,
+    isPhone        : PropTypes.bool,
+    isWhatsApp     : PropTypes.bool,
+    onClick        : PropTypes.func,
+    showAlways     : PropTypes.bool,
+    isSelected     : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**
@@ -125,14 +143,19 @@ DetailItem.propTypes = {
  * @typedef {Object} defaultProps
  */
 DetailItem.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    textColor  : "",
-    target     : "_self",
-    isEmail    : false,
-    isPhone    : false,
-    isWhatsApp : false,
-    isSelected : false,
+    isHidden       : false,
+    className      : "",
+    textColor      : "",
+    withTip        : false,
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    tooltipWidth   : 0,
+    tooltipDelay   : 1,
+    target         : "_self",
+    isEmail        : false,
+    isPhone        : false,
+    isWhatsApp     : false,
+    isSelected     : false,
 };
 
 export default DetailItem;
