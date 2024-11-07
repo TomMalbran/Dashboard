@@ -99,7 +99,8 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ v
 function IconLink(props) {
     const {
         isHidden, passedRef, variant, className, isDisabled, isSmall,
-        target, icon, tooltip, tooltipVariant, withMark, onTouchEnd,
+        target, icon, tooltip, tooltipVariant, withMark,
+        onMouseDown, onMouseUp, onTouchEnd,
     } = props;
 
     const defaultRef = React.useRef();
@@ -131,6 +132,8 @@ function IconLink(props) {
         target={target}
         onClick={onClick}
         onTouchEnd={onTouchEnd}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
     >
@@ -158,6 +161,8 @@ IconLink.propTypes = {
     isWhatsApp     : PropTypes.bool,
     onClick        : PropTypes.func,
     onTouchEnd     : PropTypes.func,
+    onMouseDown    : PropTypes.func,
+    onMouseUp      : PropTypes.func,
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
     withMark       : PropTypes.bool,
