@@ -39,7 +39,8 @@ function TextInput(props) {
     const {
         inputRef, className, icon, postIcon, isFocused, isDisabled,
         isSmall, withBorder, withLabel,
-        id, type, name, value, placeholder, autoComplete, spellCheck,
+        id, type, name, value, minValue, maxValue,
+        placeholder, autoComplete, spellCheck,
         generateCode, codeLength, codeSets,
         onChange, onInput, onPaste, onClear,
         onFocus, onBlur, onKeyDown, onKeyUp, onSubmit,
@@ -116,6 +117,8 @@ function TextInput(props) {
             type={type}
             name={name}
             value={value}
+            minValue={minValue}
+            maxValue={maxValue}
             placeholder={placeholder}
             isDisabled={isDisabled}
             autoComplete={autoComplete}
@@ -164,6 +167,8 @@ TextInput.propTypes = {
     type         : PropTypes.string.isRequired,
     name         : PropTypes.string,
     value        : PropTypes.any,
+    minValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     placeholder  : PropTypes.string,
     autoComplete : PropTypes.string,
     spellCheck   : PropTypes.string,
