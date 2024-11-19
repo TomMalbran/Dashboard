@@ -850,7 +850,16 @@ function getChildren(children) {
 function getVisibleChildren(children) {
     const result = [];
     for (const child of toArray(children)) {
-        if (child && child.props) {
+        if (!child) {
+            continue;
+        }
+
+        if (Array.isArray(child) && child.length) {
+            const newResult = getVisibleChildren(child);
+            for (const [ , value ] of newResult) {
+                result.push(value);
+            }
+        } else if (child.props) {
             const has = hasProp(child.props, "isHidden");
             if ((has && !child.props.isHidden) || !has) {
                 result.push(child);
