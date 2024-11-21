@@ -122,6 +122,7 @@ function ActionItem(props) {
         >
             {actions.map((elem, index) => elem.isLine ? <MenuLine
                 key={index}
+                isHidden={elem.isHidden}
             /> : <MenuItem
                 key={index}
                 icon={elem.icon || elem.act.icon}
