@@ -36,8 +36,9 @@ const Item = Styled.li.attrs(({ color }) => ({ color }))`
     }
 `;
 
-const Input = Styled(InputBase)`
+const Input = Styled(InputBase).attrs(({ maxWidth }) => ({ maxWidth }))`
     height: 16px;
+    max-width: ${(props) => props.maxWidth};
 
     &::-webkit-color-swatch-wrapper {
         padding: 0;
@@ -60,15 +61,24 @@ function ColorInput(props) {
         onChange, onClear, onFocus, onBlur,
     } = props;
 
+
     // Handles the Input Change
     const handleChange = (e) => {
-        onChange(name, e.target.value);
+        let value = e.target.value.toUpperCase();
+        if (value && !value.startsWith("#")) {
+            value = `#${value}`;
+        }
+        value = value.substring(0, 7);
+        onChange(name, value);
     };
 
 
-    // Do the Render
+    // Variables
     const withOptions = Boolean(options && options.length);
+    const color       = value.replace("#", "").toUpperCase();
 
+
+    // Do the Render
     return <InputContent
         inputRef={inputRef}
         className={className}
@@ -90,17 +100,27 @@ function ColorInput(props) {
             >
                 {value === color && <Icon icon="check" />}
             </Item>)}
-        </List> : <Input
-            inputRef={inputRef}
-            type="color"
-            id={id}
-            name={name}
-            value={value || "#FFFFFF"}
-            isDisabled={isDisabled}
-            onChange={handleChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
-        />}
+        </List> : <>
+            <Input
+                inputRef={inputRef}
+                name={name}
+                value={color}
+                isDisabled={isDisabled}
+                onChange={handleChange}
+                maxLength={7}
+                maxWidth="80px"
+            />
+            <Input
+                type="color"
+                id={id}
+                name={name}
+                value={value || "#FFFFFF"}
+                isDisabled={isDisabled}
+                onChange={handleChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+            />
+        </>}
     </InputContent>;
 }
 

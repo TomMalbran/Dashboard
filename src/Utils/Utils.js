@@ -1172,6 +1172,15 @@ function isEmojiOnly(text) {
 }
 
 /**
+ * Returns true if the given color is valid
+ * @param {String} value
+ * @returns {Boolean}
+ */
+function isValidColor(value) {
+    return !!value && value.length === 7 && /^#[0-9A-Fa-f]{6}$/.test(value);
+}
+
+/**
  * Returns true if the File is Valid
  * @param {Object}  file
  * @param {Boolean} onlyImages
@@ -1336,6 +1345,7 @@ export default {
     generatePassword,
     convertToSearch,
     isEmojiOnly,
+    isValidColor,
     isValidFile,
     download,
     print,
