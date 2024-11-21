@@ -27,7 +27,10 @@ const Container = Styled.div.attrs(({ isLink, isSelected }) => ({ isLink, isSele
     &:hover {
         background-color: var(--light-gray);
     }
-    ${(props) => props.isSelected && "background-color: var(--light-gray);"}
+
+    ${(props) => props.isSelected && `
+        background-color: var(--light-gray);
+    `}
 `;
 
 const DetailIcon = Styled(Icon)`
@@ -45,7 +48,7 @@ function DetailItem(props) {
     const {
         isHidden, className, textColor,
         message, icon, prefix, showAlways,
-        tooltip, tooltipVariant, tooltipWidth, tooltipDelay, withTip,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         href, url, onClick, isEmail, isPhone, isWhatsApp, isSelected, children,
     } = props;
 
@@ -84,14 +87,9 @@ function DetailItem(props) {
     if (showAlways && !message && !children) {
         content = "";
     }
-    if (!children) {
-        if (prefix) {
-            content = `<b>${NLS.get(prefix)}</b>: ${content}`;
-            isHtml  = true;
-        } else if (withTip) {
-            content = `<b>${NLS.get(tooltip)}</b>: ${content}`;
-            isHtml  = true;
-        }
+    if (!children && prefix) {
+        content = `<b>${NLS.get(prefix)}</b>: ${content}`;
+        isHtml  = true;
     }
 
 
@@ -124,7 +122,6 @@ DetailItem.propTypes = {
     tooltipVariant : PropTypes.string,
     tooltipWidth   : PropTypes.number,
     tooltipDelay   : PropTypes.number,
-    withTip        : PropTypes.bool,
     prefix         : PropTypes.string,
     href           : PropTypes.string,
     url            : PropTypes.string,
@@ -146,7 +143,6 @@ DetailItem.defaultProps = {
     isHidden       : false,
     className      : "",
     textColor      : "",
-    withTip        : false,
     tooltip        : "",
     tooltipVariant : "bottom",
     tooltipWidth   : 0,
