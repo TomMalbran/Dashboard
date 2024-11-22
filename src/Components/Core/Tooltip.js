@@ -128,7 +128,7 @@ function Tooltip() {
     case "bottom":
         top  += bounds.height + 8;
         left += bounds.width / 2;
-        width = bounds.width;
+        // width = bounds.width;
         break;
     case "right":
         top  += bounds.height / 2;
