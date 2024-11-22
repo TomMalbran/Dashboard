@@ -18,7 +18,7 @@ const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
     border-top-right-radius: var(--border-radius);
     border-top-left-radius: var(--border-radius);
 
-    ${(props) => !props.notFixed && "padding-right: 16px;"}
+    ${(props) => !props.notFixed && "padding-right: 12px;"}
 
     @media (max-width: 700px) {
         display: none;
