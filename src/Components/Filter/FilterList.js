@@ -17,11 +17,12 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
 
     box-sizing: border-box;
     display: grid;
-    grid-template-columns: repeat(var(--filter-columns), 1fr) 37px;
+    grid-template-columns: repeat(var(--filter-columns), 1fr) calc(37px + var(--filter-padding));
     gap: var(--main-gap);
     height: calc(var(--filter-height) - var(--main-gap));
     margin: 0 0 var(--main-gap) 0;
     padding: var(--filter-padding);
+    padding-right: 0;
     background-color: var(--filter-background);
     border: var(--filter-border);
     border-radius: var(--border-radius);
@@ -40,10 +41,16 @@ const FilterField = Styled(InputField)`
 `;
 
 const Div = Styled.div`
+    position: sticky;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: 0;
+    margin-left: calc(0px - var(--main-gap));
+    padding-left: var(--main-gap);
+    padding-right: var(--filter-padding);
+    background-color: var(--filter-background);
+    z-index: 1;
 `;
 
 const FilterButton = Styled(Button)`
