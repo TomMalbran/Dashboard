@@ -66,7 +66,7 @@ const FilterButton = Styled(Button)`
  * @returns {React.ReactElement}
  */
 function FilterList(props) {
-    const { className, values, initialData, onFilter, children } = props;
+    const { className, values, initialData, onChange, onFilter, children } = props;
 
     const items         = [];
     const fields        = {};
@@ -89,13 +89,16 @@ function FilterList(props) {
 
 
     // Handles the Input Change
-    const handleChange = (name, value, secName, secValue, onChange) => {
+    const handleChange = (name, value, secName, secValue, onInputChange) => {
         let filterData = { ...data, [name] : value };
         if (secName) {
             filterData = { ...filterData, [secName] : secValue };
         }
+        if (onInputChange) {
+            filterData = onInputChange(data, value);
+        }
         if (onChange) {
-            filterData = onChange(data, value);
+            onChange(filterData);
         }
         setData(filterData);
         setErrors({ ...errors, [name] : "" });
@@ -153,6 +156,7 @@ function FilterList(props) {
  */
 FilterList.propTypes = {
     className   : PropTypes.string,
+    onChange    : PropTypes.func,
     onFilter    : PropTypes.func.isRequired,
     values      : PropTypes.object,
     initialData : PropTypes.object,
