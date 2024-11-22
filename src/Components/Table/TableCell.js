@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Components
 import Circle               from "../Common/Circle";
@@ -93,6 +94,7 @@ const TD = Styled.td.attrs(props)`
 function TableCell(props) {
     const {
         isHidden, message,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         className, textColor, circle, hideCircle,
         colSpan, grow, shrink, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex, isMultiline,
@@ -100,12 +102,25 @@ function TableCell(props) {
         noSpace, smallSpace, rightSpace, indent, children,
     } = props;
 
+    const elementRef = React.useRef();
+
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
+        }
+    };
+
 
     // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
     return <TD
+        ref={elementRef}
         className={textColor ? `text-${textColor}` : className}
         flexGrow={grow}
         flexShrink={shrink}
@@ -124,6 +139,8 @@ function TableCell(props) {
         rightSpace={rightSpace}
         indent={indent}
         colSpan={colSpan}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     >
         {!!circle && !hideCircle && <Circle variant={circle} />}
         {message !== undefined ? NLS.get(message) : children}
@@ -135,30 +152,34 @@ function TableCell(props) {
  * @typedef {Object} propTypes
  */
 TableCell.propTypes = {
-    isHidden    : PropTypes.bool,
-    className   : PropTypes.string,
-    textColor   : PropTypes.string,
-    message     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    colSpan     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    grow        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    shrink      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    minWidth    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    maxWidth    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    align       : PropTypes.string,
-    isBold      : PropTypes.bool,
-    isSmall     : PropTypes.bool,
-    isTitle     : PropTypes.bool,
-    isFlex      : PropTypes.bool,
-    isMultiline : PropTypes.bool,
-    bigMobile   : PropTypes.bool,
-    hideMobile  : PropTypes.bool,
-    circle      : PropTypes.string,
-    hideCircle  : PropTypes.bool,
-    noSpace     : PropTypes.bool,
-    smallSpace  : PropTypes.bool,
-    rightSpace  : PropTypes.bool,
-    indent      : PropTypes.bool,
-    children    : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    message        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
+    tooltipDelay   : PropTypes.number,
+    className      : PropTypes.string,
+    textColor      : PropTypes.string,
+    colSpan        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    grow           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    shrink         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    align          : PropTypes.string,
+    isBold         : PropTypes.bool,
+    isSmall        : PropTypes.bool,
+    isTitle        : PropTypes.bool,
+    isFlex         : PropTypes.bool,
+    isMultiline    : PropTypes.bool,
+    bigMobile      : PropTypes.bool,
+    hideMobile     : PropTypes.bool,
+    circle         : PropTypes.string,
+    hideCircle     : PropTypes.bool,
+    noSpace        : PropTypes.bool,
+    smallSpace     : PropTypes.bool,
+    rightSpace     : PropTypes.bool,
+    indent         : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**
@@ -166,25 +187,29 @@ TableCell.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableCell.defaultProps = {
-    isHidden    : false,
-    className   : "",
-    textColor   : "",
-    colSpan     : "1",
-    grow        : "1",
-    shrink      : "1",
-    align       : "left",
-    isBold      : false,
-    isSmall     : false,
-    isTitle     : false,
-    isFlex      : false,
-    isMultiline : false,
-    bigMobile   : false,
-    hideMobile  : false,
-    hideCircle  : false,
-    noSpace     : false,
-    smallSpace  : false,
-    rightSpace  : false,
-    indent      : false,
+    isHidden       : false,
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    tooltipWidth   : 0,
+    tooltipDelay   : 1,
+    className      : "",
+    textColor      : "",
+    colSpan        : "1",
+    grow           : "1",
+    shrink         : "1",
+    align          : "left",
+    isBold         : false,
+    isSmall        : false,
+    isTitle        : false,
+    isFlex         : false,
+    isMultiline    : false,
+    bigMobile      : false,
+    hideMobile     : false,
+    hideCircle     : false,
+    noSpace        : false,
+    smallSpace     : false,
+    rightSpace     : false,
+    indent         : false,
 };
 
 export default TableCell;
