@@ -25,11 +25,8 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     background-color: var(--filter-background);
     border: var(--filter-border);
     border-radius: var(--border-radius);
-
-    @media (max-width: 700px) {
-        overflow-y: hidden;
-        overflow-x: auto;
-    }
+    overflow-y: hidden;
+    overflow-x: auto;
 `;
 
 const FilterField = Styled(InputField)`
