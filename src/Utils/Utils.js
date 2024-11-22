@@ -371,6 +371,16 @@ function makeShort(value, length) {
 }
 
 /**
+ * Return an escaped string that can be broken at certain separators
+ * @param {String} string
+ * @returns {String}
+ */
+function makeBreakable(string) {
+    // Inject zero-width space character (U+200B or &#8203) near (_ or - or @) to allow line breaking there
+    return string.replace(new RegExp("(_|@|-|\\?|/)", "g"), "$1" + "\u200B");
+}
+
+/**
  * Creates a Slug from a string
  * @param {String} value
  * @returns {String}
@@ -1298,6 +1308,7 @@ export default {
     clearInterval,
 
     makeShort,
+    makeBreakable,
     createSlug,
     formatNumber,
     formatPercent,
