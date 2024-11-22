@@ -22,6 +22,7 @@ const props = ({
 const TH = Styled.th.attrs(props)`
     && {
         box-sizing: border-box;
+        display: flex;
         border: none;
         padding: 6px 0 6px 12px;
         color: var(--title-color);
@@ -33,9 +34,7 @@ const TH = Styled.th.attrs(props)`
         max-width: ${(props) => props.maxWidth ? `${props.maxWidth}px` : "none"};
         padding-right: ${(props) => props.rightSpace ? "12px" : "0"};
         text-align: ${(props) => props.align};
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+        justify-content: ${(props) => props.align};
 
         ${(props) => props.isSmall && `
             flex: 0 1 150px;
@@ -49,6 +48,12 @@ const TH = Styled.th.attrs(props)`
     .icon {
         margin-left: 4px;
     }
+`;
+
+const Inner = Styled.div`
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `;
 
 
@@ -68,6 +73,7 @@ function TableHeader(props) {
 
     const withSorting = hasSorting && !noSorting;
 
+
     // Handles the Sorting
     const handleClick = () => {
         if (withSorting) {
@@ -82,6 +88,7 @@ function TableHeader(props) {
     };
 
 
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
@@ -98,7 +105,7 @@ function TableHeader(props) {
         colSpan={colSpan}
         onClick={handleClick}
     >
-        {message ? NLS.get(message) : children}
+        <Inner>{message ? NLS.get(message) : children}</Inner>
         {withSorting && sort.orderBy === field ? <Icon
             icon={sort.orderAsc ? "up" : "down"}
         /> : null}
