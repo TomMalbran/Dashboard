@@ -12,14 +12,7 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Div = Styled.div`
-    display: block;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: all 0.2s linear;
-`;
-
-const Content = Styled.div.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,6 +51,8 @@ const Content = Styled.div.attrs(({ variant }) => ({ variant }))`
 function Alert(props) {
     const { isHidden, className, variant, message, children } = props;
 
+
+    // Variables
     let content = children;
     if (message) {
         if (Array.isArray(message)) {
@@ -72,12 +67,13 @@ function Alert(props) {
     if (isHidden || !content) {
         return <React.Fragment />;
     }
-    return <Div className={`alert ${className}`}>
-        <Content variant={variant}>
-            {!!message  && <Html>{content}</Html>}
-            {!!children && <div>{children}</div>}
-        </Content>
-    </Div>;
+    return <Container
+        className={`alert ${className}`}
+        variant={variant}
+    >
+        {!!message  && <Html>{content}</Html>}
+        {!!children && <div>{children}</div>}
+    </Container>;
 }
 
 /**
