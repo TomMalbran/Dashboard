@@ -5,6 +5,9 @@ import Styled, { keyframes } from "styled-components";
 // Core
 import NLS                   from "../../Core/NLS";
 
+// Components
+import Html                  from "../Common/Html";
+
 // Variants
 const Variant = {
     PRIMARY : "primary",
@@ -97,7 +100,7 @@ const Ring = Styled.div`
     }
 `;
 
-const Text = Styled.div`
+const Text = Styled(Html)`
     padding-top: 32px;
     color: var(--loader-font-color);
 
