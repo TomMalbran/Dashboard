@@ -294,6 +294,31 @@ function scrollIntoView(selector, block, inline = "center", behavior = "smooth")
 
 
 /**
+ * A Hook to automatically update the data
+ * @param {Function} fetchData
+ * @param {Boolean}  isHidden
+ * @param {Object}   data
+ * @returns {Void}
+ */
+function useAutoUpdate(fetchData, isHidden, data) {
+    const timerRef = React.useRef(0);
+
+    // The Current State
+    const [ update, setUpdate ] = React.useState(0);
+
+    // Initial Fetch
+    React.useEffect(() => {
+        if (!isHidden) {
+            fetchData(data);
+            setUpdateTimeout(timerRef, setUpdate, update);
+        }
+        return () => {
+            clearTimeout(timerRef);
+        };
+    }, [ isHidden, update, JSON.stringify(data) ]);
+}
+
+/**
  * Sets a Timeout
  * @param {React.MutableRefObject<Number>} timerRef
  * @param {Function}                       callback
@@ -1301,6 +1326,7 @@ export default {
     getCurrentTime,
     scrollIntoView,
 
+    useAutoUpdate,
     setTimeout,
     setUpdateTimeout,
     clearTimeout,
