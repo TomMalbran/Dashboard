@@ -45,6 +45,7 @@ function ConfirmDialog(props) {
         open={open}
         onClose={onClose}
         isLoading={isLoading}
+        dontClose={isLoading}
         isNarrow
     >
         <DialogHeader message={title} icon={icon} />
@@ -55,6 +56,7 @@ function ConfirmDialog(props) {
             primary={primary}
             primaryVariant={primaryVariant}
             onSubmit={onSubmit}
+            isDisabled={isLoading}
         />
     </Dialog>;
 }
