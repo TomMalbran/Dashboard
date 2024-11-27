@@ -159,7 +159,7 @@ function FieldInput(props) {
     if (children) {
         for (const [ , child ] of Utils.getVisibleChildren(children)) {
             items.push(child.props);
-            baseElem[child.props.name] = "";
+            baseElem[child.props.name] = child.props.value || "";
         }
     }
 
