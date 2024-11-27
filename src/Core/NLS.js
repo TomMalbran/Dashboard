@@ -137,22 +137,22 @@ function select(id) {
 
 /**
  * Format a string by replacing placeholder symbols with passed in arguments
- * @param {String}    id
- * @param {...String} args
+ * @param {String}             id
+ * @param {...(String|Number)} args
  * @returns {String}
  */
 function format(id, ...args) {
     const str = get(id);
     return (str || "").replace(/\{(\d+)\}/g, (match, num) => {
-        return (args[num] !== undefined ? args[num] : match);
+        return (args[num] !== undefined ? String(args[num]) : match);
     });
 }
 
 /**
  * Format a string by replacing placeholder symbols with passed in arguments
- * @param {String}    id
- * @param {String}    value
- * @param {...String} args
+ * @param {String}             id
+ * @param {String}             value
+ * @param {...(String|Number)} args
  * @returns {String}
  */
 function formatIf(id, value, ...args) {
@@ -175,9 +175,9 @@ function formatJoin(id, list, useOr) {
 
 /**
  * Returns a formatted string using the correct plural string
- * @param {String}          id
- * @param {(Number|String)} amount
- * @param {...String}       args
+ * @param {String}             id
+ * @param {(Number|String)}    amount
+ * @param {...(String|Number)} args
  * @returns {String}
  */
 function pluralize(id, amount, ...args) {
