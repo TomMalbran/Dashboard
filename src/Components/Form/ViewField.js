@@ -121,7 +121,7 @@ const IconCheck = Styled(Icon)`
 function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, textColor,
-        label, value, message, icon,
+        label, value, copyValue, message, icon,
         fullWidth, isSmall, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
@@ -145,7 +145,11 @@ function ViewField(props) {
 
     // Handles the Text Copy
     const handleCopy = () => {
-        navigator.clipboard.writeText(content);
+        if (copyValue) {
+            navigator.clipboard.writeText(copyValue);
+        } else {
+            navigator.clipboard.writeText(content);
+        }
         setCopied(true);
         window.setTimeout(() => setCopied(false), 2000);
     };
@@ -229,6 +233,7 @@ ViewField.propTypes = {
     label       : PropTypes.string,
     icon        : PropTypes.string,
     value       : PropTypes.any,
+    copyValue   : PropTypes.any,
     message     : PropTypes.string,
     error       : PropTypes.string,
     helperText  : PropTypes.string,
