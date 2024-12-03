@@ -46,7 +46,7 @@ const Div = Styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: calc(0px - var(--main-gap));
+    margin-left: calc(1px - var(--main-gap));
     padding-left: var(--main-gap);
     padding-right: var(--filter-padding);
     background-color: var(--filter-background);
