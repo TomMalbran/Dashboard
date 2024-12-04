@@ -22,7 +22,7 @@ function Iframe(props) {
     // Updates the Height
     const onLoad = () => {
         const height = frameRef.current.contentWindow.document.body.scrollHeight;
-        setHeight(`${height + 16}px`);
+        setHeight(`${height + 24}px`);
     };
 
     // Calls the on Load on Mount
