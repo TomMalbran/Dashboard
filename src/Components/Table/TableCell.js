@@ -8,6 +8,7 @@ import Store                from "../../Core/Store";
 
 // Components
 import Circle               from "../Common/Circle";
+import Html                 from "../Common/Html";
 
 
 
@@ -115,6 +116,13 @@ function TableCell(props) {
     };
 
 
+    // Variables
+    const content     = message !== undefined ? NLS.get(message) : "";
+    const hasHtml     = !!content && String(content).includes("<");
+    const hasMessage  = message !== undefined && !hasHtml;
+    const hasChildren = !hasMessage;
+
+
     // Do the Render
     if (isHidden) {
         return <React.Fragment />;
@@ -143,7 +151,10 @@ function TableCell(props) {
         onMouseLeave={hideTooltip}
     >
         {!!circle && !hideCircle && <Circle variant={circle} />}
-        {message !== undefined ? NLS.get(message) : children}
+
+        {hasHtml && <Html content={content} />}
+        {hasMessage && NLS.get(message)}
+        {hasChildren && children}
     </TD>;
 }
 
