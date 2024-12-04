@@ -99,7 +99,8 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ v
 function IconLink(props) {
     const {
         isHidden, passedRef, variant, className, isDisabled, isSmall,
-        target, icon, tooltip, tooltipVariant, withMark,
+        target, icon, withMark,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         onMouseDown, onMouseUp, onTouchEnd,
     } = props;
 
@@ -112,7 +113,7 @@ function IconLink(props) {
     // Handles the Tooltip
     const handleTooltip = () => {
         if (tooltip) {
-            showTooltip(elementRef, tooltipVariant, tooltip);
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
         }
     };
 
@@ -153,6 +154,8 @@ IconLink.propTypes = {
     icon           : PropTypes.string,
     tooltip        : PropTypes.string,
     tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
+    tooltipDelay   : PropTypes.number,
     href           : PropTypes.string,
     url            : PropTypes.string,
     target         : PropTypes.string,
@@ -180,6 +183,8 @@ IconLink.defaultProps = {
     variant        : Brightness.LIGHT,
     tooltip        : "",
     tooltipVariant : "bottom",
+    tooltipWidth   : 0,
+    tooltipDelay   : 1,
     href           : "#",
     url            : "",
     target         : "_self",
