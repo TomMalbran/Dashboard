@@ -42,9 +42,9 @@ const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
     align-items: center;
     gap: 4px;
     width: 100%;
-    min-height: 32px;
+    min-height: 36px;
     padding: 6px 6px 6px 12px;
-    background-color: var(--lightest-gray);
+    border: 1px solid var(--input-border-color);
     border-radius: var(--border-radius);
 
     .inputfield-children {
