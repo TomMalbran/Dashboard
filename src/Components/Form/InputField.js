@@ -28,8 +28,8 @@ const FieldHelper = Styled.p`
 `;
 
 const FieldButton = Styled(Button)`
-    margin-left: 16px;
     height: var(--input-height);
+    margin-left: var(--main-gap);
     white-space: nowrap;
 `;
 
