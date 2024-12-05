@@ -674,6 +674,18 @@ function stringsToSelect(data) {
 }
 
 /**
+ * Transforms the JSON to HTML
+ * @param {Object} content
+ * @returns {String}
+ */
+function jsonToHtml(content) {
+    if (!content) {
+        return "";
+    }
+    return JSON.stringify(content, null, 4).replace(/ /g, "&nbsp;").replace(/\n/g, "<br>");
+}
+
+/**
  * Creates an Array of N numbers
  * @param {Number}  amount
  * @param {Number=} start
@@ -1353,6 +1365,7 @@ export default {
     toMap,
     toSelect,
     stringsToSelect,
+    jsonToHtml,
     createArrayOf,
     areEqual,
     areObjectsEqual,
