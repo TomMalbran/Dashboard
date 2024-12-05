@@ -137,7 +137,7 @@ function ViewField(props) {
     const hasLink   = Boolean(linkIcon && linkHref);
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
-    const floatCopy = content.length > 1000;
+    const floatCopy = content.length > 1000 || isHtml;
 
 
     // The Current State
