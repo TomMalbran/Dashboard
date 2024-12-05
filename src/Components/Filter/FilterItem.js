@@ -44,6 +44,7 @@ FilterItem.propTypes = {
     suggestParams : PropTypes.object,
     suggestWidth  : PropTypes.number,
     hasClear      : PropTypes.bool,
+    hideClear     : PropTypes.bool,
     shrinkLabel   : PropTypes.bool,
     onChange      : PropTypes.func,
 };
@@ -66,6 +67,7 @@ FilterItem.defaultProps = {
     customText   : "",
     customKey    : "",
     hasClear     : false,
+    hideClear    : false,
     shrinkLabel  : false,
 };
 
