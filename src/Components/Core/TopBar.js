@@ -97,7 +97,8 @@ function TopBar(props) {
     const {
         className, variant, logo, logoWidth, logoHeight, withTitle,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        parentTitle, parentName, onLogout, withTopBar, menuItems, children,
+        showParent, parentTitle, parentName,
+        onLogout, withTopBar, menuItems, children,
     } = props;
 
     const { hasDetails            } = Store.useState("core");
@@ -137,6 +138,7 @@ function TopBar(props) {
                 />
                 {withTitle && <H1>{NLS.get("TITLE")}</H1>}
             </Div>
+
             <Div>
                 {children}
                 {showLogout && <BarIcon
@@ -155,6 +157,7 @@ function TopBar(props) {
                     avatarEmail={avatarEmail}
                     avatarAvatar={avatarAvatar}
                     avatarEdition={avatarEdition}
+                    showParent={showParent}
                     parentTitle={parentTitle}
                     parentName={parentName}
                     menuItems={menuItems}
@@ -179,6 +182,7 @@ TopBar.propTypes = {
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
+    showParent    : PropTypes.bool,
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,
     onLogout      : PropTypes.func,
@@ -194,6 +198,7 @@ TopBar.propTypes = {
 TopBar.defaultProps = {
     className  : "",
     variant    : Brightness.DARKER,
+    showParent : false,
     withTitle  : false,
     withTopBar : false,
 };

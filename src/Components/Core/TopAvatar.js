@@ -20,6 +20,7 @@ const Container = Styled.div.attrs(({ hasMenu, hasContent }) => ({ hasMenu, hasC
             background: hsla(0, 0%, 60%, .12);
         }
     `}
+
     ${(props) => props.hasContent ? `
         display: flex;
         gap: 8px;
@@ -37,11 +38,18 @@ const Content = Styled.div`
     flex-direction: column;
     justify-content: center;
     font-weight: bold;
+    max-width: 160px;
 
     b {
-        font-size: 11px;
+        font-size: 10px;
         white-space: nowrap;
         color: var(--font-lighter);
+    }
+    span {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 `;
 
@@ -55,7 +63,7 @@ const Content = Styled.div`
 function TopAvatar(props) {
     const {
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        parentTitle, parentName, menuItems,
+        showParent, parentTitle, parentName, menuItems,
     } = props;
 
 
@@ -82,7 +90,7 @@ function TopAvatar(props) {
     // Variables
     const hasMenu        = Boolean(menuItems && menuItems.length);
     const showAvatar     = Boolean(avatarUrl);
-    const showCredential = Boolean(parentName);
+    const showCredential = Boolean(showParent && parentName);
 
 
     // Do the Render
@@ -131,6 +139,7 @@ TopAvatar.propTypes = {
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
+    showParent    : PropTypes.bool,
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,
     menuItems     : PropTypes.array,
