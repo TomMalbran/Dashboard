@@ -279,16 +279,18 @@ function getCurrentTime() {
  * @param {String=} block
  * @param {String=} inline
  * @param {String=} behavior
- * @returns {Void}
+ * @returns {Boolean}
  */
 function scrollIntoView(selector, block, inline = "center", behavior = "smooth") {
     const node = document.querySelector(selector);
-    if (node) {
-        node.scrollIntoView({
-            // @ts-ignore
-            block, inline, behavior,
-        });
+    if (!node) {
+        return false;
     }
+    node.scrollIntoView({
+        // @ts-ignore
+        block, inline, behavior,
+    });
+    return true;
 }
 
 
