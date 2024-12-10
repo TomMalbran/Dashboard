@@ -163,37 +163,45 @@ function FieldInput(props) {
         }
     }
 
-    // Calculate the Items Array
-    let parts = [{}];
-    let ids   = [ 0 ];
-    if (value) {
-        try {
-            parts = Array.isArray(value) ? value : JSON.parse(String(value));
-            if (!Array.isArray(parts)) {
-                parts = [ parts ];
+    // Generate the parts
+    const parts = React.useMemo(() => {
+        let result = [{}];
+        if (value) {
+            try {
+                result = Array.isArray(value) ? value : JSON.parse(String(value));
+                if (!Array.isArray(result)) {
+                    result = [ result ];
+                }
+            } catch(e) {
+                result = [{}];
             }
-        } catch(e) {
-            parts = [{}];
         }
-    }
-    if (indexes) {
-        try {
-            ids = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
-            if (!Array.isArray(ids)) {
-                ids = [ ids ];
+        return result;
+    }, [ value ]);
+
+    // Generate the ids
+    const ids = React.useMemo(() => {
+        let result = [ 0 ];
+        if (indexes) {
+            try {
+                result = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
+                if (!Array.isArray(result)) {
+                    result = [ result ];
+                }
+            } catch(e) {
+                result = [ 0 ];
             }
-        } catch(e) {
-            ids = [ 0 ];
+        } else if (parts) {
+            result = [ ...parts.keys() ];
         }
-    } else if (parts) {
-        ids = [ ...parts.keys() ];
-    }
+        return result;
+    }, [ indexes ]);
 
 
     // Handles a Field Change
-    const handleChange = (item, index, name, newValue, secName, secValue, data) => {
-        const value      = parts[index] ? { ...parts[index] } : {};
-        value[item.name] = newValue;
+    const handleChange = (item, parts, index, name, newValue, secName, secValue, data) => {
+        const value = parts[index] ? { ...parts[index] } : {};
+        value[name] = newValue;
         if (secName) {
             value[secName] = secValue;
         }
@@ -201,12 +209,12 @@ function FieldInput(props) {
         fieldChanged(parts);
 
         if (item.onChange) {
-            item.onChange(index, item.name, newValue, secName, secValue, data);
+            item.onChange(index, name, newValue, secName, secValue, data);
         }
     };
 
     // Handles a Clear Change
-    const handleClear = (item, index, idName) => {
+    const handleClear = (item, parts, index, idName) => {
         const value      = parts[index] ? { ...parts[index] } : {};
         value[item.name] = "";
         if (idName) {
@@ -221,7 +229,7 @@ function FieldInput(props) {
     };
 
     // Adds a Field to the value
-    const handleAdd = () => {
+    const handleAdd = (parts) => {
         if (name) {
             parts.push({ ...baseElem });
             ids.push(ids.length);
@@ -230,7 +238,7 @@ function FieldInput(props) {
     };
 
     // Removes a Field from the value at the given index
-    const handleRemove = (index) => {
+    const handleRemove = (parts, index) => {
         parts.splice(index, 1);
         ids.splice(index, 1);
         fieldChanged(parts, ids);
@@ -370,10 +378,10 @@ function FieldInput(props) {
                                 isDisabled={getDisabled(item, data)}
                                 error={getError(index, item.name)}
                                 onChange={(name, value, secName, secValue, newData) => {
-                                    handleChange(item, index, name, value, secName, secValue, newData);
+                                    handleChange(item, parts, index, item.name, value, secName, secValue, newData);
                                 }}
                                 onClear={(name, value, secName, secValue) => {
-                                    handleClear(item, index, secName);
+                                    handleClear(item, parts, index, secName);
                                 }}
                                 onMedia={() => item.onMedia?.(index, item.name)}
                                 withLabel={!!item.label || (!withTitle && index === 0)}
@@ -382,7 +390,7 @@ function FieldInput(props) {
                             >
                                 {Utils.cloneChildren(item.children, () => ({
                                     inputRef, value,
-                                    onChange : (value) => handleChange(item, index, item.name, value),
+                                    onChange : (value) => handleChange(item, parts, index, item.name, value),
                                 }))}
                             </InputField>
                             {item.component}
@@ -401,7 +409,7 @@ function FieldInput(props) {
                     <IconLink
                         variant="error"
                         icon="delete"
-                        onClick={() => handleRemove(index)}
+                        onClick={() => handleRemove(parts, index)}
                         isSmall
                     />
                 </Remove>}
@@ -416,7 +424,7 @@ function FieldInput(props) {
             isHidden={!canAdd}
             variant="outlined"
             message={addButton}
-            onClick={handleAdd}
+            onClick={() => handleAdd(parts)}
             isSmall
         />
     </Container>;
