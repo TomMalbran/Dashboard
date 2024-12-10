@@ -30,7 +30,7 @@ const Variant = {
 
 
 // Styles
-const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, withMark, withIcon, onlyIcon, smallRadius }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, isLoading, withMark, withIcon, onlyIcon, smallRadius }))`
     --button-color: var(--black-color);
     --button-border: black;
     --button-background: black;
@@ -52,7 +52,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
     font-size: ${(props) => props.isSmall ? "10px" : "12px"};
     padding: ${(props) => props.isSmall ? "4px 8px" : "8px 16px"};
     width: ${(props) => props.fullWidth ? "100%" : "auto"};
-    transition: all 0.5s;
+    transition: box-shadow 0.5s, color 0.5s, background-color 0.5s, border-color 0.5s;
     cursor: pointer;
 
     ${(props) => props.withIcon && `
@@ -60,6 +60,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
         align-items: center;
         justify-content: center;
         padding: 4px 12px 4px 8px;
+        gap: 4px;
+    `}
+    ${(props) => !props.withIcon && props.isLoading && `
+        display: flex;
+        align-items: center;
+        padding: 5px 12px 5px 8px;
         gap: 4px;
     `}
     ${(props) => props.onlyIcon && `
@@ -258,6 +264,7 @@ function Button(props) {
         disabled={isDisabled}
         isSmall={isSmall}
         fullWidth={fullWidth}
+        isLoading={isLoading}
         withMark={withMark}
         withIcon={withIcon}
         onlyIcon={onlyIcon}
