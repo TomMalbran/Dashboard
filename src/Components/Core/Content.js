@@ -57,7 +57,7 @@ const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs }) => 
 function Content(props) {
     const {
         className, isLoading, passedRef,
-        withDetails, wideDetails, children,
+        withTabs, withDetails, wideDetails, children,
     } = props;
 
 
@@ -73,7 +73,7 @@ function Content(props) {
     const items       = [];
     let   hasFilter   = false;
     let   statsAmount = 0;
-    let   hasTabs     = false;
+    let   hasTabs     = withTabs;
 
     for (const [ , child ] of Utils.getVisibleChildren(children)) {
         if (child.type === FilterList || child.type === Filter) {
@@ -113,6 +113,7 @@ Content.propTypes = {
     className   : PropTypes.string,
     isLoading   : PropTypes.bool,
     passedRef   : PropTypes.any,
+    withTabs    : PropTypes.bool,
     withDetails : PropTypes.bool,
     wideDetails : PropTypes.bool,
     children    : PropTypes.any,
@@ -125,6 +126,7 @@ Content.propTypes = {
 Content.defaultProps = {
     className   : "",
     isLoading   : false,
+    withTabs    : false,
     withDetails : false,
 };
 
