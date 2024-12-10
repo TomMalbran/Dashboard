@@ -56,12 +56,13 @@ function SelectInput(props) {
 
 
     // The References
-    const containerRef = React.useRef(null);
-    const optionsRef   = React.useRef(null);
-    const selectedRef  = React.useRef(-1);
+    const containerRef   = React.useRef(null);
+    const optionsRef     = React.useRef(null);
+    const selectedIdxRef = React.useRef(-1);
+    const selectedValRef = React.useRef("");
 
     // The Current State
-    const [ initialIdx,  setInitialIdx  ] = React.useState(0);
+    const [ initialVal,  setInitialVal  ] = React.useState("");
     const [ showOptions, setShowOptions ] = React.useState(false);
     const [ filter,      setFilter      ] = React.useState("");
     const [ timer,       setTimer       ] = React.useState(null);
@@ -82,6 +83,7 @@ function SelectInput(props) {
                 key     : "none",
                 value   : noneValue,
                 message : NLS.get(noneText),
+                text    : "",
             });
         }
         if (withCustom && customFirst) {
@@ -89,6 +91,7 @@ function SelectInput(props) {
                 key     : "custom",
                 value   : -1,
                 message : NLS.get(customText  || "GENERAL_CUSTOM"),
+                text    : "",
             });
         }
         for (const { key, value } of items) {
@@ -96,6 +99,7 @@ function SelectInput(props) {
                 key     : `item-${key}`,
                 value   : key,
                 message : NLS.get(value),
+                text    : "",
             });
         }
         for (const { key, value } of extraItems) {
@@ -103,6 +107,7 @@ function SelectInput(props) {
                 key     : `extra-${key}`,
                 value   : key,
                 message : NLS.get(value),
+                text    : "",
             });
         }
         if (withCustom && !customFirst) {
@@ -110,40 +115,48 @@ function SelectInput(props) {
                 key     : "custom",
                 value   : -1,
                 message : NLS.get(customText || "GENERAL_CUSTOM"),
+                text    : "",
             });
         }
+        return result;
+    }, [ noneText, noneValue, withCustom, customFirst, customText, JSON.stringify(items), JSON.stringify(extraItems) ]);
 
+    // Get the Filtered List
+    const filteredList = React.useMemo(() => {
         if (!filter) {
-            return result;
+            return optionList;
         }
 
-        const filtered = [];
-        const search   = Utils.convertToSearch(filter);
-        for (const item of result) {
+        const result = [];
+        const search = Utils.convertToSearch(filter);
+
+        for (const item of optionList) {
             const text      = item.message;
             const parts     = text.split(" ");
             let   fromIndex = 0;
+
             for (const part of parts) {
                 const searchText = text.substring(text.indexOf(part));
                 if (Utils.convertToSearch(searchText).startsWith(search)) {
                     const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
-                    filtered.push({
-                        ...item,
-                        text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
+                    result.push({
+                        key     : item.key,
+                        value   : item.value,
+                        message : item.message,
+                        text    : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
                     });
                     break;
                 }
                 fromIndex += part.length + 1;
             }
         }
-        return filtered;
-    }, [
-        noneValue, noneText,
-        withCustom, customFirst, customText,
-        JSON.stringify(items), JSON.stringify(extraItems),
-        filter,
-    ]);
-    const hasOptions = Boolean(showOptions && optionList.length);
+        return result;
+    }, [ JSON.stringify(optionList), filter ]);
+
+    // Check if there are Filtered Options
+    const hasOptions = React.useMemo(() => {
+        return Boolean(showOptions && filteredList.length);
+    }, [ showOptions, filteredList.length ]);
 
     // Get the Option Value
     const optionValue = React.useMemo(() => {
@@ -169,7 +182,8 @@ function SelectInput(props) {
 
     // Sets the Selected Index
     const setSelectedIndex = (value) => {
-        selectedRef.current = optionList.findIndex((option) => String(option.value) === String(value)) ?? -1;
+        selectedIdxRef.current = filteredList.findIndex((option) => String(option.value) === String(value)) ?? -1;
+        selectedValRef.current = filteredList.find((option) => String(option.value) === String(value)).value ?? "";
     };
 
 
@@ -185,7 +199,7 @@ function SelectInput(props) {
     const handleFocus = () => {
         setStyle({ ...initStyle });
         setSelectedIndex(valueKey);
-        setInitialIdx(selectedRef.current);
+        setInitialVal(selectedValRef.current);
         onFocus();
     };
 
@@ -212,14 +226,14 @@ function SelectInput(props) {
         }
 
         setStyle({ top, left, width, maxHeight, opacity : 1 });
-        scrollToIndex(selectedRef.current, true);
+        scrollToIndex(selectedIdxRef.current, true);
     }, [ hasOptions, optionsRef.current ]);
 
     // Handles the Blur
     const handleBlur = () => {
         setTimer(window.setTimeout(() => {
-            if (selectedRef.current >= 0 && optionList[selectedRef.current] && selectedRef.current !== initialIdx) {
-                onChange(name, optionList[selectedRef.current].value);
+            if (selectedValRef.current !== "" && selectedValRef.current !== initialVal) {
+                onChange(name, selectedValRef.current);
             }
 
             setFilter("");
@@ -252,7 +266,7 @@ function SelectInput(props) {
             return;
         }
 
-        const selectedIdx    = selectedRef.current;
+        const selectedIdx    = selectedIdxRef.current;
         let   newSelectedIdx = 0;
 
         switch (e.keyCode) {
@@ -263,11 +277,11 @@ function SelectInput(props) {
             break;
 
         case KeyCode.DOM_VK_UP:
-            newSelectedIdx = (selectedIdx - 1) < 0 ? optionList.length - 1 : selectedIdx - 1;
+            newSelectedIdx = (selectedIdx - 1) < 0 ? filteredList.length - 1 : selectedIdx - 1;
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_DOWN:
-            newSelectedIdx = (selectedIdx + 1) % optionList.length;
+            newSelectedIdx = (selectedIdx + 1) % filteredList.length;
             e.preventDefault();
             break;
 
@@ -276,13 +290,13 @@ function SelectInput(props) {
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_END:
-            newSelectedIdx = optionList.length - 1;
+            newSelectedIdx = filteredList.length - 1;
             e.preventDefault();
             break;
 
         case KeyCode.DOM_VK_PAGE_UP:
             if (selectedIdx === 0) {
-                newSelectedIdx = optionList.length - 1;
+                newSelectedIdx = filteredList.length - 1;
             } else if (selectedIdx - 5 < 0) {
                 newSelectedIdx = 0;
             } else {
@@ -291,10 +305,10 @@ function SelectInput(props) {
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedIdx === optionList.length - 1) {
+            if (selectedIdx === filteredList.length - 1) {
                 newSelectedIdx = 0;
-            } else if (selectedIdx + 5 >= optionList.length) {
-                newSelectedIdx = optionList.length - 1;
+            } else if (selectedIdx + 5 >= filteredList.length) {
+                newSelectedIdx = filteredList.length - 1;
             } else {
                 newSelectedIdx = selectedIdx + 5;
             }
@@ -306,7 +320,8 @@ function SelectInput(props) {
 
         setShowOptions(true);
         scrollToIndex(newSelectedIdx, false);
-        selectedRef.current = newSelectedIdx;
+        selectedIdxRef.current = newSelectedIdx;
+        selectedValRef.current = filteredList[newSelectedIdx]?.value ?? "";
         setUpdate(update + 1);
     };
 
@@ -328,13 +343,10 @@ function SelectInput(props) {
                 return;
             }
 
-            if (optionList[selectedRef.current]) {
-                onChange(name, optionList[selectedRef.current].value);
-                setShowOptions(false);
-            } else if (optionList[0]) {
-                onChange(name, optionList[0].value);
-                setShowOptions(false);
+            if (!selectedValRef.current) {
+                selectedValRef.current = filteredList[0]?.value ?? "";
             }
+            inputRef.current.blur();
             break;
 
         default:
@@ -399,11 +411,11 @@ function SelectInput(props) {
             maxHeight={style.maxHeight}
             opacity={style.opacity}
         >
-            {optionList.map(({ key, value, text, message }, index) => <InputOption
+            {filteredList.map(({ key, value, text, message }, index) => <InputOption
                 key={key}
                 className={`input-option-${index}`}
                 content={text || message}
-                isSelected={selectedRef.current === index}
+                isSelected={selectedIdxRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
             />)}
         </InputOptions>}
