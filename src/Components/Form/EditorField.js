@@ -84,7 +84,7 @@ function EditorField(props) {
                     "insertdatetime", "media", "table", "wordcount", "fullscreen", "preview",
                 ],
                 content_style        : `
-                    body { font-family:Lato,Helvetica,Arial,sans-serif; font-size:14px; max-width: 800px; padding: 0 24px; margin: 0 auto; }
+                    body { font-family:Inter,Lato,Helvetica,Arial,sans-serif; font-size:14px; max-width: 800px; padding: 0 24px; margin: 0 auto; }
                     ${contentStyle}
                 `,
                 file_picker_callback : (callback, value, meta) => {
