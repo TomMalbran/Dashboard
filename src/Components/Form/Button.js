@@ -201,6 +201,17 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
     `}
 `;
 
+const Badge = Styled.span`
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 2px 4px;
+    font-size: 11px;
+    color: white;
+    background-color: #ff0033;
+    border-radius: 9999px;
+`;
+
 
 
 /**
@@ -211,8 +222,8 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, withMark, withIc
 function Button(props) {
     const {
         passedRef, isHidden, className, variant,
-        isDisabled, isSmall, fullWidth, isLoading, withMark,
-        icon, afterIcon, message,
+        isDisabled, isSmall, fullWidth, isLoading,
+        icon, afterIcon, message, badge, withMark,
         tooltip, tooltipVariant, children,
     } = props;
 
@@ -270,6 +281,9 @@ function Button(props) {
             className="btn-loader"
             isTiny
         />}
+        {!!badge && <Badge className="btn-badge">
+            {badge}
+        </Badge>}
     </Btn>;
 }
 
@@ -289,6 +303,7 @@ Button.propTypes = {
     isSmall        : PropTypes.bool,
     fullWidth      : PropTypes.bool,
     isLoading      : PropTypes.bool,
+    badge          : PropTypes.number,
     withMark       : PropTypes.bool,
     href           : PropTypes.string,
     url            : PropTypes.string,
@@ -315,6 +330,7 @@ Button.defaultProps = {
     isDisabled     : false,
     isSmall        : false,
     fullWidth      : false,
+    badge          : 0,
     withMark       : false,
     href           : "",
     url            : "",

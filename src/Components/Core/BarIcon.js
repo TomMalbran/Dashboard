@@ -148,7 +148,9 @@ function BarIcon(props) {
         {hasContent && <Span className="baricon-text">
             {content}
         </Span>}
-        {!!badge && <Badge className="baricon-badge">{badge}</Badge>}
+        {!!badge && <Badge className="baricon-badge">
+            {badge}
+        </Badge>}
     </Div>;
 }
 
