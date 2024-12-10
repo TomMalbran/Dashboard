@@ -44,7 +44,11 @@ function Form(props) {
 
     // Do the Render
     return <Content className={className}>
-        <Alert variant="error" message={error} noClose />
+        <Alert
+            className="form-error"
+            variant="error"
+            message={error}
+        />
         {items}
     </Content>;
 }
