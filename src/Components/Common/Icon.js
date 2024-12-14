@@ -8,7 +8,12 @@ import Store                from "../../Core/Store";
 
 
 // Styles
-const Span = Styled.span.attrs(({ color, cursor }) => ({ color, cursor }))`
+const Span = Styled.span.attrs(({ size, color, cursor }) => ({ size, color, cursor }))`
+    ${(props) => props.size && `
+        display: inline-block;
+        height: ${props.size}px;
+        font-size: ${props.size}px;
+    `}
     ${(props) => props.cursor && `cursor: ${props.cursor};`}
     ${(props) => props.color && `color: ${props.color};`}
 
@@ -30,12 +35,13 @@ const Span = Styled.span.attrs(({ color, cursor }) => ({ color, cursor }))`
  */
 function Icon(props) {
     const {
-        isHidden, className, icon, color, cursor,
+        isHidden, className, icon, size, color, cursor,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         onClick, onMouseDown,
     } = props;
 
     const elementRef = React.useRef();
+
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
 
@@ -54,6 +60,7 @@ function Icon(props) {
     return <Span
         ref={elementRef}
         className={`icon icon-${icon} ${className}`}
+        size={size}
         color={color}
         cursor={cursor}
         onClick={onClick}
@@ -71,6 +78,7 @@ Icon.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
     icon           : PropTypes.string.isRequired,
+    size           : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     color          : PropTypes.string,
     cursor         : PropTypes.string,
     tooltip        : PropTypes.string,
@@ -88,6 +96,7 @@ Icon.propTypes = {
 Icon.defaultProps = {
     isHidden       : false,
     className      : "",
+    size           : "",
     cursor         : "",
     tooltip        : "",
     tooltipVariant : "bottom",
