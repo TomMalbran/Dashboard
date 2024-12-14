@@ -45,7 +45,8 @@ const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMen
     width: 100vw;
 
     ${(props) => props.withTopBar ? `
-        --main-height: calc(var(--full-height) - var(--topbar-height));
+        --main-height: calc(var(--full-height) - var(--topbar-height) - var(--main-margin));
+
         display: grid;
         grid-template-columns: var(--sidebar-width) 1fr;
         grid-template-rows: var(--topbar-height) 1fr;
@@ -53,7 +54,7 @@ const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMen
             "sidebar topbar"
             "sidebar inside";
     ` : `
-        --main-height: var(--full-height);
+        --main-height: calc(var(--full-height) - var(--main-margin));
         display: flex;
     `}
 

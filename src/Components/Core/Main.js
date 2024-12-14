@@ -16,10 +16,14 @@ const Content = Styled.main.attrs(({ withNavigation, withDetails, wideDetails, l
     flex-grow: 2;
     flex-direction: column;
     height: var(--main-height, var(--full-height));
-    width: calc(100vw - var(--sidebar-width) - var(--main-navigation) - var(--main-details));
+    width: calc(100vw - var(--sidebar-width) - var(--main-navigation) - var(--main-details) - var(--main-margin));
+    margin-right: var(--main-margin);
+    margin-bottom: var(--main-margin);
+    border-radius: var(--main-radius);
+    background-color: white;
 
     @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
-        width: calc(100vw - var(--sidebar-width) - var(--main-navigation));
+        width: calc(100vw - var(--sidebar-width) - var(--main-navigation) - var(--main-margin));
     }
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
