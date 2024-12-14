@@ -13,41 +13,17 @@ import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
 import InputOptions         from "../Input/InputOptions";
 import InputOption          from "../Input/InputOption";
+import ChipList             from "../Chip/ChipList";
+import ChipItem             from "../Chip/ChipItem";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const List = Styled.ul`
-    display: flex;
-    flex-grow: 2;
-    flex-wrap: wrap;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 4px;
-    width: 100%;
-`;
-
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
     font-size: 18px;
-`;
-
-const Chip = Styled.li.attrs(({ isDisabled }) => ({ isDisabled }))`
-    padding: 2px 8px;
-    font-size: 12px;
-    background-color: var(--light-gray);
-    border-radius: var(--border-radius);
-    transition: all 0.2s;
-
-    ${(props) => !props.isDisabled && `
-        cursor: pointer;
-        &:hover {
-            background-color: var(--lighter-gray);
-        }
-    `}
 `;
 
 
@@ -315,14 +291,13 @@ function ChooserInput(props) {
         withPadding
         withLabel
     >
-        <List>
-            {chips.map(({ key, value }) => <Chip
+        <ChipList>
+            {chips.map(({ key, value }) => <ChipItem
                 key={key}
+                message={value}
                 onClick={(e) => handleRemove(e, key)}
                 isDisabled={isDisabled}
-            >
-                {value}
-            </Chip>)}
+            />)}
 
             {!isDisabled && <li>
                 <InputBase
@@ -340,7 +315,7 @@ function ChooserInput(props) {
                     onKeyUp={handleKeyUp}
                 />
             </li>}
-        </List>
+        </ChipList>
         <InputIcon icon="expand" />
 
         {hasOptions && <InputOptions
