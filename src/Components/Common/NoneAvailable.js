@@ -19,7 +19,7 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
     margin: 0;
     padding: 16px;
     font-size: 15px;
-    background-color: var(--lighter-gray);
+    background-color: var(--none-background);
     border-radius: var(--border-radius);
 
     ${(props) => props.variant === Variant.PRIMARY && `
