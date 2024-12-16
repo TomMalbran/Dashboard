@@ -14,7 +14,7 @@ import Button               from "../Form/Button";
 
 // Styles
 const Container = Styled.div`
-    background-color: var(--lighter-gray);
+    background-color: var(--dropzone-background);
     border-radius: var(--border-radius);
     text-align: center;
     padding: var(--main-padding);
