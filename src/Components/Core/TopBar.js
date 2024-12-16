@@ -16,34 +16,25 @@ import BarLogo              from "../Core/BarLogo";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ variant, withTopBar }) => ({ variant, withTopBar }))`
+const Nav = Styled.nav.attrs(({ withTopBar }) => ({ withTopBar }))`
+    --bicon-size: var(--topbar-icon-size, 32px);
+    --bicon-font: var(--topbar-icon-font, 16px);
+    --bicon-color: var(--topbar-icon-color);
+    --bicon-background: var(--topbar-icon-background);
+    --bicon-hover-color: var(--topbar-icon-hover-color);
+    --bicon-hover-bg: var(--topbar-icon-hover-bg);
+
     grid-area: topbar;
+    flex-shrink: 0;
     position: relative;
     display: ${(props) => props.withTopBar ? "flex" : "none"};
     box-sizing: border-box;
     justify-content: space-between;
     height: var(--topbar-height);
     padding: 0 12px;
+    background-color: var(--topbar-background, white);
+    border-bottom: var(--topbar-border, none);
     gap: 8px;
-
-    ${(props) => props.variant === Brightness.LIGHT && `
-        background-color: white;
-        &::after {
-            content: "";
-            position: absolute;
-            bottom: -2px;
-            right: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(rgba(9, 30, 66, 0.13) 0px, rgba(9, 30, 66, 0.13) 1px, rgba(9, 30, 66, 0.08) 1px, rgba(9, 30, 66, 0) 4px);
-        }
-    `}
-    ${(props) => props.variant === Brightness.DARK && `
-        background-color: var(--primary-color);
-    `}
-    ${(props) => props.variant === Brightness.DARKER && `
-        background-color: var(--secondary-color);
-    `}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: flex;
@@ -118,53 +109,50 @@ function TopBar(props) {
 
 
     // Do the Render
-    return <>
-        <Nav
-            className={`topbar ${className}`}
-            variant={variant}
-            withTopBar={withTopBar}
-        >
-            <Div>
-                <MenuIcon
-                    variant={iconVariant}
-                    icon="menu"
-                    onClick={openMenu}
-                />
-                <TopLogo
-                    logo={logo}
-                    logoWidth={logoWidth}
-                    logoHeight={logoHeight}
-                    withLink
-                />
-                {withTitle && <H1>{NLS.get("TITLE")}</H1>}
-            </Div>
+    return <Nav
+        className={`topbar ${className}`}
+        withTopBar={withTopBar}
+    >
+        <Div>
+            <MenuIcon
+                variant={iconVariant}
+                icon="menu"
+                onClick={openMenu}
+            />
+            <TopLogo
+                logo={logo}
+                logoWidth={logoWidth}
+                logoHeight={logoHeight}
+                withLink
+            />
+            {withTitle && <H1>{NLS.get("TITLE")}</H1>}
+        </Div>
 
-            <Div>
-                {children}
-                {showLogout && <BarIcon
-                    variant={iconVariant}
-                    icon="logout"
-                    onClick={onLogout}
-                />}
-                {hasDetails && <DetailIcon
-                    variant={iconVariant}
-                    icon="details"
-                    onClick={openDetails}
-                />}
+        <Div>
+            {children}
+            {showLogout && <BarIcon
+                variant={iconVariant}
+                icon="logout"
+                onClick={onLogout}
+            />}
+            {hasDetails && <DetailIcon
+                variant={iconVariant}
+                icon="details"
+                onClick={openDetails}
+            />}
 
-                <TopAvatar
-                    avatarUrl={avatarUrl}
-                    avatarEmail={avatarEmail}
-                    avatarAvatar={avatarAvatar}
-                    avatarEdition={avatarEdition}
-                    showParent={showParent}
-                    parentTitle={parentTitle}
-                    parentName={parentName}
-                    menuItems={menuItems}
-                />
-            </Div>
-        </Nav>
-    </>;
+            <TopAvatar
+                avatarUrl={avatarUrl}
+                avatarEmail={avatarEmail}
+                avatarAvatar={avatarAvatar}
+                avatarEdition={avatarEdition}
+                showParent={showParent}
+                parentTitle={parentTitle}
+                parentName={parentName}
+                menuItems={menuItems}
+            />
+        </Div>
+    </Nav>;
 }
 
 /**

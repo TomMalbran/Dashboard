@@ -32,7 +32,17 @@ const close = keyframes`
 const DrawerDrop = Styled(Backdrop)`
     z-index: var(--z-drawer);
 `;
-const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
+
+const Content = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
+    --bicon-size: var(--drawer-icon-size, 32px);
+    --bicon-font: var(--drawer-icon-font, 16px);
+    --bicon-color: var(--drawer-icon-color);
+    --bicon-background: var(--drawer-icon-background);
+    --bicon-sel-color: var(--drawer-icon-sel-color);
+    --bicon-sel-bg: var(--drawer-icon-sel-bg);
+    --bicon-hover-color: var(--drawer-icon-hover-color);
+    --bicon-hover-bg: var(--drawer-icon-hover-bg);
+
     position: fixed;
     display: flex;
     top: 0;
@@ -40,7 +50,7 @@ const Div = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
     bottom: 0;
     width: var(--drawer-width);
     max-width: 100%;
-    background-color: white;
+    background-color: var(--drawer-background);
 
     ${(props) => props.isClosing ?
         css`animation: ${close} 0.3s ease-out both;` :
@@ -93,6 +103,7 @@ function Drawer(props) {
         message, onClose, children,
     } = props;
 
+
     // The Current State
     const [ isClosing, setClosing ] = React.useState(false);
     const contentRef = React.useRef();
@@ -110,6 +121,7 @@ function Drawer(props) {
     };
 
 
+    // Do the Render
     if (!open) {
         return <React.Fragment />;
     }
@@ -119,7 +131,11 @@ function Drawer(props) {
         isClosing={isClosing}
         onClose={handleClose}
     >
-        <Div className={className} ref={contentRef} isClosing={isClosing}>
+        <Content
+            ref={contentRef}
+            className={className}
+            isClosing={isClosing}
+        >
             <Nav withBorder={withBorder}>
                 <Logo
                     logo={logo}
@@ -127,7 +143,6 @@ function Drawer(props) {
                     logoHeight={logoHeight}
                 />
                 <BarIcon
-                    variant="light"
                     icon="back"
                     onClick={handleClose}
                 />
@@ -136,7 +151,7 @@ function Drawer(props) {
                 <H2>{NLS.get(message)}</H2>
                 {children}
             </Section>
-        </Div>
+        </Content>
     </DrawerDrop>;
 }
 

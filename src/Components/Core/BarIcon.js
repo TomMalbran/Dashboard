@@ -3,18 +3,18 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import Store                from "../../Core/Store";
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
+import Responsive           from "../../Core/Responsive";
+import Store                from "../../Core/Store";
 
 // Components
-import { Brightness }       from "../../Core/Variants";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant, hasContent, isSelected }))`
+const Container = Styled.div.attrs(({ hideMobile, hasContent, isSelected }) => ({ hideMobile, hasContent, isSelected }))`
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -31,40 +31,19 @@ const Div = Styled.div.attrs(({ variant, hasContent, isSelected }) => ({ variant
     transition: all 0.5s;
 
     &:hover {
-        background-color: var(--bicon-hover);
+        color: var(--bicon-hover-color, var(--bicon-color));
+        background-color: var(--bicon-hover-bg);
     }
 
-    ${(props) => props.variant === Brightness.LIGHT && `
-        --bicon-color: var(--title-color);
-        --bicon-background: rgba(0, 0, 0, 0.1);
-        --bicon-hover: rgba(0, 0, 0, 0.2);
+    ${(props) => props.isSelected && `
+        color: var(--bicon-hover-color, var(--bicon-color));
+        background-color: var(--bicon-hover-bg);
     `}
 
-    ${(props) => props.variant === Brightness.DARK && `
-        --bicon-color: white;
-        --bicon-background: var(--primary-color);
-        --bicon-hover: var(--secondary-color);
-    `}
-    ${(props) => props.variant === Brightness.DARK && props.isSelected && `
-        --bicon-background: var(--secondary-color);
-    `}
-
-    ${(props) => props.variant === Brightness.DARKER && `
-        --bicon-color: white;
-        --bicon-background: var(--secondary-color);
-        --bicon-hover: var(--primary-color);
-    `}
-    ${(props) => props.variant === Brightness.DARKER && props.isSelected && `
-        --bicon-background: var(--primary-color);
-    `}
-
-    ${(props) => props.variant === Brightness.ACCENT && `
-        --bicon-color: white;
-        --bicon-background: transparent;
-        --bicon-hover: var(--accent-color);
-    `}
-    ${(props) => props.variant === Brightness.ACCENT && props.isSelected && `
-        --bicon-background: var(--accent-color);
+    ${(props) => props.hideMobile && `
+        @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
+            display: none;
+        }
     `}
 `;
 
@@ -93,8 +72,8 @@ const Badge = Styled.span`
  */
 function BarIcon(props) {
     const {
-        passedRef, isHidden, className, variant, isSelected,
-        icon, withText, withTooltip, tooltipDelay,
+        passedRef, isHidden, hideMobile, className,
+        isSelected, icon, withText, withTooltip, tooltipDelay,
         message, url, startsWith, badge,
     } = props;
 
@@ -112,7 +91,7 @@ function BarIcon(props) {
 
 
     // Returns true if the Menu should be selected
-    const shouldSelect = () => {
+    const shouldSelect = React.useMemo(() => {
         if (isSelected) {
             return isSelected;
         }
@@ -120,7 +99,8 @@ function BarIcon(props) {
             return isSelect(url, startsWith);
         }
         return false;
-    };
+    }, [ isSelect, isSelected, url, startsWith ]);
+
 
     // Handles the Tooltip
     const handleTooltip = () => {
@@ -134,12 +114,12 @@ function BarIcon(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Div
+    return <Container
         ref={elementRef}
-        className={`baricon ${className}`}
-        variant={variant}
+        className={`baricon ${shouldSelect ? "selected" : ""} ${className}`}
+        hideMobile={hideMobile}
         hasContent={hasContent}
-        isSelected={shouldSelect()}
+        isSelected={shouldSelect}
         onClick={onClick}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
@@ -148,10 +128,8 @@ function BarIcon(props) {
         {hasContent && <Span className="baricon-text">
             {content}
         </Span>}
-        {!!badge && <Badge className="baricon-badge">
-            {badge}
-        </Badge>}
-    </Div>;
+        {!!badge && <Badge className="baricon-badge">{badge}</Badge>}
+    </Container>;
 }
 
 /**
@@ -161,8 +139,8 @@ function BarIcon(props) {
 BarIcon.propTypes = {
     passedRef    : PropTypes.any,
     isHidden     : PropTypes.bool,
+    hideMobile   : PropTypes.bool,
     className    : PropTypes.string,
-    variant      : PropTypes.string,
     isSelected   : PropTypes.bool,
     icon         : PropTypes.string.isRequired,
     message      : PropTypes.string,
@@ -183,8 +161,8 @@ BarIcon.propTypes = {
  */
 BarIcon.defaultProps = {
     isHidden     : false,
+    hideMobile   : false,
     className    : "",
-    variant      : Brightness.LIGHT,
     isSelected   : false,
     withText     : false,
     withTooltip  : false,

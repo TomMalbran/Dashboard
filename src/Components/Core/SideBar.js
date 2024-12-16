@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
@@ -17,7 +16,16 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ variant, withBorder, topSpace, expandMobile }) => ({ variant, withBorder, topSpace, expandMobile }))`
+const Nav = Styled.nav.attrs(({ expandMobile }) => ({ expandMobile }))`
+    --bicon-size: var(--sidebar-icon-size, 32px);
+    --bicon-font: var(--sidebar-icon-font, 16px);
+    --bicon-color: var(--sidebar-icon-color);
+    --bicon-background: var(--sidebar-icon-background);
+    --bicon-sel-color: var(--sidebar-icon-sel-color);
+    --bicon-sel-bg: var(--sidebar-icon-sel-bg);
+    --bicon-hover-color: var(--sidebar-icon-hover-color);
+    --bicon-hover-bg: var(--sidebar-icon-hover-bg);
+
     grid-area: sidebar;
     box-sizing: border-box;
     display: flex;
@@ -27,21 +35,9 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, topSpace, expandMobile }) =
     align-items: center;
     box-sizing: border-box;
     width: var(--sidebar-width);
+    background-color: var(--sidebar-background, var(--primary-color));
+    border-right: var(--sidebar-border, none);
     padding: 16px 0;
-
-    ${(props) => props.variant === Brightness.DARK && `
-        background-color: var(--primary-color);
-    `}
-    ${(props) => props.variant === Brightness.DARKER && `
-        background-color: var(--secondary-color);
-    `}
-    ${(props) => props.variant === Brightness.ACCENT && `
-        background-color: var(--primary-color);
-    `}
-
-    ${(props) => props.withBorder && `
-        border-right: 1px solid var(--border-color-dark);
-    `}
 
     ${(props) => props.expandMobile && `
         .baricon-text {
@@ -49,7 +45,7 @@ const Nav = Styled.nav.attrs(({ variant, withBorder, topSpace, expandMobile }) =
         }
 
         @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
-            ${props.topSpace && `padding-top: ${props.topSpace}px;`}
+            padding-top: 40px !important;
 
             & > div {
                 align-items: flex-start;
@@ -107,10 +103,12 @@ const SideAvatar = Styled(Avatar)`
 `;
 
 const CloseIcon = Styled(IconLink)`
+    --link-color: var(--side-icon-color);
     display: none;
     position: absolute;
     top: 8px;
     left: 8px;
+    z-index: 1;
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: block;
@@ -126,14 +124,15 @@ const CloseIcon = Styled(IconLink)`
  */
 function SideBar(props) {
     const {
-        className, variant, withBorder, expandMobile,
-        topSpace, logo, logoWidth, logoHeight,
+        className, expandMobile,
+        logo, logoWidth, logoHeight,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         children,
     } = props;
 
     const { closeMenu } = Store.useAction("core");
+
 
     // Handles the Search Click
     const handleSearch = (e) => {
@@ -152,25 +151,12 @@ function SideBar(props) {
     };
 
 
-    // Calculate the Icon
-    let iconVariant = Brightness.DARK;
-    if (variant === Brightness.DARK) {
-        iconVariant = Brightness.DARKER;
-    } else if (variant === Brightness.ACCENT) {
-        iconVariant = Brightness.ACCENT;
-    }
-
-
     // Do the Render
     return <Nav
         className={`sidebar ${className}`}
-        variant={variant}
-        withBorder={withBorder}
-        topSpace={topSpace}
         expandMobile={expandMobile}
     >
         {expandMobile && <CloseIcon
-            variant="dark"
             icon="close"
             onClick={closeMenu}
             isSmall
@@ -183,12 +169,10 @@ function SideBar(props) {
                 withLink
             />}
             {hasSearch && <BarIcon
-                variant={iconVariant}
                 icon="search"
                 onClick={handleSearch}
             />}
             {hasCreate && <BarIcon
-                variant={iconVariant}
                 icon="add"
                 onClick={handleCreate}
             />}
@@ -197,7 +181,6 @@ function SideBar(props) {
         <Div>
             {!!message && <Name>{NLS.get(message)}</Name>}
             {!!onLogout && <BarIcon
-                variant={iconVariant}
                 icon="logout"
                 onClick={onLogout}
             />}
@@ -219,7 +202,6 @@ function SideBar(props) {
  */
 SideBar.propTypes = {
     className     : PropTypes.string,
-    variant       : PropTypes.string,
     logo          : PropTypes.string,
     logoWidth     : PropTypes.number,
     logoHeight    : PropTypes.number,
@@ -247,7 +229,6 @@ SideBar.propTypes = {
  */
 SideBar.defaultProps = {
     className    : "",
-    variant      : Brightness.DARKER,
     hasSearch    : false,
     hasCreate    : false,
     withBorder   : false,
