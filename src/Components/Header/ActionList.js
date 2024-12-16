@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Responsive           from "../../Core/Responsive";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -11,7 +12,7 @@ import ActionItem           from "./ActionItem";
 
 
 // Styles
-const Ul = Styled.ul`
+const Container = Styled.ul`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +21,7 @@ const Ul = Styled.ul`
     list-style: none;
     gap: 8px;
 
-    @media (max-width: 500px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
         .btn.btn {
             padding: 4px 8px;
         }
@@ -61,7 +62,7 @@ function ActionList(props) {
     if (!hasActions) {
         return <React.Fragment />;
     }
-    return <Ul className={className}>
+    return <Container className={className}>
         {canFilter && <ActionItem
             action="FILTER"
             onAction={onAction}
@@ -82,7 +83,7 @@ function ActionList(props) {
             onAction={onAction}
         />}
         {items}
-    </Ul>;
+    </Container>;
 }
 
 /**
