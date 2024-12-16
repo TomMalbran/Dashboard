@@ -16,7 +16,13 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ expandMobile }) => ({ expandMobile }))`
+const Container = Styled.nav.attrs(({ expandMobile }) => ({ expandMobile }))`
+    --bar-logo-width: var(--sidebar-logo-width, auto);
+    --bar-logo-height: var(--sidebar-logo-height, auto);
+    --bar-logo-max-width: var(--sidebar-logo-max-width, none);
+    --bar-logo-max-height: var(--sidebar-logo-max-height, none);
+    --bar-logo-bottom: var(--sidebar-logo-bottom, 0px);
+
     --bar-icon-size: var(--sidebar-icon-size, 32px);
     --bar-icon-font: var(--sidebar-icon-font, 16px);
     --bar-icon-color: var(--sidebar-icon-color);
@@ -92,12 +98,6 @@ const Name = Styled.div`
     transform-origin: left center;
 `;
 
-const SideLogo = Styled(BarLogo)`
-    margin-bottom: 8px;
-    margin-top: var(--sidebar-top);
-    height: var(--sidebar-logo);
-`;
-
 const SideAvatar = Styled(Avatar)`
     margin-top: 6px;
 `;
@@ -124,8 +124,7 @@ const CloseIcon = Styled(IconLink)`
  */
 function SideBar(props) {
     const {
-        className, expandMobile,
-        logo, logoWidth, logoHeight,
+        className, expandMobile, logo,
         hasSearch, onSearch, hasCreate, onCreate, onClose,
         onLogout, message, avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         children,
@@ -152,7 +151,7 @@ function SideBar(props) {
 
 
     // Do the Render
-    return <Nav
+    return <Container
         className={`sidebar ${className}`}
         expandMobile={expandMobile}
     >
@@ -162,12 +161,10 @@ function SideBar(props) {
             isSmall
         />}
         <Div>
-            {!!logo && <SideLogo
+            <BarLogo
                 logo={logo}
-                logoWidth={logoWidth}
-                logoHeight={logoHeight}
                 withLink
-            />}
+            />
             {hasSearch && <BarIcon
                 icon="search"
                 onClick={handleSearch}
@@ -193,7 +190,7 @@ function SideBar(props) {
                 onClick={onClose}
             />}
         </Div>
-    </Nav>;
+    </Container>;
 }
 
 /**
@@ -203,8 +200,6 @@ function SideBar(props) {
 SideBar.propTypes = {
     className     : PropTypes.string,
     logo          : PropTypes.string,
-    logoWidth     : PropTypes.number,
-    logoHeight    : PropTypes.number,
     hasSearch     : PropTypes.bool,
     hasCreate     : PropTypes.bool,
     onSearch      : PropTypes.func,

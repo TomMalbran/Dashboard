@@ -9,7 +9,7 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const H2 = Styled.h2.attrs(({ withLink }) => ({ withLink }))`
+const Container = Styled.h1.attrs(({ withLink }) => ({ withLink }))`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,9 +17,12 @@ const H2 = Styled.h2.attrs(({ withLink }) => ({ withLink }))`
     ${(props) => props.withLink ? "cursor: pointer;" : ""}
 `;
 
-const Img = Styled.img.attrs(({ logoWidth, logoHeight }) => ({ logoWidth, logoHeight }))`
-    ${(props) => props.logoWidth  ? `width: ${props.logoWidth}px`   : ""}
-    ${(props) => props.logoHeight ? `height: ${props.logoHeight}px` : ""}
+const Image = Styled.img`
+    width: var(--bar-logo-width, auto);
+    height: var(--bar-logo-height, auto);
+    max-width: var(--bar-logo-max-width, none);
+    max-height: var(--bar-logo-max-height, none);
+    margin-bottom: var(--bar-logo-bottom, 0);
 `;
 
 
@@ -30,7 +33,7 @@ const Img = Styled.img.attrs(({ logoWidth, logoHeight }) => ({ logoWidth, logoHe
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
-    const { className, logo, withLink, logoWidth, logoHeight } = props;
+    const { className, logo, withLink } = props;
 
     const navigate = Navigate.useUrl("/", "_self");
 
@@ -43,14 +46,21 @@ function BarLogo(props) {
         }
     };
 
-    return <H2 className={className} onClick={handleClick} withLink>
-        <Img
+
+    // Do the Render
+    if (!logo) {
+        return <React.Fragment />;
+    }
+    return <Container
+        className={className}
+        onClick={handleClick}
+        withLink
+    >
+        <Image
             src={logo}
             alt={NLS.get("TITLE")}
-            logoWidth={logoWidth}
-            logoHeight={logoHeight}
         />
-    </H2>;
+    </Container>;
 }
 
 /**
@@ -59,9 +69,7 @@ function BarLogo(props) {
  */
 BarLogo.propTypes = {
     className  : PropTypes.string,
-    logo       : PropTypes.string.isRequired,
-    logoWidth  : PropTypes.number,
-    logoHeight : PropTypes.number,
+    logo       : PropTypes.string,
     withLink   : PropTypes.bool,
 };
 

@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
@@ -16,7 +15,12 @@ import BarLogo              from "../Core/BarLogo";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ withTopBar }) => ({ withTopBar }))`
+const Container = Styled.nav.attrs(({ withTopBar, showDev }) => ({ withTopBar, showDev }))`
+    --bar-logo-width: var(--topbar-logo-width, auto);
+    --bar-logo-height: var(--topbar-logo-height, auto);
+    --bar-logo-max-width: var(--topbar-logo-max-width, none);
+    --bar-logo-max-height: var(--topbar-logo-max-height, none);
+
     --bar-icon-size: var(--topbar-icon-size, 32px);
     --bar-icon-font: var(--topbar-icon-font, 16px);
     --bar-icon-color: var(--topbar-icon-color);
@@ -36,6 +40,13 @@ const Nav = Styled.nav.attrs(({ withTopBar }) => ({ withTopBar }))`
     border-bottom: var(--topbar-border, none);
     gap: 8px;
 
+    ${(props) => props.showDev && `h1::after {
+        content: "DEV";
+        display: block;
+        margin-left: 16px;
+        font-weight: 400;
+    }`}
+
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: flex;
     }
@@ -46,12 +57,6 @@ const Div = Styled.div`
     flex-direction: row;
     align-items: center;
     gap: 8px;
-`;
-
-const TopLogo = Styled(BarLogo)`
-    .link-content {
-        display: block;
-    }
 `;
 
 const MenuIcon = Styled(BarIcon)`
@@ -86,10 +91,10 @@ const DetailIcon = Styled(BarIcon)`
  */
 function TopBar(props) {
     const {
-        className, variant, logo, logoWidth, logoHeight, withTitle,
+        className, withTopBar, withTitle, withDev, logo,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         showParent, parentTitle, parentName,
-        onLogout, withTopBar, menuItems, children,
+        onLogout, menuItems, children,
     } = props;
 
     const { hasDetails            } = Store.useState("core");
@@ -97,32 +102,24 @@ function TopBar(props) {
 
 
     // Variables
+    const showDev    = withDev && process.env.REACT_APP_ENV === "development";
     const hasMenu    = Boolean(menuItems && menuItems.length);
     const showLogout = Boolean(!hasMenu && onLogout);
 
-    let iconVariant = Brightness.DARK;
-    if (variant === Brightness.DARK) {
-        iconVariant = Brightness.DARKER;
-    } else if (variant === Brightness.LIGHT) {
-        iconVariant = Brightness.LIGHT;
-    }
-
 
     // Do the Render
-    return <Nav
+    return <Container
         className={`topbar ${className}`}
         withTopBar={withTopBar}
+        showDev={showDev}
     >
         <Div>
             <MenuIcon
-                variant={iconVariant}
                 icon="menu"
                 onClick={openMenu}
             />
-            <TopLogo
+            <BarLogo
                 logo={logo}
-                logoWidth={logoWidth}
-                logoHeight={logoHeight}
                 withLink
             />
             {withTitle && <H1>{NLS.get("TITLE")}</H1>}
@@ -131,12 +128,10 @@ function TopBar(props) {
         <Div>
             {children}
             {showLogout && <BarIcon
-                variant={iconVariant}
                 icon="logout"
                 onClick={onLogout}
             />}
             {hasDetails && <DetailIcon
-                variant={iconVariant}
                 icon="details"
                 onClick={openDetails}
             />}
@@ -152,7 +147,7 @@ function TopBar(props) {
                 menuItems={menuItems}
             />
         </Div>
-    </Nav>;
+    </Container>;
 }
 
 /**
@@ -162,10 +157,10 @@ function TopBar(props) {
 TopBar.propTypes = {
     className     : PropTypes.string,
     variant       : PropTypes.string,
-    logo          : PropTypes.string.isRequired,
-    logoWidth     : PropTypes.number,
-    logoHeight    : PropTypes.number,
+    withTopBar    : PropTypes.bool,
     withTitle     : PropTypes.bool,
+    withDev       : PropTypes.bool,
+    logo          : PropTypes.string.isRequired,
     avatarUrl     : PropTypes.string,
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,
@@ -174,7 +169,6 @@ TopBar.propTypes = {
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,
     onLogout      : PropTypes.func,
-    withTopBar    : PropTypes.bool,
     menuItems     : PropTypes.array,
     children      : PropTypes.any,
 };
@@ -185,10 +179,10 @@ TopBar.propTypes = {
  */
 TopBar.defaultProps = {
     className  : "",
-    variant    : Brightness.DARKER,
     showParent : false,
-    withTitle  : false,
     withTopBar : false,
+    withTitle  : false,
+    withDev    : false,
 };
 
 export default TopBar;

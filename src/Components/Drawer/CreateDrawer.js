@@ -16,8 +16,8 @@ import Drawer               from "../Drawer/Drawer";
  */
 function CreateDrawer(props) {
     const {
-        open, className, message, onClose, onAction, children,
-        logo, logoWidth, logoHeight,
+        open, className, logo, message,
+        onClose, onAction, children,
     } = props;
 
     const items = Utils.cloneChildren(children, () => ({ onAction }));
@@ -28,10 +28,8 @@ function CreateDrawer(props) {
         open={open}
         className={className}
         message={message || "GENERAL_CREATE"}
-        onClose={onClose}
         logo={logo}
-        logoWidth={logoWidth}
-        logoHeight={logoHeight}
+        onClose={onClose}
     >
         {items}
     </Drawer>;
@@ -42,15 +40,13 @@ function CreateDrawer(props) {
  * @typedef {Object} propTypes
  */
 CreateDrawer.propTypes = {
-    open       : PropTypes.bool.isRequired,
-    className  : PropTypes.string,
-    message    : PropTypes.string,
-    onClose    : PropTypes.func.isRequired,
-    onAction   : PropTypes.func.isRequired,
-    logo       : PropTypes.string,
-    logoWidth  : PropTypes.number,
-    logoHeight : PropTypes.number,
-    children   : PropTypes.any,
+    open      : PropTypes.bool.isRequired,
+    className : PropTypes.string,
+    logo      : PropTypes.string,
+    message   : PropTypes.string,
+    onClose   : PropTypes.func.isRequired,
+    onAction  : PropTypes.func.isRequired,
+    children  : PropTypes.any,
 };
 
 /**

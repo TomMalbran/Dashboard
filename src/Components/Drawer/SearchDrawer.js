@@ -60,8 +60,8 @@ const Title = Styled.span`
  */
 function SearchDrawer(props) {
     const {
-        isHidden, open, className, message, fetch, onClose,
-        logo, logoWidth, logoHeight,
+        isHidden, open, className, logo, message,
+        fetch, onClose,
     } = props;
 
     const navigate = Navigate.useGoto();
@@ -163,11 +163,9 @@ function SearchDrawer(props) {
     return <Drawer
         open={open}
         className={className}
+        logo={logo}
         message={message || "GENERAL_SEARCH"}
         onClose={onClose}
-        logo={logo}
-        logoWidth={logoWidth}
-        logoHeight={logoHeight}
     >
         <InputField
             name="search"
@@ -203,12 +201,10 @@ SearchDrawer.propTypes = {
     isHidden   : PropTypes.bool,
     open       : PropTypes.bool.isRequired,
     className  : PropTypes.string,
+    logo       : PropTypes.string,
     message    : PropTypes.string,
     fetch      : PropTypes.func.isRequired,
     onClose    : PropTypes.func.isRequired,
-    logo       : PropTypes.string,
-    logoWidth  : PropTypes.number,
-    logoHeight : PropTypes.number,
 };
 
 /**

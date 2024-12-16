@@ -34,6 +34,12 @@ const DrawerDrop = Styled(Backdrop)`
 `;
 
 const Content = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
+    --bar-logo-width: var(--sidebar-logo-width, auto);
+    --bar-logo-height: var(--sidebar-logo-height, auto);
+    --bar-logo-max-width: var(--sidebar-logo-max-width, none);
+    --bar-logo-max-height: var(--sidebar-logo-max-height, none);
+    --bar-logo-bottom: var(--sidebar-logo-bottom, 0px);
+
     --bar-icon-size: var(--drawer-icon-size, 32px);
     --bar-icon-font: var(--drawer-icon-font, 16px);
     --bar-icon-color: var(--drawer-icon-color);
@@ -65,13 +71,8 @@ const Nav = Styled.nav.attrs(({ withBorder }) => ({ withBorder }))`
     align-items: center;
     width: var(--sidebar-width);
     padding: 16px 0;
+    gap: 8px;
     ${(props) => props.withBorder ? "border-right: 1px solid var(--border-color-dark)" : ""};
-`;
-
-const Logo = Styled(BarLogo)`
-    margin-bottom: 8px;
-    margin-top: var(--sidebar-top);
-    height: var(--sidebar-logo);
 `;
 
 const Section = Styled.section`
@@ -99,8 +100,7 @@ const H2 = Styled.h2`
 function Drawer(props) {
     const {
         open, className, withBorder,
-        logo, logoWidth, logoHeight,
-        message, onClose, children,
+        logo, message, onClose, children,
     } = props;
 
 
@@ -137,11 +137,7 @@ function Drawer(props) {
             isClosing={isClosing}
         >
             <Nav withBorder={withBorder}>
-                <Logo
-                    logo={logo}
-                    logoWidth={logoWidth}
-                    logoHeight={logoHeight}
-                />
+                <BarLogo logo={logo} />
                 <BarIcon
                     icon="back"
                     onClick={handleClose}
@@ -165,8 +161,6 @@ Drawer.propTypes = {
     withBorder : PropTypes.bool,
     message    : PropTypes.string.isRequired,
     logo       : PropTypes.string,
-    logoWidth  : PropTypes.number,
-    logoHeight : PropTypes.number,
     onClose    : PropTypes.func.isRequired,
     children   : PropTypes.any,
 };
