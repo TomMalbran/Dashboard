@@ -13,10 +13,21 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ variant, isDisabled, isSmall, withMark }))`
-    --link-size: ${(props) => props.isSmall ? "24px" : "32px"};
-    --link-font: ${(props) => props.isSmall ? "18px" : "22px"};
+const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark }) => ({ variant, isDisabled, isSmall, isTiny, withMark }))`
+    --link-size: 32px;
+    --link-font: 22px;
     --link-radius: var(--border-radius);
+
+    ${(props) => props.isSmall && `
+        --link-size: 24px;
+        --link-font: 18px;
+        --link-radius: var(--border-radius-small);
+    `}
+    ${(props) => props.isTiny && `
+        --link-size: 20px;
+        --link-font: 14px;
+        --link-radius: var(--border-radius-small);
+    `}
 
     position: relative;
     display: block;
@@ -98,8 +109,8 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, withMark }) => ({ v
  */
 function IconLink(props) {
     const {
-        isHidden, passedRef, variant, className, isDisabled, isSmall,
-        target, icon, withMark,
+        isHidden, passedRef, variant, className, isDisabled,
+        target, icon, isSmall, isTiny, withMark,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         onMouseDown, onMouseUp, onTouchEnd,
     } = props;
@@ -128,6 +139,7 @@ function IconLink(props) {
         variant={variant}
         isDisabled={isDisabled}
         isSmall={isSmall}
+        isTiny={isTiny}
         withMark={withMark}
         href={Navigate.getUrl(props)}
         target={target}
@@ -168,6 +180,7 @@ IconLink.propTypes = {
     onMouseUp      : PropTypes.func,
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
+    isTiny         : PropTypes.bool,
     withMark       : PropTypes.bool,
     dontStop       : PropTypes.bool,
     children       : PropTypes.any,
@@ -193,6 +206,7 @@ IconLink.defaultProps = {
     isWhatsApp     : false,
     isDisabled     : false,
     isSmall        : false,
+    isTiny         : false,
     withMark       : false,
     dontStop       : false,
 };

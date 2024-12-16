@@ -84,12 +84,6 @@ const MediaActions = Styled.div`
     background-color: var(--media-actions-color);
 `;
 
-const MediaLink = Styled(IconLink)`
-    --link-size: 20px;
-    --link-font: 14px;
-    --link-radius: var(--border-radius-small);
-`;
-
 const Image = Styled.img`
     pointer-events: none;
 `;
@@ -150,17 +144,20 @@ function MediaItem(props) {
         </MediaName>
 
         {hasActions && <MediaActions className="media-actions">
-            <MediaLink
+            <IconLink
                 icon={view.icon}
                 onClick={(e) => handleAction(e, view)}
+                isTiny
             />
-            <MediaLink
+            <IconLink
                 icon={edit.icon}
                 onClick={(e) => handleAction(e, edit)}
+                isTiny
             />
-            <MediaLink
+            <IconLink
                 icon={remove.icon}
                 onClick={(e) => handleAction(e, remove)}
+                isTiny
             />
         </MediaActions>}
     </Div>;

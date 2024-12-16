@@ -65,11 +65,8 @@ const Inside = Styled.div`
     gap: 4px;
 `;
 
-const Remove = Styled(IconLink)`
-    --link-size: 20px;
-    --link-font: 14px;
+const RemoveIcon = Styled(IconLink)`
     margin-left: 4px;
-    border-radius: var(--border-radius-small);
 `;
 
 const Error = Styled(InputError)`
@@ -331,12 +328,12 @@ function ListInput(props) {
                         <Error error={getError(index)} />
                     </Inside>
 
-                    <Remove
+                    <RemoveIcon
                         isHidden={!canRemove}
                         variant="light"
                         icon="close"
                         onClick={() => handleRemove(index)}
-                        isSmall
+                        isTiny
                     />
                 </Item>)}
             </Content>
