@@ -17,6 +17,12 @@ const Container = Styled.section.attrs(({ variant, inDialog, inDetails }) => ({ 
     display: flex;
     align-items: center;
 
+    ${(props) => props.variant === "lined" && `
+        --tabs-gap: 0px;
+        width: 100%;
+        border-bottom: var(--border-width) solid var(--border-color-light);
+    `}
+
     ${(props) => props.variant === Brightness.DARK && `
         background-color: var(--primary-color);
     `}
@@ -44,16 +50,17 @@ const Container = Styled.section.attrs(({ variant, inDialog, inDetails }) => ({ 
     `}
 `;
 
-const Div = Styled.div.attrs(({ size }) => ({ size }))`
+const Content = Styled.div.attrs(({ size }) => ({ size }))`
+    display: flex;
     max-width: 100%;
     overflow: auto;
     display: flex;
-    gap: var(--main-gap);
+    gap: var(--tabs-gap);
 
-    ${(props) => props.size > 0 ? `
+    ${(props) => props.size > 0 && `
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(${props.size || 100}px, 1fr));
-    ` : "display: flex;"}
+    `}
 `;
 
 const TabLink = Styled(IconLink)`
@@ -95,9 +102,9 @@ function TabList(props) {
         inDialog={inDialog}
         inDetails={inDetails}
     >
-        <Div className="tabs-content no-scrollbars" size={size}>
+        <Content className="tabs-content no-scrollbars" size={size}>
             {items}
-        </Div>
+        </Content>
         {showAdd && <TabLink
             variant={variant === Brightness.DARK ? "darker" : "light"}
             icon="add"

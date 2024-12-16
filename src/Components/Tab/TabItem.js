@@ -14,21 +14,24 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Item = Styled.div.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
-    --tab-disabled-color: rgba(255, 255, 255, 0.5);
-    --tab-selected-font: var(--white-color);
-
+const Container = Styled.div.attrs(({ withGap, isSelected, isDisabled }) => ({ withGap, isSelected, isDisabled }))`
     position: relative;
     box-sizing: border-box;
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: ${(props) => props.withGap ? "6px" : "0"};
     line-height: 1;
     white-space: nowrap;
     border-radius: var(--border-radius);
     transition: all 0.2s;
     cursor: pointer;
+`;
+
+const Item = Styled(Container)`
+    --tab-disabled-color: rgba(255, 255, 255, 0.5);
+    --tab-selected-font: var(--white-color);
 
     &:hover .icon {
         display: block;
@@ -83,6 +86,36 @@ const DarkerItem = Styled(Item)`
     background-color: var(--primary-color);
 `;
 
+const LinedItem = Styled(Container)`
+    box-sizing: border-box;
+    margin: 0 0 4px 0;
+    padding: ${(props) => props.withGap ? "4px 12px" : "6px 12px"};
+    border-radius: var(--border-radius);
+    font-size: 14px;
+
+    .icon {
+        height: 18px;
+        font-size: 18px;
+    }
+
+    &:hover {
+        background-color: var(--lighter-gray);
+    }
+
+    ${(props) => props.isSelected && `
+        color: var(--primary-color);
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+    `};
+`;
+
 const ItemIcon = Styled(Icon)`
     display: none;
     position: absolute;
@@ -125,6 +158,7 @@ const Components = {
     [Brightness.LIGHT]  : LightItem,
     [Brightness.DARK]   : DarkItem,
     [Brightness.DARKER] : DarkerItem,
+    "lined"             : LinedItem,
 };
 
 
@@ -157,6 +191,7 @@ function TabItem(props) {
     const canAction  = Boolean(!isDisabled && onAction);
     const showEdit   = Boolean(canEdit && canAction);
     const showDelete = Boolean(canDelete && canAction);
+    const withGap    = Boolean(icon && message);
 
 
     // Handles the Action
@@ -201,6 +236,7 @@ function TabItem(props) {
     return <Component
         ref={elementRef}
         className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
+        withGap={withGap}
         isSelected={isSelected}
         isDisabled={isDisabled}
         onClick={handleClick}
@@ -211,7 +247,8 @@ function TabItem(props) {
             icon="edit"
             onClick={handleEdit}
         />}
-        {icon ? <Icon icon={icon} /> : NLS.get(message)}
+        {!!icon && <Icon icon={icon} />}
+        {!!message && NLS.get(message)}
         {hasAmount && <Amount className="tab-amount">{amount}</Amount>}
         {!!badge && <Badge className="tab-badge">{badge}</Badge>}
         {showDelete && <DeleteIcon
