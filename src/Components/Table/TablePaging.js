@@ -24,10 +24,12 @@ const TD = Styled.td`
     align-items: center;
     padding: 0 4px;
     font-size: 12px;
-    background: var(--table-background, var(--table-color));
-    border: 1px solid var(--table-color);
-    border-bottom-left-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+    background: var(--table-background);
+    border: var(--table-border-outer);
+    border-top-right-radius: var(--table-radius-inner);
+    border-top-left-radius: var(--table-radius-inner);
+    border-bottom-right-radius: var(--table-radius-outer);
+    border-bottom-left-radius: var(--table-radius-outer);
 `;
 
 const Rows = Styled.p`

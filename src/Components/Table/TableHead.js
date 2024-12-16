@@ -12,13 +12,14 @@ import CheckboxInput        from "../InputType/CheckboxInput";
 
 
 // Styles
-const THead = Styled.thead.attrs(({ notFixed }) => ({ notFixed }))`
-    border: 1px solid var(--table-color);
-    background: var(--table-background, var(--table-color));
-    border-top-right-radius: var(--border-radius);
-    border-top-left-radius: var(--border-radius);
-
-    ${(props) => !props.notFixed && "padding-right: 12px;"}
+const THead = Styled.thead`
+    border: var(--table-border-outer);
+    background: var(--table-background);
+    border-top-right-radius: var(--table-radius-outer);
+    border-top-left-radius: var(--table-radius-outer);
+    border-bottom-right-radius: var(--table-radius-inner);
+    border-bottom-left-radius: var(--table-radius-inner);
+    padding-right: var(--table-header-right);
 
     @media (max-width: 700px) {
         display: none;
@@ -38,7 +39,7 @@ const CheckHead = Styled.th`
  */
 function TableHead(props) {
     const {
-        notFixed, hasIDs, hasChecks, hasActions, hasSorting,
+        hasIDs, hasChecks, hasActions, hasSorting,
         hasCheckAll, isCheckedAll, setCheckedAll,
         sort, fetch, columns, children,
     } = props;
@@ -51,7 +52,7 @@ function TableHead(props) {
 
 
     // Do the Render
-    return <THead notFixed={notFixed}>
+    return <THead>
         <TableRowCnt
             hasIDs={hasIDs}
             hasChecks={hasChecks}
@@ -77,7 +78,6 @@ function TableHead(props) {
  * @typedef {Object} propTypes
  */
 TableHead.propTypes = {
-    notFixed      : PropTypes.bool,
     hasIDs        : PropTypes.bool,
     hasChecks     : PropTypes.bool,
     hasActions    : PropTypes.bool,

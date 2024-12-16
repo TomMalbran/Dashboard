@@ -25,7 +25,7 @@ const Wrapper = Styled.div`
     position: relative;
 `;
 
-const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging }))`
+const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll }))`
     ${(props) => props.inDialog ? `
         --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
@@ -33,6 +33,7 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     `}
 
     --table-header-height: 27px;
+    --table-header-right: ${(props) => props.hasScroll ? "16px" : "0px"};
     --table-filter-height: ${(props) => props.hasFilter ? "var(--filter-height)" : "0px"};
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
@@ -48,6 +49,10 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     .input-content {
         background-color: transparent;
     }
+
+    ${(props) => props.hasScroll && `tr:last-child td {
+        border-bottom: none;
+    }`}
 
     @media (max-width: 700px) {
         --table-header-height: 0px;
@@ -70,7 +75,7 @@ function Table(props) {
     } = props;
 
     // References
-    const tableRef = React.useRef();
+    const tableRef = React.useRef(null);
     const navigate = Navigate.useGoto();
     const path     = Navigate.usePath();
 
@@ -80,6 +85,7 @@ function Table(props) {
     const [ menuLeft,   setMenuLeft   ] = React.useState(null);
     const [ menuDir,    setMenuDir    ] = React.useState(null);
     const [ iconHeight, setIconHeight ] = React.useState(0);
+    const [ hasScroll,  setHasScroll  ] = React.useState(false);
 
 
     // Handles the Click
@@ -235,6 +241,14 @@ function Table(props) {
         }
     }
 
+    // Check if the Table should scroll
+    React.useEffect(() => {
+        if (tableRef.current && items.length) {
+            const body = tableRef.current.querySelector("tbody");
+            setHasScroll(body.scrollHeight > body.clientHeight);
+        }
+    }, [ isLoading, elemIDs.length ]);
+
 
     // Do the Render
     if (isLoading) {
@@ -258,6 +272,7 @@ function Table(props) {
                 hasTabs={hasTabs}
                 hasAlert={hasAlert}
                 hasPaging={hasPaging}
+                hasScroll={hasScroll}
             >
                 {items}
             </Container>

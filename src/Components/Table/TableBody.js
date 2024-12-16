@@ -11,16 +11,15 @@ import Utils                from "../../Utils/Utils";
 const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notFixed }))`
     box-sizing: border-box;
     width: 100%;
-    border-left: var(--table-border) solid var(--table-color);
-    border-right: var(--table-border) solid var(--table-color);
+    border-left: var(--table-border-outer);
+    border-right: var(--table-border-outer);
 
     ${(props) => props.notFixed ? `
         tr:last-child td {
             border-bottom: none;
         }
     ` : `
-        overflow-y: scroll;
-        overflow-x: auto;
+        overflow: auto;
         height: calc(
             var(--table-height)
             - var(--table-header-height)
@@ -34,13 +33,13 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
         &&::-webkit-scrollbar {
             width: 14px;
             height: 14px;
-            border-left: var(--table-border) solid var(--table-color);
+            border-left: var(--table-border-outer);
         }
         &&::-webkit-scrollbar-thumb {
             border-radius: 999px;
             border: 2px solid transparent;
             border-left-width: 4px;
-            box-shadow: inset 0 0 0 8px var(--table-color);
+            box-shadow: inset 0 0 0 8px var(--border-color-light);
             transition: all 0.2s;
         }
         &&::-webkit-scrollbar-thumb:hover {
@@ -49,20 +48,20 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
     `}
 
     ${(props) => !props.hasFooter && `
-        border-bottom: var(--table-border) solid var(--table-color);
-        border-bottom-left-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
+        border-bottom: var(--table-border-outer);
+        border-bottom-left-radius: var(--table-radius-last);
+        border-bottom-right-radius: var(--table-radius-last);
 
         tr:last-child td:first-child {
-            border-bottom-left-radius: var(--border-radius);
+            border-bottom-left-radius: var(--table-radius-last);
         }
         tr:last-child td:last-child {
-            border-bottom-right-radius: var(--border-radius);
+            border-bottom-right-radius: var(--table-radius-last);
         }
     `}
 
     @media (max-width: 700px) {
-        border-top: var(--table-border) solid var(--table-color);
+        border-top: var(--table-border-outer);
         border-top-left-radius: var(--border-radius);
         border-top-right-radius: var(--border-radius);
     }
