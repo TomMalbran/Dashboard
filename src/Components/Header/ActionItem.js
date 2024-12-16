@@ -32,7 +32,7 @@ const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
 function ActionItem(props) {
     const {
         action, variant, isSmall, isLoading, withMark, message, icon,
-        onClick, onAction, direction, menuGap,
+        onClick, onAction, direction, menuGap, badge,
         tooltip, tooltipVariant, children,
     } = props;
 
@@ -98,7 +98,7 @@ function ActionItem(props) {
     }
     const act = Action.get(action);
 
-    return <Li ref={actionRef} isSmall={isSmall}>
+    return <Container ref={actionRef} isSmall={isSmall}>
         <Button
             passedRef={buttonRef}
             variant={variant}
@@ -109,6 +109,7 @@ function ActionItem(props) {
             onClick={() => handleClick()}
             isSmall={isSmall}
             isLoading={isLoading}
+            badge={badge}
             withMark={withMark}
             propagate
         />
@@ -131,7 +132,7 @@ function ActionItem(props) {
                 onClick={() => handleMenuClick(elem)}
             >{elem.children}</MenuItem>)}
         </Menu>}
-    </Li>;
+    </Container>;
 }
 
 /**
@@ -153,6 +154,7 @@ ActionItem.propTypes = {
     onAction       : PropTypes.func,
     direction      : PropTypes.string,
     menuGap        : PropTypes.number,
+    badge          : PropTypes.number,
     children       : PropTypes.any,
 };
 
@@ -168,6 +170,7 @@ ActionItem.defaultProps = {
     withMark  : false,
     direction : "bottom left",
     menuGap   : 4,
+    badge     : 0,
 };
 
 export default ActionItem;
