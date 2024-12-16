@@ -29,7 +29,7 @@ const Container = Styled.div.attrs(({ columns, showButton }) => ({ columns, show
     overflow-x: auto;
 
     ${(props) => props.showButton && `
-        grid-template-columns: repeat(var(--filter-columns), 1fr) calc(37px + var(--filter-padding));
+        grid-template-columns: repeat(var(--filter-columns), 1fr) calc(37px + var(--filter-right));
         padding-right: 0;
     `}
 `;
@@ -52,7 +52,7 @@ const Div = Styled.div`
     justify-content: center;
     margin-left: calc(1px - var(--main-gap));
     padding-left: var(--main-gap);
-    padding-right: var(--filter-padding);
+    padding-right: var(--filter-right);
     background-color: var(--filter-background);
     z-index: 1;
 `;
