@@ -51,7 +51,7 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
             line-height: 1.5;
         `}
         ${(props) => props.withLink && "cursor: pointer;"}
-        padding-top: var(--input-label);
+        padding-top: calc(var(--input-label) + 2px);
     }
 
     .inputview-link {
