@@ -9,14 +9,17 @@ import Alert                from "../Form/Alert";
 
 
 // Styles
-const Container = Styled.section.attrs(({ hasTabs }) => ({ hasTabs }))`
+const Container = Styled.section.attrs(({ hasTabs, withBorder }) => ({ hasTabs, withBorder }))`
     box-sizing: border-box;
     flex-grow: 2;
     display: flex;
     flex-direction: column;
     height: ${(props) => props.hasTabs ? "var(--page-height-tabs)" : "var(--page-height)"};
-    border: var(--border-width) solid var(--border-color-light);
-    border-radius: var(--border-radius);
+
+    ${(props) => props.withBorder && `
+        border: var(--border-width) solid var(--border-color-light);
+        border-radius: var(--border-radius);
+    `}
 `;
 
 
@@ -27,11 +30,15 @@ const Container = Styled.section.attrs(({ hasTabs }) => ({ hasTabs }))`
  * @returns {React.ReactElement}
  */
 function PageContainer(props) {
-    const { className, hasTabs, error, children } = props;
+    const { className, hasTabs, withBorder, error, children } = props;
 
 
     // Do the Render
-    return <Container className={className} hasTabs={hasTabs}>
+    return <Container
+        className={className}
+        hasTabs={hasTabs}
+        withBorder={withBorder}
+    >
         {!!error && <PageHeader>
             <Alert variant="error" message={error} />
         </PageHeader>}
@@ -45,10 +52,11 @@ function PageContainer(props) {
  * @typedef {Object} propTypes
  */
 PageContainer.propTypes = {
-    className : PropTypes.string,
-    hasTabs   : PropTypes.bool,
-    error     : PropTypes.string,
-    children  : PropTypes.any,
+    className  : PropTypes.string,
+    hasTabs    : PropTypes.bool,
+    withBorder : PropTypes.bool,
+    error      : PropTypes.string,
+    children   : PropTypes.any,
 };
 
 /**
@@ -56,7 +64,10 @@ PageContainer.propTypes = {
  * @type {Object} defaultProps
  */
 PageContainer.defaultProps = {
-    className : "",
+    className  : "",
+    hasTabs    : false,
+    withBorder : false,
+    error      : "",
 };
 
 export default PageContainer;

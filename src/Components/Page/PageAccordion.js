@@ -8,10 +8,11 @@ import AccordionList        from "../Accordion/AccordionList";
 
 
 // Styles
-const Container = Styled(AccordionList)`
+const Container = Styled(AccordionList).attrs(({ withSpacing }) => ({ withSpacing }))`
     flex-grow: 2;
-    padding: 16px;
     overflow: auto;
+
+    ${(props) => props.withSpacing && "padding: 16px;"}
 `;
 
 
@@ -22,7 +23,7 @@ const Container = Styled(AccordionList)`
  * @returns {React.ReactElement}
  */
 function PageAccordion(props) {
-    const { initial, selected, onChange, noClose, children } = props;
+    const { initial, selected, onChange, noClose, withSpacing, children } = props;
 
 
     // Do the Render
@@ -31,6 +32,7 @@ function PageAccordion(props) {
         selected={selected}
         onChange={onChange}
         noClose={noClose}
+        withSpacing={withSpacing}
     >
         {children}
     </Container>;
@@ -41,11 +43,12 @@ function PageAccordion(props) {
  * @typedef {Object} propTypes
  */
 PageAccordion.propTypes = {
-    initial  : PropTypes.string,
-    selected : PropTypes.string,
-    onChange : PropTypes.func,
-    noClose  : PropTypes.bool,
-    children : PropTypes.any,
+    initial     : PropTypes.string,
+    selected    : PropTypes.string,
+    onChange    : PropTypes.func,
+    noClose     : PropTypes.bool,
+    withSpacing : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 export default PageAccordion;
