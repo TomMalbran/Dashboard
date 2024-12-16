@@ -183,7 +183,7 @@ function SelectInput(props) {
     // Sets the Selected Index
     const setSelectedIndex = (value) => {
         selectedIdxRef.current = filteredList.findIndex((option) => String(option.value) === String(value)) ?? -1;
-        selectedValRef.current = filteredList.find((option) => String(option.value) === String(value)).value ?? "";
+        selectedValRef.current = filteredList.find((option) => String(option.value) === String(value))?.value ?? "";
     };
 
 
