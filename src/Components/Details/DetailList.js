@@ -20,20 +20,19 @@ const Container = Styled.div`
     border-radius: var(--border-radius);
 `;
 
-const H3 = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible, isCollapsed }))`
+const Title = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible, isCollapsed }))`
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 6px;
-    margin: 0;
-    padding: 0 8px;
-    min-height: 40px;
+    margin: 6px;
+    padding: 4px;
+    min-height: 32px;
     font-size: 18px;
     font-weight: 400;
     line-height: 1;
     color: var(--black-color);
-    border-bottom: 1px solid var(--border-color-light);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
+    border-radius: var(--border-radius);
     font-family: var(--title-font);
 
     ${(props) => props.isCollapsible && `
@@ -56,6 +55,7 @@ const Span = Styled.span`
 const Content = Styled.section`
     margin: 0;
     padding: 8px;
+    border-top: 1px solid var(--border-color-light);
 `;
 
 
@@ -119,8 +119,8 @@ function DetailList(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Container className={className}>
-        <H3
+    return <Container className={`details-list ${className}`}>
+        <Title
             isCollapsible={isCollapsible}
             isCollapsed={isCollapsed}
             onClick={handleClick}
@@ -145,7 +145,7 @@ function DetailList(props) {
                 icon={isCollapsed ? "closed" : "expand"}
                 isSmall
             />}
-        </H3>
+        </Title>
         {!isCollapsed && <Content className="details-content">
             {children}
         </Content>}
