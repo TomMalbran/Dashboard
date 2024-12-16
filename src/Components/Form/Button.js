@@ -55,16 +55,10 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
     transition: box-shadow 0.5s, color 0.5s, background-color 0.5s, border-color 0.5s;
     cursor: pointer;
 
-    ${(props) => props.withIcon && `
+    ${(props) => (props.withIcon || props.isLoading) && `
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 4px 12px 4px 8px;
-        gap: 4px;
-    `}
-    ${(props) => !props.withIcon && props.isLoading && `
-        display: flex;
-        align-items: center;
         padding: 5px 12px 5px 8px;
         gap: 4px;
     `}
@@ -100,10 +94,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
     }
 
     .btn-preicon {
-        font-size: ${(props) => props.isSmall ? "15px" : "19px"};
+        height: ${(props) => props.isSmall ? "14px" : "18px"};
+        font-size: ${(props) => props.isSmall ? "14px" : "18px"};
     }
     .btn-aftericon {
-        font-size: ${(props) => props.isSmall ? "15px" : "19px"};
+        height: ${(props) => props.isSmall ? "14px" : "18px"};
+        font-size: ${(props) => props.isSmall ? "14px" : "18px"};
     }
 
     ${(props) => {
@@ -148,9 +144,10 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
         `;
         case Variant.OUTLINED: return `
             --button-color: var(--primary-color);
-            --button-border: var(--primary-color);
+            --button-border: var(--primary-border, var(--primary-color));
             --button-background: white;
             --button-hover-color: white;
+            --button-hover-border: var(--primary-color);
             --button-hover-background: var(--primary-color);
         `;
         case Variant.OUTLINED_WHITE: return `
