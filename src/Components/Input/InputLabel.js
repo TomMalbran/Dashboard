@@ -11,7 +11,7 @@ import NLS                  from "../../Core/NLS";
 const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, isFocused }) => ({ isRequired, withTransform, withValue, isFocused }))`
     box-sizing: border-box;
     position: absolute;
-    top: 4px;
+    top: 6px;
     left: 6px;
     max-width: calc(100% - 12px);
     margin: 0;
