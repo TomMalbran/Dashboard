@@ -16,10 +16,11 @@ import MenuLine             from "../Menu/MenuLine";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
-    ${(props) => !props.isSmall && `.btn {
-        font-size: 12px;
-    }`}
+const Container = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
+    .btn {
+        text-transform: none;
+        font-size: ${(props) => props.isSmall ? "12px" : "14px"};
+    }
 `;
 
 
