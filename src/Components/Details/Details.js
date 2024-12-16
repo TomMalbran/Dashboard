@@ -13,25 +13,36 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasTabs, topSpace }) => ({ isInside, isWide, isLarge, hasTabs, topSpace }))`
+const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternalTabs, hasInternalTabs, topSpace, withBorder }) => ({ isInside, isWide, isLarge, hasExternalTabs, hasInternalTabs, topSpace, withBorder }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    gap: var(--details-spacing);
+    gap: var(--details-gap);
     padding: var(--details-spacing);
     width: ${(props) => props.isLarge ? "var(--details-width-large)" : (props.isWide ? "var(--details-width-wide)" : "var(--details-width)")};
+    height: var(--details-height);
     background-color: var(--details-background);
     overflow: auto;
 
-    ${(props) => props.hasTabs && "padding-top: 0px;"}
+    ${(props) => props.hasInternalTabs && "padding-top: 0px;"}
     ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
 
     ${(props) => props.isInside ? `
+        --details-height: ${props.hasExternalTabs ? "var(--page-height-tabs)" : "var(--page-height)"};
+    ` : `
+        --details-height: var(--main-height);
+        --details-spacing: var(--details-spacing-big);
+
+        margin-right: var(--main-margin);
+        border-radius: var(--main-radius);
+    `}
+
+    ${(props) => props.withBorder && `
+        --details-spacing: var(--details-spacing-small);
+
         border-radius: var(--border-radius);
         border: 1px solid var(--details-border-color);
-    ` : `
-        height: var(--main-height);
     `}
 
     @media (max-width: 1200px) {
@@ -42,6 +53,8 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasTabs, topS
         bottom: 0;
         height: auto;
         max-width: 90%;
+        padding: 16px;
+        margin-right: 0;
         border-radius: 0;
         z-index: var(--z-details);
     }
@@ -75,7 +88,8 @@ const Error = Styled.div`
  */
 function Details(props) {
     const {
-        className, isHidden, isInside, isWide, isLarge, hasTabs, topSpace,
+        className, isHidden, isInside, isWide, isLarge,
+        hasExternalTabs, hasInternalTabs, topSpace, withBorder,
         isLoading, isEmpty, hasError, error,
         canEdit, onAction, collapsible, children,
     } = props;
@@ -113,8 +127,10 @@ function Details(props) {
         isInside={isInside}
         isWide={isWide}
         isLarge={isLarge}
-        hasTabs={hasTabs}
+        hasExternalTabs={hasExternalTabs}
+        hasInternalTabs={hasInternalTabs}
         topSpace={topSpace}
+        withBorder={withBorder}
     >
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
@@ -127,21 +143,23 @@ function Details(props) {
  * @typedef {Object} propTypes
  */
 Details.propTypes = {
-    className   : PropTypes.string,
-    isHidden    : PropTypes.bool,
-    isInside    : PropTypes.bool,
-    isWide      : PropTypes.bool,
-    isLarge     : PropTypes.bool,
-    hasTabs     : PropTypes.bool,
-    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    isLoading   : PropTypes.bool,
-    isEmpty     : PropTypes.bool,
-    hasError    : PropTypes.bool,
-    error       : PropTypes.string,
-    canEdit     : PropTypes.bool,
-    onAction    : PropTypes.func,
-    collapsible : PropTypes.string,
-    children    : PropTypes.any,
+    className       : PropTypes.string,
+    isHidden        : PropTypes.bool,
+    isInside        : PropTypes.bool,
+    isWide          : PropTypes.bool,
+    isLarge         : PropTypes.bool,
+    hasExternalTabs : PropTypes.bool,
+    hasInternalTabs : PropTypes.bool,
+    topSpace        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    withBorder      : PropTypes.bool,
+    isLoading       : PropTypes.bool,
+    isEmpty         : PropTypes.bool,
+    hasError        : PropTypes.bool,
+    error           : PropTypes.string,
+    canEdit         : PropTypes.bool,
+    onAction        : PropTypes.func,
+    collapsible     : PropTypes.string,
+    children        : PropTypes.any,
 };
 
 /**
@@ -149,15 +167,17 @@ Details.propTypes = {
  * @typedef {Object} defaultProps
  */
 Details.defaultProps = {
-    className : "",
-    isHidden  : false,
-    isInside  : false,
-    isWide    : false,
-    isLarge   : false,
-    hasTabs   : false,
-    isLoading : false,
-    isEmpty   : false,
-    hasError  : false,
+    className       : "",
+    isHidden        : false,
+    isInside        : false,
+    isWide          : false,
+    isLarge         : false,
+    hasExternalTabs : false,
+    hasInternalTabs : false,
+    withBorder      : false,
+    isLoading       : false,
+    isEmpty         : false,
+    hasError        : false,
 };
 
 export default Details;
