@@ -46,11 +46,11 @@ const NavLink = Styled(Link)`
     }
 
     .link-preicon {
-        font-size: 1.2em;
+        font-size: 1.4em;
         margin-right: 8px;
     }
     .link-aftericon {
-        font-size: 1.2em;
+        font-size: 1.4em;
         margin-left: 8px;
     }
 `;
@@ -58,9 +58,11 @@ const NavLink = Styled(Link)`
 const LightLink = Styled(NavLink)`
     --link-color: var(--title-color);
     --link-hover: var(--title-color);
-    --link-background: rgba(0, 0, 0, 0.1);
+    --link-background: rgba(0, 0, 0, 0.07);
+    --link-selected: rgba(0, 0, 0, 0.07);
+
     ${(props) => props.isSelected && `
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: var(--link-selected);
     `}
     ${(props) => props.isDisabled && `
         cursor: not-allowed;
@@ -130,10 +132,14 @@ function MenuLink(props) {
         onMouseEnter, onMouseLeave,
     } = props;
 
+
+    // Variables
     const Component  = Components[variant] || Link;
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
 
+
+    // Do the Render
     return <Component
         ref={passedRef}
         className={`link ${className}`}

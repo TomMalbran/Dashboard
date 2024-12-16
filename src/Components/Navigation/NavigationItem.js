@@ -16,13 +16,20 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Div = Styled.div`
+const Content = Styled.div`
     position: relative;
     margin-bottom: 6px;
 
     &:hover > .nav-actions {
         display: flex;
     }
+`;
+
+const NavMenu = Styled(MenuLink).attrs(({ variant }) => ({ variant }))`
+    ${(props) => props.variant === Brightness.LIGHT && `
+        --link-background: var(--navigation-hover, rgba(0, 0, 0, 0.1));
+        --link-selected: var(--navigation-selected, rgba(0, 0, 0, 0.1));
+    `}
 `;
 
 const NavActions = Styled.div.attrs(({ variant }) => ({ variant }))`
@@ -38,7 +45,7 @@ const NavActions = Styled.div.attrs(({ variant }) => ({ variant }))`
         background-color: var(--primary-color);
     `}
     ${(props) => props.variant === Brightness.LIGHT && `
-        background-color: rgba(0, 0, 0, 0.1);
+        background-color: var(--navigation-hover, rgba(0, 0, 0, 0.1));
     `}
 
     .icon {
@@ -125,8 +132,8 @@ function NavigationItem(props) {
 
 
     return <li>
-        <Div>
-            <MenuLink
+        <Content>
+            <NavMenu
                 variant={variant}
                 className={className}
                 isSelected={selected}
@@ -156,7 +163,7 @@ function NavigationItem(props) {
                     onClick={(e) => handleAction(e, "DELETE")}
                 />}
             </NavActions>}
-        </Div>
+        </Content>
         {showChildren && items}
     </li>;
 }
