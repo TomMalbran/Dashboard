@@ -17,14 +17,14 @@ import IconLink             from "../Link/IconLink";
 
 // Styles
 const Nav = Styled.nav.attrs(({ expandMobile }) => ({ expandMobile }))`
-    --bicon-size: var(--sidebar-icon-size, 32px);
-    --bicon-font: var(--sidebar-icon-font, 16px);
-    --bicon-color: var(--sidebar-icon-color);
-    --bicon-background: var(--sidebar-icon-background);
-    --bicon-sel-color: var(--sidebar-icon-sel-color);
-    --bicon-sel-bg: var(--sidebar-icon-sel-bg);
-    --bicon-hover-color: var(--sidebar-icon-hover-color);
-    --bicon-hover-bg: var(--sidebar-icon-hover-bg);
+    --bar-icon-size: var(--sidebar-icon-size, 32px);
+    --bar-icon-font: var(--sidebar-icon-font, 16px);
+    --bar-icon-color: var(--sidebar-icon-color);
+    --bar-icon-background: var(--sidebar-icon-background);
+    --bar-icon-sel-color: var(--sidebar-icon-sel-color);
+    --bar-icon-sel-bg: var(--sidebar-icon-sel-bg);
+    --bar-icon-hover-color: var(--sidebar-icon-hover-color);
+    --bar-icon-hover-bg: var(--sidebar-icon-hover-bg);
 
     grid-area: sidebar;
     box-sizing: border-box;

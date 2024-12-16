@@ -17,12 +17,12 @@ import BarLogo              from "../Core/BarLogo";
 
 // Styles
 const Nav = Styled.nav.attrs(({ withTopBar }) => ({ withTopBar }))`
-    --bicon-size: var(--topbar-icon-size, 32px);
-    --bicon-font: var(--topbar-icon-font, 16px);
-    --bicon-color: var(--topbar-icon-color);
-    --bicon-background: var(--topbar-icon-background);
-    --bicon-hover-color: var(--topbar-icon-hover-color);
-    --bicon-hover-bg: var(--topbar-icon-hover-bg);
+    --bar-icon-size: var(--topbar-icon-size, 32px);
+    --bar-icon-font: var(--topbar-icon-font, 16px);
+    --bar-icon-color: var(--topbar-icon-color);
+    --bar-icon-background: var(--topbar-icon-background);
+    --bar-icon-hover-color: var(--topbar-icon-hover-color);
+    --bar-icon-hover-bg: var(--topbar-icon-hover-bg);
 
     grid-area: topbar;
     flex-shrink: 0;

@@ -34,14 +34,14 @@ const DrawerDrop = Styled(Backdrop)`
 `;
 
 const Content = Styled.div.attrs(({ isClosing }) => ({ isClosing }))`
-    --bicon-size: var(--drawer-icon-size, 32px);
-    --bicon-font: var(--drawer-icon-font, 16px);
-    --bicon-color: var(--drawer-icon-color);
-    --bicon-background: var(--drawer-icon-background);
-    --bicon-sel-color: var(--drawer-icon-sel-color);
-    --bicon-sel-bg: var(--drawer-icon-sel-bg);
-    --bicon-hover-color: var(--drawer-icon-hover-color);
-    --bicon-hover-bg: var(--drawer-icon-hover-bg);
+    --bar-icon-size: var(--drawer-icon-size, 32px);
+    --bar-icon-font: var(--drawer-icon-font, 16px);
+    --bar-icon-color: var(--drawer-icon-color);
+    --bar-icon-background: var(--drawer-icon-background);
+    --bar-icon-sel-color: var(--drawer-icon-sel-color);
+    --bar-icon-sel-bg: var(--drawer-icon-sel-bg);
+    --bar-icon-hover-color: var(--drawer-icon-hover-color);
+    --bar-icon-hover-bg: var(--drawer-icon-hover-bg);
 
     position: fixed;
     display: flex;

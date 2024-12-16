@@ -20,24 +20,24 @@ const Container = Styled.div.attrs(({ hideMobile, hasContent, isSelected }) => (
     display: flex;
     justify-content: center;
     align-items: center;
-    height: var(--bicon-size, 32px);
-    width: ${(props) => props.hasContent ? "auto" : "var(--bicon-size, 32px)"};
+    height: var(--bar-icon-size, 32px);
+    width: ${(props) => props.hasContent ? "auto" : "var(--bar-icon-size, 32px)"};
     padding: ${(props) => props.hasContent ? "0 12px" : "0"};
-    color: var(--bicon-color);
-    background-color: var(--bicon-background);
+    color: var(--bar-icon-color);
+    background-color: var(--bar-icon-background);
     border-radius: var(--border-radius);
-    font-size: var(--bicon-font, 16px);
+    font-size: var(--bar-icon-font, 16px);
     cursor: pointer;
     transition: all 0.5s;
 
     &:hover {
-        color: var(--bicon-hover-color, var(--bicon-color));
-        background-color: var(--bicon-hover-bg);
+        color: var(--bar-icon-hover-color, var(--bar-icon-color));
+        background-color: var(--bar-icon-hover-bg);
     }
 
     ${(props) => props.isSelected && `
-        color: var(--bicon-hover-color, var(--bicon-color));
-        background-color: var(--bicon-hover-bg);
+        color: var(--bar-icon-hover-color, var(--bar-icon-color));
+        background-color: var(--bar-icon-hover-bg);
     `}
 
     ${(props) => props.hideMobile && `
