@@ -8,7 +8,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, bigSpacing, fullHeight, hideFooter, noOverflow }) => ({ isLoading, isCentered, withSpacing, bigSpacing, isNarrow, fullHeight, hideFooter, noOverflow }))`
+const Container = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, bigSpacing, minHeight, fullHeight, hideFooter, noOverflow }) => ({ isLoading, isCentered, withSpacing, bigSpacing, isNarrow, minHeight, fullHeight, hideFooter, noOverflow }))`
     box-sizing: border-box;
     flex-grow: 2;
     max-height: var(--dialog-body);
@@ -27,6 +27,9 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
     `}
     ${(props) => props.bigSpacing && `
         padding: var(--dialog-padding);
+    `}
+    ${(props) => props.minHeight && `
+        min-height: min(var(--dialog-body), ${props.minHeight}px);
     `}
     ${(props) => props.fullHeight && `
         height: var(--dialog-body);
@@ -63,7 +66,7 @@ const Main = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpacing, 
 function DialogBody(props) {
     const {
         className, isLoading, isCentered, isNarrow, bigSpacing, withSpacing,
-        noOverflow, fullHeight, hideFooter,
+        noOverflow, minHeight, fullHeight, hideFooter,
         passedRef, onScroll, children,
     } = props;
 
@@ -81,7 +84,7 @@ function DialogBody(props) {
 
 
     // Do the Render
-    return <Main
+    return <Container
         ref={elementRef}
         className={className}
         isLoading={isLoading}
@@ -89,13 +92,14 @@ function DialogBody(props) {
         isNarrow={isNarrow}
         withSpacing={withSpacing}
         bigSpacing={bigSpacing}
+        minHeight={minHeight}
         fullHeight={fullHeight}
         hideFooter={hideFooter}
         noOverflow={noOverflow}
         onScroll={handleScroll}
     >
         {isLoading ? <CircularLoader /> : children}
-    </Main>;
+    </Container>;
 }
 
 /**
@@ -110,6 +114,7 @@ DialogBody.propTypes = {
     isNarrow    : PropTypes.bool,
     withSpacing : PropTypes.bool,
     bigSpacing  : PropTypes.bool,
+    minHeight   : PropTypes.number,
     fullHeight  : PropTypes.bool,
     noOverflow  : PropTypes.bool,
     hideFooter  : PropTypes.bool,

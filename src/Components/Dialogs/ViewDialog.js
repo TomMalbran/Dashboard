@@ -27,7 +27,7 @@ const Content = Styled.div`
 function ViewDialog(props) {
     const {
         contentRef, open, title, icon, className, isLoading,
-        width, isWide, isNarrow, fullHeight, withSpacing, bigSpacing,
+        width, isWide, isNarrow, minHeight, fullHeight, withSpacing, bigSpacing,
         hideFooter, secondary, onSecondary, tertiary, onTertiary,
         cancel, onClose, children,
     } = props;
@@ -46,6 +46,7 @@ function ViewDialog(props) {
         <DialogBody
             passedRef={contentRef}
             className={className}
+            minHeight={minHeight}
             fullHeight={fullHeight}
             withSpacing={withSpacing}
             bigSpacing={bigSpacing}
@@ -78,6 +79,7 @@ ViewDialog.propTypes = {
     width       : PropTypes.number,
     isWide      : PropTypes.bool,
     isNarrow    : PropTypes.bool,
+    minHeight   : PropTypes.number,
     fullHeight  : PropTypes.bool,
     lightHeader : PropTypes.bool,
     withSpacing : PropTypes.bool,

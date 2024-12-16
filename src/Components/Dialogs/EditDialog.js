@@ -27,7 +27,7 @@ const Message = Styled(DialogMessage)`
 function EditDialog(props) {
     const {
         open, title, icon, message, className, isLoading,
-        width, isNarrow, isWide, fullHeight,
+        width, isNarrow, isWide, minHeight, fullHeight,
         noOverflow, withSpacing, bigSpacing,
         error, isDisabled, dontClose, noAutoFocus,
         hidePrimary, primary, primaryVariant, onSubmit,
@@ -51,6 +51,7 @@ function EditDialog(props) {
         <DialogHeader message={title} icon={icon} />
         <DialogBody
             className={className}
+            minHeight={minHeight}
             fullHeight={fullHeight}
             noOverflow={noOverflow}
             withSpacing={withSpacing}
@@ -100,6 +101,7 @@ EditDialog.propTypes = {
     width          : PropTypes.number,
     isNarrow       : PropTypes.bool,
     isWide         : PropTypes.bool,
+    minHeight      : PropTypes.number,
     fullHeight     : PropTypes.bool,
     noOverflow     : PropTypes.bool,
     withSpacing    : PropTypes.bool,
