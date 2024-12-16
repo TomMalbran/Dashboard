@@ -15,14 +15,16 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Container = Styled.div.attrs(({ isLink, isSelected }) => ({ isLink, isSelected }))`
+const Container = Styled.div.attrs(({ gap, isLink, isSelected }) => ({ gap, isLink, isSelected }))`
     display: flex;
     align-items: center;
     padding: 8px;
     overflow: hidden;
     border-radius: var(--border-radius);
     transition: all 0.2s;
-    ${(props) => props.isLink ? "cursor: pointer;" : ""};
+
+    ${(props) => !!props.gap && `gap: ${props.gap}px;`};
+    ${(props) => props.isLink && "cursor: pointer;"};
 
     &:hover {
         background-color: var(--light-gray);
@@ -46,7 +48,7 @@ const DetailIcon = Styled(Icon)`
  */
 function DetailItem(props) {
     const {
-        isHidden, className, textColor,
+        isHidden, className, textColor, gap,
         message, icon, prefix, showAlways,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         href, url, onClick, isEmail, isPhone, isWhatsApp, isSelected, children,
@@ -97,6 +99,7 @@ function DetailItem(props) {
     return <Container
         ref={elementRef}
         className={textColor ? `text-${textColor} ${className}` : className}
+        gap={gap}
         isLink={isLink}
         isSelected={isSelected}
         onClick={handleClick}
@@ -116,6 +119,7 @@ DetailItem.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
     textColor      : PropTypes.string,
+    gap            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     message        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon           : PropTypes.string,
     tooltip        : PropTypes.string,
