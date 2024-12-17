@@ -14,7 +14,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace }) => ({ isSelected, isDisabled, isSmall, leftSpace }))`
+const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace }) => ({ isSelected, isDisabled, isSmall, leftSpace }))`
     display: flex;
     align-items: center;
     gap: 8px;
@@ -62,7 +62,7 @@ function MenuItem(props) {
     const {
         className, action, icon, title, message, url, href, target,
         isDisabled, isSelected, isSmall, leftSpace,
-        onAction, onClick, onClose,
+        onAction, onClick, dontClose, onClose,
         direction, index, selectedIdx,
         trigger, setTrigger, children,
     } = props;
@@ -109,7 +109,7 @@ function MenuItem(props) {
         } else if (onClick) {
             onClick();
         }
-        if (!hasMenu && onClose) {
+        if (!dontClose && !hasMenu && onClose) {
             onClose();
         }
     };
@@ -117,7 +117,7 @@ function MenuItem(props) {
 
     // Do the Render
     return <>
-        <Li
+        <Container
             ref={itemRef}
             className={`menu-item-${index} ${className}`}
             isSelected={isSelection}
@@ -131,7 +131,7 @@ function MenuItem(props) {
             {!!icn && <Icon icon={icn} />}
             {!!title && <b>{NLS.get(title)}</b>}
             {NLS.get(content)}
-        </Li>
+        </Container>
 
         {hasMenu && <Menu
             open={menuOpen}
@@ -166,6 +166,7 @@ MenuItem.propTypes = {
     leftSpace   : PropTypes.bool,
     onAction    : PropTypes.func,
     onClick     : PropTypes.func,
+    dontClose   : PropTypes.bool,
     onClose     : PropTypes.func,
     direction   : PropTypes.string,
     index       : PropTypes.number,
@@ -185,6 +186,7 @@ MenuItem.defaultProps = {
     isDisabled : false,
     isSelected : false,
     isSmall    : false,
+    dontClose  : false,
     direction  : "right",
 };
 
