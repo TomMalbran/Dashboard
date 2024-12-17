@@ -45,6 +45,7 @@ const Container = Styled.nav.attrs(({ withTopBar, showDev }) => ({ withTopBar, s
         display: block;
         margin-left: 16px;
         font-weight: 400;
+        font-size: 18px;
     }`}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
