@@ -214,7 +214,6 @@ SideBar.propTypes = {
     withBorder    : PropTypes.bool,
     withTopBar    : PropTypes.bool,
     expandMobile  : PropTypes.bool,
-    topSpace      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     children      : PropTypes.any,
 };
 
