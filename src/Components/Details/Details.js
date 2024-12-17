@@ -13,36 +13,34 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternalTabs, hasInternalTabs, topSpace, withBorder }) => ({ isInside, isWide, isLarge, hasExternalTabs, hasInternalTabs, topSpace, withBorder }))`
+const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternalTabs, withBorder, stickyBottom }) => ({ isInside, isWide, isLarge, hasExternalTabs, withBorder, stickyBottom }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    gap: var(--details-gap);
-    padding: var(--details-spacing);
     width: ${(props) => props.isLarge ? "var(--details-width-large)" : (props.isWide ? "var(--details-width-wide)" : "var(--details-width)")};
     height: var(--details-height);
-    background-color: var(--details-background);
+    padding: var(--details-spacing);
+    padding-top: 0px;
+    background-color: white;
     overflow: auto;
-
-    ${(props) => props.hasInternalTabs && "padding-top: 0px;"}
-    ${(props) => props.topSpace && `padding-top: ${props.topSpace}px;`}
 
     ${(props) => props.isInside ? `
         --details-height: ${props.hasExternalTabs ? "var(--page-height-tabs)" : "var(--page-height)"};
     ` : `
         --details-height: var(--main-height);
-        --details-spacing: var(--details-spacing-big);
 
         margin-right: var(--main-margin);
         border-radius: var(--main-radius);
     `}
 
     ${(props) => props.withBorder && `
-        --details-spacing: var(--details-spacing-small);
-
         border-radius: var(--border-radius);
         border: 1px solid var(--details-border-color);
+    `}
+
+    ${(props) => props.stickyBottom && `
+        padding-bottom: 0px;
     `}
 
     @media (max-width: 1200px) {
@@ -54,6 +52,7 @@ const Section = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternalTa
         height: auto;
         max-width: 90%;
         padding: 16px;
+        padding-top: 0px;
         margin-right: 0;
         border-radius: 0;
         z-index: var(--z-details);
@@ -89,9 +88,9 @@ const Error = Styled.div`
 function Details(props) {
     const {
         className, isHidden, isInside, isWide, isLarge,
-        hasExternalTabs, hasInternalTabs, topSpace, withBorder,
+        hasInternalTabs, hasExternalTabs, withBorder,
         isLoading, isEmpty, hasError, error,
-        canEdit, onAction, collapsible, children,
+        canEdit, onAction, collapsible, stickyBottom, children,
     } = props;
 
     const { setDetails } = Store.useAction("core");
@@ -111,9 +110,9 @@ function Details(props) {
     const showContent = !isLoading && !hasError && !isEmpty;
 
     let items = children;
-    if (collapsible || onAction) {
+    if (hasInternalTabs || collapsible || canEdit || onAction) {
         items = Utils.cloneChildren(children, () => ({
-            collapsible, canEdit, onAction,
+            hasInternalTabs, collapsible, canEdit, onAction,
         }));
     }
 
@@ -122,20 +121,19 @@ function Details(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Section
+    return <Container
         className={`details light-scrollbars ${className}`}
         isInside={isInside}
         isWide={isWide}
         isLarge={isLarge}
         hasExternalTabs={hasExternalTabs}
-        hasInternalTabs={hasInternalTabs}
-        topSpace={topSpace}
         withBorder={withBorder}
+        stickyBottom={stickyBottom}
     >
         {isLoading   && <Loading><CircularLoader /></Loading>}
         {showError   && <Error>{NLS.get(error)}</Error>}
         {showContent && items}
-    </Section>;
+    </Container>;
 }
 
 /**
@@ -150,7 +148,6 @@ Details.propTypes = {
     isLarge         : PropTypes.bool,
     hasExternalTabs : PropTypes.bool,
     hasInternalTabs : PropTypes.bool,
-    topSpace        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withBorder      : PropTypes.bool,
     isLoading       : PropTypes.bool,
     isEmpty         : PropTypes.bool,
@@ -159,6 +156,7 @@ Details.propTypes = {
     canEdit         : PropTypes.bool,
     onAction        : PropTypes.func,
     collapsible     : PropTypes.string,
+    stickyBottom    : PropTypes.bool,
     children        : PropTypes.any,
 };
 
@@ -178,6 +176,7 @@ Details.defaultProps = {
     isLoading       : false,
     isEmpty         : false,
     hasError        : false,
+    stickyBottom    : false,
 };
 
 export default Details;

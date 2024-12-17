@@ -5,11 +5,9 @@ import Styled               from "styled-components";
 // Core
 import Action               from "../../Core/Action";
 import Store                from "../../Core/Store";
-import NLS                  from "../../Core/NLS";
 
 // Components
-import IconLink             from "../Link/IconLink";
-import Icon                 from "../Common/Icon";
+import DetailTitle          from "./DetailTitle";
 
 
 
@@ -20,42 +18,9 @@ const Container = Styled.div`
     border-radius: var(--border-radius);
 `;
 
-const Title = Styled.h3.attrs(({ isCollapsible, isCollapsed }) => ({ isCollapsible, isCollapsed }))`
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin: 6px;
-    padding: 4px;
-    min-height: 32px;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1;
-    color: var(--black-color);
-    border-radius: var(--border-radius);
-    font-family: var(--title-font);
-
-    ${(props) => props.isCollapsible && `
-        cursor: pointer;
-        transition: all 0.2s;
-        &:hover {
-            background-color: var(--light-gray);
-        }
-    `}
-    ${(props) => props.isCollapsed && `
-        border-bottom-left-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-    `}
-`;
-
-const Span = Styled.span`
-    flex-grow: 2;
-`;
-
 const Content = Styled.section`
     margin: 0;
-    padding: 8px;
-    border-top: 1px solid var(--border-color-light);
+    padding: 8px 0;
 `;
 
 
@@ -67,8 +32,8 @@ const Content = Styled.section`
  */
 function DetailList(props) {
     const {
-        isHidden, className, icon, message, collapsible,
-        action, onAction, canEdit, editIcon, children,
+        isHidden, className, hasInternalTabs, icon, message,
+        collapsible, action, onAction, canEdit, editIcon, children,
     } = props;
 
     const { closeDetails } = Store.useAction("core");
@@ -76,14 +41,6 @@ function DetailList(props) {
 
     // The Current State
     const [ isCollapsed, setCollapsed ] = React.useState(false);
-
-
-    // Variables
-    const isCollapsible   = Boolean(collapsible);
-    const hasPreCollapse  = Boolean(isCollapsible && !icon);
-    const hasPreIcon      = Boolean(icon);
-    const hasPostAction   = Boolean(action && onAction && canEdit);
-    const hasPostCollapse = Boolean(isCollapsible && !hasPostAction && icon);
 
 
     // Handles the Initial Collapsed state
@@ -97,11 +54,9 @@ function DetailList(props) {
     // Handles the Collapsed click
     const handleClick = (e) => {
         e.preventDefault();
-        if (isCollapsible) {
+        if (collapsible) {
             setCollapsed(!isCollapsed);
-            if (collapsible) {
-                localStorage.setItem(`dashboard-collapsed-${collapsible}-${message}`, isCollapsed ? "0" : "1");
-            }
+            localStorage.setItem(`dashboard-collapsed-${collapsible}-${message}`, isCollapsed ? "0" : "1");
         }
     };
 
@@ -120,32 +75,18 @@ function DetailList(props) {
         return <React.Fragment />;
     }
     return <Container className={`details-list ${className}`}>
-        <Title
-            isCollapsible={isCollapsible}
+        <DetailTitle
+            icon={icon}
+            message={message}
+            hasInternalTabs={hasInternalTabs}
+            collapsible={collapsible}
             isCollapsed={isCollapsed}
+            action={action}
+            canEdit={canEdit}
+            editIcon={editIcon}
             onClick={handleClick}
-        >
-            {hasPreCollapse && <IconLink
-                variant="black"
-                icon={isCollapsed ? "closed" : "expand"}
-                isSmall
-            />}
-            {hasPreIcon && <Icon icon={icon} />}
-
-            <Span>{NLS.get(message)}</Span>
-
-            {hasPostAction && <IconLink
-                variant="black"
-                icon={editIcon}
-                onClick={handleAction}
-                isSmall
-            />}
-            {hasPostCollapse && <IconLink
-                variant="black"
-                icon={isCollapsed ? "closed" : "expand"}
-                isSmall
-            />}
-        </Title>
+            onAction={handleAction}
+        />
         {!isCollapsed && <Content className="details-content">
             {children}
         </Content>}
@@ -157,16 +98,17 @@ function DetailList(props) {
  * @typedef {Object} propTypes
  */
 DetailList.propTypes = {
-    isHidden    : PropTypes.bool,
-    className   : PropTypes.string,
-    icon        : PropTypes.string,
-    message     : PropTypes.string.isRequired,
-    collapsible : PropTypes.string,
-    action      : PropTypes.string,
-    canEdit     : PropTypes.bool,
-    editIcon    : PropTypes.string,
-    onAction    : PropTypes.func,
-    children    : PropTypes.any,
+    isHidden        : PropTypes.bool,
+    className       : PropTypes.string,
+    icon            : PropTypes.string,
+    message         : PropTypes.string,
+    hasInternalTabs : PropTypes.bool,
+    collapsible     : PropTypes.string,
+    action          : PropTypes.string,
+    canEdit         : PropTypes.bool,
+    editIcon        : PropTypes.string,
+    onAction        : PropTypes.func,
+    children        : PropTypes.any,
 };
 
 /**
