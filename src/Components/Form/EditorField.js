@@ -14,11 +14,12 @@ import InputError           from "../Input/InputError";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ maxHeight }) => ({ maxHeight }))`
     height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    ${(props) => props.maxHeight && `max-height: ${props.maxHeight}px;`}
 `;
 
 
@@ -30,10 +31,11 @@ const Container = Styled.div`
  */
 function EditorField(props) {
     const {
-        isHidden, name, value, error, height, language,
+        isHidden, name, value, error, height, maxHeight, language,
         clientID, contentStyle, menubar, menu,
         onChange, onMedia, onSetup,
     } = props;
+
 
     // The Current State
     const [ firstChange, setFirstChange ] = React.useState(true);
@@ -56,7 +58,10 @@ function EditorField(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <Container className={error ? "editorfield-error" : ""}>
+    return <Container
+        className={error ? "editorfield-error" : ""}
+        maxHeight={maxHeight}
+    >
         <EditorStyles />
         <Editor
             tinymceScriptSrc={`${process.env.PUBLIC_URL}/tinymce/tinymce.min.js`}
@@ -117,6 +122,7 @@ EditorField.propTypes = {
     value        : PropTypes.string,
     error        : PropTypes.string,
     height       : PropTypes.number,
+    maxHeight    : PropTypes.number,
     language     : PropTypes.string,
     clientID     : PropTypes.number,
     contentStyle : PropTypes.string,
