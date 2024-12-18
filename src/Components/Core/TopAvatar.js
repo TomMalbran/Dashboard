@@ -24,9 +24,9 @@ const Container = Styled.div.attrs(({ hasMenu, hasContent }) => ({ hasMenu, hasC
     ${(props) => props.hasContent ? `
         display: flex;
         gap: 8px;
-        padding: 4px 4px 4px 12px;
-        border-radius: 4px;
-        border: var(--border-width) solid var(--border-color-light);
+        padding: var(--topbar-avatar-padding);
+        background: var(--topbar-avatar-background);
+        border: var(--topbar-avatar-border);
         border-radius: 9999px;
     ` : `
         border-radius: 9999px;
