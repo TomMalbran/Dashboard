@@ -34,8 +34,8 @@ const Container = Styled.nav.attrs(({ withTopBar, showDev }) => ({ withTopBar, s
     display: ${(props) => props.withTopBar ? "flex" : "none"};
     box-sizing: border-box;
     justify-content: space-between;
-    height: var(--topbar-height);
-    padding: 0 12px;
+    height: var(--topbar-height, 56px);
+    padding: var(--topbar-padding, 0 12px);
     background-color: var(--topbar-background, white);
     border-bottom: var(--topbar-border, none);
     gap: 8px;
