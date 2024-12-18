@@ -57,7 +57,10 @@ function ActionItem(props) {
                 actions.push(action);
             }
         } else if (child.type === MenuLine) {
-            actions.push({ isLine : true });
+            const action = { ...child.props, isLine : true };
+            if (!action.isHidden) {
+                actions.push(action);
+            }
         }
     }
     const showMenu = actions.length > 0;
@@ -124,7 +127,6 @@ function ActionItem(props) {
         >
             {actions.map((elem, index) => elem.isLine ? <MenuLine
                 key={index}
-                isHidden={elem.isHidden}
             /> : <MenuItem
                 key={index}
                 icon={elem.icon || elem.act.icon}
