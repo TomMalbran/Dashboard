@@ -404,7 +404,7 @@ function makeShort(value, length) {
  */
 function makeBreakable(string) {
     // Inject zero-width space character (U+200B or &#8203) near (. or _ or - or @) to allow line breaking there
-    return string.replace(new RegExp("(.|_|@|-|\\?|/)", "g"), "$1" + "\u200B");
+    return string.replace(new RegExp("(?<!\\/)(.|_|@|-|\\?|/)", "g"), "$1" + "\u200B");
 }
 
 /**

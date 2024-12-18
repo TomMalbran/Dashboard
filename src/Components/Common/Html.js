@@ -1,8 +1,9 @@
 import React                from "react";
 import PropTypes            from "prop-types";
 
-// Core
+// Core & Utils
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Variants
 const Variant = {
@@ -48,10 +49,20 @@ function Html(props) {
     // Parse the Content
     if (addLinks) {
         __html = __html
-            .replace(urlPattern, '<a href="$&" target="_blank">$&</a>')
-            .replace(pseudoUrlPattern, '$1<a href="http://$2" target="_blank">$2</a>')
-            .replace(emailAddressPattern, '<a href="mailto:$&" target="_blank">$&</a>');
+            .replace(urlPattern, (match) => {
+                const text = Utils.makeBreakable(match);
+                return `<a href="${match}" target="_blank">${text}</a>`;
+            })
+            .replace(pseudoUrlPattern, (match, p1, p2) => {
+                const text = Utils.makeBreakable(p2);
+                return `${p1}<a href="http://${p2}" target="_blank">${text}</a>`;
+            })
+            .replace(emailAddressPattern, (match) => {
+                const text = Utils.makeBreakable(match);
+                return `<a href="mailto:${match}" target="_blank">${text}</a>`;
+            });
     }
+
     if (addBreaks) {
         __html = __html.replace(/\n/g, "<br />");
     }
