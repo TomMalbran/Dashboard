@@ -12,6 +12,7 @@ import Subtitle             from "../Header/Subtitle";
 const Container = Styled.header`
     box-sizing: border-box;
     display: flex;
+    flex-shrink: 0;
     justify-content: space-between;
     align-items: center;
     height: var(--header-height);
