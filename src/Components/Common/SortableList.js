@@ -6,9 +6,9 @@ import Styled               from "styled-components";
 import useDrag              from "../../Hooks/Drag";
 
 // Components
+import CheckboxInput        from "../InputType/CheckboxInput";
 import Icon                 from "./Icon";
 import Html                 from "./Html";
-import CheckboxInput        from "../InputType/CheckboxInput";
 
 
 
@@ -28,13 +28,13 @@ const Li = Styled.li.attrs(({ isHidden }) => ({ isHidden }))`
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    background-color: var(--light-gray);
+    background-color: var(--lighter-gray);
     border-radius: var(--border-radius);
     transition: background-color 0.2s;
     color: var(--black-color);
 
     &:hover {
-        background-color: var(--lighter-gray);
+        background-color: var(--light-gray);
     }
     ${(props) => props.isHidden && `
         opacity: 0.5;
