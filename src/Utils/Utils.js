@@ -404,7 +404,7 @@ function makeShort(value, length) {
  */
 function makeBreakable(string) {
     // Inject zero-width space character (U+200B or &#8203) near (. or _ or - or @) to allow line breaking there
-    return string.replace(new RegExp("(?<!\\/)(.|_|@|-|\\?|/)", "g"), "$1" + "\u200B");
+    return string.replace(new RegExp("(?<!\\/)(\\.|_|@|-|\\?|/)", "g"), "$1" + "\u200B");
 }
 
 /**
@@ -1210,6 +1210,20 @@ function convertToSearch(text) {
 }
 
 /**
+ * Replaces the Source Urls
+ * @param {String}  text
+ * @param {Number=} clientID
+ * @returns {String}
+ */
+function replaceSourceUrls(text, clientID = 0) {
+    const regex = /<(img|audio|video)([^>]*?)src=["']((?!https?:\/\/|\/\/|data:)[^"']+)["']([^>]*?)>/g;
+    return text.replace(regex, (match, tag, beforeSrc, relativePath, afterSrc) => {
+        const absolutePath = `${process.env.REACT_APP_FILES}${clientID}/${relativePath}`;
+        return `<${tag}${beforeSrc}src="${absolutePath}"${afterSrc}>`;
+    });
+}
+
+/**
  * Returns true if the given text has only Emojis
  * @param {String} text
  * @returns {Boolean}
@@ -1396,6 +1410,7 @@ export default {
     randomNumber,
     generatePassword,
     convertToSearch,
+    replaceSourceUrls,
     isEmojiOnly,
     isValidColor,
     isValidFile,
