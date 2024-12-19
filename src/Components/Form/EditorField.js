@@ -39,6 +39,17 @@ function EditorField(props) {
 
     // The Current State
     const [ firstChange, setFirstChange ] = React.useState(true);
+    const [ reloading,   setReloading   ] = React.useState(false);
+
+
+    // Handle the Client change
+    React.useEffect(() => {
+        setFirstChange(true);
+        setReloading(true);
+        setTimeout(() => {
+            setReloading(false);
+        }, 10);
+    }, [ clientID ]);
 
 
     // Handles the Editor Change
@@ -55,7 +66,7 @@ function EditorField(props) {
 
 
     // Do the Render
-    if (isHidden) {
+    if (isHidden || reloading) {
         return <React.Fragment />;
     }
     return <Container
