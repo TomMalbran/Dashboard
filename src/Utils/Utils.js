@@ -321,18 +321,6 @@ function useAutoUpdate(fetchData, isHidden, data) {
 }
 
 /**
- * Sets a Timeout
- * @param {React.MutableRefObject<Number>} timerRef
- * @param {Function}                       callback
- * @param {Number}                         milliseconds
- * @returns {Void}
- */
-function setTimeout(timerRef, callback, milliseconds) {
-    clearTimeout(timerRef);
-    timerRef.current = window.setTimeout(callback, milliseconds);
-}
-
-/**
  * Returns the Timeout for the auto update
  * @param {React.MutableRefObject<Number>} timerRef
  * @param {Function}                       setUpdate
@@ -344,6 +332,18 @@ function setUpdateTimeout(timerRef, setUpdate, update = 0, seconds = 10) {
     setTimeout(timerRef, () => {
         setUpdate(update + 1);
     }, seconds * 1000);
+}
+
+/**
+ * Sets a Timeout
+ * @param {React.MutableRefObject<Number>} timerRef
+ * @param {Function}                       callback
+ * @param {Number}                         milliseconds
+ * @returns {Void}
+ */
+function setTimeout(timerRef, callback, milliseconds) {
+    clearTimeout(timerRef);
+    timerRef.current = window.setTimeout(callback, milliseconds);
 }
 
 /**
