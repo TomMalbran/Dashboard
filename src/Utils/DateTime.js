@@ -487,19 +487,16 @@ class DateTime {
 
     /**
      * Returns a color depending on the amount of expired hours or minutes
-     * @param {Number} greenTime
-     * @param {Number} yellowTime
+     * @param {Number} greenMinutes
+     * @param {Number} yellowMinutes
      * @returns {String}
      */
-    getExpiredColor(greenTime, yellowTime) {
-        const mins       = this.getMinutesDiff();
-        const greenMins  = greenTime  < 30 ? greenTime  * 60 : greenTime;
-        const yellowMins = yellowTime < 30 ? yellowTime * 60 : yellowTime;
-
-        if (mins < greenMins) {
+    getExpiredColor(greenMinutes, yellowMinutes) {
+        const minutes = this.getMinutesDiff();
+        if (minutes < greenMinutes) {
             return "green";
         }
-        if (mins < yellowMins) {
+        if (minutes < yellowMinutes) {
             return "yellow";
         }
         return "red";
@@ -1254,13 +1251,13 @@ function formatShort(date) {
 /**
  * Returns a text class depending on the amount of expired hours or minutes
  * @param {(Number|Date)} date
- * @param {Number}        greenTime
- * @param {Number}        yellowTime
+ * @param {Number}        greenMinutes
+ * @param {Number}        yellowMinutes
  * @returns {String}
  */
-function getExpiredColor(date, greenTime, yellowTime) {
+function getExpiredColor(date, greenMinutes, yellowMinutes) {
     if (date) {
-        return new DateTime(date).getExpiredColor(greenTime, yellowTime);
+        return new DateTime(date).getExpiredColor(greenMinutes, yellowMinutes);
     }
     return "red";
 }
