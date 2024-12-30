@@ -389,6 +389,37 @@ class DateTime {
     }
 
     /**
+     * Returns the date as a string choosing the format depending on the date
+     * @returns {String}
+     */
+    toLiveString() {
+        const today = new DateTime().time;
+        const time  = this.time;
+        const diff  = Math.abs(time - today);
+        const dHour = Math.round(diff / HOUR_SECS);
+        const dMin  = Math.round(diff / MINUTE_SECS);
+        const dSec  = diff % 60;
+        let   format;
+
+        if (diff < HOUR_SECS) {
+            format = "{i}:{s}";
+        } else if (diff < DAY_SECS) {
+            format = "{h}h";
+        }
+
+        // Show the result in mins or hours since the time
+        if (format) {
+            return format
+                .replace("{s}", parseTime(dSec))
+                .replace("{i}", dMin.toString())
+                .replace("{h}", dHour.toString());
+        }
+
+        // Show the result as a short date and time
+        return this.toShortString();
+    }
+
+    /**
      * Gives a string format to the Date depending on date
      * @returns {String}
      */
@@ -1204,6 +1235,18 @@ function formatTime(date) {
 }
 
 /**
+ * Formats the give date as a Live String
+ * @param {(Number|Date)} date
+ * @returns {String}
+ */
+function formatLive(date) {
+    if (date) {
+        return new DateTime(date).toLiveString();
+    }
+    return "";
+}
+
+/**
  * Formats the give date as a Day
  * @param {(Number|Date)} date
  * @returns {String}
@@ -1371,6 +1414,7 @@ export default {
     formatString,
     formatDay,
     formatTime,
+    formatLive,
     formatLong,
     formatMedium,
     formatShort,
