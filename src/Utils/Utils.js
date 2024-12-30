@@ -1244,6 +1244,24 @@ function isValidColor(value) {
 }
 
 /**
+ * Returns a Contrast Color for given Color
+ * @param {String} value
+ * @returns {String}
+ */
+function getContrastColor(value) {
+    const rgba   = value.match(/\d+/g);
+    const red    = Number(rgba[0]);
+    const green  = Number(rgba[1]);
+    const blue   = Number(rgba[2]);
+    let   result = "white";
+
+    if ((red * 0.299) + (green * 0.587) + (blue * 0.114) > 186) {
+        result = "black";
+    }
+    return result;
+}
+
+/**
  * Returns true if the File is Valid
  * @param {Object}  file
  * @param {Boolean} onlyImages
@@ -1413,6 +1431,7 @@ export default {
     replaceSourceUrls,
     isEmojiOnly,
     isValidColor,
+    getContrastColor,
     isValidFile,
     download,
     print,
