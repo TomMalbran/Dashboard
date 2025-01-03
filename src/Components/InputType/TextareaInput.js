@@ -82,7 +82,12 @@ const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
     margin: 0;
     padding-left: 4px;
     font-size: 12px;
-    color: ${(props) => props.atMaxLength ? "var(--error-color)" : "var(--lighter-color)"};
+    color: var(--lighter-color);
+
+    ${(props) => props.atMaxLength && `
+        color: var(--error-color);
+        font-weight: bold;
+    `}
 `;
 
 
@@ -180,8 +185,7 @@ function TextareaInput(props) {
     }, [ inputRef ]);
 
 
-
-    // Do the Render
+    // Variables
     const hasEditor   = Boolean(maxLength || (children && children.length));
     const hasFooter   = Boolean(hasEditor && withEditor);
     const hasAside    = Boolean(hasEditor && !withEditor);
@@ -189,6 +193,8 @@ function TextareaInput(props) {
     const characters  = String(value || "").length;
     const atMaxLength = Boolean(maxLength && characters >= maxLength);
 
+
+    // Do the Render
     return <Container
         inputRef={inputRef}
         className={className}
