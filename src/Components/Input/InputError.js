@@ -5,10 +5,13 @@ import Styled               from "styled-components";
 // Core
 import NLS                  from "../../Core/NLS";
 
+// Components
+import Html                 from "../Common/Html";
+
 
 
 // Styles
-const Error = Styled.p.attrs(({ useBackground }) => ({ useBackground }))`
+const Container = Styled(Html).attrs(({ useBackground }) => ({ useBackground }))`
     ${(props) => props.useBackground ? `
         margin: 0;
         padding: 4px;
@@ -48,12 +51,13 @@ function InputError(props) {
 
 
     // Do the Render
-    return <Error
+    return <Container
         className={`inputfield-error ${className}`}
+        variant="p"
         useBackground={useBackground}
     >
         {errorText}
-    </Error>;
+    </Container>;
 }
 
 /**
