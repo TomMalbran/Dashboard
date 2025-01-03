@@ -42,6 +42,7 @@ const Content = Styled.div`
 
     b {
         font-size: 10px;
+        font-weight: 600;
         white-space: nowrap;
         color: var(--font-lighter);
     }
