@@ -22,7 +22,7 @@ const open = keyframes`
 `;
 
 // Styles
-const Container = Styled(Html).attrs(({ variant, top, left, width, maxWidth, delay }) => ({ variant, top, left, width, maxWidth, delay }))`
+const Container = Styled(Html).attrs(({ variant, top, left, width, maxWidth, toLeft, delay }) => ({ variant, top, left, width, maxWidth, toLeft, delay }))`
     box-sizing: border-box;
     position: fixed;
     top: ${(props) => `${props.top}px`};
@@ -73,7 +73,7 @@ const Container = Styled(Html).attrs(({ variant, top, left, width, maxWidth, del
 
         ${(props) => props.variant === "bottom" && `
             top: -6px;
-            left: calc(50% - 6px);
+            ${props.toLeft ? "right: calc(6px + var(--border-radius) / 2);" : "left: calc(50% - 6px);"}
             border-color: transparent transparent var(--tooltip-background) transparent;
         `}
 
@@ -118,6 +118,7 @@ function Tooltip() {
     let   top    = bounds.top;
     let   left   = bounds.left;
     let   width  = 0;
+    let   toLeft = false;
 
     switch (variant) {
     case "top":
@@ -125,11 +126,17 @@ function Tooltip() {
         left += bounds.width / 2;
         width = bounds.width;
         break;
+
     case "bottom":
         top  += bounds.height + 8;
         left += bounds.width / 2;
-        // width = bounds.width;
+        if (maxWidth && bounds.left + Number(maxWidth) > window.innerWidth) {
+            left   = bounds.left - Number(maxWidth) / 2 + bounds.width + 6;
+            width  = maxWidth;
+            toLeft = true;
+        }
         break;
+
     case "right":
         top  += bounds.height / 2;
         left += bounds.width + 8;
@@ -146,6 +153,7 @@ function Tooltip() {
         left={left}
         width={width}
         maxWidth={maxWidth}
+        toLeft={toLeft}
         delay={delay || 1}
         content={content}
     />;
