@@ -7,6 +7,7 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import IconLink             from "../Link/IconLink";
+import Icon                 from "../Common/Icon";
 
 
 
@@ -44,27 +45,34 @@ const Pages = Styled.p`
     margin: 0 16px 0 0;
 `;
 
-const Select = Styled.select`
-    appearance: none;
-    display: block;
+const Amount = Styled.div`
+    display: flex;
+    align-items: center;
     margin-right: 16px;
-    padding: 4px 8px;
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 1;
-    border: 1px solid var(--input-border-color);
+    border: 1px solid var(--border-color-medium);
     border-radius: var(--border-radius);
-    padding-right: 16px !important;
-    background-color: transparent;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAICAYAAAAIloRgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAOwgAADsIBFShKgAAAABp0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuMTAw9HKhAAAAdElEQVQ4T2P4//8/AyGsLK8ggE8NIXmYXoIWgRQCDbuAy0CQOEiekINB8sRa9h+bhTCLgDTQLMIhRKxlIJ+hWIhsEbV9Bg4qJAsd0Ph445SkOIPGG7KFIF9iDVp8wUlUMMIMQA86YlMhyT5Ds3ABqRaB9AMArxAryYUamQYAAAAASUVORK5CYII=);
-    background-position: right -3px center;
-    background-size: auto;
-    background-repeat: no-repeat;
-    outline: none;
 
+    .icon {
+        font-size: 18px;
+        margin-left: -2px;
+        margin-bottom: -4px;
+    }
     :hover {
         border-color: var(--input-border-hover);
     }
+`;
+
+const Select = Styled.select`
+    appearance: none;
+    display: block;
+    padding: 4px 0px 4px 8px;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1;
+    color: var(--table-color);
+    border: none;
+    background-color: transparent;
+    outline: none;
 
     @media (max-width: 700px) {
         display: none;
@@ -126,11 +134,14 @@ function TablePaging(props) {
         <TR>
             <TD colSpan={colSpan} className="table-paging">
                 <Rows>{NLS.get("GENERAL_ROWS_PER_PAGE")}</Rows>
-                <Select value={sort.amount} onChange={handleAmount}>
-                    {rowOptions.map((option) => <option key={option.key} value={option.key}>
-                        {option.value}
-                    </option>)}
-                </Select>
+                <Amount>
+                    <Select value={sort.amount} onChange={handleAmount}>
+                        {rowOptions.map((option) => <option key={option.key} value={option.key}>
+                            {option.value}
+                        </option>)}
+                    </Select>
+                    <Icon icon="expand" />
+                </Amount>
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 
                 <IconLink
