@@ -17,7 +17,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
+const Container = Styled.div.attrs(({ withBorder, isDisabled }) => ({ withBorder, isDisabled }))`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -30,9 +30,13 @@ const Container = Styled.div.attrs(({ withBorder }) => ({ withBorder }))`
         border: 1px solid var(--input-border);
         border-radius: var(--border-radius);
 
-        &:hover {
-            --input-border: var(--input-border-hover);
-        }
+        ${props.isDisabled ? `
+            border-color: var(--input-border-disabled);
+        ` : `
+            &:hover {
+                --input-border: var(--input-border-hover);
+            }
+        `}
     `}
 `;
 
@@ -175,6 +179,9 @@ function FieldInput(props) {
             } catch(e) {
                 result = [{}];
             }
+        }
+        if (!result.length) {
+            result = [{}];
         }
         return result;
     }, [ value ]);
@@ -323,7 +330,11 @@ function FieldInput(props) {
 
 
     // Do the Render
-    return <Container className={className} withBorder={withBorder}>
+    return <Container
+        className={className}
+        withBorder={withBorder}
+        isDisabled={isDisabled}
+    >
         <Content withLine={withLine}>
             {parts.map((elem, index) => <Item
                 key={index}
