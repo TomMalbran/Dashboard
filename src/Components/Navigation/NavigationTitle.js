@@ -25,7 +25,7 @@ const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
 
     ${(props) => props.variant === Brightness.DARK && `
         --navtitle-color: white;
-        --navsubtitle-color: var(--lightest-color);
+        --navsubtitle-color: var(--darker-gray);
     `}
     ${(props) => props.variant === Brightness.LIGHT && `
         --navtitle-color: var(--title-color);

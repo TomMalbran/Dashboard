@@ -23,10 +23,10 @@ const Container = Styled.div.attrs(props)`
     align-items: center;
     gap: 6px;
     width: 100%;
-    color: var(--black-color);
+    color: var(--font-color);
 
     ${(props) => props.withBorder && `
-        background-color: white;
+        background-color: var(--content-color);
         min-height: var(--input-height);
         border: 1px solid var(--input-border);
         border-radius: var(--border-radius);

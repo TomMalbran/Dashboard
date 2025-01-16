@@ -73,9 +73,10 @@ const LightLink = Styled(NavLink)`
 `;
 
 const DarkLink = Styled(NavLink)`
-    --link-color: var(--lightest-color);
+    --link-color: var(--darker-gray);
     --link-hover: white;
     --link-background: var(--primary-color);
+
     ${(props) => props.isSelected && `
         color: white;
         background-color: var(--primary-color);

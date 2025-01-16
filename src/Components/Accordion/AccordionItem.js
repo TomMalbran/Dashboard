@@ -100,7 +100,7 @@ const Header = Styled.header.attrs(({ isDisabled }) => ({ isDisabled }))`
 
     ${(props) => props.isDisabled && `
         cursor: not-allowed;
-        background-color: white;
+        background-color: var(--white-color);
     `}
 
     @media (max-width: 500px) {
@@ -124,7 +124,7 @@ const Title = Styled.h2`
 
 const Description = Styled.p`
     margin: 0;
-    color: var(--light-color);
+    color: var(--font-lighter);
 `;
 
 const Error = Styled.p`

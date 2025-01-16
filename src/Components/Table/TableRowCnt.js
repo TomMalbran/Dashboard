@@ -14,7 +14,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
         border: none;
     }
     td {
-        background-color: white;
+        background-color: var(--content-color);
         border-bottom: var(--table-border-inner);
     }
 
@@ -92,7 +92,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
             right: 0;
             padding: 0;
             margin-top: -16px;
-            background-color: white;
+            background-color: var(--content-color);
         }`}
 
         ${(props) => props.isSelected && `

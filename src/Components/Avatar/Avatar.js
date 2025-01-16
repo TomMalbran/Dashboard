@@ -15,7 +15,7 @@ const Container = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))
     display: block;
     width: ${(props) => `${props.size}px`};
     height: ${(props) => `${props.size}px`};
-    border: 2px solid var(--border-color-dark);
+    border: 2px solid black;
     box-shadow: 0 0 4px transparent;
     border-radius: 100%;
     transition: all 0.5s;
@@ -23,7 +23,7 @@ const Container = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))
     ${(props) => props.hasClick && "cursor: pointer;"}
 
     &:hover {
-        box-shadow: 0 0 4px var(--lightest-color);
+        box-shadow: 0 0 4px black;
     }
 `;
 

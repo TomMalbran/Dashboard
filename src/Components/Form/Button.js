@@ -136,26 +136,26 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
         `;
         case Variant.WHITE: return `
             --button-color: var(--primary-color);
-            --button-border: white;
-            --button-background: white;
-            --button-hover-color: white;
+            --button-border: var(--white-color);
+            --button-background: var(--white-color);
+            --button-hover-color: var(--white-color);
             --button-hover-border: var(--primary-color);
             --button-hover-background: var(--primary-color);
         `;
         case Variant.OUTLINED: return `
             --button-color: var(--primary-color);
             --button-border: var(--primary-border, var(--primary-color));
-            --button-background: white;
+            --button-background: transparent;
             --button-hover-color: white;
             --button-hover-border: var(--primary-color);
             --button-hover-background: var(--primary-color);
         `;
         case Variant.OUTLINED_WHITE: return `
-            --button-color: white;
-            --button-border: white;
+            --button-color: var(--white-color);
+            --button-border: var(--white-color);
             --button-background: transparent;
-            --button-hover-color: var(--font-dark);
-            --button-hover-background: white;
+            --button-hover-color: var(--font-color);
+            --button-hover-background: var(--white-color);
         `;
         case Variant.OUTLINED_ACCENT: return `
             --button-color: var(--accent-color);
@@ -166,24 +166,24 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
         `;
         case Variant.MENU: return `
             text-transform: none;
-            --button-color: var(--lightest-color);
+            --button-color: var(--darker-gray);
             --button-hover-color: white;
             --button-hover-background: rgba(255, 255, 255, 0.05);
 
             .icon {
-                color: var(--lightest-color);
+                color: var(--darker-gray);
             }
 
             &:disabled,
             &:disabled:hover,
             &:disabled:focus,
             &:disabled:active {
-                color: var(--light-color);
+                color: var(--font-lighter);
                 border-color: transparent;
                 background-color: transparent;
             }
             &:disabled .icon {
-                color: var(--light-color);
+                color: var(--font-lighter);
             }
         `;
         default: return "";
@@ -209,7 +209,7 @@ const Badge = Styled.span`
     top: -5px;
     right: -5px;
     padding: 2px 4px;
-    font-size: 11px;
+    font-size: 10px;
     color: white;
     background-color: #ff0033;
     border-radius: 9999px;

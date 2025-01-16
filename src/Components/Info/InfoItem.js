@@ -8,11 +8,12 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Section = Styled.section`
+const Container = Styled.section`
     font-size: 13px;
+    color: var(--font-light);
 `;
 
-const H3 = Styled.h3`
+const Title = Styled.h3`
     margin: 0;
     color: var(--title-color);
     font-size: 13px;
@@ -28,13 +29,15 @@ const H3 = Styled.h3`
 function InfoItem(props) {
     const { label, message } = props;
 
+
+    // Do the Render
     if (!message) {
         return <React.Fragment />;
     }
-    return <Section>
-        <H3>{NLS.get(label)}</H3>
+    return <Container>
+        <Title>{NLS.get(label)}</Title>
         {NLS.get(message)}
-    </Section>;
+    </Container>;
 }
 
 /**

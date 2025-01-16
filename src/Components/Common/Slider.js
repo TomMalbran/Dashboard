@@ -83,7 +83,7 @@ const Button = Styled.button`
         top: 50%;
         width: var(--slider-arrow-width);
         height: 2px;
-        background-color: white;
+        background-color: var(--white-color);
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         transition: all 0.2s;
     }

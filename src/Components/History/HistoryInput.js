@@ -43,7 +43,7 @@ const Content = Styled.div`
         height: 8px;
         border-top: 1px solid rgb(209,213,218);
         border-left: 1px solid rgb(209,213,218);
-        background-color: white;
+        background-color: var(--white-color);
         transform: translate(-50%, -50%) rotate(-45deg);
     }
 `;

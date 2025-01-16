@@ -37,7 +37,7 @@ const Textarea = Styled.textarea`
     appearance: none;
     margin: 0;
     padding: var(--input-padding);
-    padding-top: 0px;
+    padding-top: 4px;
     padding-bottom: 8px;
     font-size: var(--input-font);
     line-height: 16px;
@@ -52,7 +52,7 @@ const Textarea = Styled.textarea`
         background: white;
     }
     &::placeholder {
-        color: var(--lighter-color);
+        color: var(--darkest-gray);
     }
 `;
 
@@ -82,7 +82,7 @@ const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
     margin: 0;
     padding-left: 4px;
     font-size: 12px;
-    color: var(--lighter-color);
+    color: var(--darkest-gray);
 
     ${(props) => props.atMaxLength && `
         color: var(--error-color);

@@ -16,7 +16,7 @@ const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasA
     position: relative;
     border: var(--media-border-width) solid var(--media-border-color);
     border-radius: var(--border-radius);
-    background-color: white;
+    background-color: var(--white-color);
     overflow: hidden;
     cursor: pointer;
 

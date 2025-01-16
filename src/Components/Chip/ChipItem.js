@@ -26,7 +26,7 @@ const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) 
         background-color: var(--light-gray);
     `}
     ${(props) => props.variant === Variant.OUTLINED && `
-        background-color: white;
+        background-color: var(--white-color);
         border: 1px solid var(--border-color-light);
     `}
 

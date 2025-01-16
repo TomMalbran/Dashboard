@@ -35,7 +35,7 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, 
     margin: 0;
     padding: 8px;
     transform: translateY(-26px);
-    background-color: white;
+    background-color: var(--white-color);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     max-width: calc(100vw - var(--main-padding) * 2);
@@ -51,7 +51,7 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, 
 
 const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
     position: sticky;
-    background-color: white;
+    background-color: var(--white-color);
 
     ${(props) => props.atBottom  && `
         bottom: -8px;

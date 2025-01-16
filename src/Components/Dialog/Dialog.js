@@ -39,10 +39,11 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
     max-height: var(--full-height);
     border: none;
     border-radius: var(--dialog-radius);
-    background-color: white;
+    background-color: var(--content-color);
+    color: var(--black-color);
 
     &[open]:not(:focus-within) {
-        background-color: rgb(255, 255, 254);
+        background-color: var(--content-color);
         transition: background-color 0.01s;
     }
 

@@ -22,7 +22,7 @@ const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternal
     height: var(--details-height);
     padding: var(--details-spacing);
     padding-top: 0px;
-    background-color: white;
+    background-color: var(--content-color);
     overflow: auto;
 
     ${(props) => props.isInside ? `
@@ -64,7 +64,7 @@ const Loading = Styled.div`
     justify-content: center;
     align-items: center;
     padding: 40px 0;
-    background-color: white;
+    background-color: var(--content-color);
     border-radius: var(--border-radius);
     overflow: hidden;
 `;
@@ -74,7 +74,7 @@ const Error = Styled.div`
     padding: 16px;
     color: var(--error-color);
     text-align: center;
-    background-color: white;
+    background-color: var(--content-color);
     border-radius: 3px;
 `;
 

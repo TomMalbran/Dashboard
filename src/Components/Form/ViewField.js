@@ -26,7 +26,7 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
     display: flex;
     align-items: center;
     font-size: var(--input-font);
-    background-color: white;
+    background-color: var(--content-color);
     border: 1px solid var(--input-border);
     border-radius: var(--border-radius);
     transition: all 0.2s;
@@ -85,7 +85,7 @@ const FieldError = Styled.p`
 const FieldHelper = Styled.p`
     font-size: 0.9em;
     margin: 4px 0 0 4px;
-    color: var(--lighter-color);
+    color: var(--darkest-gray);
 `;
 
 const Copy = Styled.div.attrs(({ isFloating }) => ({ isFloating }))`

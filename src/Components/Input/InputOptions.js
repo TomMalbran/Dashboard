@@ -18,7 +18,7 @@ const Container = Styled.ul.attrs(({ top, left, width, maxHeight, opacity }) => 
     margin: 0;
     padding: 8px;
     list-style: none;
-    background-color: white;
+    background-color: var(--white-color);
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius);
     transform: translateY(2px);

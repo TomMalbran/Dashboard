@@ -20,7 +20,7 @@ const Content = Styled.main.attrs(({ withNavigation, withDetails, wideDetails, l
     margin-right: var(--main-margin);
     margin-bottom: var(--main-margin);
     border-radius: var(--main-radius);
-    background-color: white;
+    background-color: var(--content-color);
 
     @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
         width: calc(100vw - var(--sidebar-width) - var(--main-navigation) - var(--main-margin));

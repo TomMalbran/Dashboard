@@ -25,7 +25,7 @@ const Text = Styled.p.attrs(({ atMaxLength, hasButtons }) => ({ atMaxLength, has
     margin: 0;
     margin-right: ${(props) => props.hasButtons ? "8px" : "0"};
     font-size: 12px;
-    color: ${(props) => props.atMaxLength ? "var(--error-color)" : "var(--lighter-color)"};
+    color: ${(props) => props.atMaxLength ? "var(--error-color)" : "var(--darkest-gray)"};
 `;
 
 

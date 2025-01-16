@@ -19,7 +19,7 @@ const Div = Styled.div`
     .btn {
         width: 100%;
         font-size: 12px;
-        background-color: white;
+        background-color: var(--content-color);
     }
     .btn.btn + .btn.btn {
         margin-top: 8px;

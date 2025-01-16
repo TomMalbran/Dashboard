@@ -29,7 +29,7 @@ const Li = Styled.li.attrs(({ variant }) => ({ variant }))`
         border-bottom: 2px solid var(--primary-color);
     `}
     ${(props) => props.variant === Brightness.LIGHT && `
-        border-bottom: 2px solid var(--lightest-color);
+        border-bottom: 2px solid var(--darker-gray);
     `}
 `;
 

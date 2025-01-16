@@ -43,7 +43,7 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
             transition: all 0.2s;
         }
         &&::-webkit-scrollbar-thumb:hover {
-            box-shadow: inset 0 0 0 8px var(--dark-gray);
+            box-shadow: inset 0 0 0 8px var(--border-color-medium);
         }
     `}
 

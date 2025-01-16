@@ -14,7 +14,7 @@ import DetailTitle          from "./DetailTitle";
 // Styles
 const Container = Styled.div`
     color: var(--font-lighter);
-    background-color: white;
+    background-color: var(--content-color);
     border-radius: var(--border-radius);
 `;
 

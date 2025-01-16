@@ -24,7 +24,7 @@ const FieldContent = Styled.div`
 const FieldHelper = Styled.p`
     font-size: 0.9em;
     margin: 4px 0 0 4px;
-    color: var(--lighter-color);
+    color: var(--darkest-gray);
 `;
 
 const FieldButton = Styled(Button)`

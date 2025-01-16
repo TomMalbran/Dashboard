@@ -54,8 +54,8 @@ const Span = Styled.span`
 
 const Badge = Styled.span`
     position: absolute;
-    top: 0;
-    right: 0;
+    top: -5px;
+    right: -5px;
     padding: 2px 4px;
     font-size: 10px;
     color: white;

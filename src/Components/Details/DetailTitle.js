@@ -17,7 +17,7 @@ const Container = Styled.div.attrs(({ hasInternalTabs, isCollapsed }) => ({ hasI
     top: 0;
     padding: 6px 0;
     padding-top: var(--details-spacing);
-    background-color: white;
+    background-color: var(--content-color);
     border-bottom: 1px solid var(--border-color-light);
     z-index: 2;
 

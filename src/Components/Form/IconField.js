@@ -50,7 +50,7 @@ const FieldContent = Styled.div.attrs(({ hasError }) => ({ hasError }))`
 const FieldInput = Styled(Input)`
     min-height: var(--inputicon-height);
     color: var(--black-color);
-    background-color: white;
+    background-color: var(--white-color);
     border-top-left-radius: 0px;
     border-top-right-radius: var(--border-radius);
     border-bottom-left-radius: 0px;

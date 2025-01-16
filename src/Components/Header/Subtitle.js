@@ -18,7 +18,7 @@ const H3 = Styled.h3.attrs(({ withBorder }) => ({ withBorder }))`
     gap: 8px;
     margin: 0;
     padding-left: var(--main-padding);
-    color: var(--lighter-color);
+    color: var(--darkest-gray);
     font-weight: 400;
     font-size: 15px;
     line-height: 1.5;

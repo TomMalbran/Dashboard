@@ -53,7 +53,7 @@ const Container = Styled.div.attrs(({ variant, isTiny, isSmall, withSpacing, top
 
     ${(props) => props.variant === Variant.PRIMARY && `
         --loader-border-color: var(--primary-color, black);
-        --loader-font-color: var(--font-dark, black);
+        --loader-font-color: var(--font-color, black);
     `}
     ${(props) => props.variant === Variant.WHITE && `
         --loader-border-color: white;
