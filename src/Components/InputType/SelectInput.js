@@ -126,31 +126,7 @@ function SelectInput(props) {
         if (!filter) {
             return optionList;
         }
-
-        const result = [];
-        const search = Utils.convertToSearch(filter);
-
-        for (const item of optionList) {
-            const text      = item.message;
-            const parts     = text.split(" ");
-            let   fromIndex = 0;
-
-            for (const part of parts) {
-                const searchText = text.substring(text.indexOf(part));
-                if (Utils.convertToSearch(searchText).startsWith(search)) {
-                    const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
-                    result.push({
-                        key     : item.key,
-                        value   : item.value,
-                        message : item.message,
-                        text    : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
-                    });
-                    break;
-                }
-                fromIndex += part.length + 1;
-            }
-        }
-        return result;
+        return Utils.parseSearchResult(optionList, filter, "message");
     }, [ JSON.stringify(optionList), filter ]);
 
     // Check if there are Filtered Options
@@ -316,6 +292,9 @@ function SelectInput(props) {
             break;
 
         default:
+            selectedIdxRef.current = 0;
+            selectedValRef.current = "";
+            return;
         }
 
         setShowOptions(true);

@@ -1222,6 +1222,38 @@ function convertToSearch(text) {
 }
 
 /**
+ * Parses the Search Result
+ * @param {Object[]} list
+ * @param {String}   filter
+ * @param {String}   field
+ * @returns {Object[]}
+ */
+function parseSearchResult(list, filter, field) {
+    const search = convertToSearch(filter);
+    const result = [];
+
+    for (const item of list) {
+        const text      = item[field];
+        const parts     = text.split(" ");
+        let   fromIndex = 0;
+
+        for (const part of parts) {
+            const searchText = text.substring(text.indexOf(part));
+            if (convertToSearch(searchText).startsWith(search)) {
+                const pos = convertToSearch(text).indexOf(search, fromIndex);
+                result.push({
+                    ...item,
+                    text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length + 1)}</u>${text.substring(pos + search.length + 1)}`,
+                });
+                break;
+            }
+            fromIndex += part.length + 1;
+        }
+    }
+    return result;
+}
+
+/**
  * Replaces the Source Urls
  * @param {String}  text
  * @param {Number=} clientID
@@ -1441,6 +1473,7 @@ export default {
     randomNumber,
     generatePassword,
     convertToSearch,
+    parseSearchResult,
     replaceSourceUrls,
     isEmojiOnly,
     isValidColor,

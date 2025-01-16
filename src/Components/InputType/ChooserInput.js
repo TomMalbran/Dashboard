@@ -143,12 +143,12 @@ function ChooserInput(props) {
         let newSelectedIdx = 0;
 
         switch (e.keyCode) {
-        case KeyCode.DOM_VK_DOWN:
-            newSelectedIdx = (selectedRef.current + 1) % optionList.length;
-            e.preventDefault();
-            break;
         case KeyCode.DOM_VK_UP:
             newSelectedIdx = (selectedRef.current - 1) < 0 ? optionList.length - 1 : selectedRef.current - 1;
+            e.preventDefault();
+            break;
+        case KeyCode.DOM_VK_DOWN:
+            newSelectedIdx = (selectedRef.current + 1) % optionList.length;
             e.preventDefault();
             break;
 
@@ -237,34 +237,11 @@ function ChooserInput(props) {
 
     // Get the Options List
     const optionList = React.useMemo(() => {
-        const search = Utils.convertToSearch(filter);
-        const result = [];
-        for (const item of options) {
-            if (Utils.hasValue(values, item.key)) {
-                continue;
-            }
-            if (!filter) {
-                result.push(item);
-                continue;
-            }
-
-            const text      = item.value;
-            const parts     = text.split(" ");
-            let   fromIndex = 0;
-            for (const part of parts) {
-                const searchText = text.substring(text.indexOf(part));
-                if (Utils.convertToSearch(searchText).startsWith(search)) {
-                    const pos = Utils.convertToSearch(text).indexOf(search, fromIndex);
-                    result.push({
-                        ...item,
-                        text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`,
-                    });
-                    break;
-                }
-                fromIndex += part.length + 1;
-            }
+        const optionList = options.filter((item) => !Utils.hasValue(values, item.key));
+        if (!filter) {
+            return optionList;
         }
-        return result;
+        return Utils.parseSearchResult(optionList, filter, "value");
     }, [ JSON.stringify(values), JSON.stringify(options), filter ]);
 
     // Get the Chips

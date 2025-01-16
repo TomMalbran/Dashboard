@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import NLS                  from "../../Core/NLS";
 import KeyCode              from "../../Utils/KeyCode";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
@@ -102,7 +103,8 @@ function SuggestInput(props) {
 
         if (newSuggestions && Array.isArray(newSuggestions)) {
             selectedRef.current = 0;
-            setSuggestions(newSuggestions);
+            const parsedSuggestions = Utils.parseSearchResult(newSuggestions, value, "title");
+            setSuggestions(parsedSuggestions);
         }
     };
 
