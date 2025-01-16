@@ -396,15 +396,15 @@ class DateTime {
         const today = new DateTime().time;
         const time  = this.time;
         const diff  = Math.abs(time - today);
-        const dHour = Math.round(diff / HOUR_SECS);
-        const dMin  = Math.round(diff / MINUTE_SECS);
+        const dHour = Math.floor(diff / HOUR_SECS);
+        const dMin  = Math.floor(diff / MINUTE_SECS);
         const dSec  = diff % 60;
         let   format;
 
         if (diff < HOUR_SECS) {
             format = "{i}:{s}";
         } else if (diff < DAY_SECS) {
-            format = "{h}h";
+            format = "{h}:{i} h";
         }
 
         // Show the result in mins or hours since the time
