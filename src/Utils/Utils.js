@@ -1,5 +1,6 @@
 import React                from "react";
 import NLS                  from "../Core/NLS";
+import MD5                  from "./MD5";
 
 
 
@@ -1056,6 +1057,17 @@ function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, sub
 
 
 /**
+ * Returns the Gravatar Url
+ * @param {String} email
+ * @param {String} defaultValue
+ * @returns {String}
+ */
+function getGravatarUrl(email, defaultValue) {
+    const username = email ? MD5(email.toLowerCase().trim()) : "000000000000000000000000000000000000000000000000000000";
+    return `https://gravatar.com/avatar/${username}?default=${defaultValue}`;
+}
+
+/**
  * Returns the YouTube Embed Url
  * @param {String} source
  * @returns {String}
@@ -1421,6 +1433,7 @@ export default {
     useSelectList,
     useSubSelectList,
 
+    getGravatarUrl,
     getYouTubeEmbed,
     getVimeoEmbed,
     getGoogleMapEmbed,

@@ -5,12 +5,12 @@ import Styled               from "styled-components";
 // Core & Utils
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
-import MD5                  from "../../Utils/MD5";
+import Utils                from "../../Utils/Utils";
 
 
 
 // Styles
-const Div = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
+const Container = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
     box-sizing: border-box;
     display: block;
     width: ${(props) => `${props.size}px`};
@@ -27,7 +27,7 @@ const Div = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
     }
 `;
 
-const Img = Styled.img`
+const Image = Styled.img`
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -50,25 +50,6 @@ function Avatar(props) {
     const uri      = url ? NLS.baseUrl(url) : href;
     const navigate = Navigate.useUrl(uri, target);
 
-    if (!name && !email) {
-        return <React.Fragment />;
-    }
-
-
-    // Calculate the Source
-    let source = avatar;
-    if (!source && email) {
-        const username = MD5(email.toLowerCase().trim());
-        source = `https://gravatar.com/avatar/${username}?default=${defaultValue}`;
-    } else if (edition) {
-        source += `?rdm=${edition}`;
-    } else if (withReload) {
-        source += `?rdm=${new Date().getTime()}`;
-    }
-    if (!source) {
-        return <React.Fragment />;
-    }
-
 
     // Handles the Click
     const handleClick = (e) => {
@@ -83,16 +64,38 @@ function Avatar(props) {
     };
 
 
+    // Calculate the Source
+    const source = React.useMemo(() => {
+        let source = avatar;
+        if (!source) {
+            source = Utils.getGravatarUrl(email, defaultValue);
+        } else if (edition) {
+            source += `?rdm=${edition}`;
+        } else if (withReload) {
+            source += `?rdm=${new Date().getTime()}`;
+        }
+        return source;
+    }, [ avatar, email, defaultValue, edition, withReload ]);
+
+
     // Do the Render
-    return <Div
+    if (!source) {
+        return <React.Fragment />;
+    }
+    return <Container
         ref={passedRef}
         className={className}
         size={size}
         hasClick={hasClick}
         onClick={handleClick}
     >
-        <Img alt={name} src={source} width={size} height={size} />
-    </Div>;
+        <Image
+            alt={name}
+            src={source}
+            width={size}
+            height={size}
+        />
+    </Container>;
 }
 
 /**
