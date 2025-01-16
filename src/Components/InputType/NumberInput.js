@@ -36,7 +36,9 @@ function NumberInput(props) {
 
     // Handles the Input
     const handleInput = (e) => {
-        onInput(name, e.target.value);
+        if (onInput) {
+            onInput(name, e.target.value);
+        }
     };
 
     // Handles the Key Down
@@ -130,7 +132,7 @@ NumberInput.propTypes = {
     minValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange    : PropTypes.func.isRequired,
-    onInput     : PropTypes.func.isRequired,
+    onInput     : PropTypes.func,
     onPaste     : PropTypes.func,
     onClear     : PropTypes.func,
     onFocus     : PropTypes.func,
