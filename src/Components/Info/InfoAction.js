@@ -15,8 +15,13 @@ import Button               from "../Form/Button";
  * @returns {React.ReactElement}
  */
 function InfoAction(props) {
-    const { isHidden, className, variant, message, action, onAction } = props;
+    const {
+        isHidden, className, variant, icon, message,
+        action, onAction,
+    } = props;
+
     const act = Action.get(action);
+
 
     // Handles the Click
     const handleClick = () => {
@@ -26,12 +31,14 @@ function InfoAction(props) {
     };
 
 
+    // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
     return <Button
         className={className}
         variant={variant}
+        icon={icon || act.icon}
         message={message || act.message}
         onClick={handleClick}
     />;
@@ -46,6 +53,7 @@ InfoAction.propTypes = {
     action    : PropTypes.string.isRequired,
     className : PropTypes.string,
     variant   : PropTypes.string,
+    icon      : PropTypes.string,
     message   : PropTypes.string,
     onAction  : PropTypes.func,
 };
