@@ -1293,11 +1293,21 @@ function isValidColor(value) {
  * @returns {String}
  */
 function getContrastColor(value) {
-    const rgba   = value.match(/\d+/g);
-    const red    = Number(rgba[0]);
-    const green  = Number(rgba[1]);
-    const blue   = Number(rgba[2]);
-    let   result = "white";
+    let result = "white";
+    let red    = 0;
+    let green  = 0;
+    let blue   = 0;
+
+    if (value.startsWith("rgb")) {
+        const rgba = value.match(/\d+/g);
+        red   = Number(rgba[0]);
+        green = Number(rgba[1]);
+        blue  = Number(rgba[2]);
+    } else {
+        red   = parseInt(value.substring(1, 3), 16);
+        green = parseInt(value.substring(3, 5), 16);
+        blue  = parseInt(value.substring(5, 7), 16);
+    }
 
     if ((red * 0.299) + (green * 0.587) + (blue * 0.114) > 186) {
         result = "black";
