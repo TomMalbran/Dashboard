@@ -141,6 +141,9 @@ function setUser() {
         if (jwt.data.language) {
             NLS.setLang(jwt.data.language);
         }
+        if (jwt.data.appearance) {
+            setAppearance(jwt.data.appearance);
+        }
         return true;
 
     } catch (e) {
@@ -191,6 +194,16 @@ function getTimezone() {
 }
 
 
+/**
+ * Sets the Appearance
+ * @param {String} appearance
+ * @returns {Void}
+ */
+function setAppearance(appearance) {
+    document.querySelector("#root").className = `${appearance}-mode`;
+}
+
+
 
 // The public API
 export default {
@@ -211,4 +224,5 @@ export default {
 
     getLanguage,
     getTimezone,
+    setAppearance,
 };
