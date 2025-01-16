@@ -253,10 +253,12 @@ function SelectInput(props) {
             break;
 
         case KeyCode.DOM_VK_UP:
+        case KeyCode.DOM_VK_LEFT:
             newSelectedIdx = (selectedIdx - 1) < 0 ? filteredList.length - 1 : selectedIdx - 1;
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_DOWN:
+        case KeyCode.DOM_VK_RIGHT:
             newSelectedIdx = (selectedIdx + 1) % filteredList.length;
             e.preventDefault();
             break;

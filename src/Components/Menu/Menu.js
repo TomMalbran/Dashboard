@@ -151,19 +151,23 @@ function Menu(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
+        let newSelectedIdx = 0;
+
         switch (e.keyCode) {
-        case KeyCode.DOM_VK_DOWN: {
-            const newSelectedIdx = (selectedIdx + 1) % items.length;
+        case KeyCode.DOM_VK_UP:
+        case KeyCode.DOM_VK_LEFT:
+            newSelectedIdx = (selectedIdx - 1) < 0 ? items.length - 1 : selectedIdx - 1;
             setSelectedIdx(newSelectedIdx);
             e.preventDefault();
             break;
-        }
-        case KeyCode.DOM_VK_UP: {
-            const newSelectedIdx = (selectedIdx - 1) < 0 ? items.length - 1 : selectedIdx - 1;
+
+        case KeyCode.DOM_VK_DOWN:
+        case KeyCode.DOM_VK_RIGHT:
+            newSelectedIdx = (selectedIdx + 1) % items.length;
             setSelectedIdx(newSelectedIdx);
             e.preventDefault();
             break;
-        }
+
         default:
         }
     };

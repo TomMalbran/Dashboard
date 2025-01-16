@@ -183,10 +183,12 @@ function SuggestInput(props) {
 
         switch (e.keyCode) {
         case KeyCode.DOM_VK_UP:
+        case KeyCode.DOM_VK_LEFT:
             newSelectedIdx = (selectedIdx - 1) < 0 ? suggestions.length - 1 : selectedIdx - 1;
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_DOWN:
+        case KeyCode.DOM_VK_RIGHT:
             newSelectedIdx = (selectedIdx + 1) % suggestions.length;
             e.preventDefault();
             break;
