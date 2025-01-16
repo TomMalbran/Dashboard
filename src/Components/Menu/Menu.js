@@ -97,11 +97,11 @@ function Menu(props) {
     const items = [];
     let   index = 0;
     for (const child of children) {
-        const { act, title, message } = child.props;
+        const { isHidden, act, title, message } = child.props;
         const titleMsg   = NLS.get(title || "");
         const contentMsg = NLS.get(message || act?.message || "");
         const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
-        if (!isFiltered) {
+        if (!isHidden && !isFiltered) {
             items.push(React.cloneElement(child, {
                 key : index,
                 index, selectedIdx, onAction, onClose,
