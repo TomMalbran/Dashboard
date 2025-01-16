@@ -36,7 +36,7 @@ const Content = Styled.div`
     gap: 6px;
 `;
 
-const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
+const Item = Styled.div.attrs(({ withError, isDisabled }) => ({ withError, isDisabled }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -48,12 +48,19 @@ const Item = Styled.div.attrs(({ withError }) => ({ withError }))`
     border-radius: var(--border-radius);
 
     .inputfield-children {
+        margin-top: 0;
         margin-bottom: 0;
     }
 
     ${(props) => props.withError && `
         .inputfield {
             --input-border: var(--error-color);
+        }
+    `}
+    ${(props) => props.isDisabled && `
+        border-color: var(--input-border-disabled);
+        .inputfield-children {
+            margin-right: 0;
         }
     `}
 `;
@@ -290,6 +297,7 @@ function ListInput(props) {
                     key={index}
                     className="inputfield-container"
                     withError={!!getError(index)}
+                    isDisabled={isDisabled}
                 >
                     <Icon
                         isHidden={!canSort}
