@@ -43,11 +43,11 @@ function getCurrentLang() {
 
 /**
  * Sets the Language
- * @param {String=} lang
+ * @param {String=} langCode
  * @returns {Void}
  */
-function setLang(lang) {
-    language = lang || getLang();
+function setLang(langCode) {
+    language = langCode || getLang();
 
     stringData = loadLang("strings");
     urlData    = loadLang("urls");
@@ -74,6 +74,19 @@ function loadLang(key) {
 }
 
 
+
+/**
+ * Returns a String from an ID and Language
+ * @param {String} id
+ * @param {String} langCode
+ * @returns {String}
+ */
+function getForLang(id, langCode) {
+    if (langsData[langCode]) {
+        return langsData[langCode].strings[id] || id;
+    }
+    return stringData[id] || id;
+}
 
 /**
  * Returns a String from an ID
@@ -301,6 +314,7 @@ export default {
     getCurrentLang,
     setLang,
 
+    getForLang,
     get,
     getValue,
     getClass,
