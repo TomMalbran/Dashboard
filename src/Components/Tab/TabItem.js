@@ -59,6 +59,7 @@ const Item = Styled(Container)`
 const LightItem = Styled(Item)`
     --tab-hover-color: var(--light-gray);
     --tab-selected-color: var(--primary-color);
+    --tab-selected-font: var(--primary-font, var(--white-color));
 
     height: calc(var(--tabs-table) - var(--main-gap));
     padding: 6px 12px;
