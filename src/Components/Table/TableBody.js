@@ -51,13 +51,6 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
         border-bottom: var(--table-border-outer);
         border-bottom-left-radius: var(--table-radius-last);
         border-bottom-right-radius: var(--table-radius-last);
-
-        tr:last-child td:first-child {
-            border-bottom-left-radius: var(--table-radius-last);
-        }
-        tr:last-child td:last-child {
-            border-bottom-right-radius: var(--table-radius-last);
-        }
     `}
 
     @media (max-width: 700px) {
