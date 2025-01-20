@@ -12,7 +12,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const H2 = Styled.h2`
+const Container = Styled.h2`
     display: flex;
     align-items: center;
     gap: 8px;
@@ -31,7 +31,15 @@ const H2 = Styled.h2`
     }
 `;
 
-const Span = Styled.span`
+const TitleIcon = Styled(Icon)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+`;
+
+const Text = Styled.span`
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -49,16 +57,17 @@ function Title(props) {
 
 
     // Do the Render
-    return <H2 className="title">
+    return <Container className="title">
         {href ? <IconLink
             variant="light"
             icon="back"
             href={href}
-        /> : <Icon
+            isSmall
+        /> : <TitleIcon
             icon={icon}
         />}
-        <Span>{message ? NLS.get(message) : NLS.get(fallback)}</Span>
-    </H2>;
+        <Text>{message ? NLS.get(message) : NLS.get(fallback)}</Text>
+    </Container>;
 }
 
 /**

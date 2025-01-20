@@ -15,7 +15,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Header = Styled.header.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.header.attrs(({ variant }) => ({ variant }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -37,12 +37,12 @@ const HeaderIcon = Styled(Icon)`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     font-size: 20px;
 `;
 
-const H2 = Styled.h2`
+const Title = Styled.h2`
     display: flex;
     flex-grow: 2;
     flex-direction: column;
@@ -95,7 +95,7 @@ function NavigationTitle(props) {
 
 
     // Do the Render
-    return <Header className={className} variant={variant}>
+    return <Container className={className} variant={variant}>
         {!!icon && <HeaderIcon icon={icon} />}
         <IconLink
             isHidden={!!icon || noBack}
@@ -103,29 +103,35 @@ function NavigationTitle(props) {
             icon="back"
             href={onClick ? null : (href || parent)}
             onClick={onClick}
+            isSmall
         />
-        <H2>
+
+        <Title>
             {!message ? NLS.get(fallback) : <>
                 <Span1>{NLS.get(fallback)}</Span1>
                 <Span2>{NLS.get(message)}</Span2>
             </>}
-        </H2>
+        </Title>
+
         {canAdd && <IconLink
             variant={variant}
             icon="add"
             onClick={(e) => handleAction(e, "ADD")}
+            isSmall
         />}
         {canEdit && <IconLink
             variant={variant}
             icon="edit"
             onClick={(e) => handleAction(e, "EDIT")}
+            isSmall
         />}
         {canManage && <IconLink
             variant={variant}
             icon="settings"
             onClick={(e) => handleAction(e, "MANAGE")}
+            isSmall
         />}
-    </Header>;
+    </Container>;
 }
 
 /**
