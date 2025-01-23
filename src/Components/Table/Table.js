@@ -25,7 +25,7 @@ const Wrapper = Styled.div`
     position: relative;
 `;
 
-const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll }))`
+const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasRadius, hasScroll }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasRadius, hasScroll }))`
     ${(props) => props.inDialog ? `
         --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
@@ -49,6 +49,15 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     .input-content {
         background-color: transparent;
     }
+
+    ${(props) => props.hasRadius && `
+        tr:last-child td:first-child {
+            border-bottom-left-radius: var(--border-radius);
+        }
+        tr:last-child td:last-child {
+            border-bottom-right-radius: var(--border-radius);
+        }
+    `}
 
     ${(props) => props.hasScroll && `tr:last-child td {
         border-bottom: none;
@@ -208,6 +217,8 @@ function Table(props) {
     }
 
 
+    // Variables
+    const hasRadius    = notFixed && !hasFooter && !hasPaging;
     const showMenu     = hasActions && Boolean(menuID !== null && menuTop);
     const hasSorting   = !noSorting && !Utils.isEmpty(sort);
     const hasChecks    = Boolean(checked && setChecked);
@@ -272,6 +283,7 @@ function Table(props) {
                 hasTabs={hasTabs}
                 hasAlert={hasAlert}
                 hasPaging={hasPaging}
+                hasRadius={hasRadius}
                 hasScroll={hasScroll}
             >
                 {items}
