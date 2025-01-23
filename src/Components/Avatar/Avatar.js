@@ -48,7 +48,7 @@ function Avatar(props) {
 
     const hasClick = Boolean(url || href || onClick);
     const uri      = url ? NLS.baseUrl(url) : href;
-    const navigate = Navigate.useUrl(uri, target);
+    const navigate = Navigate.useGotoUrl();
 
 
     // Handles the Click
@@ -57,7 +57,7 @@ function Avatar(props) {
             onClick(e);
         }
         if (hasClick) {
-            navigate();
+            navigate(uri, target);
             e.stopPropagation();
             e.preventDefault();
         }

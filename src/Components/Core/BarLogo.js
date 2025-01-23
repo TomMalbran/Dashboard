@@ -35,12 +35,13 @@ const Image = Styled.img`
 function BarLogo(props) {
     const { className, logo, withLink } = props;
 
-    const navigate = Navigate.useUrl("/", "_self");
+    const navigate = Navigate.useGotoUrl();
+
 
     // Handles the Click
     const handleClick = (e) => {
         if (withLink) {
-            navigate();
+            navigate("/", "_self");
             e.stopPropagation();
             e.preventDefault();
         }

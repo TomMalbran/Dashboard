@@ -73,7 +73,7 @@ function MenuItem(props) {
     const icn         = icon    || act.icon;
     const content     = message || act.message;
     const uri         = url ? NLS.baseUrl(url) : href;
-    const navigate    = Navigate.useUrl(uri, target);
+    const navigate    = Navigate.useGotoUrl();
     const isSelection = !isDisabled && (isSelected || selectedIdx === index);
     const hasMenu     = Boolean(children && children.length);
 
@@ -102,7 +102,7 @@ function MenuItem(props) {
     // Handles the Action
     const handleAction = () => {
         if (url) {
-            navigate();
+            navigate(uri, target);
         }
         if (onAction) {
             onAction(act);

@@ -271,14 +271,12 @@ function useGoto() {
 
 /**
  * Handles the given URL
- * @param {String} url
- * @param {String} target
  * @returns {Function}
  */
-function useUrl(url, target) {
+function useGotoUrl() {
     const navigate = useNavigate();
 
-    return () => {
+    return (url, target) => {
         if (!url || url === "#") {
             return false;
         }
@@ -305,7 +303,7 @@ function useUrl(url, target) {
 function useClick(props) {
     const { target, onClick, isPhone, isEmail, isWhatsApp, propagate } = props;
     const url      = getUrl(props);
-    const navigate = useUrl(url, target);
+    const navigate = useGotoUrl();
 
     return (e) => {
         if (onClick) {
@@ -314,7 +312,7 @@ function useClick(props) {
         if (isEmail || isPhone || isWhatsApp) {
             window.open(url);
         } else {
-            navigate();
+            navigate(url, target);
         }
         if (!propagate) {
             e.stopPropagation();
@@ -413,7 +411,7 @@ export default {
     getWhatsApp,
 
     useGoto,
-    useUrl,
+    useGotoUrl,
     useClick,
     useLink,
 
