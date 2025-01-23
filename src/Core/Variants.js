@@ -7,6 +7,7 @@ export const Brightness = {
     LIGHT   : "light",
     DARK    : "dark",
     DARKER  : "darker",
+    WHITE   : "white",
     BLACK   : "black",
     ACCENT  : "accent",
     ERROR   : "error",
