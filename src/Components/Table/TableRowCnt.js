@@ -5,7 +5,7 @@ import Styled               from "styled-components";
 
 
 // Styles
-const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isEditable, isSelected }) => ({ hasHover, hasIDs, hasChecks, hasActions, isEditable, isSelected }))`
+const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSelected }) => ({ hasHover, hasChecks, hasActions, isEditable, isSelected }))`
     display: flex;
     width: 100%;
     height: auto;
@@ -32,15 +32,6 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isEditabl
     ${(props) => props.isSelected && `
         & td {
             background-color: var(--table-selected);
-        }
-    `}
-
-    ${(props) => props.hasIDs && `
-        th:first-child,
-        td:first-child {
-            flex: 0 1 50px;
-            width: 50px;
-            font-weight: bold;
         }
     `}
 
@@ -142,7 +133,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isEditabl
  */
 function TableRowCnt(props) {
     const {
-        className, hasHover, hasIDs, hasChecks, hasActions,
+        className, hasHover, hasChecks, hasActions,
         isEditable, isSelected, onClick, onContextMenu, children,
     } = props;
 
@@ -151,7 +142,6 @@ function TableRowCnt(props) {
     return <TR
         className={className}
         hasHover={hasHover}
-        hasIDs={hasIDs}
         hasChecks={hasChecks}
         hasActions={hasActions}
         isEditable={isEditable}
@@ -170,7 +160,6 @@ function TableRowCnt(props) {
 TableRowCnt.propTypes = {
     className     : PropTypes.string,
     hasHover      : PropTypes.bool,
-    hasIDs        : PropTypes.bool,
     hasChecks     : PropTypes.bool,
     hasActions    : PropTypes.bool,
     isEditable    : PropTypes.bool,
@@ -187,7 +176,6 @@ TableRowCnt.propTypes = {
 TableRowCnt.defaultProps = {
     className  : "",
     hasHover   : false,
-    hasIDs     : false,
     hasChecks  : false,
     hasActions : false,
     isEditable : false,

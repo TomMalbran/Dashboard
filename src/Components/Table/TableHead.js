@@ -59,7 +59,7 @@ const EditCell = Styled.th`
  */
 function TableHead(props) {
     const {
-        hasIDs, hasActions, hasSorting, isEditable,
+        hasActions, hasSorting, isEditable,
         hasChecks, hasCheckAll, isCheckedAll, setCheckedAll,
         sort, fetch, columns, children,
     } = props;
@@ -74,7 +74,6 @@ function TableHead(props) {
     // Do the Render
     return <THead isEditable={isEditable}>
         <TableRowCnt
-            hasIDs={hasIDs}
             hasChecks={hasChecks}
             hasActions={hasActions}
             isEditable={isEditable}
@@ -109,7 +108,6 @@ function TableHead(props) {
  * @typedef {Object} propTypes
  */
 TableHead.propTypes = {
-    hasIDs        : PropTypes.bool,
     hasActions    : PropTypes.bool,
     hasSorting    : PropTypes.bool,
     hasChecks     : PropTypes.bool,
@@ -128,7 +126,6 @@ TableHead.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableHead.defaultProps = {
-    hasIDs       : false,
     hasActions   : false,
     hasSorting   : false,
     hasChecks    : false,

@@ -100,7 +100,7 @@ function Table(props) {
     const {
         sort, fetch, className, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
-        noSorting, hasIDs, notFixed, isEditable,
+        noSorting, notFixed, isEditable,
         checked, setChecked, hasCheckAll, children,
     } = props;
 
@@ -268,7 +268,7 @@ function Table(props) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
-                hasIDs, hasChecks, hasActions, hasSorting,
+                hasChecks, hasActions, hasSorting,
                 hasPaging, hasFooter, notFixed, isEditable,
                 checked, setChecked, hasCheckAll, setCheckedAll, isCheckedAll,
                 handleRowClick, handleMenuOpen,
@@ -362,7 +362,6 @@ Table.propTypes = {
     statsAmount : PropTypes.number,
     hasTabs     : PropTypes.bool,
     hasAlert    : PropTypes.bool,
-    hasIDs      : PropTypes.bool,
     noSorting   : PropTypes.bool,
     noClick     : PropTypes.bool,
     notFixed    : PropTypes.bool,
@@ -386,7 +385,6 @@ Table.defaultProps = {
     hasFilter   : false,
     statsAmount : 0,
     hasTabs     : false,
-    hasIDs      : false,
     noSorting   : false,
     notFixed    : false,
     hasCheckAll : false,

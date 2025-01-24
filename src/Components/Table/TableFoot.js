@@ -35,7 +35,7 @@ const TFoot = Styled.tfoot.attrs(({ isEditable }) => ({ isEditable }))`
  * @returns {React.ReactElement}
  */
 function TableFoot(props) {
-    const { hasIDs, hasActions, isEditable, columns, children } = props;
+    const { hasActions, isEditable, columns, children } = props;
 
 
     // Clone the Children
@@ -46,7 +46,7 @@ function TableFoot(props) {
 
     // Do the Render
     return <TFoot isEditable={isEditable}>
-        <TableRowCnt hasIDs={hasIDs} hasActions={hasActions}>
+        <TableRowCnt hasActions={hasActions}>
             {items}
             {hasActions && <th />}
         </TableRowCnt>
@@ -58,7 +58,6 @@ function TableFoot(props) {
  * @typedef {Object} propTypes
  */
 TableFoot.propTypes = {
-    hasIDs     : PropTypes.bool,
     hasActions : PropTypes.bool,
     isEditable : PropTypes.bool,
     columns    : PropTypes.array,
@@ -70,7 +69,6 @@ TableFoot.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableFoot.defaultProps = {
-    hasIDs     : false,
     hasActions : false,
     isEditable : false,
 };
