@@ -21,11 +21,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Wrapper = Styled.div`
-    position: relative;
-`;
-
-const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasRadius, hasScroll }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasRadius, hasScroll }))`
+const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll, hasChecks, hasActions, isEditable }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll, hasChecks, hasActions, isEditable }))`
     ${(props) => props.inDialog ? `
         --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
@@ -40,6 +36,31 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "32px" : "0px"};
 
+    --table-checks-width: ${(props) => props.hasChecks ? "28px" : "0px"};
+    --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "48px" : "0px"};
+
+    position: relative;
+
+    ${(props) => props.isEditable && `
+        overflow: auto;
+        height: calc(
+            var(--table-height)
+            - var(--table-stats-height)
+            - var(--table-tabs-height)
+            - var(--table-alert-height)
+            - var(--table-filter-height)
+        );
+        td:last-child {
+            justify-content: flex-end;
+        }
+    `}
+
+    @media (max-width: 700px) {
+        --table-header-height: 0px;
+    }
+`;
+
+const Container = Styled.table.attrs(({ isEditable, totalWidth, hasRadius, hasScroll }) => ({ isEditable, totalWidth, hasRadius, hasScroll }))`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -49,6 +70,10 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     .input-content {
         background-color: transparent;
     }
+
+    ${(props) => props.isEditable && `
+        min-width: calc(${props.totalWidth}px + var(--table-checks-width) + var(--table-actions-width));
+    `}
 
     ${(props) => props.hasRadius && `
         tr:last-child td:first-child {
@@ -62,10 +87,6 @@ const Container = Styled.table.attrs(({ inDialog, hasFilter, statsAmount, hasTab
     ${(props) => props.hasScroll && `tr:last-child td {
         border-bottom: none;
     }`}
-
-    @media (max-width: 700px) {
-        --table-header-height: 0px;
-    }
 `;
 
 
@@ -79,7 +100,7 @@ function Table(props) {
     const {
         sort, fetch, className, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
-        noSorting, hasIDs, notFixed,
+        noSorting, hasIDs, notFixed, isEditable,
         checked, setChecked, hasCheckAll, children,
     } = props;
 
@@ -150,6 +171,7 @@ function Table(props) {
     const columns    = [];
     const elemIDs    = [];
 
+    let   totalWidth = 0;
     let   colSpan    = 0;
     let   hasContent = false;
     let   hasPaging  = false;
@@ -158,7 +180,7 @@ function Table(props) {
 
     for (const child of Utils.toArray(children)) {
         if (child.type === TableHead) {
-            const tableHeads = Utils.toArray(child.props.children);
+            const tableHeads = Utils.getChildren(child.props.children);
             colSpan = tableHeads.length;
             for (const tableHead of tableHeads) {
                 columns.push({
@@ -174,11 +196,13 @@ function Table(props) {
                     smallSpace  : !!tableHead.props.smallSpace,
                     grow        : tableHead.props.grow     || "",
                     shrink      : tableHead.props.shrink   || "",
+                    width       : tableHead.props.width    || 0,
                     minWidth    : tableHead.props.minWidth || "",
                     maxWidth    : tableHead.props.maxWidth || "",
                     align       : tableHead.props.align    || "",
                     rightSpace  : false,
                 });
+                totalWidth += tableHead.props.width || 0;
             }
         }
 
@@ -240,12 +264,12 @@ function Table(props) {
     };
 
     // Get the Children
-    for (const [ key, child ] of Utils.getChildren(children)) {
+    for (const [ key, child ] of Utils.getChildren(children).entries()) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, colSpan, columns,
                 hasIDs, hasChecks, hasActions, hasSorting,
-                hasPaging, hasFooter, notFixed,
+                hasPaging, hasFooter, notFixed, isEditable,
                 checked, setChecked, hasCheckAll, setCheckedAll, isCheckedAll,
                 handleRowClick, handleMenuOpen,
             }));
@@ -255,8 +279,13 @@ function Table(props) {
     // Check if the Table should scroll
     React.useEffect(() => {
         if (tableRef.current && items.length) {
-            const body = tableRef.current.querySelector("tbody");
-            setHasScroll(body.scrollHeight > body.clientHeight);
+            let container;
+            if (isEditable) {
+                container = tableRef.current;
+            } else {
+                container = tableRef.current.querySelector("tbody");
+            }
+            setHasScroll(container.scrollHeight > container.clientHeight);
         }
     }, [ isLoading, elemIDs.length ]);
 
@@ -274,15 +303,23 @@ function Table(props) {
         return <React.Fragment />;
     }
     return <>
-        <Wrapper ref={tableRef}>
+        <Wrapper
+            ref={tableRef}
+            inDialog={inDialog}
+            hasFilter={hasFilter}
+            statsAmount={statsAmount}
+            hasTabs={hasTabs}
+            hasAlert={hasAlert}
+            hasPaging={hasPaging}
+            hasScroll={hasScroll}
+            hasChecks={hasChecks}
+            hasActions={hasActions}
+            isEditable={isEditable}
+        >
             <Container
                 className={className}
-                inDialog={inDialog}
-                hasFilter={hasFilter}
-                statsAmount={statsAmount}
-                hasTabs={hasTabs}
-                hasAlert={hasAlert}
-                hasPaging={hasPaging}
+                isEditable={isEditable}
+                totalWidth={totalWidth}
                 hasRadius={hasRadius}
                 hasScroll={hasScroll}
             >
@@ -332,6 +369,7 @@ Table.propTypes = {
     checked     : PropTypes.array,
     setChecked  : PropTypes.func,
     hasCheckAll : PropTypes.bool,
+    isEditable  : PropTypes.bool,
     children    : PropTypes.any,
 };
 
@@ -352,6 +390,7 @@ Table.defaultProps = {
     noSorting   : false,
     notFixed    : false,
     hasCheckAll : false,
+    isEditable  : false,
 };
 
 export default Table;

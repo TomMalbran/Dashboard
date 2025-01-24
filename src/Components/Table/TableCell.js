@@ -14,10 +14,10 @@ import Html                 from "../Common/Html";
 
 // Styles
 const props = ({
-    flexGrow, flexShrink, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
+    flexGrow, flexShrink, width, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
     bigMobile, hideMobile, noSpace, smallSpace, rightSpace, indent,
 }) => ({
-    flexGrow, flexShrink, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
+    flexGrow, flexShrink, width, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
     bigMobile, hideMobile, noSpace, smallSpace, rightSpace, indent,
 });
 
@@ -42,6 +42,13 @@ const TD = Styled.td.attrs(props)`
             flex: 0 1 150px;
             width: 150px;
         `}
+
+        ${(props) => props.width && `
+            flex: 0 1 ${props.width}px;
+            width: ${props.width}px;
+            min-width: 0;
+            max-width: none;
+        `};
 
         ${(props) => props.isBold && `
             font-weight: bold;
@@ -97,7 +104,7 @@ function TableCell(props) {
         isHidden, message,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         className, textColor, circle, hideCircle,
-        colSpan, grow, shrink, minWidth, maxWidth, align,
+        colSpan, grow, shrink, width, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex, isMultiline,
         bigMobile, hideMobile,
         noSpace, smallSpace, rightSpace, indent, children,
@@ -132,6 +139,7 @@ function TableCell(props) {
         className={textColor ? `text-${textColor}` : className}
         flexGrow={grow}
         flexShrink={shrink}
+        width={width}
         minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
@@ -174,6 +182,7 @@ TableCell.propTypes = {
     colSpan        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     shrink         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    width          : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align          : PropTypes.string,

@@ -5,8 +5,9 @@ import Styled               from "styled-components";
 
 
 // Styles
-const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelected }) => ({ hasHover, hasIDs, hasChecks, hasActions, isSelected }))`
+const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isEditable, isSelected }) => ({ hasHover, hasIDs, hasChecks, hasActions, isEditable, isSelected }))`
     display: flex;
+    width: 100%;
     height: auto;
 
     td, th {
@@ -35,7 +36,8 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
     `}
 
     ${(props) => props.hasIDs && `
-        th:first-child, td:first-child {
+        th:first-child,
+        td:first-child {
             flex: 0 1 50px;
             width: 50px;
             font-weight: bold;
@@ -43,27 +45,47 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
     `}
 
     ${(props) => props.hasChecks && `
-        th:first-child, td:first-child {
-            flex: 0 1 24px;
-            width: 24px;
+        th:first-child,
+        td:first-child {
             display: flex;
+            box-sizing: border-box;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: var(--table-checks-width);
+            width: var(--table-checks-width);
             align-items: center;
             justify-content: center;
             padding-left: 8px;
+
+            ${props.isEditable && `
+                position: sticky;
+                left: 0;
+                z-index: 1;
+            `}
         }
     `}
 
     ${(props) => props.hasActions && `
-        th:last-child, td:last-child {
-            flex: 0 0 32px;
+        th:last-child,
+        td:last-child {
             display: flex;
+            box-sizing: border-box;
+            flex-grow: 1;
+            flex-shrink: 0;
+            flex-basis: var(--table-actions-width);
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             padding: 4px 8px;
             text-align: right;
             white-space: nowrap;
             position: relative;
             overflow: visible;
+
+            ${props.isEditable && `
+                position: sticky;
+                right: 0;
+                z-index: 1;
+            `}
         }
     `}
 
@@ -121,15 +143,18 @@ const TR = Styled.tr.attrs(({ hasHover, hasIDs, hasChecks, hasActions, isSelecte
 function TableRowCnt(props) {
     const {
         className, hasHover, hasIDs, hasChecks, hasActions,
-        isSelected, onClick, onContextMenu, children,
+        isEditable, isSelected, onClick, onContextMenu, children,
     } = props;
 
+
+    // Do the Render
     return <TR
         className={className}
         hasHover={hasHover}
         hasIDs={hasIDs}
         hasChecks={hasChecks}
         hasActions={hasActions}
+        isEditable={isEditable}
         isSelected={isSelected}
         onClick={onClick}
         onContextMenu={onContextMenu}
@@ -148,6 +173,7 @@ TableRowCnt.propTypes = {
     hasIDs        : PropTypes.bool,
     hasChecks     : PropTypes.bool,
     hasActions    : PropTypes.bool,
+    isEditable    : PropTypes.bool,
     isSelected    : PropTypes.bool,
     onClick       : PropTypes.func,
     onContextMenu : PropTypes.func,
@@ -164,6 +190,7 @@ TableRowCnt.defaultProps = {
     hasIDs     : false,
     hasChecks  : false,
     hasActions : false,
+    isEditable : false,
 };
 
 export default TableRowCnt;

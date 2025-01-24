@@ -12,10 +12,10 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const props = ({
-    flexGrow, flexShrink, minWidth, maxWidth,
+    flexGrow, flexShrink, width, minWidth, maxWidth,
     align, isSmall, hasSorting, rightSpace,
 }) => ({
-    flexGrow, flexShrink, minWidth, maxWidth,
+    flexGrow, flexShrink, width, minWidth, maxWidth,
     align, isSmall, hasSorting, rightSpace,
 });
 
@@ -40,6 +40,12 @@ const TH = Styled.th.attrs(props)`
             flex: 0 1 150px;
             width: 150px;
         `}
+        ${(props) => props.width && `
+            flex: 0 1 ${props.width}px;
+            width: ${props.width}px;
+            min-width: 0;
+            max-width: none;
+        `};
         ${(props) => props.hasSorting && `
             cursor: pointer;
         `}
@@ -67,7 +73,7 @@ function TableHeader(props) {
     const {
         isHidden, className, message,
         fetch, hasSorting, sort, field, noSorting,
-        colSpan, grow, shrink, minWidth, maxWidth,
+        colSpan, grow, shrink, width, minWidth, maxWidth,
         align, isSmall, rightSpace, children,
     } = props;
 
@@ -96,6 +102,7 @@ function TableHeader(props) {
         className={className}
         flexGrow={grow}
         flexShrink={shrink}
+        width={width}
         minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
@@ -128,6 +135,7 @@ TableHeader.propTypes = {
     colSpan     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     grow        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     shrink      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    width       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minWidth    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxWidth    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     align       : PropTypes.string,

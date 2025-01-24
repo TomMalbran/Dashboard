@@ -8,17 +8,19 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notFixed }))`
+const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow }) => ({ hasFooter, notFixed, hasOverflow }))`
     box-sizing: border-box;
     width: 100%;
     border-left: var(--table-border-outer);
     border-right: var(--table-border-outer);
 
-    ${(props) => props.notFixed ? `
+    ${(props) => props.notFixed && `
         tr:last-child td {
             border-bottom: none;
         }
-    ` : `
+    `}
+
+    ${(props) => props.hasOverflow && `
         overflow: auto;
         height: calc(
             var(--table-height)
@@ -69,21 +71,27 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
  */
 function TableBody(props) {
     const {
-        notFixed, hasIDs, hasChecks, hasActions, hasPaging, hasFooter,
-        handleRowClick, handleMenuOpen, columns, checked, setChecked, children,
+        notFixed, isEditable, hasIDs, hasChecks,
+        hasActions, hasPaging, hasFooter,
+        handleRowClick, handleMenuOpen, columns,
+        checked, setChecked, children,
     } = props;
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
-        hasIDs, hasChecks, hasActions,
+        hasIDs, hasChecks, hasActions, isEditable,
         handleRowClick, handleMenuOpen,
         columns, checked, setChecked,
     }));
 
 
     // Do the Render
-    return <TBody notFixed={notFixed} hasFooter={hasPaging || hasFooter}>
+    return <TBody
+        notFixed={notFixed}
+        hasOverflow={!notFixed && !isEditable}
+        hasFooter={hasPaging || hasFooter}
+    >
         {items}
     </TBody>;
 }
@@ -94,6 +102,7 @@ function TableBody(props) {
  */
 TableBody.propTypes = {
     notFixed       : PropTypes.bool,
+    isEditable     : PropTypes.bool,
     hasIDs         : PropTypes.bool,
     hasChecks      : PropTypes.bool,
     hasActions     : PropTypes.bool,
