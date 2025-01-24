@@ -170,7 +170,7 @@ function Dialog(props) {
     const items     = [];
     let   hasTabs   = false;
 
-    for (const [ key, child ] of Utils.getChildren(children)) {
+    for (const [ key, child ] of Utils.getChildren(children).entries()) {
         if (child.type === TabList) {
             hasTabs = true;
         }

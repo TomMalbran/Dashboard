@@ -880,16 +880,24 @@ function combineValues(elem, key) {
 /**
  * Returns the Children
  * @param {(Array|any)} children
- * @returns {IterableIterator}
+ * @returns {React.ReactElement[]}
  */
 function getChildren(children) {
     const result = [];
     for (const child of toArray(children)) {
-        if (child && child.props) {
+        if (!child) {
+            continue;
+        }
+
+        if (Array.isArray(child) && child.length) {
+            for (const newChild of child) {
+                result.push(newChild);
+            }
+        } else if (child.props) {
             result.push(child);
         }
     }
-    return result.entries();
+    return result;
 }
 
 /**
@@ -899,21 +907,10 @@ function getChildren(children) {
  */
 function getVisibleChildren(children) {
     const result = [];
-    for (const child of toArray(children)) {
-        if (!child) {
-            continue;
-        }
-
-        if (Array.isArray(child) && child.length) {
-            const newResult = getVisibleChildren(child);
-            for (const [ , value ] of newResult) {
-                result.push(value);
-            }
-        } else if (child.props) {
-            const has = hasProp(child.props, "isHidden");
-            if ((has && !child.props.isHidden) || !has) {
-                result.push(child);
-            }
+    for (const child of getChildren(children)) {
+        const has = hasProp(child.props, "isHidden");
+        if ((has && !child.props.isHidden) || !has) {
+            result.push(child);
         }
     }
     return result.entries();
@@ -927,7 +924,7 @@ function getVisibleChildren(children) {
  */
 function cloneChildren(children, callback) {
     const isVisible = (child) => child && child.props && !child.props.isHidden;
-    const list      = toArray(children);
+    const list      = getChildren(children);
     const total     = list.filter(isVisible).length;
     const result    = [];
     let   key       = 0;

@@ -32,7 +32,7 @@ function Form(props) {
     // Clone the Children
     const items   = [];
     let   isFirst = true;
-    for (const [ key, child ] of Utils.getChildren(children)) {
+    for (const [ key, child ] of Utils.getChildren(children).entries()) {
         const autoFocus = !noAutoFocus && child && (child.type === Columns || (!child.props.isHidden && !child.props.isDisabled)) && isFirst;
 
         items.push(React.cloneElement(child, { key, onSubmit, autoFocus }));

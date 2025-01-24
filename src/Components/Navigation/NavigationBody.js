@@ -64,7 +64,7 @@ function NavigationBody(props) {
     // Parse the Items
     const items   = [];
     let   addList = true;
-    for (const [ key, child ] of Utils.getChildren(children)) {
+    for (const [ key, child ] of Utils.getChildren(children).entries()) {
         if (child.type === NavigationList) {
             addList = false;
         }
