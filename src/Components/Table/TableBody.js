@@ -8,7 +8,7 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow }) => ({ hasFooter, notFixed, hasOverflow }))`
+const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow, isEditable }) => ({ hasFooter, notFixed, hasOverflow, isEditable }))`
     box-sizing: border-box;
     width: 100%;
     border-left: var(--table-border-outer);
@@ -81,8 +81,8 @@ function TableBody(props) {
     // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
         hasChecks, hasActions, isEditable,
-        handleRowClick, handleMenuOpen,
         columns, checked, setChecked,
+        handleRowClick, handleMenuOpen,
     }));
 
 
@@ -90,6 +90,7 @@ function TableBody(props) {
     return <TBody
         notFixed={notFixed}
         hasOverflow={!notFixed && !isEditable}
+        isEditable={isEditable}
         hasFooter={hasPaging || hasFooter}
     >
         {items}

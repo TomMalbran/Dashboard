@@ -13,6 +13,7 @@ import TableBody            from "../Table/TableBody";
 import TableFoot            from "../Table/TableFoot";
 import TablePaging          from "../Table/TablePaging";
 import TableActionList      from "../Table/TableActionList";
+import TableEdit            from "../Table/TableEdit";
 import Menu                 from "../Menu/Menu";
 import MenuItem             from "../Menu/MenuItem";
 import NoneAvailable        from "../Common/NoneAvailable";
@@ -42,6 +43,8 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     position: relative;
 
     ${(props) => props.isEditable && `
+        --table-header-right: 0px;
+
         overflow: auto;
         height: calc(
             var(--table-height)
@@ -98,13 +101,13 @@ const Container = Styled.table.attrs(({ isEditable, totalWidth, hasRadius, hasSc
  */
 function Table(props) {
     const {
-        sort, fetch, className, isLoading, none, hideEmpty,
+        className, sort, fetch, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
-        noSorting, notFixed, isEditable,
+        noSorting, notFixed, columnData, onColumnEdit,
         checked, setChecked, hasCheckAll, children,
     } = props;
 
-    // References
+    // The References
     const tableRef = React.useRef(null);
     const navigate = Navigate.useGoto();
     const path     = Navigate.usePath();
@@ -116,7 +119,30 @@ function Table(props) {
     const [ menuDir,    setMenuDir    ] = React.useState(null);
     const [ iconHeight, setIconHeight ] = React.useState(0);
     const [ hasScroll,  setHasScroll  ] = React.useState(false);
+    const [ showEdit,   setShowEdit   ] = React.useState(false);
 
+
+    // Handles the Column Edit
+    const handleColEdit = (columns) => {
+        onColumnEdit(columns, true);
+        setShowEdit(false);
+    };
+
+    // Handles the Column Width
+    const handleColWidth = (field, width, isDrop) => {
+        const column = Utils.getValue(columnList, "id", field);
+        column.width = width;
+        onColumnEdit(columnList, isDrop);
+    };
+
+    // Handles the Check all
+    const handleCheckAll = () => {
+        if (isCheckedAll) {
+            setChecked([]);
+        } else {
+            setChecked(elemIDs);
+        }
+    };
 
     // Handles the Click
     const handleClick = (elem, elemID) => {
@@ -165,14 +191,14 @@ function Table(props) {
 
 
 
-    // Get the Actions and ColSpan
-    const actions    = [];
-    const items      = [];
+    // Parse the table data
+    const isEditable = Boolean(onColumnEdit);
     const columns    = [];
+    const columnList = [];
     const elemIDs    = [];
+    const actions    = [];
 
     let   totalWidth = 0;
-    let   colSpan    = 0;
     let   hasContent = false;
     let   hasPaging  = false;
     let   hasFooter  = false;
@@ -180,10 +206,9 @@ function Table(props) {
 
     for (const child of Utils.toArray(children)) {
         if (child.type === TableHead) {
-            const tableHeads = Utils.getChildren(child.props.children);
-            colSpan = tableHeads.length;
-            for (const tableHead of tableHeads) {
-                columns.push({
+            for (const [ index, tableHead ] of Utils.getChildren(child.props.children).entries()) {
+                const data = {
+                    id          : tableHead.props.field,
                     isHidden    : !!tableHead.props.isHidden,
                     isTitle     : !!tableHead.props.isTitle,
                     isSmall     : !!tableHead.props.isSmall,
@@ -196,14 +221,36 @@ function Table(props) {
                     smallSpace  : !!tableHead.props.smallSpace,
                     grow        : tableHead.props.grow     || "",
                     shrink      : tableHead.props.shrink   || "",
-                    width       : tableHead.props.width    || 0,
                     minWidth    : tableHead.props.minWidth || "",
                     maxWidth    : tableHead.props.maxWidth || "",
                     align       : tableHead.props.align    || "",
-                    rightSpace  : false,
-                });
-                totalWidth += tableHead.props.width || 0;
+                };
+
+                if (isEditable) {
+                    const colData   = Utils.getValue(columnData, "id", tableHead.props.field);
+                    const colIndex  = Utils.getIndex(columnData, "id", tableHead.props.field);
+                    const position  = colIndex !== null ? colIndex : columnData.length + index;
+                    const width     = colData.width || 200;
+                    const isVisible = !tableHead.props.isHidden && (!!colData.isVisible || (!columnData.length && !!tableHead.props.isDefault));
+
+                    data.isHidden = !isVisible;
+                    data.width    = width;
+                    data.position = position;
+
+                    columnList.push({
+                        id        : tableHead.props.field,
+                        name      : tableHead.props.message,
+                        width     : width,
+                        position  : position,
+                        isVisible : isVisible,
+                    });
+                    if (isVisible) {
+                        totalWidth += width;
+                    }
+                }
+                columns.push(data);
             }
+            columnList.sort((a, b) => a.position - b.position);
         }
 
         if (child.type === TableBody) {
@@ -236,7 +283,6 @@ function Table(props) {
                     }
                 }
             }
-            break;
         }
     }
 
@@ -248,29 +294,15 @@ function Table(props) {
     const hasChecks    = Boolean(checked && setChecked);
     const isCheckedAll = hasChecks && elemIDs.length === checked.length;
 
-    if (hasActions) {
-        colSpan += 1;
-    } else {
-        columns[columns.length - 1].rightSpace = true;
-    }
-
-    // Checks all the columns
-    const setCheckedAll = () => {
-        if (isCheckedAll) {
-            setChecked([]);
-        } else {
-            setChecked(elemIDs);
-        }
-    };
-
     // Get the Children
+    const items = [];
     for (const [ key, child ] of Utils.getChildren(children).entries()) {
         if (child.type !== TableActionList) {
             items.push(React.cloneElement(child, {
-                key, fetch, sort, colSpan, columns,
-                hasChecks, hasActions, hasSorting,
-                hasPaging, hasFooter, notFixed, isEditable,
-                checked, setChecked, hasCheckAll, setCheckedAll, isCheckedAll,
+                key, fetch, sort, columns,
+                hasSorting, hasPaging, hasFooter, notFixed,
+                hasChecks, checked, setChecked, hasCheckAll, isCheckedAll, handleCheckAll,
+                hasActions, isEditable, setShowEdit, handleColWidth,
                 handleRowClick, handleMenuOpen,
             }));
         }
@@ -343,6 +375,13 @@ function Table(props) {
                 onClick={() => handleClick(elem, menuID)}
             />)}
         </Menu>
+
+        <TableEdit
+            open={showEdit}
+            onSubmit={handleColEdit}
+            onClose={() => setShowEdit(false)}
+            columns={columnList}
+        />
     </>;
 }
 
@@ -351,25 +390,26 @@ function Table(props) {
  * @typedef {Object} propTypes
  */
 Table.propTypes = {
-    className   : PropTypes.string,
-    fetch       : PropTypes.func,
-    sort        : PropTypes.object,
-    none        : PropTypes.string,
-    hideEmpty   : PropTypes.bool,
-    isLoading   : PropTypes.bool,
-    inDialog    : PropTypes.bool,
-    hasFilter   : PropTypes.bool,
-    statsAmount : PropTypes.number,
-    hasTabs     : PropTypes.bool,
-    hasAlert    : PropTypes.bool,
-    noSorting   : PropTypes.bool,
-    noClick     : PropTypes.bool,
-    notFixed    : PropTypes.bool,
-    checked     : PropTypes.array,
-    setChecked  : PropTypes.func,
-    hasCheckAll : PropTypes.bool,
-    isEditable  : PropTypes.bool,
-    children    : PropTypes.any,
+    className    : PropTypes.string,
+    fetch        : PropTypes.func,
+    sort         : PropTypes.object,
+    none         : PropTypes.string,
+    hideEmpty    : PropTypes.bool,
+    isLoading    : PropTypes.bool,
+    inDialog     : PropTypes.bool,
+    hasFilter    : PropTypes.bool,
+    statsAmount  : PropTypes.number,
+    hasTabs      : PropTypes.bool,
+    hasAlert     : PropTypes.bool,
+    noSorting    : PropTypes.bool,
+    noClick      : PropTypes.bool,
+    notFixed     : PropTypes.bool,
+    columnData   : PropTypes.array,
+    onColumnEdit : PropTypes.func,
+    checked      : PropTypes.array,
+    setChecked   : PropTypes.func,
+    hasCheckAll  : PropTypes.bool,
+    children     : PropTypes.any,
 };
 
 /**
@@ -387,8 +427,8 @@ Table.defaultProps = {
     hasTabs     : false,
     noSorting   : false,
     notFixed    : false,
+    columnData  : [],
     hasCheckAll : false,
-    isEditable  : false,
 };
 
 export default Table;

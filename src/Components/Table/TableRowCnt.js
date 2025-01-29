@@ -56,12 +56,12 @@ const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSel
         }
     `}
 
-    ${(props) => props.hasActions && `
+    ${(props) => props.hasActions ? `
         th:last-child,
         td:last-child {
             display: flex;
             box-sizing: border-box;
-            flex-grow: 1;
+            flex-grow: 0;
             flex-shrink: 0;
             flex-basis: var(--table-actions-width);
             align-items: center;
@@ -74,9 +74,15 @@ const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSel
 
             ${props.isEditable && `
                 position: sticky;
+                flex-grow: 1;
                 right: 0;
                 z-index: 1;
             `}
+        }
+    ` : `
+        th:last-child,
+        td:last-child {
+            padding-right: 12px;
         }
     `}
 

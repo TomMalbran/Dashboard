@@ -14,11 +14,11 @@ import Html                 from "../Common/Html";
 
 // Styles
 const props = ({
-    flexGrow, flexShrink, width, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
-    bigMobile, hideMobile, noSpace, smallSpace, rightSpace, indent,
+    flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
+    bigMobile, hideMobile, noSpace, smallSpace, indent,
 }) => ({
-    flexGrow, flexShrink, width, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
-    bigMobile, hideMobile, noSpace, smallSpace, rightSpace, indent,
+    flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
+    bigMobile, hideMobile, noSpace, smallSpace, indent,
 });
 
 const TD = Styled.td.attrs(props)`
@@ -33,7 +33,6 @@ const TD = Styled.td.attrs(props)`
 
         ${(props) => !props.noSpace && `
             padding-top: ${props.smallSpace ? "6px" : "12px"};
-            padding-right: ${props.rightSpace ? "12px" : "0"};
             padding-bottom: ${props.smallSpace ? "6px" : "12px"};
             padding-left: ${props.indent ? "24px" : "12px"};
         `}
@@ -43,9 +42,9 @@ const TD = Styled.td.attrs(props)`
             width: 150px;
         `}
 
-        ${(props) => props.width && `
-            flex: 0 1 ${props.width}px;
-            width: ${props.width}px;
+        ${(props) => props.flexWidth && `
+            flex: 0 0 ${props.flexWidth}px;
+            width: ${props.flexWidth}px;
             min-width: 0;
             max-width: none;
         `};
@@ -107,7 +106,7 @@ function TableCell(props) {
         colSpan, grow, shrink, width, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex, isMultiline,
         bigMobile, hideMobile,
-        noSpace, smallSpace, rightSpace, indent, children,
+        noSpace, smallSpace, indent, children,
     } = props;
 
     const elementRef = React.useRef();
@@ -139,7 +138,7 @@ function TableCell(props) {
         className={textColor ? `text-${textColor}` : className}
         flexGrow={grow}
         flexShrink={shrink}
-        width={width}
+        flexWidth={width}
         minWidth={minWidth}
         maxWidth={maxWidth}
         align={align}
@@ -152,7 +151,6 @@ function TableCell(props) {
         hideMobile={hideMobile}
         noSpace={noSpace}
         smallSpace={smallSpace}
-        rightSpace={rightSpace}
         indent={indent}
         colSpan={colSpan}
         onMouseEnter={handleTooltip}
@@ -197,7 +195,6 @@ TableCell.propTypes = {
     hideCircle     : PropTypes.bool,
     noSpace        : PropTypes.bool,
     smallSpace     : PropTypes.bool,
-    rightSpace     : PropTypes.bool,
     indent         : PropTypes.bool,
     children       : PropTypes.any,
 };
@@ -228,7 +225,6 @@ TableCell.defaultProps = {
     hideCircle     : false,
     noSpace        : false,
     smallSpace     : false,
-    rightSpace     : false,
     indent         : false,
 };
 

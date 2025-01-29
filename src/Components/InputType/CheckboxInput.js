@@ -58,12 +58,10 @@ const Input = Styled.input`
 
 const Span = Styled(Icon)`
     color: var(--input-check-normal, black);
-    position: relative;
-    top: 2px;
     width: 18px;
     height: 18px;
     font-size: 18px;
-    margin: -1px 6px 0 0;
+    margin-right: 6px;
     cursor: pointer;
 `;
 

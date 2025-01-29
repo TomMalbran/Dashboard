@@ -22,7 +22,7 @@ function TableRow(props) {
         handleRowClick, handleMenuOpen, columns, checked, setChecked, children,
     } = props;
 
-    // References
+    // The References
     const linkRef = React.useRef();
 
 
@@ -65,6 +65,9 @@ function TableRow(props) {
     const items = Utils.cloneChildren(children, (child, index) => ({
         ...columns[index],
     }));
+    if (isEditable) {
+        items.sort((a, b) => a.props.position - b.props.position);
+    }
 
 
     // Do the Render

@@ -14,6 +14,8 @@ import IconLink             from "../Link/IconLink";
 
 // Styles
 const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
+    box-sizing: border-box;
+    height: var(--table-header-height);
     border: var(--table-border-outer);
     background: var(--table-background);
     border-top-right-radius: var(--table-radius-outer);
@@ -59,16 +61,19 @@ const EditCell = Styled.th`
  */
 function TableHead(props) {
     const {
-        hasActions, hasSorting, isEditable,
-        hasChecks, hasCheckAll, isCheckedAll, setCheckedAll,
-        sort, fetch, columns, children,
+        hasChecks, hasCheckAll, isCheckedAll, handleCheckAll,
+        hasActions, isEditable, setShowEdit, handleColWidth,
+        hasSorting, sort, fetch, columns, children,
     } = props;
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, (child, index, realIndex) => ({
-        hasSorting, sort, fetch, ...columns[realIndex],
+        hasSorting, sort, fetch, isEditable, handleColWidth, ...columns[realIndex],
     }));
+    if (isEditable) {
+        items.sort((a, b) => a.props.position - b.props.position);
+    }
 
 
     // Do the Render
@@ -82,7 +87,7 @@ function TableHead(props) {
                 <CheckboxInput
                     name="checked"
                     isChecked={isCheckedAll}
-                    onChange={() => setCheckedAll()}
+                    onChange={() => handleCheckAll()}
                 />
             </CheckCell>}
             {hasChecks && !hasCheckAll && <th />}
@@ -93,7 +98,7 @@ function TableHead(props) {
                 <IconLink
                     variant="light"
                     icon="edit"
-                    // onClick={handleMenuClick}
+                    onClick={() => setShowEdit(true)}
                     dontStop
                     isTiny
                 />
@@ -108,17 +113,19 @@ function TableHead(props) {
  * @typedef {Object} propTypes
  */
 TableHead.propTypes = {
-    hasActions    : PropTypes.bool,
-    hasSorting    : PropTypes.bool,
-    hasChecks     : PropTypes.bool,
-    hasCheckAll   : PropTypes.bool,
-    setCheckedAll : PropTypes.func,
-    isCheckedAll  : PropTypes.bool,
-    isEditable    : PropTypes.bool,
-    fetch         : PropTypes.func,
-    sort          : PropTypes.object,
-    columns       : PropTypes.array,
-    children      : PropTypes.any,
+    hasChecks      : PropTypes.bool,
+    hasCheckAll    : PropTypes.bool,
+    isCheckedAll   : PropTypes.bool,
+    handleCheckAll : PropTypes.func,
+    hasActions     : PropTypes.bool,
+    isEditable     : PropTypes.bool,
+    setShowEdit    : PropTypes.func,
+    handleColWidth : PropTypes.func,
+    hasSorting     : PropTypes.bool,
+    sort           : PropTypes.object,
+    fetch          : PropTypes.func,
+    columns        : PropTypes.array,
+    children       : PropTypes.any,
 };
 
 /**
@@ -126,12 +133,12 @@ TableHead.propTypes = {
  * @typedef {Object} defaultProps
  */
 TableHead.defaultProps = {
-    hasActions   : false,
-    hasSorting   : false,
     hasChecks    : false,
     hasCheckAll  : false,
     isCheckedAll : false,
+    hasActions   : false,
     isEditable   : false,
+    hasSorting   : false,
 };
 
 export default TableHead;
