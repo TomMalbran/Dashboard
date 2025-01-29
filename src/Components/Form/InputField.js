@@ -43,11 +43,11 @@ const FieldButton = Styled(Button)`
 function InputField(props) {
     const {
         passedRef, isHidden, className, type, name,
-        label, icon, postIcon, autoFocus, value,
+        label, icon, postIcon, prefixText, value,
         button, onClick, error, helperText,
         onChange, onInput, onFocus, onBlur,
         width, fullWidth, isRequired,
-        withLabel, shrinkLabel, errorBackground,
+        autoFocus, withLabel, shrinkLabel, errorBackground,
         suggestID, hasClear, forceClear, hideClear, onClear,
     } = props;
 
@@ -172,6 +172,7 @@ function InputField(props) {
                 onBlur={handleBlur}
                 icon={withInsideCnt ? icon : undefined}
                 postIcon={withInsideCnt ? postIcon : undefined}
+                prefixText={withInsideCnt ? prefixText : undefined}
                 onClear={withClear ? handleClear : undefined}
                 withLabel={withLabel || hasLabel}
             />
@@ -209,6 +210,7 @@ InputField.propTypes = {
     getAfterTitle   : PropTypes.func,
     icon            : PropTypes.string,
     postIcon        : PropTypes.string,
+    prefixText      : PropTypes.string,
     value           : PropTypes.any,
     step            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minValue        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),

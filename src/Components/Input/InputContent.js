@@ -2,6 +2,9 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import NLS                  from "../../Core/NLS";
+
 // Components
 import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
@@ -80,6 +83,12 @@ const PostInputIcon = Styled(Icon)`
     color: var(--black-color);
 `;
 
+const Text = Styled.p`
+    margin: 0;
+    font-size: 12px;
+    color: var(--font-lighter);
+`;
+
 const InputClear = Styled(IconLink).attrs(({ smallInput }) => ({ smallInput }))`
     margin-top: -4px;
     margin-right: calc(2px - var(--input-horiz-padding));
@@ -98,7 +107,7 @@ function InputContent(props) {
         passedRef, inputRef, className,
         isFocused, isDisabled, isSmall,
         withBorder, withPadding, withLabel, withClick,
-        onClick, onClear, icon, postIcon, children,
+        onClick, onClear, icon, postIcon, prefixText, children,
     } = props;
 
 
@@ -132,6 +141,7 @@ function InputContent(props) {
         onClick={handleClick}
     >
         {!!icon && <InputIcon icon={icon} />}
+        {!!prefixText && <Text>{NLS.get(prefixText)}</Text>}
         {children}
         {!!postIcon && <PostInputIcon icon={postIcon} />}
         {hasClear && <InputClear
@@ -163,6 +173,7 @@ InputContent.propTypes = {
     onClear     : PropTypes.func,
     icon        : PropTypes.string,
     postIcon    : PropTypes.string,
+    prefixText  : PropTypes.string,
     children    : PropTypes.any,
 };
 
