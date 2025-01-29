@@ -1,6 +1,6 @@
 import React                from "react";
 
-// Core & Utils
+// Utils
 import Utils                from "../Utils/Utils";
 
 

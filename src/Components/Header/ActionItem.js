@@ -37,12 +37,13 @@ function ActionItem(props) {
         tooltip, tooltipVariant, children,
     } = props;
 
-    // References
+    // The References
     const buttonRef = React.useRef();
     const actionRef = React.useRef();
 
-    // State
+    // The Current State
     const [ menuOpen, setMenuOpen ] = React.useState(false);
+
 
     // Menu Actions
     const actions = [];
