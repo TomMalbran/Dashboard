@@ -40,6 +40,7 @@ const HeaderIcon = Styled(Icon)`
     width: 24px;
     height: 24px;
     font-size: 20px;
+    color: var(--navtitle-color);
 `;
 
 const Title = Styled.h2`
