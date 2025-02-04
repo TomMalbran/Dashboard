@@ -71,8 +71,8 @@ async function ajax(url, options = {}, showResult = true, abortController = null
     }
 
     // Update the Tokens
-    if (result.jwt) {
-        Auth.setToken(result.jwt);
+    if (result.accessToken) {
+        Auth.setAccessToken(result.accessToken);
     }
     if (result.refreshToken) {
         Auth.setRefreshToken(result.refreshToken);
@@ -157,9 +157,9 @@ function addUrlParams(url, params = {}, addToken = true, addAuth = false) {
     }
 
     if (addToken) {
-        const token = Auth.getToken();
-        if (token) {
-            url.searchParams.append("jwt", token);
+        const accessToken = Auth.getAccessToken();
+        if (accessToken) {
+            url.searchParams.append("accessToken", accessToken);
         }
         const refreshToken = Auth.getRefreshToken();
         if (refreshToken) {
@@ -211,7 +211,7 @@ async function get(route, params = {}, showResult = true, abortController = null
  */
 function post(route, params = {}, showResult = true, abortController = null) {
     const url          = baseUrl(route);
-    const token        = Auth.getToken();
+    const accessToken  = Auth.getAccessToken();
     const refreshToken = Auth.getRefreshToken();
     const langcode     = Auth.getLanguage();
     const timezone     = Auth.getTimezone();
@@ -220,8 +220,8 @@ function post(route, params = {}, showResult = true, abortController = null) {
     for (const [ key, value ] of Object.entries(params)) {
         body.append(key, value);
     }
-    if (token) {
-        body.append("jwt", token);
+    if (accessToken) {
+        body.append("accessToken", accessToken);
     }
     if (refreshToken) {
         body.append("refreshToken", refreshToken);
