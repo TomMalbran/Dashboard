@@ -111,8 +111,9 @@ function Details(props) {
 
     let items = children;
     if (hasInternalTabs || collapsible || canEdit || onAction) {
-        items = Utils.cloneChildren(children, () => ({
-            hasInternalTabs, collapsible, canEdit, onAction,
+        items = Utils.cloneChildren(children, (child) => ({
+            hasInternalTabs, collapsible, onAction,
+            canEdit : canEdit || child.props.canEdit,
         }));
     }
 
