@@ -41,7 +41,7 @@ function Iframe(props) {
         ref={frameRef}
         className={className}
         onLoad={onLoad}
-        srcDoc={content}
+        srcDoc={`<base target=&quot;_blank&quot;>${content}`}
         height={height}
         // scrolling="no"
         frameBorder="0"
