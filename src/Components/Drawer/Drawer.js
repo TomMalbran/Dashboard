@@ -86,8 +86,8 @@ const H2 = Styled.h2`
     color: var(--title-color);
     font-size: 24px;
     font-family: var(--title-font);
+    letter-spacing: var(--title-letter-spacing);
     line-height: 1.2;
-    letter-spacing: 1px;
 `;
 
 

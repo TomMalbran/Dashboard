@@ -103,7 +103,7 @@ const SideAvatar = Styled(Avatar)`
 `;
 
 const CloseIcon = Styled(IconLink)`
-    --link-color: var(--side-icon-color);
+    --link-color: var(--sidebar-icon-color);
     display: none;
     position: absolute;
     top: 8px;

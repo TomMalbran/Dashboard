@@ -23,8 +23,8 @@ const H3 = Styled.h3`
     font-size: 12px;
     text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 1px;
     color: var(--title-color);
+    letter-spacing: var(--title-letter-spacing);
 `;
 
 const Results = Styled.div`
