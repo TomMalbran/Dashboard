@@ -71,11 +71,11 @@ async function ajax(url, options = {}, showResult = true, abortController = null
     }
 
     // Update the Tokens
-    if (result.accessToken) {
-        Auth.setAccessToken(result.accessToken);
+    if (result.xAccessToken) {
+        Auth.setAccessToken(result.xAccessToken);
     }
-    if (result.refreshToken) {
-        Auth.setRefreshToken(result.refreshToken);
+    if (result.xRefreshToken) {
+        Auth.setRefreshToken(result.xRefreshToken);
     }
 
     // There was an error
@@ -159,22 +159,22 @@ function addUrlParams(url, params = {}, addToken = true, addAuth = false) {
     if (addToken) {
         const accessToken = Auth.getAccessToken();
         if (accessToken) {
-            url.searchParams.append("accessToken", accessToken);
+            url.searchParams.append("xAccessToken", accessToken);
         }
         const refreshToken = Auth.getRefreshToken();
         if (refreshToken) {
-            url.searchParams.append("refreshToken", refreshToken);
+            url.searchParams.append("xRefreshToken", refreshToken);
         }
     }
 
     if (addAuth) {
         const langcode = Auth.getLanguage();
         if (langcode) {
-            url.searchParams.append("langcode", langcode);
+            url.searchParams.append("xLangcode", langcode);
         }
         const timezone = Auth.getTimezone();
         if (timezone) {
-            url.searchParams.append("timezone", timezone);
+            url.searchParams.append("xTimezone", timezone);
         }
     }
 }
@@ -221,16 +221,16 @@ function post(route, params = {}, showResult = true, abortController = null) {
         body.append(key, value);
     }
     if (accessToken) {
-        body.append("accessToken", accessToken);
+        body.append("xAccessToken", accessToken);
     }
     if (refreshToken) {
-        body.append("refreshToken", refreshToken);
+        body.append("xRefreshToken", refreshToken);
     }
     if (langcode) {
-        body.append("langcode", langcode);
+        body.append("xLangcode", langcode);
     }
     if (timezone) {
-        body.append("timezone", timezone);
+        body.append("xTimezone", timezone);
     }
     return ajax(url, { method : "post", body }, showResult, abortController);
 }
