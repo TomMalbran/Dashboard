@@ -8,12 +8,14 @@ import Columns              from "../Form/Columns";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ withSpacing }) => ({ withSpacing }))`
     box-sizing: border-box;
     flex-grow: 2;
     width: 100%;
     padding: var(--main-padding);
     overflow: auto;
+
+    ${(props) => props.withSpacing ? "padding: var(--main-padding);" : "padding: 8px 0 var(--main-padding) 0;"}
 `;
 
 
@@ -24,11 +26,11 @@ const Container = Styled.div`
  * @returns {React.ReactElement}
  */
 function PageColumns(props) {
-    const { amount, children } = props;
+    const { withSpacing, amount, children } = props;
 
 
     // Do the Render
-    return <Container>
+    return <Container withSpacing={withSpacing}>
         <Columns amount={amount}>
             {children}
         </Columns>
@@ -40,8 +42,9 @@ function PageColumns(props) {
  * @typedef {Object} propTypes
  */
 PageColumns.propTypes = {
-    amount   : PropTypes.string,
-    children : PropTypes.any,
+    withSpacing : PropTypes.bool,
+    amount      : PropTypes.string,
+    children    : PropTypes.any,
 };
 
 export default PageColumns;
