@@ -30,7 +30,7 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     `}
 
     --table-header-height: 27px;
-    --table-header-right: ${(props) => props.hasScroll ? "16px" : "0px"};
+    --table-header-right: ${(props) => props.hasScroll ? "12px" : "0px"};
     --table-filter-height: ${(props) => props.hasFilter ? "var(--filter-height)" : "0px"};
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
@@ -38,7 +38,7 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     --table-paging-height: ${(props) => props.hasPaging ? "32px" : "0px"};
 
     --table-checks-width: ${(props) => props.hasChecks ? "28px" : "0px"};
-    --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "48px" : "0px"};
+    --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "40px" : "0px"};
 
     position: relative;
 

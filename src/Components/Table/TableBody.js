@@ -33,20 +33,34 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow, isEditable
         );
 
         &&::-webkit-scrollbar {
-            width: 14px;
-            height: 14px;
+            box-sizing: border-box;
+            width: 12px;
+            height: 12px;
             border-left: var(--table-border-outer);
         }
         &&::-webkit-scrollbar-thumb {
             border-radius: 999px;
             border: 2px solid transparent;
             border-left-width: 4px;
-            box-shadow: inset 0 0 0 8px var(--border-color-light);
-            transition: all 0.2s;
+            box-shadow: inset 0 0 0 4px var(--border-color-light);
+            transition: box-shadow 0.2s;
         }
         &&::-webkit-scrollbar-thumb:hover {
-            box-shadow: inset 0 0 0 8px var(--border-color-medium);
+            box-shadow: inset 0 0 0 4px var(--border-color-medium);
         }
+    `}
+
+    ${(props) => props.isEditable && `
+        min-height: calc(
+            var(--table-height)
+            - var(--table-header-height)
+            - var(--table-paging-height)
+            - var(--table-stats-height)
+            - var(--table-tabs-height)
+            - var(--table-alert-height)
+            - var(--table-filter-height)
+            - 12px
+        );
     `}
 
     ${(props) => !props.hasFooter && `
