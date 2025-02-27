@@ -1230,8 +1230,8 @@ function parseSearchResult(list, filter, field) {
     const result = [];
 
     for (const item of list) {
-        const text      = item[field];
-        const parts     = text.split(" ");
+        const text      = String(item[field]);
+        const parts     = text.split(/[- ]+/);
         let   fromIndex = 0;
 
         for (const part of parts) {
