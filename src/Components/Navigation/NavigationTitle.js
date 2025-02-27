@@ -21,7 +21,7 @@ const Container = Styled.header.attrs(({ variant }) => ({ variant }))`
     align-items: center;
     gap: 4px;
     min-height: var(--header-height);
-    padding: var(--navigation-title-padding, 18px 12px 10px 8px);
+    padding: var(--navigation-title-padding, 12px 12px 10px 8px);
 
     ${(props) => props.variant === Brightness.DARK && `
         --navtitle-color: white;
