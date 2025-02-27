@@ -27,6 +27,7 @@ const Content = Styled.div`
 
 const NavMenu = Styled(MenuLink).attrs(({ variant }) => ({ variant }))`
     ${(props) => props.variant === Brightness.LIGHT && `
+        --link-color: var(--navigation-color, var(--title-color));
         --link-background: var(--navigation-hover, rgba(0, 0, 0, 0.1));
         --link-selected: var(--navigation-selected, rgba(0, 0, 0, 0.1));
     `}

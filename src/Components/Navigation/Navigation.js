@@ -19,14 +19,12 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
     max-height: var(--main-height);
     border-right: var(--navigation-border);
     font-size: var(--navigation-font-size, var(--font-size));
+    color: var(--navigation-color, --font-light);
+    background-color: var(--navigation-background);
 
     ${(props) => props.variant === Brightness.DARK && `
-        background-color: var(--secondary-color);
         color: white;
-    `}
-    ${(props) => props.variant === Brightness.LIGHT && `
-        background-color: var(--navigation-background);
-        color: var(--font-light);
+        background-color: var(--secondary-color);
     `}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
