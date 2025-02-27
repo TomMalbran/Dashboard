@@ -208,7 +208,7 @@ function SelectInput(props) {
     // Handles the Blur
     const handleBlur = () => {
         setTimer(window.setTimeout(() => {
-            if (selectedValRef.current !== "" && selectedValRef.current !== initialVal) {
+            if (selectedValRef.current !== initialVal) {
                 onChange(name, selectedValRef.current);
             }
 
