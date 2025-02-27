@@ -41,9 +41,9 @@ const Container = Styled.nav.attrs(({ expandMobile }) => ({ expandMobile }))`
     align-items: center;
     box-sizing: border-box;
     width: var(--sidebar-width);
+    padding: var(--sidebar-padding, 16px 0);
     background-color: var(--sidebar-background, var(--primary-color));
     border-right: var(--sidebar-border, none);
-    padding: 16px 0;
 
     ${(props) => props.expandMobile && `
         .baricon-text {
