@@ -18,8 +18,8 @@ const Label = Styled.label`
     display: flex;
     align-items: center;
 
-    --toggle-size: 14px;
-    --toggle-spacing: 4px;
+    --toggle-size: 16px;
+    --toggle-spacing: 3px;
 `;
 
 const Input = Styled.input`
@@ -30,12 +30,14 @@ const Input = Styled.input`
     height: 0;
     opacity: 0;
 
+    &:checked + span {
+        background: var(--input-toggle-checked);
+    }
     &:checked + span::after {
         transform: translateX(var(--toggle-size));
-        background-color: var(--input-toggle-checked);
     }
     &:disabled + span {
-        background-color: var(--input-toggle-disabled);
+        opacity: 0.5;
         cursor: not-allowed;
     }
 `;
@@ -60,7 +62,7 @@ const Span = Styled.span`
         width: var(--toggle-size);
         height: var(--toggle-size);
         border-radius: 50%;
-        background: var(--input-toggle-normal);
+        background: var(--input-toggle-circle);
         transition: all .2s;
     }
 `;
