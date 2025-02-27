@@ -83,7 +83,7 @@ const Inside = Styled.div.attrs(({ isLast }) => ({ isLast }))`
     flex-direction: column;
     flex-grow: 2;
     gap: 24px;
-    padding: 0 12px 32px 12px;
+    padding: 6px 12px 32px 12px;
     transition: 0.3s all;
 
     ${(props) => !props.isLast && "border-bottom: 1px solid var(--border-color-light);"}
