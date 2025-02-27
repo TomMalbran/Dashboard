@@ -50,9 +50,7 @@ const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMen
         display: grid;
         grid-template-columns: var(--sidebar-width) 1fr;
         grid-template-rows: var(--topbar-height) 1fr;
-        grid-template-areas:
-            "sidebar topbar"
-            "sidebar inside";
+        grid-template-areas: var(--main-grid-areas, "sidebar topbar" "sidebar inside");
     ` : `
         --main-height: calc(var(--full-height) - var(--main-margin));
         display: flex;
