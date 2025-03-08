@@ -78,7 +78,7 @@ function DialogHeader(props) {
     // Do the Render
     return <Header className={className}>
         <Start>
-            {!!icon && <Icon icon={icon} />}
+            {!!icon && <Icon icon={icon} size="24" />}
             <H2>{NLS.get(message)}</H2>
             {!childrenOnEnd && children}
         </Start>

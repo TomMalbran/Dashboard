@@ -98,7 +98,7 @@ function ColorInput(props) {
                 color={color}
                 onClick={() => onChange(name, color)}
             >
-                {value === color && <Icon icon="check" />}
+                {value === color && <Icon icon="check" size="18" />}
             </Item>)}
         </List> : <>
             <Input

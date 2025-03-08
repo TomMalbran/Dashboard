@@ -35,6 +35,11 @@ const Container = Styled.div.attrs(({ hideMobile, hasContent, isSelected }) => (
         background-color: var(--bar-icon-hover-bg);
     }
 
+    .icon {
+        display: inline-block;
+        height: var(--bar-icon-font, 16px);
+    }
+
     ${(props) => props.isSelected && `
         color: var(--bar-icon-hover-color, var(--bar-icon-color));
         background-color: var(--bar-icon-hover-bg);

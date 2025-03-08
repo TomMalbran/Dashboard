@@ -63,7 +63,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
         gap: 4px;
     `}
     ${(props) => props.onlyIcon && `
-        padding: 4px 8px;
+        padding: 4px 6px;
     `}
 
     &:disabled,
@@ -94,10 +94,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
     }
 
     .btn-preicon {
+        display: inline-block;
         height: ${(props) => props.isSmall ? "14px" : "18px"};
         font-size: ${(props) => props.isSmall ? "14px" : "18px"};
     }
     .btn-aftericon {
+        display: inline-block;
         height: ${(props) => props.isSmall ? "14px" : "18px"};
         font-size: ${(props) => props.isSmall ? "14px" : "18px"};
     }

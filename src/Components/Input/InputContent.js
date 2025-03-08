@@ -140,10 +140,10 @@ function InputContent(props) {
         withClick={withClick}
         onClick={handleClick}
     >
-        {!!icon && <InputIcon icon={icon} />}
+        {!!icon && <InputIcon icon={icon} size="16" />}
         {!!prefixText && <Text>{NLS.get(prefixText)}</Text>}
         {children}
-        {!!postIcon && <PostInputIcon icon={postIcon} />}
+        {!!postIcon && <PostInputIcon icon={postIcon} size="16" />}
         {hasClear && <InputClear
             variant="black"
             icon="close"
