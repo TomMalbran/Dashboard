@@ -2,8 +2,8 @@ import React                from "react";
 import PropTypes            from "prop-types";
 
 // Dashboard
-import EditDialog           from "Dashboard/Components/Dialogs/EditDialog";
-import SortableList         from "Dashboard/Components/Common/SortableList";
+import EditDialog           from "../Dialogs/EditDialog";
+import SortableList         from "../Common/SortableList";
 
 
 
@@ -35,7 +35,7 @@ function TableEdit(props) {
     // Do the Render
     return <EditDialog
         open={open}
-        icon="edit"
+        icon="column"
         title="GENERAL_EDIT_COLUMNS"
         onSubmit={() => onSubmit(list)}
         onClose={onClose}

@@ -97,7 +97,7 @@ function TableHead(props) {
             {isEditable && <EditCell>
                 <IconLink
                     variant="light"
-                    icon="edit"
+                    icon="column"
                     onClick={() => setShowEdit(true)}
                     dontStop
                     isTiny
