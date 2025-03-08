@@ -193,14 +193,13 @@ function getTimezone() {
     return result;
 }
 
-
 /**
  * Sets the Appearance
  * @param {String} appearance
  * @returns {Void}
  */
 function setAppearance(appearance) {
-    document.querySelector("#root").className = `${appearance}-mode`;
+    document.querySelector("body").className = `${appearance}-mode`;
 }
 
 
