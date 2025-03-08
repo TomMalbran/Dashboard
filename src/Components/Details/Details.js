@@ -44,18 +44,20 @@ const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternal
     `}
 
     @media (max-width: 1200px) {
-        display: none;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        height: auto;
-        max-width: 90%;
-        padding: 16px;
-        padding-top: 0px;
-        margin-right: 0;
-        border-radius: 0;
-        z-index: var(--z-details);
+        & {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            height: auto;
+            max-width: 90%;
+            padding: 16px;
+            padding-top: 0px;
+            margin-right: 0;
+            border-radius: 0;
+            z-index: var(--z-details);
+        }
     }
 `;
 
