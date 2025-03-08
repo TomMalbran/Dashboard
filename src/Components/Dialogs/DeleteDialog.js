@@ -14,7 +14,7 @@ import ConfirmDialog        from "./ConfirmDialog";
 function DeleteDialog(props) {
     const {
         open, title, message, content,
-        isLoading, onSubmit, onClose,
+        isLoading, isWide, onSubmit, onClose,
     } = props;
 
 
@@ -26,6 +26,7 @@ function DeleteDialog(props) {
         message={message}
         content={content}
         isLoading={isLoading}
+        isWide={isWide}
         primary="GENERAL_DELETE"
         onSubmit={onSubmit}
         onClose={onClose}
@@ -42,6 +43,7 @@ DeleteDialog.propTypes = {
     message   : PropTypes.string.isRequired,
     content   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isLoading : PropTypes.bool,
+    isWide    : PropTypes.bool,
     onSubmit  : PropTypes.func.isRequired,
     onClose   : PropTypes.func.isRequired,
 };
