@@ -114,6 +114,7 @@ function SnackBar(props) {
             variant="primary"
             message={buttonText}
             onClick={handleAccept}
+            isSmall
         />
         <IconLink
             variant="white"
