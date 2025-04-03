@@ -33,7 +33,7 @@ function EditorField(props) {
     const {
         isHidden, name, value, error, height, maxHeight, language,
         clientID, contentStyle, menubar, menu,
-        onChange, onMedia, onSetup,
+        onChange, onMedia, onSetup, isDisabled,
     } = props;
 
 
@@ -80,6 +80,7 @@ function EditorField(props) {
             value={value}
             init={{
                 document_base_url    : `${process.env.REACT_APP_FILES}${clientID}/`,
+                readonly             : isDisabled,
                 height               : height,
                 menu                 : menu,
                 language             : language,
@@ -142,6 +143,7 @@ EditorField.propTypes = {
     onChange     : PropTypes.func.isRequired,
     onMedia      : PropTypes.func.isRequired,
     onSetup      : PropTypes.func,
+    isDisabled   : PropTypes.bool,
 };
 
 /**
@@ -156,6 +158,7 @@ EditorField.defaultProps = {
     clientID     : 0,
     contentStyle : "",
     menubar      : "",
+    isDisabled   : false,
 };
 
 export default EditorField;
