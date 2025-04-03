@@ -17,7 +17,7 @@ import InputBase            from "../Input/InputBase";
  */
 function NumberInput(props) {
     const {
-        inputRef, className, icon, postIcon, prefixText,
+        inputRef, className, icon, postIcon, prefixText, suffixText,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, name, value, step, minValue, maxValue, placeholder,
         onChange, onInput, onPaste, onClear,
@@ -81,6 +81,7 @@ function NumberInput(props) {
         icon={icon}
         postIcon={postIcon}
         prefixText={prefixText}
+        suffixText={suffixText}
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
@@ -121,6 +122,7 @@ NumberInput.propTypes = {
     icon        : PropTypes.string,
     postIcon    : PropTypes.string,
     prefixText  : PropTypes.string,
+    suffixText  : PropTypes.string,
     isFocused   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
     isSmall     : PropTypes.bool,

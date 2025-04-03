@@ -30,6 +30,7 @@ InputItem.propTypes = {
     icon            : PropTypes.string,
     postIcon        : PropTypes.string,
     prefixText      : PropTypes.string,
+    suffixText      : PropTypes.string,
     value           : PropTypes.any,
     step            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minValue        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),

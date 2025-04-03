@@ -37,7 +37,7 @@ const Text = Styled.p.attrs(({ atMaxLength, hasButtons }) => ({ atMaxLength, has
  */
 function TextInput(props) {
     const {
-        inputRef, className, icon, postIcon, prefixText,
+        inputRef, className, icon, postIcon, prefixText, suffixText,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, type, name, value, minValue, maxValue,
         placeholder, autoComplete, spellCheck,
@@ -106,6 +106,7 @@ function TextInput(props) {
         icon={icon}
         postIcon={postIcon}
         prefixText={prefixText}
+        suffixText={suffixText}
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
@@ -162,6 +163,7 @@ TextInput.propTypes = {
     icon         : PropTypes.string,
     postIcon     : PropTypes.string,
     prefixText   : PropTypes.string,
+    suffixText   : PropTypes.string,
     isFocused    : PropTypes.bool,
     isDisabled   : PropTypes.bool,
     isSmall      : PropTypes.bool,

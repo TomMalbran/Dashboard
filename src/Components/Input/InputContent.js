@@ -107,7 +107,8 @@ function InputContent(props) {
         passedRef, inputRef, className,
         isFocused, isDisabled, isSmall,
         withBorder, withPadding, withLabel, withClick,
-        onClick, onClear, icon, postIcon, prefixText, children,
+        onClick, onClear, icon, postIcon,
+        prefixText, suffixText, children,
     } = props;
 
 
@@ -142,8 +143,12 @@ function InputContent(props) {
     >
         {!!icon && <InputIcon icon={icon} size="16" />}
         {!!prefixText && <Text>{NLS.get(prefixText)}</Text>}
+
         {children}
+
+        {!!suffixText && <Text>{NLS.get(suffixText)}</Text>}
         {!!postIcon && <PostInputIcon icon={postIcon} size="16" />}
+
         {hasClear && <InputClear
             variant="black"
             icon="close"
@@ -174,6 +179,7 @@ InputContent.propTypes = {
     icon        : PropTypes.string,
     postIcon    : PropTypes.string,
     prefixText  : PropTypes.string,
+    suffixText  : PropTypes.string,
     children    : PropTypes.any,
 };
 
