@@ -202,7 +202,7 @@ function FieldInput(props) {
             result = [ ...parts.keys() ];
         }
         return result;
-    }, [ indexes ]);
+    }, [ indexes, JSON.stringify(parts) ]);
 
 
     // Handles a Field Change
