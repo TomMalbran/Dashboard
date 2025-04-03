@@ -93,10 +93,11 @@ function Menu(props) {
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
     const [ trigger,     setTrigger     ] = React.useState(false);
 
+
     // Clone the children
     const items = [];
     let   index = 0;
-    for (const child of children) {
+    for (const child of Utils.getChildren(children)) {
         const { isHidden, act, title, message } = child.props;
         const titleMsg   = NLS.get(title || "");
         const contentMsg = NLS.get(message || act?.message || "");
