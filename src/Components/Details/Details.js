@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
@@ -43,7 +44,7 @@ const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternal
         padding-bottom: 0px;
     `}
 
-    @media (max-width: 1200px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
         & {
             display: none;
             position: fixed;
@@ -52,12 +53,12 @@ const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternal
             bottom: 0;
             height: auto;
             max-width: 90%;
-            padding: 16px;
+            padding: var(--details-spacing);
             padding-top: 0px;
             margin-right: 0;
             border-radius: 0;
-            z-index: var(--z-details);
         }
+        z-index: var(--z-details);
     }
 `;
 
