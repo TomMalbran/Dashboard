@@ -16,7 +16,9 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     box-sizing: border-box;
     display: grid;
     grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
-    gap: 4px;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 4px;
     width: 100%;
 
     @media (max-width: 500px) {
@@ -38,21 +40,33 @@ function MultipleInput(props) {
         onChange, onFocus, onBlur,
     } = props;
 
+
     // Create the Items
     const items = InputType.useOptions(props);
 
+    // Generate the parts
+    const parts = React.useMemo(() => {
+        let result = [];
+        try {
+            result = Array.isArray(value) ? value : JSON.parse(String(value));
+        } catch(e) {
+            result = [];
+        }
+        return result;
+    }, [ value ]);
+
+
     // Handles the Change
-    const handleChange = (isChecked, key, value = []) => {
-        const values = !Array.isArray(value) ? [] : value;
+    const handleChange = (isChecked, key) => {
         if (isChecked) {
-            values.push(key);
+            parts.push(key);
         } else {
-            const pos = values.indexOf(key);
+            const pos = parts.indexOf(key);
             if (pos > -1) {
-                values.splice(pos, 1);
+                parts.splice(pos, 1);
             }
         }
-        onChange(name, values);
+        onChange(name, JSON.stringify(parts));
     };
 
 
@@ -66,14 +80,14 @@ function MultipleInput(props) {
         withLabel
     >
         <Container columns={columns}>
-            {items.map(({ key, value : val }) => <CheckboxInput
+            {items.map(({ key, value }) => <CheckboxInput
                 key={key}
                 name={name}
                 value={key}
-                label={val}
-                isChecked={value ? value.indexOf(Number(key)) > -1 : false}
+                label={value}
+                isChecked={parts.includes(key)}
                 isDisabled={isDisabled}
-                onChange={(name, isChecked) => handleChange(isChecked, Number(key), value)}
+                onChange={(name, isChecked) => handleChange(isChecked, key)}
                 onFocus={onFocus}
                 onBlur={onBlur}
             />)}
