@@ -51,7 +51,7 @@ function NumberInput(props) {
 
             if (isNaN(value) || val < minNumber) {
                 val = minNumber;
-            } else if (val > maxNumber) {
+            } else if (maxNumber !== 0 && val > maxNumber) {
                 val = maxNumber;
             }
             onChange(name, val);
