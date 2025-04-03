@@ -36,16 +36,17 @@ const Content = Styled.div`
     gap: 6px;
 `;
 
-const Item = Styled.div.attrs(({ withError, isDisabled }) => ({ withError, isDisabled }))`
+const Item = Styled.div.attrs(({ withError, isDisabled, canRemove }) => ({ withError, isDisabled, canRemove }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 4px;
     width: 100%;
     min-height: 36px;
-    padding: 6px 6px 6px 12px;
+    padding: 6px 12px 6px 12px;
     border: 1px solid var(--input-border-color);
     border-radius: var(--border-radius);
+    background-color: var(--content-color);
 
     .inputfield-children {
         margin-top: 0;
@@ -63,6 +64,7 @@ const Item = Styled.div.attrs(({ withError, isDisabled }) => ({ withError, isDis
             margin-right: 0;
         }
     `}
+    ${(props) => props.canRemove && "padding-right: 6px;"}
 `;
 
 const Inside = Styled.div`
@@ -305,6 +307,7 @@ function ListInput(props) {
                     className="inputfield-container"
                     withError={!!getError(index)}
                     isDisabled={isDisabled}
+                    canRemove={canRemove}
                 >
                     <Icon
                         isHidden={!canSort}
@@ -332,6 +335,7 @@ function ListInput(props) {
                             maxLength={maxLength}
                             withLabel={false}
                             withBorder={false}
+                            hideClear
                             isSmall
                         >
                             {Utils.cloneChildren(children, () => ({
@@ -345,8 +349,8 @@ function ListInput(props) {
 
                     <RemoveIcon
                         isHidden={!canRemove}
-                        variant="light"
-                        icon="close"
+                        variant="error"
+                        icon="delete"
                         onClick={() => handleRemove(index)}
                         isTiny
                     />
