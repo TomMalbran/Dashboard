@@ -16,12 +16,13 @@ let dialogLevel = 0;
 
 
 // Styles
-const Container = Styled(Backdrop)`
+const Container = Styled(Backdrop).attrs(({ zIndex }) => ({ zIndex }))`
     --dialog-tabs: 0px;
     --dialog-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     --dialog-body: calc(var(--dialog-height) - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
 
     padding: var(--dialog-spacing);
+    z-index: ${(props) => props.zIndex ? props.zIndex : "var(--z-dialog)"};
 
     @media (max-width: 500px) {
         padding: 0;
