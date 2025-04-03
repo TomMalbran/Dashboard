@@ -37,7 +37,7 @@ const Link = Styled.a.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDis
 `;
 
 const NavLink = Styled(Link)`
-    padding: 8px 12px;
+    padding: 9px 12px;
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -47,10 +47,12 @@ const NavLink = Styled(Link)`
 
     .link-preicon {
         font-size: 1.4em;
+        height: 1em;
         margin-right: 8px;
     }
     .link-aftericon {
         font-size: 1.4em;
+        height: 1em;
         margin-left: 8px;
     }
 `;
@@ -59,10 +61,12 @@ const LightLink = Styled(NavLink)`
     --link-color: var(--title-color);
     --link-hover: var(--title-color);
     --link-background: rgba(0, 0, 0, 0.07);
-    --link-selected: rgba(0, 0, 0, 0.07);
+    --link-selected-bg: rgba(0, 0, 0, 0.07);
+    --link-selected-color: var(--link-color);
 
     ${(props) => props.isSelected && `
-        background-color: var(--link-selected);
+        color: var(--link-selected-color);
+        background-color: var(--link-selected-bg);
     `}
     ${(props) => props.isDisabled && `
         cursor: not-allowed;
