@@ -94,7 +94,7 @@ function TopBar(props) {
     const {
         className, withTopBar, withTitle, withDev, logo,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        showParent, parentTitle, parentName,
+        showOnline, isOnline, showParent, parentTitle, parentName,
         onLogout, menuItems, children,
     } = props;
 
@@ -142,6 +142,8 @@ function TopBar(props) {
                 avatarEmail={avatarEmail}
                 avatarAvatar={avatarAvatar}
                 avatarEdition={avatarEdition}
+                showOnline={showOnline}
+                isOnline={isOnline}
                 showParent={showParent}
                 parentTitle={parentTitle}
                 parentName={parentName}
@@ -166,6 +168,8 @@ TopBar.propTypes = {
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
+    showOnline    : PropTypes.bool,
+    isOnline      : PropTypes.bool,
     showParent    : PropTypes.bool,
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,

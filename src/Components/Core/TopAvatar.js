@@ -54,6 +54,26 @@ const Content = Styled.div`
     }
 `;
 
+const User = Styled.div`
+    position: relative;
+`;
+
+const Online = Styled.div.attrs(({ isOnline }) => ({ isOnline }))`
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 1px solid var(--content-color);
+
+    ${(props) => props.isOnline ? `
+        background-color: var(--success-color);
+    ` : `
+        background-color: var(--error-color);
+    `}
+`;
+
 
 
 /**
@@ -64,7 +84,8 @@ const Content = Styled.div`
 function TopAvatar(props) {
     const {
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        showParent, parentTitle, parentName, menuItems,
+        showOnline, isOnline, showParent, parentTitle, parentName,
+        menuItems,
     } = props;
 
 
@@ -110,13 +131,18 @@ function TopAvatar(props) {
                 <span>{parentName}</span>
             </Content>}
 
-            <Avatar
-                url={!hasMenu ? avatarUrl : null}
-                email={avatarEmail}
-                avatar={avatarAvatar}
-                edition={avatarEdition}
-                size={showCredential ? 32 : 36}
-            />
+            <User>
+                <Avatar
+                    url={!hasMenu ? avatarUrl : null}
+                    email={avatarEmail}
+                    avatar={avatarAvatar}
+                    edition={avatarEdition}
+                    size={showCredential ? 32 : 36}
+                />
+                {showOnline && <Online
+                    isOnline={isOnline}
+                />}
+            </User>
         </Container>
 
         {hasMenu && <Menu
@@ -140,6 +166,8 @@ TopAvatar.propTypes = {
     avatarEmail   : PropTypes.string,
     avatarAvatar  : PropTypes.string,
     avatarEdition : PropTypes.number,
+    showOnline    : PropTypes.bool,
+    isOnline      : PropTypes.bool,
     showParent    : PropTypes.bool,
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,
