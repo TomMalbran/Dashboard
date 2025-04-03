@@ -32,7 +32,8 @@ function EditDialog(props) {
         error, isDisabled, dontClose, noAutoFocus,
         hidePrimary, primary, primaryVariant, onSubmit,
         cancel, cancelVariant, onClose, onCancel,
-        secondary, onSecondary, tertiary, onTertiary,
+        secondary, secondaryVariant, onSecondary,
+        tertiary, tertiaryVariant, onTertiary,
         aside, children,
     } = props;
 
@@ -75,8 +76,10 @@ function EditDialog(props) {
             cancelVariant={cancelVariant}
             onCancel={onCancel}
             secondary={secondary}
+            secondaryVariant={secondaryVariant}
             onSecondary={onSecondary}
             tertiary={tertiary}
+            tertiaryVariant={tertiaryVariant}
             onTertiary={onTertiary}
         />
     </Dialog>;
@@ -87,38 +90,40 @@ function EditDialog(props) {
  * @typedef {Object} propTypes
  */
 EditDialog.propTypes = {
-    open           : PropTypes.bool.isRequired,
-    title          : PropTypes.string.isRequired,
-    icon           : PropTypes.string,
-    className      : PropTypes.string,
-    message        : PropTypes.string,
-    error          : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    dontClose      : PropTypes.bool,
-    onClose        : PropTypes.func.isRequired,
-    isLoading      : PropTypes.bool,
-    isDisabled     : PropTypes.bool,
-    noAutoFocus    : PropTypes.bool,
-    width          : PropTypes.number,
-    isNarrow       : PropTypes.bool,
-    isWide         : PropTypes.bool,
-    minHeight      : PropTypes.number,
-    fullHeight     : PropTypes.bool,
-    noOverflow     : PropTypes.bool,
-    withSpacing    : PropTypes.bool,
-    bigSpacing     : PropTypes.bool,
-    hidePrimary    : PropTypes.bool,
-    primary        : PropTypes.string,
-    primaryVariant : PropTypes.string,
-    onSubmit       : PropTypes.func.isRequired,
-    cancel         : PropTypes.string,
-    cancelVariant  : PropTypes.string,
-    onCancel       : PropTypes.func,
-    secondary      : PropTypes.string,
-    onSecondary    : PropTypes.func,
-    tertiary       : PropTypes.string,
-    onTertiary     : PropTypes.func,
-    aside          : PropTypes.any,
-    children       : PropTypes.any,
+    open             : PropTypes.bool.isRequired,
+    title            : PropTypes.string.isRequired,
+    icon             : PropTypes.string,
+    className        : PropTypes.string,
+    message          : PropTypes.string,
+    error            : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    dontClose        : PropTypes.bool,
+    onClose          : PropTypes.func.isRequired,
+    isLoading        : PropTypes.bool,
+    isDisabled       : PropTypes.bool,
+    noAutoFocus      : PropTypes.bool,
+    width            : PropTypes.number,
+    isNarrow         : PropTypes.bool,
+    isWide           : PropTypes.bool,
+    minHeight        : PropTypes.number,
+    fullHeight       : PropTypes.bool,
+    noOverflow       : PropTypes.bool,
+    withSpacing      : PropTypes.bool,
+    bigSpacing       : PropTypes.bool,
+    hidePrimary      : PropTypes.bool,
+    primary          : PropTypes.string,
+    primaryVariant   : PropTypes.string,
+    onSubmit         : PropTypes.func.isRequired,
+    cancel           : PropTypes.string,
+    cancelVariant    : PropTypes.string,
+    onCancel         : PropTypes.func,
+    secondary        : PropTypes.string,
+    secondaryVariant : PropTypes.string,
+    onSecondary      : PropTypes.func,
+    tertiary         : PropTypes.string,
+    tertiaryVariant  : PropTypes.string,
+    onTertiary       : PropTypes.func,
+    aside            : PropTypes.any,
+    children         : PropTypes.any,
 };
 
 /**
