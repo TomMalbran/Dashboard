@@ -45,10 +45,8 @@ function MediaList(props) {
         selectedPath, selectedPaths, items, path,
     } = props;
 
-    const showLoader = isLoading;
-    const showNone   = Boolean(!isLoading && !items.length);
-    const showItems  = Boolean(!isLoading && items.length);
 
+    // The Current State
     const [ isDragging, setDragging   ] = React.useState(false);
     const [ isMoving,   setMoving     ] = React.useState(false);
     const [ dragIndex,  setDragIndex  ] = React.useState(0);
@@ -60,6 +58,11 @@ function MediaList(props) {
     const [ posY,       setPosY       ] = React.useState(0);
     const [ width,      setWidth      ] = React.useState(0);
     const [ requestRAF, setRequestRAF ] = React.useState(false);
+
+    // Variables
+    const showLoader = isLoading;
+    const showNone   = Boolean(!isLoading && !items.length);
+    const showItems  = Boolean(!isLoading && items.length);
 
 
     // Handles the Breadcrumb links
