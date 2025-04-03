@@ -17,7 +17,7 @@ import IconLink             from "../Link/IconLink";
 const Children = Styled.div`
     display: flex;
     align-items: center;
-    margin-top: -4px;
+    margin-top: -2px;
     margin-right: -6px;
 `;
 
