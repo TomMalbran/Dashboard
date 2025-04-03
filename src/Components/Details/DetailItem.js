@@ -106,7 +106,7 @@ function DetailItem(props) {
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
     >
-        {!!icon && <DetailIcon icon={icon} />}
+        {!!icon && <DetailIcon icon={icon} size="14" />}
         {isHtml ? <Html addBreaks>{content}</Html> : content}
     </Container>;
 }
