@@ -99,35 +99,42 @@ function ListInput(props) {
     } = props;
 
 
-    // Calculate the Items Array
-    let parts = [ "" ];
-    let ids   = [ 0 ];
-
-    if (value) {
-        try {
-            parts = Array.isArray(value) ? value : JSON.parse(String(value));
-            if (!Array.isArray(parts)) {
-                parts = [ parts ];
-            } else if (!parts.length) {
-                parts = [ "" ];
+    // Generate the parts
+    const parts = React.useMemo(() => {
+        let result = [ "" ];
+        if (value) {
+            try {
+                result = Array.isArray(value) ? value : JSON.parse(String(value));
+                if (!Array.isArray(result)) {
+                    result = [ result ];
+                }
+            } catch(e) {
+                result = [ "" ];
             }
-        } catch(e) {
-            parts = [ "" ];
         }
-    }
+        if (!result.length) {
+            result = [ "" ];
+        }
+        return result;
+    }, [ value ]);
 
-    if (indexes) {
-        try {
-            ids = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
-            if (!Array.isArray(ids)) {
-                ids = [ ids ];
+    // Generate the ids
+    const ids = React.useMemo(() => {
+        let result = [ 0 ];
+        if (indexes) {
+            try {
+                result = Array.isArray(indexes) ? indexes : JSON.parse(String(indexes));
+                if (!Array.isArray(result)) {
+                    result = [ result ];
+                }
+            } catch(e) {
+                result = [ 0 ];
             }
-        } catch(e) {
-            ids = [ 0 ];
+        } else if (parts) {
+            result = [ ...parts.keys() ];
         }
-    } else if (parts) {
-        ids = [ ...parts.keys() ];
-    }
+        return result;
+    }, [ indexes, JSON.stringify(parts) ]);
 
 
     // Handles a Field Change
