@@ -70,9 +70,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
     &:disabled:hover,
     &:disabled:focus,
     &:disabled:active {
-        border-color: #ededed;
-        background-color: #ededed;
-        color: rgba(21, 28, 41, .48);
+        color: var(--button-disabled-color, var(--black-color));
+        border-color: var(--button-disabled-bg, var(--light-gray));
+        background-color: var(--button-disabled-bg, var(--light-gray));
         box-shadow: none;
         cursor: not-allowed;
     }
@@ -112,30 +112,35 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
             --button-background: var(--primary-color);
             --button-hover-color: var(--primary-color);
         `;
+
         case Variant.CANCEL: return `
             --button-color: var(--black-color);
             --button-border: var(--light-gray);
             --button-background: var(--light-gray);
             --button-hover-background: var(--lighter-gray);
         `;
+
         case Variant.SUCCESS: return `
             --button-color: white;
             --button-border: var(--success-color);
             --button-background: var(--success-color);
             --button-hover-color: var(--success-color);
         `;
+
         case Variant.ERROR: return `
             --button-color: white;
             --button-border: var(--error-color);
             --button-background: var(--error-color);
             --button-hover-color: var(--error-color);
         `;
+
         case Variant.ACCENT: return `
             --button-color: white;
             --button-border: var(--accent-color);
             --button-background: var(--accent-color);
             --button-hover-color: var(--accent-color);
         `;
+
         case Variant.WHITE: return `
             --button-color: var(--primary-color);
             --button-border: var(--white-color);
@@ -144,6 +149,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
             --button-hover-border: var(--primary-color);
             --button-hover-background: var(--primary-color);
         `;
+
         case Variant.OUTLINED: return `
             --button-color: var(--primary-color);
             --button-border: var(--primary-border, var(--primary-color));
@@ -151,7 +157,16 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
             --button-hover-color: white;
             --button-hover-border: var(--primary-color);
             --button-hover-background: var(--primary-color);
+
+            &:disabled,
+            &:disabled:hover,
+            &:disabled:focus,
+            &:disabled:active {
+                color: var(--darkest-gray);
+                background-color: transparent;
+            }
         `;
+
         case Variant.OUTLINED_WHITE: return `
             --button-color: var(--white-color);
             --button-border: var(--white-color);
@@ -159,6 +174,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
             --button-hover-color: var(--font-color);
             --button-hover-background: var(--white-color);
         `;
+
         case Variant.OUTLINED_ACCENT: return `
             --button-color: var(--accent-color);
             --button-border: var(--accent-color);
@@ -166,6 +182,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
             --button-hover-color: white;
             --button-hover-background: var(--accent-color);
         `;
+
         case Variant.MENU: return `
             text-transform: none;
             --button-color: var(--darker-gray);
