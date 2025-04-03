@@ -21,7 +21,7 @@ const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace 
     width: auto;
     min-width: 50px;
     margin: 0;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
     font-size: 14px;
     white-space: nowrap;
@@ -33,9 +33,6 @@ const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace 
 
     &:hover {
         background-color: var(--light-gray);
-    }
-    .icon {
-        font-size: 20px;
     }
 
     ${(props) => props.isSmall && `
@@ -128,7 +125,7 @@ function MenuItem(props) {
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
         >
-            {!!icn && <Icon icon={icn} />}
+            {!!icn && <Icon icon={icn} size="20" />}
             {!!title && <b>{NLS.get(title)}</b>}
             {NLS.get(content)}
         </Container>
