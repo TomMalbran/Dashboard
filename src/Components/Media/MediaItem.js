@@ -16,7 +16,7 @@ const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasA
     position: relative;
     border: var(--media-border-width) solid var(--media-border-color);
     border-radius: var(--border-radius);
-    background-color: var(--white-color);
+    background-color: var(--media-background, var(--white-color));
     overflow: hidden;
     cursor: pointer;
 
@@ -44,9 +44,6 @@ const MediaElem = Styled.div.attrs(({ isTransparent }) => ({ isTransparent }))`
         margin: 0 auto;
         max-width: 96px;
         max-height: 96px;
-    }
-    .icon {
-        font-size: 48px;
     }
 
     ${(props) => props.isTransparent && `
@@ -128,7 +125,7 @@ function MediaItem(props) {
             className="media-icon"
             onMouseDown={onMouseDown}
         >
-            <Icon icon={icon} />
+            <Icon icon={icon} size="48" />
         </MediaElem>}
 
         {isImage && <MediaElem
