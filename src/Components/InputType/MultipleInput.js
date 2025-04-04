@@ -52,6 +52,9 @@ function MultipleInput(props) {
         } catch(e) {
             result = [];
         }
+        for (const [ index, item ] of value.entries()) {
+            result[index] = String(item);
+        }
         return result;
     }, [ value ]);
 
@@ -85,7 +88,7 @@ function MultipleInput(props) {
                 name={name}
                 value={key}
                 label={value}
-                isChecked={parts.includes(key)}
+                isChecked={parts.includes(String(key))}
                 isDisabled={isDisabled}
                 onChange={(name, isChecked) => handleChange(isChecked, key)}
                 onFocus={onFocus}
