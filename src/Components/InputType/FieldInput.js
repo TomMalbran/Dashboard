@@ -157,6 +157,9 @@ function FieldInput(props) {
     } = props;
 
 
+    // The References
+    const partsRef = React.useRef([]);
+
     // Parse the Items
     const items    = [];
     const baseElem = {};
@@ -168,7 +171,7 @@ function FieldInput(props) {
     }
 
     // Generate the parts
-    const parts = React.useMemo(() => {
+    partsRef.current = React.useMemo(() => {
         let result = [{}];
         if (value) {
             try {
@@ -198,22 +201,22 @@ function FieldInput(props) {
             } catch(e) {
                 result = [ 0 ];
             }
-        } else if (parts) {
-            result = [ ...parts.keys() ];
+        } else if (partsRef.current) {
+            result = [ ...partsRef.current.keys() ];
         }
         return result;
-    }, [ indexes, JSON.stringify(parts) ]);
+    }, [ indexes ]);
 
 
     // Handles a Field Change
-    const handleChange = (item, parts, index, name, newValue, secName, secValue, data) => {
-        const value = parts[index] ? { ...parts[index] } : {};
+    const handleChange = (item, index, name, newValue, secName, secValue, data) => {
+        const value = partsRef.current[index] ? { ...partsRef.current[index] } : {};
         value[name] = newValue;
         if (secName) {
             value[secName] = secValue;
         }
-        parts.splice(index, 1, value);
-        fieldChanged(parts);
+        partsRef.current.splice(index, 1, value);
+        fieldChanged();
 
         if (item.onChange) {
             item.onChange(index, name, newValue, secName, secValue, data);
@@ -221,14 +224,14 @@ function FieldInput(props) {
     };
 
     // Handles a Clear Change
-    const handleClear = (item, parts, index, idName) => {
-        const value      = parts[index] ? { ...parts[index] } : {};
+    const handleClear = (item, index, idName) => {
+        const value      = partsRef.current[index] ? { ...partsRef.current[index] } : {};
         value[item.name] = "";
         if (idName) {
             value[idName] = 0;
         }
-        parts.splice(index, 1, value);
-        fieldChanged(parts);
+        partsRef.current.splice(index, 1, value);
+        fieldChanged();
 
         if (item.onClear) {
             item.onClear(index);
@@ -236,27 +239,27 @@ function FieldInput(props) {
     };
 
     // Adds a Field to the value
-    const handleAdd = (parts) => {
+    const handleAdd = () => {
         if (name) {
-            parts.push({ ...baseElem });
+            partsRef.current.push({ ...baseElem });
             ids.push(ids.length);
         }
-        fieldChanged(parts, ids);
+        fieldChanged(ids);
     };
 
     // Removes a Field from the value at the given index
-    const handleRemove = (parts, index) => {
-        parts.splice(index, 1);
+    const handleRemove = (index) => {
+        partsRef.current.splice(index, 1);
         ids.splice(index, 1);
-        fieldChanged(parts, ids);
+        fieldChanged(ids);
     };
 
     // Sends a Field Change Event
-    const fieldChanged = (parts, ids) => {
+    const fieldChanged = (ids) => {
         if (onSort) {
-            onSort(name, JSON.stringify(parts), JSON.stringify(ids));
+            onSort(name, JSON.stringify(partsRef.current), JSON.stringify(ids));
         } else {
-            onChange(name, JSON.stringify(parts));
+            onChange(name, JSON.stringify(partsRef.current));
         }
     };
 
@@ -303,11 +306,10 @@ function FieldInput(props) {
         if (!orderChanged()) {
             return;
         }
-        const partsList = [ ...parts ];
-        const idsList   = [ ...ids ];
-        swap(partsList);
+        const idsList = [ ...ids ];
+        swap(partsRef.current);
         swap(idsList);
-        fieldChanged(partsList, idsList);
+        fieldChanged(idsList);
     };
 
     // The Drag
@@ -315,18 +317,18 @@ function FieldInput(props) {
 
     // Create the References
     const inputRefs = React.useMemo(() => {
-        return Array.from({ length : parts.length * items.length }).map(() => React.createRef());
-    }, [ parts.length ]);
+        return Array.from({ length : partsRef.current.length * items.length }).map(() => React.createRef());
+    }, [ partsRef.current.length ]);
 
 
     // Variables
     const withTitle    = Boolean(title);
-    const canAdd       = Boolean(!isDisabled && (maxAmount === 0 || parts.length < maxAmount));
-    const canSort      = Boolean(!isDisabled && isSortable && parts.length > 1);
-    const canRemove    = Boolean(!isDisabled && (allowEmpty || parts.length > 1));
+    const canAdd       = Boolean(!isDisabled && (maxAmount === 0 || partsRef.current.length < maxAmount));
+    const canSort      = Boolean(!isDisabled && isSortable && partsRef.current.length > 1);
+    const canRemove    = Boolean(!isDisabled && (allowEmpty || partsRef.current.length > 1));
     const hasExtraIcon = Boolean(extraIcon && onExtraIcon);
     const hasPostIcons = Boolean(!isDisabled && (canRemove || hasExtraIcon));
-    const isEmpty      = Boolean(allowEmpty && noneText && !parts.length);
+    const isEmpty      = Boolean(allowEmpty && noneText && !partsRef.current.length);
 
 
     // Do the Render
@@ -336,7 +338,7 @@ function FieldInput(props) {
         isDisabled={isDisabled}
     >
         <Content withLine={withLine}>
-            {parts.map((elem, index) => <Item
+            {partsRef.current.map((elem, index) => <Item
                 key={index}
                 className="inputfield-container"
                 withSort={canSort}
@@ -389,10 +391,10 @@ function FieldInput(props) {
                                 isDisabled={getDisabled(item, data)}
                                 error={getError(index, item.name)}
                                 onChange={(name, value, secName, secValue, newData) => {
-                                    handleChange(item, parts, index, item.name, value, secName, secValue, newData);
+                                    handleChange(item, index, item.name, value, secName, secValue, newData);
                                 }}
                                 onClear={(name, value, secName, secValue) => {
-                                    handleClear(item, parts, index, secName);
+                                    handleClear(item, index, secName);
                                 }}
                                 onMedia={() => item.onMedia?.(index, item.name)}
                                 withLabel={!!item.label || (!withTitle && index === 0)}
@@ -401,7 +403,7 @@ function FieldInput(props) {
                             >
                                 {Utils.cloneChildren(item.children, () => ({
                                     inputRef, value,
-                                    onChange : (value) => handleChange(item, parts, index, item.name, value),
+                                    onChange : (value) => handleChange(item, index, item.name, value),
                                 }))}
                             </InputField>
                             {item.component}
@@ -420,7 +422,7 @@ function FieldInput(props) {
                     <IconLink
                         variant="error"
                         icon="delete"
-                        onClick={() => handleRemove(parts, index)}
+                        onClick={() => handleRemove(index)}
                         isSmall
                     />
                 </Remove>}
@@ -435,7 +437,7 @@ function FieldInput(props) {
             isHidden={!canAdd}
             variant="outlined"
             message={addButton}
-            onClick={() => handleAdd(parts)}
+            onClick={() => handleAdd()}
             isSmall
         />
     </Container>;
