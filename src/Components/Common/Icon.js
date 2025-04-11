@@ -35,7 +35,7 @@ const Span = Styled.span.attrs(({ size, color, cursor }) => ({ size, color, curs
  */
 function Icon(props) {
     const {
-        isHidden, className, icon, size, color, cursor,
+        isHidden, className, style, icon, size, color, cursor,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         onClick, onMouseDown,
     } = props;
@@ -60,6 +60,7 @@ function Icon(props) {
     return <Span
         ref={elementRef}
         className={`icon icon-${icon} ${className}`}
+        style={style}
         size={size}
         color={color}
         cursor={cursor}
@@ -77,6 +78,7 @@ function Icon(props) {
 Icon.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
+    style          : PropTypes.object,
     icon           : PropTypes.string.isRequired,
     size           : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     color          : PropTypes.string,
