@@ -10,6 +10,7 @@ import NLS                  from "../../Core/NLS";
 // Components
 import Menu                 from "./Menu";
 import Icon                 from "../Common/Icon";
+import Circle               from "../Common/Circle";
 
 
 
@@ -48,6 +49,13 @@ const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace 
     `}
 `;
 
+const MenuCircle = Styled(Circle)`
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    border: none;
+`;
+
 
 
 /**
@@ -57,7 +65,8 @@ const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace 
  */
 function MenuItem(props) {
     const {
-        className, action, icon, title, message, url, href, target,
+        className, action, icon, circle, title, message,
+        url, href, target,
         isDisabled, isSelected, isSmall, leftSpace,
         onAction, onClick, dontClose, onClose,
         direction, index, selectedIdx,
@@ -126,6 +135,7 @@ function MenuItem(props) {
             onMouseLeave={() => setMenuOpen(false)}
         >
             {!!icn && <Icon icon={icn} size="20" />}
+            {!!circle && <MenuCircle variant={circle} />}
             {!!title && <b>{NLS.get(title)}</b>}
             {NLS.get(content)}
         </Container>
@@ -152,6 +162,7 @@ MenuItem.propTypes = {
     className   : PropTypes.string,
     action      : PropTypes.string,
     icon        : PropTypes.string,
+    circle      : PropTypes.string,
     title       : PropTypes.string,
     message     : PropTypes.string,
     url         : PropTypes.string,
