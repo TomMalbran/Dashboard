@@ -36,7 +36,7 @@ const Content = Styled.div`
     gap: 6px;
 `;
 
-const Item = Styled.div.attrs(({ withError, isDisabled, canRemove }) => ({ withError, isDisabled, canRemove }))`
+const Item = Styled.div.attrs(({ withError, isDisabled, canSort, canRemove }) => ({ withError, isDisabled, canSort, canRemove }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -64,6 +64,7 @@ const Item = Styled.div.attrs(({ withError, isDisabled, canRemove }) => ({ withE
             margin-right: 0;
         }
     `}
+    ${(props) => props.canSort && "padding-left: 6px;"}
     ${(props) => props.canRemove && "padding-right: 6px;"}
 `;
 
@@ -307,12 +308,14 @@ function ListInput(props) {
                     className="inputfield-container"
                     withError={!!getError(index)}
                     isDisabled={isDisabled}
+                    canSort={canSort}
                     canRemove={canRemove}
                 >
                     <Icon
                         isHidden={!canSort}
                         icon="drag"
                         cursor="grab"
+                        size="14"
                         onMouseDown={(e) => handleGrab(e, elem, index)}
                     />
 
