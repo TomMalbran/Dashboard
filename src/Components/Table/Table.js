@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
+import Responsive           from "../../Core/Responsive";
 import Navigate             from "../../Core/Navigate";
 import Utils                from "../../Utils/Utils";
 
@@ -42,7 +43,7 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
 
     position: relative;
 
-    ${(props) => props.isEditable && `
+    ${(props) => props.isEditable ? `
         --table-header-right: 0px;
 
         overflow: auto;
@@ -56,11 +57,11 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
         td:last-child {
             justify-content: flex-end;
         }
+    ` : `
+        @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
+            --table-header-height: 0px;
+        }
     `}
-
-    @media (max-width: 700px) {
-        --table-header-height: 0px;
-    }
 `;
 
 const Container = Styled.table.attrs(({ isEditable, totalWidth, hasRadius, hasScroll }) => ({ isEditable, totalWidth, hasRadius, hasScroll }))`

@@ -2,7 +2,8 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Utils
+// Core & Utils
+import Responsive           from "../../Core/Responsive";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -24,15 +25,15 @@ const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
     border-bottom-left-radius: var(--table-radius-inner);
     padding-right: var(--table-header-right);
 
-    ${(props) => props.isEditable && `
+    ${(props) => props.isEditable ? `
         position: sticky;
         top: 0;
         z-index: 2;
+    ` : `
+        @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
+            display: none;
+        }
     `}
-
-    @media (max-width: 700px) {
-        display: none;
-    }
 `;
 
 const CheckCell = Styled.th`

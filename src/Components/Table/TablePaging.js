@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import Responsive           from "../../Core/Responsive";
 
 // Components
 import IconLink             from "../Link/IconLink";
@@ -61,7 +62,7 @@ const PagingCell = Styled.td.attrs(({ isEditable }) => ({ isEditable }))`
 const Rows = Styled.p`
     margin: 0 8px 0 0;
 
-    @media (max-width: 700px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
         display: none;
     }
 `;
@@ -85,6 +86,10 @@ const Amount = Styled.div`
     :hover {
         border-color: var(--input-border-hover);
     }
+
+    @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
+        display: none;
+    }
 `;
 
 const Select = Styled.select`
@@ -98,10 +103,6 @@ const Select = Styled.select`
     border: none;
     background-color: transparent;
     outline: none;
-
-    @media (max-width: 700px) {
-        display: none;
-    }
 `;
 
 

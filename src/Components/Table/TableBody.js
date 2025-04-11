@@ -2,7 +2,8 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Utils
+// Core & Utils
+import Responsive           from "../../Core/Responsive";
 import Utils                from "../../Utils/Utils";
 
 
@@ -69,7 +70,7 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow, isEditable
         border-bottom-right-radius: var(--table-radius-last);
     `}
 
-    @media (max-width: 700px) {
+    @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
         border-top: var(--table-border-outer);
         border-top-left-radius: var(--border-radius);
         border-top-right-radius: var(--border-radius);

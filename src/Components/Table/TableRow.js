@@ -63,7 +63,7 @@ function TableRow(props) {
 
     // Clone the Children
     const items = Utils.cloneChildren(children, (child, index) => ({
-        ...columns[index],
+        ...columns[index], isEditable,
     }));
     if (isEditable) {
         items.sort((a, b) => a.props.position - b.props.position);

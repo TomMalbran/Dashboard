@@ -2,10 +2,14 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
+// Core
+import Responsive           from "../../Core/Responsive";
+
 
 
 // Styles
 const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSelected }) => ({ hasHover, hasChecks, hasActions, isEditable, isSelected }))`
+    box-sizing: border-box;
     display: flex;
     width: 100%;
     height: auto;
@@ -86,48 +90,46 @@ const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSel
         }
     `}
 
-    @media (max-width: 700px) {
-        display: grid;
-        position: relative;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        border-bottom: var(--table-border-inner);
-        min-height: 24px;
-        padding: 8px;
+    ${(props) => !props.isEditable && `
+        @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
+            display: grid;
+            position: relative;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            border-bottom: var(--table-border-inner);
+            min-height: 24px;
+            padding: 8px 0 8px 4px;
 
-        &:last-child {
-            border-bottom: none;
-        }
-
-        td, th {
-            border-bottom: none;
-        }
-        &:hover td {
-            background-color: transparent;
-        }
-
-        ${(props) => props.hasActions && `td:last-child {
-            position: absolute;
-            top: 50%;
-            right: 0;
-            padding: 0;
-            margin-top: -16px;
-            background-color: var(--content-color);
-        }`}
-
-        ${(props) => props.isSelected && `
-            & td {
+            td, th {
+                border-bottom: none;
+            }
+            &:hover td {
                 background-color: transparent;
             }
-        `}
-    }
 
-    @media (max-width: 650px) {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
+            ${props.hasActions && `td:last-child {
+                position: absolute;
+                top: 0;
+                right: 0;
+                height: 100%;
+                padding: 0;
+                background-color: var(--content-color);
+            }`}
 
-    @media (max-width: 380px) {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    }
+            ${props.isSelected && `
+                & td {
+                    background-color: transparent;
+                }
+            `}
+        }
+
+        @media (max-width: 650px) {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+
+        @media (max-width: 380px) {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+    `}
 `;
 
 

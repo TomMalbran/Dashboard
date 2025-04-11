@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import Responsive           from "../../Core/Responsive";
 import Store                from "../../Core/Store";
 
 // Components
@@ -78,17 +79,23 @@ const TD = Styled.td.attrs(props)`
         `}
     }
 
-    @media (max-width: 700px) {
-        && {
-            text-align: left;
-            padding: 4px;
-            border: none;
-            min-width: 0;
-            max-width: none;
-            ${(props) => props.bigMobile  && "grid-column: 1/-1;"}
-            ${(props) => props.hideMobile && "display: none;"}
+    ${(props) => !props.isEditable && `
+        @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
+            && {
+                display: flex;
+                align-items: center;
+                text-align: left;
+                margin: 4px;
+                padding: 0;
+                border: none;
+                min-width: 0;
+                max-width: none;
+
+                ${props.bigMobile  && "grid-column: 1 / -1;"}
+                ${props.hideMobile && "display: none;"}
+            }
         }
-    }
+    `}
 `;
 
 
