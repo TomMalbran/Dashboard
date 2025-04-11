@@ -17,6 +17,13 @@ const EditorStyle = createGlobalStyle`
         display: none;
     }
 
+    // Inline Editor
+    .tox.tox-tinymce-inline .tox-editor-header {
+        box-shadow: var(--box-shadow);
+        border: none;
+        translate: -2px 2px;
+    }
+
 
     // Menu
     .tox .tox-menu.tox-menu {
@@ -185,7 +192,6 @@ const EditorStyle = createGlobalStyle`
         }
     }
 
-
     // Dialog Body
     .tox .tox-dialog .tox-dialog__body {
         div:empty {
@@ -214,7 +220,6 @@ const EditorStyle = createGlobalStyle`
             color: white;
         }
     }
-
 
     // Dialog Footer
     .tox .tox-dialog .tox-dialog__footer {
