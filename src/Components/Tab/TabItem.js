@@ -94,11 +94,6 @@ const LinedItem = Styled(Container)`
     border-radius: var(--border-radius);
     font-size: 14px;
 
-    .icon {
-        height: 18px;
-        font-size: 18px;
-    }
-
     &:hover {
         background-color: var(--lighter-gray);
     }
@@ -247,14 +242,18 @@ function TabItem(props) {
         {showEdit && <EditIcon
             icon="edit"
             onClick={handleEdit}
+            size="14"
         />}
-        {!!icon && <Icon icon={icon} />}
+
+        {!!icon && <Icon icon={icon} size="16" />}
         {!!message && NLS.get(message)}
         {hasAmount && <Amount className="tab-amount">{amount}</Amount>}
         {!!badge && <Badge className="tab-badge">{badge}</Badge>}
+
         {showDelete && <DeleteIcon
             icon="close"
             onClick={handleDelete}
+            size="14"
         />}
     </Component>;
 }
