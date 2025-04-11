@@ -97,6 +97,7 @@ Input.propTypes = {
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     fullWidth    : PropTypes.bool,
     hasLabel     : PropTypes.bool,
+    emptyText    : PropTypes.string,
     noneText     : PropTypes.string,
     noneValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withCustom   : PropTypes.bool,

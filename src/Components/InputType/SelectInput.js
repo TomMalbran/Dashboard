@@ -46,7 +46,7 @@ function SelectInput(props) {
         inputRef, className, icon, postIcon,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, name, value, placeholder,
-        noneText, noneValue,
+        emptyText, noneText, noneValue,
         withCustom, customFirst, customText,
         options, extraOptions,
         onChange, onClear, onFocus, onBlur, onSubmit,
@@ -119,7 +119,7 @@ function SelectInput(props) {
             });
         }
         return result;
-    }, [ noneText, noneValue, withCustom, customFirst, customText, JSON.stringify(items), JSON.stringify(extraItems) ]);
+    }, [ emptyText, noneText, noneValue, withCustom, customFirst, customText, JSON.stringify(items), JSON.stringify(extraItems) ]);
 
     // Get the Filtered List
     const filteredList = React.useMemo(() => {
@@ -136,6 +136,10 @@ function SelectInput(props) {
 
     // Get the Option Value
     const optionValue = React.useMemo(() => {
+        if (optionList.length === 0 && emptyText) {
+            return NLS.get(emptyText);
+        }
+
         let result = "";
         for (const item of optionList) {
             if (String(item.value) === valueKey) {
@@ -349,6 +353,10 @@ function SelectInput(props) {
     };
 
 
+    // More Variables
+    const showDisabled = Boolean(isDisabled || (emptyText && optionList.length === 0));
+
+
     // Do the Render
     return <InputContent
         passedRef={containerRef}
@@ -356,7 +364,7 @@ function SelectInput(props) {
         icon={icon}
         postIcon={postIcon}
         isFocused={isFocused}
-        isDisabled={isDisabled}
+        isDisabled={showDisabled}
         isSmall={isSmall}
         onClick={handleClick}
         onClear={onClear}
@@ -372,7 +380,7 @@ function SelectInput(props) {
             name={name}
             value={showOptions ? filter : optionValue}
             placeholder={placeholder}
-            isDisabled={isDisabled}
+            isDisabled={showDisabled}
             onInput={handleInput}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -423,6 +431,7 @@ SelectInput.propTypes = {
     value        : PropTypes.any,
     options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    emptyText    : PropTypes.string,
     noneText     : PropTypes.string,
     noneValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withCustom   : PropTypes.bool,
@@ -447,6 +456,7 @@ SelectInput.defaultProps = {
     withBorder  : true,
     withLabel   : true,
     placeholder : "",
+    emptyText   : "",
     noneText    : "",
     noneValue   : "",
     withCustom  : false,

@@ -39,7 +39,7 @@ function SuggestInput(props) {
     const {
         inputRef, className, icon, postIcon,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
-        id, name, value, placeholder, noneText, searchText,
+        id, name, value, placeholder, emptyText, searchText,
         suggestID, suggestFetch, suggestParams, keepSuggestions,
         suggestWidth, onChange, onClear, onFocus, onBlur,
     } = props;
@@ -272,10 +272,10 @@ function SuggestInput(props) {
     const hasValue        = Boolean(value);
     const hasSearch       = shouldSearch(search);
     const showSearch      = Boolean(hasSearch && searching && searchText);
-    const showNone        = Boolean(hasSearch && !searching && !suggestions.length && noneText);
-    const showLine        = Boolean(hasValue && (showSearch || showNone || suggestions.length));
+    const showEmpty       = Boolean(hasSearch && !searching && !suggestions.length && emptyText);
+    const showLine        = Boolean(hasValue && (showSearch || showEmpty || suggestions.length));
     const showSuggestions = Boolean(suggestions.length && !searching);
-    const hasOptions      = Boolean(showOptions && (hasValue || showSearch || showNone || suggestions.length));
+    const hasOptions      = Boolean(showOptions && (hasValue || showSearch || showEmpty || suggestions.length));
 
 
     // Do the Render
@@ -320,7 +320,7 @@ function SuggestInput(props) {
             {hasValue && <InputOption content={`<b>${value}</b>`} />}
             {showLine && <MenuLine />}
             {showSearch && <InputOption content={NLS.get(searchText)} />}
-            {showNone && <InputOption content={NLS.get(noneText)} />}
+            {showEmpty && <InputOption content={NLS.get(emptyText)} />}
 
             {showSuggestions && suggestions.map((elem, index) => <InputOption
                 key={index}
@@ -350,7 +350,7 @@ SuggestInput.propTypes = {
     id              : PropTypes.string,
     name            : PropTypes.string.isRequired,
     placeholder     : PropTypes.string,
-    noneText        : PropTypes.string,
+    emptyText       : PropTypes.string,
     searchText      : PropTypes.string,
     value           : PropTypes.any,
     onChange        : PropTypes.func.isRequired,
@@ -378,7 +378,7 @@ SuggestInput.defaultProps = {
     withBorder   : true,
     withLabel    : true,
     placeholder  : "",
-    noneText     : "GENERAL_NONE_RESULTS",
+    emptyText    : "GENERAL_NONE_RESULTS",
     searchText   : "GENERAL_SEARCHING",
     suggestWidth : 0,
 };

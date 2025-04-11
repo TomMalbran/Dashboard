@@ -44,6 +44,7 @@ InputItem.propTypes = {
     width           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withBorder      : PropTypes.bool,
     fullWidth       : PropTypes.bool,
+    emptyText       : PropTypes.string,
     noneText        : PropTypes.string,
     noneValue       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     shrinkLabel     : PropTypes.bool,

@@ -259,6 +259,7 @@ InputField.propTypes = {
     generateCode    : PropTypes.bool,
     codeSets        : PropTypes.string,
     codeLength      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    emptyText       : PropTypes.string,
     noneText        : PropTypes.string,
     noneValue       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withCustom      : PropTypes.bool,
