@@ -22,14 +22,6 @@ const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
     border-radius: var(--border-radius);
     transition: all 0.5s;
 
-    & > div > .icon {
-        margin-right: 8px;
-    }
-    & > .icon {
-        margin-left: 8px;
-        cursor: pointer;
-    }
-
     ${(props) => props.variant === Outcome.SUCCESS && `
         background-color: var(--success-color);
     `}
