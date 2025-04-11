@@ -36,7 +36,7 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
 function MultipleInput(props) {
     const {
         className, isFocused, isDisabled,
-        name, value, columns,
+        name, value, columns, getDisabled,
         onChange, onFocus, onBlur,
     } = props;
 
@@ -72,6 +72,17 @@ function MultipleInput(props) {
         onChange(name, JSON.stringify(parts));
     };
 
+    // Returns true if is Disabled
+    const getItemDisabled = (key) => {
+        if (isDisabled) {
+            return true;
+        }
+        if (getDisabled) {
+            return getDisabled(key);
+        }
+        return false;
+    };
+
 
     // Do the Render
     return <InputContent
@@ -89,8 +100,8 @@ function MultipleInput(props) {
                 value={key}
                 label={value}
                 isChecked={parts.includes(String(key))}
-                isDisabled={isDisabled}
                 onChange={(name, isChecked) => handleChange(isChecked, key)}
+                isDisabled={getItemDisabled(key)}
                 onFocus={onFocus}
                 onBlur={onBlur}
             />)}
@@ -103,18 +114,19 @@ function MultipleInput(props) {
  * @type {Object} propTypes
  */
 MultipleInput.propTypes = {
-    className  : PropTypes.string,
-    isFocused  : PropTypes.bool,
-    isDisabled : PropTypes.bool,
-    name       : PropTypes.string.isRequired,
-    value      : PropTypes.any,
-    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    noneText   : PropTypes.string,
-    noneValue  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onChange   : PropTypes.func.isRequired,
-    onFocus    : PropTypes.func.isRequired,
-    onBlur     : PropTypes.func.isRequired,
+    className   : PropTypes.string,
+    isFocused   : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
+    name        : PropTypes.string.isRequired,
+    value       : PropTypes.any,
+    options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    noneText    : PropTypes.string,
+    noneValue   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    columns     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    getDisabled : PropTypes.func,
+    onChange    : PropTypes.func.isRequired,
+    onFocus     : PropTypes.func.isRequired,
+    onBlur      : PropTypes.func.isRequired,
 };
 
 /**

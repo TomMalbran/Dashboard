@@ -223,6 +223,7 @@ InputField.propTypes = {
     spellCheck      : PropTypes.string,
     isRequired      : PropTypes.bool,
     isDisabled      : PropTypes.bool,
+    getDisabled     : PropTypes.func,
     onChange        : PropTypes.func,
     onInput         : PropTypes.func,
     onPaste         : PropTypes.func,
