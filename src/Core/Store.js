@@ -124,6 +124,10 @@ function useAction(slice) {
     const dispatch = context[1];
 
     return React.useMemo(() => {
+        if (!actions[slice]) {
+            return {};
+        }
+
         const result = {};
         for (const [ name, action ] of Object.entries(actions[slice])) {
             result[name] = (...params) => action(dispatch, ...params);

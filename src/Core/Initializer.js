@@ -28,7 +28,9 @@ function Initializer(props) {
 
     // Sets the Current User
     const onUserChange = (user) => {
-        setCurrentUser(user);
+        if (setCurrentUser) {
+            setCurrentUser(user);
+        }
     };
 
     // Initialize the Modules once
