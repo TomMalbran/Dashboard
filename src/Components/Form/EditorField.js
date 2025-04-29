@@ -78,9 +78,9 @@ function EditorField(props) {
             tinymceScriptSrc={`${process.env.PUBLIC_URL}/tinymce/tinymce.min.js`}
             onEditorChange={handleChange}
             value={value}
+            disabled={isDisabled}
             init={{
                 document_base_url    : `${process.env.REACT_APP_FILES}${clientID}/`,
-                readonly             : isDisabled,
                 height               : height,
                 menu                 : menu,
                 language             : language,
