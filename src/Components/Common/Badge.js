@@ -6,16 +6,18 @@ import Styled               from "styled-components";
 
 // Styles
 const Span = Styled.span`
+    box-sizing: border-box;
     position: absolute;
     top: -2px;
     right: 2px;
     min-width: 14px;
+    padding: 0 4px;
     line-height: 14px;
     font-size: 10px;
     text-align: center;
     border-radius: 999px;
-    background-color: var(--white-color);
-    color: var(--primary-color);
+    background-color: #ff0033;
+    color: white;
 `;
 
 
@@ -28,6 +30,8 @@ const Span = Styled.span`
 function Badge(props) {
     const { className, value } = props;
 
+
+    // Do the Render
     if (!value) {
         return <React.Fragment />;
     }

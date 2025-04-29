@@ -10,6 +10,7 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import Icon                 from "../Common/Icon";
+import Badge                from "../Common/Badge";
 
 
 
@@ -138,15 +139,9 @@ const Amount = Styled.span`
     margin-left: 6px;
 `;
 
-const Badge = Styled.span`
-    position: absolute;
+const TabBadge = Styled(Badge)`
     top: 0;
     right: 0;
-    padding: 2px 4px;
-    font-size: 10px;
-    color: white;
-    background-color: #ff0033;
-    border-radius: 9999px;
 `;
 
 // Components
@@ -248,7 +243,7 @@ function TabItem(props) {
         {!!icon && <Icon icon={icon} size="16" />}
         {!!message && NLS.get(message)}
         {hasAmount && <Amount className="tab-amount">{amount}</Amount>}
-        {!!badge && <Badge className="tab-badge">{badge}</Badge>}
+        <TabBadge className="tab-badge" value={badge} />
 
         {showDelete && <DeleteIcon
             icon="close"

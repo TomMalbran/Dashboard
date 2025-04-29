@@ -10,6 +10,7 @@ import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
+import Badge                from "../Common/Badge";
 
 
 
@@ -57,15 +58,9 @@ const Span = Styled.span`
     margin-left: 6px;
 `;
 
-const Badge = Styled.span`
-    position: absolute;
+const BarBadge = Styled(Badge)`
     top: -5px;
     right: -5px;
-    padding: 2px 4px;
-    font-size: 10px;
-    color: white;
-    background-color: #ff0033;
-    border-radius: 9999px;
 `;
 
 
@@ -133,7 +128,7 @@ function BarIcon(props) {
         {hasContent && <Span className="baricon-text">
             {content}
         </Span>}
-        {!!badge && <Badge className="baricon-badge">{badge}</Badge>}
+        <BarBadge className="baricon-badge" value={badge} />
     </Container>;
 }
 

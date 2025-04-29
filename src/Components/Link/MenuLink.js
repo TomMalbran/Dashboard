@@ -9,7 +9,7 @@ import NLS                  from "../../Core/NLS";
 // Components
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
-import Badge                from "../Link/Badge";
+import Badge                from "../Common/Badge";
 
 // Variants
 const Variant = {
@@ -156,10 +156,24 @@ function MenuLink(props) {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >
-        {!!icon      && <Icon className="link-preicon" icon={icon} />}
-        {!!html      && <Html className="link-content" variant="span">{html}</Html>}
-        {hasContent  && <span className="link-content">{content}</span>}
-        {!!afterIcon && <Icon className="link-aftericon" icon={afterIcon} />}
+        {!!icon && <Icon
+            className="link-preicon"
+            icon={icon}
+            color={iconColor}
+        />}
+        {!!html && <Html
+            className="link-content"
+            variant="span"
+            content={html}
+        />}
+        {hasContent && <span className="link-content">
+            {content}
+        </span>}
+
+        {!!afterIcon && <Icon
+            className="link-aftericon"
+            icon={afterIcon}
+        />}
         <Badge value={badge} />
     </Component>;
 }

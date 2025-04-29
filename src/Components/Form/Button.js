@@ -9,6 +9,7 @@ import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
+import Badge                from "../Common/Badge";
 import CircularLoader       from "../Loader/CircularLoader";
 
 // Variants
@@ -223,15 +224,9 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
     `}
 `;
 
-const Badge = Styled.span`
-    position: absolute;
+const BtnBadge = Styled(Badge)`
     top: -5px;
     right: -5px;
-    padding: 2px 4px;
-    font-size: 10px;
-    color: white;
-    background-color: #ff0033;
-    border-radius: 9999px;
 `;
 
 
@@ -304,9 +299,7 @@ function Button(props) {
             className="btn-loader"
             isTiny
         />}
-        {!!badge && <Badge className="btn-badge">
-            {badge}
-        </Badge>}
+        <BtnBadge className="btn-badge" value={badge} />
     </Btn>;
 }
 
