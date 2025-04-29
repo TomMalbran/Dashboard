@@ -115,6 +115,17 @@ const OutlinedLink = Styled(Link)`
     ${(props) => props.isSelected && "border-color: white;"}
 `;
 
+const Amount = Styled.span`
+    box-sizing: border-box;
+    min-width: 14px;
+    margin-left: 8px;
+    padding: 0 4px;
+    font-size: 10px;
+    line-height: 14px;
+    border-radius: var(--border-radius-small);
+    background-color: rgba(0, 0, 0, 0.07);
+`;
+
 // Components
 const Components = {
     [Variant.NONE]     : Link,
@@ -133,8 +144,8 @@ const Components = {
 function MenuLink(props) {
     const {
         passedRef, variant, className, isSelected, isDisabled,
-        target, message, html, children, icon, afterIcon, badge,
-        onMouseEnter, onMouseLeave,
+        target, message, html, icon, iconColor, afterIcon, amount, badge,
+        onMouseEnter, onMouseLeave, children,
     } = props;
 
 
@@ -142,6 +153,7 @@ function MenuLink(props) {
     const Component  = Components[variant] || Link;
     const content    = children || NLS.get(message);
     const hasContent = Boolean(content && !html);
+    const hasAmount  = amount !== undefined;
 
 
     // Do the Render
@@ -174,6 +186,10 @@ function MenuLink(props) {
             className="link-aftericon"
             icon={afterIcon}
         />}
+
+        {hasAmount && <Amount className="link-amount">
+            {amount}
+        </Amount>}
         <Badge value={badge} />
     </Component>;
 }
@@ -187,8 +203,10 @@ MenuLink.propTypes = {
     variant      : PropTypes.string,
     message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon         : PropTypes.string,
+    iconColor    : PropTypes.string,
     afterIcon    : PropTypes.string,
-    badge        : PropTypes.number,
+    amount       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge        : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     html         : PropTypes.string,
     href         : PropTypes.string,
     url          : PropTypes.string,
