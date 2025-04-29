@@ -72,7 +72,7 @@ const H1 = Styled.h1`
     margin: 0 0 0 8px;
     font-size: 28px;
     font-weight: 200;
-    color: white;
+    color: var(--title-color);
     font-family: var(--title-font);
 `;
 
@@ -159,7 +159,6 @@ function TopBar(props) {
  */
 TopBar.propTypes = {
     className     : PropTypes.string,
-    variant       : PropTypes.string,
     withTopBar    : PropTypes.bool,
     withTitle     : PropTypes.bool,
     withDev       : PropTypes.bool,
