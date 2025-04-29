@@ -41,7 +41,7 @@ function PromptDialog(props) {
         open, title, message, content, icon, isLoading,
         isWide, isNarrow, bigSpacing, primary, primaryVariant,
         inputType, inputLabel, inputIcon, placeholder, helperText,
-        initialValue, inputOptions,
+        initialValue, inputOptions, error, showError,
         maxLength, rows, maxRows, spellCheck,
         secInputType, secInputLabel, secInputIcon, secPlaceholder,
         secHelperText, secInitialValue, secInputOptions,
@@ -53,6 +53,13 @@ function PromptDialog(props) {
     // The Current State
     const [ value,    setValue    ] = React.useState(initialValue);
     const [ secValue, setSecValue ] = React.useState(secInitialValue);
+
+
+    // Update the Initial Value
+    React.useEffect(() => {
+        setValue(initialValue);
+        setSecValue(secInitialValue);
+    }, [ initialValue, secInitialValue ]);
 
 
     // Handles the Input Change
@@ -68,16 +75,19 @@ function PromptDialog(props) {
     const handleSubmit = () => {
         if (!isDisabled) {
             onSubmit(value, secValue);
+        }
+        if (!showError) {
             setValue("");
             setSecValue("");
         }
     };
 
-    // Update the Initial Value
-    React.useEffect(() => {
-        setValue(initialValue);
-        setSecValue(secInitialValue);
-    }, [ initialValue, secInitialValue ]);
+    // Handles the Close
+    const handleClose = () => {
+        setValue("");
+        setSecValue("");
+        onClose();
+    };
 
 
     // Is the Form Disabled
@@ -100,7 +110,7 @@ function PromptDialog(props) {
     // Do the Render
     return <Dialog
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         isLoading={isLoading}
         isWide={isWide}
         isNarrow={isNarrow}
@@ -117,6 +127,7 @@ function PromptDialog(props) {
                     placeholder={placeholder}
                     helperText={helperText}
                     value={value}
+                    error={error}
                     options={inputOptions}
                     autoFocus={open}
                     maxLength={maxLength}
@@ -174,6 +185,7 @@ PromptDialog.propTypes = {
     inputLabel      : PropTypes.string,
     placeholder     : PropTypes.string,
     helperText      : PropTypes.string,
+    error           : PropTypes.string,
     inputIcon       : PropTypes.string,
     initialValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     inputOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
@@ -198,6 +210,7 @@ PromptDialog.propTypes = {
     isWide          : PropTypes.bool,
     isNarrow        : PropTypes.bool,
     bigSpacing      : PropTypes.bool,
+    showError       : PropTypes.bool,
     onSubmit        : PropTypes.func.isRequired,
     onClose         : PropTypes.func.isRequired,
 };
