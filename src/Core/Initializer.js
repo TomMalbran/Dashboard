@@ -47,8 +47,17 @@ function Initializer(props) {
  * @typedef {Object} propTypes
  */
 Initializer.propTypes = {
-    actions : PropTypes.array.isRequired,
-    params  : PropTypes.object.isRequired,
+    actions : PropTypes.array,
+    params  : PropTypes.object,
+};
+
+/**
+ * The Default Properties
+ * @type {Object} defaultProps
+ */
+Initializer.defaultProps = {
+    actions : [],
+    params  : {},
 };
 
 export default Initializer;

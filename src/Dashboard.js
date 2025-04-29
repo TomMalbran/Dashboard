@@ -20,6 +20,8 @@ import Tooltip              from "./Components/Core/Tooltip";
 function Dashboard(props) {
     const { store, children } = props;
 
+
+    // Do the Render
     return <BrowserRouter basename={process.env.REACT_APP_BASEURL}>
         <Store.Provider config={store}>
             <Initializer {...props} />
@@ -36,8 +38,8 @@ function Dashboard(props) {
  */
 Dashboard.propTypes = {
     store    : PropTypes.object.isRequired,
-    actions  : PropTypes.array.isRequired,
-    params   : PropTypes.object.isRequired,
+    actions  : PropTypes.array,
+    params   : PropTypes.object,
     children : PropTypes.any,
 };
 
