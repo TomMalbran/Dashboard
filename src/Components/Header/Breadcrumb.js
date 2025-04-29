@@ -51,7 +51,7 @@ const Link = Styled(HyperLink)`
         left: 0;
         border-style: solid;
         border-width: 8px 0 8px 8px;
-        border-color: transparent transparent transparent #fff;
+        border-color: transparent transparent transparent var(--content-color);
         transition: all 0.2s ease-in-out;
     }
     &::after {
