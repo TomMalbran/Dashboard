@@ -23,12 +23,12 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function SubNavigationList(props) {
-    const { className, variant, onAction, onClose, children } = props;
+    const { className, onAction, onClose, children } = props;
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
-        variant, onAction, onClose,
+        onAction, onClose,
     }));
 
 
@@ -44,7 +44,6 @@ function SubNavigationList(props) {
  */
 SubNavigationList.propTypes = {
     className : PropTypes.string,
-    variant   : PropTypes.string,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,

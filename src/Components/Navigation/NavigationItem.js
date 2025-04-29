@@ -25,30 +25,23 @@ const Content = Styled.div`
     }
 `;
 
-const NavMenu = Styled(MenuLink).attrs(({ variant }) => ({ variant }))`
-    ${(props) => props.variant === Brightness.LIGHT && `
-        --link-color: var(--navigation-color, var(--title-color));
-        --link-background: var(--navigation-hover, rgba(0, 0, 0, 0.1));
-        --link-selected-bg: var(--navigation-selected-bg, rgba(0, 0, 0, 0.1));
-        --link-selected-color: var(--navigation-selected-color, var(--link-color));
-    `}
+const NavMenu = Styled(MenuLink)`
+    --link-color: var(--navigation-color, var(--title-color));
+    --link-hover: var(--navigation-hover-color, var(--title-color));
+    --link-background: var(--navigation-hover, rgba(0, 0, 0, 0.1));
+    --link-selected-bg: var(--navigation-selected-bg, rgba(0, 0, 0, 0.1));
+    --link-selected-color: var(--navigation-selected-color, var(--link-color));
 `;
 
-const NavActions = Styled.div.attrs(({ variant }) => ({ variant }))`
+const NavActions = Styled.div`
     display: none;
     justify-content: center;
     position: absolute;
     top: 50%;
     right: 4px;
+    background-color: var(--navigation-hover, rgba(0, 0, 0, 0.1));
     border-radius: var(--border-radius);
     transform: translateY(-50%);
-
-    ${(props) => props.variant === Brightness.DARK && `
-        background-color: var(--primary-color);
-    `}
-    ${(props) => props.variant === Brightness.LIGHT && `
-        background-color: var(--navigation-hover, rgba(0, 0, 0, 0.1));
-    `}
 
     .icon {
         padding: 2px;
@@ -61,15 +54,6 @@ const NavIcon = Styled(Icon)`
     cursor: pointer;
 `;
 
-const NavAmount = Styled.span`
-    position: absolute;
-    top: 50%;
-    right: 4px;
-    transform: translateY(-50%);
-    padding: 4px;
-    font-size: 1.2em;
-`;
-
 
 
 /**
@@ -79,13 +63,14 @@ const NavAmount = Styled.span`
  */
 function NavigationItem(props) {
     const {
-        variant, className, message, html, url, href, icon,
-        elemID, isSelected, isDisabled, onAction, onClick, onClose, noClose, amount,
+        className, message, html, url, href, icon, amount, badge,
+        elemID, isSelected, isDisabled, onAction, onClick, onClose, noClose,
         canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
     const isSelect      = Navigate.useSelect();
     const { closeMenu } = Store.useAction("core");
+
 
     // Returns true if the Menu should be selected
     const shouldSelect = () => {
@@ -125,18 +110,18 @@ function NavigationItem(props) {
         e.preventDefault();
     };
 
-    // Handle the variables
+
+    // Variables
     const hasActions   = canEdit || canDelete || canCollapse || collapseOnSelect;
     const selected     = shouldSelect();
     const showChildren = collapseOnSelect ? selected : (canCollapse ? !isCollapsed : true);
-    const items        = Utils.cloneChildren(children, () => ({ variant }));
     const menuUrl      = Navigate.useMenuUrl(url || "");
 
 
     return <li>
         <Content>
             <NavMenu
-                variant={variant}
+                variant="light"
                 className={className}
                 isSelected={selected}
                 isDisabled={isDisabled}
@@ -145,9 +130,11 @@ function NavigationItem(props) {
                 href={url ? menuUrl : href}
                 onClick={handleClick}
                 icon={icon}
+                amount={amount}
+                badge={badge}
             />
-            {amount !== undefined && <NavAmount>{amount}</NavAmount>}
-            {hasActions && <NavActions className="nav-actions" variant={variant}>
+
+            {hasActions && <NavActions className="nav-actions">
                 {canCollapse && <NavIcon
                     icon={isCollapsed ? "closed" : "open"}
                     onClick={(e) => handleAction(e, "COLLAPSE")}
@@ -166,7 +153,7 @@ function NavigationItem(props) {
                 />}
             </NavActions>}
         </Content>
-        {showChildren && items}
+        {showChildren && children}
     </li>;
 }
 
@@ -183,12 +170,13 @@ NavigationItem.propTypes = {
     url              : PropTypes.string,
     href             : PropTypes.string,
     icon             : PropTypes.string,
+    amount           : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge            : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     elemID           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onClick          : PropTypes.func,
     onAction         : PropTypes.func,
     onClose          : PropTypes.func,
     noClose          : PropTypes.bool,
-    amount           : PropTypes.number,
     canEdit          : PropTypes.bool,
     canDelete        : PropTypes.bool,
     canCollapse      : PropTypes.bool,

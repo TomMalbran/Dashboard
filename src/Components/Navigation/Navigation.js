@@ -3,14 +3,16 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import { Brightness }       from "../../Core/Variants";
-import Utils                from "../../Utils/Utils";
 import Responsive           from "../../Core/Responsive";
+
+// Components
+import NavigationTitle      from "./NavigationTitle";
+import NavigationBody       from "./NavigationBody";
 
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.nav.attrs(({ isSmall }) => ({ isSmall }))`
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
@@ -22,10 +24,7 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
     color: var(--navigation-color, --font-light);
     background-color: var(--navigation-background);
 
-    ${(props) => props.variant === Brightness.DARK && `
-        color: white;
-        background-color: var(--secondary-color);
-    `}
+    ${(props) => props.isSmall && "width: var(--navigation-width-small);"}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: none;
@@ -48,21 +47,38 @@ const Nav = Styled.nav.attrs(({ variant }) => ({ variant }))`
  */
 function Navigation(props) {
     const {
-        className, variant, none, add, isLoading,
-        canAdd, canEdit, canManage, onAction, children,
+        className, message, fallback, icon, href, noBack,
+        canAdd, canEdit, canManage, onAction, isSmall,
+        none, add, isLoading, children,
     } = props;
 
 
-    // Clone the Children
-    const items = Utils.cloneChildren(children, () => ({
-        variant, none, add, isLoading, canAdd, canEdit, canManage, onAction,
-    }));
-
-
     // Do the Render
-    return <Nav className={`navigation ${className}`} variant={variant}>
-        {items}
-    </Nav>;
+    return <Container
+        className={`navigation ${className}`}
+        isSmall={isSmall}
+    >
+        <NavigationTitle
+            message={message}
+            fallback={fallback}
+            icon={icon}
+            href={href}
+            noBack={noBack}
+            canAdd={canAdd}
+            canEdit={canEdit}
+            canManage={canManage}
+            onAction={onAction}
+        />
+        <NavigationBody
+            isLoading={isLoading}
+            canAdd={canAdd}
+            add={add}
+            none={none}
+            onAction={onAction}
+        >
+            {children}
+        </NavigationBody>
+    </Container>;
 }
 
 /**
@@ -70,12 +86,16 @@ function Navigation(props) {
  * @type {Object} propTypes
  */
 Navigation.propTypes = {
-    variant   : PropTypes.string.isRequired,
     className : PropTypes.string,
+    message   : PropTypes.string,
+    icon      : PropTypes.string,
+    fallback  : PropTypes.string,
+    href      : PropTypes.string,
     none      : PropTypes.string,
     add       : PropTypes.string,
     isLoading : PropTypes.bool,
     onAction  : PropTypes.func,
+    noBack    : PropTypes.bool,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
@@ -90,6 +110,7 @@ Navigation.defaultProps = {
     className : "",
     none      : "",
     add       : "",
+    noBack    : false,
     isLoading : false,
     canAdd    : false,
     canEdit   : false,

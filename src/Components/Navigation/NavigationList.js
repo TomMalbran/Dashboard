@@ -10,7 +10,7 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Ul = Styled.ul`
+const Container = Styled.ul`
     margin: 0;
     padding: 0;
     list-style: none;
@@ -20,17 +20,11 @@ const Ul = Styled.ul`
     }
 `;
 
-const Li = Styled.li.attrs(({ variant }) => ({ variant }))`
+const Title = Styled.li`
     font-size: 16px;
     padding: 4px;
     margin-bottom: 8px;
-
-    ${(props) => props.variant === Brightness.DARK && `
-        border-bottom: 2px solid var(--primary-color);
-    `}
-    ${(props) => props.variant === Brightness.LIGHT && `
-        border-bottom: 2px solid var(--darker-gray);
-    `}
+    border-bottom: 2px solid var(--darker-gray);
 `;
 
 
@@ -41,20 +35,22 @@ const Li = Styled.li.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { className, message, variant, onAction, onClose, children } = props;
+    const { className, message, onAction, onClose, children } = props;
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
-        variant, onAction, onClose,
+        onAction, onClose,
     }));
 
 
     // Do the Render
-    return <Ul className={className}>
-        {!!message && <Li variant={variant}>{NLS.get(message)}</Li>}
+    return <Container className={className}>
+        {!!message && <Title>
+            {NLS.get(message)}
+        </Title>}
         {items}
-    </Ul>;
+    </Container>;
 }
 
 /**

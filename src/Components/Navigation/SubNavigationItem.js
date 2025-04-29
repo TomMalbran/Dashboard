@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 
 // Components
@@ -11,16 +12,13 @@ import MenuLink             from "../Link/MenuLink";
 
 
 // Styles
-const Li = Styled.li.attrs(({ topBorder }) => ({ topBorder }))`
-    ${(props) => props.topBorder && `
-        border-top: 1px solid var(--border-color-dark);
-        padding-top: 4px;
-        margin-top: 4px;
-    `}
-`;
+const NavMenu = Styled(MenuLink)`
+    --link-color: var(--navigation-color, var(--title-color));
+    --link-background: var(--navigation-hover, rgba(0, 0, 0, 0.1));
+    --link-selected-bg: var(--navigation-selected-bg, rgba(0, 0, 0, 0.1));
+    --link-selected-color: var(--navigation-selected-color, var(--link-color));
 
-const NavigationLink = Styled(MenuLink)`
-    padding: 4px;
+    padding: 5px 8px;
     font-size: 13px;
 
     & > .link-preicon {
@@ -42,10 +40,17 @@ const NavigationLink = Styled(MenuLink)`
  * @returns {React.ReactElement}
  */
 function SubNavigationItem(props) {
-    const { variant, action, isSelected, message, icon, afterIcon, topBorder, onAction, onClick, onClose, children } = props;
+    const {
+        action, isSelected, message, icon, iconColor, afterIcon,
+        amount, badge, onAction, onClick, onClose, children,
+    } = props;
+
+
+    // Variables
     const act = Action.get(action);
     const icn = icon    || act.icon;
     const cnt = message || act.message;
+
 
     // Handles the Click
     const handleClick = (e) => {
@@ -61,17 +66,22 @@ function SubNavigationItem(props) {
         e.stopPropagation();
     };
 
-    return <Li topBorder={topBorder}>
-        <NavigationLink
-            variant={variant}
+
+    // Do the Render
+    return <li>
+        <NavMenu
+            variant="light"
             isSelected={isSelected}
             message={cnt}
             icon={icn}
+            iconColor={iconColor}
             afterIcon={afterIcon}
             onClick={handleClick}
+            amount={amount}
+            badge={badge}
         />
         {children}
-    </Li>;
+    </li>;
 }
 
 /**
@@ -80,12 +90,13 @@ function SubNavigationItem(props) {
  */
 SubNavigationItem.propTypes = {
     isHidden   : PropTypes.bool,
-    variant    : PropTypes.string,
     action     : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     icon       : PropTypes.string,
+    iconColor  : PropTypes.string,
     afterIcon  : PropTypes.string,
-    topBorder  : PropTypes.bool,
+    amount     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     onAction   : PropTypes.func,
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
@@ -99,7 +110,6 @@ SubNavigationItem.propTypes = {
  */
 SubNavigationItem.defaultProps = {
     isHidden   : false,
-    topBorder  : false,
     isSelected : false,
 };
 

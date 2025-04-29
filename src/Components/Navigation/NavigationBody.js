@@ -21,7 +21,7 @@ const Nav = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: ${(props) => props.withSpacing && "0 12px 16px"};
+    padding: ${(props) => props.withSpacing && "0 12px 16px 6px"};
     overflow: auto;
 `;
 
@@ -76,7 +76,7 @@ function NavigationBody(props) {
     }
 
 
-    // Do the Render
+    // Variables
     const showLoader  = isLoading;
     const showNone    = Boolean(!isLoading && !items.length && none);
     const showAdd     = Boolean(showNone && canAdd && add);
@@ -84,7 +84,12 @@ function NavigationBody(props) {
     const compVariant = variant === Brightness.DARK ? "white" : "primary";
     const scrollbars  = variant === Brightness.DARK ? "dark-scrollbars" : "light-scrollbars";
 
-    return <Nav className={`${scrollbars} ${className}`} withSpacing={withSpacing}>
+
+    // Do the Render
+    return <Nav
+        className={`${scrollbars} ${className}`}
+        withSpacing={withSpacing}
+    >
         {showLoader && <CircularLoader variant={compVariant} />}
         {showNone   && <div>
             <None variant={compVariant} message={none} />

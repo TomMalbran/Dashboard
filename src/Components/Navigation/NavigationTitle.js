@@ -15,22 +15,16 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.header.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.header`
+    --navtitle-color: var(--title-color);
+    --navsubtitle-color: var(--subtitle-color);
+
     box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 4px;
     min-height: var(--header-height);
     padding: var(--navigation-title-padding, 12px 12px 10px 8px);
-
-    ${(props) => props.variant === Brightness.DARK && `
-        --navtitle-color: white;
-        --navsubtitle-color: var(--darker-gray);
-    `}
-    ${(props) => props.variant === Brightness.LIGHT && `
-        --navtitle-color: var(--title-color);
-        --navsubtitle-color: var(--subtitle-color);
-    `}
 `;
 
 const HeaderIcon = Styled(Icon)`
@@ -49,7 +43,7 @@ const Title = Styled.h2`
     flex-direction: column;
     margin: 0;
     font-family: var(--title-font);
-    font-size: 22px;
+    font-size: var(--title-font-size);
     font-weight: var(--title-font-weight);
     line-height: 1.2;
     letter-spacing: var(--title-letter-spacing);
@@ -96,11 +90,10 @@ function NavigationTitle(props) {
 
 
     // Do the Render
-    return <Container className={className} variant={variant}>
+    return <Container className={className}>
         {!!icon && <HeaderIcon icon={icon} />}
         <IconLink
             isHidden={!!icon || noBack}
-            variant={variant}
             icon="back"
             href={onClick ? null : (href || parent)}
             onClick={onClick}
@@ -142,16 +135,16 @@ function NavigationTitle(props) {
 NavigationTitle.propTypes = {
     className : PropTypes.string,
     variant   : PropTypes.string,
-    icon      : PropTypes.string,
-    href      : PropTypes.string,
     message   : PropTypes.string,
     fallback  : PropTypes.string,
+    icon      : PropTypes.string,
+    href      : PropTypes.string,
     noBack    : PropTypes.bool,
-    onAction  : PropTypes.func,
     onClick   : PropTypes.func,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
+    onAction  : PropTypes.func,
 };
 
 /**
