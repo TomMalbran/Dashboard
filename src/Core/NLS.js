@@ -12,13 +12,13 @@ let actionData    = {};
 
 /**
  * Initialize a Language
- * @param {String} lang
- * @param {Object} strings
- * @param {Object} urls
- * @param {Object} actions
+ * @param {String}  lang
+ * @param {Object=} strings
+ * @param {Object=} urls
+ * @param {Object=} actions
  * @returns {Void}
  */
-function initLang(lang, strings, urls, actions) {
+function initLang(lang, strings = {}, urls = {}, actions = {}) {
     langsData[lang] = { strings, urls, actions };
     if (!defaultLang) {
         defaultLang = lang;
@@ -62,8 +62,8 @@ function setLang(langCode) {
 function loadLang(key) {
     const langNoRegion    = language.toLowerCase().split(/[_-]+/)[0];
     const data            = langsData[langNoRegion] || langsData[language] || langsData[defaultLang];
-    const messages        = data[key];
-    const defaultMessages = langsData[defaultLang][key];
+    const messages        = data?.[key] || {};
+    const defaultMessages = langsData[defaultLang]?.[key] || {};
 
     for (const key of Object.keys(defaultMessages)) {
         if (!messages[key]) {
