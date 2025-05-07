@@ -37,17 +37,14 @@ const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
 `;
 
 const CheckCell = Styled.th`
-    padding-top: 0 !important;
+    padding: 0 0 0 8px;
     background: var(--table-background);
     border-top-left-radius: var(--table-radius-outer);
     border-bottom-left-radius: var(--table-radius-inner);
-
-    span {
-        margin-top: -2px;
-    }
 `;
 
 const EditCell = Styled.th`
+    padding: 0 8px;
     background: var(--table-background);
     border-top-right-radius: var(--table-radius-outer);
     border-bottom-right-radius: var(--table-radius-inner);
