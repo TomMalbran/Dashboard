@@ -18,7 +18,7 @@ import Icon                 from "../Common/Icon";
 // Styles
 const Content = Styled.div`
     position: relative;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 
     &:hover > .nav-actions {
         display: flex;
