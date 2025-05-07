@@ -15,7 +15,7 @@ import Icon                 from "../Common/Icon";
 // Styles
 const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark }) => ({ variant, isDisabled, isSmall, isTiny, withMark }))`
     --link-size: 32px;
-    --link-font: 22px;
+    --link-font: 20px;
     --link-radius: var(--border-radius);
 
     ${(props) => props.isSmall && `
