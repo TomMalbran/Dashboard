@@ -1,4 +1,5 @@
 import React                from "react";
+import Utils                from "../Utils/Utils";
 
 
 
@@ -193,10 +194,11 @@ const ACTIONS = {
  */
 function init(actions) {
     for (const { name, icon, message } of actions) {
-        const isName = `is${name[0]}${name.toLocaleLowerCase().substr(1)}`;
+        const isName = `is${Utils.upperCaseToPascalCase(name)}`;
         for (const action of Object.values(ACTIONS)) {
             action[isName] = false;
         }
+
         ACTIONS[name]   = create(name, icon, message);
         OPTIONS[isName] = false;
     }
@@ -210,7 +212,7 @@ function init(actions) {
  * @returns {Object}
  */
 function create(name, icon = "", message = "") {
-    const isName = `is${name[0]}${name.toLocaleLowerCase().substr(1)}`;
+    const isName = `is${Utils.upperCaseToPascalCase(name)}`;
     return {
         ...OPTIONS,
         name, icon, message,

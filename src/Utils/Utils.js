@@ -138,6 +138,8 @@ function mapValue(value, fromLow, fromHigh, toLow, toHigh) {
     return tmpValue + toLow;
 }
 
+
+
 /**
  * Returns the Bounds of the given Ref
  * @param {React.RefObject<HTMLElement>} ref
@@ -267,14 +269,6 @@ function unselectAll() {
 }
 
 /**
- * Returns the Current Time
- * @returns {Number}
- */
-function getCurrentTime() {
-    return Math.floor(new Date().getTime() / 1000);
-}
-
-/**
  * Scrolls the Selector into View
  * @param {String}  selector
  * @param {String=} block
@@ -295,6 +289,14 @@ function scrollIntoView(selector, block, inline = "center", behavior = "smooth")
 }
 
 
+
+/**
+ * Returns the Current Time
+ * @returns {Number}
+ */
+function getCurrentTime() {
+    return Math.floor(new Date().getTime() / 1000);
+}
 
 /**
  * A Hook to automatically update the data
@@ -437,6 +439,30 @@ function createSlug(value) {
     result = result.replace(/-+/g, "-");
 
     return result;
+}
+
+/**
+ * Converts an UPPER_CASE string to camelCase
+ * @param {String} value
+ * @returns {String}
+ */
+function upperCaseToCamelCase(value) {
+    return value.toLowerCase().replace(/_([a-z])/g, function (match, letter) {
+        return letter.toUpperCase();
+    });
+}
+
+/**
+ * Converts an UPPER_CASE string to PascalCase
+ * @param {String} value
+ * @returns {String}
+ */
+function upperCaseToPascalCase(value) {
+    if (!value) {
+        return "";
+    }
+    const result = upperCaseToCamelCase(value);
+    return result[0].toUpperCase() + result.slice(1);
 }
 
 /**
@@ -1411,6 +1437,7 @@ export default {
     round,
     clamp,
     mapValue,
+
     triggerClick,
     getBounds,
     inBounds,
@@ -1420,9 +1447,9 @@ export default {
     formatText,
     hasSelection,
     unselectAll,
-    getCurrentTime,
     scrollIntoView,
 
+    getCurrentTime,
     useAutoUpdate,
     setTimeout,
     setUpdateTimeout,
@@ -1433,6 +1460,8 @@ export default {
     makeShort,
     makeBreakable,
     createSlug,
+    upperCaseToCamelCase,
+    upperCaseToPascalCase,
     formatNumber,
     formatPercent,
     formatPrice,
