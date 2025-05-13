@@ -9,6 +9,7 @@ const CHECKBOX = "checkbox";
 const CHOOSER  = "chooser";
 const COLOR    = "color";
 const DOUBLE   = "double";
+const EMOJI    = "emoji";
 const FIELDS   = "fields";
 const FILE     = "file";
 const LIST     = "list";
@@ -116,6 +117,7 @@ export default {
     CHOOSER,
     COLOR,
     DOUBLE,
+    EMOJI,
     FIELDS,
     FILE,
     LIST,
