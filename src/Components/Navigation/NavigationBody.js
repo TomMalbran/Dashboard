@@ -16,13 +16,11 @@ import Button               from "../Form/Button";
 
 
 // Styles
-const Nav = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
-    flex: 1;
+const Container = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: ${(props) => props.withSpacing && "0 12px 16px 6px"};
-    overflow: auto;
 `;
 
 const None = Styled(NoneAvailable)`
@@ -86,8 +84,8 @@ function NavigationBody(props) {
 
 
     // Do the Render
-    return <Nav
-        className={`${scrollbars} ${className}`}
+    return <Container
+        className={`navigation-body ${scrollbars} ${className}`}
         withSpacing={withSpacing}
     >
         {showLoader && <CircularLoader variant={compVariant} />}
@@ -102,7 +100,7 @@ function NavigationBody(props) {
             />}
         </div>}
         {showItems  && (addList ? <Ul>{items}</Ul> : items)}
-    </Nav>;
+    </Container>;
 }
 
 /**

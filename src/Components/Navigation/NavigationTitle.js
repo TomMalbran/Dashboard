@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
@@ -16,15 +15,16 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Container = Styled.header`
-    --navtitle-color: var(--title-color);
-    --navsubtitle-color: var(--subtitle-color);
-
     box-sizing: border-box;
+    position: sticky;
+    top: 0;
     display: flex;
     align-items: center;
     gap: 4px;
     min-height: var(--header-height);
     padding: var(--navigation-title-padding, 12px 12px 10px 8px);
+    background-color: var(--navigation-background);
+    z-index: 1;
 `;
 
 const HeaderIcon = Styled(Icon)`
@@ -34,7 +34,7 @@ const HeaderIcon = Styled(Icon)`
     width: 24px;
     height: 24px;
     font-size: 20px;
-    color: var(--navtitle-color);
+    color: var(--navigation-title-color, var(--title-color));
 `;
 
 const Title = Styled.h2`
@@ -47,7 +47,7 @@ const Title = Styled.h2`
     font-weight: var(--title-font-weight);
     line-height: 1.2;
     letter-spacing: var(--title-letter-spacing);
-    color: var(--navtitle-color);
+    color: var(--navigation-title-color, var(--title-color));
 `;
 
 const Span1 = Styled.span`
@@ -55,12 +55,13 @@ const Span1 = Styled.span`
     font-family: var(--main-font);
     font-size: 14px;
     font-weight: 400;
-    color: var(--navsubtitle-color);
+    color: var(--navigation-subtitle-color, var(--subtitle-color));
 `;
+
 const Span2 = Styled.span`
     display: block;
     font-size: 18px;
-    color: var(--navtitle-color);
+    color: var(--navigation-title-color, var(--title-color));
 `;
 
 
@@ -72,7 +73,7 @@ const Span2 = Styled.span`
  */
 function NavigationTitle(props) {
     const {
-        className, variant, icon, href, message, fallback,
+        className, icon, href, message, fallback,
         onClick, noBack, onAction, canAdd, canEdit, canManage,
     } = props;
 
@@ -90,7 +91,7 @@ function NavigationTitle(props) {
 
 
     // Do the Render
-    return <Container className={className}>
+    return <Container className={`navigation-title ${className}`}>
         {!!icon && <HeaderIcon icon={icon} />}
         <IconLink
             isHidden={!!icon || noBack}
@@ -108,19 +109,16 @@ function NavigationTitle(props) {
         </Title>
 
         {canAdd && <IconLink
-            variant={variant}
             icon="add"
             onClick={(e) => handleAction(e, "ADD")}
             isSmall
         />}
         {canEdit && <IconLink
-            variant={variant}
             icon="edit"
             onClick={(e) => handleAction(e, "EDIT")}
             isSmall
         />}
         {canManage && <IconLink
-            variant={variant}
             icon="settings"
             onClick={(e) => handleAction(e, "MANAGE")}
             isSmall
@@ -134,17 +132,16 @@ function NavigationTitle(props) {
  */
 NavigationTitle.propTypes = {
     className : PropTypes.string,
-    variant   : PropTypes.string,
-    message   : PropTypes.string,
-    fallback  : PropTypes.string,
     icon      : PropTypes.string,
     href      : PropTypes.string,
+    message   : PropTypes.string,
+    fallback  : PropTypes.string,
     noBack    : PropTypes.bool,
+    onAction  : PropTypes.func,
     onClick   : PropTypes.func,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
-    onAction  : PropTypes.func,
 };
 
 /**
@@ -153,7 +150,6 @@ NavigationTitle.propTypes = {
  */
 NavigationTitle.defaultProps = {
     className : "",
-    variant   : Brightness.DARK,
     icon      : "",
     href      : "",
     noBack    : false,

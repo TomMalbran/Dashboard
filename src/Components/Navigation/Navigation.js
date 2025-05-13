@@ -12,7 +12,7 @@ import NavigationBody       from "./NavigationBody";
 
 
 // Styles
-const Container = Styled.nav.attrs(({ isSmall }) => ({ isSmall }))`
+const Container = Styled.nav.attrs(({ hasScroll }) => ({ hasScroll }))`
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
@@ -23,8 +23,14 @@ const Container = Styled.nav.attrs(({ isSmall }) => ({ isSmall }))`
     font-size: var(--navigation-font-size, var(--font-size));
     color: var(--navigation-color, --font-light);
     background-color: var(--navigation-background);
+    overflow: auto;
 
-    ${(props) => props.isSmall && "width: var(--navigation-width-small);"}
+    ${(props) => props.hasScroll && `
+        .navigation-title,
+        .navigation-body {
+            padding-right: 0;
+        }
+    `}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: none;
@@ -47,23 +53,47 @@ const Container = Styled.nav.attrs(({ isSmall }) => ({ isSmall }))`
  */
 function Navigation(props) {
     const {
-        className, message, fallback, icon, href, noBack,
-        canAdd, canEdit, canManage, onAction, isSmall,
+        className, message, fallback, icon, href,
+        canAdd, canEdit, canManage, onAction,
         none, add, isLoading, children,
     } = props;
+
+    // The References
+    const navigationRef = React.useRef(null);
+
+    // The Current State
+    const [ hasScroll, setHasScroll ] = React.useState(false);
+
+
+    // Check if the Container should scroll
+    React.useEffect(() => {
+        const container = navigationRef.current;
+        setHasScroll(container.scrollHeight > container.clientHeight);
+
+        const observer = new ResizeObserver(([ entry ]) => {
+            if (container && entry.target.classList.contains("navigation")) {
+                setHasScroll(container.scrollHeight > container.clientHeight);
+            }
+        });
+
+        observer.observe(navigationRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [ navigationRef.current ]);
 
 
     // Do the Render
     return <Container
+        ref={navigationRef}
         className={`navigation ${className}`}
-        isSmall={isSmall}
+        hasScroll={hasScroll}
     >
         <NavigationTitle
             message={message}
             fallback={fallback}
             icon={icon}
             href={href}
-            noBack={noBack}
             canAdd={canAdd}
             canEdit={canEdit}
             canManage={canManage}
@@ -88,17 +118,16 @@ function Navigation(props) {
 Navigation.propTypes = {
     className : PropTypes.string,
     message   : PropTypes.string,
-    icon      : PropTypes.string,
     fallback  : PropTypes.string,
+    icon      : PropTypes.string,
     href      : PropTypes.string,
     none      : PropTypes.string,
     add       : PropTypes.string,
     isLoading : PropTypes.bool,
-    onAction  : PropTypes.func,
-    noBack    : PropTypes.bool,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
+    onAction  : PropTypes.func,
     children  : PropTypes.any,
 };
 
@@ -108,9 +137,9 @@ Navigation.propTypes = {
  */
 Navigation.defaultProps = {
     className : "",
+    href      : "/",
     none      : "",
     add       : "",
-    noBack    : false,
     isLoading : false,
     canAdd    : false,
     canEdit   : false,
