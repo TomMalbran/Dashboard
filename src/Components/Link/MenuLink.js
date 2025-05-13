@@ -121,6 +121,12 @@ const Content = Styled.div`
     flex: 1;
 `;
 
+const Emoji = Styled.div`
+    font-size: 1.4em;
+    line-height: 1em;
+    margin-right: 8px;
+`;
+
 const Amount = Styled.span`
     box-sizing: border-box;
     min-width: 14px;
@@ -155,7 +161,7 @@ const Components = {
 function MenuLink(props) {
     const {
         passedRef, variant, className, isSelected, isDisabled,
-        target, message, html, icon, iconColor, afterIcon, amount, badge,
+        target, message, emoji, html, icon, iconColor, afterIcon, amount, badge,
         onMouseEnter, onMouseLeave, children,
     } = props;
 
@@ -185,6 +191,9 @@ function MenuLink(props) {
                 icon={icon}
                 color={iconColor}
             />}
+            {!!emoji && <Emoji className="link-emoji">
+                {emoji}
+            </Emoji>}
             {!!html && <Html
                 className="link-content"
                 variant="span"
@@ -214,6 +223,7 @@ MenuLink.propTypes = {
     className    : PropTypes.string,
     variant      : PropTypes.string,
     message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    emoji        : PropTypes.string,
     icon         : PropTypes.string,
     iconColor    : PropTypes.string,
     afterIcon    : PropTypes.string,

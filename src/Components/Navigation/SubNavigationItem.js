@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 
 // Components
@@ -25,10 +24,8 @@ const NavMenu = Styled(MenuLink)`
         margin-right: 4px;
     }
     & > .link-aftericon {
-        position: absolute;
-        top: 50%;
-        right: 4px;
-        transform: translateY(-50%);
+        margin-left: 0;
+        margin-right: -4px;
     }
 `;
 
@@ -41,7 +38,7 @@ const NavMenu = Styled(MenuLink)`
  */
 function SubNavigationItem(props) {
     const {
-        action, isSelected, message, icon, iconColor, afterIcon,
+        action, isSelected, message, emoji, icon, iconColor, afterIcon,
         amount, badge, onAction, onClick, onClose, children,
     } = props;
 
@@ -73,6 +70,7 @@ function SubNavigationItem(props) {
             variant="light"
             isSelected={isSelected}
             message={cnt}
+            emoji={emoji}
             icon={icn}
             iconColor={iconColor}
             afterIcon={afterIcon}
@@ -92,6 +90,7 @@ SubNavigationItem.propTypes = {
     isHidden   : PropTypes.bool,
     action     : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    emoji      : PropTypes.string,
     icon       : PropTypes.string,
     iconColor  : PropTypes.string,
     afterIcon  : PropTypes.string,
