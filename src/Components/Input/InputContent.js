@@ -150,6 +150,7 @@ function InputContent(props) {
         {!!postIcon && <PostInputIcon icon={postIcon} size="16" />}
 
         {hasClear && <InputClear
+            className="input-clear"
             variant="black"
             icon="close"
             onClick={onClear}
