@@ -115,6 +115,12 @@ const OutlinedLink = Styled(Link)`
     ${(props) => props.isSelected && "border-color: white;"}
 `;
 
+const Content = Styled.div`
+    display: flex;
+    align-items: center;
+    flex: 1;
+`;
+
 const Amount = Styled.span`
     box-sizing: border-box;
     min-width: 14px;
@@ -124,6 +130,11 @@ const Amount = Styled.span`
     line-height: 14px;
     border-radius: var(--border-radius-small);
     background-color: rgba(0, 0, 0, 0.07);
+`;
+
+const MenuBadge = Styled(Badge)`
+    top: 0;
+    right: 0;
 `;
 
 // Components
@@ -168,29 +179,30 @@ function MenuLink(props) {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >
-        {!!icon && <Icon
-            className="link-preicon"
-            icon={icon}
-            color={iconColor}
-        />}
-        {!!html && <Html
-            className="link-content"
-            variant="span"
-            content={html}
-        />}
-        {hasContent && <span className="link-content">
-            {content}
-        </span>}
+        <Content>
+            {!!icon && <Icon
+                className="link-preicon"
+                icon={icon}
+                color={iconColor}
+            />}
+            {!!html && <Html
+                className="link-content"
+                variant="span"
+                content={html}
+            />}
+            {hasContent && <span className="link-content">
+                {content}
+            </span>}
+            {hasAmount && <Amount className="link-amount">
+                {amount}
+            </Amount>}
+        </Content>
 
         {!!afterIcon && <Icon
             className="link-aftericon"
             icon={afterIcon}
         />}
-
-        {hasAmount && <Amount className="link-amount">
-            {amount}
-        </Amount>}
-        <Badge value={badge} />
+        <MenuBadge value={badge} />
     </Component>;
 }
 
