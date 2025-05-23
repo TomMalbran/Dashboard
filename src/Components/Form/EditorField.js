@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 import { Editor }           from "@tinymce/tinymce-react";
 
 // Core
+import NLS                  from "../../Core/NLS";
 import MediaType            from "../../Core/MediaType";
 
 // Components
@@ -39,7 +40,7 @@ function EditorField(props) {
     const {
         isHidden, name, value, helperText, error, height, maxHeight, language,
         clientID, contentStyle, menubar, menu,
-        onChange, onMedia, onSetup, isDisabled,
+        onChange, onMedia, onSetup, isDisabled, isSimple,
     } = props;
 
 
@@ -70,6 +71,25 @@ function EditorField(props) {
         onChange(name, newValue);
     };
 
+    // Handles the File Picker
+    const handlePicker = (callback, value, meta) => {
+        if (isSimple) {
+            return;
+        }
+        if (meta.fileType === "image") {
+            onMedia(MediaType.IMAGE, callback);
+        } else if (meta.fileType === "media") {
+            onMedia(MediaType.MEDIA, callback);
+        } else {
+            onMedia(MediaType.ANY, callback);
+        }
+    };
+
+
+    // Variables
+    const hasError      = Boolean(error);
+    const hasHelperText = !hasError && Boolean(helperText);
+
 
     // Do the Render
     if (isHidden || reloading) {
@@ -84,17 +104,19 @@ function EditorField(props) {
             tinymceScriptSrc={`${process.env.PUBLIC_URL}/tinymce/tinymce.min.js`}
             onEditorChange={handleChange}
             value={value}
-            disabled={isDisabled}
             init={{
                 document_base_url    : `${process.env.REACT_APP_FILES}${clientID}/`,
+                readonly             : isDisabled,
                 height               : height,
                 menu                 : menu,
                 language             : language,
                 resize               : false,
                 statusbar            : false,
                 convert_urls         : false,
-                menubar              : `edit insert view format table tools ${menubar}`,
-                toolbar              : `
+                menubar              : isSimple ? "" : `edit insert view format table tools ${menubar}`,
+                toolbar              : isSimple ? `
+                    undo redo | bold italic underline | link
+                ` : `
                     undo redo | blocks |
                     bold italic forecolor |
                     alignleft aligncenter alignright |
@@ -110,15 +132,7 @@ function EditorField(props) {
                     body { font-family:Inter,Lato,Helvetica,Arial,sans-serif; font-size:14px; max-width: 800px; padding: 0 24px; margin: 0 auto; }
                     ${contentStyle}
                 `,
-                file_picker_callback : (callback, value, meta) => {
-                    if (meta.fileType === "image") {
-                        onMedia(MediaType.IMAGE, callback);
-                    } else if (meta.fileType === "media") {
-                        onMedia(MediaType.MEDIA, callback);
-                    } else {
-                        onMedia(MediaType.ANY, callback);
-                    }
-                },
+                file_picker_callback : handlePicker,
                 setup                : (editor) => {
                     if (onSetup) {
                         onSetup(editor);
@@ -151,9 +165,10 @@ EditorField.propTypes = {
     menubar      : PropTypes.string,
     menu         : PropTypes.object,
     onChange     : PropTypes.func.isRequired,
-    onMedia      : PropTypes.func.isRequired,
+    onMedia      : PropTypes.func,
     onSetup      : PropTypes.func,
     isDisabled   : PropTypes.bool,
+    isSimple     : PropTypes.bool,
 };
 
 /**
@@ -169,6 +184,7 @@ EditorField.defaultProps = {
     contentStyle : "",
     menubar      : "",
     isDisabled   : false,
+    isSimple     : false,
 };
 
 export default EditorField;
