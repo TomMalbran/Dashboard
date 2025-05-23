@@ -103,7 +103,7 @@ function SuggestInput(props) {
 
         if (newSuggestions && Array.isArray(newSuggestions)) {
             selectedRef.current = 0;
-            const parsedSuggestions = Utils.parseSearchResult(newSuggestions, value, "title");
+            const parsedSuggestions = Utils.parseSearchResult(newSuggestions, value, "title", false);
             setSuggestions(parsedSuggestions);
         }
     };
@@ -325,7 +325,7 @@ function SuggestInput(props) {
             {showSuggestions && suggestions.map((elem, index) => <InputOption
                 key={index}
                 className={`input-suggestion-${index}`}
-                content={elem.title}
+                content={elem.text}
                 isSelected={selectedRef.current === index}
                 onMouseDown={(e) => handleSelect(e, elem.id, elem.title, elem)}
             />)}

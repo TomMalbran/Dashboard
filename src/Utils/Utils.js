@@ -1249,9 +1249,10 @@ function convertToSearch(text) {
  * @param {Object[]} list
  * @param {String}   filter
  * @param {String}   field
+ * @param {Boolean=} applyFilter
  * @returns {Object[]}
  */
-function parseSearchResult(list, filter, field) {
+function parseSearchResult(list, filter, field, applyFilter = true) {
     const search = convertToSearch(filter);
     const result = [];
 
@@ -1262,18 +1263,26 @@ function parseSearchResult(list, filter, field) {
 
         for (const part of parts) {
             const searchText = text.substring(text.indexOf(part));
-            if (convertToSearch(searchText).startsWith(search)) {
-                const pos = convertToSearch(text).indexOf(search, fromIndex);
-                result.push({
-                    ...item,
-                    text : `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length + 1)}</u>${text.substring(pos + search.length + 1)}`,
-                });
+            if (!applyFilter || convertToSearch(searchText).startsWith(search)) {
+                result.push({ ...item, text : underlineText(text, search, fromIndex) });
                 break;
             }
             fromIndex += part.length + 1;
         }
     }
     return result;
+}
+
+/**
+ * Underlines the Search Result
+ * @param {String}  text
+ * @param {String}  search
+ * @param {Number=} fromIndex
+ * @returns {String}
+ */
+function underlineText(text, search, fromIndex = 0) {
+    const pos = convertToSearch(text).indexOf(search, fromIndex);
+    return `${text.substring(0, pos)}<u>${text.substring(pos, pos + search.length)}</u>${text.substring(pos + search.length)}`;
 }
 
 /**
@@ -1510,6 +1519,7 @@ export default {
     generatePassword,
     convertToSearch,
     parseSearchResult,
+    underlineText,
     replaceSourceUrls,
     isEmojiOnly,
     isValidColor,
