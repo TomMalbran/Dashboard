@@ -5,8 +5,8 @@ import Styled               from "styled-components";
 // Core & Utils
 import NLS                  from "../../Core/NLS";
 import Responsive           from "../../Core/Responsive";
-import Utils                from "../../Utils/Utils";
 import KeyCode              from "../../Utils/KeyCode";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputField           from "../Form/InputField";
@@ -28,11 +28,11 @@ const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
     ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
-const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, isLeft, isRight, width }))`
+const Container = Styled.div.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, isLeft, isRight, width }))`
     box-sizing: border-box;
     position: absolute;
-    list-style: none;
-    margin: 0;
+    display: flex;
+    flex-direction: column;
     padding: 8px;
     transform: translateY(-26px);
     background-color: var(--white-color);
@@ -40,7 +40,6 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, 
     box-shadow: var(--box-shadow);
     max-width: calc(100vw - var(--main-padding) * 2);
     overflow-x: hidden;
-    overflow-y: auto;
     pointer-events: all;
 
     ${(props) => props.withPos && "transform: none;"}
@@ -49,22 +48,25 @@ const Ul = Styled.ul.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, 
     ${(props) => props.width && `width: ${props.width}px;`}
 `;
 
-const Li = Styled.li.attrs(({ atBottom }) => ({ atBottom }))`
-    position: sticky;
-    background-color: var(--white-color);
+const Content = Styled.ul`
+    flex-grow: 2;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+`;
 
-    ${(props) => props.atBottom  && `
-        bottom: -8px;
-        margin-top: 8px;
-        margin-bottom: -8px;
-        padding-bottom: 8px;
-    `}
-    ${(props) => !props.atBottom && `
-        top: -8px;
-        margin-top: -8px;
-        margin-bottom: 8px;
+const Search = Styled.div.attrs(({ atBottom }) => ({ atBottom }))`
+    ${(props) => props.atBottom && `
         padding-top: 8px;
     `}
+    ${(props) => !props.atBottom && `
+        padding-bottom: 8px;
+    `}
+`;
+
+const Empty = Styled.li`
+    padding: 8px;
 `;
 
 
@@ -79,22 +81,22 @@ function Menu(props) {
         containerRef, className, open, variant, direction, iconHeight,
         top, left, right, bottom, gap, width, maxHeight, targetRef,
         onAction, onClose, onMouseEnter, onMouseLeave,
-        withSearch, isSubmenu, children,
+        withSearch, emptyText, filterText, keyCode, isSubmenu, children,
     } = props;
 
 
     // The References
-    const contentRef = React.useRef();
+    const contentRef = React.useRef(null);
 
     // The Current State
     const [ boundWidth,  setBoundWidth  ] = React.useState(0);
     const [ boundHeight, setBoundHeight ] = React.useState(0);
-    const [ filter,      setFilter      ] = React.useState("");
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
+    const [ filter,      setFilter      ] = React.useState("");
     const [ trigger,     setTrigger     ] = React.useState(false);
 
 
-    // Clone the children
+    // Parse the Items
     const items = [];
     let   index = 0;
     for (const child of Utils.getChildren(children)) {
@@ -102,10 +104,11 @@ function Menu(props) {
         const titleMsg   = NLS.get(title || "");
         const contentMsg = NLS.get(message || act?.message || "");
         const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
+
         if (!isHidden && !isFiltered) {
             items.push(React.cloneElement(child, {
                 key : index,
-                index, selectedIdx, onAction, onClose,
+                index, selectedIdx, filter, onAction, onClose,
                 trigger, setTrigger,
             }));
             index += 1;
@@ -117,8 +120,26 @@ function Menu(props) {
     React.useEffect(() => {
         if (open) {
             setFilter("");
+            setSelectedIdx(0);
         }
     }, [ open ]);
+
+    // Set the custom filter
+    React.useEffect(() => {
+        if (!withSearch) {
+            setFilter(filterText);
+        }
+    }, [ filterText ]);
+
+    // Set the Key Code
+    React.useEffect(() => {
+        if (!withSearch) {
+            const newKeyCode = keyCode % 1000;
+            selectUsingKey(newKeyCode);
+            submitUsingKey(newKeyCode);
+        }
+    }, [ keyCode ]);
+
 
     // Save the Width and add the Close handler
     React.useEffect(() => {
@@ -152,32 +173,14 @@ function Menu(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        let newSelectedIdx = 0;
-
-        switch (e.keyCode) {
-        case KeyCode.DOM_VK_UP:
-        case KeyCode.DOM_VK_LEFT:
-            newSelectedIdx = (selectedIdx - 1) < 0 ? items.length - 1 : selectedIdx - 1;
-            setSelectedIdx(newSelectedIdx);
+        if (selectUsingKey(e.keyCode)) {
             e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_DOWN:
-        case KeyCode.DOM_VK_RIGHT:
-            newSelectedIdx = (selectedIdx + 1) % items.length;
-            setSelectedIdx(newSelectedIdx);
-            e.preventDefault();
-            break;
-
-        default:
         }
     };
 
     // Handles the Key Down
     const handleKeyUp = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_RETURN && selectedIdx >= 0) {
-            setTrigger(true);
-        }
+        submitUsingKey(e.keyCode);
         e.preventDefault();
     };
 
@@ -185,6 +188,87 @@ function Menu(props) {
     const handleClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
+    };
+
+
+    // Selects an item using the Key Code
+    const selectUsingKey = (keyCode) => {
+        let handled        = false;
+        let newSelectedIdx = 0;
+
+        switch (keyCode) {
+        case KeyCode.DOM_VK_UP:
+        case KeyCode.DOM_VK_LEFT:
+            newSelectedIdx = (selectedIdx - 1) < 0 ? items.length - 1 : selectedIdx - 1;
+            handled        = true;
+            break;
+
+        case KeyCode.DOM_VK_DOWN:
+        case KeyCode.DOM_VK_RIGHT:
+            newSelectedIdx = (selectedIdx + 1) % items.length;
+            handled        = true;
+            break;
+
+        case KeyCode.DOM_VK_HOME:
+            newSelectedIdx = 0;
+            handled        = true;
+            break;
+        case KeyCode.DOM_VK_END:
+            newSelectedIdx = items.length - 1;
+            handled        = true;
+            break;
+
+        case KeyCode.DOM_VK_PAGE_UP:
+            if (selectedIdx === 0) {
+                newSelectedIdx = items.length - 1;
+            } else if (selectedIdx - 5 < 0) {
+                newSelectedIdx = 0;
+            } else {
+                newSelectedIdx = selectedIdx - 5;
+            }
+            handled = true;
+            break;
+        case KeyCode.DOM_VK_PAGE_DOWN:
+            if (selectedIdx === items.length - 1) {
+                newSelectedIdx = 0;
+            } else if (selectedIdx + 5 >= items.length) {
+                newSelectedIdx = items.length - 1;
+            } else {
+                newSelectedIdx = selectedIdx + 5;
+            }
+            handled = true;
+            break;
+
+        case KeyCode.DOM_VK_ESCAPE:
+            onClose();
+            break;
+
+        default:
+        }
+
+        setSelectedIdx(newSelectedIdx);
+        scrollToIndex(newSelectedIdx);
+        return handled;
+    };
+
+    // Submits the selected item using the Key Code
+    const submitUsingKey = (keyCode) => {
+        if (keyCode === KeyCode.DOM_VK_RETURN && selectedIdx >= 0) {
+            setTrigger(true);
+        }
+    };
+
+    // Scrolls to the Index
+    const scrollToIndex = (index) => {
+        if (contentRef.current) {
+            const elem = contentRef.current.querySelector(`.menu-item-${index}`);
+            if (elem) {
+                elem.scrollIntoView({
+                    behavior : "instant",
+                    block    : "nearest",
+                });
+            }
+        }
     };
 
 
@@ -285,21 +369,25 @@ function Menu(props) {
 
 
     // Variables
-    const showSearch   = withSearch && (filter || items.length > 5) && winWidth > Responsive.WIDTH_FOR_MOBILE;
-    const bottomSearch = showSearch && forTop;
+    const showSearch       = withSearch && (filter || items.length > 5) && winWidth > Responsive.WIDTH_FOR_MOBILE;
+    const showTopSearch    = showSearch && !forTop;
+    const showBottomSearch = showSearch && forTop;
+    const showEmpty        = Boolean((showSearch || filterText) && !items.length && emptyText);
+    const showMenu         = Boolean(open && (items.length || showSearch || showEmpty));
 
 
     // Do the Render
-    if (!open) {
+    if (!showMenu) {
         return <React.Fragment />;
     }
+
     return <Backdrop
         isSubmenu={isSubmenu}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseDown={handleClose}
     >
-        <Ul
+        <Container
             ref={contentRef}
             className={`${className} light-scrollbars`}
             withPos={hasStyles}
@@ -309,8 +397,7 @@ function Menu(props) {
             onClick={handleClick}
             style={style}
         >
-            {bottomSearch && items}
-            {showSearch && <Li atBottom={bottomSearch}>
+            {showTopSearch && <Search>
                 <InputField
                     name="search"
                     icon="search"
@@ -322,9 +409,29 @@ function Menu(props) {
                     autoFocus
                     isSmall
                 />
-            </Li>}
-            {!bottomSearch && items}
-        </Ul>
+            </Search>}
+
+            <Content>
+                {items}
+                {showEmpty && <Empty>
+                    {NLS.get(emptyText)}
+                </Empty>}
+            </Content>
+
+            {showBottomSearch && <Search atBottom>
+                <InputField
+                    name="search"
+                    icon="search"
+                    placeholder="GENERAL_SEARCH"
+                    value={filter}
+                    onChange={handleSearch}
+                    onKeyDown={handleKeyDown}
+                    onKeyUp={handleKeyUp}
+                    autoFocus
+                    isSmall
+                />
+            </Search>}
+        </Container>
     </Backdrop>;
 }
 
@@ -348,6 +455,9 @@ Menu.propTypes = {
     width        : PropTypes.number,
     maxHeight    : PropTypes.number,
     withSearch   : PropTypes.bool,
+    emptyText    : PropTypes.string,
+    filterText   : PropTypes.string,
+    keyCode      : PropTypes.number,
     onAction     : PropTypes.func,
     onClose      : PropTypes.func.isRequired,
     onMouseEnter : PropTypes.func,

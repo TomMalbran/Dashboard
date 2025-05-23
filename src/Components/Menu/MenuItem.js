@@ -2,15 +2,17 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
+// Core & Utils
 import Action               from "../../Core/Action";
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import Menu                 from "./Menu";
 import Icon                 from "../Common/Icon";
 import Circle               from "../Common/Circle";
+import Html                 from "../Common/Html";
 
 
 
@@ -69,7 +71,7 @@ function MenuItem(props) {
         url, href, target,
         isDisabled, isSelected, isSmall, leftSpace,
         onAction, onClick, dontClose, onClose,
-        direction, index, selectedIdx,
+        direction, index, selectedIdx, filter,
         trigger, setTrigger, children,
     } = props;
 
@@ -77,7 +79,6 @@ function MenuItem(props) {
     // Variables
     const act         = Action.get(action);
     const icn         = icon    || act.icon;
-    const content     = message || act.message;
     const uri         = url ? NLS.baseUrl(url) : href;
     const navigate    = Navigate.useGotoUrl();
     const isSelection = !isDisabled && (isSelected || selectedIdx === index);
@@ -88,6 +89,16 @@ function MenuItem(props) {
 
     // The Current State
     const [ menuOpen, setMenuOpen ] = React.useState(false);
+
+
+    // Generates the Content
+    const content = React.useMemo(() => {
+        let result = NLS.get(message || act.message);
+        if (filter && result) {
+            result = Utils.underlineText(result, filter);
+        }
+        return result;
+    }, [ message, act.message, filter ]);
 
 
     // Handles the Trigger
@@ -137,7 +148,7 @@ function MenuItem(props) {
             {!!icn && <Icon icon={icn} size="20" />}
             {!!circle && <MenuCircle variant={circle} />}
             {!!title && <b>{NLS.get(title)}</b>}
-            {NLS.get(content)}
+            <Html variant="span" content={content} />
         </Container>
 
         {hasMenu && <Menu
@@ -179,6 +190,7 @@ MenuItem.propTypes = {
     direction   : PropTypes.string,
     index       : PropTypes.number,
     selectedIdx : PropTypes.number,
+    filter      : PropTypes.string,
     trigger     : PropTypes.bool,
     setTrigger  : PropTypes.func,
     children    : PropTypes.any,
