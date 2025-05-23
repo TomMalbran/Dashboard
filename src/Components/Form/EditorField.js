@@ -22,6 +22,12 @@ const Container = Styled.div.attrs(({ maxHeight }) => ({ maxHeight }))`
     ${(props) => props.maxHeight && `max-height: ${props.maxHeight}px;`}
 `;
 
+const FieldHelper = Styled.p`
+    font-size: 0.9em;
+    margin: 4px 0 0 4px;
+    color: var(--darkest-gray);
+`;
+
 
 
 /**
@@ -31,7 +37,7 @@ const Container = Styled.div.attrs(({ maxHeight }) => ({ maxHeight }))`
  */
 function EditorField(props) {
     const {
-        isHidden, name, value, error, height, maxHeight, language,
+        isHidden, name, value, helperText, error, height, maxHeight, language,
         clientID, contentStyle, menubar, menu,
         onChange, onMedia, onSetup, isDisabled,
     } = props;
@@ -121,6 +127,9 @@ function EditorField(props) {
             }}
         />
         <InputError error={error} />
+        {hasHelperText && <FieldHelper>
+            {NLS.get(helperText)}
+        </FieldHelper>}
     </Container>;
 }
 
@@ -132,6 +141,7 @@ EditorField.propTypes = {
     isHidden     : PropTypes.bool,
     name         : PropTypes.string.isRequired,
     value        : PropTypes.string,
+    helperText   : PropTypes.string,
     error        : PropTypes.string,
     height       : PropTypes.number,
     maxHeight    : PropTypes.number,
