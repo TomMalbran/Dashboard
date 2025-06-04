@@ -49,7 +49,7 @@ const Input = Styled.input`
 function FileInput(props) {
     const {
         inputRef, className, icon, postIcon, isFocused, isDisabled,
-        name, value, placeholder, onlyImages, maxSize,
+        name, value, placeholder, onlyImages, accept, maxSize,
         onChange, onClear, onError, onFocus, onBlur,
     } = props;
 
@@ -90,7 +90,7 @@ function FileInput(props) {
             ref={inputRef}
             type="file"
             name={name}
-            accept={onlyImages ? "image/*" : ""}
+            accept={onlyImages ? "image/*" : accept}
             onChange={handleChange}
             onFocus={onFocus}
             onBlur={onBlur}
@@ -113,6 +113,7 @@ FileInput.propTypes = {
     value       : PropTypes.any,
     placeholder : PropTypes.string,
     onlyImages  : PropTypes.bool,
+    accept      : PropTypes.string,
     maxSize     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange    : PropTypes.func.isRequired,
     onClear     : PropTypes.func,
@@ -131,6 +132,7 @@ FileInput.defaultProps = {
     isDisabled  : false,
     placeholder : "",
     onlyImages  : false,
+    accept      : "",
 };
 
 export default FileInput;

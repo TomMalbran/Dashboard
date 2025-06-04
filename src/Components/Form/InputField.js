@@ -277,6 +277,7 @@ InputField.propTypes = {
     onExtraIcon     : PropTypes.func,
     autoFocus       : PropTypes.bool,
     onlyImages      : PropTypes.bool,
+    accept          : PropTypes.string,
     maxSize         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onError         : PropTypes.func,
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -316,6 +317,7 @@ InputField.defaultProps = {
     isSortable      : false,
     autoFocus       : false,
     onlyImages      : false,
+    accept          : "",
 };
 
 export default InputField;
