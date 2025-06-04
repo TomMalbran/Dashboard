@@ -15,6 +15,7 @@ import Icon                 from "../Common/Icon";
 
 // Styles
 const Container = Styled.header`
+    flex-shrink: 0;
     box-sizing: border-box;
     position: sticky;
     top: 0;
