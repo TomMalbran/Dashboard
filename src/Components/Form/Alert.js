@@ -31,6 +31,10 @@ const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
     ${(props) => props.variant === Outcome.ERROR && `
         background-color: var(--error-color);
     `}
+
+    .alert-content {
+        flex-grow: 2;
+    }
 `;
 
 
@@ -64,7 +68,7 @@ function Alert(props) {
         variant={variant}
     >
         {!!message  && <Html>{content}</Html>}
-        {!!children && <div>{children}</div>}
+        {!!children && <div className="alert-content">{children}</div>}
     </Container>;
 }
 
