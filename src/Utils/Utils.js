@@ -1039,13 +1039,14 @@ function getSelectItems(itemIDs, options, idsPerItem) {
  * @param {Number[]} itemIDs
  * @param {Object[]} options
  * @param {Object}   idsPerItem
+ * @param {Number=}  noneValue
  * @returns {Function}
  */
-function useSelectList(loading, itemIDs, options, idsPerItem) {
+function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
     const itemList = JSON.stringify(itemIDs);
 
     return React.useCallback(() => {
-        if (!itemIDs.length) {
+        if (!itemIDs.length || (itemIDs.length === 1 && Number(itemIDs[0]) === noneValue)) {
             return options;
         }
         return getSelectItems(itemIDs, options, idsPerItem);
