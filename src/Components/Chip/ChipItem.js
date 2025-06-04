@@ -7,6 +7,7 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import IconLink             from "../Link/IconLink";
+import Icon                 from "../Common/Icon";
 
 // Variants
 const Variant = {
@@ -58,7 +59,7 @@ const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) 
  */
 function ChipItem(props) {
     const {
-        isHidden, className, variant, message,
+        isHidden, className, variant, icon, message,
         isDisabled, onClick, onClose,
     } = props;
 
@@ -75,8 +76,18 @@ function ChipItem(props) {
         isDisabled={isDisabled}
         onClick={onClick}
     >
-        {NLS.get(message)}
+        {!!icon && <Icon
+            className="chip-icon"
+            icon={icon}
+            size="16"
+        />}
+
+        <span className="chip-content">
+            {NLS.get(message)}
+        </span>
+
         {!!onClose && <IconLink
+            className="chip-close"
             variant="black"
             icon="close"
             onClick={() => onClose()}
@@ -93,6 +104,7 @@ ChipItem.propTypes = {
     isHidden   : PropTypes.bool,
     className  : PropTypes.string,
     variant    : PropTypes.string,
+    icon       : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isDisabled : PropTypes.bool,
     onClick    : PropTypes.func,
