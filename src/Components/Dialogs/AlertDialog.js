@@ -31,9 +31,16 @@ const Content = Styled(Html)`
  * @returns {React.ReactElement}
  */
 function AlertDialog(props) {
-    const { open, icon, title, message, content, onClose } = props;
+    const {
+        open, icon, title, message, content,
+        onClose, secondary, onSecondary,
+    } = props;
 
-    const body = content ? NLS.format(message, content) : NLS.get(message);
+
+    // Generate the Body
+    const body = React.useMemo(() => {
+        return content ? NLS.format(message, content) : NLS.get(message);
+    }, [ message, content ]);
 
 
     // Do the Render
@@ -44,7 +51,11 @@ function AlertDialog(props) {
                 {body}
             </Content>
         </DialogBody>
-        <DialogFooter cancel="GENERAL_ACCEPT" />
+        <DialogFooter
+            cancel="GENERAL_ACCEPT"
+            secondary={secondary}
+            onSecondary={onSecondary}
+        />
     </Dialog>;
 }
 
@@ -53,12 +64,14 @@ function AlertDialog(props) {
  * @typedef {Object} propTypes
  */
 AlertDialog.propTypes = {
-    open    : PropTypes.bool.isRequired,
-    icon    : PropTypes.string,
-    title   : PropTypes.string.isRequired,
-    message : PropTypes.string,
-    content : PropTypes.string,
-    onClose : PropTypes.func.isRequired,
+    open        : PropTypes.bool.isRequired,
+    icon        : PropTypes.string,
+    title       : PropTypes.string.isRequired,
+    message     : PropTypes.string,
+    content     : PropTypes.string,
+    onClose     : PropTypes.func.isRequired,
+    secondary   : PropTypes.string,
+    onSecondary : PropTypes.func,
 };
 
 /**
