@@ -33,7 +33,7 @@ const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
 function Html(props) {
     const {
         isHidden, className, style, variant,
-        addLinks, addBreaks, formatText,
+        addLinks, addBreaks, breakEmail, formatText,
         onClick, onMouseDown,
         message, content, showEmpty, children,
     } = props;
@@ -50,15 +50,15 @@ function Html(props) {
     if (addLinks) {
         __html = __html
             .replace(urlPattern, (match) => {
-                const text = Utils.makeBreakable(match);
+                const text = breakEmail ? Utils.makeBreakable(match) : match;
                 return `<a href="${match}" target="_blank">${text}</a>`;
             })
             .replace(pseudoUrlPattern, (match, p1, p2) => {
-                const text = Utils.makeBreakable(p2);
+                const text = breakEmail ? Utils.makeBreakable(p2) : p2;
                 return `${p1}<a href="http://${p2}" target="_blank">${text}</a>`;
             })
             .replace(emailAddressPattern, (match) => {
-                const text = Utils.makeBreakable(match);
+                const text = breakEmail ? Utils.makeBreakable(match) : match;
                 return `<a href="mailto:${match}" target="_blank">${text}</a>`;
             });
     }
@@ -151,6 +151,7 @@ Html.propTypes = {
     content     : PropTypes.string,
     children    : PropTypes.string,
     addLinks    : PropTypes.bool,
+    breakEmail  : PropTypes.bool,
     addBreaks   : PropTypes.bool,
     formatText  : PropTypes.bool,
     showEmpty   : PropTypes.bool,
@@ -165,6 +166,7 @@ Html.defaultProps = {
     className  : "",
     variant    : Variant.DIV,
     addLinks   : false,
+    breakEmail : true,
     addBreaks  : false,
     formatText : false,
     showEmpty  : false,
