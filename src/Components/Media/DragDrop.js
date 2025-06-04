@@ -32,7 +32,7 @@ const Container = Styled.div.attrs(({ isUploading }) => ({ isUploading }))`
  * @returns {React.ReactElement}
  */
 function DragDrop(props) {
-    const { isHidden, onlyImages, maxSize, onDrop, onError } = props;
+    const { isHidden, message, onlyImages, maxSize, onDrop, onError } = props;
 
 
     // The References
@@ -136,17 +136,24 @@ function DragDrop(props) {
     });
 
 
+    // Generate the Text
+    const text = React.useMemo(() => {
+        if (message) {
+            return NLS.get(message);
+        }
+        return onlyImages ? NLS.get("DROPZONE_IMAGES_DROP") : NLS.get("DROPZONE_FILES_DROP");
+    }, [ message, onlyImages ]);
+
+
     // Do the Render
-    const prefix = onlyImages ? "DROPZONE_IMAGES_" : "DROPZONE_FILES_";
     if (isHidden) {
         return <React.Fragment />;
     }
-
     return <Container
         ref={containerRef}
         isUploading={isUploading}
     >
-        {NLS.get(`${prefix}DROP`)}
+        {NLS.get(text)}
     </Container>;
 }
 
@@ -156,6 +163,7 @@ function DragDrop(props) {
  */
 DragDrop.propTypes = {
     isHidden   : PropTypes.bool,
+    message    : PropTypes.string,
     onlyImages : PropTypes.bool,
     maxSize    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onDrop     : PropTypes.func.isRequired,
