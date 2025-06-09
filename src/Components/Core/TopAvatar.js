@@ -58,7 +58,7 @@ const User = Styled.div`
     position: relative;
 `;
 
-const Online = Styled.div.attrs(({ isOnline }) => ({ isOnline }))`
+const Online = Styled.div.attrs(({ isOnline, isBusy }) => ({ isOnline, isBusy }))`
     position: absolute;
     bottom: -2px;
     right: -2px;
@@ -67,7 +67,9 @@ const Online = Styled.div.attrs(({ isOnline }) => ({ isOnline }))`
     border-radius: 100%;
     border: 1px solid var(--content-color);
 
-    ${(props) => props.isOnline ? `
+    ${(props) => props.isBusy ? `
+        background-color: var(--warning-color);
+    ` : (props) => props.isOnline ? `
         background-color: var(--success-color);
     ` : `
         background-color: var(--error-color);
@@ -84,7 +86,7 @@ const Online = Styled.div.attrs(({ isOnline }) => ({ isOnline }))`
 function TopAvatar(props) {
     const {
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        showOnline, isOnline, showParent, parentTitle, parentName,
+        showOnline, isOnline, isBusy, showParent, parentTitle, parentName,
         menuItems,
     } = props;
 
@@ -141,6 +143,7 @@ function TopAvatar(props) {
                 />
                 {showOnline && <Online
                     isOnline={isOnline}
+                    isBusy={isBusy}
                 />}
             </User>
         </Container>
@@ -168,6 +171,7 @@ TopAvatar.propTypes = {
     avatarEdition : PropTypes.number,
     showOnline    : PropTypes.bool,
     isOnline      : PropTypes.bool,
+    isBusy        : PropTypes.bool,
     showParent    : PropTypes.bool,
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,

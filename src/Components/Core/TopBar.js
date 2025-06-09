@@ -72,7 +72,7 @@ const H1 = Styled.h1`
     margin: 0 0 0 8px;
     font-size: 28px;
     font-weight: 200;
-    color: var(--title-color);
+    color: white;
     font-family: var(--title-font);
 `;
 
@@ -94,7 +94,7 @@ function TopBar(props) {
     const {
         className, withTopBar, withTitle, withDev, logo,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
-        showOnline, isOnline, showParent, parentTitle, parentName,
+        showOnline, isOnline, isBusy, showParent, parentTitle, parentName,
         onLogout, menuItems, children,
     } = props;
 
@@ -144,6 +144,7 @@ function TopBar(props) {
                 avatarEdition={avatarEdition}
                 showOnline={showOnline}
                 isOnline={isOnline}
+                isBusy={isBusy}
                 showParent={showParent}
                 parentTitle={parentTitle}
                 parentName={parentName}
@@ -159,6 +160,7 @@ function TopBar(props) {
  */
 TopBar.propTypes = {
     className     : PropTypes.string,
+    variant       : PropTypes.string,
     withTopBar    : PropTypes.bool,
     withTitle     : PropTypes.bool,
     withDev       : PropTypes.bool,
@@ -169,6 +171,7 @@ TopBar.propTypes = {
     avatarEdition : PropTypes.number,
     showOnline    : PropTypes.bool,
     isOnline      : PropTypes.bool,
+    isBusy        : PropTypes.bool,
     showParent    : PropTypes.bool,
     parentTitle   : PropTypes.string,
     parentName    : PropTypes.string,
