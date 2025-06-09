@@ -218,6 +218,7 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
             right: -3px;
             width: 11px;
             height: 11px;
+            border: 1px solid var(--content-color);
             border-radius: 100%;
             background-color: red;
         }
