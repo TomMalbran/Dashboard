@@ -48,7 +48,7 @@ function SelectInput(props) {
         id, name, value, placeholder,
         emptyText, noneText, noneValue,
         withCustom, customFirst, customText,
-        options, extraOptions,
+        options, extraOptions, minWidth,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
@@ -397,6 +397,7 @@ function SelectInput(props) {
             top={style.top}
             left={style.left}
             width={style.width}
+            minWidth={minWidth}
             maxHeight={style.maxHeight}
             opacity={style.opacity}
         >
@@ -437,6 +438,7 @@ SelectInput.propTypes = {
     withCustom   : PropTypes.bool,
     customFirst  : PropTypes.bool,
     customText   : PropTypes.string,
+    minWidth     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange     : PropTypes.func.isRequired,
     onClear      : PropTypes.func,
     onFocus      : PropTypes.func,

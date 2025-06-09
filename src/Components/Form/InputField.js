@@ -248,6 +248,7 @@ InputField.propTypes = {
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     width           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fullWidth       : PropTypes.bool,
     shrinkLabel     : PropTypes.bool,
     withLabel       : PropTypes.bool,
