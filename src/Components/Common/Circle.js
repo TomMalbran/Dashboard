@@ -9,6 +9,7 @@ import { Semaphore }        from "../../Core/Variants";
 
 // Styles
 const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
+    flex-shrink: 0;
     display: inline-block;
     width: 12px;
     height: 12px;
@@ -40,6 +41,8 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
 function Circle(props) {
     const { className, variant } = props;
 
+
+    // Do the Render
     return <Span
         className={`circle ${className}`}
         variant={variant}
