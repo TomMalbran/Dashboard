@@ -17,6 +17,7 @@ const Span = Styled.span`
     text-align: center;
     border-radius: 999px;
     background-color: #ff0033;
+    border: 1px solid var(--content-color);
     color: white;
 `;
 
