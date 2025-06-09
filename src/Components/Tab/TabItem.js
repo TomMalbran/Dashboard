@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Store                from "../../Core/Store";
 import NLS                  from "../../Core/NLS";
@@ -16,6 +15,7 @@ import Badge                from "../Common/Badge";
 
 // Styles
 const Container = Styled.div.attrs(({ withGap, isSelected, isDisabled }) => ({ withGap, isSelected, isDisabled }))`
+    box-sizing: border-box;
     position: relative;
     box-sizing: border-box;
     flex-grow: 1;
@@ -23,94 +23,31 @@ const Container = Styled.div.attrs(({ withGap, isSelected, isDisabled }) => ({ w
     justify-content: center;
     align-items: center;
     gap: ${(props) => props.withGap ? "6px" : "0"};
+    padding: ${(props) => props.withGap ? "4px 12px" : "6px 12px"};
+    margin: 0 0 4px 0;
+    font-size: 14px;
     line-height: 1;
     white-space: nowrap;
     border-radius: var(--border-radius);
     transition: all 0.2s;
     cursor: pointer;
-`;
-
-const Item = Styled(Container)`
-    --tab-disabled-color: rgba(255, 255, 255, 0.5);
-    --tab-selected-font: var(--white-color);
-
-    &:hover .icon {
-        display: block;
-    }
-
-    ${(props) => (!props.isSelected && !props.isDisabled) && `
-        &:hover {
-            box-shadow: inset 0 0 0 2em var(--tab-hover-color);
-        }
-    `}
-    ${(props) => props.isSelected && `
-        && {
-            box-shadow: inset 0 -3em var(--tab-selected-color);
-            color: var(--tab-selected-font);
-        }
-    `}
-    ${(props) => props.isDisabled && `
-        && {
-            color: var(--tab-disabled-color);
-            cursor: not-allowed;
-        }
-    `}
-`;
-
-const LightItem = Styled(Item)`
-    --tab-hover-color: var(--light-gray);
-    --tab-selected-color: var(--primary-color);
-    --tab-selected-font: var(--primary-font, var(--white-color));
-
-    height: calc(var(--tabs-table) - var(--main-gap));
-    padding: 6px 12px;
-    color: var(--title-color);
-    background-color: var(--lighter-gray);
-`;
-
-const DarkItem = Styled(Item)`
-    --tab-hover-color: var(--border-color-dark);
-    --tab-selected-color: var(--secondary-color);
-
-    height: var(--tabs-dialog);
-    padding: 0 24px;
-    color: var(--white-color);
-    background-color: var(--tertiary-color);
-`;
-
-const DarkerItem = Styled(Item)`
-    --tab-hover-color: var(--border-color-dark);
-    --tab-selected-color: var(--border-color-dark);
-
-    height: var(--tabs-dialog);
-    padding: 0 24px;
-    color: var(--white-color);
-    background-color: var(--primary-color);
-`;
-
-const LinedItem = Styled(Container)`
-    box-sizing: border-box;
-    margin: 0 0 4px 0;
-    padding: ${(props) => props.withGap ? "4px 12px" : "6px 12px"};
-    border-radius: var(--border-radius);
-    font-size: 14px;
 
     &:hover {
         background-color: var(--lighter-gray);
     }
+    &:hover .icon {
+        display: block;
+    }
 
     ${(props) => props.isSelected && `
-        color: var(--primary-color);
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background-color: var(--primary-color);
+        color: var(--tab-selected-font-color, var(--primary-color));
+    `}
+    ${(props) => props.isDisabled && `
+        && {
+            color: var(--tab-disabled-font-color, rgba(255, 255, 255, 0.5));
+            cursor: not-allowed;
         }
-    `};
+    `}
 `;
 
 const ItemIcon = Styled(Icon)`
@@ -144,14 +81,6 @@ const TabBadge = Styled(Badge)`
     right: 0;
 `;
 
-// Components
-const Components = {
-    [Brightness.LIGHT]  : LightItem,
-    [Brightness.DARK]   : DarkItem,
-    [Brightness.DARKER] : DarkerItem,
-    "lined"             : LinedItem,
-};
-
 
 
 /**
@@ -161,7 +90,7 @@ const Components = {
  */
 function TabItem(props) {
     const {
-        className, variant, icon, message,
+        className, icon, message,
         url, value, index, selected,
         amount, badge, isDisabled,
         tooltip, tooltipVariant,
@@ -175,7 +104,6 @@ function TabItem(props) {
     const elementRef = React.useRef();
 
     // Variables
-    const Component  = Components[variant] || LightItem;
     const id         = url ? NLS.url(url) : (value || index);
     const hasAmount  = amount !== undefined;
     const isSelected = Boolean(!isDisabled && selected !== undefined && String(selected) === String(id));
@@ -224,9 +152,9 @@ function TabItem(props) {
 
 
     // Do the Render
-    return <Component
+    return <Container
         ref={elementRef}
-        className={`tab-item ${isSelected ? "tab-selected" : ""} ${className}`}
+        className={`tab-item tab-item-${id} ${isSelected ? "tab-selected" : ""} ${className}`}
         withGap={withGap}
         isSelected={isSelected}
         isDisabled={isDisabled}
@@ -250,7 +178,7 @@ function TabItem(props) {
             onClick={handleDelete}
             size="14"
         />}
-    </Component>;
+    </Container>;
 }
 
 /**
@@ -260,7 +188,6 @@ function TabItem(props) {
 TabItem.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
-    variant        : PropTypes.string,
     url            : PropTypes.string,
     value          : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     index          : PropTypes.number,
@@ -277,6 +204,7 @@ TabItem.propTypes = {
     canDelete      : PropTypes.bool,
     onClick        : PropTypes.func,
     onAction       : PropTypes.func,
+    onSelect       : PropTypes.func,
 };
 
 /**
@@ -286,7 +214,6 @@ TabItem.propTypes = {
 TabItem.defaultProps = {
     isHidden       : false,
     className      : "",
-    variant        : Brightness.LIGHT,
     value          : "",
     index          : 0,
     tooltip        : "",

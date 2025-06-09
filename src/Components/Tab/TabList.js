@@ -13,22 +13,24 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.section.attrs(({ variant, inDialog, inDetails }) => ({ variant, inDialog, inDetails }))`
+const Container = Styled.section.attrs(({ inDialog, inDetails, lineWidth, lineLeft }) => ({ inDialog, inDetails, lineWidth, lineLeft }))`
+    position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
+    border-bottom: var(--border-width) solid var(--border-color-light);
 
-    ${(props) => props.variant === "lined" && `
-        --tabs-gap: 0px;
-        width: 100%;
-        border-bottom: var(--border-width) solid var(--border-color-light);
-    `}
-
-    ${(props) => props.variant === Brightness.DARK && `
-        background-color: var(--primary-color);
-    `}
-    ${(props) => props.variant === Brightness.DARKER && `
-        background-color: var(--secondary-color);
-    `}
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        height: 3px;
+        width: ${(props) => props.lineWidth}px;
+        translate: ${(props) => props.lineLeft}px;
+        background-color: var(--tab-selected-line-color, var(--primary-color));
+        transition: all 0.2s ease-in-out;
+    }
 
     ${(props) => (!props.inDialog && !props.inDetails) && `
         margin-bottom: var(--main-gap);
@@ -55,7 +57,6 @@ const Content = Styled.div.attrs(({ size }) => ({ size }))`
     max-width: 100%;
     overflow: auto;
     display: flex;
-    gap: var(--tabs-gap);
 
     ${(props) => props.size > 0 && `
         display: grid;
@@ -79,34 +80,68 @@ const TabLink = Styled(IconLink)`
  */
 function TabList(props) {
     const {
-        isHidden, className, variant, size, selected,
-        onClick, onAction, inDialog, inDetails, canAdd, children,
+        isHidden, className, size, selected,
+        onClick, onAction, inDialog, inDetails,
+        canAdd, addVariant, children,
     } = props;
 
-    if (isHidden) {
-        return <React.Fragment />;
-    }
+    const contentRef = React.useRef(null);
+
+    // The Current State
+    const [ lineWidth, setLineWidth ] = React.useState(0);
+    const [ lineLeft,  setLineLeft  ] = React.useState(0);
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, (child, index) => ({
-        index, variant, onClick, onAction, selected, inDialog,
+        index, onClick, onAction, selected, inDialog,
     }));
+
+
+    // Listens for the Selection
+    React.useEffect(() => {
+        handleSelection(selected);
+    }, [ contentRef.current, selected, items.length ]);
+
+    // Handles the Selection
+    const handleSelection = (selected) => {
+        const item = contentRef.current.querySelector(`.tab-item-${selected}`);
+        if (!item) {
+            window.setTimeout(() => handleSelection(selected), 500);
+        } else {
+            setSelection(item);
+        }
+    };
+
+    // Sets the Selection
+    const setSelection = (item) => {
+        const itemBounds    = item.getBoundingClientRect();
+        const contentBounds = contentRef.current.getBoundingClientRect();
+
+        setLineLeft(itemBounds.left - contentBounds.left);
+        setLineWidth(itemBounds.width);
+    };
 
 
     // Do the Render
     const showAdd = Boolean(canAdd && onAction);
+
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Container
+        ref={contentRef}
         className={`tabs ${className}`}
-        variant={variant}
         inDialog={inDialog}
         inDetails={inDetails}
+        lineWidth={lineWidth}
+        lineLeft={lineLeft}
     >
         <Content className="tabs-content no-scrollbars" size={size}>
             {items}
         </Content>
         {showAdd && <TabLink
-            variant={variant === Brightness.DARK ? "darker" : "light"}
+            variant={addVariant}
             icon="add"
             onClick={() => onAction(Action.get("ADD"))}
         />}
@@ -118,17 +153,17 @@ function TabList(props) {
  * @type {Object} propTypes
  */
 TabList.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    selected  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    onClick   : PropTypes.func,
-    onAction  : PropTypes.func,
-    inDialog  : PropTypes.bool,
-    inDetails : PropTypes.bool,
-    canAdd    : PropTypes.bool,
-    size      : PropTypes.number,
-    children  : PropTypes.any,
+    isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    onClick    : PropTypes.func,
+    onAction   : PropTypes.func,
+    inDialog   : PropTypes.bool,
+    inDetails  : PropTypes.bool,
+    canAdd     : PropTypes.bool,
+    addVariant : PropTypes.string,
+    size       : PropTypes.number,
+    children   : PropTypes.any,
 };
 
 /**
@@ -136,13 +171,13 @@ TabList.propTypes = {
  * @type {Object} defaultProps
  */
 TabList.defaultProps = {
-    isHidden  : false,
-    className : "",
-    variant   : Brightness.LIGHT,
-    size      : 0,
-    inDialog  : false,
-    inDetails : false,
-    canAdd    : false,
+    isHidden   : false,
+    className  : "",
+    size       :  0,
+    inDialog   : false,
+    inDetails  : false,
+    canAdd     : false,
+    addVariant : Brightness.LIGHT,
 };
 
 export default TabList;
