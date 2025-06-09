@@ -55,7 +55,6 @@ const MenuCircle = Styled(Circle)`
     width: 14px;
     height: 14px;
     margin: 0;
-    border: none;
 `;
 
 
