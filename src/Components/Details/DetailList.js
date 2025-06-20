@@ -32,7 +32,7 @@ const Content = Styled.section`
  */
 function DetailList(props) {
     const {
-        isHidden, className, hasInternalTabs, icon, message,
+        isHidden, className, hasInternalTabs, icon, message, isBeta,
         collapsible, action, onAction, canEdit, editIcon, children,
     } = props;
 
@@ -78,6 +78,7 @@ function DetailList(props) {
         <DetailTitle
             icon={icon}
             message={message}
+            isBeta={isBeta}
             hasInternalTabs={hasInternalTabs}
             collapsible={collapsible}
             isCollapsed={isCollapsed}
@@ -102,6 +103,7 @@ DetailList.propTypes = {
     className       : PropTypes.string,
     icon            : PropTypes.string,
     message         : PropTypes.string,
+    isBeta          : PropTypes.bool,
     hasInternalTabs : PropTypes.bool,
     collapsible     : PropTypes.string,
     action          : PropTypes.string,

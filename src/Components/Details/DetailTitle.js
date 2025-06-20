@@ -56,8 +56,20 @@ const Inside = Styled.h3.attrs(({ isCollapsible }) => ({ isCollapsible }))`
     `}
 `;
 
-const Span = Styled.span`
+const Title = Styled.div`
     flex-grow: 2;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+`;
+
+const BetaTag = Styled.span`
+    padding: 4px 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--white-color);
+    background-color: var(--beta-color);
+    border-radius: var(--border-radius-big);
 `;
 
 
@@ -69,7 +81,7 @@ const Span = Styled.span`
  */
 function DetailTitle(props) {
     const {
-        icon, message, hasInternalTabs, collapsible, isCollapsed,
+        icon, message, isBeta, hasInternalTabs, collapsible, isCollapsed,
         action, canEdit, editIcon, onAction, onClick,
     } = props;
 
@@ -100,7 +112,10 @@ function DetailTitle(props) {
             />}
             {hasPreIcon && <Icon icon={icon} />}
 
-            <Span>{NLS.get(message)}</Span>
+            <Title>
+                {NLS.get(message)}
+                {isBeta && <BetaTag>Beta</BetaTag>}
+            </Title>
 
             {hasPostAction && <IconLink
                 variant="black"
@@ -124,6 +139,7 @@ function DetailTitle(props) {
 DetailTitle.propTypes = {
     icon            : PropTypes.string,
     message         : PropTypes.string,
+    isBeta          : PropTypes.bool,
     hasInternalTabs : PropTypes.bool,
     collapsible     : PropTypes.string,
     isCollapsed     : PropTypes.bool,
