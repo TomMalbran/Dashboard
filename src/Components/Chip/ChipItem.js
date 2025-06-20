@@ -2,12 +2,10 @@ import React                from "react";
 import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
-// Core
-import NLS                  from "../../Core/NLS";
-
 // Components
 import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
+import Html                 from "../Common/Html";
 
 // Variants
 const Variant = {
@@ -50,6 +48,14 @@ const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) 
     `}
 `;
 
+const Content = Styled.div`
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+`;
+
 
 
 /**
@@ -59,7 +65,8 @@ const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) 
  */
 function ChipItem(props) {
     const {
-        isHidden, className, variant, icon, message,
+        isHidden, className, variant, icon, iconSize,
+        message, secMessage,
         isDisabled, onClick, onClose,
     } = props;
 
@@ -79,12 +86,19 @@ function ChipItem(props) {
         {!!icon && <Icon
             className="chip-icon"
             icon={icon}
-            size="16"
+            size={iconSize}
         />}
 
-        <span className="chip-content">
-            {NLS.get(message)}
-        </span>
+        <Content className="chip-content">
+            <Html
+                className="chip-message"
+                message={message}
+            />
+            <Html
+                className="chip-sub-message"
+                message={secMessage}
+            />
+        </Content>
 
         {!!onClose && <IconLink
             className="chip-close"
@@ -105,7 +119,9 @@ ChipItem.propTypes = {
     className  : PropTypes.string,
     variant    : PropTypes.string,
     icon       : PropTypes.string,
+    iconSize   : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    secMessage : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isDisabled : PropTypes.bool,
     onClick    : PropTypes.func,
     onClose    : PropTypes.func,
@@ -119,6 +135,7 @@ ChipItem.defaultProps = {
     isHidden   : false,
     className  : "",
     variant    : Variant.LIGHT,
+    iconSize   : "16",
     message    : "",
     isDisabled : false,
 };
