@@ -2,10 +2,6 @@ import { jwtDecode }        from "jwt-decode";
 import NLS                  from "../Core/NLS";
 
 // Module Variables
-let accessToken    = "";
-let refreshToken   = "";
-let timezone       = null;
-let language       = null;
 let setCurrentUser = null;
 
 
@@ -17,12 +13,6 @@ let setCurrentUser = null;
  */
 function init(onUserChange) {
     setCurrentUser = onUserChange;
-    if (localStorage.accessToken) {
-        accessToken = localStorage.accessToken;
-    }
-    if (localStorage.refreshToken) {
-        refreshToken = localStorage.refreshToken;
-    }
     setUser();
 }
 
@@ -43,7 +33,7 @@ function unsetAll() {
  * @returns {String}
  */
 function getAccessToken() {
-    return accessToken;
+    return localStorage.getItem("accessToken");
 }
 
 /**
@@ -51,22 +41,17 @@ function getAccessToken() {
  * @returns {{exp: Number, data: Object}}
  */
 function getAccessTokenData() {
-    return jwtDecode(accessToken);
+    return jwtDecode(getAccessToken());
 }
 
 /**
  * Sets the Access Token
- * @param {String} newAccessToken
+ * @param {String} accessToken
  * @returns {Void}
  */
-function setAccessToken(newAccessToken) {
-    if (accessToken !== newAccessToken) {
-        accessToken = newAccessToken;
-        language    = null;
-        timezone    = null;
-        localStorage.setItem("accessToken", accessToken);
-        setUser();
-    }
+function setAccessToken(accessToken) {
+    localStorage.setItem("accessToken", accessToken);
+    setUser();
 }
 
 /**
@@ -74,7 +59,6 @@ function setAccessToken(newAccessToken) {
  * @returns {Void}
  */
 function unsetAccessToken() {
-    accessToken = "";
     localStorage.removeItem("accessToken");
 }
 
@@ -85,19 +69,16 @@ function unsetAccessToken() {
  * @returns {String}
  */
 function getRefreshToken() {
-    return refreshToken;
+    return localStorage.getItem("refreshToken");
 }
 
 /**
  * Sets the Refresh Token
- * @param {String} newRefreshToken
+ * @param {String} refreshToken
  * @returns {Void}
  */
-function setRefreshToken(newRefreshToken) {
-    if (refreshToken !== newRefreshToken) {
-        refreshToken = newRefreshToken;
-        localStorage.setItem("refreshToken", refreshToken);
-    }
+function setRefreshToken(refreshToken) {
+    localStorage.setItem("refreshToken", refreshToken);
 }
 
 /**
@@ -105,7 +86,6 @@ function setRefreshToken(newRefreshToken) {
  * @returns {Void}
  */
 function unsetRefreshToken() {
-    refreshToken = "";
     localStorage.removeItem("refreshToken");
 }
 
@@ -116,7 +96,7 @@ function unsetRefreshToken() {
  * @returns {?Object}
  */
 function getUser() {
-    if (accessToken) {
+    if (getAccessToken()) {
         const token = getAccessTokenData();
         return token.data;
     }
@@ -158,8 +138,6 @@ function setUser() {
  * @returns {Void}
  */
 function unsetUser() {
-    language = null;
-    timezone = null;
     setCurrentUser({});
 }
 
@@ -170,13 +148,8 @@ function unsetUser() {
  * @returns {String}
  */
 function getLanguage() {
-    const newLanguage = NLS.getLang();
-    let result = "";
-    if (language !== newLanguage) {
-        result   = String(newLanguage);
-        language = newLanguage;
-    }
-    return result;
+    const language = NLS.getLang();
+    return String(language);
 }
 
 /**
@@ -184,13 +157,8 @@ function getLanguage() {
  * @returns {String}
  */
 function getTimezone() {
-    const newTimezone = new Date().getTimezoneOffset();
-    let result = "";
-    if (timezone !== newTimezone) {
-        result   = String(-newTimezone);
-        timezone = newTimezone;
-    }
-    return result;
+    const timezone = new Date().getTimezoneOffset();
+    return String(-timezone);
 }
 
 /**
