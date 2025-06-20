@@ -63,8 +63,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
         padding: 5px 12px 5px 8px;
         gap: 4px;
     `}
+
     ${(props) => props.onlyIcon && `
         padding: 4px 6px;
+        .icon {
+            display: block;
+        }
     `}
 
     &:disabled,
