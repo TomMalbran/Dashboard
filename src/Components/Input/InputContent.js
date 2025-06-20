@@ -12,15 +12,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const props = ({
-    isFocused, isDisabled, isSmall,
-    withBorder, withPadding, withLabel, withClick,
-}) => ({
-    isFocused, isDisabled, isSmall,
-    withBorder, withPadding, withLabel, withClick,
-});
-
-const Container = Styled.div.attrs(props)`
+const Container = Styled.div.attrs(({ isFocused, isDisabled, isSmall, withBorder, dashedBorder, withPadding, withLabel, withClick }) => ({ isFocused, isDisabled, isSmall, withBorder, withPadding, dashedBorder, withLabel, withClick }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -31,9 +23,15 @@ const Container = Styled.div.attrs(props)`
     ${(props) => props.withBorder && `
         background-color: var(--content-color);
         min-height: var(--input-height);
-        border: 1px solid var(--input-border);
         border-radius: var(--border-radius);
+
+        ${props.dashedBorder ? `
+            border: 2px dashed var(--input-border);
+        ` : `
+            border: 1px solid var(--input-border);
+        `}
     `}
+
     ${(props) => (props.withBorder && props.withPadding) && `
         padding: var(--input-padding);
     `}
@@ -106,7 +104,8 @@ function InputContent(props) {
     const {
         passedRef, inputRef, className,
         isFocused, isDisabled, isSmall,
-        withBorder, withPadding, withLabel, withClick,
+        withBorder, dashedBorder,
+        withPadding, withLabel, withClick,
         onClick, onClear, icon, postIcon,
         prefixText, suffixText, children,
     } = props;
@@ -136,6 +135,7 @@ function InputContent(props) {
         isDisabled={isDisabled}
         isSmall={isSmall}
         withBorder={withBorder}
+        dashedBorder={dashedBorder}
         withPadding={withPadding}
         withLabel={withLabel}
         withClick={withClick}
@@ -165,23 +165,24 @@ function InputContent(props) {
  * @type {Object} propTypes
  */
 InputContent.propTypes = {
-    passedRef   : PropTypes.any,
-    inputRef    : PropTypes.any,
-    className   : PropTypes.string,
-    isFocused   : PropTypes.bool,
-    isDisabled  : PropTypes.bool,
-    isSmall     : PropTypes.bool,
-    withBorder  : PropTypes.bool,
-    withPadding : PropTypes.bool,
-    withLabel   : PropTypes.bool,
-    withClick   : PropTypes.bool,
-    onClick     : PropTypes.func,
-    onClear     : PropTypes.func,
-    icon        : PropTypes.string,
-    postIcon    : PropTypes.string,
-    prefixText  : PropTypes.string,
-    suffixText  : PropTypes.string,
-    children    : PropTypes.any,
+    passedRef    : PropTypes.any,
+    inputRef     : PropTypes.any,
+    className    : PropTypes.string,
+    isFocused    : PropTypes.bool,
+    isDisabled   : PropTypes.bool,
+    isSmall      : PropTypes.bool,
+    withBorder   : PropTypes.bool,
+    dashedBorder : PropTypes.bool,
+    withPadding  : PropTypes.bool,
+    withLabel    : PropTypes.bool,
+    withClick    : PropTypes.bool,
+    onClick      : PropTypes.func,
+    onClear      : PropTypes.func,
+    icon         : PropTypes.string,
+    postIcon     : PropTypes.string,
+    prefixText   : PropTypes.string,
+    suffixText   : PropTypes.string,
+    children     : PropTypes.any,
 };
 
 /**
@@ -189,14 +190,15 @@ InputContent.propTypes = {
  * @type {Object} defaultProps
  */
 InputContent.defaultProps = {
-    className   : "",
-    isFocused   : false,
-    isDisabled  : false,
-    isSmall     : false,
-    withBorder  : false,
-    withPadding : false,
-    withLabel   : false,
-    withClick   : false,
+    className    : "",
+    isFocused    : false,
+    isDisabled   : false,
+    isSmall      : false,
+    withBorder   : false,
+    dashedBorder : false,
+    withPadding  : false,
+    withLabel    : false,
+    withClick    : false,
 };
 
 export default InputContent;

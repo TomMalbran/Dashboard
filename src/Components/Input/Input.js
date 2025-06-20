@@ -18,6 +18,7 @@ import MultipleInput        from "../InputType/MultipleInput";
 import NumberInput          from "../InputType/NumberInput";
 import PasswordInput        from "../InputType/PasswordInput";
 import RadioInput           from "../InputType/RadioInput";
+import RadioboxInput        from "../InputType/RadioboxInput";
 import SelectInput          from "../InputType/SelectInput";
 import SuggestInput         from "../InputType/SuggestInput";
 import TextareaInput        from "../InputType/TextareaInput";
@@ -61,6 +62,8 @@ function Input(props) {
         return <PasswordInput {...props} />;
     case InputType.RADIO:
         return <RadioInput {...props} />;
+    case InputType.RADIOBOX:
+        return <RadioboxInput {...props} />;
     case InputType.SELECT:
         return <SelectInput {...props} />;
     case InputType.SUGGEST:
