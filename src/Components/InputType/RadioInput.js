@@ -21,8 +21,8 @@ const tick = keyframes`
 
 // Styles
 const Container = Styled.div`
-    --radio-outer: 20px;
-    --radio-inner: 12px;
+    --radio-outer: var(--input-radio-outer, 20px);
+    --radio-inner: var(--input-radio-inner, 12px);
 
     display: flex;
     flex-direction: column;
