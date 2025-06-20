@@ -49,6 +49,8 @@ function InputOptions(props) {
         minWidth={minWidth}
         maxHeight={maxHeight}
         opacity={opacity}
+        // @ts-ignore
+        tabIndex="-1"
     >
         {children}
     </Container>;
