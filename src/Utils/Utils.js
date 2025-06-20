@@ -1371,6 +1371,23 @@ function isValidFile(file, onlyImages, maxSize) {
     return true;
 }
 
+
+/**
+ * Formats the given bytes into a human-readable string
+ * @param {Number} bytes
+ * @returns {String}
+ */
+function formatSize(bytes) {
+    if (bytes === 0) {
+        return "0 Bytes";
+    }
+    const k     = 1024;
+    const sizes = [ "Bytes", "KB", "MB", "GB", "TB" ];
+    const index = Math.floor(Math.log(bytes) / Math.log(k));
+    const size  = bytes / Math.pow(k, index);
+    return `${formatNumber(size, 2)} ${sizes[index]}`;
+}
+
 /**
  * Downloads the given File
  * @param {String} source
@@ -1526,6 +1543,7 @@ export default {
     isValidColor,
     getContrastColor,
     isValidFile,
+    formatSize,
     download,
     print,
 };
