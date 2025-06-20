@@ -11,8 +11,12 @@ import InputContent         from "../Input/InputContent";
 
 
 // Styles
-const Container = Styled(InputContent)`
+const Container = Styled(InputContent).attrs(({ withLabel }) => ({ withLabel }))`
     position: relative;
+
+    ${(props) => props.withLabel && `
+        padding-top: calc(var(--input-label) - (20px - var(--input-label)) * 2) !important;
+    `}
 
     .input-clear {
         position: absolute;
@@ -30,7 +34,7 @@ const Content = Styled.div.attrs(({ hideOverflow }) => ({ hideOverflow }))`
     ${(props) => props.hideOverflow && "overflow: hidden;"}
 `;
 
-const Textarea = Styled.textarea`
+const Textarea = Styled.textarea.attrs(({ withLabel }) => ({ withLabel }))`
     box-sizing: border-box;
     display: block;
     width: 100%;
@@ -38,9 +42,9 @@ const Textarea = Styled.textarea`
     margin: 0;
     padding: var(--input-padding);
     padding-top: 4px;
-    padding-bottom: 8px;
+    padding-bottom: ${(props) => props.withLabel ? "8px" : "4px"};
     font-size: var(--input-font);
-    line-height: 16px;
+    line-height: 20px;
     border: none;
     resize: none;
 
@@ -137,7 +141,7 @@ function TextareaInput(props) {
 
     // Handles the Textarea AutoGrow
     const handleAutoGrow = () => {
-        const lineHeight  = 16;
+        const lineHeight  = 20;
         const node        = inputRef.current;
         let   currentRows = ~~(node.scrollHeight / lineHeight);
         let   rows        = currentRows;
@@ -221,6 +225,7 @@ function TextareaInput(props) {
                 onBlur={onBlur}
                 onKeyDown={onKeyDown}
                 onKeyUp={onKeyUp}
+                withLabel={withLabel}
             />
             {hasFooter && <Footer className="inputfield-editor">
                 <Text atMaxLength={atMaxLength}>
