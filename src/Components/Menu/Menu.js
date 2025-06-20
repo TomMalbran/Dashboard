@@ -97,30 +97,40 @@ function Menu(props) {
 
 
     // Parse the Items
-    const items = [];
-    let   index = 0;
-    for (const child of Utils.getChildren(children)) {
-        const { isHidden, act, title, message } = child.props;
-        const titleMsg   = NLS.get(title || "");
-        const contentMsg = NLS.get(message || act?.message || "");
-        const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
+    const items = React.useMemo(() => {
+        const items = [];
+        let   key   = 0;
+        let   index = 0;
+        for (const child of Utils.getChildren(children)) {
+            const { isHidden, act, title, message, isTitle } = child.props;
+            const titleMsg   = NLS.get(title || "");
+            const contentMsg = NLS.get(message || act?.message || "");
+            const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
 
-        if (!isHidden && !isFiltered) {
-            items.push(React.cloneElement(child, {
-                key : index,
-                index, selectedIdx, filter, onAction, onClose,
-                trigger, setTrigger,
-            }));
-            index += 1;
+            if (!isHidden && !isFiltered) {
+                const itemIndex = isTitle ? -1 : index;
+                items.push(React.cloneElement(child, {
+                    index : itemIndex,
+                    key, selectedIdx, filter, onAction, onClose,
+                    trigger, setTrigger,
+                }));
+
+                if (!isTitle) {
+                    index += 1;
+                }
+                key += 1;
+            }
         }
-    }
+        return items;
+    // }, [ children, filter, selectedIdx, onAction, onClose, trigger ]);
+    }, [ children, filter, selectedIdx, trigger ]);
 
 
     // Remove the filter on Open
     React.useEffect(() => {
         if (open) {
             setFilter("");
-            setSelectedIdx(0);
+            setSelectedIdx(-1);
         }
     }, [ open ]);
 
@@ -242,6 +252,9 @@ function Menu(props) {
         case KeyCode.DOM_VK_ESCAPE:
             onClose();
             break;
+
+        case KeyCode.DOM_VK_RETURN:
+            return false;
 
         default:
         }
@@ -411,7 +424,7 @@ function Menu(props) {
                 />
             </Search>}
 
-            <Content>
+            <Content className="menu-content">
                 {items}
                 {showEmpty && <Empty>
                     {NLS.get(emptyText)}

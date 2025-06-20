@@ -8,7 +8,7 @@ import NLS                  from "../../Core/NLS";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
+const Container = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
     display: flex;
     align-items: center;
     width: auto;
@@ -30,9 +30,11 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
 function MenuTitle(props) {
     const { className, message } = props;
 
-    return <Li className={className}>
+
+    // Do the Render
+    return <Container className={className}>
         {NLS.get(message)}
-    </Li>;
+    </Container>;
 }
 
 /**
@@ -42,6 +44,7 @@ function MenuTitle(props) {
 MenuTitle.propTypes = {
     className : PropTypes.string,
     message   : PropTypes.string,
+    isTitle   : PropTypes.bool,
 };
 
 /**
@@ -50,6 +53,7 @@ MenuTitle.propTypes = {
  */
 MenuTitle.defaultProps = {
     className : "",
+    isTitle   : true,
 };
 
 export default MenuTitle;
