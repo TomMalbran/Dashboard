@@ -12,13 +12,19 @@ import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
 import InputOptions         from "../Input/InputOptions";
 import InputOption          from "../Input/InputOption";
+import Html                 from "../Common/Html";
 import Icon                 from "../Common/Icon";
 
 
 
 // Styles
-const Input = Styled(InputBase).attrs(({ isDisabled }) => ({ isDisabled }))`
-    {(props) => !props.isDisabled && "cursor: pointer;"}
+const Inside = Styled.div`
+    width: 100%;
+`;
+
+const Input = Styled(InputBase).attrs(({ isDisabled, hasDescription }) => ({ isDisabled, hasDescription }))`
+    ${(props) => !props.isDisabled && "cursor: pointer;"}
+    ${(props) => props.hasDescription && "margin-top: 4px;"}
 `;
 
 const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
@@ -34,6 +40,12 @@ const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
     `}
 `;
 
+const Description = Styled(Html)`
+    color: var(--font-lightest);
+    font-size: 13px;
+    margin-top: 4px;
+`;
+
 
 
 /**
@@ -44,11 +56,11 @@ const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
 function SelectInput(props) {
     const {
         inputRef, className, icon, postIcon,
-        isFocused, isDisabled, isSmall, withBorder, withLabel,
+        isFocused, isDisabled, isSmall, withBorder, withLabel, minWidth,
         id, name, value, placeholder,
         emptyText, noneText, noneValue,
         withCustom, customFirst, customText,
-        options, extraOptions, minWidth,
+        options, extraOptions, descriptions, showDescription,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
@@ -73,6 +85,7 @@ function SelectInput(props) {
     const valueKey   = String(value || noneValue);
     const items      = Array.isArray(options)      ? options      : NLS.select(options);
     const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
+    const descItems  = Array.isArray(descriptions) ? descriptions : NLS.select(descriptions);
 
 
     // Get the Options List
@@ -80,42 +93,47 @@ function SelectInput(props) {
         const result = [];
         if (noneText) {
             result.push({
-                key     : "none",
-                value   : noneValue,
-                message : NLS.get(noneText),
-                text    : "",
+                key         : "none",
+                value       : noneValue,
+                message     : NLS.get(noneText),
+                text        : "",
+                description : "",
             });
         }
         if (withCustom && customFirst) {
             result.push({
-                key     : "custom",
-                value   : -1,
-                message : NLS.get(customText  || "GENERAL_CUSTOM"),
-                text    : "",
+                key         : "custom",
+                value       : -1,
+                message     : NLS.get(customText  || "GENERAL_CUSTOM"),
+                text        : "",
+                description : "",
             });
         }
         for (const { key, value } of items) {
             result.push({
-                key     : `item-${key}`,
-                value   : key,
-                message : NLS.get(value),
-                text    : "",
+                key         : `item-${key}`,
+                value       : key,
+                message     : NLS.get(value),
+                text        : "",
+                description : Utils.getValue(descItems, "key", key, "value"),
             });
         }
         for (const { key, value } of extraItems) {
             result.push({
-                key     : `extra-${key}`,
-                value   : key,
-                message : NLS.get(value),
-                text    : "",
+                key         : `extra-${key}`,
+                value       : key,
+                message     : NLS.get(value),
+                text        : "",
+                description : Utils.getValue(descItems, "key", key, "value"),
             });
         }
         if (withCustom && !customFirst) {
             result.push({
-                key     : "custom",
-                value   : -1,
-                message : NLS.get(customText || "GENERAL_CUSTOM"),
-                text    : "",
+                key         : "custom",
+                value       : -1,
+                message     : NLS.get(customText || "GENERAL_CUSTOM"),
+                text        : "",
+                description : "",
             });
         }
         return result;
@@ -134,20 +152,22 @@ function SelectInput(props) {
         return Boolean(showOptions && filteredList.length);
     }, [ showOptions, filteredList.length ]);
 
-    // Get the Option Value
-    const optionValue = React.useMemo(() => {
+    // Get the Option Value and Description
+    const [ optionValue, optionDesc ] = React.useMemo(() => {
         if (optionList.length === 0 && emptyText) {
-            return NLS.get(emptyText);
+            return [ NLS.get(emptyText), "" ];
         }
 
-        let result = "";
+        let value = "";
+        let desc  = "";
         for (const item of optionList) {
             if (String(item.value) === valueKey) {
-                result = item.message;
+                value = item.message;
+                desc  = item.description;
                 break;
             }
         }
-        return NLS.get(result);
+        return [ NLS.get(value), NLS.get(desc) ];
     }, [ valueKey, JSON.stringify(optionList) ]);
 
 
@@ -354,7 +374,8 @@ function SelectInput(props) {
 
 
     // More Variables
-    const showDisabled = Boolean(isDisabled || (emptyText && optionList.length === 0));
+    const showDisabled   = Boolean(isDisabled || (emptyText && optionList.length === 0));
+    const hasDescription = Boolean(!showOptions && showDescription && optionDesc);
 
 
     // Do the Render
@@ -372,21 +393,27 @@ function SelectInput(props) {
         withLabel={withLabel}
         withPadding
     >
-        <Input
-            inputRef={inputRef}
-            className="input-select"
-            id={id}
-            type="text"
-            name={name}
-            value={showOptions ? filter : optionValue}
-            placeholder={placeholder}
-            isDisabled={showDisabled}
-            onInput={handleInput}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            onKeyUp={handleKeyUp}
-        />
+        <Inside>
+            <Input
+                inputRef={inputRef}
+                className="input-select"
+                id={id}
+                type="text"
+                name={name}
+                value={showOptions ? filter : optionValue}
+                placeholder={placeholder}
+                isDisabled={showDisabled}
+                onInput={handleInput}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
+                onKeyUp={handleKeyUp}
+                hasDescription={hasDescription}
+            />
+            {hasDescription && <Description
+                content={optionDesc}
+            />}
+        </Inside>
         <InputIcon
             icon="expand"
             withLabel={withLabel}
@@ -401,10 +428,11 @@ function SelectInput(props) {
             maxHeight={style.maxHeight}
             opacity={style.opacity}
         >
-            {filteredList.map(({ key, value, text, message }, index) => <InputOption
+            {filteredList.map(({ key, value, text, message, description }, index) => <InputOption
                 key={key}
                 className={`input-option-${index}`}
                 content={text || message}
+                description={description}
                 isSelected={selectedIdxRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
             />)}
@@ -417,33 +445,35 @@ function SelectInput(props) {
  * @type {Object} propTypes
  */
 SelectInput.propTypes = {
-    inputRef     : PropTypes.any,
-    className    : PropTypes.string,
-    icon         : PropTypes.string,
-    postIcon     : PropTypes.string,
-    isFocused    : PropTypes.bool,
-    isDisabled   : PropTypes.bool,
-    isSmall      : PropTypes.bool,
-    withBorder   : PropTypes.bool,
-    withLabel    : PropTypes.bool,
-    id           : PropTypes.string,
-    name         : PropTypes.string.isRequired,
-    placeholder  : PropTypes.string,
-    value        : PropTypes.any,
-    options      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    emptyText    : PropTypes.string,
-    noneText     : PropTypes.string,
-    noneValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    withCustom   : PropTypes.bool,
-    customFirst  : PropTypes.bool,
-    customText   : PropTypes.string,
-    minWidth     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onChange     : PropTypes.func.isRequired,
-    onClear      : PropTypes.func,
-    onFocus      : PropTypes.func,
-    onBlur       : PropTypes.func,
-    onSubmit     : PropTypes.func,
+    inputRef        : PropTypes.any,
+    className       : PropTypes.string,
+    icon            : PropTypes.string,
+    postIcon        : PropTypes.string,
+    isFocused       : PropTypes.bool,
+    isDisabled      : PropTypes.bool,
+    isSmall         : PropTypes.bool,
+    withBorder      : PropTypes.bool,
+    withLabel       : PropTypes.bool,
+    id              : PropTypes.string,
+    name            : PropTypes.string.isRequired,
+    placeholder     : PropTypes.string,
+    value           : PropTypes.any,
+    options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    descriptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    showDescription : PropTypes.bool,
+    emptyText       : PropTypes.string,
+    noneText        : PropTypes.string,
+    noneValue       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    withCustom      : PropTypes.bool,
+    customFirst     : PropTypes.bool,
+    customText      : PropTypes.string,
+    minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onChange        : PropTypes.func.isRequired,
+    onClear         : PropTypes.func,
+    onFocus         : PropTypes.func,
+    onBlur          : PropTypes.func,
+    onSubmit        : PropTypes.func,
 };
 
 /**

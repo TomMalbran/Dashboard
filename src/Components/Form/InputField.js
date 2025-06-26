@@ -247,6 +247,8 @@ InputField.propTypes = {
     counterText     : PropTypes.string,
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    descriptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    showDescription : PropTypes.bool,
     width           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fullWidth       : PropTypes.bool,

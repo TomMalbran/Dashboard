@@ -131,7 +131,7 @@ function getClass(id, elem, className) {
  * @returns {[String, String][]}
  */
 function entries(id) {
-    return Object.entries(get(id));
+    return Object.entries(get(id) || {});
 }
 
 /**

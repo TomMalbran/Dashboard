@@ -8,7 +8,7 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Container = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
+const Container = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
     margin: 0;
     padding: 8px;
     font-size: 14px;
@@ -30,6 +30,16 @@ const Container = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
     `}
 `;
 
+const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
+    color: var(--font-lightest);
+    font-size: 13px;
+    margin-top: 4px;
+
+    ${(props) => props.isSelected && `
+        color: rgba(255, 255, 255, 0.8);
+    `}
+`;
+
 
 
 /**
@@ -38,17 +48,19 @@ const Container = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
  * @returns {React.ReactElement}
  */
 function InputOption(props) {
-    const { className, content, isSelected, onMouseDown } = props;
+    const { className, content, description, isSelected, onMouseDown } = props;
 
 
     // Do the Render
     return <Container
-        variant="li"
         className={className}
         content={content}
         isSelected={isSelected}
         onMouseDown={onMouseDown}
-    />;
+    >
+        <Html content={content} />
+        <Description content={description} isSelected={isSelected} />
+    </Container>;
 }
 
 /**
@@ -58,6 +70,7 @@ function InputOption(props) {
 InputOption.propTypes = {
     className   : PropTypes.string,
     content     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    description : PropTypes.string,
     isSelected  : PropTypes.bool,
     onMouseDown : PropTypes.func,
 };
