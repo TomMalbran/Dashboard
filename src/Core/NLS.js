@@ -235,13 +235,20 @@ function join(list, useOr) {
  */
 function url(...args) {
     const result = [];
+    let   params = "";
+
     for (const arg of args) {
+        if (String(arg).startsWith("?")) {
+            params = String(arg);
+            continue;
+        }
+
         const url = urlData[arg] !== undefined ? urlData[arg] : arg;
         if (url) {
             result.push(url);
         }
     }
-    return result.join("/");
+    return result.join("/") + params;
 }
 
 /**
