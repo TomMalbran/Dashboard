@@ -109,22 +109,22 @@ function SelectInput(props) {
                 description : "",
             });
         }
-        for (const { key, value } of items) {
+        for (const { key, value, description } of items) {
             result.push({
                 key         : `item-${key}`,
                 value       : key,
                 message     : NLS.get(value),
                 text        : "",
-                description : Utils.getValue(descItems, "key", key, "value"),
+                description : description ? NLS.get(description) : Utils.getValue(descItems, "key", key, "value"),
             });
         }
-        for (const { key, value } of extraItems) {
+        for (const { key, value, description } of extraItems) {
             result.push({
                 key         : `extra-${key}`,
                 value       : key,
                 message     : NLS.get(value),
                 text        : "",
-                description : Utils.getValue(descItems, "key", key, "value"),
+                description : description ? NLS.get(description) : Utils.getValue(descItems, "key", key, "value"),
             });
         }
         if (withCustom && !customFirst) {
