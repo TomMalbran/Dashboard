@@ -25,7 +25,6 @@ const Input = Styled(InputBase).attrs(({ isDisabled }) => ({ isDisabled }))`
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
-    font-size: 18px;
 `;
 
 
@@ -308,7 +307,10 @@ function SuggestInput(props) {
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
         />
-        <InputIcon icon="search" />
+        <InputIcon
+            icon="search"
+            size="18"
+        />
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}

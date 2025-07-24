@@ -23,7 +23,6 @@ import Icon                 from "../Common/Icon";
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
-    font-size: 18px;
 `;
 
 
@@ -295,7 +294,10 @@ function ChooserInput(props) {
                 />
             </li>}
         </ChipList>
-        <InputIcon icon="expand" />
+        <InputIcon
+            icon="expand"
+            size="18"
+        />
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}

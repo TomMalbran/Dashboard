@@ -24,7 +24,6 @@ const InputValue = Styled.div`
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
-    font-size: 18px;
     transform: rotate(45deg);
 `;
 
@@ -85,7 +84,10 @@ function FileInput(props) {
         withClick
     >
         <InputValue>{value ? value : NLS.get(message)}</InputValue>
-        <InputIcon icon="attachment" />
+        <InputIcon
+            icon="attachment"
+            size="18"
+        />
         <Input
             ref={inputRef}
             type="file"

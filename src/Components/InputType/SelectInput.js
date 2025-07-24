@@ -30,7 +30,6 @@ const Input = Styled(InputBase).attrs(({ isDisabled, hasDescription }) => ({ isD
 const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
     margin-top: -4px;
     margin-right: -6px;
-    font-size: 18px;
 
     ${(props) => props.withLabel ? `
         margin-top: -4px;
@@ -417,6 +416,7 @@ function SelectInput(props) {
         <InputIcon
             icon="expand"
             withLabel={withLabel}
+            size="18"
         />
 
         {hasOptions && <InputOptions

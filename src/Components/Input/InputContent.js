@@ -68,15 +68,13 @@ const Container = Styled.div.attrs(({ isFocused, isDisabled, isSmall, withBorder
 
 const InputIcon = Styled(Icon)`
     flex-shrink: 0;
-    font-size: 16px;
     margin-left: -4px;
     color: var(--black-color);
 `;
 
 const PostInputIcon = Styled(Icon)`
     flex-shrink: 0;
-    font-size: 16px;
-    margin-top: -4px;
+    margin-top: -8px;
     margin-right: -6px;
     color: var(--black-color);
 `;
@@ -88,7 +86,7 @@ const Text = Styled.p`
 `;
 
 const InputClear = Styled(IconLink).attrs(({ smallInput }) => ({ smallInput }))`
-    margin-top: -4px;
+    margin-top: -8px;
     margin-right: calc(2px - var(--input-horiz-padding));
     ${(props) => props.smallInput && "margin-bottom: -4px;"}
 `;
@@ -141,13 +139,13 @@ function InputContent(props) {
         withClick={withClick}
         onClick={handleClick}
     >
-        {!!icon && <InputIcon icon={icon} size="16" />}
+        {!!icon && <InputIcon icon={icon} size="18" />}
         {!!prefixText && <Text>{NLS.get(prefixText)}</Text>}
 
         {children}
 
         {!!suffixText && <Text>{NLS.get(suffixText)}</Text>}
-        {!!postIcon && <PostInputIcon icon={postIcon} size="16" />}
+        {!!postIcon && <PostInputIcon icon={postIcon} size="18" />}
 
         {hasClear && <InputClear
             className="input-clear"
