@@ -58,7 +58,7 @@ function SelectInput(props) {
         isFocused, isDisabled, isSmall, withBorder, withLabel, minWidth,
         id, name, value, placeholder,
         emptyText, noneText, noneValue,
-        withCustom, customFirst, customText,
+        withCustom, customFirst, customText, customKey,
         options, extraOptions, descriptions, showDescription,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
@@ -102,7 +102,7 @@ function SelectInput(props) {
         if (withCustom && customFirst) {
             result.push({
                 key         : "custom",
-                value       : -1,
+                value       : customKey || -1,
                 message     : NLS.get(customText  || "GENERAL_CUSTOM"),
                 text        : "",
                 description : "",
@@ -129,14 +129,14 @@ function SelectInput(props) {
         if (withCustom && !customFirst) {
             result.push({
                 key         : "custom",
-                value       : -1,
+                value       : customKey || -1,
                 message     : NLS.get(customText || "GENERAL_CUSTOM"),
                 text        : "",
                 description : "",
             });
         }
         return result;
-    }, [ emptyText, noneText, noneValue, withCustom, customFirst, customText, JSON.stringify(items), JSON.stringify(extraItems) ]);
+    }, [ emptyText, noneText, noneValue, withCustom, customFirst, customText, customKey, JSON.stringify(items), JSON.stringify(extraItems) ]);
 
     // Get the Filtered List
     const filteredList = React.useMemo(() => {
@@ -468,6 +468,7 @@ SelectInput.propTypes = {
     withCustom      : PropTypes.bool,
     customFirst     : PropTypes.bool,
     customText      : PropTypes.string,
+    customKey       : PropTypes.string,
     minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange        : PropTypes.func.isRequired,
     onClear         : PropTypes.func,
