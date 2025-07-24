@@ -11,6 +11,7 @@ import Input                from "../Input/Input";
 import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
+import InputCopy            from "../Input/InputCopy";
 import Button               from "../Form/Button";
 
 
@@ -49,6 +50,7 @@ function InputField(props) {
         width, fullWidth, isRequired,
         autoFocus, withLabel, shrinkLabel, errorBackground,
         suggestID, hasClear, forceClear, hideClear, onClear,
+        hasCopy, copyValue, onCopy,
     } = props;
 
 
@@ -182,6 +184,13 @@ function InputField(props) {
                 message={button}
                 onClick={onClick}
             />}
+            <InputCopy
+                isHidden={!hasCopy}
+                copyValue={copyValue}
+                inputValue={String(value)}
+                onCopy={onCopy}
+                isFloating
+            />
         </FieldContent>
         <InputError
             error={error}
@@ -214,6 +223,7 @@ InputField.propTypes = {
     prefixText      : PropTypes.string,
     suffixText      : PropTypes.string,
     value           : PropTypes.any,
+    isChecked       : PropTypes.bool,
     step            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minValue        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxValue        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -281,12 +291,14 @@ InputField.propTypes = {
     onExtraIcon     : PropTypes.func,
     autoFocus       : PropTypes.bool,
     onlyImages      : PropTypes.bool,
-    accept          : PropTypes.string,
     maxSize         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onError         : PropTypes.func,
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     rows            : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxRows         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    hasCopy         : PropTypes.bool,
+    copyValue       : PropTypes.string,
+    onCopy          : PropTypes.func,
     children        : PropTypes.any,
 };
 
@@ -321,7 +333,7 @@ InputField.defaultProps = {
     isSortable      : false,
     autoFocus       : false,
     onlyImages      : false,
-    accept          : "",
+    hasCopy         : false,
 };
 
 export default InputField;

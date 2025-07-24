@@ -8,6 +8,7 @@ import NLS                  from "../../Core/NLS";
 // Components
 import InputLabel           from "../Input/InputLabel";
 import InputContainer       from "../Input/InputContainer";
+import InputCopy            from "../Input/InputCopy";
 import HyperLink            from "../Link/HyperLink";
 import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
@@ -88,29 +89,6 @@ const FieldHelper = Styled.p`
     color: var(--darkest-gray);
 `;
 
-const Copy = Styled.div.attrs(({ isFloating }) => ({ isFloating }))`
-    position: relative;
-
-    ${(props) => props.isFloating && `
-        position: absolute;
-        right: 2px;
-        top: 2px;
-    `}
-`;
-
-const InputCopy = Styled(IconLink)`
-    margin-top: 4px;
-    margin-right: 2px;
-`;
-
-const IconCheck = Styled(Icon)`
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    color: green;
-    font-size: 16px;
-`;
-
 
 
 /**
@@ -138,21 +116,6 @@ function ViewField(props) {
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
     const floatCopy = content.length > 1000 || isHtml;
-
-
-    // The Current State
-    const [ showCopied, setCopied ] = React.useState(false);
-
-    // Handles the Text Copy
-    const handleCopy = () => {
-        if (copyValue) {
-            navigator.clipboard.writeText(copyValue);
-        } else {
-            navigator.clipboard.writeText(content);
-        }
-        setCopied(true);
-        window.setTimeout(() => setCopied(false), 2000);
-    };
 
 
     // Do the Render
@@ -205,15 +168,12 @@ function ViewField(props) {
                 isPhone={isPhone}
                 isWhatsApp={isWhatsApp}
             />}
-            {hasCopy && <Copy isFloating={floatCopy}>
-                <InputCopy
-                    variant="black"
-                    icon="copy"
-                    onClick={handleCopy}
-                    isSmall
-                />
-                {showCopied && <IconCheck icon="check" />}
-            </Copy>}
+            <InputCopy
+                isHidden={!hasCopy}
+                copyValue={copyValue}
+                inputValue={content}
+                isFloating={floatCopy}
+            />
         </FieldContent>
         {hasError  && <FieldError>{NLS.get(error)}</FieldError>}
         {hasHelper && <FieldHelper>{NLS.get(helperText)}</FieldHelper>}
