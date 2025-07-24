@@ -85,8 +85,6 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark })
     `}
 
     ${(props) => props.isDisabled && `
-        --link-color: var(--darker-gray);
-        --link-background: transparent;
         cursor: not-allowed;
     `}
 
