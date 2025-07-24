@@ -22,6 +22,7 @@ const Image = Styled.img`
     height: var(--bar-logo-height, auto);
     max-width: var(--bar-logo-max-width, none);
     max-height: var(--bar-logo-max-height, none);
+    margin-top: var(--bar-logo-top, 0);
     margin-bottom: var(--bar-logo-bottom, 0);
 `;
 
