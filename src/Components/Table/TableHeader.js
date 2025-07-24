@@ -12,17 +12,12 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const props = ({
-    flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging,
-}) => ({
-    flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging,
-});
-
-const TH = Styled.th.attrs(props)`
+const TH = Styled.th.attrs(({ flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging }) => ({ flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging }))`
     && {
         position: relative;
         box-sizing: border-box;
         display: flex;
+        align-items: center;
         border: none;
         padding: 6px 0 6px 12px;
         color: var(--title-color);
@@ -195,6 +190,7 @@ function TableHeader(props) {
         </Inner>
         {withSorting && sort.orderBy === field ? <Icon
             icon={sort.orderAsc ? "up" : "down"}
+            size="12"
         /> : null}
         {isEditable && <Resizer
             className="thead-resizer"
