@@ -9,36 +9,40 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Li = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
+const Container = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
     position: relative;
     display: flex;
+    align-items: center;
     padding: 16px;
+    gap: 16px;
+    transition: background-color 0.2s ease-in-out;
     cursor: pointer;
 
-    ${(props) => props.isSelected && `
+    ${(props) => props.isSelected ? `
         background-color: var(--light-gray);
-    `}
+    ` : `:hover {
+        background-color: var(--lighter-gray);
+    }`}
 `;
 
-const LiAvatar = Styled(Avatar)`
+const AvatarContent = Styled(Avatar)`
     flex-shrink: 0;
     border-radius: 50%;
-    margin-right: 16px;
 `;
 
-const LiIcon = Styled(Icon)`
+const IconContent = Styled(Icon)`
     position: absolute;
     right: 16px;
     top: 50%;
-    font-size: 24px;
-    color: var(--accent-color);
+    color: var(--primary-color);
     transform: translateY(-50%);
 `;
 
-const H3 = Styled.h3`
+const Title = Styled.h3`
     margin: 0 0 4px 0;
 `;
-const P = Styled.p`
+
+const Text = Styled.p`
     margin: 0;
 `;
 
@@ -52,17 +56,29 @@ const P = Styled.p`
 function AvatarItem(props) {
     const { className, isSelected, onClick, name, email, avatar } = props;
 
-    return <Li className={className} isSelected={isSelected} onClick={onClick}>
-        <LiAvatar name={name} email={email} avatar={avatar} size={32} />
+
+    // Do the Render
+    return <Container
+        className={className}
+        isSelected={isSelected}
+        onClick={onClick}
+    >
+        <AvatarContent
+            name={name}
+            email={email}
+            avatar={avatar}
+            size={32}
+        />
         <div>
-            <H3>{name}</H3>
-            <P>{email}</P>
+            <Title>{name}</Title>
+            <Text>{email}</Text>
         </div>
-        <LiIcon
+        <IconContent
             isHidden={!isSelected}
             icon="check"
+            size="24"
         />
-    </Li>;
+    </Container>;
 }
 
 /**
