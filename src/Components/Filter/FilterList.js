@@ -99,6 +99,11 @@ function FilterList(props) {
     const [ errors,  setErrors  ] = React.useState(initialErrors);
 
 
+    // Handle the Values change
+    React.useEffect(() => {
+        setData({ ...initial });
+    }, [ JSON.stringify(values) ]);
+
     // Handles the Input Change
     const handleChange = (name, value, secName, secValue, onInputChange) => {
         let filterData = { ...data, [name] : value };
