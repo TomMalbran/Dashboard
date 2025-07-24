@@ -105,7 +105,7 @@ function TabList(props) {
 
     // Handles the Selection
     const handleSelection = (selected) => {
-        const item = contentRef.current.querySelector(`.tab-item-${selected}`);
+        const item = contentRef.current?.querySelector(`.tab-item-${selected}`);
         if (!item) {
             window.setTimeout(() => handleSelection(selected), 500);
         } else {

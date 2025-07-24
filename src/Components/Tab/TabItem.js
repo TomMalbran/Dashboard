@@ -22,8 +22,9 @@ const Container = Styled.div.attrs(({ withGap, isSelected, isDisabled }) => ({ w
     display: flex;
     justify-content: center;
     align-items: center;
+    height: var(--tabs-height, 24px);
     gap: ${(props) => props.withGap ? "6px" : "0"};
-    padding: ${(props) => props.withGap ? "4px 12px" : "6px 12px"};
+    padding: 0 12px;
     margin: 0 0 4px 0;
     font-size: 14px;
     line-height: 1;
