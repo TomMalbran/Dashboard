@@ -160,7 +160,6 @@ function TopBar(props) {
  */
 TopBar.propTypes = {
     className     : PropTypes.string,
-    variant       : PropTypes.string,
     withTopBar    : PropTypes.bool,
     withTitle     : PropTypes.bool,
     withDev       : PropTypes.bool,
