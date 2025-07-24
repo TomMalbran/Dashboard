@@ -7,6 +7,7 @@ import KeyCode              from "../../Utils/KeyCode";
 import Utils                from "../../Utils/Utils";
 
 // Components
+import DialogFooter         from "./DialogFooter";
 import Backdrop             from "../Common/Backdrop";
 import TabList              from "../Tab/TabList";
 
@@ -16,7 +17,9 @@ let dialogLevel = 0;
 
 
 // Styles
-const Container = Styled(Backdrop).attrs(({ zIndex }) => ({ zIndex }))`
+const Container = Styled(Backdrop).attrs(({ zIndex, hasFooter }) => ({ zIndex, hasFooter }))`
+    ${(props) => !props.hasFooter && "--dialog-footer: 0px;"}
+
     --dialog-tabs: 0px;
     --dialog-height: calc(var(--full-height) - var(--dialog-spacing) * 2);
     --dialog-body: calc(var(--dialog-height) - var(--dialog-header) - var(--dialog-tabs) - var(--dialog-footer));
@@ -170,10 +173,13 @@ function Dialog(props) {
     const showAside = open && !isClosing && !isLoading;
     const items     = [];
     let   hasTabs   = false;
+    let   hasFooter = false;
 
     for (const [ key, child ] of Utils.getChildren(children).entries()) {
         if (child.type === TabList) {
             hasTabs = true;
+        } else if (child.type === DialogFooter) {
+            hasFooter = true;
         }
         items.push(React.cloneElement(child, {
             key, isLoading, isNarrow, dontClose, onClose : handleClose,
@@ -186,6 +192,7 @@ function Dialog(props) {
         open={open}
         contentRef={contentRef}
         zIndex={zIndex}
+        hasFooter={hasFooter}
         isClosing={isClosing}
         onClose={handleClose}
     >
