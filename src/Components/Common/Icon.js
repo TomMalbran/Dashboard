@@ -20,7 +20,7 @@ const Span = Styled.span.attrs(({ size, color, cursor }) => ({ size, color, curs
     &::before {
         display: inline-block;
         padding: 0;
-        font-family: "icomoon";
+        font-family: var(--icon-font, "icomoon");
         font-weight: 400;
         text-align: center;
     }
