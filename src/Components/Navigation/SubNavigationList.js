@@ -23,7 +23,7 @@ const Ul = Styled.ul`
  * @returns {React.ReactElement}
  */
 function SubNavigationList(props) {
-    const { className, onAction, onClose, children } = props;
+    const { isHidden, className, onAction, onClose, children } = props;
 
 
     // Clone the Children
@@ -33,6 +33,9 @@ function SubNavigationList(props) {
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Ul className={className}>
         {items}
     </Ul>;
@@ -43,6 +46,7 @@ function SubNavigationList(props) {
  * @type {Object} propTypes
  */
 SubNavigationList.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
@@ -54,6 +58,7 @@ SubNavigationList.propTypes = {
  * @typedef {Object} defaultProps
  */
 SubNavigationList.defaultProps = {
+    isHidden  : false,
     className : "",
 };
 

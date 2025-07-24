@@ -34,7 +34,7 @@ const HeaderIcon = Styled(Icon)`
     justify-content: center;
     width: 24px;
     height: 24px;
-    font-size: 20px;
+    font-size: var(--navigation-title-icon, 20px);
     color: var(--navigation-title-color, var(--title-color));
 `;
 

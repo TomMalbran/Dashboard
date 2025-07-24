@@ -3,11 +3,9 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Navigate             from "../../Core/Navigate";
 import Store                from "../../Core/Store";
-import Utils                from "../../Utils/Utils";
 
 // Components
 import MenuLink             from "../Link/MenuLink";

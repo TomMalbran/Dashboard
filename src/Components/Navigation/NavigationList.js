@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import { Brightness }       from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
@@ -35,7 +34,7 @@ const Title = Styled.li`
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { className, message, onAction, onClose, children } = props;
+    const { isHidden, className, message, onAction, onClose, children } = props;
 
 
     // Clone the Children
@@ -45,6 +44,9 @@ function NavigationList(props) {
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Container className={className}>
         {!!message && <Title>
             {NLS.get(message)}

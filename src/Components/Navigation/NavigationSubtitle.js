@@ -30,8 +30,13 @@ const H3 = Styled.h3`
  * @returns {React.ReactElement}
  */
 function NavigationSubtitle(props) {
-    const { className, message } = props;
+    const { isHidden, className, message } = props;
 
+
+    // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <H3 className={className}>
         {NLS.get(message)}
     </H3>;
@@ -52,8 +57,8 @@ NavigationSubtitle.propTypes = {
  * @typedef {Object} defaultProps
  */
 NavigationSubtitle.defaultProps = {
-    className : "",
     isHidden  : false,
+    className : "",
 };
 
 export default NavigationSubtitle;
