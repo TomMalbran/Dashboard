@@ -14,7 +14,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.header`
+const Container = Styled.header.attrs(({ smallNav }) => ({ smallNav }))`
     flex-shrink: 0;
     box-sizing: border-box;
     position: sticky;
@@ -26,6 +26,14 @@ const Container = Styled.header`
     padding: var(--navigation-title-padding, 12px 12px 10px 8px);
     background-color: var(--navigation-background);
     z-index: 1;
+
+    ${(props) => props.smallNav && `
+        --navigation-title-icon: 24px;
+        justify-content: center;
+        padding-left: 0;
+        padding-right: 4px;
+        gap: 0;
+    `}
 `;
 
 const HeaderIcon = Styled(Icon)`
@@ -75,7 +83,8 @@ const Span2 = Styled.span`
 function NavigationTitle(props) {
     const {
         className, icon, href, message, fallback,
-        onClick, noBack, onAction, canAdd, canEdit, canManage,
+        smallNav, canAdd, canEdit, canManage,
+        noBack, onClick, onAction,
     } = props;
 
     const parent = Navigate.useParent();
@@ -91,35 +100,43 @@ function NavigationTitle(props) {
     };
 
 
+    // Variables
+    const showLink   = (!icon || smallNav) && !noBack;
+    const showTitle  = !smallNav;
+    const showAdd    = canAdd && !smallNav;
+    const showEdit   = canEdit && !smallNav;
+    const showManage = canManage && !smallNav;
+
+
     // Do the Render
-    return <Container className={`navigation-title ${className}`}>
-        {!!icon && <HeaderIcon icon={icon} />}
+    return <Container className={`navigation-title ${className}`} smallNav={smallNav}>
         <IconLink
-            isHidden={!!icon || noBack}
+            isHidden={!showLink}
             icon="back"
             href={onClick ? null : (href || parent)}
             onClick={onClick}
             isSmall
         />
+        {!!icon && <HeaderIcon icon={icon} />}
 
-        <Title>
+        {showTitle && <Title>
             {!message ? NLS.get(fallback) : <>
                 <Span1>{NLS.get(fallback)}</Span1>
                 <Span2>{NLS.get(message)}</Span2>
             </>}
-        </Title>
+        </Title>}
 
-        {canAdd && <IconLink
+        {showAdd && <IconLink
             icon="add"
             onClick={(e) => handleAction(e, "ADD")}
             isSmall
         />}
-        {canEdit && <IconLink
+        {showEdit && <IconLink
             icon="edit"
             onClick={(e) => handleAction(e, "EDIT")}
             isSmall
         />}
-        {canManage && <IconLink
+        {showManage && <IconLink
             icon="settings"
             onClick={(e) => handleAction(e, "MANAGE")}
             isSmall
@@ -137,12 +154,13 @@ NavigationTitle.propTypes = {
     href      : PropTypes.string,
     message   : PropTypes.string,
     fallback  : PropTypes.string,
-    noBack    : PropTypes.bool,
-    onAction  : PropTypes.func,
-    onClick   : PropTypes.func,
+    smallNav  : PropTypes.bool,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
+    noBack    : PropTypes.bool,
+    onAction  : PropTypes.func,
+    onClick   : PropTypes.func,
 };
 
 /**
@@ -153,10 +171,11 @@ NavigationTitle.defaultProps = {
     className : "",
     icon      : "",
     href      : "",
-    noBack    : false,
+    smallNav  : false,
     canAdd    : false,
     canEdit   : false,
     canManage : false,
+    noBack    : false,
 };
 
 export default NavigationTitle;

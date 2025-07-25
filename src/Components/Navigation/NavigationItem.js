@@ -61,13 +61,15 @@ const NavIcon = Styled(Icon)`
  */
 function NavigationItem(props) {
     const {
-        className, message, html, url, href, icon, amount, badge,
-        elemID, isSelected, isDisabled, onAction, onClick, onClose, noClose,
+        className, message, html, url, href, emoji, icon, iconColor, amount, badge,
+        elemID, isSelected, isDisabled, smallNav, onAction, onClick, onClose, noClose,
         canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
-    const isSelect      = Navigate.useSelect();
-    const { closeMenu } = Store.useAction("core");
+    const isSelect   = Navigate.useSelect();
+    const elementRef = React.useRef();
+
+    const { closeMenu, showTooltip, hideTooltip } = Store.useAction("core");
 
 
     // Returns true if the Menu should be selected
@@ -108,6 +110,13 @@ function NavigationItem(props) {
         e.preventDefault();
     };
 
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (smallNav) {
+            showTooltip(elementRef, "right", message);
+        }
+    };
+
 
     // Variables
     const hasActions   = canEdit || canDelete || canCollapse || collapseOnSelect;
@@ -116,9 +125,11 @@ function NavigationItem(props) {
     const menuUrl      = Navigate.useMenuUrl(url || "");
 
 
+    // Do the Render
     return <li>
         <Content>
             <NavMenu
+                passedRef={elementRef}
                 variant="light"
                 className={className}
                 isSelected={selected}
@@ -127,9 +138,14 @@ function NavigationItem(props) {
                 html={html}
                 href={url ? menuUrl : href}
                 onClick={handleClick}
+                emoji={emoji}
                 icon={icon}
+                iconColor={iconColor}
                 amount={amount}
                 badge={badge}
+                onlyIcon={smallNav}
+                onMouseEnter={handleTooltip}
+                onMouseLeave={hideTooltip}
             />
 
             {hasActions && <NavActions className="nav-actions">
@@ -167,7 +183,9 @@ NavigationItem.propTypes = {
     html             : PropTypes.string,
     url              : PropTypes.string,
     href             : PropTypes.string,
+    emoji            : PropTypes.string,
     icon             : PropTypes.string,
+    iconColor        : PropTypes.string,
     amount           : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     badge            : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     elemID           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -182,6 +200,7 @@ NavigationItem.propTypes = {
     collapseOnSelect : PropTypes.bool,
     isSelected       : PropTypes.bool,
     isDisabled       : PropTypes.bool,
+    smallNav         : PropTypes.bool,
     children         : PropTypes.any,
 };
 
@@ -199,6 +218,7 @@ NavigationItem.defaultProps = {
     collapseOnSelect : false,
     isSelected       : false,
     isDisabled       : false,
+    smallNav         : false,
 };
 
 export default NavigationItem;

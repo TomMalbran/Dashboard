@@ -115,10 +115,20 @@ const OutlinedLink = Styled(Link)`
     ${(props) => props.isSelected && "border-color: white;"}
 `;
 
-const Content = Styled.div`
+const Content = Styled.div.attrs(({ onlyIcon }) => ({ onlyIcon }))`
     display: flex;
     align-items: center;
     flex: 1;
+
+    ${(props) => props.onlyIcon && `
+        justify-content: center;
+        .link-preicon {
+            margin-right: 0;
+        }
+        .link-emoji {
+            margin-right: 0;
+        }
+    `}
 `;
 
 const Emoji = Styled.div`
@@ -160,17 +170,19 @@ const Components = {
  */
 function MenuLink(props) {
     const {
-        passedRef, variant, className, isSelected, isDisabled,
+        passedRef, variant, className, isSelected, isDisabled, onlyIcon,
         target, message, emoji, html, icon, iconColor, afterIcon, amount, badge,
         onMouseEnter, onMouseLeave, children,
     } = props;
 
 
     // Variables
-    const Component  = Components[variant] || Link;
-    const content    = children || NLS.get(message);
-    const hasContent = Boolean(content && !html);
-    const hasAmount  = amount !== undefined;
+    const Component    = Components[variant] || Link;
+    const content      = children || NLS.get(message);
+    const hasHtml      = Boolean(!onlyIcon && html);
+    const hasContent   = Boolean(!onlyIcon && content && !html);
+    const hasAmount    = Boolean(!onlyIcon && amount !== undefined);
+    const hasAfterIcon = Boolean(!onlyIcon && afterIcon);
 
 
     // Do the Render
@@ -185,7 +197,7 @@ function MenuLink(props) {
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >
-        <Content>
+        <Content onlyIcon={onlyIcon}>
             {!!icon && <Icon
                 className="link-preicon"
                 icon={icon}
@@ -194,7 +206,7 @@ function MenuLink(props) {
             {!!emoji && <Emoji className="link-emoji">
                 {emoji}
             </Emoji>}
-            {!!html && <Html
+            {hasHtml && <Html
                 className="link-content"
                 variant="span"
                 content={html}
@@ -207,7 +219,7 @@ function MenuLink(props) {
             </Amount>}
         </Content>
 
-        {!!afterIcon && <Icon
+        {hasAfterIcon && <Icon
             className="link-aftericon"
             icon={afterIcon}
         />}
@@ -242,6 +254,7 @@ MenuLink.propTypes = {
     onMouseLeave : PropTypes.func,
     isSelected   : PropTypes.bool,
     isDisabled   : PropTypes.bool,
+    onlyIcon     : PropTypes.bool,
     dontStop     : PropTypes.bool,
     passedRef    : PropTypes.any,
     children     : PropTypes.any,
@@ -264,6 +277,7 @@ MenuLink.defaultProps = {
     badge      : 0,
     isSelected : false,
     isDisabled : false,
+    onlyIcon   : false,
     dontStop   : false,
 };
 

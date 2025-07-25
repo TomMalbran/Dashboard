@@ -53,8 +53,8 @@ const Container = Styled.nav.attrs(({ hasScroll }) => ({ hasScroll }))`
  */
 function Navigation(props) {
     const {
-        className, message, fallback, icon, href,
-        canAdd, canEdit, canManage, onAction,
+        className, message, fallback, icon, href, noBack,
+        smallNav, canAdd, canEdit, canManage, onAction,
         none, add, isLoading, children,
     } = props;
 
@@ -94,6 +94,8 @@ function Navigation(props) {
             fallback={fallback}
             icon={icon}
             href={href}
+            noBack={noBack}
+            smallNav={smallNav}
             canAdd={canAdd}
             canEdit={canEdit}
             canManage={canManage}
@@ -124,6 +126,8 @@ Navigation.propTypes = {
     none      : PropTypes.string,
     add       : PropTypes.string,
     isLoading : PropTypes.bool,
+    noBack    : PropTypes.bool,
+    smallNav  : PropTypes.bool,
     canAdd    : PropTypes.bool,
     canEdit   : PropTypes.bool,
     canManage : PropTypes.bool,
@@ -141,6 +145,8 @@ Navigation.defaultProps = {
     none      : "",
     add       : "",
     isLoading : false,
+    noBack    : false,
+    smallNav  : false,
     canAdd    : false,
     canEdit   : false,
     canManage : false,
