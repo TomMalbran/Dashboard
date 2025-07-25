@@ -39,7 +39,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark })
     text-align: center;
     border-radius: var(--link-radius);
     text-decoration: none;
-    transition: all 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
     color: var(--link-color, black);
     flex-shrink: 0;
     cursor: pointer;
