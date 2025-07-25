@@ -5,14 +5,6 @@ import MD5                  from "./MD5";
 
 
 /**
- * Returns true if is Mobile
- * @returns {Boolean}
- */
-function isMobile() {
-    return window.innerWidth < 700;
-}
-
-/**
  * Returns true if the value is a Boolean
  * @param {*} value
  * @returns {Boolean}
@@ -1451,7 +1443,6 @@ function print(title, content) {
 
 // The public API
 export default {
-    isMobile,
     isBoolean,
     isString,
     isNumeric,
