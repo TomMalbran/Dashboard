@@ -105,6 +105,13 @@ const Select = Styled.select`
     outline: none;
 `;
 
+const TableIcon = Styled(IconLink).attrs(({ isDisabled }) => ({ isDisabled }))`
+    ${(props) => props.isDisabled && `
+        --link-color: var(--darker-gray);
+        --link-background: transparent;
+    `}
+`;
+
 
 
 /**
@@ -171,28 +178,28 @@ function TablePaging(props) {
                 </Amount>
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 
-                <IconLink
+                <TableIcon
                     variant="black"
                     icon="first"
                     onClick={handleFirstPage}
                     isDisabled={prevDisabled}
                     isSmall
                 />
-                <IconLink
+                <TableIcon
                     variant="black"
                     icon="prev"
                     onClick={handlePrevPage}
                     isDisabled={prevDisabled}
                     isSmall
                 />
-                <IconLink
+                <TableIcon
                     variant="black"
                     icon="next"
                     onClick={handleNextPage}
                     isDisabled={nextDisabled}
                     isSmall
                 />
-                <IconLink
+                <TableIcon
                     variant="black"
                     icon="last"
                     onClick={handleLastPage}
