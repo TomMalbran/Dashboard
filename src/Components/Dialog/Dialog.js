@@ -82,7 +82,7 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
 function Dialog(props) {
     const {
         open, className, isLoading, width, isWide, isNarrow, noTab,
-        zIndex, dontClose, onClose, aside, children,
+        zIndex, dontClose, onClose, aside, hasFooter, children,
     } = props;
 
 
@@ -170,16 +170,16 @@ function Dialog(props) {
 
 
     // Variables
-    const showAside = open && !isClosing && !isLoading;
-    const items     = [];
-    let   hasTabs   = false;
-    let   hasFooter = false;
+    const showAside  = open && !isClosing && !isLoading;
+    const items      = [];
+    let   hasTabs    = false;
+    let   withFooter = Boolean(hasFooter);
 
     for (const [ key, child ] of Utils.getChildren(children).entries()) {
         if (child.type === TabList) {
             hasTabs = true;
         } else if (child.type === DialogFooter) {
-            hasFooter = true;
+            withFooter = true;
         }
         items.push(React.cloneElement(child, {
             key, isLoading, isNarrow, dontClose, onClose : handleClose,
@@ -192,7 +192,7 @@ function Dialog(props) {
         open={open}
         contentRef={contentRef}
         zIndex={zIndex}
-        hasFooter={hasFooter}
+        hasFooter={withFooter}
         isClosing={isClosing}
         onClose={handleClose}
     >
@@ -231,6 +231,7 @@ Dialog.propTypes = {
     isNarrow  : PropTypes.bool,
     noTab     : PropTypes.bool,
     isLoading : PropTypes.bool,
+    hasFooter : PropTypes.bool,
     aside     : PropTypes.any,
     children  : PropTypes.any,
 };
