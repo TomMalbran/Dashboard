@@ -77,7 +77,7 @@ function MenuItem(props) {
 
     // Variables
     const act         = Action.get(action);
-    const icn         = icon    || act.icon;
+    const icn         = icon || act.icon;
     const uri         = url ? NLS.baseUrl(url) : href;
     const navigate    = Navigate.useGotoUrl();
     const isSelection = !isDisabled && (isSelected || selectedIdx === index);

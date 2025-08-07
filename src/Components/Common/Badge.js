@@ -10,7 +10,7 @@ const Span = Styled.span`
     position: absolute;
     top: -2px;
     right: 2px;
-    min-width: 14px;
+    min-width: 16px;
     padding: 0 4px;
     line-height: 14px;
     font-size: 10px;
