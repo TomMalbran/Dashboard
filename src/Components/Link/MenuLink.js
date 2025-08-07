@@ -170,7 +170,7 @@ const Components = {
  */
 function MenuLink(props) {
     const {
-        passedRef, variant, className, isSelected, isDisabled, onlyIcon,
+        isHidden, passedRef, variant, className, isSelected, isDisabled, onlyIcon,
         target, message, emoji, html, icon, iconColor, afterIcon, amount, badge,
         onMouseEnter, onMouseLeave, children,
     } = props;
@@ -183,9 +183,13 @@ function MenuLink(props) {
     const hasContent   = Boolean(!onlyIcon && content && !html);
     const hasAmount    = Boolean(!onlyIcon && amount !== undefined);
     const hasAfterIcon = Boolean(!onlyIcon && afterIcon);
+    const onClick      = Navigate.useLink(props);
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Component
         ref={passedRef}
         className={`link ${className}`}
@@ -193,7 +197,7 @@ function MenuLink(props) {
         isDisabled={isDisabled}
         href={Navigate.getUrl(props)}
         target={target}
-        onClick={Navigate.useLink(props)}
+        onClick={onClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
     >
@@ -232,6 +236,7 @@ function MenuLink(props) {
  * @type {Object} propTypes
  */
 MenuLink.propTypes = {
+    isHidden     : PropTypes.bool,
     className    : PropTypes.string,
     variant      : PropTypes.string,
     message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -265,6 +270,7 @@ MenuLink.propTypes = {
  * @type {Object} defaultProps
  */
 MenuLink.defaultProps = {
+    isHidden   : false,
     className  : "",
     variant    : Variant.NONE,
     href       : "#",
