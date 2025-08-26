@@ -41,15 +41,19 @@ const Child = Styled.div`
  */
 function Header(props) {
     const {
-        className, icon, message, fallback, href,
+        isHidden, className, icon, emoji, message, fallback, href,
         subTitle, subCircle, children,
     } = props;
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <Container className={className}>
         <Title
             icon={icon}
+            emoji={emoji}
             message={message}
             fallback={fallback}
             href={href}
@@ -69,8 +73,10 @@ function Header(props) {
  * @typedef {Object} propTypes
  */
 Header.propTypes = {
+    isHidden  : PropTypes.bool,
     className : PropTypes.string,
     icon      : PropTypes.string.isRequired,
+    emoji     : PropTypes.string,
     message   : PropTypes.string.isRequired,
     fallback  : PropTypes.string,
     href      : PropTypes.string,
@@ -84,6 +90,7 @@ Header.propTypes = {
  * @type {Object} defaultProps
  */
 Header.defaultProps = {
+    isHidden  : false,
     className : "",
 };
 

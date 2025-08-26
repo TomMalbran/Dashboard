@@ -31,6 +31,15 @@ const Container = Styled.h2`
     }
 `;
 
+const TitleEmoji = Styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+`;
+
 const TitleIcon = Styled(Icon)`
     display: flex;
     align-items: center;
@@ -53,17 +62,27 @@ const Text = Styled.span`
  * @returns {React.ReactElement}
  */
 function Title(props) {
-    const { icon, message, fallback, href } = props;
+    const { icon, emoji, message, fallback, href } = props;
+
+
+    // Variables
+    const isLink  = Boolean(href);
+    const isEmoji = Boolean(!isLink && emoji);
+    const isIcon  = Boolean(!isLink && !isEmoji && icon);
 
 
     // Do the Render
     return <Container className="title">
-        {href ? <IconLink
+        {isLink && <IconLink
             variant="light"
             icon="back"
             href={href}
             isSmall
-        /> : <TitleIcon
+        />}
+        {isEmoji && <TitleEmoji>
+            {emoji}
+        </TitleEmoji>}
+        {isIcon && <TitleIcon
             icon={icon}
         />}
         <Text>{message ? NLS.get(message) : NLS.get(fallback)}</Text>
@@ -76,6 +95,7 @@ function Title(props) {
  */
 Title.propTypes = {
     icon     : PropTypes.string.isRequired,
+    emoji    : PropTypes.string,
     message  : PropTypes.string,
     fallback : PropTypes.string,
     href     : PropTypes.string,
