@@ -31,7 +31,7 @@ const Variant = {
 
 
 // Styles
-const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, isLoading, withMark, withIcon, onlyIcon, smallRadius }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, inLowerCase, isLoading, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, inLowerCase, isLoading, withMark, withIcon, onlyIcon, smallRadius }))`
     --button-color: var(--black-color);
     --button-border: black;
     --button-background: black;
@@ -62,6 +62,11 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, isLoading, withM
         justify-content: center;
         padding: 5px 12px 5px 8px;
         gap: 4px;
+    `}
+
+    ${(props) => props.inLowerCase && `
+        text-transform: none;
+        font-size: ${props.isSmall ? "12px" : "14px"};
     `}
 
     ${(props) => props.onlyIcon && `
@@ -244,7 +249,7 @@ const BtnBadge = Styled(Badge)`
 function Button(props) {
     const {
         passedRef, isHidden, className, variant,
-        isDisabled, isSmall, fullWidth, isLoading,
+        isDisabled, isSmall, fullWidth, inLowerCase, isLoading,
         icon, afterIcon, message, badge, withMark,
         tooltip, tooltipVariant, children,
     } = props;
@@ -280,6 +285,7 @@ function Button(props) {
         disabled={isDisabled}
         isSmall={isSmall}
         fullWidth={fullWidth}
+        inLowerCase={inLowerCase}
         isLoading={isLoading}
         withMark={withMark}
         withIcon={withIcon}
@@ -323,6 +329,7 @@ Button.propTypes = {
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
     fullWidth      : PropTypes.bool,
+    inLowerCase    : PropTypes.bool,
     isLoading      : PropTypes.bool,
     badge          : PropTypes.number,
     withMark       : PropTypes.bool,
@@ -351,6 +358,7 @@ Button.defaultProps = {
     isDisabled     : false,
     isSmall        : false,
     fullWidth      : false,
+    inLowerCase    : false,
     badge          : 0,
     withMark       : false,
     href           : "",

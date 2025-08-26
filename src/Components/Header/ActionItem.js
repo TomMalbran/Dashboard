@@ -1,6 +1,5 @@
 import React                from "react";
 import PropTypes            from "prop-types";
-import Styled               from "styled-components";
 
 // Core & Utils
 import Action               from "../../Core/Action";
@@ -12,16 +11,6 @@ import ActionOption         from "./ActionOption";
 import Menu                 from "../Menu/Menu";
 import MenuItem             from "../Menu/MenuItem";
 import MenuLine             from "../Menu/MenuLine";
-
-
-
-// Styles
-const Container = Styled.li.attrs(({ isSmall }) => ({ isSmall }))`
-    .btn {
-        text-transform: none;
-        font-size: ${(props) => props.isSmall ? "12px" : "14px"};
-    }
-`;
 
 
 
@@ -103,7 +92,7 @@ function ActionItem(props) {
     }
     const act = Action.get(action);
 
-    return <Container ref={actionRef} isSmall={isSmall}>
+    return <li ref={actionRef}>
         <Button
             passedRef={buttonRef}
             variant={variant}
@@ -116,6 +105,7 @@ function ActionItem(props) {
             isLoading={isLoading}
             badge={badge}
             withMark={withMark}
+            inLowerCase
             propagate
         />
 
@@ -136,7 +126,7 @@ function ActionItem(props) {
                 onClick={() => handleMenuClick(elem)}
             >{elem.children}</MenuItem>)}
         </Menu>}
-    </Container>;
+    </li>;
 }
 
 /**
