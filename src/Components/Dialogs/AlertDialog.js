@@ -32,7 +32,7 @@ const Content = Styled(Html)`
  */
 function AlertDialog(props) {
     const {
-        open, icon, title, message, content,
+        open, icon, title, message, content, isLoading,
         onClose, secondary, onSecondary,
     } = props;
 
@@ -44,7 +44,12 @@ function AlertDialog(props) {
 
 
     // Do the Render
-    return <Dialog open={open} onClose={onClose} isNarrow>
+    return <Dialog
+        open={open}
+        onClose={onClose}
+        isLoading={isLoading}
+        isNarrow
+    >
         <DialogHeader message={title} icon={icon} />
         <DialogBody bigSpacing withSpacing>
             <Content variant="h3">
@@ -69,6 +74,7 @@ AlertDialog.propTypes = {
     title       : PropTypes.string.isRequired,
     message     : PropTypes.string,
     content     : PropTypes.string,
+    isLoading   : PropTypes.bool,
     onClose     : PropTypes.func.isRequired,
     secondary   : PropTypes.string,
     onSecondary : PropTypes.func,
@@ -79,8 +85,9 @@ AlertDialog.propTypes = {
  * @typedef {Object} defaultProps
  */
 AlertDialog.defaultProps = {
-    icon    : "view",
-    message : "",
+    icon      : "view",
+    message   : "",
+    isLoading : false,
 };
 
 export default AlertDialog;
