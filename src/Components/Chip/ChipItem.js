@@ -19,6 +19,7 @@ const Variant = {
 const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) => ({ variant, hasClick, hasClose, isDisabled }))`
     padding: 2px 8px;
     font-size: 12px;
+    line-height: 1.2;
     border-radius: var(--border-radius);
 
     ${(props) => props.variant === Variant.LIGHT && `
