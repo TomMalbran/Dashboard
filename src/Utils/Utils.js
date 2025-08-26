@@ -459,25 +459,29 @@ function upperCaseToPascalCase(value) {
 
 /**
  * Formats a number
- * @param {Number}  number
- * @param {Number=} decimals
- * @param {Number=} maxForDecimals
+ * @param {Number}   number
+ * @param {Number=}  decimals
+ * @param {Number=}  maxForDecimals
+ * @param {Boolean=} alwaysShowDecimals
  * @returns {String}
  */
-function formatNumber(number, decimals = 0, maxForDecimals = 1000) {
+function formatNumber(number, decimals = 0, maxForDecimals = 1000, alwaysShowDecimals = true) {
     const amount  = Math.pow(10, decimals);
     const float   = Math.round(number * amount) / amount;
     const integer = Math.floor(float);
     let   result  = String(integer);
 
     if (!maxForDecimals || float < maxForDecimals) {
-        let fraction = String(Math.round(float * amount - integer * amount));
-        const start  = fraction.length;
+        const fraction = Math.round(float * amount - integer * amount);
+        if (alwaysShowDecimals || fraction !== 0) {
+            let   fractionText = String(fraction);
+            const start        = fractionText.length;
 
-        for (let i = start; i < decimals; i++) {
-            fraction = `0${fraction}`;
+            for (let i = start; i < decimals; i++) {
+                fractionText = `0${fractionText}`;
+            }
+            result = String(`${integer}.${fractionText}`);
         }
-        result = String(`${integer}.${fraction}`);
     }
 
     const parts = result.split(".");
