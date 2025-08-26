@@ -16,10 +16,10 @@ import Html                 from "../Common/Html";
 // Styles
 const props = ({
     flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
-    bigMobile, hideMobile, noSpace, smallSpace, indent,
+    bigMobile, hideMobile, noSpace, smallSpace, isEditable, indent,
 }) => ({
     flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isBold, isTitle, isFlex, isMultiline,
-    bigMobile, hideMobile, noSpace, smallSpace, indent,
+    bigMobile, hideMobile, noSpace, smallSpace, isEditable, indent,
 });
 
 const TD = Styled.td.attrs(props)`
@@ -113,7 +113,7 @@ function TableCell(props) {
         colSpan, grow, shrink, width, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex, isMultiline,
         bigMobile, hideMobile,
-        noSpace, smallSpace, indent, children,
+        noSpace, smallSpace, indent, isEditable, children,
     } = props;
 
     const elementRef = React.useRef();
@@ -159,6 +159,7 @@ function TableCell(props) {
         noSpace={noSpace}
         smallSpace={smallSpace}
         indent={indent}
+        isEditable={isEditable}
         colSpan={colSpan}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
@@ -203,6 +204,7 @@ TableCell.propTypes = {
     noSpace        : PropTypes.bool,
     smallSpace     : PropTypes.bool,
     indent         : PropTypes.bool,
+    isEditable     : PropTypes.bool,
     children       : PropTypes.any,
 };
 
