@@ -26,8 +26,8 @@ const Header = Styled.header`
     color: var(--title-color);
 
     @media (max-width: 500px) {
-        padding-right: 8px;
-        padding-left: 8px;
+        padding-right: 16px;
+        padding-left: 16px;
     }
 `;
 
