@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Components
 import Html                 from "../Common/Html";
+import Icon from "../Common/Icon";
 
 
 
@@ -30,6 +31,12 @@ const Container = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
     `}
 `;
 
+const Content = Styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
 const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
     color: var(--font-lightest);
     font-size: 13px;
@@ -48,7 +55,10 @@ const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
  * @returns {React.ReactElement}
  */
 function InputOption(props) {
-    const { className, content, description, isSelected, onMouseDown } = props;
+    const {
+        className, content, description,
+        isSelected, hasChecks, isChecked, onMouseDown,
+    } = props;
 
 
     // Do the Render
@@ -58,7 +68,14 @@ function InputOption(props) {
         isSelected={isSelected}
         onMouseDown={onMouseDown}
     >
-        <Html content={content} />
+        <Content>
+            <Icon
+                isHidden={!hasChecks}
+                icon={isChecked ? "checkbox-on" : "checkbox-off"}
+                size="20"
+            />
+            <Html content={content} />
+        </Content>
         <Description content={description} isSelected={isSelected} />
     </Container>;
 }
@@ -72,6 +89,8 @@ InputOption.propTypes = {
     content     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     description : PropTypes.string,
     isSelected  : PropTypes.bool,
+    hasChecks   : PropTypes.bool,
+    isChecked   : PropTypes.bool,
     onMouseDown : PropTypes.func,
 };
 

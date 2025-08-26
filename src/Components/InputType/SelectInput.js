@@ -56,15 +56,14 @@ function SelectInput(props) {
     const {
         inputRef, className, icon, postIcon,
         isFocused, isDisabled, isSmall, withBorder, withLabel, minWidth,
-        id, name, value, placeholder,
-        emptyText, noneText, noneValue,
+        id, name, placeholder, value, allowMultiple,
+        defaultText, emptyText, noneText, noneValue,
         withCustom, customFirst, customText, customKey,
         options, extraOptions, descriptions, showDescription,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
     const initStyle = { top : 0, left : 0, width : 0, maxHeight : 0, opacity : 0 };
-
 
     // The References
     const containerRef   = React.useRef(null);
@@ -82,6 +81,7 @@ function SelectInput(props) {
 
     // Variables
     const valueKey   = String(value || noneValue);
+    const values     = allowMultiple && Array.isArray(value) ? value : [];
     const items      = Array.isArray(options)      ? options      : NLS.select(options);
     const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
     const descItems  = Array.isArray(descriptions) ? descriptions : NLS.select(descriptions);
@@ -136,7 +136,7 @@ function SelectInput(props) {
             });
         }
         return result;
-    }, [ emptyText, noneText, noneValue, withCustom, customFirst, customText, customKey, JSON.stringify(items), JSON.stringify(extraItems) ]);
+    }, [ noneText, noneValue, withCustom, customFirst, customText, customKey, JSON.stringify(items), JSON.stringify(extraItems) ]);
 
     // Get the Filtered List
     const filteredList = React.useMemo(() => {
@@ -157,6 +157,19 @@ function SelectInput(props) {
             return [ NLS.get(emptyText), "" ];
         }
 
+        if (allowMultiple) {
+            const valueList = [];
+            for (const item of optionList) {
+                if (values.includes(item.value)) {
+                    valueList.push(NLS.get(item.message));
+                }
+            }
+            if (!valueList.length && defaultText) {
+                valueList.push(NLS.get(defaultText));
+            }
+            return [ valueList.join(", "), "" ];
+        }
+
         let value = "";
         let desc  = "";
         for (const item of optionList) {
@@ -167,7 +180,7 @@ function SelectInput(props) {
             }
         }
         return [ NLS.get(value), NLS.get(desc) ];
-    }, [ valueKey, JSON.stringify(optionList) ]);
+    }, [ valueKey, JSON.stringify(optionList), allowMultiple, defaultText, emptyText ]);
 
 
     // Clear the Timer
@@ -181,8 +194,24 @@ function SelectInput(props) {
 
     // Sets the Selected Index
     const setSelectedIndex = (value) => {
-        selectedIdxRef.current = filteredList.findIndex((option) => String(option.value) === String(value)) ?? -1;
-        selectedValRef.current = filteredList.find((option) => String(option.value) === String(value))?.value ?? "";
+        if (!allowMultiple) {
+            selectedIdxRef.current = filteredList.findIndex((option) => String(option.value) === String(value)) ?? -1;
+            selectedValRef.current = filteredList.find((option) => String(option.value) === String(value))?.value ?? "";
+        } else {
+            selectedIdxRef.current = -1;
+            selectedValRef.current = "";
+        }
+    };
+
+    // Sets the Values
+    const setValues = (key) => {
+        const pos = values.indexOf(key);
+        if (pos > -1) {
+            values.splice(pos, 1);
+        } else {
+            values.push(key);
+        }
+        onChange(name, values.length ? values : "");
     };
 
 
@@ -231,7 +260,7 @@ function SelectInput(props) {
     // Handles the Blur
     const handleBlur = () => {
         setTimer(window.setTimeout(() => {
-            if (selectedValRef.current !== initialVal) {
+            if (!allowMultiple && selectedValRef.current !== initialVal) {
                 onChange(name, selectedValRef.current);
             }
 
@@ -250,7 +279,11 @@ function SelectInput(props) {
     // Handles the Select
     const handleSelect = (e, value) => {
         e.stopPropagation();
-        setSelectedIndex(value);
+        if (allowMultiple) {
+            setValues(value);
+        } else {
+            setSelectedIndex(value);
+        }
     };
 
     // Handles the Key Down
@@ -350,6 +383,9 @@ function SelectInput(props) {
             if (!selectedValRef.current) {
                 selectedValRef.current = filteredList[0]?.value ?? "";
             }
+            if (allowMultiple && selectedValRef.current) {
+                setValues(selectedValRef.current);
+            }
             inputRef.current.blur();
             break;
 
@@ -433,8 +469,10 @@ function SelectInput(props) {
                 className={`input-option-${index}`}
                 content={text || message}
                 description={description}
+                isChecked={values.includes(value)}
                 isSelected={selectedIdxRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
+                hasChecks={allowMultiple}
             />)}
         </InputOptions>}
     </InputContent>;
@@ -458,10 +496,12 @@ SelectInput.propTypes = {
     name            : PropTypes.string.isRequired,
     placeholder     : PropTypes.string,
     value           : PropTypes.any,
+    allowMultiple   : PropTypes.bool,
     options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     descriptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     showDescription : PropTypes.bool,
+    defaultText     : PropTypes.string,
     emptyText       : PropTypes.string,
     noneText        : PropTypes.string,
     noneValue       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),

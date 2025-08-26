@@ -111,12 +111,14 @@ function IconField(props) {
         withLabel, label, placeholder, shrinkLabel,
     } = props;
 
+
+    // The References
+    const fieldRef = React.useRef();
+    const inputRef = passedRef || fieldRef;
+
     // The Current State
     const [ isFocused, setFocus    ] = React.useState(false);
     const [ hasValue,  setHasValue ] = React.useState(false);
-
-    const fieldRef = React.useRef();
-    const inputRef = passedRef || fieldRef;
 
 
     // The Input got Focus
