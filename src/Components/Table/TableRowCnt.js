@@ -23,7 +23,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSel
         border-bottom: var(--table-border-inner);
     }
 
-    .icon-checkbox {
+    .icon-checkbox-on {
         color: var(--darkest-gray);
     }
 

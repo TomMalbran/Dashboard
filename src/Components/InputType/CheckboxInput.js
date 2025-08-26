@@ -43,7 +43,8 @@ const Input = Styled.input`
         outline: none;
     }
 
-    &:checked + span {
+    &:checked + span,
+    &:indeterminate + span {
         color: var(--input-check-checked, black);
     }
     &:checked + span::before {
@@ -58,9 +59,9 @@ const Input = Styled.input`
 
 const Span = Styled(Icon)`
     color: var(--input-check-normal, black);
-    width: 18px;
-    height: 18px;
-    font-size: 18px;
+    width: var(--input-check-size, 18px);
+    height: var(--input-check-size, 18px);
+    font-size: var(--input-check-size, 18px);
     margin-right: 6px;
     cursor: pointer;
 `;
@@ -80,9 +81,23 @@ const Label = Styled(Html)`
 function CheckboxInput(props) {
     const {
         inputRef, className, isFocused, isDisabled, withBorder,
-        id, name, value, label, isChecked,
+        id, name, value, label, isChecked, isIndeterminate,
         onChange, onClick, onFocus, onBlur, children,
     } = props;
+
+
+    // The References
+    const fieldRef = React.useRef();
+    const checkRef = inputRef || fieldRef;
+
+
+    // Update the indeterminate state
+    React.useEffect(() => {
+        if (checkRef?.current) {
+            checkRef.current.indeterminate = isIndeterminate;
+        }
+    }, [ isIndeterminate ]);
+
 
     // Handles the Change
     const handleChange = (e) => {
@@ -101,6 +116,17 @@ function CheckboxInput(props) {
         }
     };
 
+    // Memoized icon determination
+    const icon = React.useMemo(() => {
+        if (isChecked) {
+            return "checkbox-on";
+        }
+        if (isIndeterminate) {
+            return "checkbox-indeterminate";
+        }
+        return "checkbox-off";
+    }, [ isChecked, isIndeterminate ]);
+
 
     // Do the Render
     return <InputContent
@@ -114,7 +140,7 @@ function CheckboxInput(props) {
     >
         <Container>
             <Input
-                ref={inputRef}
+                ref={checkRef}
                 type="checkbox"
                 id={id}
                 name={name}
@@ -125,7 +151,7 @@ function CheckboxInput(props) {
                 onFocus={onFocus}
                 onBlur={onBlur}
             />
-            <Span icon={isChecked ? "checkedbox" : "checkbox"} />
+            <Span icon={icon} />
             {!!label && <Label variant="span">{NLS.get(label)}</Label>}
             {children}
         </Container>
@@ -137,21 +163,22 @@ function CheckboxInput(props) {
  * @type {Object} propTypes
  */
 CheckboxInput.propTypes = {
-    inputRef   : PropTypes.any,
-    className  : PropTypes.string,
-    isFocused  : PropTypes.bool,
-    isDisabled : PropTypes.bool,
-    withBorder : PropTypes.bool,
-    id         : PropTypes.string,
-    name       : PropTypes.string.isRequired,
-    value      : PropTypes.any,
-    label      : PropTypes.string,
-    isChecked  : PropTypes.bool,
-    onChange   : PropTypes.func.isRequired,
-    onClick    : PropTypes.func,
-    onFocus    : PropTypes.func,
-    onBlur     : PropTypes.func,
-    children   : PropTypes.any,
+    inputRef        : PropTypes.any,
+    className       : PropTypes.string,
+    isFocused       : PropTypes.bool,
+    isDisabled      : PropTypes.bool,
+    withBorder      : PropTypes.bool,
+    id              : PropTypes.string,
+    name            : PropTypes.string.isRequired,
+    value           : PropTypes.any,
+    label           : PropTypes.string,
+    isChecked       : PropTypes.bool,
+    isIndeterminate : PropTypes.bool,
+    onChange        : PropTypes.func.isRequired,
+    onClick         : PropTypes.func,
+    onFocus         : PropTypes.func,
+    onBlur          : PropTypes.func,
+    children        : PropTypes.any,
 };
 
 /**
@@ -159,11 +186,12 @@ CheckboxInput.propTypes = {
  * @type {Object} defaultProps
  */
 CheckboxInput.defaultProps = {
-    className  : "",
-    isFocused  : false,
-    isDisabled : false,
-    withBorder : false,
-    isChecked  : false,
+    className       : "",
+    isFocused       : false,
+    isDisabled      : false,
+    withBorder      : false,
+    isChecked       : false,
+    isIndeterminate : false,
 };
 
 export default CheckboxInput;
