@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
-import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
 import Utils                from "../../Utils/Utils";
 
@@ -16,11 +15,16 @@ import Button               from "../Form/Button";
 
 
 // Styles
-const Container = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
+const Container = Styled.nav.attrs(({ withSpacing, hasScroll }) => ({ withSpacing, hasScroll }))`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: ${(props) => props.withSpacing && "0 12px 16px 6px"};
+    overflow: auto;
+
+    ${(props) => props.hasScroll && `
+        padding-right: 0;
+    `}
 `;
 
 const None = Styled(NoneAvailable)`
@@ -45,9 +49,34 @@ const Ul = Styled.ul`
  */
 function NavigationBody(props) {
     const {
-        className, variant, onAction, onClose,
+        className, onAction, onClose,
         isLoading, none, canAdd, add, withSpacing, children,
     } = props;
+
+    // The References
+    const navigationRef = React.useRef(null);
+
+    // The Current State
+    const [ hasScroll, setHasScroll ] = React.useState(false);
+
+
+    // Check if the Container should scroll
+    React.useEffect(() => {
+        const container = navigationRef.current;
+        setHasScroll(container.scrollHeight > container.clientHeight);
+
+        const observer = new ResizeObserver(([ entry ]) => {
+            if (container && entry.target.classList.contains("navigation-body")) {
+                setHasScroll(container.scrollHeight > container.clientHeight);
+            }
+        });
+
+        observer.observe(navigationRef.current);
+        return () => {
+            observer.disconnect();
+        };
+    }, [ navigationRef.current ]);
+
 
     // Handles the Action
     const handleAdd = (e) => {
@@ -68,29 +97,29 @@ function NavigationBody(props) {
         }
         if (!child.props.isHidden) {
             items.push(React.cloneElement(child, {
-                key, variant, onAction, onClose,
+                key, onAction, onClose,
             }));
         }
     }
 
 
     // Variables
-    const showLoader  = isLoading;
-    const showNone    = Boolean(!isLoading && !items.length && none);
-    const showAdd     = Boolean(showNone && canAdd && add);
-    const showItems   = Boolean(!isLoading && items.length);
-    const compVariant = variant === Brightness.DARK ? "white" : "primary";
-    const scrollbars  = variant === Brightness.DARK ? "dark-scrollbars" : "light-scrollbars";
+    const showLoader = isLoading;
+    const showNone   = Boolean(!isLoading && !items.length && none);
+    const showAdd    = Boolean(showNone && canAdd && add);
+    const showItems  = Boolean(!isLoading && items.length);
 
 
     // Do the Render
     return <Container
-        className={`navigation-body ${scrollbars} ${className}`}
+        ref={navigationRef}
+        className={`navigation-body ${className}`}
         withSpacing={withSpacing}
+        hasScroll={hasScroll}
     >
-        {showLoader && <CircularLoader variant={compVariant} />}
+        {showLoader && <CircularLoader />}
         {showNone   && <div>
-            <None variant={compVariant} message={none} />
+            <None message={none} />
             {showAdd && <Button
                 variant="outlined-accent"
                 icon="add"

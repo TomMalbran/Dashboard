@@ -17,14 +17,11 @@ import Icon                 from "../Common/Icon";
 const Container = Styled.header.attrs(({ smallNav }) => ({ smallNav }))`
     flex-shrink: 0;
     box-sizing: border-box;
-    position: sticky;
-    top: 0;
     display: flex;
     align-items: center;
     gap: 4px;
     min-height: var(--header-height);
     padding: var(--navigation-title-padding, 12px 12px 10px 8px);
-    background-color: var(--navigation-background);
     z-index: 1;
 
     ${(props) => props.smallNav && `

@@ -8,11 +8,18 @@ import Responsive           from "../../Core/Responsive";
 // Components
 import NavigationTitle      from "./NavigationTitle";
 import NavigationBody       from "./NavigationBody";
+import IconLink             from "../Link/IconLink";
 
 
 
 // Styles
-const Container = Styled.nav.attrs(({ hasScroll }) => ({ hasScroll }))`
+const Container = Styled.main.attrs(({ isCollapsed }) => ({ isCollapsed }))`
+    ${(props) => props.isCollapsed && "--navigation-width: var(--navigation-small-width);"}
+    position: relative;
+    display: flex;
+`;
+
+const Content = Styled.nav`
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
@@ -21,16 +28,8 @@ const Container = Styled.nav.attrs(({ hasScroll }) => ({ hasScroll }))`
     max-height: var(--main-height);
     border-right: var(--navigation-border);
     font-size: var(--navigation-font-size, var(--font-size));
-    color: var(--navigation-color, --font-light);
+    color: var(--navigation-color, var(--font-light));
     background-color: var(--navigation-background);
-    overflow: auto;
-
-    ${(props) => props.hasScroll && `
-        .navigation-title,
-        .navigation-body {
-            padding-right: 0;
-        }
-    `}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: none;
@@ -44,6 +43,18 @@ const Container = Styled.nav.attrs(({ hasScroll }) => ({ hasScroll }))`
     }
 `;
 
+const Collapse = Styled(IconLink)`
+    --link-background: var(--lighter-gray);
+    --link-size: 18px;
+
+    position: absolute;
+    top: 22px;
+    left: calc(var(--navigation-width) - var(--link-size) / 2);
+    z-index: 1;
+    border: 1px solid var(--border-color-light);
+    background-color: var(--content-color);
+`;
+
 
 
 /**
@@ -54,62 +65,43 @@ const Container = Styled.nav.attrs(({ hasScroll }) => ({ hasScroll }))`
 function Navigation(props) {
     const {
         className, message, fallback, icon, href, noBack,
-        smallNav, canAdd, canEdit, canManage, onAction,
-        none, add, isLoading, children,
+        none, add, canAdd, canEdit, canManage, onAction,
+        isLoading, canCollapse, isCollapsed, onCollapse, children,
     } = props;
-
-    // The References
-    const navigationRef = React.useRef(null);
-
-    // The Current State
-    const [ hasScroll, setHasScroll ] = React.useState(false);
-
-
-    // Check if the Container should scroll
-    React.useEffect(() => {
-        const container = navigationRef.current;
-        setHasScroll(container.scrollHeight > container.clientHeight);
-
-        const observer = new ResizeObserver(([ entry ]) => {
-            if (container && entry.target.classList.contains("navigation")) {
-                setHasScroll(container.scrollHeight > container.clientHeight);
-            }
-        });
-
-        observer.observe(navigationRef.current);
-        return () => {
-            observer.disconnect();
-        };
-    }, [ navigationRef.current ]);
 
 
     // Do the Render
-    return <Container
-        ref={navigationRef}
-        className={`navigation ${className}`}
-        hasScroll={hasScroll}
-    >
-        <NavigationTitle
-            message={message}
-            fallback={fallback}
-            icon={icon}
-            href={href}
-            noBack={noBack}
-            smallNav={smallNav}
-            canAdd={canAdd}
-            canEdit={canEdit}
-            canManage={canManage}
-            onAction={onAction}
+    return <Container isCollapsed={isCollapsed}>
+        <Content className={`navigation ${className}`}>
+            <NavigationTitle
+                message={message}
+                fallback={fallback}
+                icon={icon}
+                href={href}
+                noBack={noBack}
+                smallNav={isCollapsed}
+                canAdd={canAdd}
+                canEdit={canEdit}
+                canManage={canManage}
+                onAction={onAction}
+            />
+            <NavigationBody
+                isLoading={isLoading}
+                canAdd={canAdd}
+                add={add}
+                none={none}
+                onAction={onAction}
+            >
+                {children}
+            </NavigationBody>
+        </Content>
+
+        <Collapse
+            isHidden={!canCollapse}
+            icon={isCollapsed ? "next" : "prev"}
+            onClick={onCollapse}
+            isTiny
         />
-        <NavigationBody
-            isLoading={isLoading}
-            canAdd={canAdd}
-            add={add}
-            none={none}
-            onAction={onAction}
-        >
-            {children}
-        </NavigationBody>
     </Container>;
 }
 
@@ -118,21 +110,23 @@ function Navigation(props) {
  * @type {Object} propTypes
  */
 Navigation.propTypes = {
-    className : PropTypes.string,
-    message   : PropTypes.string,
-    fallback  : PropTypes.string,
-    icon      : PropTypes.string,
-    href      : PropTypes.string,
-    none      : PropTypes.string,
-    add       : PropTypes.string,
-    isLoading : PropTypes.bool,
-    noBack    : PropTypes.bool,
-    smallNav  : PropTypes.bool,
-    canAdd    : PropTypes.bool,
-    canEdit   : PropTypes.bool,
-    canManage : PropTypes.bool,
-    onAction  : PropTypes.func,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    message     : PropTypes.string,
+    fallback    : PropTypes.string,
+    icon        : PropTypes.string,
+    href        : PropTypes.string,
+    none        : PropTypes.string,
+    add         : PropTypes.string,
+    isLoading   : PropTypes.bool,
+    noBack      : PropTypes.bool,
+    canAdd      : PropTypes.bool,
+    canEdit     : PropTypes.bool,
+    canManage   : PropTypes.bool,
+    onAction    : PropTypes.func,
+    canCollapse : PropTypes.bool,
+    isCollapsed : PropTypes.bool,
+    onCollapse  : PropTypes.func,
+    children    : PropTypes.any,
 };
 
 /**
@@ -140,16 +134,17 @@ Navigation.propTypes = {
  * @type {Object} defaultProps
  */
 Navigation.defaultProps = {
-    className : "",
-    href      : "/",
-    none      : "",
-    add       : "",
-    isLoading : false,
-    noBack    : false,
-    smallNav  : false,
-    canAdd    : false,
-    canEdit   : false,
-    canManage : false,
+    className   : "",
+    href        : "/",
+    none        : "",
+    add         : "",
+    isLoading   : false,
+    noBack      : false,
+    canAdd      : false,
+    canEdit     : false,
+    canManage   : false,
+    canCollapse : false,
+    isCollapsed : false,
 };
 
 export default Navigation;
