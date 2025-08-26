@@ -647,6 +647,15 @@ function toArray(data) {
 }
 
 /**
+ * Creates an Array
+ * @param {(Array|any)} data
+ * @returns {String}
+ */
+function toArrayEncoded(data) {
+    return JSON.stringify(toArray(data));
+}
+
+/**
  * Creates an Array Entries
  * @param {(Array|any)} data
  * @returns {IterableIterator}
@@ -1497,6 +1506,7 @@ export default {
     concat,
     removePrefix,
     toArray,
+    toArrayEncoded,
     toEntries,
     toMap,
     toSelect,
