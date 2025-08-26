@@ -18,11 +18,13 @@ const TH = Styled.th.attrs(({ flexGrow, flexShrink, flexWidth, minWidth, maxWidt
         box-sizing: border-box;
         display: flex;
         align-items: center;
-        border: none;
+        height: var(--table-header-height);
         padding: 6px 0 6px 12px;
         color: var(--title-color);
         font-weight: bold;
         font-size: 12px;
+        line-height: 1;
+        border: none;
         flex-grow: ${(props) => props.flexGrow};
         flex-shrink: ${(props) => props.flexShrink};
         min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "0"};
