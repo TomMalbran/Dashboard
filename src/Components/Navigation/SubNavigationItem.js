@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import Action               from "../../Core/Action";
+import Navigate             from "../../Core/Navigate";
 
 // Components
 import MenuLink             from "../Link/MenuLink";
@@ -38,15 +39,16 @@ const NavMenu = Styled(MenuLink)`
  */
 function SubNavigationItem(props) {
     const {
-        action, isSelected, message, emoji, icon, iconColor, afterIcon,
+        action, isSelected, message, url, href, emoji, icon, iconColor, afterIcon,
         amount, badge, onAction, onClick, onClose, children,
     } = props;
 
 
     // Variables
-    const act = Action.get(action);
-    const icn = icon    || act.icon;
-    const cnt = message || act.message;
+    const act     = Action.get(action);
+    const icn     = icon    || act.icon;
+    const cnt     = message || act.message;
+    const menuUrl = Navigate.useMenuUrl(url || "");
 
 
     // Handles the Click
@@ -70,6 +72,7 @@ function SubNavigationItem(props) {
             variant="light"
             isSelected={isSelected}
             message={cnt}
+            href={url ? menuUrl : href}
             emoji={emoji}
             icon={icn}
             iconColor={iconColor}
@@ -90,6 +93,8 @@ SubNavigationItem.propTypes = {
     isHidden   : PropTypes.bool,
     action     : PropTypes.string,
     message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    url        : PropTypes.string,
+    href       : PropTypes.string,
     emoji      : PropTypes.string,
     icon       : PropTypes.string,
     iconColor  : PropTypes.string,
