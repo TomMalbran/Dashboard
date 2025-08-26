@@ -80,7 +80,7 @@ function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
         top, left, right, bottom, gap, width, maxHeight, targetRef,
-        onAction, onClose, onMouseEnter, onMouseLeave,
+        useBottom, onAction, onClose, onMouseEnter, onMouseLeave,
         withSearch, emptyText, filterText, keyCode, isSubmenu, children,
     } = props;
 
@@ -287,7 +287,7 @@ function Menu(props) {
 
     // Calculate the Styles
     const [ hasStyles, style, winWidth, forTop ] = React.useMemo(() => {
-        let { top, left, right } = props;
+        let { top, left, right, bottom } = props;
         let hasStyles = (top || bottom) && (left || right);
 
         const style     = {};
@@ -298,9 +298,16 @@ function Menu(props) {
         const winWidth  = window.innerWidth;
         const winHeight = window.innerHeight;
 
+        // Calculate the position based on the Target
         if (!hasStyles && targetRef) {
             const bounds = Utils.getBounds(targetRef);
-            if (forTop) {
+            if (useBottom) {
+                if (forTop) {
+                    bottom = winHeight - bounds.top + gap;
+                } else if (forBottom) {
+                    bottom = winHeight - bounds.bottom - gap;
+                }
+            } else if (forTop) {
                 top = bounds.top - gap;
             } else if (forBottom) {
                 top = bounds.bottom + gap;
@@ -325,13 +332,18 @@ function Menu(props) {
         }
 
         if (hasStyles) {
+            // Adjust for the size of the Menu
             if (top && forTop) {
                 top -= boundHeight;
+            }
+            if (bottom && forBottom) {
+                bottom -= boundHeight;
             }
             if (left && forLeft) {
                 left -= boundWidth;
             }
 
+            // Adjust using the Container
             if (containerRef && boundWidth) {
                 const bounds = Utils.getBounds(containerRef);
                 if (top + boundHeight > bounds.bottom) {
@@ -345,24 +357,32 @@ function Menu(props) {
                 }
             }
 
+            // Adjust using the Window size
             if (top && top < 0) {
                 top = 0;
             } else if (top && boundHeight && top + boundHeight > winHeight) {
                 top -= (top + boundHeight) - winHeight;
             }
+
+            if (bottom && bottom < 0) {
+                bottom = 0;
+            }
+
             if (left && left < 0) {
                 left = 10;
             } else if (left && boundWidth && left + boundWidth > winWidth) {
                 left -= (left + boundWidth) - winWidth;
             }
+
             if (right && boundWidth && right + boundWidth > winWidth) {
                 right -= (right + boundWidth) - winWidth;
             }
 
-            if (top) {
-                style.top = `${top}px`;
-            } else if (bottom) {
+            // Set the Styles
+            if (bottom) {
                 style.bottom = `${bottom}px`;
+            } else if (top) {
+                style.top = `${top}px`;
             }
 
             if (left) {
@@ -378,7 +398,7 @@ function Menu(props) {
             }
         }
         return [ hasStyles, style, winWidth, forTop ];
-    }, [ open, top, left, right, boundWidth, boundHeight, iconHeight, gap, width, maxHeight ]);
+    }, [ open, top, left, right, bottom, boundWidth, boundHeight, iconHeight, gap, width, maxHeight ]);
 
 
     // Variables
@@ -459,14 +479,15 @@ Menu.propTypes = {
     variant      : PropTypes.string,
     className    : PropTypes.string,
     direction    : PropTypes.string,
+    iconHeight   : PropTypes.number,
     top          : PropTypes.number,
     bottom       : PropTypes.number,
     left         : PropTypes.number,
     right        : PropTypes.number,
-    iconHeight   : PropTypes.number,
     gap          : PropTypes.number,
     width        : PropTypes.number,
     maxHeight    : PropTypes.number,
+    useBottom    : PropTypes.bool,
     withSearch   : PropTypes.bool,
     emptyText    : PropTypes.string,
     filterText   : PropTypes.string,
