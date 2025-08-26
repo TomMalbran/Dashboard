@@ -44,6 +44,7 @@ const Container = Styled.nav.attrs(({ expandMobile }) => ({ expandMobile }))`
     padding: var(--sidebar-padding, 16px 0);
     background-color: var(--sidebar-background, var(--primary-color));
     border-right: var(--sidebar-border, none);
+    overflow: auto;
 
     ${(props) => props.expandMobile && `
         .baricon-text {
