@@ -106,6 +106,7 @@ function ChipItem(props) {
             variant="black"
             icon="close"
             onClick={() => onClose()}
+            size="18"
             isTiny
         />}
     </Container>;

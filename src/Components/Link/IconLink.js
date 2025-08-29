@@ -13,7 +13,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark }) => ({ variant, isDisabled, isSmall, isTiny, withMark }))`
+const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, size, withMark }) => ({ variant, isDisabled, isSmall, isTiny, size, withMark }))`
     --link-size: 32px;
     --link-font: 20px;
     --link-radius: var(--border-radius);
@@ -27,6 +27,9 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark })
         --link-size: 20px;
         --link-font: 14px;
         --link-radius: var(--border-radius-small);
+    `}
+    ${(props) => props.size && `
+        --link-size: ${props.size}px;
     `}
 
     position: relative;
@@ -112,7 +115,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, withMark })
 function IconLink(props) {
     const {
         isHidden, passedRef, variant, className, isDisabled,
-        target, icon, isSmall, isTiny, withMark,
+        target, icon, isSmall, isTiny, size, withMark,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         onMouseDown, onMouseUp, onTouchEnd,
     } = props;
@@ -142,6 +145,7 @@ function IconLink(props) {
         isDisabled={isDisabled}
         isSmall={isSmall}
         isTiny={isTiny}
+        size={size}
         withMark={withMark}
         href={Navigate.getUrl(props)}
         target={target}
@@ -183,6 +187,7 @@ IconLink.propTypes = {
     isDisabled     : PropTypes.bool,
     isSmall        : PropTypes.bool,
     isTiny         : PropTypes.bool,
+    size           : PropTypes.string,
     withMark       : PropTypes.bool,
     dontStop       : PropTypes.bool,
     children       : PropTypes.any,
