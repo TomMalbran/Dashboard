@@ -20,6 +20,10 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
+const EditItem = Styled.li`
+    flex-grow: 2;
+`;
+
 const InputIcon = Styled(Icon)`
     margin-top: -4px;
     margin-right: -6px;
@@ -277,7 +281,7 @@ function ChooserInput(props) {
                 isDisabled={isDisabled}
             />)}
 
-            {!isDisabled && <li>
+            {!isDisabled && <EditItem>
                 <InputBase
                     inputRef={inputRef}
                     className="input-chooser"
@@ -292,7 +296,7 @@ function ChooserInput(props) {
                     onKeyDown={handleKeyDown}
                     onKeyUp={handleKeyUp}
                 />
-            </li>}
+            </EditItem>}
         </ChipList>
         <InputIcon
             icon="expand"
@@ -322,6 +326,7 @@ function ChooserInput(props) {
  * @type {Object} propTypes
  */
 ChooserInput.propTypes = {
+    inputRef     : PropTypes.object,
     className    : PropTypes.string,
     isFocused    : PropTypes.bool,
     isDisabled   : PropTypes.bool,
@@ -337,7 +342,6 @@ ChooserInput.propTypes = {
     onClear      : PropTypes.func,
     onFocus      : PropTypes.func,
     onBlur       : PropTypes.func,
-    inputRef     : PropTypes.object,
 };
 
 /**
