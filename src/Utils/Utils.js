@@ -1354,6 +1354,15 @@ function getContrastColor(value) {
 }
 
 /**
+ * Returns true if the given Email is valid
+ * @param {String} email
+ * @returns {Boolean}
+ */
+function isValidEmail(email) {
+    return /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/.test(email);
+}
+
+/**
  * Returns true if the File is Valid
  * @param {Object}  file
  * @param {Boolean} onlyImages
@@ -1547,6 +1556,7 @@ export default {
     isEmojiOnly,
     isValidColor,
     getContrastColor,
+    isValidEmail,
     isValidFile,
     formatSize,
     download,

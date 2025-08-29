@@ -9,6 +9,7 @@ import CheckboxInput        from "../InputType/CheckboxInput";
 import ChooserInput         from "../InputType/ChooserInput";
 import ColorInput           from "../InputType/ColorInput";
 import DoubleInput          from "../InputType/DoubleInput";
+import EmailsInput          from "../InputType/EmailsInput";
 import EmojiInput           from "../InputType/EmojiInput";
 import FieldInput           from "../InputType/FieldInput";
 import FileInput            from "../InputType/FileInput";
@@ -44,6 +45,8 @@ function Input(props) {
         return <ColorInput {...props} />;
     case InputType.DOUBLE:
         return <DoubleInput {...props} />;
+    case InputType.EMAILS:
+        return <EmailsInput {...props} />;
     case InputType.EMOJI:
         return <EmojiInput {...props} />;
     case InputType.FIELDS:

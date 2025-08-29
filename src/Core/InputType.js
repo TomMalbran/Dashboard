@@ -9,6 +9,7 @@ const CHECKBOX = "checkbox";
 const CHOOSER  = "chooser";
 const COLOR    = "color";
 const DOUBLE   = "double";
+const EMAILS   = "emails";
 const EMOJI    = "emoji";
 const FIELDS   = "fields";
 const FILE     = "file";
@@ -59,7 +60,7 @@ function hasClear(type) {
 function canShrink(type) {
     return ![
         DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, RADIOBOX,
-        TOGGLE, FIELDS, LIST, COLOR, DATE, TIME,
+        TOGGLE, FIELDS, LIST, EMAILS, COLOR, DATE, TIME,
     ].includes(type);
 }
 
@@ -118,6 +119,7 @@ export default {
     CHOOSER,
     COLOR,
     DOUBLE,
+    EMAILS,
     EMOJI,
     FIELDS,
     FILE,
