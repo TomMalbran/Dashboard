@@ -188,13 +188,17 @@ function TextareaInput(props) {
         };
     }, [ inputRef ]);
 
+    // Counts the Characters
+    const characters = React.useMemo(() => {
+        return Array.from(value || "").length;
+    }, [ value ]);
+
 
     // Variables
     const hasEditor   = Boolean(maxLength || (children && children.length));
     const hasFooter   = Boolean(hasEditor && withEditor);
     const hasAside    = Boolean(hasEditor && !withEditor);
     const counterText = maxLength ? "GENERAL_CHARACTERS_MAX" : "GENERAL_CHARACTERS";
-    const characters  = String(value || "").length;
     const atMaxLength = Boolean(maxLength && characters >= maxLength);
 
 
