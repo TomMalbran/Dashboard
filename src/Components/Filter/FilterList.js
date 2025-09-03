@@ -7,6 +7,7 @@ import Utils                from "../../Utils/Utils";
 
 // Components
 import InputField           from "../Form/InputField";
+import InputItem            from "../Form/InputItem";
 import Button               from "../Form/Button";
 
 
@@ -34,10 +35,10 @@ const Container = Styled.div.attrs(({ columns, showButton }) => ({ columns, show
     `}
 `;
 
-const FilterField = Styled(InputField)`
+const FilterField = Styled(InputField).attrs(({ minWidth }) => ({ minWidth }))`
     box-sizing: border-box;
     margin: 0;
-    min-width: 140px;
+    min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "140px"};
 
     .textfield-label {
         background-color: var(--lighter-gray);
@@ -84,8 +85,15 @@ function FilterList(props) {
     if (children) {
         for (const [ , child ] of Utils.getVisibleChildren(children)) {
             items.push(child.props);
-            fields[child.props.name]   = "";
-            initialErrors[child.props.name] = "";
+            if (child.props.type === "double") {
+                for (const [ , subChild ] of Utils.getVisibleChildren(child.props.children)) {
+                    fields[subChild.props.name]        = "";
+                    initialErrors[subChild.props.name] = "";
+                }
+            } else {
+                fields[child.props.name]        = "";
+                initialErrors[child.props.name] = "";
+            }
         }
     }
 
@@ -181,7 +189,13 @@ function FilterList(props) {
             onChange={(name, value, secName, secValue) => handleUpdate(item.type, name, value, secName, secValue, item.onChange)}
             onSubmit={handleSubmit}
             onClear={handleClear}
-        />)}
+        >
+            {item?.children?.map((subItem) => <InputItem
+                {...subItem.props}
+                key={subItem.props.name}
+                value={data[subItem.props.name]}
+            />)}
+        </FilterField>)}
         {showButton && <Div>
             <FilterButton
                 variant="outlined"

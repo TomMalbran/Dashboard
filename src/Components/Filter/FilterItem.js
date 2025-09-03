@@ -37,6 +37,7 @@ FilterItem.propTypes = {
     noneText      : PropTypes.string,
     noneValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     defaultText   : PropTypes.string,
+    maxWidth      : PropTypes.number,
     fullWidth     : PropTypes.bool,
     withCustom    : PropTypes.bool,
     customFirst   : PropTypes.bool,
@@ -50,6 +51,7 @@ FilterItem.propTypes = {
     hideClear     : PropTypes.bool,
     shrinkLabel   : PropTypes.bool,
     onChange      : PropTypes.func,
+    children      : PropTypes.any,
 };
 
 /**
