@@ -60,7 +60,7 @@ function hasClear(type) {
 function canShrink(type) {
     return ![
         DOUBLE, MULTIPLE, FILE, MEDIA, CHECKBOX, RADIO, RADIOBOX,
-        TOGGLE, FIELDS, LIST, EMAILS, COLOR, DATE, TIME,
+        TOGGLE, FIELDS, LIST, COLOR, DATE, TIME,
     ].includes(type);
 }
 

@@ -162,12 +162,10 @@ function EmailsInput(props) {
 
         switch (e.keyCode) {
         case KeyCode.DOM_VK_UP:
-        case KeyCode.DOM_VK_LEFT:
             newSelectedIdx = (selectedIdx - 1) < 0 ? optionList.length - 1 : selectedIdx - 1;
             e.preventDefault();
             break;
         case KeyCode.DOM_VK_DOWN:
-        case KeyCode.DOM_VK_RIGHT:
             newSelectedIdx = (selectedIdx + 1) % optionList.length;
             e.preventDefault();
             break;
