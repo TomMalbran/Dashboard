@@ -73,8 +73,14 @@ const DeleteIcon = Styled(ItemIcon)`
 `;
 
 const Amount = Styled.span`
-    font-size: 12px;
-    margin-left: 6px;
+    box-sizing: border-box;
+    min-width: 14px;
+    margin-left: 4px;
+    padding: 0 4px;
+    font-size: 10px;
+    line-height: 14px;
+    border-radius: var(--border-radius-small);
+    background-color: rgba(0, 0, 0, 0.07);
 `;
 
 const TabBadge = Styled(Badge)`
