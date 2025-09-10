@@ -42,7 +42,8 @@ const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
 const Description = Styled(Html)`
     color: var(--font-lightest);
     font-size: 13px;
-    margin-top: 4px;
+    padding-top: 4px;
+    cursor: pointer;
 `;
 
 
