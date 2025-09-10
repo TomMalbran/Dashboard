@@ -14,6 +14,7 @@ import IconLink             from "../Link/IconLink";
 
 // Styles
 const Container = Styled.section.attrs(({ inDialog, inDetails, lineWidth, lineLeft }) => ({ inDialog, inDetails, lineWidth, lineLeft }))`
+    box-sizing: border-box;
     position: relative;
     display: flex;
     align-items: center;
@@ -52,11 +53,13 @@ const Container = Styled.section.attrs(({ inDialog, inDetails, lineWidth, lineLe
     `}
 `;
 
-const Content = Styled.div.attrs(({ size }) => ({ size }))`
+const Content = Styled.div.attrs(({ fullWidth, size }) => ({ fullWidth, size }))`
     display: flex;
     max-width: 100%;
     overflow: auto;
     display: flex;
+
+    ${(props) => props.fullWidth && "width: 100%;"}
 
     ${(props) => props.size > 0 && `
         display: grid;
@@ -81,7 +84,7 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, size, selected,
-        onClick, onAction, inDialog, inDetails,
+        onClick, onAction, inDialog, inDetails, fullWidth,
         canAdd, addVariant, children,
     } = props;
 
@@ -137,7 +140,11 @@ function TabList(props) {
         lineWidth={lineWidth}
         lineLeft={lineLeft}
     >
-        <Content className="tabs-content no-scrollbars" size={size}>
+        <Content
+            className="tabs-content no-scrollbars"
+            fullWidth={fullWidth}
+            size={size}
+        >
             {items}
         </Content>
         {showAdd && <TabLink
@@ -160,6 +167,7 @@ TabList.propTypes = {
     onAction   : PropTypes.func,
     inDialog   : PropTypes.bool,
     inDetails  : PropTypes.bool,
+    fullWidth  : PropTypes.bool,
     canAdd     : PropTypes.bool,
     addVariant : PropTypes.string,
     size       : PropTypes.number,
@@ -176,6 +184,7 @@ TabList.defaultProps = {
     size       :  0,
     inDialog   : false,
     inDetails  : false,
+    fullWidth  : false,
     canAdd     : false,
     addVariant : Brightness.LIGHT,
 };
