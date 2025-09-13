@@ -18,11 +18,11 @@ import Tooltip              from "./Components/Core/Tooltip";
  * @returns {React.ReactElement}
  */
 function Dashboard(props) {
-    const { store, children } = props;
+    const { baseUrl, store, children } = props;
 
 
     // Do the Render
-    return <BrowserRouter basename={process.env.REACT_APP_BASEURL}>
+    return <BrowserRouter basename={baseUrl}>
         <Store.Provider config={store}>
             <Initializer {...props} />
             <Result />
@@ -38,6 +38,10 @@ function Dashboard(props) {
  */
 Dashboard.propTypes = {
     store    : PropTypes.object.isRequired,
+    url      : PropTypes.string,
+    baseUrl  : PropTypes.string,
+    apiUrl   : PropTypes.string,
+    routeUrl : PropTypes.string,
     actions  : PropTypes.array,
     params   : PropTypes.object,
     children : PropTypes.any,

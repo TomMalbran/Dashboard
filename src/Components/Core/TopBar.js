@@ -92,7 +92,7 @@ const DetailIcon = Styled(BarIcon)`
  */
 function TopBar(props) {
     const {
-        className, withTopBar, withTitle, withDev, logo,
+        className, withTopBar, withTitle, showDev, logo,
         avatarUrl, avatarEmail, avatarAvatar, avatarEdition,
         showOnline, isOnline, isBusy, showParent, parentTitle, parentName,
         onLogout, menuItems, children,
@@ -103,7 +103,6 @@ function TopBar(props) {
 
 
     // Variables
-    const showDev    = withDev && process.env.REACT_APP_ENV === "development";
     const hasMenu    = Boolean(menuItems && menuItems.length);
     const showLogout = Boolean(!hasMenu && onLogout);
 
@@ -162,7 +161,7 @@ TopBar.propTypes = {
     className     : PropTypes.string,
     withTopBar    : PropTypes.bool,
     withTitle     : PropTypes.bool,
-    withDev       : PropTypes.bool,
+    showDev       : PropTypes.bool,
     logo          : PropTypes.string.isRequired,
     avatarUrl     : PropTypes.string,
     avatarEmail   : PropTypes.string,
@@ -188,7 +187,7 @@ TopBar.defaultProps = {
     showParent : false,
     withTopBar : false,
     withTitle  : false,
-    withDev    : false,
+    showDev    : false,
 };
 
 export default TopBar;

@@ -3,12 +3,22 @@ const langsData   = {};
 let   defaultLang = "";
 
 // The Current Strings
+let appUrl        = "";
 let language      = null;
 let stringData    = {};
 let urlData       = {};
 let actionData    = {};
 
 
+
+/**
+ * Initializes the NLS
+ * @param {String} newAppUrl
+ * @returns {Void}
+ */
+function init(newAppUrl) {
+    appUrl = newAppUrl;
+}
 
 /**
  * Initialize a Language
@@ -267,7 +277,7 @@ function baseUrl(...args) {
  * @returns {String}
  */
 function fullUrl(...args) {
-    return process.env.REACT_APP_URL + url(...args);
+    return appUrl + url(...args);
 }
 
 /**
@@ -316,6 +326,7 @@ function getAction(module, action) {
 
 // The Public API
 export default {
+    init,
     initLang,
     getLang,
     getCurrentLang,

@@ -4,15 +4,21 @@ import Utils                from "../Utils/Utils";
 // Module variables
 let controller = null;
 let setResult  = null;
+let apiUrl     = "";
+let routeUrl   = "";
 
 
 
 /**
  * Initialize the Ajax
+ * @param {String}   newApiUrl
+ * @param {String}   newRouteUrl
  * @param {Function} onResult
  * @returns {Void}
  */
-function init(onResult) {
+function init(newApiUrl, newRouteUrl, onResult) {
+    apiUrl    = newApiUrl;
+    routeUrl  = newRouteUrl;
     setResult = onResult;
 }
 
@@ -126,7 +132,7 @@ function abort() {
  * @returns {URL}
  */
 function baseUrl(route) {
-    return new URL(process.env.REACT_APP_API + route);
+    return new URL(apiUrl + route);
 }
 
 /**
@@ -256,11 +262,12 @@ function url(route, params = {}, addToken = true, addAuth = false) {
  * @returns {String}
  */
 function route(route, params = {}, addToken = true, addAuth = false) {
-    const url = new URL(process.env.REACT_APP_ROUTE);
+    const url = new URL(routeUrl);
     url.searchParams.append("route", route);
     addUrlParams(url, params, addToken, addAuth);
     return url.href;
 }
+
 
 
 

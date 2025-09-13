@@ -11,16 +11,19 @@ import {
 } from "react-router-dom";
 
 // All the params
+let   appUrl     = "";
 const paramTypes = {};
 
 
 
 /**
  * Initializes the Params
+ * @param {String} newAppUrl
  * @param {Object} params
  * @returns {Void}
  */
-function init(params) {
+function init(newAppUrl, params) {
+    appUrl = newAppUrl;
     for (const [ key, value ] of Object.entries(params)) {
         paramTypes[key] = value;
     }
@@ -244,8 +247,8 @@ function useNavigate() {
             return false;
         }
 
-        if (url.startsWith(process.env.REACT_APP_URL)) {
-            navigate(url.replace(process.env.REACT_APP_URL, "/"));
+        if (url.startsWith(appUrl)) {
+            navigate(url.replace(appUrl, "/"));
             return true;
         }
         if (!url.startsWith("http")) {

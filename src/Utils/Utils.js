@@ -1293,14 +1293,15 @@ function underlineText(text, search, fromIndex = 0) {
 
 /**
  * Replaces the Source Urls
+ * @param {String}  baseUrl
  * @param {String}  text
  * @param {Number=} clientID
  * @returns {String}
  */
-function replaceSourceUrls(text, clientID = 0) {
+function replaceSourceUrls(baseUrl, text, clientID = 0) {
     const regex = /<(img|audio|video)([^>]*?)src=["']((?!https?:\/\/|\/\/|data:)[^"']+)["']([^>]*?)>/g;
     return text.replace(regex, (match, tag, beforeSrc, relativePath, afterSrc) => {
-        const absolutePath = `${process.env.REACT_APP_FILES}${clientID}/${relativePath}`;
+        const absolutePath = `${baseUrl}${clientID}/${relativePath}`;
         return `<${tag}${beforeSrc}src="${absolutePath}"${afterSrc}>`;
     });
 }

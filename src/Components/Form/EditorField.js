@@ -38,7 +38,8 @@ const FieldHelper = Styled.p`
  */
 function EditorField(props) {
     const {
-        isHidden, name, value, helperText, error, height, maxHeight, language,
+        isHidden, baseUrl, filesUrl,
+        name, value, helperText, error, height, maxHeight, language,
         clientID, contentStyle, menubar, menu,
         onChange, onMedia, onSetup, isDisabled, isSimple,
     } = props;
@@ -101,11 +102,11 @@ function EditorField(props) {
     >
         <EditorStyles />
         <Editor
-            tinymceScriptSrc={`${process.env.PUBLIC_URL}/tinymce/tinymce.min.js`}
+            tinymceScriptSrc={`${baseUrl}/tinymce/tinymce.min.js`}
             onEditorChange={handleChange}
             value={value}
             init={{
-                document_base_url    : `${process.env.REACT_APP_FILES}${clientID}/`,
+                document_base_url    : filesUrl,
                 readonly             : isDisabled,
                 height               : height,
                 menu                 : menu,
@@ -153,6 +154,8 @@ function EditorField(props) {
  */
 EditorField.propTypes = {
     isHidden     : PropTypes.bool,
+    baseUrl      : PropTypes.string.isRequired,
+    filesUrl     : PropTypes.string.isRequired,
     name         : PropTypes.string.isRequired,
     value        : PropTypes.string,
     helperText   : PropTypes.string,

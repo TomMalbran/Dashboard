@@ -7,6 +7,7 @@ import Ajax                 from "../Core/Ajax";
 import Action               from "../Core/Action";
 import Auth                 from "../Core/Auth";
 import Navigate             from "../Core/Navigate";
+import NLS                  from "../Core/NLS";
 
 
 
@@ -16,7 +17,7 @@ import Navigate             from "../Core/Navigate";
  * @returns {React.ReactElement}
  */
 function Initializer(props) {
-    const { actions, params } = props;
+    const { url, apiUrl, routeUrl, actions, params } = props;
 
     const { showResult     } = Store.useAction("core");
     const { setCurrentUser } = Store.useAction("auth");
@@ -35,10 +36,11 @@ function Initializer(props) {
 
     // Initialize the Modules once
     React.useEffect(() => {
-        Ajax.init(onResult);
+        Ajax.init(apiUrl, routeUrl, onResult);
         Action.init(actions);
-        Navigate.init(params);
+        Navigate.init(url, params);
         Auth.init(onUserChange);
+        NLS.init(url);
     }, []);
 
     return <React.Fragment />;
@@ -49,8 +51,11 @@ function Initializer(props) {
  * @typedef {Object} propTypes
  */
 Initializer.propTypes = {
-    actions : PropTypes.array,
-    params  : PropTypes.object,
+    url      : PropTypes.string,
+    apiUrl   : PropTypes.string,
+    routeUrl : PropTypes.string,
+    actions  : PropTypes.array,
+    params   : PropTypes.object,
 };
 
 /**
@@ -58,8 +63,11 @@ Initializer.propTypes = {
  * @type {Object} defaultProps
  */
 Initializer.defaultProps = {
-    actions : [],
-    params  : {},
+    url      : "",
+    apiUrl   : "",
+    routeUrl : "",
+    actions  : [],
+    params   : {},
 };
 
 export default Initializer;
