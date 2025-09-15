@@ -5,9 +5,6 @@ import PropTypes            from "prop-types";
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
-// Components
-import Main                 from "../Core/Main";
-
 // Router
 import {
     Routes, Route, Navigate,
@@ -21,10 +18,7 @@ import {
  * @returns {React.ReactElement}
  */
 function Router(props) {
-    const {
-        initialUrl, type,
-        withMain, withDetails, noFirst, children,
-    } = props;
+    const { initialUrl, type, noFirst, children } = props;
 
 
     // Create the Routes
@@ -49,7 +43,7 @@ function Router(props) {
         routes.push(<Route
             key={key}
             path={path}
-            element={React.cloneElement(child, { type, withDetails })}
+            element={React.cloneElement(child, { type })}
         />);
     }
 
@@ -63,13 +57,6 @@ function Router(props) {
 
 
     // Do the Render
-    if (withMain) {
-        return <Main withDetails={withDetails}>
-            <Routes>
-                {routes}
-            </Routes>
-        </Main>;
-    }
     return <Routes>
         {routes}
     </Routes>;
@@ -80,12 +67,10 @@ function Router(props) {
  * @type {Object} propTypes
  */
 Router.propTypes = {
-    initialUrl  : PropTypes.string,
-    type        : PropTypes.string,
-    withMain    : PropTypes.bool,
-    withDetails : PropTypes.bool,
-    noFirst     : PropTypes.bool,
-    children    : PropTypes.any,
+    initialUrl : PropTypes.string,
+    type       : PropTypes.string,
+    noFirst    : PropTypes.bool,
+    children   : PropTypes.any,
 };
 
 /**
@@ -93,11 +78,9 @@ Router.propTypes = {
  * @typedef {Object} defaultProps
  */
 Router.defaultProps = {
-    initialUrl  : "",
-    type        : "",
-    withMain    : false,
-    withDetails : false,
-    noFirst     : false,
+    initialUrl : "",
+    type       : "",
+    noFirst    : false,
 };
 
 export default Router;
