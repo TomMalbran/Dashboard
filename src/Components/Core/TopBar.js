@@ -71,8 +71,8 @@ const MenuIcon = Styled(BarIcon)`
 const H1 = Styled.h1`
     margin: 0 0 0 8px;
     font-size: 28px;
-    font-weight: 200;
-    color: white;
+    font-weight: 400;
+    color: var(--title-color);
     font-family: var(--title-font);
 `;
 
