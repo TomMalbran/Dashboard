@@ -3,26 +3,15 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import IconField            from "../Form/IconField";
+import InputField           from "../Form/InputField";
 
 
 
 // Styles
-const SearchField = Styled(IconField)`
-    --inputicon-height: 30px;
+const SearchField = Styled(InputField)`
+    --input-height: 32px;
     margin-left: 32px;
     width: 200px;
-
-    .input-content {
-        background-color: var(--secondary-color);
-    }
-    .input {
-        color: white;
-        padding: 4px 8px;
-    }
-    .input:focus {
-        color: white;
-    }
 `;
 
 
@@ -34,6 +23,7 @@ const SearchField = Styled(IconField)`
  */
 function DialogSearch(props) {
     const { value, onChange } = props;
+
 
     // Handles the Input Change
     const handleChange = (name, value) => {
@@ -48,7 +38,6 @@ function DialogSearch(props) {
         placeholder="GENERAL_SEARCH"
         value={value}
         onChange={handleChange}
-        withBorder={false}
     />;
 }
 
