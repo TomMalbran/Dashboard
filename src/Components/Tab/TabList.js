@@ -13,7 +13,7 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.section.attrs(({ inDialog, inDetails, lineWidth, lineLeft }) => ({ inDialog, inDetails, lineWidth, lineLeft }))`
+const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, lineWidth, lineLeft }) => ({ inDialog, inDetails, inHeader, lineWidth, lineLeft }))`
     box-sizing: border-box;
     position: relative;
     display: flex;
@@ -51,6 +51,11 @@ const Container = Styled.section.attrs(({ inDialog, inDetails, lineWidth, lineLe
         background-color: var(--content-color);
         z-index: 3;
     `}
+
+    ${(props) => props.inHeader && `
+        width: auto;
+        padding: 0 16px;
+    `}
 `;
 
 const Content = Styled.div.attrs(({ fullWidth, size }) => ({ fullWidth, size }))`
@@ -84,7 +89,7 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, size, selected,
-        onClick, onAction, inDialog, inDetails, fullWidth,
+        onClick, onAction, inDialog, inDetails, inHeader, fullWidth,
         canAdd, addVariant, children,
     } = props;
 
@@ -137,6 +142,7 @@ function TabList(props) {
         className={`tabs ${className}`}
         inDialog={inDialog}
         inDetails={inDetails}
+        inHeader={inHeader}
         lineWidth={lineWidth}
         lineLeft={lineLeft}
     >
@@ -167,6 +173,7 @@ TabList.propTypes = {
     onAction   : PropTypes.func,
     inDialog   : PropTypes.bool,
     inDetails  : PropTypes.bool,
+    inHeader   : PropTypes.bool,
     fullWidth  : PropTypes.bool,
     canAdd     : PropTypes.bool,
     addVariant : PropTypes.string,
@@ -184,6 +191,7 @@ TabList.defaultProps = {
     size       :  0,
     inDialog   : false,
     inDetails  : false,
+    inHeader   : false,
     fullWidth  : false,
     canAdd     : false,
     addVariant : Brightness.LIGHT,
