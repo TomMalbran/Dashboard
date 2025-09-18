@@ -1045,12 +1045,12 @@ function getSelectItems(itemIDs, options, idsPerItem) {
  * @param {Object[]} options
  * @param {Object}   idsPerItem
  * @param {Number=}  noneValue
- * @returns {Function}
+ * @returns {Object[]}
  */
 function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
     const itemList = JSON.stringify(itemIDs);
 
-    return React.useCallback(() => {
+    return React.useMemo(() => {
         if (!itemIDs.length || (itemIDs.length === 1 && Number(itemIDs[0]) === noneValue)) {
             return options;
         }
@@ -1066,13 +1066,13 @@ function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
  * @param {Object[]} options
  * @param {Object}   idsPerItem
  * @param {Object}   subIdsPerItem
- * @returns {Function}
+ * @returns {Object[]}
  */
 function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, subIdsPerItem) {
     const itemList    = JSON.stringify(itemIDs);
     const subItemList = JSON.stringify(subItemIDs);
 
-    return React.useCallback(() => {
+    return React.useMemo(() => {
         if (!itemIDs.length && !subItemIDs.length) {
             return options;
         }
