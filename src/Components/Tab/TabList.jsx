@@ -13,24 +13,23 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, lineWidth, lineLeft }) => ({ inDialog, inDetails, inHeader, lineWidth, lineLeft }))`
-    box-sizing: border-box;
+const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader }) => ({ inDialog, inDetails, inHeader }))`
     position: relative;
+    box-sizing: border-box;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     width: 100%;
-    border-bottom: var(--border-width) solid var(--border-color-light);
+    padding-bottom: 2px;
 
     &::after {
         content: "";
         position: absolute;
-        bottom: -2px;
+        bottom: 3px;
         left: 0;
-        height: 3px;
-        width: ${(props) => props.lineWidth}px;
-        translate: ${(props) => props.lineLeft}px;
-        background-color: var(--tab-selected-line-color, var(--primary-color));
-        transition: all 0.2s ease-in-out;
+        right: 0;
+        height: var(--border-width);
+        background-color: var(--border-color-light);
     }
 
     ${(props) => (!props.inDialog && !props.inDetails) && `
@@ -58,11 +57,24 @@ const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, lineWid
     `}
 `;
 
-const Content = Styled.div.attrs(({ fullWidth, size }) => ({ fullWidth, size }))`
+const Content = Styled.div.attrs(({ fullWidth, size, lineWidth, lineLeft }) => ({ fullWidth, size, lineWidth, lineLeft }))`
+    position: relative;
     display: flex;
     max-width: 100%;
     overflow: auto;
-    display: flex;
+
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: ${(props) => props.lineWidth}px;
+        translate: ${(props) => props.lineLeft}px;
+        background-color: var(--tab-selected-line-color, var(--primary-color));
+        transition: all 0.2s ease-in-out;
+        z-index: 1;
+    }
 
     ${(props) => props.fullWidth && "width: 100%;"}
 
@@ -143,13 +155,13 @@ function TabList(props) {
         inDialog={inDialog}
         inDetails={inDetails}
         inHeader={inHeader}
-        lineWidth={lineWidth}
-        lineLeft={lineLeft}
     >
         <Content
             className="tabs-content no-scrollbars"
             fullWidth={fullWidth}
             size={size}
+            lineWidth={lineWidth}
+            lineLeft={lineLeft}
         >
             {items}
         </Content>
@@ -188,7 +200,7 @@ TabList.propTypes = {
 TabList.defaultProps = {
     isHidden   : false,
     className  : "",
-    size       :  0,
+    size       : 0,
     inDialog   : false,
     inDetails  : false,
     inHeader   : false,
