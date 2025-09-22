@@ -143,14 +143,14 @@ function TextareaInput(props) {
     const handleAutoGrow = () => {
         const lineHeight  = 20;
         const node        = inputRef.current;
-        let   currentRows = ~~(node.scrollHeight / lineHeight);
+        let   currentRows = Math.floor(node.scrollHeight / lineHeight);
         let   rows        = currentRows;
 
         if (currentRows <= node.rows) {
             rows = node.rows - 1;
             while (rows >= minRows) {
                 node.rows   = rows;
-                currentRows = ~~(node.scrollHeight / lineHeight);
+                currentRows = Math.floor(node.scrollHeight / lineHeight);
                 if (currentRows > rows) {
                     rows = currentRows;
                     break;

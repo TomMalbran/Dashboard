@@ -22,7 +22,7 @@ const props = ({
     bigMobile, hideMobile, noSpace, smallSpace, isEditable, indent,
 });
 
-const TD = Styled.td.attrs(props)`
+const TData = Styled.td.attrs(props)`
     && {
         box-sizing: border-box;
         font-size: var(--table-font-size);
@@ -102,7 +102,7 @@ const TD = Styled.td.attrs(props)`
 
 /**
  * The Table Cell Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableCell(props) {
@@ -140,7 +140,7 @@ function TableCell(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <TD
+    return <TData
         ref={elementRef}
         className={textColor ? `text-${textColor}` : className}
         flexGrow={grow}
@@ -169,7 +169,7 @@ function TableCell(props) {
         {hasHtml && <Html content={content} />}
         {hasMessage && NLS.get(message)}
         {hasChildren && children}
-    </TD>;
+    </TData>;
 }
 
 /**

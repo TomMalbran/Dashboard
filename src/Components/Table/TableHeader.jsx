@@ -12,7 +12,7 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TH = Styled.th.attrs(({ flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging }) => ({ flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging }))`
+const THead = Styled.th.attrs(({ flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging }) => ({ flexGrow, flexShrink, flexWidth, minWidth, maxWidth, align, isSmall, isEditable, isDragging }))`
     && {
         position: relative;
         box-sizing: border-box;
@@ -173,7 +173,7 @@ function TableHeader(props) {
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <TH
+    return <THead
         ref={elementRef}
         className={className}
         flexGrow={grow}
@@ -198,7 +198,7 @@ function TableHeader(props) {
             className="thead-resizer"
             onMouseDown={(e) => handleGrab(e)}
         />}
-    </TH>;
+    </THead>;
 }
 
 /**

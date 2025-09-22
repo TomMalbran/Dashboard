@@ -656,15 +656,6 @@ function toArrayEncoded(data) {
 }
 
 /**
- * Creates an Array Entries
- * @param {(Array|any)} data
- * @returns {IterableIterator}
- */
-function toEntries(data) {
-    return toArray(data).entries();
-}
-
-/**
  * Creates a Map from an Array
  * @param {object[]} data
  * @param {string}   id
@@ -1423,9 +1414,6 @@ function download(source, fileName) {
 
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
-        })
-        .catch((error) => {
-            console.error("Error fetching the file:", error);
         });
 }
 
@@ -1517,7 +1505,6 @@ export default {
     removePrefix,
     toArray,
     toArrayEncoded,
-    toEntries,
     toMap,
     toSelect,
     stringsToSelect,

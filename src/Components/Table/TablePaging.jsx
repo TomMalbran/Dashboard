@@ -29,7 +29,7 @@ const TFoot = Styled.tfoot.attrs(({ isEditable }) => ({ isEditable }))`
     `}
 `;
 
-const TR = Styled.tr`
+const TRow = Styled.tr`
     display: flex;
     height: auto;
     min-height: 32px;
@@ -164,7 +164,7 @@ function TablePaging(props) {
 
     // Do the Render
     return <TFoot isEditable={isEditable}>
-        <TR>
+        <TRow>
             <GrowCell />
             <PagingCell className="table-paging" isEditable={isEditable}>
                 <Rows>{NLS.get("GENERAL_ROWS_PER_PAGE")}</Rows>
@@ -207,7 +207,7 @@ function TablePaging(props) {
                     isSmall
                 />
             </PagingCell>
-        </TR>
+        </TRow>
     </TFoot>;
 }
 

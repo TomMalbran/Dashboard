@@ -8,7 +8,7 @@ import Responsive           from "../../Core/Responsive";
 
 
 // Styles
-const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSelected }) => ({ hasHover, hasChecks, hasActions, isEditable, isSelected }))`
+const TRow = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSelected }) => ({ hasHover, hasChecks, hasActions, isEditable, isSelected }))`
     box-sizing: border-box;
     display: flex;
     width: 100%;
@@ -147,7 +147,7 @@ function TableRowCnt(props) {
 
 
     // Do the Render
-    return <TR
+    return <TRow
         className={className}
         hasHover={hasHover}
         hasChecks={hasChecks}
@@ -158,7 +158,7 @@ function TableRowCnt(props) {
         onContextMenu={onContextMenu}
     >
         {children}
-    </TR>;
+    </TRow>;
 }
 
 /**
