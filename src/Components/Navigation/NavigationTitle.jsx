@@ -74,7 +74,7 @@ const Span2 = Styled.span`
 
 /**
  * The Navigation Title Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NavigationTitle(props) {
@@ -143,7 +143,7 @@ function NavigationTitle(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 NavigationTitle.propTypes = {
     className : PropTypes.string,
@@ -162,7 +162,7 @@ NavigationTitle.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 NavigationTitle.defaultProps = {
     className : "",

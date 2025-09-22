@@ -13,7 +13,7 @@ function ActionOption() {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ActionOption.propTypes = {
     isHidden  : PropTypes.bool,
@@ -29,7 +29,7 @@ ActionOption.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 ActionOption.defaultProps = {
     isHidden : false,

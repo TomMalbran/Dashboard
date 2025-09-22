@@ -174,7 +174,7 @@ function TableCell(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableCell.propTypes = {
     isHidden       : PropTypes.bool,
@@ -210,7 +210,7 @@ TableCell.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableCell.defaultProps = {
     isHidden       : false,

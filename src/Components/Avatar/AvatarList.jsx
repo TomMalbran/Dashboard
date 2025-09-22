@@ -19,7 +19,7 @@ const Ul = Styled.ul.attrs(({ withSpacing }) => ({ withSpacing }))`
 
 /**
  * The Avatar List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function AvatarList(props) {
@@ -32,7 +32,7 @@ function AvatarList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 AvatarList.propTypes = {
     className   : PropTypes.string,
@@ -42,7 +42,7 @@ AvatarList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 AvatarList.defaultProps = {
     className   : "",

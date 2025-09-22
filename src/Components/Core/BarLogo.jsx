@@ -30,7 +30,7 @@ const Image = Styled.img`
 
 /**
  * The Bar Logo Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function BarLogo(props) {
@@ -67,7 +67,7 @@ function BarLogo(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 BarLogo.propTypes = {
     className  : PropTypes.string,
@@ -77,7 +77,7 @@ BarLogo.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 BarLogo.defaultProps = {
     className : "",

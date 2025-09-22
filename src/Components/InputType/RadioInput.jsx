@@ -111,7 +111,7 @@ const Input = Styled(InputBase)`
 
 /**
  * The Radio Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function RadioInput(props) {
@@ -218,7 +218,7 @@ function RadioInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 RadioInput.propTypes = {
     className  : PropTypes.string,
@@ -237,7 +237,7 @@ RadioInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 RadioInput.defaultProps = {
     className  : "",

@@ -26,7 +26,7 @@ const Container = Styled.section.attrs(({ hasTabs, withBorder }) => ({ hasTabs, 
 
 /**
  * The Page Container
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageContainer(props) {
@@ -49,7 +49,7 @@ function PageContainer(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageContainer.propTypes = {
     className  : PropTypes.string,
@@ -61,7 +61,7 @@ PageContainer.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 PageContainer.defaultProps = {
     className  : "",

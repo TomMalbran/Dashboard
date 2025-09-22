@@ -38,7 +38,7 @@ const Container = Styled.ul`
 
 /**
  * The Action List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ActionList(props) {
@@ -88,7 +88,7 @@ function ActionList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ActionList.propTypes = {
     data        : PropTypes.object,
@@ -106,7 +106,7 @@ ActionList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ActionList.defaultProps = {
     className   : "",

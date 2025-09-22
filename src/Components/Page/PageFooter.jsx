@@ -18,7 +18,7 @@ const Container = Styled.footer`
 
 /**
  * The Page Footer
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageFooter(props) {
@@ -36,7 +36,7 @@ function PageFooter(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageFooter.propTypes = {
     isHidden : PropTypes.bool,
@@ -45,7 +45,7 @@ PageFooter.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 PageFooter.defaultProps = {
     isHidden : false,

@@ -62,7 +62,7 @@ const Div = Styled.div.attrs(({ amount, topSpace, doubleWidth, singleWidth }) =>
 
 /**
  * The Columns Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Columns(props) {
@@ -98,7 +98,7 @@ function Columns(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Columns.propTypes = {
     isHidden    : PropTypes.bool,
@@ -115,7 +115,7 @@ Columns.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Columns.defaultProps = {
     isHidden    : false,

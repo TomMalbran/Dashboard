@@ -97,7 +97,7 @@ const Container = Styled.table.attrs(({ isEditable, totalWidth, hasRadius, hasSc
 
 /**
  * The Table Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Table(props) {
@@ -388,7 +388,7 @@ function Table(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Table.propTypes = {
     className    : PropTypes.string,
@@ -415,7 +415,7 @@ Table.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Table.defaultProps = {
     className   : "",

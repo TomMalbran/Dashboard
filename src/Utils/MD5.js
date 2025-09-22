@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * JavaScript MD5
  * https://github.com/blueimp/JavaScript-MD5
@@ -22,9 +23,9 @@
 /**
  * Add integers, wrapping at 2^32. This uses 16-bit operations internally
  * to work around bugs in some JS interpreters
- * @param {Number} x
- * @param {Number} y
- * @returns {Number}
+ * @param {number} x
+ * @param {number} y
+ * @returns {number}
  */
 function safeAdd(x, y) {
     const lsw = (x & 0xffff) + (y & 0xffff);
@@ -34,9 +35,9 @@ function safeAdd(x, y) {
 
 /**
  * Bitwise rotate a 32-bit number to the left
- * @param {Number} num
- * @param {Number} cnt
- * @returns {Number}
+ * @param {number} num
+ * @param {number} cnt
+ * @returns {number}
  */
 function bitRotateLeft(num, cnt) {
     return (num << cnt) | (num >>> (32 - cnt));
@@ -44,13 +45,13 @@ function bitRotateLeft(num, cnt) {
 
 /**
  * These functions implement the four basic operations the algorithm uses
- * @param {Number} q
- * @param {Number} a
- * @param {Number} b
- * @param {Number} x
- * @param {Number} s
- * @param {Number} t
- * @returns {Number}
+ * @param {number} q
+ * @param {number} a
+ * @param {number} b
+ * @param {number} x
+ * @param {number} s
+ * @param {number} t
+ * @returns {number}
  */
 function md5cmn(q, a, b, x, s, t) {
     return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
@@ -58,14 +59,14 @@ function md5cmn(q, a, b, x, s, t) {
 
 /**
  * These functions implement the four basic operations the algorithm uses
- * @param {Number} a
- * @param {Number} b
- * @param {Number} c
- * @param {Number} d
- * @param {Number} x
- * @param {Number} s
- * @param {Number} t
- * @returns {Number}
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @param {number} d
+ * @param {number} x
+ * @param {number} s
+ * @param {number} t
+ * @returns {number}
  */
 function md5ff(a, b, c, d, x, s, t) {
     return md5cmn((b & c) | (~b & d), a, b, x, s, t);
@@ -73,14 +74,14 @@ function md5ff(a, b, c, d, x, s, t) {
 
 /**
  * These functions implement the four basic operations the algorithm uses
- * @param {Number} a
- * @param {Number} b
- * @param {Number} c
- * @param {Number} d
- * @param {Number} x
- * @param {Number} s
- * @param {Number} t
- * @returns {Number}
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @param {number} d
+ * @param {number} x
+ * @param {number} s
+ * @param {number} t
+ * @returns {number}
  */
 function md5gg(a, b, c, d, x, s, t) {
     return md5cmn((b & d) | (c & ~d), a, b, x, s, t);
@@ -88,14 +89,14 @@ function md5gg(a, b, c, d, x, s, t) {
 
 /**
  * These functions implement the four basic operations the algorithm uses
- * @param {Number} a
- * @param {Number} b
- * @param {Number} c
- * @param {Number} d
- * @param {Number} x
- * @param {Number} s
- * @param {Number} t
- * @returns {Number}
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @param {number} d
+ * @param {number} x
+ * @param {number} s
+ * @param {number} t
+ * @returns {number}
  */
 function md5hh(a, b, c, d, x, s, t) {
     return md5cmn(b ^ c ^ d, a, b, x, s, t);
@@ -103,14 +104,14 @@ function md5hh(a, b, c, d, x, s, t) {
 
 /**
  * These functions implement the four basic operations the algorithm uses
- * @param {Number} a
- * @param {Number} b
- * @param {Number} c
- * @param {Number} d
- * @param {Number} x
- * @param {Number} s
- * @param {Number} t
- * @returns {Number}
+ * @param {number} a
+ * @param {number} b
+ * @param {number} c
+ * @param {number} d
+ * @param {number} x
+ * @param {number} s
+ * @param {number} t
+ * @returns {number}
  */
 function md5ii(a, b, c, d, x, s, t) {
     return md5cmn(c ^ (b | ~d), a, b, x, s, t);
@@ -121,7 +122,7 @@ function md5ii(a, b, c, d, x, s, t) {
 /**
  * Calculate the MD5 of an array of little-endian words, and a bit length
  * @param {Array} x
- * @param {Number} len
+ * @param {number} len
  * @returns {Array}
  */
 function binlMD5(x, len) {
@@ -224,7 +225,7 @@ function binlMD5(x, len) {
 /**
  * Convert an array of little-endian words to a string
  * @param {Array} input
- * @returns {String}
+ * @returns {string}
  */
 function binl2rstr(input) {
     let output     = "";
@@ -239,7 +240,7 @@ function binl2rstr(input) {
 /**
  * Convert a raw string to an array of little-endian words
  * Characters >255 have their high-byte silently ignored.
- * @param {String} input
+ * @param {string} input
  * @returns {Array}
  */
 function rstr2binl(input) {
@@ -257,8 +258,8 @@ function rstr2binl(input) {
 
 /**
  * Calculate the MD5 of a raw string
- * @param {String} s
- * @returns {String}
+ * @param {string} s
+ * @returns {string}
  */
 function rstrMD5(s) {
     return binl2rstr(binlMD5(rstr2binl(s), s.length * 8));
@@ -266,9 +267,9 @@ function rstrMD5(s) {
 
 /**
  * Calculate the HMAC-MD5, of a key and some data (raw strings)
- * @param {String} key
- * @param {String} data
- * @returns {String}
+ * @param {string} key
+ * @param {string} data
+ * @returns {string}
  */
 function rstrHMACMD5(key, data) {
     const ipad = [];
@@ -289,8 +290,8 @@ function rstrHMACMD5(key, data) {
 
 /**
  * Convert a raw string to a hex string
- * @param {String} input
- * @returns {String}
+ * @param {string} input
+ * @returns {string}
  */
 function rstr2hex (input) {
     const hexTab = "0123456789abcdef";
@@ -304,8 +305,8 @@ function rstr2hex (input) {
 
 /**
  * Encode a string as utf-8
- * @param {String} input
- * @returns {String}
+ * @param {string} input
+ * @returns {string}
  */
 function str2rstrUTF8(input) {
     return unescape(encodeURIComponent(input));
@@ -313,8 +314,8 @@ function str2rstrUTF8(input) {
 
 /**
  * Take string arguments and return either raw or hex encoded strings
- * @param {String} s
- * @returns {String}
+ * @param {string} s
+ * @returns {string}
  */
 function rawMD5(s) {
     return rstrMD5(str2rstrUTF8(s));
@@ -322,8 +323,8 @@ function rawMD5(s) {
 
 /**
  * Take string arguments and return either raw or hex encoded strings
- * @param {String} s
- * @returns {String}
+ * @param {string} s
+ * @returns {string}
  */
 function hexMD5 (s) {
     return rstr2hex(rawMD5(s));
@@ -331,9 +332,9 @@ function hexMD5 (s) {
 
 /**
  * Take string arguments and return either raw or hex encoded strings
- * @param {String} k
- * @param {String} d
- * @returns {String}
+ * @param {string} k
+ * @param {string} d
+ * @returns {string}
  */
 function rawHMACMD5 (k, d) {
     return rstrHMACMD5(str2rstrUTF8(k), str2rstrUTF8(d));
@@ -341,9 +342,9 @@ function rawHMACMD5 (k, d) {
 
 /**
  * Take string arguments and return either raw or hex encoded strings
- * @param {String} k
- * @param {String} d
- * @returns {String}
+ * @param {string} k
+ * @param {string} d
+ * @returns {string}
  */
 function hexHMACMD5 (k, d) {
     return rstr2hex(rawHMACMD5(k, d));
@@ -353,10 +354,10 @@ function hexHMACMD5 (k, d) {
 
 /**
  * Returns a String as MD5
- * @param {String}  string
- * @param {String=} key
- * @param {String=} raw
- * @returns {String}
+ * @param {string}  string
+ * @param {string=} key
+ * @param {string=} raw
+ * @returns {string}
  */
 export default function md5(string, key, raw) {
     if (!key) {

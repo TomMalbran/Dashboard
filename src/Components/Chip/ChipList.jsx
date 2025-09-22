@@ -21,7 +21,7 @@ const Container = Styled.ul`
 
 /**
  * The Chip List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ChipList(props) {
@@ -39,7 +39,7 @@ function ChipList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ChipList.propTypes = {
     isHidden  : PropTypes.bool,
@@ -49,7 +49,7 @@ ChipList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ChipList.defaultProps = {
     isHidden  : false,

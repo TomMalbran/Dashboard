@@ -37,7 +37,7 @@ const Input = Styled.input`
 
 /**
  * The Drop Zone Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DropZone(props) {
@@ -114,7 +114,7 @@ function DropZone(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DropZone.propTypes = {
     isHidden   : PropTypes.bool,

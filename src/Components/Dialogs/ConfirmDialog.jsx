@@ -27,7 +27,7 @@ const Content = Styled(Html)`
 
 /**
  * The Confirm Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ConfirmDialog(props) {
@@ -65,7 +65,7 @@ function ConfirmDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ConfirmDialog.propTypes = {
     open           : PropTypes.bool.isRequired,
@@ -84,7 +84,7 @@ ConfirmDialog.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 ConfirmDialog.defaultProps = {
     primary    : "GENERAL_ACCEPT",

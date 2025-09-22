@@ -18,7 +18,7 @@ const SearchField = Styled(InputField)`
 
 /**
  * The Dialog Search Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogSearch(props) {
@@ -43,7 +43,7 @@ function DialogSearch(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogSearch.propTypes = {
     value    : PropTypes.string,
@@ -52,7 +52,7 @@ DialogSearch.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogSearch.defaultProps = {
     value : "",

@@ -21,7 +21,7 @@ const Container = Styled.header`
 
 /**
  * The Page Header
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageHeader(props) {
@@ -36,7 +36,7 @@ function PageHeader(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageHeader.propTypes = {
     children : PropTypes.any,

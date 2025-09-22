@@ -5,16 +5,15 @@ import MediaType            from "../Core/MediaType";
 
 
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * The Media Hook
- * @returns {{
- *   showMedia         : Boolean,
- *   mediaType         : String,
- *   handleMediaOpen   : (...any) => any,
- *   handleMediaSubmit : (...any) => any,
- *   handleMediaClose  : (...any) => any,
- * }}
+ * @typedef {object}           MediaType
+ * @property {boolean}         showMedia
+ * @property {string}          mediaType
+ * @property {(...args: any[]) => any} handleMediaOpen
+ * @property {(...args: any[]) => any} handleMediaSubmit
+ * @property {(...args: any[]) => any} handleMediaClose
+ * @returns {MediaType}
  */
 function useMedia() {
 

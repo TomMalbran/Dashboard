@@ -14,7 +14,7 @@ const Container = Styled.main`
 
 /**
  * The Page Main
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageMain(props) {
@@ -29,7 +29,7 @@ function PageMain(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageMain.propTypes = {
     children : PropTypes.any,

@@ -189,8 +189,8 @@ const ACTIONS = {
 
 /**
  * Initializes the Actions
- * @param {Object[]} actions
- * @returns {Void}
+ * @param {object[]} actions
+ * @returns {void}
  */
 function init(actions) {
     for (const { name, icon, message } of actions) {
@@ -206,10 +206,10 @@ function init(actions) {
 
 /**
  * Creates a New Action
- * @param {String}  name
- * @param {String=} icon
- * @param {String=} message
- * @returns {Object}
+ * @param {string}  name
+ * @param {string=} icon
+ * @param {string=} message
+ * @returns {object}
  */
 function create(name, icon = "", message = "") {
     const isName = `is${Utils.upperCaseToPascalCase(name)}`;
@@ -222,8 +222,8 @@ function create(name, icon = "", message = "") {
 
 /**
  * Returns the Action with the given action
- * @param {(String|Object)=} action
- * @returns {Object}
+ * @param {(string|object)=} action
+ * @returns {object}
  */
 function get(action) {
     if (!action) {

@@ -58,7 +58,7 @@ const Footer = Styled.div`
 
 /**
  * The History Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function HistoryInput(props) {
@@ -114,7 +114,7 @@ function HistoryInput(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 HistoryInput.propTypes = {
     className    : PropTypes.string,
@@ -129,7 +129,7 @@ HistoryInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 HistoryInput.defaultProps = {
     className    : "",

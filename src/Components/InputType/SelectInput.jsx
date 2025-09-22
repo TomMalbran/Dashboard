@@ -50,7 +50,7 @@ const Description = Styled(Html)`
 
 /**
  * The Select Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SelectInput(props) {
@@ -481,7 +481,7 @@ function SelectInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 SelectInput.propTypes = {
     inputRef        : PropTypes.any,
@@ -520,7 +520,7 @@ SelectInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 SelectInput.defaultProps = {
     className   : "",

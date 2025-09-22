@@ -11,7 +11,7 @@ import UserRoute            from "./UserRoute";
 
 /**
  * Only Authenticated Admins can access the given Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function AdminRoute(props) {
@@ -27,7 +27,7 @@ function AdminRoute(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 AdminRoute.propTypes = {
     isHidden  : PropTypes.bool,

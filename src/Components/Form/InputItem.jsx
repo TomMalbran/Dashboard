@@ -16,7 +16,7 @@ function InputItem() {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 InputItem.propTypes = {
     passedRef       : PropTypes.any,
@@ -81,7 +81,7 @@ InputItem.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputItem.defaultProps = {
     isHidden     : false,

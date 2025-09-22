@@ -65,7 +65,7 @@ const H2 = Styled.h2`
 
 /**
  * The Dialog Header Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogHeader(props) {
@@ -97,7 +97,7 @@ function DialogHeader(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogHeader.propTypes = {
     className     : PropTypes.string,
@@ -111,7 +111,7 @@ DialogHeader.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogHeader.defaultProps = {
     className     : "",

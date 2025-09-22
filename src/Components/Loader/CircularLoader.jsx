@@ -115,7 +115,7 @@ const Text = Styled(Html)`
 
 /**
  * The Circular Loader Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function CircularLoader(props) {
@@ -152,7 +152,7 @@ function CircularLoader(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 CircularLoader.propTypes = {
     isHidden    : PropTypes.bool,
@@ -167,7 +167,7 @@ CircularLoader.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 CircularLoader.defaultProps = {
     isHidden    : false,

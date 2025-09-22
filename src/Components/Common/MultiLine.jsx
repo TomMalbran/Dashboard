@@ -11,7 +11,7 @@ const Variant = {
 
 /**
  * The Multi Line Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MultiLine(props) {
@@ -60,7 +60,7 @@ function MultiLine(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 MultiLine.propTypes = {
     variant   : PropTypes.string,
@@ -73,7 +73,7 @@ MultiLine.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MultiLine.defaultProps = {
     variant   : Variant.DIV,

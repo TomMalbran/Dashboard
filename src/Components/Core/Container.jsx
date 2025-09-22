@@ -90,7 +90,7 @@ const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMen
 
 /**
  * The Container Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Container(props) {
@@ -229,7 +229,7 @@ function Container(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Container.propTypes = {
     className  : PropTypes.string,
@@ -239,7 +239,7 @@ Container.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Container.defaultProps = {
     className : "",

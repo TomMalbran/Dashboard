@@ -165,7 +165,7 @@ const Components = {
 
 /**
  * The MenuLink Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MenuLink(props) {
@@ -233,7 +233,7 @@ function MenuLink(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MenuLink.propTypes = {
     isHidden     : PropTypes.bool,
@@ -267,7 +267,7 @@ MenuLink.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MenuLink.defaultProps = {
     isHidden   : false,

@@ -14,7 +14,7 @@ import {
 
 /**
  * The User Route Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function UserRoute(props) {
@@ -41,7 +41,7 @@ function UserRoute(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 UserRoute.propTypes = {
     isHidden    : PropTypes.bool,
@@ -55,7 +55,7 @@ UserRoute.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 UserRoute.defaultProps = {
     isHidden : false,

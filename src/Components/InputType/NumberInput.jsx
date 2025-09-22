@@ -12,7 +12,7 @@ import InputBase            from "../Input/InputBase";
 
 /**
  * The Number Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NumberInput(props) {
@@ -114,7 +114,7 @@ function NumberInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 NumberInput.propTypes = {
     inputRef    : PropTypes.any,
@@ -148,7 +148,7 @@ NumberInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 NumberInput.defaultProps = {
     className   : "",

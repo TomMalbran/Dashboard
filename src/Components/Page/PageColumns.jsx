@@ -22,7 +22,7 @@ const Container = Styled.div.attrs(({ withSpacing }) => ({ withSpacing }))`
 
 /**
  * The Page Columns
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageColumns(props) {
@@ -39,7 +39,7 @@ function PageColumns(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageColumns.propTypes = {
     withSpacing : PropTypes.bool,

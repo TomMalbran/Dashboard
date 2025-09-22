@@ -49,7 +49,7 @@ const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, isFocused 
 
 /**
  * The Input Label Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputLabel(props) {
@@ -73,7 +73,7 @@ function InputLabel(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InputLabel.propTypes = {
     className     : PropTypes.string,
@@ -86,7 +86,7 @@ InputLabel.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputLabel.defaultProps = {
     className     : "",

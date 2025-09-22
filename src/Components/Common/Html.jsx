@@ -27,7 +27,7 @@ const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
 
 /**
  * The Html Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Html(props) {
@@ -138,7 +138,7 @@ function Html(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Html.propTypes = {
     isHidden    : PropTypes.bool,
@@ -159,7 +159,7 @@ Html.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Html.defaultProps = {
     isHidden   : false,

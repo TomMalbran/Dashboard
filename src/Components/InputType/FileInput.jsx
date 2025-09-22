@@ -42,7 +42,7 @@ const Input = Styled.input`
 
 /**
  * The File Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function FileInput(props) {
@@ -102,7 +102,7 @@ function FileInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 FileInput.propTypes = {
     inputRef    : PropTypes.any,
@@ -126,7 +126,7 @@ FileInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 FileInput.defaultProps = {
     className   : "",

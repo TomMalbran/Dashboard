@@ -36,7 +36,7 @@ const IconCheck = Styled(Icon)`
 
 /**
  * The Input Copy
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputCopy(props) {
@@ -77,7 +77,7 @@ function InputCopy(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 InputCopy.propTypes = {
     isHidden   : PropTypes.bool,
@@ -89,7 +89,7 @@ InputCopy.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputCopy.defaultProps = {
     isHidden   : false,

@@ -80,7 +80,7 @@ const Online = Styled.div.attrs(({ isOnline, isBusy }) => ({ isOnline, isBusy })
 
 /**
  * The Top Avatar Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TopAvatar(props) {
@@ -162,7 +162,7 @@ function TopAvatar(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TopAvatar.propTypes = {
     avatarUrl     : PropTypes.string,

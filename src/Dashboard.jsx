@@ -14,7 +14,7 @@ import Tooltip              from "./Components/Core/Tooltip";
 
 /**
  * The Dashboard Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Dashboard(props) {
@@ -34,7 +34,7 @@ function Dashboard(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Dashboard.propTypes = {
     store    : PropTypes.object.isRequired,

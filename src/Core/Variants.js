@@ -1,6 +1,6 @@
 /**
  * The Brightness Variants
- * @constant {Object}
+ * @constant {object}
  */
 export const Brightness = {
     PRIMARY : "primary",
@@ -15,7 +15,7 @@ export const Brightness = {
 
 /**
  * The Semaphore Variants
- * @constant {Object}
+ * @constant {object}
  */
 export const Semaphore = {
     GREEN  : "green",
@@ -27,7 +27,7 @@ export const Semaphore = {
 
 /**
  * The Outcome Variants
- * @constant {Object}
+ * @constant {object}
  */
 export const Outcome = {
     SUCCESS : "success",

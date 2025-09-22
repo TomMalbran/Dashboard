@@ -73,7 +73,7 @@ const Empty = Styled.li`
 
 /**
  * The Menu Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Menu(props) {
@@ -470,7 +470,7 @@ function Menu(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Menu.propTypes = {
     open         : PropTypes.bool,
@@ -502,7 +502,7 @@ Menu.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Menu.defaultProps = {
     open       : false,

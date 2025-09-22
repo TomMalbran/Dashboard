@@ -67,7 +67,7 @@ const BarBadge = Styled(Badge)`
 
 /**
  * The Bar Icon Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function BarIcon(props) {
@@ -134,7 +134,7 @@ function BarIcon(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 BarIcon.propTypes = {
     passedRef    : PropTypes.any,
@@ -157,7 +157,7 @@ BarIcon.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 BarIcon.defaultProps = {
     isHidden     : false,

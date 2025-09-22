@@ -36,8 +36,8 @@ const TIME     = "time";
 
 /**
  * Returns true if the Input should have a Label
- * @param {String} type
- * @returns {Boolean}
+ * @param {string} type
+ * @returns {boolean}
  */
 function hasLabel(type) {
     return ![ CHECKBOX, RADIOBOX, TOGGLE ].includes(type);
@@ -45,8 +45,8 @@ function hasLabel(type) {
 
 /**
  * Returns true if the Input should have a Clear
- * @param {String} type
- * @returns {Boolean}
+ * @param {string} type
+ * @returns {boolean}
  */
 function hasClear(type) {
     return [ FILE, MEDIA, SELECT, SUGGEST ].includes(type);
@@ -54,8 +54,8 @@ function hasClear(type) {
 
 /**
  * Returns true if the Input label can shrink
- * @param {String} type
- * @returns {Boolean}
+ * @param {string} type
+ * @returns {boolean}
  */
 function canShrink(type) {
     return ![
@@ -66,9 +66,9 @@ function canShrink(type) {
 
 /**
  * Returns true if there is a value
- * @param {String} type
+ * @param {string} type
  * @param {*}      value
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isValueFilled(type, value) {
     if (Array.isArray(value)) {
@@ -82,7 +82,7 @@ function isValueFilled(type, value) {
 
 /**
  * Creates Options
- * @param {Object} props
+ * @param {object} props
  * @returns {Array}
  */
 function useOptions(props) {

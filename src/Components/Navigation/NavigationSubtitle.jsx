@@ -26,7 +26,7 @@ const H3 = Styled.h3`
 
 /**
  * The Navigation Subtitle Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NavigationSubtitle(props) {
@@ -44,7 +44,7 @@ function NavigationSubtitle(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 NavigationSubtitle.propTypes = {
     isHidden  : PropTypes.bool,
@@ -54,7 +54,7 @@ NavigationSubtitle.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 NavigationSubtitle.defaultProps = {
     isHidden  : false,

@@ -13,7 +13,7 @@ import NLS                  from "../Core/NLS";
 
 /**
  * The Initializer
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Initializer(props) {
@@ -48,7 +48,7 @@ function Initializer(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Initializer.propTypes = {
     url      : PropTypes.string,
@@ -60,7 +60,7 @@ Initializer.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Initializer.defaultProps = {
     url      : "",

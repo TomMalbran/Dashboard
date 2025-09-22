@@ -11,7 +11,7 @@ import UserRoute            from "./UserRoute";
 
 /**
  * Only Authenticated API can access the given Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function APIRoute(props) {
@@ -27,7 +27,7 @@ function APIRoute(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 APIRoute.propTypes = {
     isHidden  : PropTypes.bool,

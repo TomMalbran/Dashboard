@@ -60,7 +60,7 @@ const HistoryIcon = Styled(Icon)`
 
 /**
  * The History Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function HistoryItem(props) {
@@ -85,7 +85,7 @@ function HistoryItem(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 HistoryItem.propTypes = {
     className : PropTypes.string,
@@ -99,7 +99,7 @@ HistoryItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 HistoryItem.defaultProps = {
     className : "",

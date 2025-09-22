@@ -21,7 +21,7 @@ const Content = Styled.div`
 
 /**
  * The View Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ViewDialog(props) {
@@ -67,7 +67,7 @@ function ViewDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ViewDialog.propTypes = {
     contentRef  : PropTypes.any,
@@ -96,7 +96,7 @@ ViewDialog.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 ViewDialog.defaultProps = {
     className   : "",

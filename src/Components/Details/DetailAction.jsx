@@ -13,7 +13,7 @@ function DetailAction() {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DetailAction.propTypes = {
     isHidden : PropTypes.bool,
@@ -24,7 +24,7 @@ DetailAction.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 DetailAction.defaultProps = {
     isHidden : false,

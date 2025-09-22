@@ -18,7 +18,7 @@ const Container = Styled.div.attrs(({ color, size }) => ({ color, size }))`
 
 /**
  * The Color Circle
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ColorCircle(props) {
@@ -32,7 +32,7 @@ function ColorCircle(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ColorCircle.propTypes = {
     color : PropTypes.string,

@@ -21,7 +21,7 @@ const Message = Styled(DialogMessage)`
 
 /**
  * The Edit Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function EditDialog(props) {
@@ -87,7 +87,7 @@ function EditDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 EditDialog.propTypes = {
     open             : PropTypes.bool.isRequired,
@@ -128,7 +128,7 @@ EditDialog.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 EditDialog.defaultProps = {
     className   : "",

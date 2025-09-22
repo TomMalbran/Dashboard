@@ -95,7 +95,7 @@ const TabLink = Styled(IconLink)`
 
 /**
  * The Tab List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TabList(props) {
@@ -175,7 +175,7 @@ function TabList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 TabList.propTypes = {
     isHidden   : PropTypes.bool,
@@ -195,7 +195,7 @@ TabList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 TabList.defaultProps = {
     isHidden   : false,

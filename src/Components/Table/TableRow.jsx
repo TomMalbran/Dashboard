@@ -13,7 +13,7 @@ import CheckboxInput        from "../InputType/CheckboxInput";
 
 /**
  * The Table Row Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableRow(props) {
@@ -105,7 +105,7 @@ function TableRow(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableRow.propTypes = {
     hasChecks      : PropTypes.bool,
@@ -123,7 +123,7 @@ TableRow.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableRow.defaultProps = {
     hasChecks  : false,

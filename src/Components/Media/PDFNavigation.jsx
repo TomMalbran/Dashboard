@@ -11,7 +11,7 @@ import IconLink             from "../Link/IconLink";
 
 /**
  * The PDF Navigation Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PDFNavigation(props) {
@@ -60,7 +60,7 @@ function PDFNavigation(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PDFNavigation.propTypes = {
     currentPage : PropTypes.number,

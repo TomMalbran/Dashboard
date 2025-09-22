@@ -41,7 +41,7 @@ const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
 
 /**
  * The Alert Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Alert(props) {
@@ -74,7 +74,7 @@ function Alert(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Alert.propTypes = {
     isHidden  : PropTypes.bool,
@@ -86,7 +86,7 @@ Alert.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Alert.defaultProps = {
     isHidden  : false,

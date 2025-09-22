@@ -33,7 +33,7 @@ const FieldHelper = Styled.p`
 
 /**
  * The Editor Field
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function EditorField(props) {
@@ -150,7 +150,7 @@ function EditorField(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 EditorField.propTypes = {
     isHidden     : PropTypes.bool,
@@ -176,7 +176,7 @@ EditorField.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 EditorField.defaultProps = {
     isHidden     : false,

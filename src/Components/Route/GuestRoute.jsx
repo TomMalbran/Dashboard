@@ -13,7 +13,7 @@ import {
 
 /**
  * The Guest Route Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function GuestRoute(props) {
@@ -35,7 +35,7 @@ function GuestRoute(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 GuestRoute.propTypes = {
     isHidden  : PropTypes.bool,
@@ -46,7 +46,7 @@ GuestRoute.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 GuestRoute.defaultProps = {
     isHidden : false,

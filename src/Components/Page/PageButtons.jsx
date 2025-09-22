@@ -9,7 +9,7 @@ import Button               from "../Form/Button";
 
 /**
  * The Page Buttons
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageButtons(props) {
@@ -41,7 +41,7 @@ function PageButtons(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageButtons.propTypes = {
     canEdit    : PropTypes.bool,
@@ -54,7 +54,7 @@ PageButtons.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 PageButtons.defaultProps = {
     canEdit : true,

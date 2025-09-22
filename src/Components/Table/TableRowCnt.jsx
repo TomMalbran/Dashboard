@@ -136,7 +136,7 @@ const TR = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isSel
 
 /**
  * The Table Row Container Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableRowCnt(props) {
@@ -163,7 +163,7 @@ function TableRowCnt(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 TableRowCnt.propTypes = {
     className     : PropTypes.string,
@@ -179,7 +179,7 @@ TableRowCnt.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableRowCnt.defaultProps = {
     className  : "",

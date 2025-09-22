@@ -161,7 +161,7 @@ const Dot = Styled.button.attrs(({ isActive }) => ({ isActive }))`
 
 /**
  * The Slider Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Slider(props) {
@@ -312,7 +312,7 @@ function Slider(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Slider.propTypes = {
     className  : PropTypes.string,
@@ -331,7 +331,7 @@ Slider.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Slider.defaultProps = {
     onClick    : (() => {}),

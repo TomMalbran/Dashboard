@@ -109,7 +109,7 @@ const Link = Styled.a.attrs(({ variant, isDisabled, isSmall, isTiny, size, withM
 
 /**
  * The IconLink Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function IconLink(props) {
@@ -162,7 +162,7 @@ function IconLink(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 IconLink.propTypes = {
     isHidden       : PropTypes.bool,
@@ -195,7 +195,7 @@ IconLink.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 IconLink.defaultProps = {
     isHidden       : false,

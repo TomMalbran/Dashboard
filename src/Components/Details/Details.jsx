@@ -85,7 +85,7 @@ const Error = Styled.div`
 
 /**
  * The Details Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Details(props) {
@@ -142,7 +142,7 @@ function Details(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Details.propTypes = {
     className       : PropTypes.string,
@@ -166,7 +166,7 @@ Details.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Details.defaultProps = {
     className       : "",

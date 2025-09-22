@@ -27,7 +27,7 @@ const Container = Styled.div.attrs(({ width, fullWidth, hasError }) => ({ width,
 
 /**
  * The Input Container Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputContainer(props) {
@@ -45,7 +45,7 @@ function InputContainer(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InputContainer.propTypes = {
     className : PropTypes.string,
@@ -57,7 +57,7 @@ InputContainer.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputContainer.defaultProps = {
     className : "",

@@ -95,7 +95,7 @@ const InputClear = Styled(IconLink).attrs(({ smallInput }) => ({ smallInput }))`
 
 /**
  * The Input Content Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputContent(props) {
@@ -160,7 +160,7 @@ function InputContent(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InputContent.propTypes = {
     passedRef    : PropTypes.any,
@@ -185,7 +185,7 @@ InputContent.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputContent.defaultProps = {
     className    : "",

@@ -30,7 +30,7 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
 
 /**
  * The Multiple Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MultipleInput(props) {
@@ -111,7 +111,7 @@ function MultipleInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MultipleInput.propTypes = {
     className   : PropTypes.string,
@@ -131,7 +131,7 @@ MultipleInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MultipleInput.defaultProps = {
     className  : "",

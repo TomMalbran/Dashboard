@@ -98,7 +98,7 @@ const Text = Styled.p.attrs(({ atMaxLength }) => ({ atMaxLength }))`
 
 /**
  * The Textarea Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TextareaInput(props) {
@@ -249,7 +249,7 @@ function TextareaInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 TextareaInput.propTypes = {
     inputRef    : PropTypes.any,
@@ -279,7 +279,7 @@ TextareaInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 TextareaInput.defaultProps = {
     className   : "",

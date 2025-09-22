@@ -54,7 +54,7 @@ const EditCell = Styled.th`
 
 /**
  * The Table Head Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableHead(props) {
@@ -108,7 +108,7 @@ function TableHead(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableHead.propTypes = {
     hasChecks      : PropTypes.bool,
@@ -128,7 +128,7 @@ TableHead.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableHead.defaultProps = {
     hasChecks    : false,

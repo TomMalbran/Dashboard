@@ -23,7 +23,7 @@ const InputIcon = Styled(IconLink)`
 
 /**
  * The Password Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PasswordInput(props) {
@@ -114,7 +114,7 @@ function PasswordInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 PasswordInput.propTypes = {
     inputRef     : PropTypes.object,
@@ -149,7 +149,7 @@ PasswordInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 PasswordInput.defaultProps = {
     className    : "",

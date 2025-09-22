@@ -5,7 +5,7 @@ import PropTypes            from "prop-types";
 
 /**
  * The Dialog Section Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogSection(props) {
@@ -21,7 +21,7 @@ function DialogSection(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogSection.propTypes = {
     isHidden  : PropTypes.bool,
@@ -31,7 +31,7 @@ DialogSection.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogSection.defaultProps = {
     isHidden  : false,

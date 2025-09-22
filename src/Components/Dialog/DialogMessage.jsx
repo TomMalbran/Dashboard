@@ -28,7 +28,7 @@ const Content = Styled(Html).attrs(({ centered, noSpace }) => ({ centered, noSpa
 
 /**
  * The Dialog Message Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogMessage(props) {
@@ -64,7 +64,7 @@ function DialogMessage(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogMessage.propTypes = {
     isHidden  : PropTypes.bool,
@@ -79,7 +79,7 @@ DialogMessage.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogMessage.defaultProps = {
     isHidden  : false,

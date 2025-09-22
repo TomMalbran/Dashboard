@@ -39,7 +39,7 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
 
 /**
  * The None Available Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NoneAvailable(props) {
@@ -57,7 +57,7 @@ function NoneAvailable(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 NoneAvailable.propTypes = {
     isHidden  : PropTypes.bool,
@@ -68,7 +68,7 @@ NoneAvailable.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 NoneAvailable.defaultProps = {
     isHidden  : false,

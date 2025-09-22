@@ -30,7 +30,7 @@ const Title = Styled.li`
 
 /**
  * The Navigation List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
@@ -57,7 +57,7 @@ function NavigationList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 NavigationList.propTypes = {
     isHidden  : PropTypes.bool,
@@ -71,7 +71,7 @@ NavigationList.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 NavigationList.defaultProps = {
     isHidden  : false,

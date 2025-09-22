@@ -35,7 +35,7 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
 
 /**
  * The Circle Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Circle(props) {
@@ -51,7 +51,7 @@ function Circle(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Circle.propTypes = {
     className : PropTypes.string,
@@ -60,7 +60,7 @@ Circle.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Circle.defaultProps = {
     className : "",

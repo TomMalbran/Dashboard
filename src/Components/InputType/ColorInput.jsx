@@ -49,7 +49,7 @@ const Input = Styled(InputBase).attrs(({ maxWidth }) => ({ maxWidth }))`
 
 /**
  * The Color Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ColorInput(props) {
@@ -126,7 +126,7 @@ function ColorInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ColorInput.propTypes = {
     inputRef   : PropTypes.any,
@@ -150,7 +150,7 @@ ColorInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ColorInput.defaultProps = {
     className  : "",

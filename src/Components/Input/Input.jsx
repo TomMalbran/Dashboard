@@ -30,7 +30,7 @@ import TextInput            from "../InputType/TextInput";
 
 /**
  * The Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Input(props) {
@@ -82,7 +82,7 @@ function Input(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Input.propTypes = {
     className    : PropTypes.string,
@@ -129,7 +129,7 @@ Input.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Input.defaultProps = {
     className    : "",

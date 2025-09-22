@@ -56,7 +56,7 @@ const NavIcon = Styled(Icon)`
 
 /**
  * The Navigation Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NavigationItem(props) {
@@ -173,7 +173,7 @@ function NavigationItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 NavigationItem.propTypes = {
     isHidden         : PropTypes.bool,
@@ -206,7 +206,7 @@ NavigationItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 NavigationItem.defaultProps = {
     isHidden         : false,

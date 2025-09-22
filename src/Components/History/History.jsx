@@ -19,7 +19,7 @@ const Ul = Styled.ul.attrs(({ withSpacing }) => ({ withSpacing }))`
 
 /**
  * The History List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function History(props) {
@@ -32,7 +32,7 @@ function History(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 History.propTypes = {
     className   : PropTypes.string,
@@ -42,7 +42,7 @@ History.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 History.defaultProps = {
     className   : "",

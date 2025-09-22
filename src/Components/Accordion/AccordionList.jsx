@@ -8,7 +8,7 @@ import Utils                from "../../Utils/Utils";
 
 /**
  * The Accordion List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function AccordionList(props) {
@@ -77,7 +77,7 @@ function AccordionList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 AccordionList.propTypes = {
     isHidden  : PropTypes.bool,
@@ -91,7 +91,7 @@ AccordionList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 AccordionList.defaultProps = {
     isHidden  : false,

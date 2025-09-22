@@ -14,7 +14,7 @@ import {
 
 /**
  * The Router Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Router(props) {
@@ -64,7 +64,7 @@ function Router(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Router.propTypes = {
     initialUrl : PropTypes.string,
@@ -75,7 +75,7 @@ Router.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Router.defaultProps = {
     initialUrl : "",

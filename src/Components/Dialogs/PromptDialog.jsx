@@ -33,7 +33,7 @@ const Content = Styled(Html)`
 
 /**
  * The Prompt Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PromptDialog(props) {
@@ -171,7 +171,7 @@ function PromptDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PromptDialog.propTypes = {
     open            : PropTypes.bool.isRequired,
@@ -217,7 +217,7 @@ PromptDialog.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 PromptDialog.defaultProps = {
     primary         : "GENERAL_SAVE",

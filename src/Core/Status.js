@@ -9,9 +9,9 @@ let statusGroups = {};
 
 /**
  * Initializes the Status data
- * @param {Object[]} values
- * @param {Object}   groups
- * @returns {Void}
+ * @param {object[]} values
+ * @param {object}   groups
+ * @returns {void}
  */
 function init(values, groups) {
     statusIDs    = {};
@@ -28,9 +28,9 @@ function init(values, groups) {
 
 /**
  * Returns true if the Status with the given name has the give id
- * @param {String} name
- * @param {Number} id
- * @returns {Boolean}
+ * @param {string} name
+ * @param {number} id
+ * @returns {boolean}
  */
 function is(name, id) {
     const status = statusNames[name];
@@ -39,8 +39,8 @@ function is(name, id) {
 
 /**
  * Returns the Status ID
- * @param {String} name
- * @returns {Object}
+ * @param {string} name
+ * @returns {object}
  */
 function getID(name) {
     const status = statusNames[name];
@@ -49,9 +49,9 @@ function getID(name) {
 
 /**
  * Returns the Status Name
- * @param {Number}   id
- * @param {Boolean=} isFem
- * @returns {String}
+ * @param {number}   id
+ * @param {boolean=} isFem
+ * @returns {string}
  */
 function getName(id, isFem = false) {
     const status = statusIDs[id];
@@ -61,8 +61,8 @@ function getName(id, isFem = false) {
 
 /**
  * Returns the Female Status Name
- * @param {Number} id
- * @returns {String}
+ * @param {number} id
+ * @returns {string}
  */
 function getFemName(id) {
     return getName(id, true);
@@ -70,8 +70,8 @@ function getFemName(id) {
 
 /**
  * Returns a String with the Color
- * @param {Number} id
- * @returns {String}
+ * @param {number} id
+ * @returns {string}
  */
 function getColor(id) {
     const status = statusIDs[id];
@@ -80,8 +80,8 @@ function getColor(id) {
 
 /**
  * Returns a String with the Text Class
- * @param {Number} id
- * @returns {String}
+ * @param {number} id
+ * @returns {string}
  */
 function getTextClass(id) {
     const status = statusIDs[id];
@@ -92,9 +92,9 @@ function getTextClass(id) {
 
 /**
  * Creates a Status Select
- * @param {String}  type
- * @param {Boolean} isFem
- * @returns {Object[]}
+ * @param {string}  type
+ * @param {boolean} isFem
+ * @returns {object[]}
  */
 function createSelect(type, isFem) {
     const group  = statusGroups[type] || [];
@@ -108,9 +108,9 @@ function createSelect(type, isFem) {
 
 /**
  * Returns the Status Select
- * @param {String=}  type
- * @param {Boolean=} isFem
- * @returns {Object[]}
+ * @param {string=}  type
+ * @param {boolean=} isFem
+ * @returns {object[]}
  */
 function getSelect(type = "GENERAL", isFem = false) {
     return createSelect(type, isFem);
@@ -118,8 +118,8 @@ function getSelect(type = "GENERAL", isFem = false) {
 
 /**
  * Returns the Female Status Select
- * @param {String=} type
- * @returns {Object[]}
+ * @param {string=} type
+ * @returns {object[]}
  */
 function getFemSelect(type = "GENERAL") {
     return createSelect(type, true);

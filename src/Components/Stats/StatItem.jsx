@@ -73,7 +73,7 @@ const Value = Styled.span.attrs(({ variant }) => ({ variant }))`
 
 /**
  * The Stat Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function StatItem(props) {
@@ -140,7 +140,7 @@ function StatItem(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 StatItem.propTypes = {
     isHidden  : PropTypes.bool,
@@ -158,7 +158,7 @@ StatItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 StatItem.defaultProps = {
     decimals   : 0,

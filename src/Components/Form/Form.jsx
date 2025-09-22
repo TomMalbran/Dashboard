@@ -22,7 +22,7 @@ const Content = Styled.div`
 
 /**
  * The Form Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Form(props) {
@@ -55,7 +55,7 @@ function Form(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Form.propTypes = {
     className   : PropTypes.string,
@@ -67,7 +67,7 @@ Form.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 Form.defaultProps = {
     className   : "",

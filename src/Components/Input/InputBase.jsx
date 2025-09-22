@@ -38,7 +38,7 @@ const Input = Styled.input`
 
 /**
  * The Input Base Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputBase(props) {
@@ -78,7 +78,7 @@ function InputBase(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 InputBase.propTypes = {
     inputRef     : PropTypes.object,
@@ -105,7 +105,7 @@ InputBase.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputBase.defaultProps = {
     type        : InputType.TEXT,

@@ -16,7 +16,7 @@ import MenuLine             from "../Menu/MenuLine";
 
 /**
  * The Action Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ActionItem(props) {
@@ -131,7 +131,7 @@ function ActionItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ActionItem.propTypes = {
     isHidden       : PropTypes.bool,
@@ -154,7 +154,7 @@ ActionItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ActionItem.defaultProps = {
     isHidden  : false,

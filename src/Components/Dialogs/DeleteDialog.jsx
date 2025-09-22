@@ -8,7 +8,7 @@ import ConfirmDialog        from "./ConfirmDialog";
 
 /**
  * The Delete Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DeleteDialog(props) {
@@ -35,7 +35,7 @@ function DeleteDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DeleteDialog.propTypes = {
     open      : PropTypes.bool.isRequired,

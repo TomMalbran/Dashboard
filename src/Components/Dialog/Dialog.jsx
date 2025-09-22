@@ -76,7 +76,7 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
 
 /**
  * The Dialog Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Dialog(props) {
@@ -218,7 +218,7 @@ function Dialog(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Dialog.propTypes = {
     open      : PropTypes.bool,
@@ -238,7 +238,7 @@ Dialog.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Dialog.defaultProps = {
     className : "",

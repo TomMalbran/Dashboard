@@ -61,7 +61,7 @@ const Emoji = Styled.div.attrs(({ top, left }) => ({ top, left }))`
 
 /**
  * The Emoji Popup
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function EmojiPopup(props) {
@@ -187,7 +187,7 @@ function EmojiPopup(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 EmojiPopup.propTypes = {
     open      : PropTypes.bool,
@@ -202,7 +202,7 @@ EmojiPopup.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 EmojiPopup.defaultProps = {
     open      : false,

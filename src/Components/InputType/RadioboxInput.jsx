@@ -122,7 +122,7 @@ const Label = Styled(Html).attrs(({ hasChildren }) => ({ hasChildren }))`
 
 /**
  * The Radiobox Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function RadioboxInput(props) {
@@ -194,7 +194,7 @@ function RadioboxInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 RadioboxInput.propTypes = {
     inputRef     : PropTypes.any,
@@ -218,7 +218,7 @@ RadioboxInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 RadioboxInput.defaultProps = {
     className    : "",

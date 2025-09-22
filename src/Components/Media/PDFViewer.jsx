@@ -9,7 +9,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 /**
  * The PDF Viewer Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PDFViewer(props) {
@@ -52,7 +52,7 @@ function PDFViewer(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PDFViewer.propTypes = {
     className   : PropTypes.string,
@@ -65,7 +65,7 @@ PDFViewer.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 PDFViewer.defaultProps = {
     currentPage : 1,

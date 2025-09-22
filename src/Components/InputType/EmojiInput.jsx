@@ -20,7 +20,7 @@ const InputValue = Styled.div`
 
 /**
  * The Emoji Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function EmojiInput(props) {
@@ -80,7 +80,7 @@ function EmojiInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 EmojiInput.propTypes = {
     className  : PropTypes.string,
@@ -101,7 +101,7 @@ EmojiInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 EmojiInput.defaultProps = {
     className  : "",

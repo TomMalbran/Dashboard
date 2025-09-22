@@ -26,7 +26,7 @@ const EditItem = Styled.li`
 
 /**
  * The Emails Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function EmailsInput(props) {
@@ -403,7 +403,7 @@ function EmailsInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 EmailsInput.propTypes = {
     inputRef      : PropTypes.object,
@@ -432,7 +432,7 @@ EmailsInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 EmailsInput.defaultProps = {
     className  : "",

@@ -39,7 +39,7 @@ const Actions = Styled.div`
 
 /**
  * The Info List
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InfoList(props) {
@@ -68,7 +68,7 @@ function InfoList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InfoList.propTypes = {
     className : PropTypes.string,
@@ -79,7 +79,7 @@ InfoList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InfoList.defaultProps = {
     className : "",

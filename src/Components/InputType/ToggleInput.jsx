@@ -71,7 +71,7 @@ const Span = Styled.span`
 
 /**
  * The Toggle Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ToggleInput(props) {
@@ -125,7 +125,7 @@ function ToggleInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ToggleInput.propTypes = {
     inputRef   : PropTypes.any,
@@ -143,7 +143,7 @@ ToggleInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ToggleInput.defaultProps = {
     className  : "",

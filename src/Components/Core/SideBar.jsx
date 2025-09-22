@@ -120,7 +120,7 @@ const CloseIcon = Styled(IconLink)`
 
 /**
  * The Side Bar Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SideBar(props) {
@@ -196,7 +196,7 @@ function SideBar(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 SideBar.propTypes = {
     className     : PropTypes.string,
@@ -220,7 +220,7 @@ SideBar.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 SideBar.defaultProps = {
     className    : "",

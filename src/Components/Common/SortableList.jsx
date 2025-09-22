@@ -49,7 +49,7 @@ const Name = Styled(Html)`
 
 /**
  * The Sortable List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SortableList(props) {
@@ -106,7 +106,7 @@ function SortableList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 SortableList.propTypes = {
     className    : PropTypes.string,
@@ -117,7 +117,7 @@ SortableList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 SortableList.defaultProps = {
     className : "",

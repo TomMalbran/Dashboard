@@ -93,7 +93,7 @@ const FieldHelper = Styled.p`
 
 /**
  * The Input View Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ViewField(props) {
@@ -182,7 +182,7 @@ function ViewField(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ViewField.propTypes = {
     isHidden    : PropTypes.bool,
@@ -214,7 +214,7 @@ ViewField.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 ViewField.defaultProps = {
     isHidden   : false,

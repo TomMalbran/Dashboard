@@ -51,7 +51,7 @@ const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
 
 /**
  * The Input Option Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputOption(props) {
@@ -82,7 +82,7 @@ function InputOption(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InputOption.propTypes = {
     className   : PropTypes.string,

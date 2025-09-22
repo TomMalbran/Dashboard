@@ -36,7 +36,7 @@ const Child = Styled.div`
 
 /**
  * The Header Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Header(props) {
@@ -70,7 +70,7 @@ function Header(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Header.propTypes = {
     isHidden  : PropTypes.bool,
@@ -87,7 +87,7 @@ Header.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Header.defaultProps = {
     isHidden  : false,

@@ -21,7 +21,7 @@ const Div = Styled.div`
 
 /**
  * The Loader Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Loader(props) {
@@ -34,7 +34,7 @@ function Loader(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Loader.propTypes = {
     variant   : PropTypes.string,
@@ -43,7 +43,7 @@ Loader.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Loader.defaultProps = {
     variant   : "white",

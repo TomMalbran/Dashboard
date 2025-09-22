@@ -92,7 +92,7 @@ const Resizer = Styled.div`
 
 /**
  * The Table Header Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableHeader(props) {
@@ -203,7 +203,7 @@ function TableHeader(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableHeader.propTypes = {
     isHidden       : PropTypes.bool,
@@ -238,7 +238,7 @@ TableHeader.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableHeader.defaultProps = {
     isHidden    : false,

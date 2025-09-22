@@ -19,7 +19,7 @@ const Container = Styled(AccordionList).attrs(({ withSpacing }) => ({ withSpacin
 
 /**
  * The Page Accordion
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function PageAccordion(props) {
@@ -40,7 +40,7 @@ function PageAccordion(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 PageAccordion.propTypes = {
     initial     : PropTypes.string,

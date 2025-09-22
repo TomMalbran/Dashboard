@@ -5,7 +5,7 @@ import PropTypes            from "prop-types";
 
 /**
  * The Iframe Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Iframe(props) {
@@ -50,7 +50,7 @@ function Iframe(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Iframe.propTypes = {
     isHidden  : PropTypes.bool,
@@ -60,7 +60,7 @@ Iframe.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Iframe.defaultProps = {
     isHidden  : false,

@@ -25,7 +25,7 @@ const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
 
 /**
  * The Stat List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function StatList(props) {
@@ -54,7 +54,7 @@ function StatList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 StatList.propTypes = {
     isHidden  : PropTypes.bool,
@@ -66,7 +66,7 @@ StatList.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 StatList.defaultProps = {
     isHidden  : false,

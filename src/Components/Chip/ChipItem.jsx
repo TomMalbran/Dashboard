@@ -61,7 +61,7 @@ const Content = Styled.div`
 
 /**
  * The Chip Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ChipItem(props) {
@@ -114,7 +114,7 @@ function ChipItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ChipItem.propTypes = {
     isHidden   : PropTypes.bool,
@@ -131,7 +131,7 @@ ChipItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ChipItem.defaultProps = {
     isHidden   : false,

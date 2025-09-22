@@ -31,7 +31,7 @@ const InputIcon = Styled(Icon)`
 
 /**
  * The Suggest Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SuggestInput(props) {
@@ -337,7 +337,7 @@ function SuggestInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 SuggestInput.propTypes = {
     inputRef        : PropTypes.any,
@@ -370,7 +370,7 @@ SuggestInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 SuggestInput.defaultProps = {
     className    : "",

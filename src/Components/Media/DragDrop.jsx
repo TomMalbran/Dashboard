@@ -28,7 +28,7 @@ const Container = Styled.div.attrs(({ isUploading }) => ({ isUploading }))`
 
 /**
  * The Drag Drop Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DragDrop(props) {
@@ -159,7 +159,7 @@ function DragDrop(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DragDrop.propTypes = {
     isHidden   : PropTypes.bool,

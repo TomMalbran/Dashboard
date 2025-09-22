@@ -81,7 +81,7 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow, isEditable
 
 /**
  * The Table Body Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableBody(props) {
@@ -114,7 +114,7 @@ function TableBody(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableBody.propTypes = {
     notFixed       : PropTypes.bool,

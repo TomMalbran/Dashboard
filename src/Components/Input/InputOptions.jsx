@@ -33,7 +33,7 @@ const Container = Styled.ul.attrs(({ top, left, width, minWidth, maxHeight, opac
 
 /**
  * The Input Options Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputOptions(props) {
@@ -58,7 +58,7 @@ function InputOptions(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InputOptions.propTypes = {
     passedRef : PropTypes.any,
@@ -73,7 +73,7 @@ InputOptions.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputOptions.defaultProps = {
     top       : 0,

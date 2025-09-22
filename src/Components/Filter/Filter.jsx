@@ -13,7 +13,7 @@ import FilterItem           from "./FilterItem";
 
 /**
  * The Filter Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Filter(props) {
@@ -92,7 +92,7 @@ function Filter(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Filter.propTypes = {
     onFilter      : PropTypes.func.isRequired,
@@ -107,7 +107,7 @@ Filter.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Filter.defaultProps = {
     hasCredential : false,

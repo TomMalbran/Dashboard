@@ -60,7 +60,7 @@ const Container = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpac
 
 /**
  * The Dialog Body Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogBody(props) {
@@ -104,7 +104,7 @@ function DialogBody(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogBody.propTypes = {
     passedRef   : PropTypes.any,
@@ -124,7 +124,7 @@ DialogBody.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogBody.defaultProps = {
     className   : "",

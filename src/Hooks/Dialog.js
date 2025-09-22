@@ -7,19 +7,20 @@ import Store                from "../Core/Store";
 
 /**
  * Returns a Hook to use the Dialog Data
- * @param {String}    slice
- * @param {Boolean}   open
- * @param {Number=}   elemID
- * @param {Object=}   data
+ * @param {string}    slice
+ * @param {boolean}   open
+ * @param {number=}   elemID
+ * @param {object=}   data
  * @param {Function=} setElem
  * @param {Function=} getElem
- * @returns {{
- *   loading      : Boolean,
- *   startLoading : Function,
- *   endLoading   : Function,
- *   elem         : Object,
- *   canEdit      : Boolean,
- * }}
+ *
+ * @typedef {object}    DialogType
+ * @property {boolean}  loading
+ * @property {Function} startLoading
+ * @property {Function} endLoading
+ * @property {object}   elem
+ * @property {boolean}  canEdit
+ * @returns {DialogType}
  */
 function useDialog(slice, open, elemID = 0, data = null, setElem = null, getElem = null) {
     const { loaders } = Store.useState("core");

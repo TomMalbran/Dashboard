@@ -12,8 +12,8 @@ const FILE  = "file";
 
 /**
  * Returns true if the type is only for Images
- * @param {String} mediaType
- * @returns {Boolean}
+ * @param {string} mediaType
+ * @returns {boolean}
  */
 function onlyImages(mediaType) {
     return mediaType === IMAGE;

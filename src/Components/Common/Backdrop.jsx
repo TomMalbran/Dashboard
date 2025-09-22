@@ -42,7 +42,7 @@ const Div = Styled.div.attrs(({ isOpen, isClosing, zIndex }) => ({ isOpen, isClo
 
 /**
  * The Drawer Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Backdrop(props) {
@@ -82,7 +82,7 @@ function Backdrop(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Backdrop.propTypes = {
     contentRef : PropTypes.object,
@@ -97,7 +97,7 @@ Backdrop.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Backdrop.defaultProps = {
     className : "",

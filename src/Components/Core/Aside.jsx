@@ -14,7 +14,7 @@ const Content = Styled.aside`
 
 /**
  * The Aside Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Aside(props) {
@@ -27,7 +27,7 @@ function Aside(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Aside.propTypes = {
     className : PropTypes.string,
@@ -36,7 +36,7 @@ Aside.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Aside.defaultProps = {
     className : "",

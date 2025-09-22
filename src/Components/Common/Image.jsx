@@ -25,7 +25,7 @@ const Container = Styled.img.attrs(({ size, width }) => ({ size, width }))`
 
 /**
  * The Image
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Image(props) {
@@ -47,7 +47,7 @@ function Image(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Image.propTypes = {
     className : PropTypes.string,

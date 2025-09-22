@@ -86,7 +86,7 @@ const Content = Styled.div`
 
 /**
  * The History Message Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function HistoryMessage(props) {
@@ -108,7 +108,7 @@ function HistoryMessage(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 HistoryMessage.propTypes = {
     className : PropTypes.string,
@@ -121,7 +121,7 @@ HistoryMessage.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 HistoryMessage.defaultProps = {
     className : "",

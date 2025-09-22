@@ -44,7 +44,7 @@ const Ul = Styled.ul`
 
 /**
  * The Navigation Body Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function NavigationBody(props) {
@@ -134,7 +134,7 @@ function NavigationBody(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 NavigationBody.propTypes = {
     className   : PropTypes.string,
@@ -151,7 +151,7 @@ NavigationBody.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 NavigationBody.defaultProps = {
     className   : "",

@@ -5,7 +5,7 @@ import { useLocation }      from "react-router-dom";
 
 /**
  * The Any Route Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function AnyRoute(props) {
@@ -17,7 +17,7 @@ function AnyRoute(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 AnyRoute.propTypes = {
     isHidden  : PropTypes.bool,
@@ -28,7 +28,7 @@ AnyRoute.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 AnyRoute.defaultProps = {
     isHidden : false,

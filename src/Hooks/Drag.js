@@ -8,8 +8,8 @@ import Utils                from "../Utils/Utils";
 /**
  * The Drag Hook
  * @param {Function} onDrop
- * @param {Boolean=} gridMode
- * @returns {Object}
+ * @param {boolean=} gridMode
+ * @returns {object}
  */
 function useDrag(onDrop, gridMode = false) {
     const stateRef = React.useRef({

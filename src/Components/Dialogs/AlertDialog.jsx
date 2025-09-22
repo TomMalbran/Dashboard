@@ -27,7 +27,7 @@ const Content = Styled(Html)`
 
 /**
  * The Alert Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function AlertDialog(props) {
@@ -66,7 +66,7 @@ function AlertDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 AlertDialog.propTypes = {
     open        : PropTypes.bool.isRequired,
@@ -82,7 +82,7 @@ AlertDialog.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 AlertDialog.defaultProps = {
     icon      : "view",

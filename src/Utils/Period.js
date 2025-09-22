@@ -102,8 +102,8 @@ const PERIODS_LAST_TODAY = [
 
 /**
  * Returns the From Date
- * @param {String} value
- * @returns {String}
+ * @param {string} value
+ * @returns {string}
  */
 function getFromDate(value) {
     const dateTime = DateTime.create();
@@ -163,8 +163,8 @@ function getFromDate(value) {
 
 /**
  * Returns the To Date
- * @param {String} value
- * @returns {String}
+ * @param {string} value
+ * @returns {string}
  */
 function getToDate(value) {
     const dateTime = DateTime.create();
@@ -226,8 +226,8 @@ function getToDate(value) {
 
 /**
  * Returns the Name of the given Value
- * @param {(Number|String)} value
- * @returns {String}
+ * @param {(number|string)} value
+ * @returns {string}
  */
 function getName(value) {
     const key = PERIODS_KEYS[value];
@@ -236,8 +236,8 @@ function getName(value) {
 
 /**
  * Returns a Periods Select
- * @param {String[]=} periods
- * @returns {Object[]}
+ * @param {string[]=} periods
+ * @returns {object[]}
  */
 function getSelect(periods) {
     const entries = periods || PERIODS_COMPLETE;
@@ -251,7 +251,7 @@ function getSelect(periods) {
 
 /**
  * Returns a Simple Periods Select
- * @returns {Object[]}
+ * @returns {object[]}
  */
 function getSimpleSelect() {
     return getSelect(PERIODS_SIMPLE);
@@ -259,8 +259,8 @@ function getSimpleSelect() {
 
 /**
  * Returns a Last Periods Select
- * @param {Boolean=} withToday
- * @returns {Object[]}
+ * @param {boolean=} withToday
+ * @returns {object[]}
  */
 function getLastSelect(withToday) {
     return withToday ? getSelect(PERIODS_LAST_TODAY) : getSelect(PERIODS_LAST);

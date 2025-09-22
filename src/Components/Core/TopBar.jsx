@@ -87,7 +87,7 @@ const DetailIcon = Styled(BarIcon)`
 
 /**
  * The Top Bar Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TopBar(props) {
@@ -155,7 +155,7 @@ function TopBar(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TopBar.propTypes = {
     className     : PropTypes.string,
@@ -180,7 +180,7 @@ TopBar.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 TopBar.defaultProps = {
     className  : "",

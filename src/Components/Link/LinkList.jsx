@@ -19,7 +19,7 @@ const Ul = Styled.ul`
 
 /**
  * The Link List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function LinkList(props) {
@@ -39,7 +39,7 @@ function LinkList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 LinkList.propTypes = {
     className : PropTypes.string,
@@ -49,7 +49,7 @@ LinkList.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 LinkList.defaultProps = {
     className : "",

@@ -88,7 +88,7 @@ const Error = Styled(InputError)`
 
 /**
  * The List Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ListInput(props) {
@@ -373,7 +373,7 @@ function ListInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ListInput.propTypes = {
     className  : PropTypes.string,
@@ -402,7 +402,7 @@ ListInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ListInput.defaultProps = {
     className  : "",

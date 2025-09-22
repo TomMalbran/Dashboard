@@ -14,7 +14,7 @@ const Div = Styled.div`
 
 /**
  * The List Content Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ListContent(props) {
@@ -27,7 +27,7 @@ function ListContent(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ListContent.propTypes = {
     children : PropTypes.any,

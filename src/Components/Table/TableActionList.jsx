@@ -13,7 +13,7 @@ function TableActionList() {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableActionList.propTypes = {
     onClick  : PropTypes.func,

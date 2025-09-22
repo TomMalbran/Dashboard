@@ -73,7 +73,7 @@ const Link = Styled(HyperLink)`
 
 /**
  * The Breadcrumb Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Breadcrumb(props) {
@@ -122,7 +122,7 @@ function Breadcrumb(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Breadcrumb.propTypes = {
     className : PropTypes.string,
@@ -132,7 +132,7 @@ Breadcrumb.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Breadcrumb.defaultProps = {
     className : "",

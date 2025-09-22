@@ -11,7 +11,7 @@ import EditDialog           from "./EditDialog";
 
 /**
  * The Filter Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function FilterDialog(props) {
@@ -53,7 +53,7 @@ function FilterDialog(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 FilterDialog.propTypes = {
     open        : PropTypes.bool.isRequired,

@@ -9,7 +9,7 @@ import SortableList         from "../Common/SortableList";
 
 /**
  * The Table Edit Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableEdit(props) {
@@ -51,7 +51,7 @@ function TableEdit(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableEdit.propTypes = {
     open     : PropTypes.bool.isRequired,

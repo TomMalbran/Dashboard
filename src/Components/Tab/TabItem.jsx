@@ -92,7 +92,7 @@ const TabBadge = Styled(Badge)`
 
 /**
  * The Tab Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TabItem(props) {
@@ -190,7 +190,7 @@ function TabItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 TabItem.propTypes = {
     isHidden       : PropTypes.bool,
@@ -216,7 +216,7 @@ TabItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 TabItem.defaultProps = {
     isHidden       : false,

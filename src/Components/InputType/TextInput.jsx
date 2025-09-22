@@ -32,7 +32,7 @@ const Text = Styled.p.attrs(({ atMaxLength, hasButtons }) => ({ atMaxLength, has
 
 /**
  * The Text Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TextInput(props) {
@@ -155,7 +155,7 @@ function TextInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 TextInput.propTypes = {
     inputRef     : PropTypes.any,
@@ -196,7 +196,7 @@ TextInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 TextInput.defaultProps = {
     className    : "",

@@ -140,7 +140,7 @@ const Components = {
 
 /**
  * The HyperLink Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function HyperLink(props) {
@@ -174,7 +174,7 @@ function HyperLink(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 HyperLink.propTypes = {
     passedRef  : PropTypes.any,
@@ -197,7 +197,7 @@ HyperLink.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 HyperLink.defaultProps = {
     isHidden   : false,

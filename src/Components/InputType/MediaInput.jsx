@@ -30,7 +30,7 @@ const InputIcon = Styled(Icon)`
 
 /**
  * The Media Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MediaInput(props) {
@@ -66,7 +66,7 @@ function MediaInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MediaInput.propTypes = {
     className   : PropTypes.string,
@@ -83,7 +83,7 @@ MediaInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MediaInput.defaultProps = {
     className   : "",

@@ -40,7 +40,7 @@ const SubCircle = Styled(Circle)`
 
 /**
  * The Subtitle Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Subtitle(props) {
@@ -59,7 +59,7 @@ function Subtitle(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Subtitle.propTypes = {
     message    : PropTypes.string,
@@ -69,7 +69,7 @@ Subtitle.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Subtitle.defaultProps = {
     withBorder : true,

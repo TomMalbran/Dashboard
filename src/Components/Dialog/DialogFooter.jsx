@@ -43,7 +43,7 @@ const Secondary = Styled.div`
 
 /**
  * The Dialog Footer Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogFooter(props) {
@@ -118,7 +118,7 @@ function DialogFooter(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogFooter.propTypes = {
     isHidden         : PropTypes.bool,
@@ -145,7 +145,7 @@ DialogFooter.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogFooter.defaultProps = {
     isHidden         : false,

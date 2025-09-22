@@ -35,7 +35,7 @@ const Section = Styled.section`
 
 /**
  * The Media List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MediaList(props) {
@@ -217,7 +217,7 @@ function MediaList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MediaList.propTypes = {
     className     : PropTypes.string,
@@ -237,7 +237,7 @@ MediaList.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 MediaList.defaultProps = {
     className : "",

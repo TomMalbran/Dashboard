@@ -6,26 +6,26 @@ import Period               from "../Utils/Period";
 
 
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * Returns a Hook to use the Filter Data
- * @param {String}    slice
- * @param {Boolean}   open
- * @param {Object}    initialData
- * @param {Object}    filters
+ * @param {string}    slice
+ * @param {boolean}   open
+ * @param {object}    initialData
+ * @param {object}    filters
  * @param {Function=} onSubmit
- * @param {Object=}   sendData
- * @returns {{
- *   loading      : Boolean,
- *   startLoading : Function,
- *   endLoading   : Function,
- *   data         : Object,
- *   setData      : Function,
- *   handleChange : (...any) => any,
- *   handleSearch : (...any) => any,
- *   handlePeriod : (...any) => any,
- *   handleSubmit : (...any) => any,
- * }}
+ * @param {object=}   sendData
+ *
+ * @typedef {object}    FilterType
+ * @property {boolean}  loading
+ * @property {Function} startLoading
+ * @property {Function} endLoading
+ * @property {object}   data
+ * @property {Function} setData
+ * @property {(...args: any[]) => any} handleChange
+ * @property {(...args: any[]) => any} handleSearch
+ * @property {(...args: any[]) => any} handlePeriod
+ * @property {(...args: any[]) => any} handleSubmit
+ * @returns {FilterType}
  */
 function useFilter(slice, open, initialData, filters, onSubmit = null, sendData = {}) {
     const { loaders } = Store.useState("core");

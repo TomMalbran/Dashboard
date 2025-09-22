@@ -58,7 +58,7 @@ const Text = Styled.span`
 
 /**
  * The Title Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Title(props) {
@@ -91,7 +91,7 @@ function Title(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Title.propTypes = {
     icon     : PropTypes.string.isRequired,

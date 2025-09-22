@@ -43,7 +43,7 @@ const DetailIcon = Styled(Icon)`
 
 /**
  * The Detail Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DetailItem(props) {
@@ -113,7 +113,7 @@ function DetailItem(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DetailItem.propTypes = {
     isHidden       : PropTypes.bool,
@@ -141,7 +141,7 @@ DetailItem.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 DetailItem.defaultProps = {
     isHidden       : false,

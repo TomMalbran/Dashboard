@@ -36,7 +36,7 @@ const Content = Styled.main.attrs(({ withNavigation, withDetails, wideDetails, l
 
 /**
  * The Main Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Main(props) {
@@ -55,7 +55,7 @@ function Main(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Main.propTypes = {
     className      : PropTypes.string,
@@ -68,7 +68,7 @@ Main.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Main.defaultProps = {
     className      : "",

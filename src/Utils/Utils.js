@@ -7,7 +7,7 @@ import MD5                  from "./MD5";
 /**
  * Returns true if the value is a Boolean
  * @param {*} value
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isBoolean(value) {
     return typeof value === "boolean";
@@ -16,7 +16,7 @@ function isBoolean(value) {
 /**
  * Returns true if the value is a String
  * @param {*} value
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isString(value) {
     return typeof value === "string" || value instanceof String;
@@ -25,7 +25,7 @@ function isString(value) {
 /**
  * Returns true if the value is a Number
  * @param {*} value
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isNumeric(value) {
     return !isNaN(value);
@@ -34,7 +34,7 @@ function isNumeric(value) {
 /**
  * Returns true if the value is an Object
  * @param {*} value
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function isObject(value) {
     return typeof value === "object" && value !== null;
@@ -42,8 +42,8 @@ function isObject(value) {
 
 /**
  * Returns true if the Object is empty
- * @param {Object} object
- * @returns {Boolean}
+ * @param {object} object
+ * @returns {boolean}
  */
 function isEmpty(object) {
     return !object || Object.keys(object).length === 0;
@@ -51,8 +51,8 @@ function isEmpty(object) {
 
 /**
  * Returns the Property as a boolean
- * @param {(Number|String)} property
- * @returns {Boolean}
+ * @param {(number|string)} property
+ * @returns {boolean}
  */
 function isActive(property) {
     return Boolean(Number(property));
@@ -60,9 +60,9 @@ function isActive(property) {
 
 /**
  * Returns true if the Object has the given property
- * @param {Object} object
- * @param {String} property
- * @returns {Boolean}
+ * @param {object} object
+ * @param {string} property
+ * @returns {boolean}
  */
 function hasProp(object, property) {
     return Object.prototype.hasOwnProperty.call(object, property);
@@ -70,8 +70,8 @@ function hasProp(object, property) {
 
 /**
  * Returns the amount of items in the Object
- * @param {Object} object
- * @returns {Number}
+ * @param {object} object
+ * @returns {number}
  */
 function count(object) {
     return object ? Object.keys(object).length : 0;
@@ -79,8 +79,8 @@ function count(object) {
 
 /**
  * Clones an Object
- * @param {Object} object
- * @returns {Object}
+ * @param {object} object
+ * @returns {object}
  */
 function clone(object) {
     return JSON.parse(JSON.stringify(object));
@@ -88,9 +88,9 @@ function clone(object) {
 
 /**
  * Rounds a Value with the given decimals
- * @param {Number} value
- * @param {Number} decimals
- * @returns {Number}
+ * @param {number} value
+ * @param {number} decimals
+ * @returns {number}
  */
 function round(value, decimals) {
     const padding = Math.pow(10, decimals);
@@ -99,10 +99,10 @@ function round(value, decimals) {
 
 /**
  * Clamps a Value between the Min and Max
- * @param {Number} value
- * @param {Number} min
- * @param {Number} max
- * @returns {Number}
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
  */
 function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
@@ -110,12 +110,12 @@ function clamp(value, min, max) {
 
 /**
  * Maps a Value between the Low and High to the target Low and High
- * @param {Number} value
- * @param {Number} fromLow
- * @param {Number} fromHigh
- * @param {Number} toLow
- * @param {Number} toHigh
- * @returns {Number}
+ * @param {number} value
+ * @param {number} fromLow
+ * @param {number} fromHigh
+ * @param {number} toLow
+ * @param {number} toHigh
+ * @returns {number}
  */
 function mapValue(value, fromLow, fromHigh, toLow, toHigh) {
     const fromRange = fromHigh - fromLow;
@@ -135,7 +135,7 @@ function mapValue(value, fromLow, fromHigh, toLow, toHigh) {
 /**
  * Returns the Bounds of the given Ref
  * @param {React.RefObject<HTMLElement>} ref
- * @returns {Void}
+ * @returns {void}
  */
 function triggerClick(ref) {
     if (ref && ref.current) {
@@ -146,7 +146,7 @@ function triggerClick(ref) {
 /**
  * Returns the Bounds of the given Ref
  * @param {React.RefObject<HTMLElement>} ref
- * @returns {Object}
+ * @returns {object}
  */
 function getBounds(ref) {
     if (ref && ref.current) {
@@ -157,11 +157,11 @@ function getBounds(ref) {
 
 /**
  * Returns true if the given Point is in the Bounds
- * @param {Number}  x
- * @param {Number}  y
- * @param {Object}  bounds
- * @param {Number=} scrollTop
- * @returns {Boolean}
+ * @param {number}  x
+ * @param {number}  y
+ * @param {object}  bounds
+ * @param {number=} scrollTop
+ * @returns {boolean}
  */
 function inBounds(x, y, bounds, scrollTop = 0) {
     return (
@@ -172,11 +172,11 @@ function inBounds(x, y, bounds, scrollTop = 0) {
 
 /**
  * Returns true if the given Point is in the Bounds
- * @param {Number}                       x
- * @param {Number}                       y
+ * @param {number}                       x
+ * @param {number}                       y
  * @param {React.RefObject<HTMLElement>} ref
- * @param {Number=}                      scrollTop
- * @returns {Boolean}
+ * @param {number=}                      scrollTop
+ * @returns {boolean}
  */
 function inRef(x, y, ref, scrollTop = 0) {
     const bounds = getBounds(ref);
@@ -189,8 +189,8 @@ function inRef(x, y, ref, scrollTop = 0) {
 /**
  * Scrolls to the Bottom
  * @param {React.RefObject<HTMLElement>} ref
- * @param {Boolean}                      instant
- * @returns {Void}
+ * @param {boolean}                      instant
+ * @returns {void}
  */
 function scrollToBottom(ref, instant) {
     const node = ref.current;
@@ -205,9 +205,9 @@ function scrollToBottom(ref, instant) {
 /**
  * Inserts an Text in the given Message
  * @param {React.RefObject<HTMLInputElement>} ref
- * @param {String}                            message
- * @param {String}                            text
- * @returns {String}
+ * @param {string}                            message
+ * @param {string}                            text
+ * @returns {string}
  */
 function insertText(ref, message, text) {
     if (!ref.current) {
@@ -225,9 +225,9 @@ function insertText(ref, message, text) {
 /**
  * Formats the given Message
  * @param {React.RefObject<HTMLInputElement>} ref
- * @param {String}                            message
- * @param {String}                            character
- * @returns {String}
+ * @param {string}                            message
+ * @param {string}                            character
+ * @returns {string}
  */
 function formatText(ref, message, character) {
     if (!ref.current) {
@@ -246,7 +246,7 @@ function formatText(ref, message, character) {
 
 /**
  * Returns true if something is Selected
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function hasSelection() {
     return window.getSelection().toString() !== "";
@@ -254,7 +254,7 @@ function hasSelection() {
 
 /**
  * Unselects all that is Selected
- * @returns {Void}
+ * @returns {void}
  */
 function unselectAll() {
     window.getSelection().removeAllRanges();
@@ -262,11 +262,11 @@ function unselectAll() {
 
 /**
  * Scrolls the Selector into View
- * @param {String}  selector
- * @param {String=} block
- * @param {String=} inline
- * @param {String=} behavior
- * @returns {Boolean}
+ * @param {string}  selector
+ * @param {string=} block
+ * @param {string=} inline
+ * @param {string=} behavior
+ * @returns {boolean}
  */
 function scrollIntoView(selector, block, inline = "center", behavior = "smooth") {
     const node = document.querySelector(selector);
@@ -284,7 +284,7 @@ function scrollIntoView(selector, block, inline = "center", behavior = "smooth")
 
 /**
  * Returns the Current Time
- * @returns {Number}
+ * @returns {number}
  */
 function getCurrentTime() {
     return Math.floor(new Date().getTime() / 1000);
@@ -293,9 +293,9 @@ function getCurrentTime() {
 /**
  * A Hook to automatically update the data
  * @param {Function} fetchData
- * @param {Boolean}  isHidden
- * @param {Object}   data
- * @returns {Void}
+ * @param {boolean}  isHidden
+ * @param {object}   data
+ * @returns {void}
  */
 function useAutoUpdate(fetchData, isHidden, data) {
     const timerRef = React.useRef(0);
@@ -317,11 +317,11 @@ function useAutoUpdate(fetchData, isHidden, data) {
 
 /**
  * Returns the Timeout for the auto update
- * @param {React.MutableRefObject<Number>} timerRef
+ * @param {React.MutableRefObject<number>} timerRef
  * @param {Function}                       setUpdate
- * @param {Number=}                        update
- * @param {Number=}                        seconds
- * @returns {Void}
+ * @param {number=}                        update
+ * @param {number=}                        seconds
+ * @returns {void}
  */
 function setUpdateTimeout(timerRef, setUpdate, update = 0, seconds = 10) {
     setTimeout(timerRef, () => {
@@ -331,10 +331,10 @@ function setUpdateTimeout(timerRef, setUpdate, update = 0, seconds = 10) {
 
 /**
  * Sets a Timeout
- * @param {React.MutableRefObject<Number>} timerRef
+ * @param {React.MutableRefObject<number>} timerRef
  * @param {Function}                       callback
- * @param {Number}                         milliseconds
- * @returns {Void}
+ * @param {number}                         milliseconds
+ * @returns {void}
  */
 function setTimeout(timerRef, callback, milliseconds) {
     clearTimeout(timerRef);
@@ -343,8 +343,8 @@ function setTimeout(timerRef, callback, milliseconds) {
 
 /**
  * Clears the Timeout for the auto update
- * @param {React.MutableRefObject<Number>} timerRef
- * @returns {Void}
+ * @param {React.MutableRefObject<number>} timerRef
+ * @returns {void}
  */
 function clearTimeout(timerRef) {
     if (timerRef.current) {
@@ -355,10 +355,10 @@ function clearTimeout(timerRef) {
 
 /**
  * Sets a Interval
- * @param {React.MutableRefObject<Number>} timerRef
+ * @param {React.MutableRefObject<number>} timerRef
  * @param {Function}                       callback
- * @param {Number}                         milliseconds
- * @returns {Void}
+ * @param {number}                         milliseconds
+ * @returns {void}
  */
 function setInterval(timerRef, callback, milliseconds) {
     clearInterval(timerRef);
@@ -367,8 +367,8 @@ function setInterval(timerRef, callback, milliseconds) {
 
 /**
  * Clears the Interval for the auto update
- * @param {React.MutableRefObject<Number>} timerRef
- * @returns {Void}
+ * @param {React.MutableRefObject<number>} timerRef
+ * @returns {void}
  */
 function clearInterval(timerRef) {
     if (timerRef.current) {
@@ -381,9 +381,9 @@ function clearInterval(timerRef) {
 
 /**
  * Makes a String shorter
- * @param {String} value
- * @param {Number} length
- * @returns {String}
+ * @param {string} value
+ * @param {number} length
+ * @returns {string}
  */
 function makeShort(value, length) {
     if (!length || value.length <= length) {
@@ -394,8 +394,8 @@ function makeShort(value, length) {
 
 /**
  * Return an escaped string that can be broken at certain separators
- * @param {String} string
- * @returns {String}
+ * @param {string} string
+ * @returns {string}
  */
 function makeBreakable(string) {
     // Inject zero-width space character (U+200B or &#8203) near (. or _ or - or @) to allow line breaking there
@@ -404,8 +404,8 @@ function makeBreakable(string) {
 
 /**
  * Creates a Slug from a string
- * @param {String} value
- * @returns {String}
+ * @param {string} value
+ * @returns {string}
  */
 function createSlug(value) {
     let result = value;
@@ -435,8 +435,8 @@ function createSlug(value) {
 
 /**
  * Converts an UPPER_CASE string to camelCase
- * @param {String} value
- * @returns {String}
+ * @param {string} value
+ * @returns {string}
  */
 function upperCaseToCamelCase(value) {
     return value.toLowerCase().replace(/_([a-z])/g, function (match, letter) {
@@ -446,8 +446,8 @@ function upperCaseToCamelCase(value) {
 
 /**
  * Converts an UPPER_CASE string to PascalCase
- * @param {String} value
- * @returns {String}
+ * @param {string} value
+ * @returns {string}
  */
 function upperCaseToPascalCase(value) {
     if (!value) {
@@ -459,11 +459,11 @@ function upperCaseToPascalCase(value) {
 
 /**
  * Formats a number
- * @param {Number}   number
- * @param {Number=}  decimals
- * @param {Number=}  maxForDecimals
- * @param {Boolean=} alwaysShowDecimals
- * @returns {String}
+ * @param {number}   number
+ * @param {number=}  decimals
+ * @param {number=}  maxForDecimals
+ * @param {boolean=} alwaysShowDecimals
+ * @returns {string}
  */
 function formatNumber(number, decimals = 0, maxForDecimals = 1000, alwaysShowDecimals = true) {
     const amount  = Math.pow(10, decimals);
@@ -494,11 +494,11 @@ function formatNumber(number, decimals = 0, maxForDecimals = 1000, alwaysShowDec
 
 /**
  * Calculates and formats a percent
- * @param {Number}   number
- * @param {Number}   total
- * @param {Number=}  decimals
- * @param {Boolean=} withPercent
- * @returns {String}
+ * @param {number}   number
+ * @param {number}   total
+ * @param {number=}  decimals
+ * @param {boolean=} withPercent
+ * @returns {string}
  */
 function formatPercent(number, total, decimals = 0, withPercent = true) {
     const percent   = total === 0 ? 0 : (number * 100 / total);
@@ -508,11 +508,11 @@ function formatPercent(number, total, decimals = 0, withPercent = true) {
 
 /**
  * Gives an html format to prices
- * @param {Number}   price
- * @param {Boolean=} skipZeros
- * @param {String=}  zeroStr
- * @param {String=}  symbol
- * @returns {String}
+ * @param {number}   price
+ * @param {boolean=} skipZeros
+ * @param {string=}  zeroStr
+ * @param {string=}  symbol
+ * @returns {string}
  */
 function formatPrice(price, skipZeros = false, zeroStr = "", symbol = "$") {
     if (skipZeros && price === 0) {
@@ -531,9 +531,9 @@ function formatPrice(price, skipZeros = false, zeroStr = "", symbol = "$") {
 
 /**
  * Returns the Page Text
- * @param {Number} currentPage
- * @param {Number} totalPages
- * @returns {String}
+ * @param {number} currentPage
+ * @param {number} totalPages
+ * @returns {string}
  */
 function getPageText(currentPage, totalPages) {
     return NLS.format("GENERAL_PAGE", String(currentPage), String(totalPages));
@@ -541,8 +541,8 @@ function getPageText(currentPage, totalPages) {
 
 /**
  * Returns Yes or No depending of the value
- * @param {(Number|String)} value
- * @returns {String}
+ * @param {(number|string)} value
+ * @returns {string}
  */
 function toYesNo(value) {
     return NLS.get("GENERAL_YES_NO", Number(value) || 0);
@@ -550,8 +550,8 @@ function toYesNo(value) {
 
 /**
  * Returns Yes or Blank depending of the value
- * @param {(Number|String)} value
- * @returns {String}
+ * @param {(number|string)} value
+ * @returns {string}
  */
 function toYesBlank(value) {
     return NLS.get("GENERAL_YES_BLANK", Number(value) || 0);
@@ -559,9 +559,9 @@ function toYesBlank(value) {
 
 /**
  * Returns a String with the Text Class
- * @param {String} options
- * @param {Number} value
- * @returns {String}
+ * @param {string} options
+ * @param {number} value
+ * @returns {string}
  */
 function getTextClass(options, value) {
     const color = NLS.get(options, Number(value) || 0);
@@ -572,9 +572,9 @@ function getTextClass(options, value) {
 
 /**
  * Restores an Item from Local Storage
- * @param {String} key
- * @param {String} defaultValue
- * @returns {String}
+ * @param {string} key
+ * @param {string} defaultValue
+ * @returns {string}
  */
 function restoreItem(key, defaultValue = "") {
     try {
@@ -587,9 +587,9 @@ function restoreItem(key, defaultValue = "") {
 
 /**
  * Stores an Item in Local Storage
- * @param {String}          key
- * @param {(String|Number)} value
- * @returns {Boolean}
+ * @param {string}          key
+ * @param {(string|number)} value
+ * @returns {boolean}
  */
 function storeItem(key, value) {
     try {
@@ -602,9 +602,9 @@ function storeItem(key, value) {
 
 /**
  * Concat the Values
- * @param {String}    glue
- * @param {...String} values
- * @returns {Object}
+ * @param {string}    glue
+ * @param {...string} values
+ * @returns {object}
  */
 function concat(glue, ...values) {
     const result = [];
@@ -618,10 +618,10 @@ function concat(glue, ...values) {
 
 /**
  * Removes the Prefix
- * @param {Object}   data
- * @param {String}   prefix
- * @param {Boolean=} lower
- * @returns {Object}
+ * @param {object}   data
+ * @param {string}   prefix
+ * @param {boolean=} lower
+ * @returns {object}
  */
 function removePrefix(data, prefix, lower = false) {
     const result = {};
@@ -649,7 +649,7 @@ function toArray(data) {
 /**
  * Creates an Array
  * @param {(Array|any)} data
- * @returns {String}
+ * @returns {string}
  */
 function toArrayEncoded(data) {
     return JSON.stringify(toArray(data));
@@ -666,9 +666,9 @@ function toEntries(data) {
 
 /**
  * Creates a Map from an Array
- * @param {Object[]} data
- * @param {String}   id
- * @returns {Object}
+ * @param {object[]} data
+ * @param {string}   id
+ * @returns {object}
  */
 function toMap(data, id) {
     const result = {};
@@ -680,8 +680,8 @@ function toMap(data, id) {
 
 /**
  * Converts an Array with an id and name to a Select
- * @param {Object[]} data
- * @returns {{key: Number, value: String}[]}
+ * @param {object[]} data
+ * @returns {{key: number, value: string}[]}
  */
 function toSelect(data) {
     const result = [];
@@ -696,8 +696,8 @@ function toSelect(data) {
 
 /**
  * Converts an Array of strings to a Select
- * @param {String[]} data
- * @returns {{key: Number, value: String}[]}
+ * @param {string[]} data
+ * @returns {{key: number, value: string}[]}
  */
 function stringsToSelect(data) {
     const result = [];
@@ -709,8 +709,8 @@ function stringsToSelect(data) {
 
 /**
  * Transforms the JSON to HTML
- * @param {Object} content
- * @returns {String}
+ * @param {object} content
+ * @returns {string}
  */
 function jsonToHtml(content) {
     if (!content) {
@@ -721,9 +721,9 @@ function jsonToHtml(content) {
 
 /**
  * Creates an Array of N numbers
- * @param {Number}  amount
- * @param {Number=} start
- * @returns {Number[]}
+ * @param {number}  amount
+ * @param {number=} start
+ * @returns {number[]}
  */
 function createArrayOf(amount, start = 1) {
     const result = [];
@@ -735,9 +735,9 @@ function createArrayOf(amount, start = 1) {
 
 /**
  * Returns true if 2 objects are equal
- * @param {Object} object1
- * @param {Object} object2
- * @returns {Boolean}
+ * @param {object} object1
+ * @param {object} object2
+ * @returns {boolean}
  */
 function areEqual(object1, object2) {
     const string1 = JSON.stringify(object1);
@@ -747,9 +747,9 @@ function areEqual(object1, object2) {
 
 /**
  * Returns true if both given objects are the same at 1 level deep
- * @param {Object} a
- * @param {Object} b
- * @returns {Boolean}
+ * @param {object} a
+ * @param {object} b
+ * @returns {boolean}
  */
 function areObjectsEqual(a, b) {
     const aProps = Object.getOwnPropertyNames(a);
@@ -768,10 +768,10 @@ function areObjectsEqual(a, b) {
 
 /**
  * Uses the keys from primary and sets the secondary values if are set
- * @param {Object}   primary
- * @param {Object}   secondary
- * @param {Boolean=} noBinary
- * @returns {Object}
+ * @param {object}   primary
+ * @param {object}   secondary
+ * @param {boolean=} noBinary
+ * @returns {object}
  */
 function extend(primary, secondary, noBinary = false) {
     const result = {};
@@ -792,10 +792,10 @@ function extend(primary, secondary, noBinary = false) {
 
 /**
  * Uses the keys from primary and adds the secondary values if are not set
- * @param {Object}   primary
- * @param {Object}   secondary
- * @param {Boolean=} noBinary
- * @returns {Object}
+ * @param {object}   primary
+ * @param {object}   secondary
+ * @param {boolean=} noBinary
+ * @returns {object}
  */
 function merge(primary, secondary, noBinary = false) {
     const result = { ...primary };
@@ -813,9 +813,9 @@ function merge(primary, secondary, noBinary = false) {
 
 /**
  * Returns true if the given array has the given value
- * @param {(String|Number)[]} values
- * @param {(String|Number)}   elem
- * @returns {Boolean}
+ * @param {(string|number)[]} values
+ * @param {(string|number)}   elem
+ * @returns {boolean}
  */
 function hasValue(values, elem) {
     for (const value of values) {
@@ -828,10 +828,10 @@ function hasValue(values, elem) {
 
 /**
  * Returns the Value at the given id with the given key
- * @param {Object[]}        data
- * @param {String}          idKey
- * @param {(Number|String)} idValue
- * @returns {?Number}
+ * @param {object[]}        data
+ * @param {string}          idKey
+ * @param {(number|string)} idValue
+ * @returns {?number}
  */
 function getIndex(data, idKey, idValue) {
     for (const [ index, elem ] of Object.entries(data)) {
@@ -844,12 +844,12 @@ function getIndex(data, idKey, idValue) {
 
 /**
  * Returns the Value at the given id with the given key
- * @param {Object[]}        data
- * @param {String}          idKey
- * @param {(Number|String)} idValue
- * @param {String=}         key
+ * @param {object[]}        data
+ * @param {string}          idKey
+ * @param {(number|string)} idValue
+ * @param {string=}         key
  * @param {*=}              defValue
- * @returns {(Object|String)}
+ * @returns {(object|string)}
  */
 function getValue(data, idKey, idValue, key, defValue) {
     if (data) {
@@ -867,11 +867,11 @@ function getValue(data, idKey, idValue, key, defValue) {
 
 /**
  * Returns the Value at the given id with the given key
- * @param {Object[]}        data
- * @param {String}          idKey
- * @param {(Number|String)} idValue
- * @param {String=}         key
- * @returns {Array.<(Object|String)>}
+ * @param {object[]}        data
+ * @param {string}          idKey
+ * @param {(number|string)} idValue
+ * @param {string=}         key
+ * @returns {(object|string)[]}
  */
 function getValues(data, idKey, idValue, key) {
     const result = [];
@@ -887,9 +887,9 @@ function getValues(data, idKey, idValue, key) {
 
 /**
  * Combines the Values in the given Key into a String
- * @param {Object} elem
- * @param {String} key
- * @returns {String}
+ * @param {object} elem
+ * @param {string} key
+ * @returns {string}
  */
 function combineValues(elem, key) {
     let parts = [ "" ];
@@ -934,7 +934,7 @@ function getChildren(children) {
 /**
  * Returns the Visible Children
  * @param {(Array|any)} children
- * @returns {IterableIterator}
+ * @returns {Iterator<[number, React.ReactElement]>}
  */
 function getVisibleChildren(children) {
     const result = [];
@@ -951,7 +951,7 @@ function getVisibleChildren(children) {
  * Returns an array of Cloned Visible Children
  * @param {(Array|any)} children
  * @param {Function}    callback
- * @returns {Object[]}
+ * @returns {object[]}
  */
 function cloneChildren(children, callback) {
     const isVisible = (child) => child && child.props && !child.props.isHidden;
@@ -980,9 +980,9 @@ function cloneChildren(children, callback) {
 
 /**
  * Parses the Given List
- * @param {Object[]} list
+ * @param {object[]} list
  * @param {Function} callback
- * @returns {Object[]}
+ * @returns {object[]}
  */
 function parseList(list, callback) {
     if (!list) {
@@ -996,9 +996,9 @@ function parseList(list, callback) {
 
 /**
  * Returns an ID depending on the type
- * @param {Object}    action
- * @param {...String} types
- * @returns {Boolean}
+ * @param {object}    action
+ * @param {...string} types
+ * @returns {boolean}
  */
 function hasError(action, ...types) {
     return types.indexOf(action.type) > -1 && (!action.data || action.data.error);
@@ -1006,8 +1006,8 @@ function hasError(action, ...types) {
 
 /**
  * Returns true if the there is an error in the Form
- * @param {Object} errors
- * @returns {Boolean}
+ * @param {object} errors
+ * @returns {boolean}
  */
 function hasFormError(errors) {
     for (const error of Object.values(errors)) {
@@ -1020,10 +1020,10 @@ function hasFormError(errors) {
 
 /**
  * Returns the Select items
- * @param {Number[]} itemIDs
- * @param {Object[]} options
- * @param {Object}   idsPerItem
- * @returns {Object[]}
+ * @param {number[]} itemIDs
+ * @param {object[]} options
+ * @param {object}   idsPerItem
+ * @returns {object[]}
  */
 function getSelectItems(itemIDs, options, idsPerItem) {
     const result = [];
@@ -1040,12 +1040,12 @@ function getSelectItems(itemIDs, options, idsPerItem) {
 
 /**
  * Returns the Select list based on a Parent
- * @param {Boolean}  loading
- * @param {Number[]} itemIDs
- * @param {Object[]} options
- * @param {Object}   idsPerItem
- * @param {Number=}  noneValue
- * @returns {Object[]}
+ * @param {boolean}  loading
+ * @param {number[]} itemIDs
+ * @param {object[]} options
+ * @param {object}   idsPerItem
+ * @param {number=}  noneValue
+ * @returns {object[]}
  */
 function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
     const itemList = JSON.stringify(itemIDs);
@@ -1060,13 +1060,13 @@ function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
 
 /**
  * Returns the Select list based on a Parent
- * @param {Boolean}  loading
- * @param {Number[]} itemIDs
- * @param {Number[]} subItemIDs
- * @param {Object[]} options
- * @param {Object}   idsPerItem
- * @param {Object}   subIdsPerItem
- * @returns {Object[]}
+ * @param {boolean}  loading
+ * @param {number[]} itemIDs
+ * @param {number[]} subItemIDs
+ * @param {object[]} options
+ * @param {object}   idsPerItem
+ * @param {object}   subIdsPerItem
+ * @returns {object[]}
  */
 function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, subIdsPerItem) {
     const itemList    = JSON.stringify(itemIDs);
@@ -1087,9 +1087,9 @@ function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, sub
 
 /**
  * Returns the Gravatar Url
- * @param {String} email
- * @param {String} defaultValue
- * @returns {String}
+ * @param {string} email
+ * @param {string} defaultValue
+ * @returns {string}
  */
 function getGravatarUrl(email, defaultValue) {
     const username = email ? MD5(email.toLowerCase().trim()) : "000000000000000000000000000000000000000000000000000000";
@@ -1098,8 +1098,8 @@ function getGravatarUrl(email, defaultValue) {
 
 /**
  * Returns the YouTube Embed Url
- * @param {String} source
- * @returns {String}
+ * @param {string} source
+ * @returns {string}
  */
 function getYouTubeEmbed(source) {
     if (!source) {
@@ -1124,9 +1124,9 @@ function getYouTubeEmbed(source) {
 
 /**
  * Returns the Vimeo Embed Url
- * @param {String}   source
- * @param {Boolean=} showInfo
- * @returns {String}
+ * @param {string}   source
+ * @param {boolean=} showInfo
+ * @returns {string}
  */
 function getVimeoEmbed(source, showInfo = false) {
     if (!source) {
@@ -1148,12 +1148,12 @@ function getVimeoEmbed(source, showInfo = false) {
 
 /**
  * Creates a Google Map Embed Url
- * @param {Number}   latitude
- * @param {Number}   longitude
- * @param {String=}  query
- * @param {Number=}  zoom
- * @param {Boolean=} satelite
- * @returns {String}
+ * @param {number}   latitude
+ * @param {number}   longitude
+ * @param {string=}  query
+ * @param {number=}  zoom
+ * @param {boolean=} satelite
+ * @returns {string}
  */
 function getGoogleMapEmbed(latitude, longitude, query = "", zoom = 15, satelite = false) {
     let result = "https://maps.google.com/maps?ie=UTF8&iwd=1&iwloc=B&output=embed";
@@ -1173,9 +1173,9 @@ function getGoogleMapEmbed(latitude, longitude, query = "", zoom = 15, satelite 
 
 /**
  * Returns a random value between from and to
- * @param {Number} from
- * @param {Number} to
- * @returns {Number}
+ * @param {number} from
+ * @param {number} to
+ * @returns {number}
  */
 function randomNumber(from, to) {
     return Math.floor(Math.random() * (to - from + 1) + from);
@@ -1184,9 +1184,9 @@ function randomNumber(from, to) {
 /**
  * Generates a random password with the given length and sets
  * (l = letters, u = uppercase letters, d = digits, s = symbols)
- * @param {Number=} length
- * @param {String=} availableSets
- * @returns {String}
+ * @param {number=} length
+ * @param {string=} availableSets
+ * @returns {string}
  */
 function generatePassword(length = 10, availableSets = "lud") {
     const sets     = [];
@@ -1221,8 +1221,8 @@ function generatePassword(length = 10, availableSets = "lud") {
 
 /**
  * Shuffles the given string
- * @param {String} string
- * @returns {String}
+ * @param {string} string
+ * @returns {string}
  */
 function shuffleString(string) {
     const parts = string.split("");
@@ -1238,8 +1238,8 @@ function shuffleString(string) {
 
 /**
  * Converts the text to Search
- * @param {String} text
- * @returns {String}
+ * @param {string} text
+ * @returns {string}
  */
 function convertToSearch(text) {
     return text.trim().toLowerCase()
@@ -1252,11 +1252,11 @@ function convertToSearch(text) {
 
 /**
  * Parses the Search Result
- * @param {Object[]} list
- * @param {String}   filter
- * @param {String}   field
- * @param {Boolean=} applyFilter
- * @returns {Object[]}
+ * @param {object[]} list
+ * @param {string}   filter
+ * @param {string}   field
+ * @param {boolean=} applyFilter
+ * @returns {object[]}
  */
 function parseSearchResult(list, filter, field, applyFilter = true) {
     const search = convertToSearch(filter);
@@ -1281,10 +1281,10 @@ function parseSearchResult(list, filter, field, applyFilter = true) {
 
 /**
  * Underlines the Search Result
- * @param {String}  text
- * @param {String}  search
- * @param {Number=} fromIndex
- * @returns {String}
+ * @param {string}  text
+ * @param {string}  search
+ * @param {number=} fromIndex
+ * @returns {string}
  */
 function underlineText(text, search, fromIndex = 0) {
     const pos = convertToSearch(text).indexOf(search, fromIndex);
@@ -1293,10 +1293,10 @@ function underlineText(text, search, fromIndex = 0) {
 
 /**
  * Replaces the Source Urls
- * @param {String}  baseUrl
- * @param {String}  text
- * @param {Number=} clientID
- * @returns {String}
+ * @param {string}  baseUrl
+ * @param {string}  text
+ * @param {number=} clientID
+ * @returns {string}
  */
 function replaceSourceUrls(baseUrl, text, clientID = 0) {
     const regex = /<(img|audio|video)([^>]*?)src=["']((?!https?:\/\/|\/\/|data:)[^"']+)["']([^>]*?)>/g;
@@ -1308,8 +1308,8 @@ function replaceSourceUrls(baseUrl, text, clientID = 0) {
 
 /**
  * Returns true if the given text has only Emojis
- * @param {String} text
- * @returns {Boolean}
+ * @param {string} text
+ * @returns {boolean}
  */
 function isEmojiOnly(text) {
     const stringToTest = text.replace(/ /g, "");
@@ -1319,8 +1319,8 @@ function isEmojiOnly(text) {
 
 /**
  * Returns true if the given color is valid
- * @param {String} value
- * @returns {Boolean}
+ * @param {string} value
+ * @returns {boolean}
  */
 function isValidColor(value) {
     return !!value && value.length === 7 && /^#[0-9A-Fa-f]{6}$/.test(value);
@@ -1328,8 +1328,8 @@ function isValidColor(value) {
 
 /**
  * Returns a Contrast Color for given Color
- * @param {String} value
- * @returns {String}
+ * @param {string} value
+ * @returns {string}
  */
 function getContrastColor(value) {
     let result = "white";
@@ -1356,8 +1356,8 @@ function getContrastColor(value) {
 
 /**
  * Returns true if the given Email is valid
- * @param {String} email
- * @returns {Boolean}
+ * @param {string} email
+ * @returns {boolean}
  */
 function isValidEmail(email) {
     return /[\w\d.-]+@[\w\d.-]+\.[\w\d.-]+/.test(email);
@@ -1365,10 +1365,10 @@ function isValidEmail(email) {
 
 /**
  * Returns true if the File is Valid
- * @param {Object}  file
- * @param {Boolean} onlyImages
- * @param {Number}  maxSize
- * @returns {Boolean}
+ * @param {object}  file
+ * @param {boolean} onlyImages
+ * @param {number}  maxSize
+ * @returns {boolean}
  */
 function isValidFile(file, onlyImages, maxSize) {
     if (onlyImages) {
@@ -1389,8 +1389,8 @@ function isValidFile(file, onlyImages, maxSize) {
 
 /**
  * Formats the given bytes into a human-readable string
- * @param {Number} bytes
- * @returns {String}
+ * @param {number} bytes
+ * @returns {string}
  */
 function formatSize(bytes) {
     if (bytes === 0) {
@@ -1405,8 +1405,8 @@ function formatSize(bytes) {
 
 /**
  * Downloads the given File
- * @param {String} source
- * @param {String} fileName
+ * @param {string} source
+ * @param {string} fileName
  * @returns {Promise}
  */
 function download(source, fileName) {
@@ -1431,9 +1431,9 @@ function download(source, fileName) {
 
 /**
  * Prints the given Content
- * @param {String} title
- * @param {String} content
- * @returns {Void}
+ * @param {string} title
+ * @param {string} content
+ * @returns {void}
  */
 function print(title, content) {
     const printer = window.open("", "PRINT", "height=600,width=1000");

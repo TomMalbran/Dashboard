@@ -27,7 +27,7 @@ const Content = Styled.section`
 
 /**
  * The Detail List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DetailList(props) {
@@ -96,7 +96,7 @@ function DetailList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DetailList.propTypes = {
     isHidden        : PropTypes.bool,
@@ -115,7 +115,7 @@ DetailList.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 DetailList.defaultProps = {
     isHidden  : false,

@@ -23,7 +23,7 @@ const Title = Styled.h3`
 
 /**
  * The Info Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InfoItem(props) {
@@ -42,7 +42,7 @@ function InfoItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InfoItem.propTypes = {
     isHidden : PropTypes.bool,
@@ -52,7 +52,7 @@ InfoItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InfoItem.defaultProps = {
     isHidden : false,

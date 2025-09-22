@@ -76,7 +76,7 @@ const BetaTag = Styled.span`
 
 /**
  * The Detail Title Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DetailTitle(props) {
@@ -134,7 +134,7 @@ function DetailTitle(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DetailTitle.propTypes = {
     icon            : PropTypes.string,

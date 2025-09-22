@@ -32,7 +32,7 @@ const Container = Styled(Html).attrs(({ useBackground }) => ({ useBackground }))
 
 /**
  * The Input Error Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputError(props) {
@@ -62,7 +62,7 @@ function InputError(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InputError.propTypes = {
     className     : PropTypes.string,
@@ -72,7 +72,7 @@ InputError.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputError.defaultProps = {
     className     : "",

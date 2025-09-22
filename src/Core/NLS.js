@@ -13,8 +13,8 @@ let actionData    = {};
 
 /**
  * Initializes the NLS
- * @param {String} newAppUrl
- * @returns {Void}
+ * @param {string} newAppUrl
+ * @returns {void}
  */
 function init(newAppUrl) {
     appUrl = newAppUrl;
@@ -22,11 +22,11 @@ function init(newAppUrl) {
 
 /**
  * Initialize a Language
- * @param {String}  lang
- * @param {Object=} strings
- * @param {Object=} urls
- * @param {Object=} actions
- * @returns {Void}
+ * @param {string}  lang
+ * @param {object=} strings
+ * @param {object=} urls
+ * @param {object=} actions
+ * @returns {void}
  */
 function initLang(lang, strings = {}, urls = {}, actions = {}) {
     langsData[lang] = { strings, urls, actions };
@@ -37,7 +37,7 @@ function initLang(lang, strings = {}, urls = {}, actions = {}) {
 
 /**
  * Gets the Language
- * @returns {String}
+ * @returns {string}
  */
 function getLang() {
     return (navigator.languages && navigator.languages[0]) || navigator.language || defaultLang;
@@ -45,7 +45,7 @@ function getLang() {
 
 /**
  * Gets the Language
- * @returns {String}
+ * @returns {string}
  */
 function getCurrentLang() {
     return language;
@@ -53,8 +53,8 @@ function getCurrentLang() {
 
 /**
  * Sets the Language
- * @param {String=} langCode
- * @returns {Void}
+ * @param {string=} langCode
+ * @returns {void}
  */
 function setLang(langCode) {
     language = langCode || getLang();
@@ -66,8 +66,8 @@ function setLang(langCode) {
 
 /**
  * Loads the Language Strings
- * @param {String} key
- * @returns {Object}
+ * @param {string} key
+ * @returns {object}
  */
 function loadLang(key) {
     const langNoRegion    = language.toLowerCase().split(/[_-]+/)[0];
@@ -87,9 +87,9 @@ function loadLang(key) {
 
 /**
  * Returns a String from an ID and Language
- * @param {String} id
- * @param {String} langCode
- * @returns {String}
+ * @param {string} id
+ * @param {string} langCode
+ * @returns {string}
  */
 function getForLang(id, langCode) {
     if (langsData[langCode]) {
@@ -100,9 +100,9 @@ function getForLang(id, langCode) {
 
 /**
  * Returns a String from an ID
- * @param {String}           id
- * @param {(Number|String)=} elem
- * @returns {String}
+ * @param {string}           id
+ * @param {(number|string)=} elem
+ * @returns {string}
  */
 function get(id, elem = null) {
     const message = stringData[id] || id;
@@ -111,9 +111,9 @@ function get(id, elem = null) {
 
 /**
  * Returns a String from an ID
- * @param {String}          id
- * @param {(Number|String)} elem
- * @returns {String}
+ * @param {string}          id
+ * @param {(number|string)} elem
+ * @returns {string}
  */
 function getValue(id, elem) {
     for (const item of stringData[id] || []) {
@@ -126,10 +126,10 @@ function getValue(id, elem) {
 
 /**
  * Returns a String from an ID with the Class
- * @param {String}          id
- * @param {(Number|String)} elem
- * @param {String}          className
- * @returns {String}
+ * @param {string}          id
+ * @param {(number|string)} elem
+ * @param {string}          className
+ * @returns {string}
  */
 function getClass(id, elem, className) {
     return `${className}-${get(id, elem)}`;
@@ -137,8 +137,8 @@ function getClass(id, elem, className) {
 
 /**
  * Returns the Entries from the NLS Object
- * @param {String} id
- * @returns {[String, String][]}
+ * @param {string} id
+ * @returns {[string, string][]}
  */
 function entries(id) {
     return Object.entries(get(id) || {});
@@ -146,8 +146,8 @@ function entries(id) {
 
 /**
  * Returns the Entries from the NLS Object as a Select
- * @param {String} id
- * @returns {Object[]}
+ * @param {string} id
+ * @returns {object[]}
  */
 function select(id) {
     const data   = entries(id);
@@ -160,9 +160,9 @@ function select(id) {
 
 /**
  * Format a string by replacing placeholder symbols with passed in arguments
- * @param {String}             id
- * @param {...(String|Number)} args
- * @returns {String}
+ * @param {string}             id
+ * @param {...(string|number)} args
+ * @returns {string}
  */
 function format(id, ...args) {
     const str = get(id);
@@ -173,10 +173,10 @@ function format(id, ...args) {
 
 /**
  * Format a string by replacing placeholder symbols with passed in arguments
- * @param {String}             id
- * @param {String}             value
- * @param {...(String|Number)} args
- * @returns {String}
+ * @param {string}             id
+ * @param {string}             value
+ * @param {...(string|number)} args
+ * @returns {string}
  */
 function formatIf(id, value, ...args) {
     if (value) {
@@ -187,10 +187,10 @@ function formatIf(id, value, ...args) {
 
 /**
  * Formats and Joins the given strings to form a sentence
- * @param {String}   id
- * @param {String[]} list
- * @param {Boolean=} useOr
- * @returns {String}
+ * @param {string}   id
+ * @param {string[]} list
+ * @param {boolean=} useOr
+ * @returns {string}
  */
 function formatJoin(id, list, useOr) {
     return format(id, join(list, useOr));
@@ -198,10 +198,10 @@ function formatJoin(id, list, useOr) {
 
 /**
  * Returns a formatted string using the correct plural string
- * @param {String}             id
- * @param {(Number|String)}    amount
- * @param {...(String|Number)} args
- * @returns {String}
+ * @param {string}             id
+ * @param {(number|string)}    amount
+ * @param {...(string|number)} args
+ * @returns {string}
  */
 function pluralize(id, amount, ...args) {
     const suffix = Number(amount) === 1 ? "_SINGULAR" : "_PLURAL";
@@ -210,9 +210,9 @@ function pluralize(id, amount, ...args) {
 
 /**
  * Returns a formatted string using the correct plural string
- * @param {String}   id
- * @param {String[]} list
- * @returns {String}
+ * @param {string}   id
+ * @param {string[]} list
+ * @returns {string}
  */
 function pluralizeList(id, list) {
     const suffix = list.length === 1 ? "_SINGULAR" : "_PLURAL";
@@ -221,9 +221,9 @@ function pluralizeList(id, list) {
 
 /**
  * Joins the given strings to form a sentence
- * @param {String[]} list
- * @param {Boolean=} useOr
- * @returns {String}
+ * @param {string[]} list
+ * @param {boolean=} useOr
+ * @returns {string}
  */
 function join(list, useOr) {
     let result = list[0];
@@ -240,8 +240,8 @@ function join(list, useOr) {
 
 /**
  * Returns the url with the given arguments
- * @param {...(String|Number)} args
- * @returns {String}
+ * @param {...(string|number)} args
+ * @returns {string}
  */
 function url(...args) {
     const result = [];
@@ -263,8 +263,8 @@ function url(...args) {
 
 /**
  * Returns the base Url with the given arguments
- * @param {...(String|Number)} args
- * @returns {String}
+ * @param {...(string|number)} args
+ * @returns {string}
  */
 function baseUrl(...args) {
     const result = url(...args);
@@ -273,8 +273,8 @@ function baseUrl(...args) {
 
 /**
  * Returns the full Url with the given arguments
- * @param {...(String|Number)} args
- * @returns {String}
+ * @param {...(string|number)} args
+ * @returns {string}
  */
 function fullUrl(...args) {
     return appUrl + url(...args);
@@ -282,9 +282,9 @@ function fullUrl(...args) {
 
 /**
  * Returns the Key of the given Url
- * @param {String}    currUrl
- * @param {...String} keys
- * @returns {String}
+ * @param {string}    currUrl
+ * @param {...string} keys
+ * @returns {string}
  */
 function urlToKey(currUrl, ...keys) {
     for (const key of keys) {
@@ -299,8 +299,8 @@ function urlToKey(currUrl, ...keys) {
 
 /**
  * Returns the Module name
- * @param {String} module
- * @returns {String}
+ * @param {string} module
+ * @returns {string}
  */
 function getModule(module) {
     if (actionData[module]) {
@@ -311,9 +311,9 @@ function getModule(module) {
 
 /**
  * Returns the Action name
- * @param {String} module
- * @param {String} action
- * @returns {String}
+ * @param {string} module
+ * @param {string} action
+ * @returns {string}
  */
 function getAction(module, action) {
     if (actionData[module] && actionData[module].actions[action]) {

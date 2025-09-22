@@ -11,7 +11,7 @@ import Button               from "../Form/Button";
 
 /**
  * The Info Action Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InfoAction(props) {
@@ -46,7 +46,7 @@ function InfoAction(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 InfoAction.propTypes = {
     isHidden  : PropTypes.bool,
@@ -60,7 +60,7 @@ InfoAction.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 InfoAction.defaultProps = {
     isHidden  : false,

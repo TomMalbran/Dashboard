@@ -147,7 +147,7 @@ const Content = Styled.section.attrs(({ isSelected, withGap, maxWidth }) => ({ i
 
 /**
  * The Accordion Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function AccordionItem(props) {
@@ -192,7 +192,7 @@ function AccordionItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 AccordionItem.propTypes = {
     isHidden    : PropTypes.bool,
@@ -215,7 +215,7 @@ AccordionItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 AccordionItem.defaultProps = {
     isHidden   : false,

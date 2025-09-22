@@ -14,7 +14,7 @@ const Content = Styled.main`
 
 /**
  * The Inside Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Inside(props) {
@@ -27,7 +27,7 @@ function Inside(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Inside.propTypes = {
     className : PropTypes.string,
@@ -36,7 +36,7 @@ Inside.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Inside.defaultProps = {
     className : "",

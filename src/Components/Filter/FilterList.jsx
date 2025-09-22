@@ -67,7 +67,7 @@ const FilterButton = Styled(Button)`
 
 /**
  * The Filter List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function FilterList(props) {
@@ -209,7 +209,7 @@ function FilterList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 FilterList.propTypes = {
     className   : PropTypes.string,
@@ -224,7 +224,7 @@ FilterList.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 FilterList.defaultProps = {
     clearButton : false,

@@ -30,7 +30,7 @@ const Iframe = Styled.iframe`
 
 /**
  * The Media View Dialog
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MediaView(props) {
@@ -102,7 +102,7 @@ function MediaView(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 MediaView.propTypes = {
     open    : PropTypes.bool.isRequired,

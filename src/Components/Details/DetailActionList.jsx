@@ -31,7 +31,7 @@ const Div = Styled.div`
 
 /**
  * The Detail Action List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DetailActionList(props) {
@@ -70,7 +70,7 @@ function DetailActionList(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 DetailActionList.propTypes = {
     onAction : PropTypes.func,

@@ -243,7 +243,7 @@ const BtnBadge = Styled(Badge)`
 
 /**
  * The Button Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Button(props) {
@@ -316,7 +316,7 @@ function Button(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Button.propTypes = {
     isHidden       : PropTypes.bool,
@@ -348,7 +348,7 @@ Button.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Button.defaultProps = {
     isHidden       : false,

@@ -29,7 +29,7 @@ const DialogField = Styled(InputField)`
 
 /**
  * The Dialog Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogInput(props) {
@@ -53,7 +53,7 @@ function DialogInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogInput.propTypes = {
     type        : PropTypes.string,
@@ -65,7 +65,7 @@ DialogInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogInput.defaultProps = {
     value : "",

@@ -61,7 +61,7 @@ const MenuCircle = Styled(Circle)`
 
 /**
  * The Menu Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MenuItem(props) {
@@ -166,7 +166,7 @@ function MenuItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MenuItem.propTypes = {
     className   : PropTypes.string,
@@ -197,7 +197,7 @@ MenuItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MenuItem.defaultProps = {
     className  : "",

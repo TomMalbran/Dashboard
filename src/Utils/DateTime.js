@@ -62,8 +62,8 @@ class DateTime {
 
     /**
      * The DateTime constructor
-     * @param {(Number|String|Date)=} date
-     * @param {Boolean=}              inMiliSeconds
+     * @param {(number|string|Date)=} date
+     * @param {boolean=}              inMiliSeconds
      */
     constructor(date, inMiliSeconds) {
         if (date && !(date instanceof Date)) {
@@ -86,13 +86,13 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given data and the current saved date
-     * @param {Number=} year
-     * @param {Number=} month
-     * @param {Number=} day
-     * @param {Number=} hours
-     * @param {Number=} mins
-     * @param {Number=} secs
-     * @param {Number=} milis
+     * @param {number=} year
+     * @param {number=} month
+     * @param {number=} day
+     * @param {number=} hours
+     * @param {number=} mins
+     * @param {number=} secs
+     * @param {number=} milis
      * @returns {DateTime}
      */
     createDay(year, month, day, hours, mins, secs, milis) {
@@ -102,7 +102,7 @@ class DateTime {
 
     /**
      * Returns the full year of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     get year() {
         return this.date.getFullYear();
@@ -110,7 +110,7 @@ class DateTime {
 
     /**
      * Returns the month number of the saved date starting on 1
-     * @returns {Number}
+     * @returns {number}
      */
     get month() {
         return this.date.getMonth() + 1;
@@ -118,7 +118,7 @@ class DateTime {
 
     /**
      * Returns the day number of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     get day() {
         return this.date.getDate();
@@ -126,7 +126,7 @@ class DateTime {
 
     /**
      * Returns the week day number of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     get weekDay() {
         return this.date.getDay();
@@ -134,7 +134,7 @@ class DateTime {
 
     /**
      * Returns the hours of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     get hours() {
         return this.date.getHours();
@@ -142,7 +142,7 @@ class DateTime {
 
     /**
      * Returns the hours and minutes number of the saved date as hours
-     * @returns {Number}
+     * @returns {number}
      */
     get asHours() {
         return this.hours + this.minutes / 60;
@@ -150,7 +150,7 @@ class DateTime {
 
     /**
      * Returns the minutes of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     get minutes() {
         return this.date.getMinutes();
@@ -158,7 +158,7 @@ class DateTime {
 
     /**
      * Returns the seconds of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     get seconds() {
         return this.date.getSeconds();
@@ -166,7 +166,7 @@ class DateTime {
 
     /**
      * Returns the time in seconds
-     * @returns {Number}
+     * @returns {number}
      */
     get time() {
         return Math.round(this.date.getTime() / 1000);
@@ -176,13 +176,13 @@ class DateTime {
 
     /**
      * Returns a new Date using the current saved date
-     * @param {Number=} year
-     * @param {Number=} month
-     * @param {Number=} day
-     * @param {Number=} hours
-     * @param {Number=} mins
-     * @param {Number=} secs
-     * @param {Number=} milis
+     * @param {number=} year
+     * @param {number=} month
+     * @param {number=} day
+     * @param {number=} hours
+     * @param {number=} mins
+     * @param {number=} secs
+     * @param {number=} milis
      * @returns {Date}
      */
     toDate(year, month, day, hours, mins, secs, milis) {
@@ -199,7 +199,7 @@ class DateTime {
 
     /**
      * Returns a new DateTime with the same day, but at 0 hours, 0 minutes, 0 seconds and 0 mili seconds
-     * @param {Number=} hours
+     * @param {number=} hours
      * @returns {DateTime}
      */
     toDayStart(hours) {
@@ -216,7 +216,7 @@ class DateTime {
 
     /**
      * Returns a new DateTime at the start of the week, depending on the week day given
-     * @param {Number=} weekDay
+     * @param {number=} weekDay
      * @returns {DateTime}
      */
     toWeekStart(weekDay = 0) {
@@ -231,7 +231,7 @@ class DateTime {
 
     /**
      * Returns a new DateTime at the end of the week, depending on the week day given
-     * @param {Number=} weekDay
+     * @param {number=} weekDay
      * @returns {DateTime}
      */
     toWeekEnd(weekDay) {
@@ -274,8 +274,8 @@ class DateTime {
 
     /**
      * Returns the date as a string depending on the given format
-     * @param {String} type
-     * @returns {String}
+     * @param {string} type
+     * @returns {string}
      */
     toString(type) {
         if (FORMATS[type]) {
@@ -286,8 +286,8 @@ class DateTime {
 
     /**
      * Formats the String
-     * @param {String} format
-     * @returns {String}
+     * @param {string} format
+     * @returns {string}
      */
     formatString(format) {
         return format
@@ -307,7 +307,7 @@ class DateTime {
 
     /**
      * Returns the date as a string in the format "YYYY-MM-DD"
-     * @returns {String}
+     * @returns {string}
      */
     toInputString() {
         return `${this.year}-${parseTime(this.month)}-${parseTime(this.day)}`;
@@ -315,8 +315,8 @@ class DateTime {
 
     /**
      * Returns the date as a string choosing the format depending on the date
-     * @param {Boolean=} withSeconds
-     * @returns {String}
+     * @param {boolean=} withSeconds
+     * @returns {string}
      */
     toDateString(withSeconds = false) {
         let type;
@@ -343,7 +343,7 @@ class DateTime {
 
     /**
      * Returns the date as a string choosing the format depending on the date
-     * @returns {String}
+     * @returns {string}
      */
     toTimeString() {
         const today = new DateTime().time;
@@ -390,7 +390,7 @@ class DateTime {
 
     /**
      * Returns the date as a string choosing the format depending on the date
-     * @returns {String}
+     * @returns {string}
      */
     toLiveString() {
         const today = new DateTime().time;
@@ -421,7 +421,7 @@ class DateTime {
 
     /**
      * Gives a string format to the Date depending on date
-     * @returns {String}
+     * @returns {string}
      */
     toLongString() {
         if (this.isToday) {
@@ -435,7 +435,7 @@ class DateTime {
 
     /**
      * Gives a string format to the Date depending on date
-     * @returns {String}
+     * @returns {string}
      */
     toMediumString() {
         if (this.isThisYear) {
@@ -446,7 +446,7 @@ class DateTime {
 
     /**
      * Gives a string format to the Date depending on date
-     * @returns {String}
+     * @returns {string}
      */
     toShortString() {
         if (this.isToday) {
@@ -460,7 +460,7 @@ class DateTime {
 
     /**
      * Returns the name of the day of the saved date or Today/Yesterday/Tomorrow
-     * @returns {String}
+     * @returns {string}
      */
     toDayString() {
         let result;
@@ -478,7 +478,7 @@ class DateTime {
 
     /**
      * Knowing that the current day is at the start of the week, it returns a string that represents it
-     * @returns {String}
+     * @returns {string}
      */
     toWeekString() {
         const thisWeek = new DateTime().toWeekStart(this.weekDay);
@@ -504,7 +504,7 @@ class DateTime {
     /**
      * Parses the duration between the current DateTime and the given one
      * @param {DateTime} otherDate
-     * @returns {String}
+     * @returns {string}
      */
     parseDuration(otherDate) {
         return NLS.format(
@@ -518,9 +518,9 @@ class DateTime {
 
     /**
      * Returns a color depending on the amount of expired hours or minutes
-     * @param {Number} greenMinutes
-     * @param {Number} yellowMinutes
-     * @returns {String}
+     * @param {number} greenMinutes
+     * @param {number} yellowMinutes
+     * @returns {string}
      */
     getExpiredColor(greenMinutes, yellowMinutes) {
         const minutes = this.getMinutesDiff();
@@ -535,9 +535,9 @@ class DateTime {
 
     /**
      * Returns a text class depending on the amount of expired hours or minutes
-     * @param {Number} greenTime
-     * @param {Number} yellowTime
-     * @returns {String}
+     * @param {number} greenTime
+     * @param {number} yellowTime
+     * @returns {string}
      */
     getExpiredClass(greenTime, yellowTime) {
         const color = this.getExpiredColor(greenTime, yellowTime);
@@ -548,7 +548,7 @@ class DateTime {
 
     /**
      * Returns true if the day is Saturday or Sunday
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get isWeekend() {
         return this.weekDay === 0 || this.weekDay === 6;
@@ -556,7 +556,7 @@ class DateTime {
 
     /**
      * Returns true if the saved date is the same as today date
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get isToday() {
         return this.isEqualDayTo(new DateTime());
@@ -564,7 +564,7 @@ class DateTime {
 
     /**
      * Returns true if the saved date is the same as yesterday date
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get isYesterday() {
         return this.isNextDay(-1);
@@ -572,7 +572,7 @@ class DateTime {
 
     /**
      * Returns true if the saved date is the same as tomorrows date
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get isTomorrow() {
         return this.isNextDay(1);
@@ -580,7 +580,7 @@ class DateTime {
 
     /**
      * Returns true if the Current Day is during this week
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get isThisWeek() {
         return this.isEqualWeekTo(new DateTime().toDayStart());
@@ -588,7 +588,7 @@ class DateTime {
 
     /**
      * Returns true if the year of the saved date is the same as the current year
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     get isThisYear() {
         return this.year === new DateTime().year;
@@ -599,7 +599,7 @@ class DateTime {
     /**
      * Returns true if the time of the saved date is the same as the time of the given day
      * @param {DateTime} otherDate
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isEqualTimeTo(otherDate) {
         return this.time === otherDate.time;
@@ -608,7 +608,7 @@ class DateTime {
     /**
      * Returns true if the year, the month and the date are the same between the saved and the given date
      * @param {DateTime} otherDate
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isEqualDayTo(otherDate) {
         return (
@@ -621,7 +621,7 @@ class DateTime {
     /**
      * Returns true if the week is the same between the saved and the given date
      * @param {DateTime} otherDate
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isEqualWeekTo(otherDate) {
         return this.getWeek() === otherDate.getWeek();
@@ -630,7 +630,7 @@ class DateTime {
     /**
      * Returns true if the year and the month are the same between the saved and the given date
      * @param {DateTime} otherDate
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isEqualMonthTo(otherDate) {
         return this.year === otherDate.year && this.month === otherDate.month;
@@ -639,7 +639,7 @@ class DateTime {
     /**
      * Returns true if the year is the same between the saved and the given date
      * @param {DateTime} otherDate
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isEqualYearTo(otherDate) {
         return this.year === otherDate.year;
@@ -648,7 +648,7 @@ class DateTime {
     /**
      * Returns true if the given day is greater than the Current Day
      * @param {DateTime} otherDate
-     * @returns {Boolean}
+     * @returns {boolean}
      */
     isGreaterThan(otherDate) {
         return this.time > otherDate.time;
@@ -656,8 +656,8 @@ class DateTime {
 
     /**
      * Returns true if the Current Day is in the Past
-     * @param {Number=} hours
-     * @returns {Boolean}
+     * @param {number=} hours
+     * @returns {boolean}
      */
     isPastDay(hours = 0) {
         return this.time < new DateTime().time - (hours * 3600);
@@ -665,8 +665,8 @@ class DateTime {
 
     /**
      * Returns true if the Current Day is in the Future
-     * @param {Number=} hours
-     * @returns {Boolean}
+     * @param {number=} hours
+     * @returns {boolean}
      */
     isFutureDay(hours = 0) {
         return this.time > new DateTime().time + (hours * 3600);
@@ -674,8 +674,8 @@ class DateTime {
 
     /**
      * Returns true if the Current Day is the same as the same date plus the given amount of days
-     * @param {Number} amount
-     * @returns {Boolean}
+     * @param {number} amount
+     * @returns {boolean}
      */
     isNextDay(amount) {
         const otherDate = new DateTime().moveDay(amount);
@@ -713,9 +713,9 @@ class DateTime {
 
     /**
      * Creates a new DateTime as amount of years ahead the saved date
-     * @param {Number}  amount
-     * @param {Number=} month
-     * @param {Number=} day
+     * @param {number}  amount
+     * @param {number=} month
+     * @param {number=} day
      * @returns {DateTime}
      */
     moveYear(amount, month, day) {
@@ -724,9 +724,9 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given year and the saved date
-     * @param {Number}  year
-     * @param {Number=} month
-     * @param {Number=} day
+     * @param {number}  year
+     * @param {number=} month
+     * @param {number=} day
      * @returns {DateTime}
      */
     changeYear(year, month, day) {
@@ -735,8 +735,8 @@ class DateTime {
 
     /**
      * Creates a new DateTime as amount of months ahead of the saved date
-     * @param {Number}  amount
-     * @param {Number=} day
+     * @param {number}  amount
+     * @param {number=} day
      * @returns {DateTime}
      */
     moveMonth(amount, day) {
@@ -745,8 +745,8 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given month and day and the saved date
-     * @param {Number}  month
-     * @param {Number=} day
+     * @param {number}  month
+     * @param {number=} day
      * @returns {DateTime}
      */
     changeMonth(month, day) {
@@ -755,7 +755,7 @@ class DateTime {
 
     /**
      * Creates a new DateTime as amount of days ahead of the saved date
-     * @param {Number} amount
+     * @param {number} amount
      * @returns {DateTime}
      */
     moveDay(amount) {
@@ -764,7 +764,7 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given day and the saved date
-     * @param {Number} day
+     * @param {number} day
      * @returns {DateTime}
      */
     changeDay(day) {
@@ -773,8 +773,8 @@ class DateTime {
 
     /**
      * Creates a new DateTime as the given amount of hours ahead of the saved date
-     * @param {Number}  amount
-     * @param {Number=} minutes
+     * @param {number}  amount
+     * @param {number=} minutes
      * @returns {DateTime}
      */
     moveHours(amount, minutes) {
@@ -783,8 +783,8 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given hours and minutes and the saved date
-     * @param {Number}  hours
-     * @param {Number=} minutes
+     * @param {number}  hours
+     * @param {number=} minutes
      * @returns {DateTime}
      */
     changeHours(hours, minutes) {
@@ -793,7 +793,7 @@ class DateTime {
 
     /**
      * Creates a new DateTime as the given amount of minutes ahead of the saved date
-     * @param {Number} minutes
+     * @param {number} minutes
      * @returns {DateTime}
      */
     moveMins(minutes) {
@@ -802,7 +802,7 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given minutes and the saved date
-     * @param {Number} minutes
+     * @param {number} minutes
      * @returns {DateTime}
      */
     changeMins(minutes) {
@@ -811,7 +811,7 @@ class DateTime {
 
     /**
      * Creates a new DateTime with the given minutes ahead of the saved date
-     * @param {Number} time
+     * @param {number} time
      * @returns {DateTime}
      */
     addTime(time) {
@@ -822,8 +822,8 @@ class DateTime {
 
     /**
      * Returns the name of the day of the saved date
-     * @param {Number=} amount
-     * @returns {String}
+     * @param {number=} amount
+     * @returns {string}
      */
     getDayName(amount) {
         const name = dayToName(this.weekDay);
@@ -833,7 +833,7 @@ class DateTime {
     /**
      * Returns the day difference between the Current Day and the given one
      * @param {DateTime=} otherDate
-     * @returns {Number}
+     * @returns {number}
      */
     getDaysDiff(otherDate) {
         const other = otherDate || new DateTime();
@@ -843,7 +843,7 @@ class DateTime {
     /**
      * Returns the hour difference between the Current Day and the given one
      * @param {DateTime=} otherDate
-     * @returns {Number}
+     * @returns {number}
      */
     getHoursDiff(otherDate) {
         const other = otherDate || new DateTime();
@@ -853,7 +853,7 @@ class DateTime {
     /**
      * Returns the minute difference between the Current Day and the given one
      * @param {DateTime=} otherDate
-     * @returns {Number}
+     * @returns {number}
      */
     getMinutesDiff(otherDate) {
         const other = otherDate || new DateTime();
@@ -864,8 +864,8 @@ class DateTime {
 
     /**
      * Returns the number of the week for the current day
-     * @param {Number=} weekDay
-     * @returns {Number}
+     * @param {number=} weekDay
+     * @returns {number}
      */
     getWeek(weekDay = 0) {
         const actualDay = this.getWeekStart(weekDay);
@@ -876,7 +876,7 @@ class DateTime {
 
     /**
      * Returns the date with the first day of the week
-     * @param {Number=} weekDay
+     * @param {number=} weekDay
      * @returns {DateTime}
      */
     getWeekStart(weekDay = 0) {
@@ -886,8 +886,8 @@ class DateTime {
 
     /**
      * Returns the amount of weeks in a month
-     * @param {Number=} weekDay
-     * @returns {Number}
+     * @param {number=} weekDay
+     * @returns {number}
      */
     getWeeksAmount(weekDay = 0) {
         const startDay  = this.createDay(undefined, undefined, 1);
@@ -905,8 +905,8 @@ class DateTime {
 
     /**
      * Returns the name of the month of the saved date
-     * @param {Number=} amount
-     * @returns {String}
+     * @param {number=} amount
+     * @returns {string}
      */
     getMonthName(amount) {
         const name = monthToName(this.month);
@@ -916,7 +916,7 @@ class DateTime {
     /**
      * Returns the month difference between the saved and the given dates
      * @param {DateTime} otherDate
-     * @returns {Number}
+     * @returns {number}
      */
     getMonthDiff(otherDate) {
         return 12 * (this.year - otherDate.year) + this.month - otherDate.month;
@@ -924,7 +924,7 @@ class DateTime {
 
     /**
      * Returns the first day of the month of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     getMonthStart() {
         const date = new Date(this.year, this.month, 1, this.hours, this.minutes);
@@ -933,7 +933,7 @@ class DateTime {
 
     /**
      * Returns the amount of Days in the month of the saved date
-     * @returns {Number}
+     * @returns {number}
      */
     getMonthDays() {
         return getMonthDays(this.month, this.year);
@@ -944,7 +944,7 @@ class DateTime {
     /**
      * Returns the amount of years between the saved date and the given date (or today) AKA the age
      * @param {DateTime=} otherDate
-     * @returns {Number}
+     * @returns {number}
      */
     getAge(otherDate) {
         const date = otherDate || new DateTime();
@@ -955,9 +955,9 @@ class DateTime {
 
     /**
      * Returns a data structure with the required information to create a week calendar interface
-     * @param {Number}  hourStart - Starting hour of the day
-     * @param {Object=} events    - The events
-     * @returns {{title: String, names: String[], hours: Object[]}}
+     * @param {number}  hourStart - Starting hour of the day
+     * @param {object=} events    - The events
+     * @returns {{title: string, names: string[], hours: object[]}}
      */
     getDayData(hourStart, events) {
         const result = { title : this.toDayString(), names : [], hours : [] };
@@ -969,10 +969,10 @@ class DateTime {
 
     /**
      * Returns a data structure with the required information to create a week calendar interface
-     * @param {Number}  weekDay   - Starting day of the week
-     * @param {Number}  hourStart - Starting hour of the day
-     * @param {Object=} events    - The events
-     * @returns {{title: String, names: String[], hours: Object[]}}
+     * @param {number}  weekDay   - Starting day of the week
+     * @param {number}  hourStart - Starting hour of the day
+     * @param {object=} events    - The events
+     * @returns {{title: string, names: string[], hours: object[]}}
      */
     getWeekData(weekDay, hourStart, events) {
         const result = { title : this.toWeekString(), names : [], hours : [] };
@@ -984,12 +984,12 @@ class DateTime {
 
     /**
      * Parses the names and hours structure for the days and week calendar interfaces
-     * @param {Object}   result
+     * @param {object}   result
      * @param {DateTime} dateTime
-     * @param {Number}   hourStart
-     * @param {Number}   dayAmount
-     * @param {Object=}  events
-     * @returns {Object}
+     * @param {number}   hourStart
+     * @param {number}   dayAmount
+     * @param {object=}  events
+     * @returns {object}
      */
     getDaysData(result, dateTime, hourStart, dayAmount, events) {
         let currDate = dateTime;
@@ -1022,12 +1022,12 @@ class DateTime {
 
     /**
      * Returns a data structure with the required information to create a month calendar interface
-     * @param {Number}    weekDay    - Starting day of the week
-     * @param {Boolean}   fullWeeks  - True to always show 6 weeks, false to show the amount of weeks of the month
-     * @param {Number=}   dayLetters - Amount of letters to use for the week days names
+     * @param {number}    weekDay    - Starting day of the week
+     * @param {boolean}   fullWeeks  - True to always show 6 weeks, false to show the amount of weeks of the month
+     * @param {number=}   dayLetters - Amount of letters to use for the week days names
      * @param {DateTime=} currentDay - The selected day
-     * @param {Object=}   events     - The events
-     * @returns {{title: String, names: String[], weeks: Object[]}}
+     * @param {object=}   events     - The events
+     * @returns {{title: string, names: string[], weeks: object[]}}
      */
     getMonthData(weekDay, fullWeeks, dayLetters, currentDay, events) {
         const result   = { title : this.toString("monthYear"), names : [], weeks : [] };
@@ -1088,8 +1088,8 @@ class DateTime {
 
 /**
  * Creates a new DateTime
- * @param {(Number|Date)=} date
- * @param {Boolean=}       inMiliSeconds
+ * @param {(number|Date)=} date
+ * @param {boolean=}       inMiliSeconds
  * @returns {DateTime}
  */
 function create(date, inMiliSeconds) {
@@ -1098,9 +1098,9 @@ function create(date, inMiliSeconds) {
 
 /**
  * Creates a new DateTime from a slash separated string (YYYY/MM/DD or DD/MM/YYYY or DD/MM)
- * @param {String}   userDate
- * @param {String=}  userTime
- * @param {Boolean=} useTimezone
+ * @param {string}   userDate
+ * @param {string=}  userTime
+ * @param {boolean=} useTimezone
  * @returns {DateTime}
  */
 function fromString(userDate, userTime = "", useTimezone = false) {
@@ -1157,10 +1157,10 @@ function fromString(userDate, userTime = "", useTimezone = false) {
 
 /**
  * Formats the give date
- * @param {(Number|Date|String)} date
- * @param {String}               format
- * @param {Boolean=}             useTimezone
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @param {string}               format
+ * @param {boolean=}             useTimezone
+ * @returns {string}
  */
 function formatDate(date, format, useTimezone = false) {
     if (Utils.isString(date)) {
@@ -1171,11 +1171,11 @@ function formatDate(date, format, useTimezone = false) {
 
 /**
  * Formats the give date and time
- * @param {String}   date
- * @param {String}   time
- * @param {String}   format
- * @param {Boolean=} useTimezone
- * @returns {String}
+ * @param {string}   date
+ * @param {string}   time
+ * @param {string}   format
+ * @param {boolean=} useTimezone
+ * @returns {string}
  */
 function formatDateTime(date, time, format, useTimezone = false) {
     return fromString(date, time, useTimezone).toString(format);
@@ -1183,9 +1183,9 @@ function formatDateTime(date, time, format, useTimezone = false) {
 
 /**
  * Formats the give date
- * @param {(Number|Date|String)} date
- * @param {String}               format
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @param {string}               format
+ * @returns {string}
  */
 function formatIf(date, format) {
     if (date) {
@@ -1196,8 +1196,8 @@ function formatIf(date, format) {
 
 /**
  * Formats the give date for an Input
- * @param {(Number|Date|String)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatInput(date) {
     if (!date) {
@@ -1211,9 +1211,9 @@ function formatInput(date) {
 
 /**
  * Formats the give date as a String
- * @param {(Number|Date)} date
- * @param {Boolean=}      withSeconds
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @param {boolean=}             withSeconds
+ * @returns {string}
  */
 function formatString(date, withSeconds = false) {
     if (date) {
@@ -1224,8 +1224,8 @@ function formatString(date, withSeconds = false) {
 
 /**
  * Formats the give date as a Time String
- * @param {(Number|Date)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatTime(date) {
     if (date) {
@@ -1236,8 +1236,8 @@ function formatTime(date) {
 
 /**
  * Formats the give date as a Live String
- * @param {(Number|Date)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatLive(date) {
     if (date) {
@@ -1248,8 +1248,8 @@ function formatLive(date) {
 
 /**
  * Formats the give date as a Day
- * @param {(Number|Date)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatDay(date) {
     return new DateTime(date).toDayString();
@@ -1257,8 +1257,8 @@ function formatDay(date) {
 
 /**
  * Formats the given date as a Long String
- * @param {(Number|Date)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatLong(date) {
     if (date) {
@@ -1269,8 +1269,8 @@ function formatLong(date) {
 
 /**
  * Formats the given date as a Medium String
- * @param {(Number|Date)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatMedium(date) {
     if (date) {
@@ -1281,8 +1281,8 @@ function formatMedium(date) {
 
 /**
  * Formats the given date as a Short String
- * @param {(Number|Date)} date
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @returns {string}
  */
 function formatShort(date) {
     if (date) {
@@ -1293,10 +1293,10 @@ function formatShort(date) {
 
 /**
  * Returns a text class depending on the amount of expired hours or minutes
- * @param {(Number|Date)} date
- * @param {Number}        greenMinutes
- * @param {Number}        yellowMinutes
- * @returns {String}
+ * @param {(number|string|Date)} date
+ * @param {number}               greenMinutes
+ * @param {number}               yellowMinutes
+ * @returns {string}
  */
 function getExpiredColor(date, greenMinutes, yellowMinutes) {
     if (date) {
@@ -1307,8 +1307,8 @@ function getExpiredColor(date, greenMinutes, yellowMinutes) {
 
 /**
  * Returns the age of the given date
- * @param {(Number|Date)} date
- * @returns {Number}
+ * @param {(number|string|Date)} date
+ * @returns {number}
  */
 function getAge(date) {
     if (!date) {
@@ -1324,8 +1324,8 @@ function getAge(date) {
 
 /**
  * Returns the Week Day as a Name
- * @param {Number} day
- * @returns {String}
+ * @param {number} day
+ * @returns {string}
  */
 function dayToName(day) {
     const index = day % 7;
@@ -1335,8 +1335,8 @@ function dayToName(day) {
 
 /**
  * Returns the Week Day as a Name
- * @param {Number} day
- * @returns {String}
+ * @param {number} day
+ * @returns {string}
  */
 function dayToShortName(day) {
     const index = day % 7;
@@ -1346,8 +1346,8 @@ function dayToShortName(day) {
 
 /**
  * Returns the month name for a given month
- * @param {Number=} month - A possible month number (starting from 1)
- * @returns {String}
+ * @param {number=} month - A possible month number (starting from 1)
+ * @returns {string}
  */
 function monthToName(month) {
     const months = NLS.get("DATE_MONTH_NAMES");
@@ -1356,9 +1356,9 @@ function monthToName(month) {
 
 /**
  * Returns the amount of Days in the month of the saved date
- * @param {Number} month
- * @param {Number} year
- * @returns {Number}
+ * @param {number} month
+ * @param {number} year
+ * @returns {number}
  */
 function getMonthDays(month, year) {
     const days   = [ 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
@@ -1373,10 +1373,10 @@ function getMonthDays(month, year) {
 
 /**
  * Creates an Hour Select
- * @param {Number=}   fromHour
- * @param {Number=}   toHour
- * @param {Number[]=} minutes
- * @returns {Array.<{key:String, value:String}>}
+ * @param {number=}   fromHour
+ * @param {number=}   toHour
+ * @param {number[]=} minutes
+ * @returns {{key:string, value:string}[]}
  */
 function getHourSelect(fromHour = 6, toHour = 20, minutes = [ 0, 30 ]) {
     const result = [];
@@ -1394,8 +1394,8 @@ function getHourSelect(fromHour = 6, toHour = 20, minutes = [ 0, 30 ]) {
 
 /**
  * Returns number as a String with a 0 in front
- * @param {Number} time
- * @returns {String}
+ * @param {number} time
+ * @returns {string}
  */
 function parseTime(time) {
     return time < 10 ? `0${time}` : String(time);

@@ -37,7 +37,7 @@ const Image = Styled.img`
 
 /**
  * The Avatar Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Avatar(props) {
@@ -100,7 +100,7 @@ function Avatar(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Avatar.propTypes = {
     passedRef    : PropTypes.any,
@@ -120,7 +120,7 @@ Avatar.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Avatar.defaultProps = {
     className    : "",

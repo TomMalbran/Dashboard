@@ -5,7 +5,7 @@ import PropTypes            from "prop-types";
 
 /**
  * The Downloader Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Downloader(props) {
@@ -59,7 +59,7 @@ function Downloader(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Downloader.propTypes = {
     download : PropTypes.bool.isRequired,
@@ -70,7 +70,7 @@ Downloader.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Downloader.defaultProps = {
     seconds : 10,

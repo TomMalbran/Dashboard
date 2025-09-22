@@ -34,7 +34,7 @@ const NavMenu = Styled(MenuLink)`
 
 /**
  * The Navigation Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SubNavigationItem(props) {
@@ -87,7 +87,7 @@ function SubNavigationItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 SubNavigationItem.propTypes = {
     isHidden   : PropTypes.bool,
@@ -110,7 +110,7 @@ SubNavigationItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 SubNavigationItem.defaultProps = {
     isHidden   : false,

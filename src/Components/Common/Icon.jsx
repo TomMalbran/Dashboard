@@ -30,7 +30,7 @@ const Span = Styled.span.attrs(({ size, color, cursor }) => ({ size, color, curs
 
 /**
  * The Icon Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Icon(props) {
@@ -73,7 +73,7 @@ function Icon(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Icon.propTypes = {
     isHidden       : PropTypes.bool,
@@ -93,7 +93,7 @@ Icon.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Icon.defaultProps = {
     isHidden       : false,

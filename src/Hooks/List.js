@@ -8,10 +8,10 @@ import Navigate             from "../Core/Navigate";
 
 /**
  * Returns a Hook to use the List Fetch
- * @param {String}   slice
- * @param {String=}  type
- * @param {Boolean=} loadOnStart
- * @returns {Object}
+ * @param {string}   slice
+ * @param {string=}  type
+ * @param {boolean=} loadOnStart
+ * @returns {object}
  */
 function useList(slice, type = "", loadOnStart = true) {
     const elemID = Navigate.useOneParam(type);

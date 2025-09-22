@@ -1,3 +1,4 @@
+import React                from "react";
 import NLS                  from "../Core/NLS";
 
 // Utils
@@ -18,9 +19,9 @@ const paramTypes = {};
 
 /**
  * Initializes the Params
- * @param {String} newAppUrl
- * @param {Object} params
- * @returns {Void}
+ * @param {string} newAppUrl
+ * @param {object} params
+ * @returns {void}
  */
 function init(newAppUrl, params) {
     appUrl = newAppUrl;
@@ -33,8 +34,8 @@ function init(newAppUrl, params) {
 
 /**
  * Returns the Default value for the given Key
- * @param {String} key
- * @returns {(String|Number)}
+ * @param {string} key
+ * @returns {(string|number)}
  */
 function getParamDefault(key) {
     return key.endsWith("ID") ? 0 : "";
@@ -42,7 +43,7 @@ function getParamDefault(key) {
 
 /**
  * Returns all the params
- * @returns {Object}
+ * @returns {object}
  */
 function useParams() {
     const params = useRouterParams();
@@ -61,8 +62,8 @@ function useParams() {
 
 /**
  * Returns a single param
- * @param {String} key
- * @returns {(Number|String)}
+ * @param {string} key
+ * @returns {(number|string)}
  */
 function useOneParam(key) {
     const params = useParams();
@@ -74,8 +75,8 @@ function useOneParam(key) {
 
 /**
  * Unsets the Params
- * @param {Object} params
- * @returns {Object}
+ * @param {object} params
+ * @returns {object}
  */
 function unsetParams(params) {
     for (const key of Object.values(paramTypes)) {
@@ -88,7 +89,7 @@ function unsetParams(params) {
 
 /**
  * Returns the Current Path
- * @returns {String}
+ * @returns {string}
  */
 function usePath() {
     const location = useLocation();
@@ -106,8 +107,8 @@ function useSearchParams() {
 
 /**
  * Returns the Parent Path
- * @param {Number=} levels
- * @returns {String}
+ * @param {number=} levels
+ * @returns {string}
  */
 function useParent(levels = 1) {
     const path = usePath();
@@ -116,7 +117,7 @@ function useParent(levels = 1) {
 
 /**
  * Returns the Child Path
- * @returns {Object}
+ * @returns {object}
  */
 function useChildPath() {
     const params = useRouterParams();
@@ -125,7 +126,7 @@ function useChildPath() {
 
 /**
  * Returns the From Path
- * @returns {String}
+ * @returns {string}
  */
 function useFrom() {
     const path       = usePath();
@@ -137,8 +138,8 @@ function useFrom() {
 
 /**
  * Creates a Link from the current path and the given Url
- * @param {String} url
- * @returns {String}
+ * @param {string} url
+ * @returns {string}
  */
 function useMenuUrl(url) {
     const route     = NLS.url(url);
@@ -173,9 +174,9 @@ function useSelect() {
 
 /**
  * Returns true if the Url is equal to the Test one
- * @param {String} urlKey
- * @param {String} testUrl
- * @returns {Boolean}
+ * @param {string} urlKey
+ * @param {string} testUrl
+ * @returns {boolean}
  */
 function isUrl(urlKey, testUrl) {
     return NLS.url(urlKey) === testUrl;
@@ -183,8 +184,8 @@ function isUrl(urlKey, testUrl) {
 
 /**
  * Returns the Url
- * @param {Object} data
- * @returns {String}
+ * @param {object} data
+ * @returns {string}
  */
 function getUrl(data) {
     const { href, url, message, useBase, isLink, isEmail, isPhone, isWhatsApp } = data;
@@ -208,8 +209,8 @@ function getUrl(data) {
 
 /**
  * Returns the Email Url
- * @param {String} email
- * @returns {String}
+ * @param {string} email
+ * @returns {string}
  */
 function getEmail(email) {
     return `mailto:${email}`;
@@ -217,8 +218,8 @@ function getEmail(email) {
 
 /**
  * Returns the Phone Url
- * @param {String} phone
- * @returns {String}
+ * @param {string} phone
+ * @returns {string}
  */
 function getPhone(phone) {
     return `tel:${phone}`;
@@ -226,8 +227,8 @@ function getPhone(phone) {
 
 /**
  * Returns the WhatsApp Url
- * @param {String} whatsapp
- * @returns {String}
+ * @param {string} whatsapp
+ * @returns {string}
  */
 function getWhatsApp(whatsapp) {
     return `https://wa.me/${whatsapp}`;
@@ -300,7 +301,7 @@ function useGotoUrl() {
 
 /**
  * Handles the Click
- * @param {Object} props
+ * @param {object} props
  * @returns {React.MouseEventHandler}
  */
 function useClick(props) {
@@ -326,7 +327,7 @@ function useClick(props) {
 
 /**
  * Handles the Link
- * @param {Object} props
+ * @param {object} props
  * @returns {React.MouseEventHandler}
  */
 function useLink(props) {
@@ -358,8 +359,8 @@ function useLink(props) {
 
 /**
  * Goes to the given URL on a new tab
- * @param {...(String|Number)} args
- * @returns {Void}
+ * @param {...(string|number)} args
+ * @returns {void}
  */
 function gotoBlank(...args) {
     const url = NLS.baseUrl(...args);
@@ -368,9 +369,9 @@ function gotoBlank(...args) {
 
 /**
  * Goes to the given external URL
- * @param {String}  url
- * @param {Boolean} isBlank
- * @returns {Void}
+ * @param {string}  url
+ * @param {boolean} isBlank
+ * @returns {void}
  */
 function gotoUrl(url, isBlank) {
     if (isBlank) {
@@ -382,8 +383,8 @@ function gotoUrl(url, isBlank) {
 
 /**
  * Reloads to the given URL reloading the tab
- * @param {...(String|Number)} args
- * @returns {Void}
+ * @param {...(string|number)} args
+ * @returns {void}
  */
 function reload(...args) {
     window.location.href = NLS.fullUrl(...args);

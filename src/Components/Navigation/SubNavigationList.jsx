@@ -19,7 +19,7 @@ const Ul = Styled.ul`
 
 /**
  * The Navigation List Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SubNavigationList(props) {
@@ -43,7 +43,7 @@ function SubNavigationList(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 SubNavigationList.propTypes = {
     isHidden  : PropTypes.bool,
@@ -55,7 +55,7 @@ SubNavigationList.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 SubNavigationList.defaultProps = {
     isHidden  : false,

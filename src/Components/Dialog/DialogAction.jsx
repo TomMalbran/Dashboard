@@ -12,7 +12,7 @@ import Button               from "../Form/Button";
 
 /**
  * The Dialog Action Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DialogAction(props) {
@@ -28,7 +28,7 @@ function DialogAction(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DialogAction.propTypes = {
     isHidden : PropTypes.bool,
@@ -39,7 +39,7 @@ DialogAction.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DialogAction.defaultProps = {
     isHidden : false,

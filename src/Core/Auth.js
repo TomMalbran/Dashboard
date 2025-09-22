@@ -9,7 +9,7 @@ let setCurrentUser = null;
 /**
  * Initialize the API
  * @param {Function} onUserChange
- * @returns {Void}
+ * @returns {void}
  */
 function init(onUserChange) {
     setCurrentUser = onUserChange;
@@ -18,7 +18,7 @@ function init(onUserChange) {
 
 /**
  * Unsets all the Data
- * @returns {Void}
+ * @returns {void}
  */
 function unsetAll() {
     unsetAccessToken();
@@ -30,7 +30,7 @@ function unsetAll() {
 
 /**
  * Returns the Access Token
- * @returns {String}
+ * @returns {string}
  */
 function getAccessToken() {
     return localStorage.getItem("accessToken");
@@ -38,7 +38,7 @@ function getAccessToken() {
 
 /**
  * Returns the Data of the Access Token
- * @returns {{exp: Number, data: Object}}
+ * @returns {{exp: number, data: object}}
  */
 function getAccessTokenData() {
     return jwtDecode(getAccessToken());
@@ -46,8 +46,8 @@ function getAccessTokenData() {
 
 /**
  * Sets the Access Token
- * @param {String} accessToken
- * @returns {Void}
+ * @param {string} accessToken
+ * @returns {void}
  */
 function setAccessToken(accessToken) {
     localStorage.setItem("accessToken", accessToken);
@@ -56,7 +56,7 @@ function setAccessToken(accessToken) {
 
 /**
  * Unsets the Access Token
- * @returns {Void}
+ * @returns {void}
  */
 function unsetAccessToken() {
     localStorage.removeItem("accessToken");
@@ -66,7 +66,7 @@ function unsetAccessToken() {
 
 /**
  * Returns the Refresh Token
- * @returns {String}
+ * @returns {string}
  */
 function getRefreshToken() {
     return localStorage.getItem("refreshToken");
@@ -74,8 +74,8 @@ function getRefreshToken() {
 
 /**
  * Sets the Refresh Token
- * @param {String} refreshToken
- * @returns {Void}
+ * @param {string} refreshToken
+ * @returns {void}
  */
 function setRefreshToken(refreshToken) {
     localStorage.setItem("refreshToken", refreshToken);
@@ -83,7 +83,7 @@ function setRefreshToken(refreshToken) {
 
 /**
  * Unsets the Refresh Token
- * @returns {Void}
+ * @returns {void}
  */
 function unsetRefreshToken() {
     localStorage.removeItem("refreshToken");
@@ -93,7 +93,7 @@ function unsetRefreshToken() {
 
 /**
  * Returns the User
- * @returns {?Object}
+ * @returns {?object}
  */
 function getUser() {
     if (getAccessToken()) {
@@ -105,7 +105,7 @@ function getUser() {
 
 /**
  * Sets the User
- * @returns {Boolean}
+ * @returns {boolean}
  */
 function setUser() {
     try {
@@ -135,7 +135,7 @@ function setUser() {
 
 /**
  * Unsets the User
- * @returns {Void}
+ * @returns {void}
  */
 function unsetUser() {
     setCurrentUser({});
@@ -145,7 +145,7 @@ function unsetUser() {
 
 /**
  * Returns the Language
- * @returns {String}
+ * @returns {string}
  */
 function getLanguage() {
     const language = NLS.getLang();
@@ -154,7 +154,7 @@ function getLanguage() {
 
 /**
  * Returns the Timezone
- * @returns {String}
+ * @returns {string}
  */
 function getTimezone() {
     const timezone = new Date().getTimezoneOffset();
@@ -163,8 +163,8 @@ function getTimezone() {
 
 /**
  * Sets the Appearance
- * @param {String} appearance
- * @returns {Void}
+ * @param {string} appearance
+ * @returns {void}
  */
 function setAppearance(appearance) {
     document.querySelector("body").className = `${appearance}-mode`;

@@ -19,7 +19,7 @@ const Li = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisa
 
 /**
  * The Menu Line Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MenuLine(props) {
@@ -35,7 +35,7 @@ function MenuLine(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MenuLine.propTypes = {
     isHidden  : PropTypes.bool,
@@ -44,7 +44,7 @@ MenuLine.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MenuLine.defaultProps = {
     isHidden  : false,

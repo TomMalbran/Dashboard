@@ -31,7 +31,7 @@ const TFoot = Styled.tfoot.attrs(({ isEditable }) => ({ isEditable }))`
 
 /**
  * The Table Foot
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TableFoot(props) {
@@ -55,7 +55,7 @@ function TableFoot(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableFoot.propTypes = {
     hasActions : PropTypes.bool,
@@ -66,7 +66,7 @@ TableFoot.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableFoot.defaultProps = {
     hasActions : false,

@@ -29,8 +29,8 @@ const actions = {
     /**
      * Starts the Loader
      * @param {Function} dispatch
-     * @param {String}   slice
-     * @returns {Void}
+     * @param {string}   slice
+     * @returns {void}
      */
     startLoader(dispatch, slice) {
         return dispatch({ type : "CORE_LOADING", slice, loading : true });
@@ -39,8 +39,8 @@ const actions = {
     /**
      * Ends the Loader
      * @param {Function} dispatch
-     * @param {String}   slice
-     * @returns {Void}
+     * @param {string}   slice
+     * @returns {void}
      */
     endLoader(dispatch, slice) {
         return dispatch({ type : "CORE_LOADING", slice, loading : false });
@@ -49,8 +49,8 @@ const actions = {
     /**
      * Sets the Redirect
      * @param {Function} dispatch
-     * @param {String}   redirect
-     * @returns {Void}
+     * @param {string}   redirect
+     * @returns {void}
      */
     setRedirect(dispatch, redirect) {
         return dispatch({ type : "CORE_REDIRECT", redirect });
@@ -59,8 +59,8 @@ const actions = {
     /**
      * Sets the Section
      * @param {Function} dispatch
-     * @param {String}   section
-     * @returns {Void}
+     * @param {string}   section
+     * @returns {void}
      */
     setSection(dispatch, section) {
         return dispatch({ type : "CORE_SECTION", section });
@@ -69,10 +69,10 @@ const actions = {
     /**
      * Shows the Result
      * @param {Function} dispatch
-     * @param {String}   variant
-     * @param {String}   message
-     * @param {String}   param
-     * @returns {Void}
+     * @param {string}   variant
+     * @param {string}   message
+     * @param {string}   param
+     * @returns {void}
      */
     showResult(dispatch, variant, message, param) {
         const result = { open : true, variant, message, param };
@@ -82,7 +82,7 @@ const actions = {
     /**
      * Hides the Result
      * @param {Function} dispatch
-     * @returns {Void}
+     * @returns {void}
      */
     hideResult(dispatch) {
         const result = { ...initialState.result };
@@ -92,12 +92,12 @@ const actions = {
     /**
      * Shows the Tooltip
      * @param {Function} dispatch
-     * @param {Object}   targetRef
-     * @param {String}   variant
-     * @param {String}   message
-     * @param {Number}   maxWidth
-     * @param {Number}   delay
-     * @returns {Void}
+     * @param {object}   targetRef
+     * @param {string}   variant
+     * @param {string}   message
+     * @param {number}   maxWidth
+     * @param {number}   delay
+     * @returns {void}
      */
     showTooltip(dispatch, targetRef, variant, message, maxWidth, delay) {
         const tooltip = { open : true, targetRef, variant, message, maxWidth, delay };
@@ -107,7 +107,7 @@ const actions = {
     /**
      * Hide the Tooltip
      * @param {Function} dispatch
-     * @returns {Void}
+     * @returns {void}
      */
     hideTooltip(dispatch) {
         const tooltip = { ...initialState.tooltip };
@@ -117,7 +117,7 @@ const actions = {
     /**
      * Opens the Menu
      * @param {Function} dispatch
-     * @returns {Void}
+     * @returns {void}
      */
     openMenu(dispatch) {
         return dispatch({ type : "CORE_MENU_OPEN" });
@@ -126,7 +126,7 @@ const actions = {
     /**
      * Closes the Menu
      * @param {Function} dispatch
-     * @returns {Void}
+     * @returns {void}
      */
     closeMenu(dispatch) {
         return dispatch({ type : "CORE_MENU_CLOSE" });
@@ -135,8 +135,8 @@ const actions = {
     /**
      * Sets the Details
      * @param {Function} dispatch
-     * @param {Boolean}  hasDetails
-     * @returns {Void}
+     * @param {boolean}  hasDetails
+     * @returns {void}
      */
     setDetails(dispatch, hasDetails) {
         dispatch({ type : "CORE_DETAILS_SET", hasDetails });
@@ -145,7 +145,7 @@ const actions = {
     /**
      * Opens the Details
      * @param {Function} dispatch
-     * @returns {Void}
+     * @returns {void}
      */
     openDetails(dispatch) {
         return dispatch({ type : "CORE_DETAILS_OPEN" });
@@ -154,7 +154,7 @@ const actions = {
     /**
      * Closes the Details
      * @param {Function} dispatch
-     * @returns {Void}
+     * @returns {void}
      */
     closeDetails(dispatch) {
         return dispatch({ type : "CORE_DETAILS_CLOSE" });
@@ -165,9 +165,9 @@ const actions = {
 
 /**
  * The Reducer
- * @param {Object=} state
- * @param {Object=} action
- * @returns {Object}
+ * @param {object=} state
+ * @param {object=} action
+ * @returns {object}
  */
 const reducer = (state = initialState, action = {}) => {
     switch (action.type) {

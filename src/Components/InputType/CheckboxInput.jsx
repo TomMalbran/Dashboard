@@ -75,7 +75,7 @@ const Label = Styled(Html)`
 
 /**
  * The Checkbox Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function CheckboxInput(props) {
@@ -160,7 +160,7 @@ function CheckboxInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 CheckboxInput.propTypes = {
     inputRef        : PropTypes.any,
@@ -183,7 +183,7 @@ CheckboxInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 CheckboxInput.defaultProps = {
     className       : "",

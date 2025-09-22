@@ -144,7 +144,7 @@ const Error = Styled(InputError)`
 
 /**
  * The Field Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function FieldInput(props) {
@@ -445,7 +445,7 @@ function FieldInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 FieldInput.propTypes = {
     className     : PropTypes.string,
@@ -475,7 +475,7 @@ FieldInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 FieldInput.defaultProps = {
     className  : "",

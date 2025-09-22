@@ -11,10 +11,10 @@ let routeUrl   = "";
 
 /**
  * Initialize the Ajax
- * @param {String}   newApiUrl
- * @param {String}   newRouteUrl
+ * @param {string}   newApiUrl
+ * @param {string}   newRouteUrl
  * @param {Function} onResult
- * @returns {Void}
+ * @returns {void}
  */
 function init(newApiUrl, newRouteUrl, onResult) {
     apiUrl    = newApiUrl;
@@ -26,10 +26,10 @@ function init(newApiUrl, newRouteUrl, onResult) {
 
 /**
  * Fetch wrapper
- * @throws {Object|String} The errors
+ * @throws {object|string} The errors
  * @param {URL}              url
- * @param {Object=}          options
- * @param {Boolean=}         showResult
+ * @param {object=}          options
+ * @param {boolean=}         showResult
  * @param {AbortController=} abortController
  * @returns {Promise}
  */
@@ -116,7 +116,7 @@ async function ajax(url, options = {}, showResult = true, abortController = null
 
 /**
  * Aborts a Fetch
- * @returns {Void}
+ * @returns {void}
  */
 function abort() {
     if (controller) {
@@ -128,7 +128,7 @@ function abort() {
 
 /**
  * Returns the Base URL
- * @param {String} route
+ * @param {string} route
  * @returns {URL}
  */
 function baseUrl(route) {
@@ -137,10 +137,10 @@ function baseUrl(route) {
 
 /**
  * Creates a new Url
- * @param {String}   route
- * @param {Object=}  params
- * @param {Boolean=} addToken
- * @param {Boolean=} addAuth
+ * @param {string}   route
+ * @param {object=}  params
+ * @param {boolean=} addToken
+ * @param {boolean=} addAuth
  * @returns {URL}
  */
 function createUrl(route, params = {}, addToken = true, addAuth = false) {
@@ -152,10 +152,10 @@ function createUrl(route, params = {}, addToken = true, addAuth = false) {
 /**
  * Adds the params to the Url
  * @param {URL}      url
- * @param {Object=}  params
- * @param {Boolean=} addToken
- * @param {Boolean=} addAuth
- * @returns {Void}
+ * @param {object=}  params
+ * @param {boolean=} addToken
+ * @param {boolean=} addAuth
+ * @returns {void}
  */
 function addUrlParams(url, params = {}, addToken = true, addAuth = false) {
     for (const [ key, value ] of Object.entries(params)) {
@@ -189,9 +189,9 @@ function addUrlParams(url, params = {}, addToken = true, addAuth = false) {
 
 /**
  * Does a Get
- * @param {String}           route
- * @param {Object=}          params
- * @param {Boolean=}         showResult
+ * @param {string}           route
+ * @param {object=}          params
+ * @param {boolean=}         showResult
  * @param {AbortController=} abortController
  * @returns {Promise}
  */
@@ -209,9 +209,9 @@ async function get(route, params = {}, showResult = true, abortController = null
 
 /**
  * Does a Post
- * @param {String}           route
- * @param {Object=}          params
- * @param {Boolean=}         showResult
+ * @param {string}           route
+ * @param {object=}          params
+ * @param {boolean=}         showResult
  * @param {AbortController=} abortController
  * @returns {Promise}
  */
@@ -243,11 +243,11 @@ function post(route, params = {}, showResult = true, abortController = null) {
 
 /**
  * Returns the url
- * @param {String}   route
- * @param {Object=}  params
- * @param {Boolean=} addToken
- * @param {Boolean=} addAuth
- * @returns {String}
+ * @param {string}   route
+ * @param {object=}  params
+ * @param {boolean=} addToken
+ * @param {boolean=} addAuth
+ * @returns {string}
  */
 function url(route, params = {}, addToken = true, addAuth = false) {
     return createUrl(route, params, addToken, addAuth).href;
@@ -255,11 +255,11 @@ function url(route, params = {}, addToken = true, addAuth = false) {
 
 /**
  * Returns the route
- * @param {String}   route
- * @param {Object=}  params
- * @param {Boolean=} addToken
- * @param {Boolean=} addAuth
- * @returns {String}
+ * @param {string}   route
+ * @param {object=}  params
+ * @param {boolean=} addToken
+ * @param {boolean=} addAuth
+ * @returns {string}
  */
 function route(route, params = {}, addToken = true, addAuth = false) {
     const url = new URL(routeUrl);

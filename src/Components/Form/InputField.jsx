@@ -38,7 +38,7 @@ const FieldButton = Styled(Button)`
 
 /**
  * The Input Field Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function InputField(props) {
@@ -204,7 +204,7 @@ function InputField(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 InputField.propTypes = {
     passedRef       : PropTypes.any,
@@ -307,7 +307,7 @@ InputField.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 InputField.defaultProps = {
     isHidden        : false,

@@ -55,7 +55,7 @@ const Container = Styled.div.attrs(({ withLabel }) => ({ withLabel }))`
 
 /**
  * The Double Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function DoubleInput(props) {
@@ -98,7 +98,7 @@ function DoubleInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 DoubleInput.propTypes = {
     className  : PropTypes.string,
@@ -113,7 +113,7 @@ DoubleInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 DoubleInput.defaultProps = {
     className  : "",

@@ -59,7 +59,7 @@ const Collapse = Styled(IconLink)`
 
 /**
  * The Navigation Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Navigation(props) {
@@ -107,7 +107,7 @@ function Navigation(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Navigation.propTypes = {
     className   : PropTypes.string,
@@ -131,7 +131,7 @@ Navigation.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Navigation.defaultProps = {
     className   : "",

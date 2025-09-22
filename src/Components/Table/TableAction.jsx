@@ -13,7 +13,7 @@ function TableAction() {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TableAction.propTypes = {
     isHidden : PropTypes.bool,
@@ -26,7 +26,7 @@ TableAction.propTypes = {
 
 /**
  * The Default Properties
- * @typedef {Object} defaultProps
+ * @type {object} defaultProps
  */
 TableAction.defaultProps = {
     isHidden : false,

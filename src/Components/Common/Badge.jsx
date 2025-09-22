@@ -25,7 +25,7 @@ const Span = Styled.span`
 
 /**
  * The Badge Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function Badge(props) {
@@ -43,7 +43,7 @@ function Badge(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 Badge.propTypes = {
     value     : PropTypes.number,
@@ -52,7 +52,7 @@ Badge.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 Badge.defaultProps = {
     className : "",

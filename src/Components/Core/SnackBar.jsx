@@ -33,7 +33,7 @@ const Container = Styled.div`
 
 /**
  * The Snack Bar
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function SnackBar(props) {
@@ -127,7 +127,7 @@ function SnackBar(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 SnackBar.propTypes = {
     isHidden   : PropTypes.bool,

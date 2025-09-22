@@ -6,30 +6,30 @@ import Utils                from "../Utils/Utils";
 
 
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * Returns a Hook to use the Form Data and Errors
- * @param {String}    slice
- * @param {Object}    initialData
+ * @param {string}    slice
+ * @param {object}    initialData
  * @param {Function=} edit
  * @param {Function=} onSubmit
- * @param {Boolean=}  startInLoading
- * @param {Boolean=}  open
- * @returns {{
- *   loading      : Boolean,
- *   startLoading : Function,
- *   endLoading   : Function,
- *   data         : Object,
- *   setData      : Function,
- *   resetData    : Function,
- *   errors       : Object,
- *   setError     : (...any) => any,
- *   setErrors    : Function,
- *   resetErrors  : Function,
- *   setElem      : Function,
- *   handleChange : (...any) => any,
- *   handleSubmit : (...any) => any,
- * }}
+ * @param {boolean=}  startInLoading
+ * @param {boolean=}  open
+ *
+ * @typedef {object}    FormType
+ * @property {boolean}  loading
+ * @property {Function} startLoading
+ * @property {Function} endLoading
+ * @property {object}   data
+ * @property {Function} setData
+ * @property {Function} resetData
+ * @property {object}   errors
+ * @property {Function} setError
+ * @property {Function} setErrors
+ * @property {Function} resetErrors
+ * @property {Function} setElem
+ * @property {(...args: any[]) => any} handleChange
+ * @property {(...args: any[]) => any} handleSubmit
+ * @returns {FormType}
  */
 function useForm(slice, initialData, edit = null, onSubmit = null, startInLoading = true, open = true) {
     const { loaders                } = Store.useState("core");

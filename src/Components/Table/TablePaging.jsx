@@ -116,7 +116,7 @@ const TableIcon = Styled(IconLink).attrs(({ isDisabled }) => ({ isDisabled }))`
 
 /**
  * The Table Paging Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function TablePaging(props) {
@@ -213,7 +213,7 @@ function TablePaging(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 TablePaging.propTypes = {
     fetch      : PropTypes.func,

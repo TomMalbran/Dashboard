@@ -89,7 +89,7 @@ const Image = Styled.img`
 
 /**
  * The Media Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MediaItem(props) {
@@ -162,7 +162,7 @@ function MediaItem(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MediaItem.propTypes = {
     isSelected  : PropTypes.bool,
@@ -176,7 +176,7 @@ MediaItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MediaItem.defaultProps = {
     className : "",

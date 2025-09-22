@@ -24,7 +24,7 @@ const Li = Styled.li.attrs(({ columns }) => ({ columns }))`
 
 /**
  * The List Item Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ListItem(props) {
@@ -37,7 +37,7 @@ function ListItem(props) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 ListItem.propTypes = {
     className : PropTypes.string,
@@ -47,7 +47,7 @@ ListItem.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ListItem.defaultProps = {
     className : "",

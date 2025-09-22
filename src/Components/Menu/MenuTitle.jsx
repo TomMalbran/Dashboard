@@ -24,7 +24,7 @@ const Container = Styled.li.attrs(({ isSelected, isDisabled }) => ({ isSelected,
 
 /**
  * The Menu Title Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function MenuTitle(props) {
@@ -39,7 +39,7 @@ function MenuTitle(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 MenuTitle.propTypes = {
     className : PropTypes.string,
@@ -49,7 +49,7 @@ MenuTitle.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 MenuTitle.defaultProps = {
     className : "",

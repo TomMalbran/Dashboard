@@ -33,7 +33,7 @@ const InputIcon = Styled(Icon)`
 
 /**
  * The Chooser Input Component
- * @param {Object} props
+ * @param {object} props
  * @returns {React.ReactElement}
  */
 function ChooserInput(props) {
@@ -323,7 +323,7 @@ function ChooserInput(props) {
 
 /**
  * The Property Types
- * @type {Object} propTypes
+ * @type {object} propTypes
  */
 ChooserInput.propTypes = {
     inputRef     : PropTypes.object,
@@ -346,7 +346,7 @@ ChooserInput.propTypes = {
 
 /**
  * The Default Properties
- * @type {Object} defaultProps
+ * @type {object} defaultProps
  */
 ChooserInput.defaultProps = {
     className   : "",

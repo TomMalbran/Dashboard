@@ -15,7 +15,7 @@ let   actions = {};
 /**
  * Creates the Store Provider
  * @param {{
- *   config   : Object,
+ *   config   : object,
  *   children : Array,
  * }} props
  * @returns {React.ReactElement}
@@ -33,7 +33,7 @@ function Provider({ config, children }) {
 
 /**
  * The Property Types
- * @typedef {Object} propTypes
+ * @type {object} propTypes
  */
 Provider.propTypes = {
     config   : PropTypes.object.isRequired,
@@ -44,10 +44,10 @@ Provider.propTypes = {
 
 /**
  * Creates a Slice
- * @param {Object}   initialState
- * @param {Object}   actions
+ * @param {object}   initialState
+ * @param {object}   actions
  * @param {Function} reducer
- * @returns {Object}
+ * @returns {object}
  */
 function createSlice(initialState, actions, reducer) {
     return {
@@ -59,8 +59,8 @@ function createSlice(initialState, actions, reducer) {
 
 /**
  * Configures the Store
- * @param {Object} slices
- * @returns {Object}
+ * @param {object} slices
+ * @returns {object}
  */
 function configureStore(slices = {}) {
     const initialState = {};
@@ -81,7 +81,7 @@ function configureStore(slices = {}) {
 
 /**
  * Combines the Reducers
- * @param {Object} slices
+ * @param {object} slices
  * @returns {Function}
  */
 function combineReducers(slices) {
@@ -106,8 +106,8 @@ function useStore() {
 
 /**
  * Returns the Store State Hook
- * @param {String} slice
- * @returns {Object}
+ * @param {string} slice
+ * @returns {object}
  */
 function useState(slice) {
     const [ state ] = React.useContext(Context);
@@ -116,8 +116,8 @@ function useState(slice) {
 
 /**
  * Returns the Store Action Hook
- * @param {String} slice
- * @returns {Object}
+ * @param {string} slice
+ * @returns {object}
  */
 function useAction(slice) {
     const context  = React.useContext(Context);
