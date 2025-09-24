@@ -38,7 +38,8 @@ const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader }) => ({
 
     ${(props) => props.inDialog && `
         position: sticky;
-        top: 0;
+        top: -2px;
+        margin-top: -2px;
         background-color: var(--content-color);
         z-index: 4;
     `};
