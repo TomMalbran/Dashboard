@@ -65,7 +65,7 @@ function DoubleInput(props) {
     } = props;
 
     const items = [];
-    for (const [ , child ] of Utils.getVisibleChildren(children)) {
+    for (const child of Utils.getVisibleChildren(children)) {
         items.push(child.props);
     }
 

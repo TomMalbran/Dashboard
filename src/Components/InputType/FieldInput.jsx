@@ -164,7 +164,7 @@ function FieldInput(props) {
     const items    = [];
     const baseElem = {};
     if (children) {
-        for (const [ , child ] of Utils.getVisibleChildren(children)) {
+        for (const child of Utils.getVisibleChildren(children)) {
             items.push(child.props);
             baseElem[child.props.name] = child.props.value || "";
         }

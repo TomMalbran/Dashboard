@@ -26,7 +26,7 @@ function Router(props) {
     let   firstUrl    = initialUrl;
     let   canRedirect = true;
 
-    for (const [ key, child ] of Utils.getVisibleChildren(children)) {
+    for (const [ key, child ] of Utils.getVisibleChildren(children).entries()) {
         let path = NLS.url(child.props.url);
 
         if (path === "/") {

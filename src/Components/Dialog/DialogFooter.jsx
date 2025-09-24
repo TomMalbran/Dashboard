@@ -64,7 +64,7 @@ function DialogFooter(props) {
 
     const items   = [];
     const actions = [];
-    for (const [ key, child ] of Utils.getVisibleChildren(children)) {
+    for (const [ key, child ] of Utils.getVisibleChildren(children).entries()) {
         if (child.type === DialogAction) {
             actions.push(React.cloneElement(child, {
                 key, onAction,

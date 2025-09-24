@@ -83,10 +83,10 @@ function FilterList(props) {
     const initialErrors = {};
 
     if (children) {
-        for (const [ , child ] of Utils.getVisibleChildren(children)) {
+        for (const child of Utils.getVisibleChildren(children)) {
             items.push(child.props);
             if (child.props.type === "double") {
-                for (const [ , subChild ] of Utils.getVisibleChildren(child.props.children)) {
+                for (const subChild of Utils.getVisibleChildren(child.props.children)) {
                     fields[subChild.props.name]        = "";
                     initialErrors[subChild.props.name] = "";
                 }

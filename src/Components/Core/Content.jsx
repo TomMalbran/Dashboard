@@ -75,7 +75,7 @@ function Content(props) {
     let   statsAmount = 0;
     let   hasTabs     = withTabs;
 
-    for (const [ , child ] of Utils.getVisibleChildren(children)) {
+    for (const child of Utils.getVisibleChildren(children)) {
         if (child.type === FilterList || child.type === Filter) {
             hasFilter = true;
         } else if (child.type === StatList) {
@@ -84,7 +84,7 @@ function Content(props) {
             hasTabs = true;
         }
     }
-    for (const [ key, child ] of Utils.getVisibleChildren(children)) {
+    for (const [ key, child ] of Utils.getVisibleChildren(children).entries()) {
         if (typeof child.type !== "string") {
             items.push(React.cloneElement(child, { key, hasFilter, statsAmount, hasTabs }));
         } else {

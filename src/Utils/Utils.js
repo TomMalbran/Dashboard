@@ -925,7 +925,7 @@ function getChildren(children) {
 /**
  * Returns the Visible Children
  * @param {(Array|any)} children
- * @returns {Iterator<[number, React.ReactElement]>}
+ * @returns {React.ReactElement[]}
  */
 function getVisibleChildren(children) {
     const result = [];
@@ -935,7 +935,7 @@ function getVisibleChildren(children) {
             result.push(child);
         }
     }
-    return result.entries();
+    return result;
 }
 
 /**
