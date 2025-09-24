@@ -185,7 +185,6 @@ export default {
 
     getUser,
     setUser,
-    unsetUser,
 
     getLanguage,
     getTimezone,
