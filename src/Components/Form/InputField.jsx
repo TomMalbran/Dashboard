@@ -260,6 +260,8 @@ InputField.propTypes = {
     extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     descriptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     showDescription : PropTypes.bool,
+    withIcons       : PropTypes.bool,
+    iconSize        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     width           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     fullWidth       : PropTypes.bool,

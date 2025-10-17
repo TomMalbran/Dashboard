@@ -9,6 +9,7 @@ import InputType             from "../../Core/InputType";
 // Components
 import InputContent          from "../Input/InputContent";
 import InputBase             from "../Input/InputBase";
+import Icon                  from "../Common/Icon";
 import Html                  from "../Common/Html";
 
 
@@ -97,6 +98,11 @@ const Span = Styled.span`
     transition: all 0.2s;
 `;
 
+const Iconography = Styled(Icon)`
+    flex-shrink: 0;
+    margin-right: 8px;
+`;
+
 const Text = Styled(Html)`
     flex-shrink: 0;
     max-width: calc(100% - 20px);
@@ -117,7 +123,7 @@ const Input = Styled(InputBase)`
 function RadioInput(props) {
     const {
         className, isFocused, isDisabled,
-        name, value, options,
+        name, value, options, withIcons, iconSize,
         withCustom, customText,
         onChange, onFocus, onBlur,
     } = props;
@@ -188,6 +194,7 @@ function RadioInput(props) {
                     disabled={isDisabled}
                 />
                 <Span />
+                {withIcons && <Iconography icon={key} size={iconSize} />}
                 <Text>{NLS.get(value)}</Text>
             </Label>)}
             {withCustom && <Label>
@@ -230,6 +237,8 @@ RadioInput.propTypes = {
     onChange   : PropTypes.func.isRequired,
     onFocus    : PropTypes.func.isRequired,
     onBlur     : PropTypes.func.isRequired,
+    withIcons  : PropTypes.bool,
+    iconSize   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     withCustom : PropTypes.bool,
     customText : PropTypes.string,
     customKey  : PropTypes.string,
@@ -243,6 +252,8 @@ RadioInput.defaultProps = {
     className  : "",
     isFocused  : false,
     isDisabled : false,
+    withIcons  : false,
+    iconSize   : 16,
     customText : "",
     customKey  : "",
     withCustom : false,
