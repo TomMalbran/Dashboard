@@ -8,6 +8,7 @@ import NLS                  from "../../Core/NLS";
 // Components
 import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
+import Beta                 from "../Common/Beta";
 
 
 
@@ -63,15 +64,6 @@ const Title = Styled.div`
     gap: 12px;
 `;
 
-const BetaTag = Styled.span`
-    padding: 4px 8px;
-    font-size: 11px;
-    text-transform: uppercase;
-    color: var(--white-color);
-    background-color: var(--beta-color);
-    border-radius: var(--border-radius-big);
-`;
-
 
 
 /**
@@ -114,7 +106,7 @@ function DetailTitle(props) {
 
             <Title>
                 {NLS.get(message)}
-                {isBeta && <BetaTag>Beta</BetaTag>}
+                <Beta isHidden={!isBeta} />
             </Title>
 
             {hasPostAction && <IconLink
