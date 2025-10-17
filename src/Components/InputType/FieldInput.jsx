@@ -384,6 +384,7 @@ function FieldInput(props) {
                                 passedRef={inputRef}
                                 name={`${item.name}-${index}`}
                                 type={item.getType?.(data) || item.type}
+                                label={item.getLabel?.(data) || item.label}
                                 value={value}
                                 options={item.getOptions?.(data) || item.options}
                                 icon={item.getIcon?.(data) || item.icon}

@@ -69,6 +69,7 @@ InputItem.propTypes = {
     columns         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     hide            : PropTypes.func,
     getType         : PropTypes.func,
+    getLabel        : PropTypes.func,
     getOptions      : PropTypes.func,
     getValue        : PropTypes.func,
     getColumns      : PropTypes.func,
