@@ -821,6 +821,14 @@ class DateTime {
 
 
     /**
+     * Returns the day number with 2 digits
+     * @returns {string}
+     */
+    getDayNumber() {
+        return parseTime(this.day);
+    }
+
+    /**
      * Returns the name of the day of the saved date
      * @param {number=} amount
      * @returns {string}
