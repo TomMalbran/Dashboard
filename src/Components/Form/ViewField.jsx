@@ -22,7 +22,7 @@ const FieldLabel = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected })
     ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
 `;
 
-const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ isSmall, withLink, isSelected }))`
+const FieldContent = Styled.div.attrs(({ isSmall, noWrap, withLink, isSelected }) => ({ isSmall, noWrap, withLink, isSelected }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -51,6 +51,7 @@ const FieldContent = Styled.div.attrs(({ isSmall, withLink, isSelected }) => ({ 
             padding: var(--input-padding);
             line-height: 1.5;
         `}
+        ${(props) => props.noWrap && "white-space: nowrap;"}
         ${(props) => props.withLink && "cursor: pointer;"}
         padding-top: calc(var(--input-label) + 2px);
     }
@@ -100,7 +101,7 @@ function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, textColor,
         label, value, copyValue, message, icon,
-        fullWidth, isSmall, isSelected, error, helperText,
+        fullWidth, isSmall, noWrap, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
     } = props;
@@ -136,6 +137,7 @@ function ViewField(props) {
         <FieldContent
             className="inputview-cnt"
             isSmall={isSmall}
+            noWrap={noWrap}
             withLink={!!onClick}
             isSelected={isSelected}
         >
@@ -199,6 +201,7 @@ ViewField.propTypes = {
     helperText  : PropTypes.string,
     fullWidth   : PropTypes.bool,
     isSmall     : PropTypes.bool,
+    noWrap      : PropTypes.bool,
     isSelected  : PropTypes.bool,
     linkIcon    : PropTypes.string,
     linkVariant : PropTypes.string,
@@ -224,6 +227,7 @@ ViewField.defaultProps = {
     textColor  : "",
     fullWidth  : false,
     isSmall    : false,
+    noWrap     : false,
     isSelected : false,
     linkTarget : "_blank",
     isEmail    : false,
