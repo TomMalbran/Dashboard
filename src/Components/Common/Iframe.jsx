@@ -9,27 +9,40 @@ import PropTypes            from "prop-types";
  * @returns {React.ReactElement}
  */
 function Iframe(props) {
-    const { isHidden, className, content } = props;
+    const { isHidden, className, content, sandbox } = props;
 
 
     // The Reference
-    const frameRef = React.useRef(null);
+    const containerRef = React.useRef(null);
 
     // The Current State
     const [ height, setHeight ] = React.useState("0px");
 
 
-    // Updates the Height
-    const onLoad = () => {
-        const height = frameRef.current.contentWindow.document.body.scrollHeight;
-        setHeight(`${height + 24}px`);
-    };
-
-    // Calls the on Load on Mount
+    // Handles the Iframe height
     React.useEffect(() => {
-        onLoad();
-    }, []);
+        const observer = new ResizeObserver(([ entry ]) => {
+            if (containerRef.current && entry.target.tagName.toLowerCase() === "iframe") {
+                handleHeight();
+            }
+        });
 
+        if (containerRef.current) {
+            handleHeight();
+            observer.observe(containerRef.current);
+        }
+        return () => {
+            observer.disconnect();
+        };
+    }, [ containerRef.current ]);
+
+    // Updates the Height
+    const handleHeight = () => {
+        if (containerRef.current) {
+            const height = containerRef.current.contentWindow?.document?.body?.scrollHeight ?? 0;
+            setHeight(`${height + 24}px`);
+        }
+    };
 
 
     // Nothing to Render
@@ -38,13 +51,14 @@ function Iframe(props) {
     }
 
     return <iframe
-        ref={frameRef}
+        ref={containerRef}
         className={className}
-        onLoad={onLoad}
+        onLoad={handleHeight}
         srcDoc={`<base target=&quot;_blank&quot;>${content}`}
         height={height}
         // scrolling="no"
         frameBorder="0"
+        sandbox={sandbox}
     />;
 }
 
@@ -56,6 +70,8 @@ Iframe.propTypes = {
     isHidden  : PropTypes.bool,
     className : PropTypes.string,
     content   : PropTypes.string,
+    sandbox   : PropTypes.string,
+    onClick   : PropTypes.func,
 };
 
 /**
