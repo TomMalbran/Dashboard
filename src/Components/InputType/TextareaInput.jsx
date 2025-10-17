@@ -167,7 +167,7 @@ function TextareaInput(props) {
         setActualRows(rows);
     };
 
-    // Resize the Textarea the first time
+    // Resize the Textarea when required
     React.useEffect(() => {
         handleAutoGrow();
     }, []);
@@ -182,11 +182,14 @@ function TextareaInput(props) {
                 handleAutoGrow();
             }
         });
-        observer.observe(inputRef.current);
+
+        if (inputRef.current) {
+            observer.observe(inputRef.current);
+        }
         return () => {
             observer.disconnect();
         };
-    }, [ inputRef ]);
+    }, [ inputRef.current ]);
 
     // Counts the Characters
     const characters = React.useMemo(() => {

@@ -71,7 +71,9 @@ function NavigationBody(props) {
             }
         });
 
-        observer.observe(navigationRef.current);
+        if (navigationRef.current) {
+            observer.observe(navigationRef.current);
+        }
         return () => {
             observer.disconnect();
         };
