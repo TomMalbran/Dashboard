@@ -5,6 +5,7 @@ import PropTypes            from "prop-types";
 import InputType            from "../../Core/InputType";
 
 // Components
+import ButtonsInput         from "../InputType/ButtonsInput";
 import CheckboxInput        from "../InputType/CheckboxInput";
 import ChooserInput         from "../InputType/ChooserInput";
 import ColorInput           from "../InputType/ColorInput";
@@ -37,6 +38,8 @@ function Input(props) {
     const { type, value, onMedia } = props;
 
     switch (type) {
+    case InputType.BUTTONS:
+        return <ButtonsInput {...props} />;
     case InputType.CHECKBOX:
         return <CheckboxInput {...props} value="1" isChecked={!!value} />;
     case InputType.CHOOSER:
