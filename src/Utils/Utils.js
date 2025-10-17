@@ -338,7 +338,10 @@ function setUpdateTimeout(timerRef, setUpdate, update = 0, seconds = 10) {
  */
 function setTimeout(timerRef, callback, milliseconds) {
     clearTimeout(timerRef);
-    timerRef.current = window.setTimeout(callback, milliseconds);
+    timerRef.current = window.setTimeout(() => {
+        timerRef.current = 0;
+        callback();
+    }, milliseconds);
 }
 
 /**
