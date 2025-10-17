@@ -78,15 +78,25 @@ const Aside = Styled.aside`
     }
 `;
 
-const Inside = Styled.div.attrs(({ isLast }) => ({ isLast }))`
+const Complete = Styled(Icon)`
+    && {
+        color: var(--success-color);
+        border-color: var(--success-color);
+    }
+`;
+
+const Inside = Styled.div.attrs(({ isLast, maxWidth }) => ({ isLast, maxWidth }))`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-grow: 2;
     gap: 24px;
+    width: calc(100% - 48px - 8px);
     padding: 6px 12px 32px 12px;
     transition: 0.3s all;
 
     ${(props) => !props.isLast && "border-bottom: 1px solid var(--border-color-light);"}
+    ${(props) => props.maxWidth && `max-width: ${props.maxWidth}px;`}
 `;
 
 const Header = Styled.header.attrs(({ isDisabled }) => ({ isDisabled }))`
@@ -132,7 +142,7 @@ const Error = Styled.p`
     color: var(--error-text-color);
 `;
 
-const Content = Styled.section.attrs(({ isSelected, withGap, maxWidth }) => ({ isSelected, withGap, maxWidth }))`
+const Content = Styled.section.attrs(({ isSelected, withGap }) => ({ isSelected, withGap }))`
     grid-area: content;
     display: ${(props) => props.isSelected ? (props.withGap ? "flex" : "block") : "none"};
 
@@ -140,7 +150,6 @@ const Content = Styled.section.attrs(({ isSelected, withGap, maxWidth }) => ({ i
         gap: var(--main-gap);
         flex-direction: column;
     `}
-    ${(props) => props.maxWidth && `max-width: ${props.maxWidth}px`}
 `;
 
 
@@ -154,13 +163,17 @@ function AccordionItem(props) {
     const {
         className, message, description, error, errorCount,
         number, icon, withGap, maxWidth,
-        isFirst, isLast, isSelected, isDisabled, onClick, children,
+        isFirst, isLast, isComplete, isSelected, isDisabled, onClick, children,
     } = props;
 
 
-    // Do the Render
+    // Variables
+    const showIcon     = Boolean(!isComplete && icon);
+    const showNumber   = Boolean(!isComplete && !icon);
     const errorMessage = error || (Number(errorCount) > 0 ? NLS.pluralize("GENERAL_ERROR_SECTION", errorCount) : "");
 
+
+    // Do the Render
     return <Container
         className={className}
         isFirst={isFirst}
@@ -168,9 +181,11 @@ function AccordionItem(props) {
         isDisabled={isDisabled}
     >
         <Aside>
-            {icon ? <Icon icon={icon} /> : <span>{number}</span>}
+            {isComplete && <Complete icon="check" />}
+            {showIcon && <Icon icon={icon} />}
+            {showNumber && <span>{number}</span>}
         </Aside>
-        <Inside isLast={isLast}>
+        <Inside isLast={isLast} maxWidth={maxWidth}>
             <Header isDisabled={isDisabled} onClick={onClick}>
                 <Div>
                     <Title>{NLS.get(message)}</Title>
@@ -182,7 +197,6 @@ function AccordionItem(props) {
             <Content
                 isSelected={isSelected}
                 withGap={withGap}
-                maxWidth={maxWidth}
             >
                 {children}
             </Content>
@@ -207,6 +221,7 @@ AccordionItem.propTypes = {
     maxWidth    : PropTypes.number,
     isFirst     : PropTypes.bool,
     isLast      : PropTypes.bool,
+    isComplete  : PropTypes.bool,
     isSelected  : PropTypes.bool,
     isDisabled  : PropTypes.bool,
     onClick     : PropTypes.func,
@@ -225,6 +240,7 @@ AccordionItem.defaultProps = {
     maxWidth   : 0,
     isFirst    : false,
     isLast     : false,
+    isComplete : false,
     isSelected : false,
     isDisabled : false,
 };
