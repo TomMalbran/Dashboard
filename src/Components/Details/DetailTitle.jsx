@@ -94,9 +94,8 @@ function DetailTitle(props) {
         className="details-title"
         hasInternalTabs={hasInternalTabs}
         isCollapsed={isCollapsed}
-        onClick={onClick}
     >
-        <Inside isCollapsible={isCollapsible}>
+        <Inside onClick={onClick} isCollapsible={isCollapsible}>
             {hasPreCollapse && <IconLink
                 variant="black"
                 icon={isCollapsed ? "closed" : "expand"}
