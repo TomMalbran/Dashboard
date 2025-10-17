@@ -422,7 +422,7 @@ function Menu(props) {
     >
         <Container
             ref={contentRef}
-            className={`${className} light-scrollbars`}
+            className={className}
             withPos={hasStyles}
             isLeft={!hasStyles && variant === Variant.LEFT}
             isRight={!hasStyles && variant === Variant.RIGHT}

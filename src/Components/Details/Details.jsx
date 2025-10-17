@@ -126,7 +126,7 @@ function Details(props) {
         return <React.Fragment />;
     }
     return <Container
-        className={`details light-scrollbars ${className}`}
+        className={`details ${className}`}
         isInside={isInside}
         isWide={isWide}
         isLarge={isLarge}
