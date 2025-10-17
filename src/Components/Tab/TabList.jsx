@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import { Brightness }       from "../../Core/Variants";
 import Action               from "../../Core/Action";
+import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
@@ -114,15 +115,17 @@ function TabList(props) {
 
 
     // Clone the Children
-    const items = Utils.cloneChildren(children, (child, index) => ({
-        index, onClick, onAction, selected, inDialog,
-    }));
+    const messages = [];
+    const items    = Utils.cloneChildren(children, (child, index) => {
+        messages.push(NLS.get(child.props.message || ""));
+        return { index, onClick, onAction, selected, inDialog };
+    });
 
 
     // Listens for the Selection
     React.useEffect(() => {
         handleSelection(selected);
-    }, [ contentRef.current, selected, items.length ]);
+    }, [ contentRef.current, selected, JSON.stringify(messages) ]);
 
     // Handles the Selection
     const handleSelection = (selected) => {
@@ -151,13 +154,13 @@ function TabList(props) {
         return <React.Fragment />;
     }
     return <Container
-        ref={contentRef}
         className={`tabs ${className}`}
         inDialog={inDialog}
         inDetails={inDetails}
         inHeader={inHeader}
     >
         <Content
+            ref={contentRef}
             className="tabs-content no-scrollbars"
             fullWidth={fullWidth}
             size={size}
