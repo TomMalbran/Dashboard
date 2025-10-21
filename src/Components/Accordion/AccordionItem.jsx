@@ -57,7 +57,6 @@ const Aside = Styled.aside`
 
     .icon {
         font-size: 14px;
-        margin-right: 8px;
     }
     span {
         display: flex;
