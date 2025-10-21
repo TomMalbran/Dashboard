@@ -72,17 +72,13 @@ const Pages = Styled.p`
 `;
 
 const Amount = Styled.div`
+    position: relative;
     display: flex;
     align-items: center;
     margin-right: 16px;
     border: 1px solid var(--border-color-medium);
     border-radius: var(--border-radius);
 
-    .icon {
-        font-size: 18px;
-        margin-left: -2px;
-        margin-bottom: -4px;
-    }
     :hover {
         border-color: var(--input-border-hover);
     }
@@ -95,7 +91,7 @@ const Amount = Styled.div`
 const Select = Styled.select`
     appearance: none;
     display: block;
-    padding: 4px 0px 4px 8px;
+    padding: 4px 18px 4px 8px;
     font-size: 11px;
     font-weight: normal;
     line-height: 1;
@@ -103,6 +99,14 @@ const Select = Styled.select`
     border: none;
     background-color: transparent;
     outline: none;
+`;
+
+const SelectIcon = Styled(Icon)`
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
 `;
 
 const TableIcon = Styled(IconLink).attrs(({ isDisabled }) => ({ isDisabled }))`
@@ -169,12 +173,22 @@ function TablePaging(props) {
             <PagingCell className="table-paging" isEditable={isEditable}>
                 <Rows>{NLS.get("GENERAL_ROWS_PER_PAGE")}</Rows>
                 <Amount>
-                    <Select value={sort.amount} onChange={handleAmount}>
-                        {rowOptions.map((option) => <option key={option.key} value={option.key}>
+                    <Select
+                        name="rowsPerPage"
+                        value={sort.amount}
+                        onChange={handleAmount}
+                    >
+                        {rowOptions.map((option) => <option
+                            key={option.key}
+                            value={option.key}
+                        >
                             {option.value}
                         </option>)}
                     </Select>
-                    <Icon icon="expand" />
+                    <SelectIcon
+                        icon="expand"
+                        size="18"
+                    />
                 </Amount>
                 <Pages>{NLS.format("GENERAL_PAGE_OF", String(from), String(to), total)}</Pages>
 
