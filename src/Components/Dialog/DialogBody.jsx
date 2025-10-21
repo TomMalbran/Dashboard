@@ -86,7 +86,7 @@ function DialogBody(props) {
     // Do the Render
     return <Container
         ref={elementRef}
-        className={`${className} vissible-scrollbars`}
+        className={className}
         isLoading={isLoading}
         isCentered={isCentered}
         isNarrow={isNarrow}

@@ -42,7 +42,6 @@ function InputOptions(props) {
 
     // Do the Render
     return <Container
-        className="vissible-scrollbars"
         ref={passedRef}
         top={top}
         left={left}

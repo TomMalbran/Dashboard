@@ -13,30 +13,27 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const TFoot = Styled.tfoot.attrs(({ isEditable }) => ({ isEditable }))`
+const TFoot = Styled.tfoot`
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+
     border: var(--table-border-outer);
     background: var(--table-background);
     border-top-right-radius: var(--table-radius-inner);
     border-top-left-radius: var(--table-radius-inner);
     border-bottom-right-radius: var(--table-radius-outer);
     border-bottom-left-radius: var(--table-radius-outer);
-    padding-right: var(--table-header-right);
-
-    ${(props) => props.isEditable && `
-        position: sticky;
-        bottom: 0;
-        z-index: 2;
-    `}
 `;
 
 const TRow = Styled.tr`
-    display: flex;
-    height: auto;
-    min-height: 32px;
-
     position: sticky;
     right: 0;
     z-index: 1000;
+
+    display: flex;
+    height: auto;
+    min-height: 32px;
 `;
 
 const GrowCell = Styled.td`
@@ -44,19 +41,17 @@ const GrowCell = Styled.td`
     flex: 1 0 auto;
 `;
 
-const PagingCell = Styled.td.attrs(({ isEditable }) => ({ isEditable }))`
+const PagingCell = Styled.td`
+    position: sticky;
+    right: 0;
+    z-index: 2;
+
     flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 0 4px;
     font-size: 12px;
-
-    ${(props) => props.isEditable && `
-        position: sticky;
-        right: 0;
-        z-index: 2;
-    `}
 `;
 
 const Rows = Styled.p`
@@ -124,8 +119,10 @@ const TableIcon = Styled(IconLink).attrs(({ isDisabled }) => ({ isDisabled }))`
  * @returns {React.ReactElement}
  */
 function TablePaging(props) {
-    const { isEditable, sort, total, fetch } = props;
+    const { sort, total, fetch } = props;
 
+
+    // Variables
     const rowOptions   = [ 10, 25, 50, 100, 250, 500 ].map((value) => ({ key : value, value }));
     const from         = total === 0 ? 0 : sort.page * sort.amount + 1;
     const to           = Math.min(total, (sort.page + 1) * sort.amount);
@@ -167,10 +164,10 @@ function TablePaging(props) {
 
 
     // Do the Render
-    return <TFoot isEditable={isEditable}>
+    return <TFoot>
         <TRow>
             <GrowCell />
-            <PagingCell className="table-paging" isEditable={isEditable}>
+            <PagingCell className="table-paging">
                 <Rows>{NLS.get("GENERAL_ROWS_PER_PAGE")}</Rows>
                 <Amount>
                     <Select
@@ -230,10 +227,9 @@ function TablePaging(props) {
  * @type {object} propTypes
  */
 TablePaging.propTypes = {
-    fetch      : PropTypes.func,
-    isEditable : PropTypes.bool,
-    sort       : PropTypes.object,
-    total      : PropTypes.number.isRequired,
+    fetch : PropTypes.func,
+    sort  : PropTypes.object,
+    total : PropTypes.number.isRequired,
 };
 
 export default TablePaging;

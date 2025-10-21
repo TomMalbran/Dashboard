@@ -9,59 +9,27 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const TBody = Styled.tbody.attrs(({ hasFooter, notFixed, hasOverflow, isEditable }) => ({ hasFooter, notFixed, hasOverflow, isEditable }))`
+const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notFixed }))`
     box-sizing: border-box;
     width: 100%;
     border-left: var(--table-border-outer);
     border-right: var(--table-border-outer);
 
+    min-height: calc(
+        var(--table-height)
+        - var(--table-header-height)
+        - var(--table-paging-height)
+        - var(--table-stats-height)
+        - var(--table-tabs-height)
+        - var(--table-alert-height)
+        - var(--table-filter-height)
+        - var(--table-scrollbar-height)
+    );
+
     ${(props) => props.notFixed && `
         tr:last-child td {
             border-bottom: none;
         }
-    `}
-
-    ${(props) => props.hasOverflow && `
-        overflow: auto;
-        height: calc(
-            var(--table-height)
-            - var(--table-header-height)
-            - var(--table-paging-height)
-            - var(--table-stats-height)
-            - var(--table-tabs-height)
-            - var(--table-alert-height)
-            - var(--table-filter-height)
-        );
-
-        &&::-webkit-scrollbar {
-            box-sizing: border-box;
-            width: 12px;
-            height: 12px;
-            border-left: var(--table-border-outer);
-        }
-        &&::-webkit-scrollbar-thumb {
-            border-radius: 999px;
-            border: 2px solid transparent;
-            border-left-width: 4px;
-            box-shadow: inset 0 0 0 4px var(--border-color-light);
-            transition: box-shadow 0.2s;
-        }
-        &&::-webkit-scrollbar-thumb:hover {
-            box-shadow: inset 0 0 0 4px var(--border-color-medium);
-        }
-    `}
-
-    ${(props) => props.isEditable && `
-        min-height: calc(
-            var(--table-height)
-            - var(--table-header-height)
-            - var(--table-paging-height)
-            - var(--table-stats-height)
-            - var(--table-tabs-height)
-            - var(--table-alert-height)
-            - var(--table-filter-height)
-            - 12px
-        );
     `}
 
     ${(props) => !props.hasFooter && `
@@ -104,8 +72,6 @@ function TableBody(props) {
     // Do the Render
     return <TBody
         notFixed={notFixed}
-        hasOverflow={!notFixed && !isEditable}
-        isEditable={isEditable}
         hasFooter={hasPaging || hasFooter}
     >
         {items}

@@ -11,20 +11,17 @@ import TableRowCnt          from "../Table/TableRowCnt";
 
 
 // Styles
-const TFoot = Styled.tfoot.attrs(({ isEditable }) => ({ isEditable }))`
+const TFoot = Styled.tfoot`
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+
     border: var(--table-border-outer);
     background: var(--table-background);
     border-top-right-radius: var(--table-radius-inner);
     border-top-left-radius: var(--table-radius-inner);
     border-bottom-right-radius: var(--table-radius-outer);
     border-bottom-left-radius: var(--table-radius-outer);
-    padding-right: var(--table-header-right);
-
-    ${(props) => props.isEditable && `
-        position: sticky;
-        bottom: 0;
-        z-index: 2;
-    `}
 `;
 
 
@@ -35,7 +32,7 @@ const TFoot = Styled.tfoot.attrs(({ isEditable }) => ({ isEditable }))`
  * @returns {React.ReactElement}
  */
 function TableFoot(props) {
-    const { hasActions, isEditable, columns, children } = props;
+    const { hasActions, columns, children } = props;
 
 
     // Clone the Children
@@ -45,7 +42,7 @@ function TableFoot(props) {
 
 
     // Do the Render
-    return <TFoot isEditable={isEditable}>
+    return <TFoot>
         <TableRowCnt hasActions={hasActions}>
             {items}
             {hasActions && <th />}
@@ -59,7 +56,6 @@ function TableFoot(props) {
  */
 TableFoot.propTypes = {
     hasActions : PropTypes.bool,
-    isEditable : PropTypes.bool,
     columns    : PropTypes.array,
     children   : PropTypes.any,
 };
@@ -70,7 +66,6 @@ TableFoot.propTypes = {
  */
 TableFoot.defaultProps = {
     hasActions : false,
-    isEditable : false,
 };
 
 export default TableFoot;

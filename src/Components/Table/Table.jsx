@@ -23,7 +23,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll, hasChecks, hasActions, isEditable }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasScroll, hasChecks, hasActions, isEditable }))`
+const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, isEditable }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, isEditable }))`
     ${(props) => props.inDialog ? `
         --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
@@ -31,29 +31,27 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     `}
 
     --table-header-height: 28px;
-    --table-header-right: ${(props) => props.hasScroll ? "12px" : "0px"};
     --table-filter-height: ${(props) => props.hasFilter ? "var(--filter-height)" : "0px"};
     --table-stats-height: ${(props) => props.statsAmount > 0 ? `calc((var(--stats-height) + var(--main-gap)) * ${props.statsAmount})` : "0px"};
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "32px" : "0px"};
+    --table-scrollbar-height: ${(props) => props.isEditable ? "12px" : "0px"};
 
     --table-checks-width: ${(props) => props.hasChecks ? "28px" : "0px"};
     --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "40px" : "0px"};
 
     position: relative;
+    overflow: auto;
+    height: calc(
+        var(--table-height)
+        - var(--table-stats-height)
+        - var(--table-tabs-height)
+        - var(--table-alert-height)
+        - var(--table-filter-height)
+    );
 
     ${(props) => props.isEditable ? `
-        --table-header-right: 0px;
-
-        overflow: auto;
-        height: calc(
-            var(--table-height)
-            - var(--table-stats-height)
-            - var(--table-tabs-height)
-            - var(--table-alert-height)
-            - var(--table-filter-height)
-        );
         td:last-child {
             justify-content: flex-end;
         }
@@ -312,13 +310,7 @@ function Table(props) {
     // Check if the Table should scroll
     React.useEffect(() => {
         if (tableRef.current && items.length) {
-            let container;
-            if (isEditable) {
-                container = tableRef.current;
-            } else {
-                container = tableRef.current.querySelector("tbody");
-            }
-            setHasScroll(container.scrollHeight > container.clientHeight);
+            setHasScroll(tableRef.current.scrollHeight > tableRef.current.clientHeight);
         }
     }, [ isLoading, elemIDs.length ]);
 
@@ -344,7 +336,6 @@ function Table(props) {
             hasTabs={hasTabs}
             hasAlert={hasAlert}
             hasPaging={hasPaging}
-            hasScroll={hasScroll}
             hasChecks={hasChecks}
             hasActions={hasActions}
             isEditable={isEditable}

@@ -15,6 +15,10 @@ import IconLink             from "../Link/IconLink";
 
 // Styles
 const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
     box-sizing: border-box;
     height: var(--table-header-height);
     border: var(--table-border-outer);
@@ -23,13 +27,8 @@ const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
     border-top-left-radius: var(--table-radius-outer);
     border-bottom-right-radius: var(--table-radius-inner);
     border-bottom-left-radius: var(--table-radius-inner);
-    padding-right: var(--table-header-right);
 
-    ${(props) => props.isEditable ? `
-        position: sticky;
-        top: 0;
-        z-index: 2;
-    ` : `
+    ${(props) => !props.isEditable && `
         @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
             display: none;
         }

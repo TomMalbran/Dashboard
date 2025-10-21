@@ -15,16 +15,12 @@ import Button               from "../Form/Button";
 
 
 // Styles
-const Container = Styled.nav.attrs(({ withSpacing, hasScroll }) => ({ withSpacing, hasScroll }))`
+const Container = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: ${(props) => props.withSpacing && "0 12px 16px 6px"};
+    padding: ${(props) => props.withSpacing && "0 6px 16px 6px"};
     overflow: auto;
-
-    ${(props) => props.hasScroll && `
-        padding-right: 0;
-    `}
 `;
 
 const None = Styled(NoneAvailable)`
@@ -55,29 +51,6 @@ function NavigationBody(props) {
 
     // The References
     const navigationRef = React.useRef(null);
-
-    // The Current State
-    const [ hasScroll, setHasScroll ] = React.useState(false);
-
-
-    // Check if the Container should scroll
-    React.useEffect(() => {
-        const container = navigationRef.current;
-        setHasScroll(container.scrollHeight > container.clientHeight);
-
-        const observer = new ResizeObserver(([ entry ]) => {
-            if (container && entry.target.classList.contains("navigation-body")) {
-                setHasScroll(container.scrollHeight > container.clientHeight);
-            }
-        });
-
-        if (navigationRef.current) {
-            observer.observe(navigationRef.current);
-        }
-        return () => {
-            observer.disconnect();
-        };
-    }, [ navigationRef.current ]);
 
 
     // Handles the Action
@@ -117,7 +90,6 @@ function NavigationBody(props) {
         ref={navigationRef}
         className={`navigation-body ${className}`}
         withSpacing={withSpacing}
-        hasScroll={hasScroll}
     >
         {showLoader && <CircularLoader />}
         {showNone   && <div>
