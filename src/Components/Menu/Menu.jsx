@@ -81,7 +81,8 @@ function Menu(props) {
         containerRef, className, open, variant, direction, iconHeight,
         top, left, right, bottom, gap, width, maxHeight, targetRef,
         useBottom, onAction, onClose, onMouseEnter, onMouseLeave,
-        withSearch, emptyText, filterText, keyCode, isSubmenu, children,
+        withSearch, emptyText, filterText, keyCode,
+        isSubmenu, skipValidation, children,
     } = props;
 
 
@@ -358,24 +359,26 @@ function Menu(props) {
             }
 
             // Adjust using the Window size
-            if (top && top < 0) {
-                top = 0;
-            } else if (top && boundHeight && top + boundHeight > winHeight) {
-                top -= (top + boundHeight) - winHeight;
-            }
+            if (!skipValidation) {
+                if (top && top < 0) {
+                    top = 0;
+                } else if (top && boundHeight && top + boundHeight > winHeight) {
+                    top -= (top + boundHeight) - winHeight;
+                }
 
-            if (bottom && bottom < 0) {
-                bottom = 0;
-            }
+                if (bottom && bottom < 0) {
+                    bottom = 0;
+                }
 
-            if (left && left < 0) {
-                left = 10;
-            } else if (left && boundWidth && left + boundWidth > winWidth) {
-                left -= (left + boundWidth) - winWidth;
-            }
+                if (left && left < 0) {
+                    left = 10;
+                } else if (left && boundWidth && left + boundWidth > winWidth) {
+                    left -= (left + boundWidth) - winWidth;
+                }
 
-            if (right && boundWidth && right + boundWidth > winWidth) {
-                right -= (right + boundWidth) - winWidth;
+                if (right && boundWidth && right + boundWidth > winWidth) {
+                    right -= (right + boundWidth) - winWidth;
+                }
             }
 
             // Set the Styles
@@ -398,7 +401,7 @@ function Menu(props) {
             }
         }
         return [ hasStyles, style, winWidth, forTop ];
-    }, [ open, top, left, right, bottom, boundWidth, boundHeight, iconHeight, gap, width, maxHeight ]);
+    }, [ open, top, left, right, bottom, boundWidth, boundHeight, iconHeight, gap, width, maxHeight, skipValidation ]);
 
 
     // Variables
@@ -444,7 +447,7 @@ function Menu(props) {
                 />
             </Search>}
 
-            <Content className="menu-content">
+            <Content className="menu-content vissible-scrollbars">
                 {items}
                 {showEmpty && <Empty>
                     {NLS.get(emptyText)}
@@ -473,31 +476,32 @@ function Menu(props) {
  * @type {object} propTypes
  */
 Menu.propTypes = {
-    open         : PropTypes.bool,
-    containerRef : PropTypes.any,
-    targetRef    : PropTypes.any,
-    variant      : PropTypes.string,
-    className    : PropTypes.string,
-    direction    : PropTypes.string,
-    iconHeight   : PropTypes.number,
-    top          : PropTypes.number,
-    bottom       : PropTypes.number,
-    left         : PropTypes.number,
-    right        : PropTypes.number,
-    gap          : PropTypes.number,
-    width        : PropTypes.number,
-    maxHeight    : PropTypes.number,
-    useBottom    : PropTypes.bool,
-    withSearch   : PropTypes.bool,
-    emptyText    : PropTypes.string,
-    filterText   : PropTypes.string,
-    keyCode      : PropTypes.number,
-    onAction     : PropTypes.func,
-    onClose      : PropTypes.func.isRequired,
-    onMouseEnter : PropTypes.func,
-    onMouseLeave : PropTypes.func,
-    isSubmenu    : PropTypes.bool,
-    children     : PropTypes.any,
+    open           : PropTypes.bool,
+    containerRef   : PropTypes.any,
+    targetRef      : PropTypes.any,
+    variant        : PropTypes.string,
+    className      : PropTypes.string,
+    direction      : PropTypes.string,
+    iconHeight     : PropTypes.number,
+    top            : PropTypes.number,
+    bottom         : PropTypes.number,
+    left           : PropTypes.number,
+    right          : PropTypes.number,
+    gap            : PropTypes.number,
+    width          : PropTypes.number,
+    maxHeight      : PropTypes.number,
+    useBottom      : PropTypes.bool,
+    withSearch     : PropTypes.bool,
+    emptyText      : PropTypes.string,
+    filterText     : PropTypes.string,
+    keyCode        : PropTypes.number,
+    onAction       : PropTypes.func,
+    onClose        : PropTypes.func.isRequired,
+    onMouseEnter   : PropTypes.func,
+    onMouseLeave   : PropTypes.func,
+    isSubmenu      : PropTypes.bool,
+    skipValidation : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**
@@ -505,16 +509,17 @@ Menu.propTypes = {
  * @type {object} defaultProps
  */
 Menu.defaultProps = {
-    open       : false,
-    variant    : Variant.RIGHT,
-    className  : "",
-    direction  : "",
-    iconHeight : 0,
-    gap        : 0,
-    width      : 0,
-    maxHeight  : 0,
-    withSearch : false,
-    isSubmenu  : false,
+    open           : false,
+    variant        : Variant.RIGHT,
+    className      : "",
+    direction      : "",
+    iconHeight     : 0,
+    gap            : 0,
+    width          : 0,
+    maxHeight      : 0,
+    withSearch     : false,
+    isSubmenu      : false,
+    skipValidation : false,
 };
 
 export default Menu;
