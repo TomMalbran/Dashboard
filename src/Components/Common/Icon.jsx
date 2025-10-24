@@ -13,7 +13,9 @@ const Span = Styled.span.attrs(({ size, color, cursor }) => ({ size, color, curs
         display: inline-block;
         height: ${props.size}px;
         font-size: ${props.size}px;
+        line-height: 1;
     `}
+
     ${(props) => props.cursor && `cursor: ${props.cursor};`}
     ${(props) => props.color && `color: ${props.color};`}
 
