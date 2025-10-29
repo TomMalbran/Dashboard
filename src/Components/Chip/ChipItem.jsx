@@ -30,7 +30,7 @@ const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) 
         border: 1px solid var(--border-color-light);
     `}
 
-    ${(props) => (props.hasClick && !!props.isDisabled) && `
+    ${(props) => (props.hasClick && !props.isDisabled) && `
         cursor: pointer;
     `}
 
