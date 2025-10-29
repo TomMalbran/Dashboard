@@ -9,7 +9,7 @@ import PropTypes            from "prop-types";
  * @returns {React.ReactElement}
  */
 function Iframe(props) {
-    const { isHidden, className, content, sandbox } = props;
+    const { isHidden, className, content, sandbox, spacing } = props;
 
 
     // The Reference
@@ -40,7 +40,7 @@ function Iframe(props) {
     const handleHeight = () => {
         if (containerRef.current) {
             const height = containerRef.current.contentWindow?.document?.body?.scrollHeight ?? 0;
-            setHeight(`${height + 24}px`);
+            setHeight(`${height + spacing}px`);
         }
     };
 
@@ -71,7 +71,7 @@ Iframe.propTypes = {
     className : PropTypes.string,
     content   : PropTypes.string,
     sandbox   : PropTypes.string,
-    onClick   : PropTypes.func,
+    spacing   : PropTypes.number,
 };
 
 /**
@@ -82,6 +82,7 @@ Iframe.defaultProps = {
     isHidden  : false,
     className : "",
     content   : "",
+    spacing   : 0,
 };
 
 export default Iframe;
