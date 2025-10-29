@@ -48,7 +48,7 @@ const Input = Styled.input`
 function FileInput(props) {
     const {
         inputRef, className, icon, postIcon, isFocused, isDisabled,
-        name, value, placeholder, onlyImages, accept, maxSize,
+        name, value, placeholder, onlyImages, accept, maxSize, withBorder,
         onChange, onClear, onError, onFocus, onBlur,
     } = props;
 
@@ -78,7 +78,7 @@ function FileInput(props) {
         isDisabled={isDisabled}
         onClear={onClear}
         onError={onError}
-        withBorder
+        withBorder={withBorder}
         withPadding
         withLabel
         withClick
@@ -111,6 +111,7 @@ FileInput.propTypes = {
     postIcon    : PropTypes.string,
     isFocused   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
+    withBorder  : PropTypes.bool,
     name        : PropTypes.string.isRequired,
     value       : PropTypes.any,
     placeholder : PropTypes.string,
@@ -132,6 +133,7 @@ FileInput.defaultProps = {
     className   : "",
     isFocused   : false,
     isDisabled  : false,
+    withBorder  : true,
     placeholder : "",
     onlyImages  : false,
     accept      : "",
