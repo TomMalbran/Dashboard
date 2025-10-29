@@ -3,7 +3,6 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Components
-import PageHeader           from "./PageHeader";
 import Alert                from "../Form/Alert";
 
 
@@ -20,6 +19,10 @@ const Container = Styled.section.attrs(({ hasTabs, withBorder }) => ({ hasTabs, 
         border: var(--border-width) solid var(--border-color-light);
         border-radius: var(--border-radius);
     `}
+`;
+
+const AlertText = Styled(Alert)`
+    margin-bottom: 12px;
 `;
 
 
@@ -39,9 +42,7 @@ function PageContainer(props) {
         hasTabs={hasTabs}
         withBorder={withBorder}
     >
-        {!!error && <PageHeader>
-            <Alert variant="error" message={error} />
-        </PageHeader>}
+        <AlertText variant="error" message={error} />
 
         {children}
     </Container>;
