@@ -14,7 +14,7 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, centered }) => ({ inDialog, inDetails, inHeader, centered }))`
+const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, centered, topSpace, bottomSpace }) => ({ inDialog, inDetails, inHeader, centered, topSpace, bottomSpace }))`
     position: relative;
     box-sizing: border-box;
     flex-shrink: 0;
@@ -61,6 +61,9 @@ const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, centere
     ${(props) => props.centered && `
         justify-content: center;
     `}
+
+    ${(props) => props.topSpace && `margin-top: ${props.topSpace}px;`}
+    ${(props) => props.bottomSpace && `margin-bottom: ${props.bottomSpace}px;`}
 `;
 
 const Content = Styled.div.attrs(({ fullWidth, size, lineWidth, lineLeft }) => ({ fullWidth, size, lineWidth, lineLeft }))`
@@ -107,7 +110,8 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, size, selected,
-        onClick, onAction, inDialog, inDetails, inHeader, fullWidth, centered,
+        onClick, onAction, inDialog, inDetails, inHeader,
+        fullWidth, centered, topSpace, bottomSpace,
         canAdd, addVariant, children,
     } = props;
 
@@ -163,6 +167,8 @@ function TabList(props) {
         inDetails={inDetails}
         inHeader={inHeader}
         centered={centered}
+        topSpace={topSpace}
+        bottomSpace={bottomSpace}
     >
         <Content
             ref={contentRef}
@@ -187,20 +193,22 @@ function TabList(props) {
  * @type {object} propTypes
  */
 TabList.propTypes = {
-    isHidden   : PropTypes.bool,
-    className  : PropTypes.string,
-    selected   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    onClick    : PropTypes.func,
-    onAction   : PropTypes.func,
-    inDialog   : PropTypes.bool,
-    inDetails  : PropTypes.bool,
-    inHeader   : PropTypes.bool,
-    fullWidth  : PropTypes.bool,
-    centered   : PropTypes.bool,
-    canAdd     : PropTypes.bool,
-    addVariant : PropTypes.string,
-    size       : PropTypes.number,
-    children   : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    selected    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    onClick     : PropTypes.func,
+    onAction    : PropTypes.func,
+    inDialog    : PropTypes.bool,
+    inDetails   : PropTypes.bool,
+    inHeader    : PropTypes.bool,
+    fullWidth   : PropTypes.bool,
+    centered    : PropTypes.bool,
+    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    bottomSpace : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    canAdd      : PropTypes.bool,
+    addVariant  : PropTypes.string,
+    size        : PropTypes.number,
+    children    : PropTypes.any,
 };
 
 /**
