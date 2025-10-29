@@ -11,17 +11,23 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Div = Styled.div.attrs(({ centered }) => ({ centered }))`
+const Container = Styled.div.attrs(({ centered, topSpace, bottomSpace }) => ({ centered, topSpace, bottomSpace }))`
     color: var(--black-color);
     font-weight: 400;
+
     ${(props) => props.centered ? "text-align: center;" : ""}
+    ${(props) => props.topSpace && `margin-top: ${props.topSpace}px;`}
+    ${(props) => props.bottomSpace && `margin-bottom: ${props.bottomSpace}px;`}
 `;
 
-const Content = Styled(Html).attrs(({ centered, noSpace }) => ({ centered, noSpace }))`
+const Content = Styled(Html).attrs(({ centered, noSpace, topSpace, bottomSpace }) => ({ centered, noSpace, topSpace, bottomSpace }))`
     color: var(--black-color);
     font-weight: 400;
+
     ${(props) => props.centered && "text-align: center;"}
     ${(props) => props.noSpace && "margin: 0;"}
+    ${(props) => props.topSpace && `margin-top: ${props.topSpace}px;`}
+    ${(props) => props.bottomSpace && `margin-bottom: ${props.bottomSpace}px;`}
 `;
 
 
@@ -33,23 +39,28 @@ const Content = Styled(Html).attrs(({ centered, noSpace }) => ({ centered, noSpa
  */
 function DialogMessage(props) {
     const {
-        isHidden, className, variant, centered, noSpace,
+        isHidden, className, variant, centered,
+        noSpace, topSpace, bottomSpace,
         html, message, children,
     } = props;
 
     const content = message ? NLS.get(message) : html;
 
+
+    // Do the Render
     if (isHidden || (!content && !children)) {
         return <React.Fragment />;
     }
 
     if (children) {
-        return <Div
+        return <Container
             className={className}
             centered={centered}
+            topSpace={topSpace}
+            bottomSpace={bottomSpace}
         >
             {children}
-        </Div>;
+        </Container>;
     }
 
     return <Content
@@ -57,6 +68,8 @@ function DialogMessage(props) {
         className={className}
         centered={centered}
         noSpace={noSpace}
+        topSpace={topSpace}
+        bottomSpace={bottomSpace}
     >
         {content}
     </Content>;
@@ -67,14 +80,16 @@ function DialogMessage(props) {
  * @type {object} propTypes
  */
 DialogMessage.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    variant   : PropTypes.string,
-    centered  : PropTypes.bool,
-    noSpace   : PropTypes.bool,
-    message   : PropTypes.string,
-    html      : PropTypes.string,
-    children  : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    variant     : PropTypes.string,
+    centered    : PropTypes.bool,
+    noSpace     : PropTypes.bool,
+    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    bottomSpace : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    message     : PropTypes.string,
+    html        : PropTypes.string,
+    children    : PropTypes.any,
 };
 
 /**
