@@ -1042,14 +1042,12 @@ function getSelectItems(itemIDs, options, idsPerItem) {
  * @returns {object[]}
  */
 function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
-    const itemList = JSON.stringify(itemIDs);
-
     return React.useMemo(() => {
         if (!itemIDs.length || (itemIDs.length === 1 && Number(itemIDs[0]) === noneValue)) {
             return options;
         }
         return getSelectItems(itemIDs, options, idsPerItem);
-    }, [ loading, itemList ]);
+    }, [ loading, JSON.stringify(itemIDs), JSON.stringify(options) ]);
 }
 
 /**
