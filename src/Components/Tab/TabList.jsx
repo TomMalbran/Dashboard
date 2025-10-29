@@ -14,7 +14,7 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader }) => ({ inDialog, inDetails, inHeader }))`
+const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader, centered }) => ({ inDialog, inDetails, inHeader, centered }))`
     position: relative;
     box-sizing: border-box;
     flex-shrink: 0;
@@ -56,6 +56,10 @@ const Container = Styled.section.attrs(({ inDialog, inDetails, inHeader }) => ({
     ${(props) => props.inHeader && `
         width: auto;
         padding: 0 16px;
+    `}
+
+    ${(props) => props.centered && `
+        justify-content: center;
     `}
 `;
 
@@ -103,7 +107,7 @@ const TabLink = Styled(IconLink)`
 function TabList(props) {
     const {
         isHidden, className, size, selected,
-        onClick, onAction, inDialog, inDetails, inHeader, fullWidth,
+        onClick, onAction, inDialog, inDetails, inHeader, fullWidth, centered,
         canAdd, addVariant, children,
     } = props;
 
@@ -158,6 +162,7 @@ function TabList(props) {
         inDialog={inDialog}
         inDetails={inDetails}
         inHeader={inHeader}
+        centered={centered}
     >
         <Content
             ref={contentRef}
@@ -191,6 +196,7 @@ TabList.propTypes = {
     inDetails  : PropTypes.bool,
     inHeader   : PropTypes.bool,
     fullWidth  : PropTypes.bool,
+    centered   : PropTypes.bool,
     canAdd     : PropTypes.bool,
     addVariant : PropTypes.string,
     size       : PropTypes.number,
@@ -209,6 +215,7 @@ TabList.defaultProps = {
     inDetails  : false,
     inHeader   : false,
     fullWidth  : false,
+    centered   : false,
     canAdd     : false,
     addVariant : Brightness.LIGHT,
 };
