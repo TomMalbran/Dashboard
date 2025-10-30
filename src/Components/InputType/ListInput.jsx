@@ -19,14 +19,19 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.div`;
+const Container = Styled.div.attrs(({ withLabel }) => ({ withLabel }))`;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: 6px;
     margin-bottom: 6px;
+
+    ${(props) => !props.withLabel && `
+        margin-top: 0;
+        margin-bottom: 0;
+    `}
 `;
 
 const Content = Styled.div`
@@ -93,10 +98,10 @@ const Error = Styled(InputError)`
  */
 function ListInput(props) {
     const {
-        className, isFocused, isDisabled,
+        className, isFocused, isDisabled, withBorder, withLabel,
         inputType, name, value, indexes, addButton,
+        placeholder, options, noneText, noneValue,
         onFocus, onBlur, onChange,
-        options, noneText, noneValue,
         isSortable, onSort, errors, maxAmount, maxLength,
         children,
     } = props;
@@ -298,10 +303,11 @@ function ListInput(props) {
         className={className}
         isFocused={isFocused}
         isDisabled={isDisabled}
-        withBorder
+        withBorder={withBorder}
+        withLabel={withLabel}
         withPadding
     >
-        <Container>
+        <Container withLabel={withLabel}>
             <Content>
                 {parts.map((elem, index) => <Item
                     key={index}
@@ -326,6 +332,7 @@ function ListInput(props) {
                             type={inputType}
                             name={`${name}-${index}`}
                             value={elem}
+                            placeholder={placeholder}
                             options={options}
                             noneText={noneText}
                             noneValue={noneValue}
@@ -376,28 +383,31 @@ function ListInput(props) {
  * @type {object} propTypes
  */
 ListInput.propTypes = {
-    className  : PropTypes.string,
-    isFocused  : PropTypes.bool,
-    isDisabled : PropTypes.bool,
-    name       : PropTypes.string.isRequired,
-    inputType  : PropTypes.string,
-    value      : PropTypes.any,
-    indexes    : PropTypes.any,
-    options    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    noneText   : PropTypes.string,
-    noneValue  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    hasLabel   : PropTypes.bool,
-    isSmall    : PropTypes.bool,
-    addButton  : PropTypes.string,
-    onFocus    : PropTypes.func,
-    onBlur     : PropTypes.func,
-    onChange   : PropTypes.func.isRequired,
-    isSortable : PropTypes.bool,
-    onSort     : PropTypes.func,
-    maxAmount  : PropTypes.number,
-    maxLength  : PropTypes.number,
-    errors     : PropTypes.object,
-    children   : PropTypes.any,
+    className   : PropTypes.string,
+    isFocused   : PropTypes.bool,
+    isDisabled  : PropTypes.bool,
+    withBorder  : PropTypes.bool,
+    withLabel   : PropTypes.bool,
+    name        : PropTypes.string.isRequired,
+    inputType   : PropTypes.string,
+    value       : PropTypes.any,
+    placeholder : PropTypes.string,
+    indexes     : PropTypes.any,
+    options     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    noneText    : PropTypes.string,
+    noneValue   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    hasLabel    : PropTypes.bool,
+    isSmall     : PropTypes.bool,
+    addButton   : PropTypes.string,
+    onFocus     : PropTypes.func,
+    onBlur      : PropTypes.func,
+    onChange    : PropTypes.func.isRequired,
+    isSortable  : PropTypes.bool,
+    onSort      : PropTypes.func,
+    maxAmount   : PropTypes.number,
+    maxLength   : PropTypes.number,
+    errors      : PropTypes.object,
+    children    : PropTypes.any,
 };
 
 /**
@@ -405,15 +415,18 @@ ListInput.propTypes = {
  * @type {object} defaultProps
  */
 ListInput.defaultProps = {
-    className  : "",
-    isFocused  : false,
-    isDisabled : false,
-    inputType  : InputType.TEXT,
-    noneText   : "",
-    isSortable : false,
-    addButton  : "GENERAL_ADD_FIELD",
-    maxAmount  : 0,
-    maxLength  : 0,
+    className   : "",
+    isFocused   : false,
+    isDisabled  : false,
+    withBorder  : true,
+    withLabel   : true,
+    inputType   : InputType.TEXT,
+    placeholder : "",
+    noneText    : "",
+    isSortable  : false,
+    addButton   : "GENERAL_ADD_FIELD",
+    maxAmount   : 0,
+    maxLength   : 0,
 };
 
 export default ListInput;
