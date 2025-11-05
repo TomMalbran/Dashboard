@@ -107,7 +107,7 @@ function Tooltip() {
     const hasTooltip = open && !!content;
 
 
-    // Nothing to Do
+    // Nothing to Show
     if (!hasTooltip) {
         return <React.Fragment />;
     }
@@ -120,6 +120,14 @@ function Tooltip() {
     let   width  = 0;
     let   toLeft = false;
 
+
+    // Nothing to Show
+    if (!top || !left) {
+        return <React.Fragment />;
+    }
+
+
+    // Calculate the Position
     switch (variant) {
     case "top":
         top  -= 8;
