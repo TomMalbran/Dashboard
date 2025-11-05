@@ -45,7 +45,7 @@ function StatList(props) {
 
     // Do the Render
     return <Ul
-        className={`${className} no-scrollbars`}
+        className={className}
         columns={items.length}
     >
         {items}

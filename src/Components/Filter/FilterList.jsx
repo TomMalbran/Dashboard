@@ -177,7 +177,7 @@ function FilterList(props) {
 
     // Do the Render
     return <Container
-        className={`${className} no-scrollbars`}
+        className={className}
         columns={items.length}
         showButton={showButton}
     >

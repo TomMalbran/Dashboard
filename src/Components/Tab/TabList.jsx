@@ -172,7 +172,7 @@ function TabList(props) {
     >
         <Content
             ref={contentRef}
-            className="tabs-content no-scrollbars"
+            className="tabs-content"
             fullWidth={fullWidth}
             size={size}
             lineWidth={lineWidth}
