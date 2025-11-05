@@ -39,8 +39,8 @@ function GuestRoute(props) {
  */
 GuestRoute.propTypes = {
     isHidden  : PropTypes.bool,
+    url       : PropTypes.oneOfType([ PropTypes.string, PropTypes.arrayOf(PropTypes.string) ]),
     component : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
-    url       : PropTypes.string,
     exact     : PropTypes.bool,
 };
 

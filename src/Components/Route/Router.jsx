@@ -23,35 +23,41 @@ function Router(props) {
 
     // Create the Routes
     const routes      = [];
-    let   firstUrl    = initialUrl;
+    let   firstPath   = initialUrl ? NLS.url(initialUrl) : "";
     let   canRedirect = true;
 
     for (const [ key, child ] of Utils.getVisibleChildren(children).entries()) {
-        let path = NLS.url(child.props.url);
-
-        if (path === "/") {
-            canRedirect = false;
+        let paths = [];
+        if (Array.isArray(child.props.url)) {
+            paths = child.props.url.map((u) => NLS.url(u));
+        } else {
+            paths = [ NLS.url(child.props.url) ];
         }
 
-        if (!child.props.exact) {
-            path += "/*";
-        }
-        if (!firstUrl && !noFirst) {
-            firstUrl = child.props.url;
-        }
+        for (let path of paths) {
+            if (path === "/") {
+                canRedirect = false;
+            }
+            if (!firstPath && !noFirst) {
+                firstPath = path;
+            }
+            if (!child.props.exact) {
+                path += "/*";
+            }
 
-        routes.push(<Route
-            key={key}
-            path={path}
-            element={React.cloneElement(child, { type })}
-        />);
+            routes.push(<Route
+                key={key}
+                path={path}
+                element={React.cloneElement(child, { type })}
+            />);
+        }
     }
 
-    if (canRedirect && firstUrl) {
+    if (canRedirect && firstPath) {
         routes.push(<Route
             key="redirect"
             path="*"
-            element={<Navigate to={NLS.url(firstUrl)} replace />}
+            element={<Navigate to={firstPath} replace />}
         />);
     }
 

@@ -31,7 +31,7 @@ function APIRoute(props) {
  */
 APIRoute.propTypes = {
     isHidden  : PropTypes.bool,
-    url       : PropTypes.string.isRequired,
+    url       : PropTypes.oneOfType([ PropTypes.string, PropTypes.arrayOf(PropTypes.string) ]).isRequired,
     component : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
     exact     : PropTypes.bool,
     type      : PropTypes.string,

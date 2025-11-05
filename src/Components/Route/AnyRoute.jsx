@@ -21,8 +21,8 @@ function AnyRoute(props) {
  */
 AnyRoute.propTypes = {
     isHidden  : PropTypes.bool,
+    url       : PropTypes.oneOfType([ PropTypes.string, PropTypes.arrayOf(PropTypes.string) ]).isRequired,
     component : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
-    url       : PropTypes.string,
     exact     : PropTypes.bool,
 };
 

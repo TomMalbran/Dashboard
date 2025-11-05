@@ -46,10 +46,10 @@ function UserRoute(props) {
 UserRoute.propTypes = {
     isHidden    : PropTypes.bool,
     isValid     : PropTypes.bool,
+    url         : PropTypes.oneOfType([ PropTypes.string, PropTypes.arrayOf(PropTypes.string) ]),
     component   : PropTypes.oneOfType([ PropTypes.func, PropTypes.object ]).isRequired,
-    type        : PropTypes.string,
-    url         : PropTypes.string,
     exact       : PropTypes.bool,
+    type        : PropTypes.string,
     withDetails : PropTypes.bool,
 };
 
