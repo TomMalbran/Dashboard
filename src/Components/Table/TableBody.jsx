@@ -27,6 +27,7 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
     );
 
     ${(props) => props.notFixed && `
+        min-height: auto;
         tr:last-child td {
             border-bottom: none;
         }

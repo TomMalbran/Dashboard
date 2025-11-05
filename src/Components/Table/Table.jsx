@@ -23,7 +23,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, isEditable }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, isEditable }))`
+const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, notFixed, isEditable }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, notFixed, isEditable }))`
     ${(props) => props.inDialog ? `
         --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
@@ -42,14 +42,17 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "40px" : "0px"};
 
     position: relative;
-    overflow: auto;
-    height: calc(
-        var(--table-height)
-        - var(--table-stats-height)
-        - var(--table-tabs-height)
-        - var(--table-alert-height)
-        - var(--table-filter-height)
-    );
+
+    ${(props) => !props.notFixed && `
+        overflow: auto;
+        height: calc(
+            var(--table-height)
+            - var(--table-stats-height)
+            - var(--table-tabs-height)
+            - var(--table-alert-height)
+            - var(--table-filter-height)
+        );
+    `}
 
     ${(props) => props.isEditable ? `
         td:last-child {
@@ -338,6 +341,7 @@ function Table(props) {
             hasPaging={hasPaging}
             hasChecks={hasChecks}
             hasActions={hasActions}
+            notFixed={notFixed}
             isEditable={isEditable}
         >
             <Container
