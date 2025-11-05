@@ -19,7 +19,7 @@ const Container = Styled.nav.attrs(({ withSpacing }) => ({ withSpacing }))`
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: ${(props) => props.withSpacing && "0 6px 16px 6px"};
+    padding: ${(props) => props.withSpacing && "0px 16px 16px 6px"};
     overflow: auto;
 `;
 
