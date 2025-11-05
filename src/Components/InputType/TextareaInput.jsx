@@ -41,8 +41,8 @@ const Textarea = Styled.textarea.attrs(({ withLabel }) => ({ withLabel }))`
     appearance: none;
     margin: 0;
     padding: var(--input-padding);
-    padding-top: 4px;
-    padding-bottom: ${(props) => props.withLabel ? "8px" : "4px"};
+    padding-top: ${(props) => props.withLabel ? "0px" : "4px"};
+    padding-bottom: ${(props) => props.withLabel ? "6px" : "4px"};
     font-size: var(--input-font);
     line-height: 20px;
     border: none;
