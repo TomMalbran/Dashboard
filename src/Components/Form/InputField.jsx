@@ -103,7 +103,7 @@ function InputField(props) {
         if (suggestID) {
             params = [ name, "", suggestID, 0 ];
         } else if (type === "file") {
-            params = [ name, undefined, `${name}File`, "" ];
+            params = [ name, undefined, `${name}Name`, "" ];
         }
 
         if (onClear) {

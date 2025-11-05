@@ -65,6 +65,12 @@ function FileInput(props) {
         }
     };
 
+    // Handles the File Clear
+    const handleClear = () => {
+        inputRef.current.value = "";
+        onClear();
+    };
+
 
     // Do the Render
     const message = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
@@ -76,7 +82,7 @@ function FileInput(props) {
         postIcon={postIcon}
         isFocused={isFocused}
         isDisabled={isDisabled}
-        onClear={onClear}
+        onClear={onClear ? handleClear : undefined}
         onError={onError}
         withBorder={withBorder}
         withPadding
