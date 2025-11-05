@@ -73,8 +73,9 @@ const Title = Styled.div`
  */
 function DetailTitle(props) {
     const {
-        icon, message, isBeta, hasInternalTabs, collapsible, isCollapsed,
-        action, canEdit, editIcon, onAction, onClick,
+        isHidden, className, icon, message, isBeta,
+        hasInternalTabs, collapsible, isCollapsed,
+        action, canEdit, editIcon, onAction, onClose, onClick,
     } = props;
 
 
@@ -83,15 +84,16 @@ function DetailTitle(props) {
     const hasPreCollapse  = Boolean(isCollapsible && !icon);
     const hasPreIcon      = Boolean(icon);
     const hasPostAction   = Boolean(action && onAction && canEdit);
-    const hasPostCollapse = Boolean(isCollapsible && !hasPostAction && icon);
+    const hasPostClose    = Boolean(onClose);
+    const hasPostCollapse = Boolean(isCollapsible && !hasPostAction && !hasPostClose && icon);
 
 
     // Do the Render
-    if (!message) {
+    if (isHidden || !message) {
         return <React.Fragment />;
     }
     return <Container
-        className="details-title"
+        className={`details-title ${className}`}
         hasInternalTabs={hasInternalTabs}
         isCollapsed={isCollapsed}
     >
@@ -114,6 +116,12 @@ function DetailTitle(props) {
                 onClick={onAction}
                 isSmall
             />}
+            {hasPostClose && <IconLink
+                variant="black"
+                icon="close"
+                onClick={onClose}
+                isSmall
+            />}
             {hasPostCollapse && <IconLink
                 variant="black"
                 icon={isCollapsed ? "closed" : "expand"}
@@ -128,6 +136,8 @@ function DetailTitle(props) {
  * @type {object} propTypes
  */
 DetailTitle.propTypes = {
+    isHidden        : PropTypes.bool,
+    className       : PropTypes.string,
     icon            : PropTypes.string,
     message         : PropTypes.string,
     isBeta          : PropTypes.bool,
@@ -138,7 +148,17 @@ DetailTitle.propTypes = {
     canEdit         : PropTypes.bool,
     editIcon        : PropTypes.string,
     onAction        : PropTypes.func,
+    onClose         : PropTypes.func,
     onClick         : PropTypes.func,
+};
+
+/**
+ * The Default Properties
+ * @type {object} defaultProps
+ */
+DetailTitle.defaultProps = {
+    isHidden  : false,
+    className : "",
 };
 
 export default DetailTitle;
