@@ -42,7 +42,7 @@ function PromptDialog(props) {
         isWide, isNarrow, bigSpacing, primary, primaryVariant,
         inputType, inputLabel, inputIcon, placeholder, helperText,
         initialValue, inputOptions, error, showError,
-        maxLength, rows, maxRows, spellCheck,
+        maxLength, rows, maxRows, spellCheck, keepOnClose,
         secInputType, secInputLabel, secInputIcon, secPlaceholder,
         secHelperText, secInitialValue, secInputOptions,
         secMaxLength, secRows, secMaxRows, secRequired,
@@ -84,8 +84,10 @@ function PromptDialog(props) {
 
     // Handles the Close
     const handleClose = () => {
-        setValue("");
-        setSecValue("");
+        if (!keepOnClose) {
+            setValue("");
+            setSecValue("");
+        }
         onClose();
     };
 
@@ -209,6 +211,7 @@ PromptDialog.propTypes = {
     isOptional      : PropTypes.bool,
     isLoading       : PropTypes.bool,
     spellCheck      : PropTypes.string,
+    keepOnClose     : PropTypes.bool,
     isWide          : PropTypes.bool,
     isNarrow        : PropTypes.bool,
     bigSpacing      : PropTypes.bool,
