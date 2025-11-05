@@ -18,10 +18,10 @@ const EditorStyle = createGlobalStyle`
     }
 
     // Inline Editor
-    .tox.tox-tinymce-inline .tox-editor-header {
+    .tox.tox.tox-tinymce-inline .tox-editor-header {
         box-shadow: var(--box-shadow);
         border: none;
-        translate: -2px 2px;
+        translate: 0 4px;
     }
 
 
