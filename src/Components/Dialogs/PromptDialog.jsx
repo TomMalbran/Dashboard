@@ -46,7 +46,7 @@ function PromptDialog(props) {
         secInputType, secInputLabel, secInputIcon, secPlaceholder,
         secHelperText, secInitialValue, secInputOptions,
         secMaxLength, secRows, secMaxRows, secRequired,
-        isOptional, onSubmit, onClose,
+        isOptional, onSubmit, onClose, children,
     } = props;
 
 
@@ -113,7 +113,7 @@ function PromptDialog(props) {
         onClose={handleClose}
         isLoading={isLoading}
         isWide={isWide}
-        isNarrow={isNarrow}
+        isNarrow={isNarrow && !isWide}
     >
         <DialogHeader message={title} icon={icon} />
         <DialogBody bigSpacing={bigSpacing} withSpacing>
@@ -158,6 +158,8 @@ function PromptDialog(props) {
                     hasClear={!secRequired}
                     isRequired={secRequired}
                 />
+
+                {children}
             </Container>
         </DialogBody>
         <DialogFooter
@@ -213,6 +215,7 @@ PromptDialog.propTypes = {
     showError       : PropTypes.bool,
     onSubmit        : PropTypes.func.isRequired,
     onClose         : PropTypes.func.isRequired,
+    children        : PropTypes.any,
 };
 
 /**
@@ -226,6 +229,7 @@ PromptDialog.defaultProps = {
     secInputType    : InputType.TEXT,
     secInitialValue : "",
     secRequired     : false,
+    keepOnClose     : false,
     isOptional      : false,
     isLoading       : false,
     isWide          : false,
