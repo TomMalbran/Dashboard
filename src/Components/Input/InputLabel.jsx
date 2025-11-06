@@ -17,8 +17,8 @@ const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, isFocused 
     margin: 0;
     padding: 0 6px;
     line-height: 1;
-    background-color: var(--content-color);
-    color: var(--input-label-color);
+    background-color: var(--input-label-background, var(--content-color));
+    color: var(--input-label-color, var(--font-color));
     font-size: 12px;
     white-space: nowrap;
     overflow: hidden;
