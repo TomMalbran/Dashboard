@@ -8,7 +8,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputField           from "../Form/InputField";
 import InputItem            from "../Form/InputItem";
-import Button               from "../Form/Button";
+import IconLink             from "../Link/IconLink";
 
 
 
@@ -20,7 +20,7 @@ const Container = Styled.div.attrs(({ columns, showButton }) => ({ columns, show
     display: grid;
     grid-template-columns: repeat(var(--filter-columns), 1fr);
     gap: var(--main-gap);
-    height: calc(var(--filter-height) - var(--main-gap));
+    height: var(--filter-input-size);
     margin: 0 0 var(--main-gap) 0;
     padding: var(--filter-padding);
     background-color: var(--filter-background);
@@ -30,22 +30,54 @@ const Container = Styled.div.attrs(({ columns, showButton }) => ({ columns, show
     overflow-x: auto;
 
     ${(props) => props.showButton && `
-        grid-template-columns: repeat(var(--filter-columns), 1fr) calc(37px + var(--filter-right));
+        grid-template-columns: repeat(var(--filter-columns), 1fr) calc(var(--filter-input-size) + var(--filter-right));
         padding-right: 0;
     `}
 `;
 
-const FilterField = Styled(InputField).attrs(({ minWidth }) => ({ minWidth }))`
-    box-sizing: border-box;
-    margin: 0;
-    min-width: ${(props) => props.minWidth ? `${props.minWidth}px` : "140px"};
+const FilterField = Styled(InputField).attrs(({ fieldMinWidth }) => ({ fieldMinWidth }))`
+    --input-label-background: var(--filter-input-background);
 
-    .textfield-label {
-        background-color: var(--lighter-gray);
+    box-sizing: border-box;
+    min-width: ${(props) => props.fieldMinWidth ? `${props.fieldMinWidth}px` : "140px"};
+    margin: 0;
+
+    .input-content {
+        padding: var(--input-padding);
+        padding-top: var(--input-vert-padding) !important;
+        background-color: var(--filter-input-background);
+        border-radius: var(--border-radius);
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    &.inputfield-double > div > .input-content {
+        padding: 0 !important;
+    }
+    .input-content .input-content {
+        --input-height: var(--filter-input-size);
+    }
+    .input-clear {
+        margin-top: -4px;
+        margin-bottom: -4px;
+        font-size: 16px;
+    }
+    input, select, textarea {
+        background-color: var(--filter-input-background);
+        transition: all 0.2s;
+    }
+    input[type="time"] {
+        width: 80px;
+    }
+    input::placeholder {
+        color: var(--font-lighter);
+    }
+
+    :hover {
+        --filter-input-background: var(--filter-input-hover);
     }
 `;
 
-const Div = Styled.div`
+const FilterButton = Styled.div`
     position: sticky;
     right: 0;
     display: flex;
@@ -58,9 +90,14 @@ const Div = Styled.div`
     z-index: 1;
 `;
 
-const FilterButton = Styled(Button)`
-    font-size: 12px;
-    padding: 6px 8px;
+const FilterIcon = Styled(IconLink)`
+    --link-size: calc(var(--filter-input-size) - 8px);
+    --link-radius: var(--border-radius);
+    --link-background: var(--filter-input-hover);
+
+    font-size: 16px;
+    padding: 4px;
+    background-color: var(--filter-input-background);
 `;
 
 
@@ -189,6 +226,9 @@ function FilterList(props) {
             onChange={(name, value, secName, secValue) => handleUpdate(item.type, name, value, secName, secValue, item.onChange)}
             onSubmit={handleSubmit}
             onClear={handleClear}
+            label={undefined}
+            withLabel={false}
+            withBorder={false}
         >
             {item?.children?.map((subItem) => <InputItem
                 {...subItem.props}
@@ -196,14 +236,15 @@ function FilterList(props) {
                 value={data[subItem.props.name]}
             />)}
         </FilterField>)}
-        {showButton && <Div>
-            <FilterButton
-                variant="outlined"
+
+        {showButton && <FilterButton>
+            <FilterIcon
+                variant="black"
                 isDisabled={loading}
-                icon={hasClear ? "close" : "filter"}
+                icon={hasClear ? "filter-clear" : "filter"}
                 onClick={() => handleFilter(hasClear)}
             />
-        </Div>}
+        </FilterButton>}
     </Container>;
 }
 

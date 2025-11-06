@@ -51,15 +51,16 @@ function Filter(props) {
         <FilterItem
             isHidden={!hasSearch}
             name="search"
-            label="GENERAL_SEARCH"
             icon="search"
+            placeholder="GENERAL_SEARCH"
             hasClear
         />
         <FilterItem
             isHidden={!hasCredential}
             type="suggest"
             name="credentialName"
-            label="GENERAL_USER"
+            icon="user"
+            placeholder="GENERAL_USER"
             suggestID="credentialID"
             suggestFetch={fetch}
             suggestParams={params}
@@ -71,20 +72,20 @@ function Filter(props) {
             isHidden={!hasPeriod}
             type="select"
             name="period"
-            label="PERIOD_NAME"
+            icon="time"
             onChange={handlePeriod}
             options={Period.getSelect()}
         />
         <FilterItem
             type="date"
             name="fromDate"
-            label="GENERAL_FROM_DATE"
+            prefixText="GENERAL_FROM"
             hasClear
         />
         <FilterItem
             type="date"
             name="toDate"
-            label="GENERAL_TO_DATE"
+            prefixText="GENERAL_TO"
             hasClear
         />
     </FilterList>;
