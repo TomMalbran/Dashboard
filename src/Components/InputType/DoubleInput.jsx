@@ -60,7 +60,7 @@ const Container = Styled.div.attrs(({ withLabel }) => ({ withLabel }))`
  */
 function DoubleInput(props) {
     const {
-        className, isFocused, isDisabled, withLabel,
+        className, isFocused, isDisabled, withLabel, withBorder,
         onChange, onFocus, onBlur, children,
     } = props;
 
@@ -77,7 +77,7 @@ function DoubleInput(props) {
         isDisabled={isDisabled}
         withLabel={withLabel}
         withPadding={withLabel}
-        withBorder
+        withBorder={withBorder}
     >
         <Container withLabel={withLabel}>
             {items.map((item) => <InputField
@@ -105,6 +105,7 @@ DoubleInput.propTypes = {
     isFocused  : PropTypes.bool,
     isDisabled : PropTypes.bool,
     withLabel  : PropTypes.bool,
+    withBorder : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
     onFocus    : PropTypes.func,
     onBlur     : PropTypes.func,
