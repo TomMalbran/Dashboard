@@ -12,11 +12,11 @@ import FilterItem           from "./FilterItem";
 
 
 /**
- * The Filter Component
+ * The Filter Bar
  * @param {object} props
  * @returns {React.ReactElement}
  */
-function Filter(props) {
+function FilterBar(props) {
     const {
         hasSearch, hasCredential, hasPeriod,
         values, fetch, params, onFilter, children,
@@ -39,6 +39,11 @@ function Filter(props) {
         const fromDate = Period.getFromDate(period);
         const toDate   = Period.getToDate(period);
         return { ...data, period, fromDate, toDate };
+    };
+
+    // Handles the Clear Period
+    const handleClearPeriod = (data, period) => {
+        return { ...data, period : "", fromDate : "", toDate : "" };
     };
 
 
@@ -73,7 +78,9 @@ function Filter(props) {
             type="select"
             name="period"
             icon="time"
+            placeholder="PERIOD_NAME"
             onChange={handlePeriod}
+            onClear={handleClearPeriod}
             options={Period.getSelect()}
         />
         <FilterItem
@@ -95,7 +102,7 @@ function Filter(props) {
  * The Property Types
  * @type {object} propTypes
  */
-Filter.propTypes = {
+FilterBar.propTypes = {
     onFilter      : PropTypes.func.isRequired,
     hasCredential : PropTypes.bool,
     hasSearch     : PropTypes.bool,
@@ -110,10 +117,10 @@ Filter.propTypes = {
  * The Default Properties
  * @type {object} defaultProps
  */
-Filter.defaultProps = {
+FilterBar.defaultProps = {
     hasCredential : false,
     hasSearch     : false,
     hasPeriod     : false,
 };
 
-export default Filter;
+export default FilterBar;

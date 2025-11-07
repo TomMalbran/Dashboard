@@ -6,8 +6,8 @@ import Styled               from "styled-components";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import InputField           from "../Form/InputField";
-import InputItem            from "../Form/InputItem";
+import FilterPeriod         from "./FilterPeriod";
+import FilterField          from "./FilterField";
 import IconLink             from "../Link/IconLink";
 
 
@@ -33,48 +33,6 @@ const Container = Styled.div.attrs(({ columns, showButton }) => ({ columns, show
         grid-template-columns: repeat(var(--filter-columns), 1fr) calc(var(--filter-input-size) + var(--filter-right));
         padding-right: 0;
     `}
-`;
-
-const FilterField = Styled(InputField).attrs(({ fieldMinWidth }) => ({ fieldMinWidth }))`
-    --input-label-background: var(--filter-input-background);
-
-    box-sizing: border-box;
-    min-width: ${(props) => props.fieldMinWidth ? `${props.fieldMinWidth}px` : "140px"};
-    margin: 0;
-
-    .input-content {
-        padding: var(--input-padding);
-        padding-top: var(--input-vert-padding) !important;
-        background-color: var(--filter-input-background);
-        border-radius: var(--border-radius);
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-    &.inputfield-double > div > .input-content {
-        padding: 0 !important;
-    }
-    .input-content .input-content {
-        --input-height: var(--filter-input-size);
-    }
-    .input-clear {
-        margin-top: -4px;
-        margin-bottom: -4px;
-        font-size: 16px;
-    }
-    input, select, textarea {
-        background-color: var(--filter-input-background);
-        transition: all 0.2s;
-    }
-    input[type="time"] {
-        width: 80px;
-    }
-    input::placeholder {
-        color: var(--font-lighter);
-    }
-
-    :hover {
-        --filter-input-background: var(--filter-input-hover);
-    }
 `;
 
 const FilterButton = Styled.div`
@@ -122,7 +80,14 @@ function FilterList(props) {
     if (children) {
         for (const child of Utils.getVisibleChildren(children)) {
             items.push(child.props);
-            if (child.props.type === "double") {
+            if (child.props.type === "period") {
+                fields.period          = "";
+                fields.fromDate        = "";
+                fields.toDate          = "";
+                initialErrors.period   = "";
+                initialErrors.fromDate = "";
+                initialErrors.toDate   = "";
+            } else if (child.props.type === "double") {
                 for (const subChild of Utils.getVisibleChildren(child.props.children)) {
                     fields[subChild.props.name]        = "";
                     initialErrors[subChild.props.name] = "";
@@ -149,8 +114,8 @@ function FilterList(props) {
         setData({ ...initial });
     }, [ JSON.stringify(values) ]);
 
-    // Handles the Input Change
-    const handleChange = (name, value, secName, secValue, onInputChange) => {
+    // Handles the Input Update
+    const handleUpdate = (name, value, secName, secValue, onInputChange) => {
         let filterData = { ...data, [name] : value };
         if (secName) {
             filterData = { ...filterData, [secName] : secValue };
@@ -169,23 +134,10 @@ function FilterList(props) {
         return filterData;
     };
 
-    // Handles the Update
-    const handleUpdate = (type, name, value, secName, secValue, onInputChange) => {
-        const filterData = handleChange(name, value, secName, secValue, onInputChange);
-        if (type === "select") {
-            handleSubmit(filterData);
-        }
-    };
-
-    // Handles the Clear
-    const handleClear = async (name, value, secName, secValue) => {
-        const filterData = handleChange(name, value, secName, secValue);
-        handleSubmit(filterData);
-    };
-
     // Handles the Submit
     const handleSubmit = async (filterData = data) => {
         setLoading(true);
+        setData(filterData);
         setErrors(initialErrors);
         try {
             await onFilter(filterData);
@@ -218,24 +170,27 @@ function FilterList(props) {
         columns={items.length}
         showButton={showButton}
     >
-        {items.map((item) => <FilterField
-            {...item}
-            key={item.name}
-            value={data[item.name]}
-            error={errors[item.name]}
-            onChange={(name, value, secName, secValue) => handleUpdate(item.type, name, value, secName, secValue, item.onChange)}
-            onSubmit={handleSubmit}
-            onClear={handleClear}
-            label={undefined}
-            withLabel={false}
-            withBorder={false}
-        >
-            {item?.children?.map((subItem) => <InputItem
-                {...subItem.props}
-                key={subItem.props.name}
-                value={data[subItem.props.name]}
-            />)}
-        </FilterField>)}
+        {items.map((item) => {
+            if (item.type === "period") {
+                return <FilterPeriod
+                    {...item}
+                    key="period"
+                    data={data}
+                    errors={errors}
+                    onUpdate={handleUpdate}
+                    onSubmit={handleSubmit}
+                />;
+            }
+            return <FilterField
+                {...item}
+                key={item.name}
+                data={data}
+                errors={errors}
+                onUpdate={handleUpdate}
+                onSubmit={handleSubmit}
+                items={item.children ?? []}
+            />;
+        })}
 
         {showButton && <FilterButton>
             <FilterIcon
