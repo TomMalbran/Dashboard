@@ -80,8 +80,8 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
     };
 
     // Sets the Errors
-    const setErrors = (fields) => {
-        setErrorsInt({ ...errors, ...fields });
+    const setErrors = (newErrors) => {
+        setErrorsInt({ ...initialErrors, ...newErrors });
     };
 
     // Resets the Errors
