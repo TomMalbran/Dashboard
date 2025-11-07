@@ -382,6 +382,7 @@ function EmailsInput(props) {
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}
+            inputRef={inputRef}
             top={bounds.top}
             left={bounds.left}
             width={bounds.width}

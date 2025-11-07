@@ -314,6 +314,7 @@ function SuggestInput(props) {
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}
+            inputRef={inputRef}
             top={bounds.top}
             left={bounds.left}
             width={Math.max(suggestWidth ?? 0, bounds.width)}

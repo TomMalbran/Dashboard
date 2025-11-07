@@ -458,6 +458,7 @@ function SelectInput(props) {
 
         {hasOptions && <InputOptions
             passedRef={optionsRef}
+            inputRef={inputRef}
             top={style.top}
             left={style.left}
             width={style.width}
