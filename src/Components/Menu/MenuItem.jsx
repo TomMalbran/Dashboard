@@ -9,7 +9,7 @@ import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import Menu                 from "./Menu";
+import Menu                 from "../Menu/Menu";
 import Icon                 from "../Common/Icon";
 import Circle               from "../Common/Circle";
 import Html                 from "../Common/Html";

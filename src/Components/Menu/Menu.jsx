@@ -106,7 +106,7 @@ function Menu(props) {
             const { isHidden, act, title, message, isTitle } = child.props;
             const titleMsg   = NLS.get(title || "");
             const contentMsg = NLS.get(message || act?.message || "");
-            const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
+            const isFiltered = Boolean(filter && !Utils.searchValue(titleMsg, filter) && !Utils.searchValue(contentMsg, filter));
 
             if (!isHidden && !isFiltered) {
                 const itemIndex = isTitle ? -1 : index;
@@ -447,7 +447,7 @@ function Menu(props) {
                 />
             </Search>}
 
-            <Content className="menu-content vissible-scrollbars">
+            <Content className="menu-content">
                 {items}
                 {showEmpty && <Empty>
                     {NLS.get(emptyText)}

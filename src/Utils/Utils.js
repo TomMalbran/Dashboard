@@ -1234,12 +1234,22 @@ function shuffleString(string) {
  * @returns {string}
  */
 function convertToSearch(text) {
-    return text.trim().toLowerCase()
+    return String(text).trim().toLowerCase()
         .replaceAll("á", "a")
         .replaceAll("é", "e")
         .replaceAll("í", "i")
         .replaceAll("ó", "o")
         .replaceAll("ú", "u");
+}
+
+/**
+ * Searches the Value in the Text
+ * @param {string} text
+ * @param {string} value
+ * @returns {boolean}
+ */
+function searchValue(text, value) {
+    return convertToSearch(text).includes(convertToSearch(value));
 }
 
 /**
@@ -1539,6 +1549,7 @@ export default {
     randomNumber,
     generatePassword,
     convertToSearch,
+    searchValue,
     parseSearchResult,
     underlineText,
     replaceSourceUrls,
