@@ -57,7 +57,7 @@ const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs }) => 
 function Content(props) {
     const {
         className, isLoading, passedRef,
-        withTabs, withDetails, wideDetails, children,
+        withTabs, withFilter, withDetails, wideDetails, children,
     } = props;
 
 
@@ -71,9 +71,9 @@ function Content(props) {
 
     // Calculate the Items
     const items       = [];
-    let   hasFilter   = false;
-    let   statsAmount = 0;
     let   hasTabs     = withTabs;
+    let   hasFilter   = withFilter;
+    let   statsAmount = 0;
 
     for (const child of Utils.getVisibleChildren(children)) {
         if (child.type === FilterList || child.type === Filter) {
@@ -114,6 +114,7 @@ Content.propTypes = {
     isLoading   : PropTypes.bool,
     passedRef   : PropTypes.any,
     withTabs    : PropTypes.bool,
+    withFilter  : PropTypes.bool,
     withDetails : PropTypes.bool,
     wideDetails : PropTypes.bool,
     children    : PropTypes.any,
@@ -127,6 +128,7 @@ Content.defaultProps = {
     className   : "",
     isLoading   : false,
     withTabs    : false,
+    withFilter  : false,
     withDetails : false,
 };
 
