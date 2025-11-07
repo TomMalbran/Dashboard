@@ -116,9 +116,15 @@ function InputContent(props) {
         }
         if (onClick) {
             onClick(e);
-        } else if (inputRef && inputRef.current) {
+            return;
+        }
+        if (inputRef && inputRef.current) {
             inputRef.current.click();
-            inputRef.current.focus();
+            if (!isFocused) {
+                inputRef.current.focus();
+            } else {
+                window.setTimeout(() => inputRef.current.focus(), 200);
+            }
         }
     };
 
