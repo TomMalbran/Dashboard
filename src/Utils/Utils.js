@@ -1043,7 +1043,7 @@ function getSelectItems(itemIDs, options, idsPerItem) {
  */
 function useSelectList(loading, itemIDs, options, idsPerItem, noneValue = 0) {
     return React.useMemo(() => {
-        if (!itemIDs.length || (itemIDs.length === 1 && Number(itemIDs[0]) === noneValue)) {
+        if (!itemIDs || !itemIDs.length || (itemIDs.length === 1 && Number(itemIDs[0]) === noneValue)) {
             return options;
         }
         return getSelectItems(itemIDs, options, idsPerItem);
