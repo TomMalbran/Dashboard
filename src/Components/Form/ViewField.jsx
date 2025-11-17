@@ -22,7 +22,7 @@ const FieldLabel = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected })
     ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
 `;
 
-const FieldContent = Styled.div.attrs(({ isSmall, noWrap, withLink, isSelected }) => ({ isSmall, noWrap, withLink, isSelected }))`
+const FieldContent = Styled.div.attrs(({ withLabel, isSmall, noWrap, withLink, isSelected }) => ({ withLabel, isSmall, noWrap, withLink, isSelected }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -36,24 +36,29 @@ const FieldContent = Styled.div.attrs(({ isSmall, noWrap, withLink, isSelected }
         width: 100%;
         box-sizing: border-box;
         color: var(--black-color);
+        padding: var(--input-padding);
+        min-height: calc(var(--input-height) - 2px);
+        line-height: 1.5;
         overflow: auto;
 
         ${(props) => props.isSelected && `
             border-radius: var(--border-radius);
             background-color: var(--lighter-gray);
         `}
-        ${(props) => props.isSmall ? `
+        ${(props) => props.isSmall && `
             min-height: calc(var(--input-height) - 7px - 2px);
-            padding: 4px 8px;
-            line-height: 1;
-        ` : `
-            min-height: calc(var(--input-height) - 2px);
             padding: var(--input-padding);
-            line-height: 1.5;
+            line-height: initial;
         `}
+        ${(props) => props.withLabel && `
+            padding-top: calc(var(--input-label) + 2px);
+        `}
+        ${(props) => (!props.withLabel && props.isSmall) && `
+            min-height: calc(var(--input-height) - var(--input-label) + 1px);
+        `}
+
         ${(props) => props.noWrap && "white-space: nowrap;"}
         ${(props) => props.withLink && "cursor: pointer;"}
-        padding-top: calc(var(--input-label) + 2px);
     }
 
     .inputview-link {
@@ -112,7 +117,7 @@ function ViewField(props) {
     const isLink    = content.startsWith("http");
     const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
     const isText    = !isLink && !isHtml;
-    const hasLabel  = !!label;
+    const withLabel = !!label;
     const hasLink   = Boolean(linkIcon && linkHref);
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
@@ -127,7 +132,7 @@ function ViewField(props) {
         className={`inputview ${className}`}
         fullWidth={fullWidth}
     >
-        {hasLabel && <FieldLabel
+        {withLabel && <FieldLabel
             className="inputview-label"
             message={label}
             isSelected={isSelected}
@@ -137,6 +142,7 @@ function ViewField(props) {
         <FieldContent
             className="inputview-cnt"
             isSmall={isSmall}
+            withLabel={withLabel}
             noWrap={noWrap}
             withLink={!!onClick}
             isSelected={isSelected}
