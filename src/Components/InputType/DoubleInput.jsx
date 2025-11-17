@@ -104,8 +104,8 @@ DoubleInput.propTypes = {
     className  : PropTypes.string,
     isFocused  : PropTypes.bool,
     isDisabled : PropTypes.bool,
-    withLabel  : PropTypes.bool,
     withBorder : PropTypes.bool,
+    withLabel  : PropTypes.bool,
     onChange   : PropTypes.func.isRequired,
     onFocus    : PropTypes.func,
     onBlur     : PropTypes.func,
@@ -120,6 +120,8 @@ DoubleInput.defaultProps = {
     className  : "",
     isFocused  : false,
     isDisabled : false,
+    withBorder : true,
+    withLabel  : true,
 };
 
 export default DoubleInput;
