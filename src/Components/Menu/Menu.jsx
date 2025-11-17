@@ -28,7 +28,7 @@ const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
     ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
-const Container = Styled.div.attrs(({ withPos, isLeft, isRight, width }) => ({ withPos, isLeft, isRight, width }))`
+const Container = Styled.div.attrs(({ isVisible, withPos, isLeft, isRight, width }) => ({ isVisible, withPos, isLeft, isRight, width }))`
     box-sizing: border-box;
     position: absolute;
     display: flex;
@@ -42,6 +42,7 @@ const Container = Styled.div.attrs(({ withPos, isLeft, isRight, width }) => ({ w
     overflow-x: hidden;
     pointer-events: all;
 
+    ${(props) => !props.isVisible && "opacity: 0;"}
     ${(props) => props.withPos && "transform: none;"}
     ${(props) => props.isLeft  && "left: 7px;"}
     ${(props) => props.isRight && "right: 7px;"}
@@ -79,8 +80,8 @@ const Empty = Styled.li`
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction, iconHeight,
-        top, left, right, bottom, gap, width, maxHeight, targetRef,
-        useBottom, onAction, onClose, onMouseEnter, onMouseLeave,
+        gap, width, targetRef, useBottom,
+        onAction, onClose, onMouseEnter, onMouseLeave,
         withSearch, emptyText, filterText, keyCode,
         isSubmenu, skipValidation, children,
     } = props;
@@ -90,8 +91,6 @@ function Menu(props) {
     const contentRef = React.useRef(null);
 
     // The Current State
-    const [ boundWidth,  setBoundWidth  ] = React.useState(0);
-    const [ boundHeight, setBoundHeight ] = React.useState(0);
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
     const [ filter,      setFilter      ] = React.useState("");
     const [ trigger,     setTrigger     ] = React.useState(false);
@@ -106,7 +105,7 @@ function Menu(props) {
             const { isHidden, act, title, message, isTitle } = child.props;
             const titleMsg   = NLS.get(title || "");
             const contentMsg = NLS.get(message || act?.message || "");
-            const isFiltered = Boolean(filter && !Utils.searchValue(titleMsg, filter) && !Utils.searchValue(contentMsg, filter));
+            const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
 
             if (!isHidden && !isFiltered) {
                 const itemIndex = isTitle ? -1 : index;
@@ -144,26 +143,12 @@ function Menu(props) {
 
     // Set the Key Code
     React.useEffect(() => {
-        if (!withSearch) {
+        if (!withSearch && keyCode) {
             const newKeyCode = keyCode % 1000;
             selectUsingKey(newKeyCode);
             submitUsingKey(newKeyCode);
         }
     }, [ keyCode ]);
-
-
-    // Save the Width and add the Close handler
-    React.useEffect(() => {
-        if (open) {
-            const bounds = Utils.getBounds(contentRef);
-            if (maxHeight) {
-                setBoundHeight(Math.min(bounds.height, maxHeight));
-            } else {
-                setBoundHeight(bounds.height);
-            }
-            setBoundWidth(width || bounds.width);
-        }
-    }, [ open, filter ]);
 
 
     // Handles the Menu Close
@@ -287,21 +272,38 @@ function Menu(props) {
 
 
     // Calculate the Styles
-    const [ hasStyles, style, winWidth, forTop ] = React.useMemo(() => {
-        let { top, left, right, bottom } = props;
+    const [ isVisible, hasStyles, style, winWidth, forTop ] = React.useMemo(() => {
+        let { top, left, right, bottom, maxHeight } = props;
         let hasStyles = (top || bottom) && (left || right);
 
-        const style     = {};
-        const dir       = direction || "";
-        const forTop    = dir.includes("top");
-        const forBottom = dir.includes("bottom");
-        const forLeft   = dir.includes("left");
         const winWidth  = window.innerWidth;
         const winHeight = window.innerHeight;
 
+        // Wait until the Menu is Open and has a Content
+        if (!open || !contentRef.current) {
+            return [ false, false, {}, winWidth, false ];
+        }
+
+        const style        = {};
+        const dir          = direction || "";
+        let   forTop       = dir.includes("top");
+        const forBottom    = dir.includes("bottom");
+        const forLeft      = dir.includes("left");
+        let   targetHeight = 0;
+
+        // Calculate the Bounds of the Menu without Styles
+        const cntBounds   = Utils.getBounds(contentRef);
+        const boundWidth  = width || cntBounds.width;
+        let   boundHeight = cntBounds.height;
+        if (maxHeight) {
+            boundHeight = Math.min(cntBounds.height, maxHeight);
+        }
+
         // Calculate the position based on the Target
-        if (!hasStyles && targetRef) {
+        if (!hasStyles && targetRef.current) {
             const bounds = Utils.getBounds(targetRef);
+            targetHeight = bounds.height;
+
             if (useBottom) {
                 if (forTop) {
                     bottom = winHeight - bounds.top + gap;
@@ -363,7 +365,17 @@ function Menu(props) {
                 if (top && top < 0) {
                     top = 0;
                 } else if (top && boundHeight && top + boundHeight > winHeight) {
-                    top -= (top + boundHeight) - winHeight;
+                    if (targetHeight) {
+                        const newMaxHeight = winHeight - top - 8;
+                        if (newMaxHeight > 160) {
+                            maxHeight = newMaxHeight;
+                        } else {
+                            top -= (targetHeight + boundHeight + 8);
+                            forTop = true;
+                        }
+                    } else {
+                        top -= (top + boundHeight) - winHeight;
+                    }
                 }
 
                 if (bottom && bottom < 0) {
@@ -400,8 +412,8 @@ function Menu(props) {
                 style.maxHeight = `${winHeight - 16}px`;
             }
         }
-        return [ hasStyles, style, winWidth, forTop ];
-    }, [ open, top, left, right, bottom, boundWidth, boundHeight, iconHeight, gap, width, maxHeight, skipValidation ]);
+        return [ true, hasStyles, style, winWidth, forTop ];
+    }, [ open, contentRef.current ]);
 
 
     // Variables
@@ -426,6 +438,7 @@ function Menu(props) {
         <Container
             ref={contentRef}
             className={className}
+            isVisible={isVisible}
             withPos={hasStyles}
             isLeft={!hasStyles && variant === Variant.LEFT}
             isRight={!hasStyles && variant === Variant.RIGHT}

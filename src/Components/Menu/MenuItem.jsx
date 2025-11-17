@@ -9,7 +9,7 @@ import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import Menu                 from "../Menu/Menu";
+import Menu                 from "./Menu";
 import Icon                 from "../Common/Icon";
 import Circle               from "../Common/Circle";
 import Html                 from "../Common/Html";
@@ -43,11 +43,16 @@ const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace 
         padding: 4px 8px;
         font-size: 13px;
     `}
-    ${(props) => props.isSelected && `
-        background-color: var(--light-gray);
-    `}
     ${(props) => props.leftSpace && `
         margin-left: 16px;
+    `}
+
+    ${(props) => props.isSelected && `
+        background-color: var(--primary-color);
+        color: white;
+        &:hover {
+            background-color: var(--primary-color);
+        }
     `}
 `;
 
