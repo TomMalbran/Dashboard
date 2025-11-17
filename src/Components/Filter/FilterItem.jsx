@@ -51,6 +51,7 @@ FilterItem.propTypes = {
     hasClear      : PropTypes.bool,
     hideClear     : PropTypes.bool,
     shrinkLabel   : PropTypes.bool,
+    withHour      : PropTypes.bool,
     onChange      : PropTypes.func,
     children      : PropTypes.any,
 };
@@ -75,6 +76,7 @@ FilterItem.defaultProps = {
     hasClear     : false,
     hideClear    : false,
     shrinkLabel  : false,
+    withHour     : false,
 };
 
 export default FilterItem;

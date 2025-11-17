@@ -6,7 +6,6 @@ import Styled               from "styled-components";
 import Utils                from "../../Utils/Utils";
 
 // Components
-import FilterPeriod         from "./FilterPeriod";
 import FilterField          from "./FilterField";
 import IconLink             from "../Link/IconLink";
 
@@ -80,14 +79,7 @@ function FilterList(props) {
     if (children) {
         for (const child of Utils.getVisibleChildren(children)) {
             items.push(child.props);
-            if (child.props.type === "period") {
-                fields.period          = "";
-                fields.fromDate        = "";
-                fields.toDate          = "";
-                initialErrors.period   = "";
-                initialErrors.fromDate = "";
-                initialErrors.toDate   = "";
-            } else if (child.props.type === "double") {
+            if (child.props.type === "double") {
                 for (const subChild of Utils.getVisibleChildren(child.props.children)) {
                     fields[subChild.props.name]        = "";
                     initialErrors[subChild.props.name] = "";
@@ -170,27 +162,15 @@ function FilterList(props) {
         columns={items.length}
         showButton={showButton}
     >
-        {items.map((item) => {
-            if (item.type === "period") {
-                return <FilterPeriod
-                    {...item}
-                    key="period"
-                    data={data}
-                    errors={errors}
-                    onUpdate={handleUpdate}
-                    onSubmit={handleSubmit}
-                />;
-            }
-            return <FilterField
-                {...item}
-                key={item.name}
-                data={data}
-                errors={errors}
-                onUpdate={handleUpdate}
-                onSubmit={handleSubmit}
-                items={item.children ?? []}
-            />;
-        })}
+        {items.map((item) => <FilterField
+            {...item}
+            key={item.name}
+            data={data}
+            errors={errors}
+            onUpdate={handleUpdate}
+            onSubmit={handleSubmit}
+            items={item.children ?? []}
+        />)}
 
         {showButton && <FilterButton>
             <FilterIcon
