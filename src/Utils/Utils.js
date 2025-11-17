@@ -1,5 +1,6 @@
 import React                from "react";
 import NLS                  from "../Core/NLS";
+import KeyCode              from "./KeyCode";
 import MD5                  from "./MD5";
 
 
@@ -942,6 +943,19 @@ function getVisibleChildren(children) {
 }
 
 /**
+ * Returns the Visible Children Props
+ * @param {(Array|any)} children
+ * @returns {Object[]}
+ */
+function getChildrenProps(children) {
+    const result = [];
+    for (const child of getVisibleChildren(children)) {
+        result.push(child.props);
+    }
+    return result;
+}
+
+/**
  * Returns an array of Cloned Visible Children
  * @param {(Array|any)} children
  * @param {Function}    callback
@@ -1073,6 +1087,78 @@ function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, sub
         }
         return getSelectItems(itemIDs, options, idsPerItem);
     }, [ loading, itemList, subItemList ]);
+}
+
+/**
+ * Returns true if the given key is a special key
+ * @param {number} keyCode
+ * @returns {boolean}
+ */
+function isSpecialKey(keyCode) {
+    const specialKeys = [
+        KeyCode.DOM_VK_ESCAPE, KeyCode.DOM_VK_TAB,
+        KeyCode.DOM_VK_SHIFT, KeyCode.DOM_VK_CONTROL,
+        KeyCode.DOM_VK_META, KeyCode.DOM_VK_ALT,
+        KeyCode.DOM_VK_RETURN, KeyCode.DOM_VK_ENTER,
+    ];
+    return specialKeys.includes(keyCode);
+}
+
+/**
+ * Handles Key Navigation
+ * @param {number} keyCode
+ * @param {number} current
+ * @param {number} length
+ * @returns {[number, boolean]}
+ */
+function handleKeyNavigation(keyCode, current, length) {
+    let newIndex = 0;
+    let handled  = false;
+
+    switch (keyCode) {
+    case KeyCode.DOM_VK_UP:
+        newIndex = (current - 1) < 0 ? length - 1 : current - 1;
+        handled  = true;
+        break;
+
+    case KeyCode.DOM_VK_DOWN:
+        newIndex = (current + 1) % length;
+        handled  = true;
+        break;
+
+    case KeyCode.DOM_VK_HOME:
+        newIndex = 0;
+        handled  = true;
+        break;
+    case KeyCode.DOM_VK_END:
+        newIndex = length - 1;
+        handled  = true;
+        break;
+
+    case KeyCode.DOM_VK_PAGE_UP:
+        if (current === 0) {
+            newIndex = length - 1;
+        } else if (current - 5 < 0) {
+            newIndex = 0;
+        } else {
+            newIndex = current - 5;
+        }
+        handled = true;
+        break;
+    case KeyCode.DOM_VK_PAGE_DOWN:
+        if (current === length - 1) {
+            newIndex = 0;
+        } else if (current + 5 >= length) {
+            newIndex = length - 1;
+        } else {
+            newIndex = current + 5;
+        }
+        handled = true;
+        break;
+    default:
+    }
+
+    return [ newIndex, handled ];
 }
 
 
@@ -1533,6 +1619,7 @@ export default {
 
     getChildren,
     getVisibleChildren,
+    getChildrenProps,
     cloneChildren,
 
     parseList,
@@ -1540,6 +1627,8 @@ export default {
     hasFormError,
     useSelectList,
     useSubSelectList,
+    isSpecialKey,
+    handleKeyNavigation,
 
     getGravatarUrl,
     getYouTubeEmbed,

@@ -143,61 +143,18 @@ function ChooserInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        let newSelectedIdx = 0;
-
-        switch (e.keyCode) {
-        case KeyCode.DOM_VK_UP:
-        case KeyCode.DOM_VK_LEFT:
-            newSelectedIdx = (selectedRef.current - 1) < 0 ? optionList.length - 1 : selectedRef.current - 1;
+        if (e.keyCode === KeyCode.DOM_VK_BACK_SPACE && !filter.length && values.length > 0) {
+            setValues(values[values.length - 1]);
             e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_DOWN:
-        case KeyCode.DOM_VK_RIGHT:
-            newSelectedIdx = (selectedRef.current + 1) % optionList.length;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_HOME:
-            newSelectedIdx = 0;
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_END:
-            newSelectedIdx = options.length - 1;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_PAGE_UP:
-            if (selectedRef.current === 0) {
-                newSelectedIdx = options.length - 1;
-            } else if (selectedRef.current - 5 < 0) {
-                newSelectedIdx = 0;
-            } else {
-                newSelectedIdx = selectedRef.current - 5;
-            }
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedRef.current === options.length - 1) {
-                newSelectedIdx = 0;
-            } else if (selectedRef.current + 5 >= options.length) {
-                newSelectedIdx = options.length - 1;
-            } else {
-                newSelectedIdx = selectedRef.current + 5;
-            }
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_BACK_SPACE:
-            if (!filter.length && values.length > 0) {
-                setValues(values[values.length - 1]);
-                e.preventDefault();
-            }
-            break;
-        default:
         }
 
-        scrollToIndex(newSelectedIdx);
-        selectedRef.current = newSelectedIdx;
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedRef.current, optionList.length);
+        if (handled) {
+            e.preventDefault();
+        }
+
+        selectedRef.current = newIndex;
+        scrollToIndex(selectedRef.current);
         setUpdate(update + 1);
     };
 

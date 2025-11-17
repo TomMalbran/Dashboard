@@ -146,72 +146,23 @@ function EmailsInput(props) {
         if (e.keyCode === KeyCode.DOM_VK_TAB && !text.length) {
             e.preventDefault();
         }
-
-        const specialKeys = [
-            KeyCode.DOM_VK_ESCAPE, KeyCode.DOM_VK_TAB,
-            KeyCode.DOM_VK_SHIFT, KeyCode.DOM_VK_CONTROL,
-            KeyCode.DOM_VK_META, KeyCode.DOM_VK_ALT,
-            KeyCode.DOM_VK_RETURN, KeyCode.DOM_VK_ENTER,
-        ];
-        if (specialKeys.includes(e.keyCode)) {
+        if (Utils.isSpecialKey(e.keyCode)) {
             return;
         }
 
-        const selectedIdx    = selectedRef.current;
-        let   newSelectedIdx = 0;
-
-        switch (e.keyCode) {
-        case KeyCode.DOM_VK_UP:
-            newSelectedIdx = (selectedIdx - 1) < 0 ? optionList.length - 1 : selectedIdx - 1;
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_DOWN:
-            newSelectedIdx = (selectedIdx + 1) % optionList.length;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_HOME:
-            newSelectedIdx = 0;
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_END:
-            newSelectedIdx = optionList.length - 1;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_PAGE_UP:
-            if (selectedIdx === 0) {
-                newSelectedIdx = optionList.length - 1;
-            } else if (selectedIdx - 5 < 0) {
-                newSelectedIdx = 0;
-            } else {
-                newSelectedIdx = selectedIdx - 5;
-            }
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedIdx === optionList.length - 1) {
-                newSelectedIdx = 0;
-            } else if (selectedIdx + 5 >= optionList.length) {
-                newSelectedIdx = optionList.length - 1;
-            } else {
-                newSelectedIdx = selectedIdx + 5;
-            }
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_BACK_SPACE:
-            if (!text.length && values.length > 0) {
-                setValues(values[values.length - 1]);
-                setUpdate(update + 1);
-            }
-            break;
-        default:
+        if (e.keyCode === KeyCode.DOM_VK_BACK_SPACE && !text.length && values.length > 0) {
+            setValues(values[values.length - 1]);
+            setUpdate(update + 1);
         }
 
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedRef.current, optionList.length);
+        if (handled) {
+            e.preventDefault();
+        }
+
+        selectedRef.current = newIndex;
         setShowOptions(true);
-        scrollToIndex(newSelectedIdx, false);
-        selectedRef.current = newSelectedIdx;
+        scrollToIndex(selectedRef.current, false);
         setUpdate(update + 1);
     };
 

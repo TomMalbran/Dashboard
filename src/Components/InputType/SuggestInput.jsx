@@ -167,66 +167,18 @@ function SuggestInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        const specialKeys = [
-            KeyCode.DOM_VK_ESCAPE, KeyCode.DOM_VK_TAB,
-            KeyCode.DOM_VK_SHIFT, KeyCode.DOM_VK_CONTROL,
-            KeyCode.DOM_VK_META, KeyCode.DOM_VK_ALT,
-            KeyCode.DOM_VK_RETURN, KeyCode.DOM_VK_ENTER,
-        ];
-        if (specialKeys.includes(e.keyCode)) {
+        if (Utils.isSpecialKey(e.keyCode)) {
             return;
         }
 
-        const selectedIdx    = selectedRef.current;
-        let   newSelectedIdx = 0;
-
-        switch (e.keyCode) {
-        case KeyCode.DOM_VK_UP:
-        case KeyCode.DOM_VK_LEFT:
-            newSelectedIdx = (selectedIdx - 1) < 0 ? suggestions.length - 1 : selectedIdx - 1;
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedRef.current, suggestions.length);
+        selectedRef.current = newIndex;
+        if (handled) {
             e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_DOWN:
-        case KeyCode.DOM_VK_RIGHT:
-            newSelectedIdx = (selectedIdx + 1) % suggestions.length;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_HOME:
-            newSelectedIdx = 0;
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_END:
-            newSelectedIdx = suggestions.length - 1;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_PAGE_UP:
-            if (selectedIdx === 0) {
-                newSelectedIdx = suggestions.length - 1;
-            } else if (selectedIdx - 5 < 0) {
-                newSelectedIdx = 0;
-            } else {
-                newSelectedIdx = selectedIdx - 5;
-            }
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedIdx === suggestions.length - 1) {
-                newSelectedIdx = 0;
-            } else if (selectedIdx + 5 >= suggestions.length) {
-                newSelectedIdx = suggestions.length - 1;
-            } else {
-                newSelectedIdx = selectedIdx + 5;
-            }
-            e.preventDefault();
-            break;
-        default:
         }
 
         setShowOptions(true);
-        scrollToIndex(newSelectedIdx, false);
-        selectedRef.current = newSelectedIdx;
+        scrollToIndex(selectedRef.current, false);
         setUpdate(update + 1);
     };
 

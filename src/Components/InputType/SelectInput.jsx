@@ -289,77 +289,26 @@ function SelectInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
-        const specialKeys = [
-            KeyCode.DOM_VK_ESCAPE, KeyCode.DOM_VK_TAB,
-            KeyCode.DOM_VK_SHIFT, KeyCode.DOM_VK_CONTROL,
-            KeyCode.DOM_VK_META, KeyCode.DOM_VK_ALT,
-            KeyCode.DOM_VK_RETURN, KeyCode.DOM_VK_ENTER,
-        ];
-        if (specialKeys.includes(e.keyCode)) {
+        if (Utils.isSpecialKey(e.keyCode)) {
             return;
         }
-
-        const selectedIdx    = selectedIdxRef.current;
-        let   newSelectedIdx = 0;
-
-        switch (e.keyCode) {
-        case KeyCode.DOM_VK_SPACE:
-            if (!filter) {
-                e.preventDefault();
-            }
-            break;
-
-        case KeyCode.DOM_VK_UP:
-        case KeyCode.DOM_VK_LEFT:
-            newSelectedIdx = (selectedIdx - 1) < 0 ? filteredList.length - 1 : selectedIdx - 1;
+        if (e.keyCode === KeyCode.DOM_VK_BACK_SPACE && !filter) {
             e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_DOWN:
-        case KeyCode.DOM_VK_RIGHT:
-            newSelectedIdx = (selectedIdx + 1) % filteredList.length;
-            e.preventDefault();
-            break;
+        }
 
-        case KeyCode.DOM_VK_HOME:
-            newSelectedIdx = 0;
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedIdxRef.current, filteredList.length);
+        selectedIdxRef.current = newIndex;
+        if (handled) {
             e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_END:
-            newSelectedIdx = filteredList.length - 1;
-            e.preventDefault();
-            break;
-
-        case KeyCode.DOM_VK_PAGE_UP:
-            if (selectedIdx === 0) {
-                newSelectedIdx = filteredList.length - 1;
-            } else if (selectedIdx - 5 < 0) {
-                newSelectedIdx = 0;
-            } else {
-                newSelectedIdx = selectedIdx - 5;
-            }
-            e.preventDefault();
-            break;
-        case KeyCode.DOM_VK_PAGE_DOWN:
-            if (selectedIdx === filteredList.length - 1) {
-                newSelectedIdx = 0;
-            } else if (selectedIdx + 5 >= filteredList.length) {
-                newSelectedIdx = filteredList.length - 1;
-            } else {
-                newSelectedIdx = selectedIdx + 5;
-            }
-            e.preventDefault();
-            break;
-
-        default:
+        } else {
             selectedIdxRef.current = 0;
             selectedValRef.current = "";
             return;
         }
 
+        selectedValRef.current = filteredList[selectedIdxRef.current]?.value ?? "";
         setShowOptions(true);
-        scrollToIndex(newSelectedIdx, false);
-        selectedIdxRef.current = newSelectedIdx;
-        selectedValRef.current = filteredList[newSelectedIdx]?.value ?? "";
+        scrollToIndex(selectedIdxRef.current, false);
         setUpdate(update + 1);
     };
 
