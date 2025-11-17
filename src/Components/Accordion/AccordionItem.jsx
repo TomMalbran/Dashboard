@@ -13,7 +13,6 @@ import Icon                 from "../Common/Icon";
 // Styles
 const Container = Styled.section.attrs(({ isFirst, isSelected, isDisabled }) => ({ isFirst, isSelected, isDisabled }))`
     display: flex;
-    gap: 8px;
     opacity: 0.7;
     transition: 0.2s all;
 
