@@ -76,7 +76,7 @@ function InputOption(props) {
 
     // Variable
     const hasIcon   = Boolean(icon || hasChecks);
-    const iconValue = hasChecks ? (isChecked ? "checkbox-on" : "checkbox-off") : icon;
+    const iconValue = hasChecks ? (isChecked ? "checkbox-on" : "checkbox-off") : (icon || "");
     const hasMenu   = Boolean(children && children.length);
 
 

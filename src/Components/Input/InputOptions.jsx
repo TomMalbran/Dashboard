@@ -54,12 +54,15 @@ function InputOptions(props) {
 
     // Handles the Options Close
     const handleClose = (e) => {
-        if (!open || Utils.inRef(e.clientX, e.clientY, passedRef)) {
+        const inOptions = Utils.inRef(e.clientX, e.clientY, passedRef);
+        const inInput   = Utils.inRef(e.clientX, e.clientY, inputRef);
+
+        if (inOptions || inInput) {
             return;
         }
         if (onClose) {
             onClose();
-        } else if (inputRef && inputRef.current) {
+        } else if (inputRef.current) {
             inputRef.current.blur();
         }
         e.stopPropagation();
@@ -90,8 +93,8 @@ function InputOptions(props) {
  * @type {object} propTypes
  */
 InputOptions.propTypes = {
-    passedRef : PropTypes.any,
-    inputRef  : PropTypes.any,
+    passedRef : PropTypes.object.isRequired,
+    inputRef  : PropTypes.object.isRequired,
     top       : PropTypes.number,
     left      : PropTypes.number,
     width     : PropTypes.number,
