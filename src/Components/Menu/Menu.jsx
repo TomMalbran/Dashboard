@@ -20,11 +20,13 @@ const Variant = {
 
 
 // Styles
-const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
+const Backdrop = Styled.div.attrs(({ isVisible, isSubmenu }) => ({ isVisible, isSubmenu }))`
     display: block;
     position: fixed;
     inset: 0;
     z-index: var(--z-menu);
+
+    ${(props) => !props.isVisible && "display: none;"}
     ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
@@ -425,11 +427,8 @@ function Menu(props) {
 
 
     // Do the Render
-    if (!showMenu) {
-        return <React.Fragment />;
-    }
-
     return <Backdrop
+        isVisible={showMenu}
         isSubmenu={isSubmenu}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
