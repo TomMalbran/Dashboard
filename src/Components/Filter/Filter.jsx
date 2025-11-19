@@ -24,7 +24,7 @@ import IconLink             from "../Link/IconLink";
 // Styles
 const Container = Styled.div`
     display: flex;
-    gap: var(--main-gap);
+    gap: calc(var(--main-gap) / 2);
     box-sizing: border-box;
     height: var(--filter-input-size);
     margin: 0 0 var(--main-gap) 0;
@@ -36,12 +36,11 @@ const Search = Styled(FilterField)`
     width: 300px;
 `;
 
-const ClearIcon = Styled(IconLink)`
+const FilterIcon = Styled(IconLink)`
     --link-size: calc(var(--filter-input-size) - 8px);
     --link-radius: var(--border-radius);
     --link-background: var(--filter-input-hover);
 
-    margin-left: -6px;
     padding: 4px;
     font-size: 16px;
     background-color: var(--filter-input-background);
@@ -50,6 +49,7 @@ const ClearIcon = Styled(IconLink)`
 const Chips = Styled(ChipList)`
     flex-grow: 2;
     flex-wrap: nowrap;
+    margin-left: calc(var(--main-gap) / 2);
     overflow: auto;
 
     li {
@@ -214,6 +214,11 @@ function Filter(props) {
         setShowDates(false);
         setData(newData);
         onFilter(newData);
+    };
+
+    // Handles the Refresh
+    const handleRefresh = () => {
+        onFilter(data);
     };
 
     // Handles the Clear
@@ -495,7 +500,13 @@ function Filter(props) {
                 onKeyDown={handleKeyDown}
                 onKeyUp={handleKeyUp}
             />
-            <ClearIcon
+            <FilterIcon
+                isHidden={!hasAnyFilter}
+                variant="black"
+                icon="refresh"
+                onClick={handleRefresh}
+            />
+            <FilterIcon
                 isHidden={!hasAnyFilter}
                 variant="black"
                 icon="filter-clear"
