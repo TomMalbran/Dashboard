@@ -945,7 +945,7 @@ function getVisibleChildren(children) {
 /**
  * Returns the Visible Children Props
  * @param {(Array|any)} children
- * @returns {Object[]}
+ * @returns {object[]}
  */
 function getChildrenProps(children) {
     const result = [];
