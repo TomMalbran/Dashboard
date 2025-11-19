@@ -12,7 +12,7 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.div.attrs(({ variant, topSpace, bottomSpace }) => ({ variant, topSpace, bottomSpace }))`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,6 +35,9 @@ const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
     .alert-content {
         flex-grow: 2;
     }
+
+    ${(props) => props.topSpace && `margin-top: ${props.topSpace}px;`}
+    ${(props) => props.bottomSpace && `margin-bottom: ${props.bottomSpace}px;`}
 `;
 
 
@@ -45,7 +48,10 @@ const Container = Styled.div.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function Alert(props) {
-    const { isHidden, className, variant, message, children } = props;
+    const {
+        isHidden, className, variant, message,
+        topSpace, bottomSpace, children,
+    } = props;
 
 
     // Variables
@@ -66,6 +72,8 @@ function Alert(props) {
     return <Container
         className={`alert ${className}`}
         variant={variant}
+        topSpace={topSpace}
+        bottomSpace={bottomSpace}
     >
         {!!message  && <Html>{content}</Html>}
         {!!children && <div className="alert-content">{children}</div>}
@@ -77,11 +85,13 @@ function Alert(props) {
  * @type {object} propTypes
  */
 Alert.propTypes = {
-    isHidden  : PropTypes.bool,
-    className : PropTypes.string,
-    variant   : PropTypes.string.isRequired,
-    message   : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    children  : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    variant     : PropTypes.string.isRequired,
+    message     : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    bottomSpace : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    children    : PropTypes.any,
 };
 
 /**
