@@ -76,9 +76,7 @@ function Content(props) {
     let   statsAmount = 0;
 
     for (const child of Utils.getVisibleChildren(children)) {
-        if (typeof child.type !== "string" && child.type.name?.endsWith("Filter")) {
-            hasFilter = true;
-        } else if (child.type === FilterList || child.type === FilterBar) {
+        if (child.type === FilterList || child.type === FilterBar) {
             hasFilter = true;
         } else if (child.type === StatList) {
             statsAmount += 1;
