@@ -79,6 +79,7 @@ function Filter(props) {
     const [ showOptions, setShowOptions ] = React.useState(false);
     const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
     const [ showDates,   setShowDates   ] = React.useState(false);
+    const [ datesName,   setDatesName   ] = React.useState("");
     const [ withHour,    setWithHour    ] = React.useState(false);
     const [ update,      setUpdate      ] = React.useState(0);
 
@@ -113,13 +114,22 @@ function Filter(props) {
                 message       : NLS.get(child.label),
                 options       : options,
                 allowMultiple : child.allowMultiple,
-                withHour      : child.withHour,
+                withHour      : Boolean(child.withHour),
             };
 
             fields[child.name] = "";
             if (child.type === "period") {
-                fields.fromDate = "";
-                fields.toDate   = "";
+                if (child.name === "period") {
+                    fields.fromDate = "";
+                    fields.fromHour = "";
+                    fields.toDate   = "";
+                    fields.toHour   = "";
+                } else {
+                    fields[`${child.name}FromDate`] = "";
+                    fields[`${child.name}FromHour`] = "";
+                    fields[`${child.name}ToDate`]   = "";
+                    fields[`${child.name}ToHour`]   = "";
+                }
             }
         }
         if (values) {
@@ -149,8 +159,9 @@ function Filter(props) {
 
         if (item.type === "period" && (!item.options.length || value === Period.CUSTOM)) {
             window.setTimeout(() => {
-                setShowDates(true);
+                setDatesName(name);
                 setWithHour(item.withHour);
+                setShowDates(true);
             }, 100);
         } else {
             let newData  = {};
@@ -192,14 +203,25 @@ function Filter(props) {
             const newValues     = currentValues.filter((val) => val !== value);
             newData = { ...data, [name] : newValues };
         } else if (item.type === "period") {
-            newData = {
-                ...data,
-                [name]   : "",
-                fromDate : "",
-                fromHour : "",
-                toDate   : "",
-                toHour   : "",
-            };
+            if (name === "period") {
+                newData = {
+                    ...data,
+                    [name]   : "",
+                    fromDate : "",
+                    fromHour : "",
+                    toDate   : "",
+                    toHour   : "",
+                };
+            } else {
+                newData = {
+                    ...data,
+                    [name]              : "",
+                    [`${name}FromDate`] : "",
+                    [`${name}FromHour`] : "",
+                    [`${name}ToDate`]   : "",
+                    [`${name}ToHour`]   : "",
+                };
+            }
         } else {
             newData = { ...data, [name] : "" };
         }
@@ -210,7 +232,20 @@ function Filter(props) {
 
     // Handles the Submit of the Dates Dialog
     const handleDates = (fromDate, fromHour, toDate, toHour) => {
-        const newData = { ...data, fromDate, fromHour, toDate, toHour, period : Period.CUSTOM };
+        let newData = {};
+        if (datesName === "period") {
+            newData = { ...data, fromDate, fromHour, toDate, toHour, period : Period.CUSTOM };
+        } else {
+            newData = {
+                ...data,
+                [datesName]              : Period.CUSTOM,
+                [`${datesName}FromDate`] : fromDate,
+                [`${datesName}FromHour`] : fromHour,
+                [`${datesName}ToDate`]   : toDate,
+                [`${datesName}ToHour`]   : toHour,
+            };
+        }
+
         setShowDates(false);
         setData(newData);
         onFilter(newData);
@@ -444,11 +479,19 @@ function Filter(props) {
                 let valueName = val;
                 if (item.type === "period" && val === Period.CUSTOM) {
                     // @ts-ignore
-                    const { fromDate, fromHour, toDate, toHour } = data;
+                    let { fromDate, fromHour, toDate, toHour } = data;
+                    let fromText = "";
+                    let toText   = "";
 
-                    let fromText = fromDate ? DateTime.formatDate(fromDate, "dashes") : "";
-                    let toText   = toDate   ? DateTime.formatDate(toDate,   "dashes") : "";
+                    if (name !== "period") {
+                        fromDate = data[`${name}FromDate`];
+                        fromHour = data[`${name}FromHour`];
+                        toDate   = data[`${name}ToDate`];
+                        toHour   = data[`${name}ToHour`];
+                    }
 
+                    fromText = fromDate ? DateTime.formatDate(fromDate, "dashes") : "";
+                    toText   = toDate   ? DateTime.formatDate(toDate,   "dashes") : "";
                     if (item.withHour) {
                         fromText += fromHour ? `, ${fromHour}` : "";
                         toText   += toHour   ? `, ${toHour}`   : "";
