@@ -33,7 +33,7 @@ const Content = Styled.section`
 function DetailList(props) {
     const {
         isHidden, className, hasInternalTabs, icon, message, isBeta,
-        collapsible, action, onAction, canEdit, editIcon, children,
+        collapsible, action, onAction, canEdit, editIcon, editTooltip, children,
     } = props;
 
     const { closeDetails } = Store.useAction("core");
@@ -85,6 +85,7 @@ function DetailList(props) {
             action={action}
             canEdit={canEdit}
             editIcon={editIcon}
+            editTooltip={editTooltip}
             onClick={handleClick}
             onAction={handleAction}
         />
@@ -109,6 +110,7 @@ DetailList.propTypes = {
     action          : PropTypes.string,
     canEdit         : PropTypes.bool,
     editIcon        : PropTypes.string,
+    editTooltip     : PropTypes.string,
     onAction        : PropTypes.func,
     children        : PropTypes.any,
 };

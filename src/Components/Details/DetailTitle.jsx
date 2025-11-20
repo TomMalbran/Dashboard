@@ -75,7 +75,8 @@ function DetailTitle(props) {
     const {
         isHidden, className, icon, message, isBeta,
         hasInternalTabs, collapsible, isCollapsed,
-        action, canEdit, editIcon, onAction, onClose, onClick,
+        action, canEdit, editIcon, editTooltip,
+        onAction, onClose, onClick,
     } = props;
 
 
@@ -113,6 +114,7 @@ function DetailTitle(props) {
             {hasPostAction && <IconLink
                 variant="black"
                 icon={editIcon}
+                tooltip={editTooltip}
                 onClick={onAction}
                 isSmall
             />}
@@ -147,6 +149,7 @@ DetailTitle.propTypes = {
     action          : PropTypes.string,
     canEdit         : PropTypes.bool,
     editIcon        : PropTypes.string,
+    editTooltip     : PropTypes.string,
     onAction        : PropTypes.func,
     onClose         : PropTypes.func,
     onClick         : PropTypes.func,
