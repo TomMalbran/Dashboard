@@ -21,15 +21,12 @@ const Container = Styled.div.attrs(({ columns, showButton }) => ({ columns, show
     gap: var(--main-gap);
     height: var(--filter-input-size);
     margin: 0 0 var(--main-gap) 0;
-    padding: var(--filter-padding);
-    background-color: var(--filter-background);
-    border: var(--filter-border);
-    border-radius: var(--border-radius);
+    padding: 1px;
     overflow-y: hidden;
     overflow-x: auto;
 
     ${(props) => props.showButton && `
-        grid-template-columns: repeat(var(--filter-columns), 1fr) calc(var(--filter-input-size) + var(--filter-right));
+        grid-template-columns: repeat(var(--filter-columns), 1fr) calc(var(--filter-input-size) + 1px);
         padding-right: 0;
     `}
 `;
@@ -42,7 +39,7 @@ const FilterButton = Styled.div`
     justify-content: center;
     margin-left: calc(1px - var(--main-gap));
     padding-left: var(--main-gap);
-    padding-right: var(--filter-right);
+    padding-right: 1px;
     background-color: var(--filter-background);
     z-index: 1;
 `;

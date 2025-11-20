@@ -28,7 +28,7 @@ const Container = Styled.div`
     box-sizing: border-box;
     height: var(--filter-input-size);
     margin: 0 0 var(--main-gap) 0;
-    padding: var(--filter-padding);
+    padding: 1px;
 `;
 
 const Search = Styled(FilterField)`
