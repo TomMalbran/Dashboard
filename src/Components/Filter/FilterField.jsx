@@ -19,7 +19,7 @@ const Field = Styled(InputField).attrs(({ fieldMinWidth, fieldMaxWidth }) => ({ 
     margin: 0;
 
     .input-content {
-        height: calc(var(--filter-input-size) - 2px);
+        height: var(--filter-input-size);
         min-height: 0;
         background-color: var(--filter-input-background);
         transition: all 0.2s;

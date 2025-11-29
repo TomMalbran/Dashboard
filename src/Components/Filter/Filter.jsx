@@ -65,7 +65,7 @@ const Chips = Styled(ChipList)`
  * @returns {React.ReactElement}
  */
 function Filter(props) {
-    const { className, icon, message, values, onFilter, children } = props;
+    const { className, icon, message, values, showRefresh, onFilter, children } = props;
 
     // The References
     const inputRef       = React.useRef(null);
@@ -183,7 +183,7 @@ function Filter(props) {
                 newData = { ...data, [name] : newValue };
             }
             setData(newData);
-            onFilter(newData);
+            handleFilter(newData);
         }
 
         setSearch("");
@@ -227,7 +227,7 @@ function Filter(props) {
         }
 
         setData(newData);
-        onFilter(newData);
+        handleFilter(newData);
     };
 
     // Handles the Submit of the Dates Dialog
@@ -248,19 +248,25 @@ function Filter(props) {
 
         setShowDates(false);
         setData(newData);
-        onFilter(newData);
+        handleFilter(newData);
     };
 
     // Handles the Refresh
     const handleRefresh = () => {
-        onFilter(data);
+        handleFilter(data);
     };
 
     // Handles the Clear
     const handleClear = () => {
         setData({});
-        onFilter({});
+        handleFilter({});
     };
+
+    // Handles the Refresh
+    const handleFilter = (data) => {
+        onFilter(data);
+    };
+
 
     // Returns the Icon for the Item
     const getIcon = (name, value, isSubmenu) => {
@@ -393,17 +399,6 @@ function Filter(props) {
     };
 
 
-    // Checks if it has any Filter
-    const hasAnyFilter = React.useMemo(() => {
-        for (const value of Object.values(data)) {
-            if (value && ((Array.isArray(value) && value.length) || (!Array.isArray(value)))) {
-                return true;
-            }
-        }
-        return false;
-    }, [ JSON.stringify(data) ]);
-
-
     // Generates the Options
     const optionList = React.useMemo(() => {
         const result = [];
@@ -524,10 +519,23 @@ function Filter(props) {
         return result;
     }, [ JSON.stringify(data) ]);
 
+    // Checks if it has any Filter
+    const hasAnyFilter = React.useMemo(() => {
+        for (const value of Object.values(data)) {
+            if (value && ((Array.isArray(value) && value.length) || (!Array.isArray(value)))) {
+                return true;
+            }
+        }
+        return false;
+    }, [ JSON.stringify(data) ]);
 
-    // Do the Render
+
+    // variables
+    const hasRefresh = showRefresh || hasAnyFilter;
     const hasOptions = Boolean(showOptions && optionList.length);
 
+
+    // Do the Render
     return <>
         <Container className={className}>
             <Search
@@ -544,7 +552,7 @@ function Filter(props) {
                 onKeyUp={handleKeyUp}
             />
             <FilterIcon
-                isHidden={!hasAnyFilter}
+                isHidden={!hasRefresh}
                 variant="black"
                 icon="refresh"
                 onClick={handleRefresh}
@@ -573,6 +581,7 @@ function Filter(props) {
             width={bounds.width}
             maxHeight={bounds.maxHeight}
             minWidth={300}
+            gap={4}
         >
             {optionList.map(({ key, name, value, text, message, options }, index) => <InputOption
                 key={key}
@@ -608,12 +617,13 @@ function Filter(props) {
  * @type {object} propTypes
  */
 Filter.propTypes = {
-    className : PropTypes.string,
-    icon      : PropTypes.string,
-    message   : PropTypes.string,
-    values    : PropTypes.object.isRequired,
-    onFilter  : PropTypes.func.isRequired,
-    children  : PropTypes.any,
+    className   : PropTypes.string,
+    icon        : PropTypes.string,
+    message     : PropTypes.string,
+    values      : PropTypes.object.isRequired,
+    onFilter    : PropTypes.func.isRequired,
+    showRefresh : PropTypes.bool,
+    children    : PropTypes.any,
 };
 
 /**
