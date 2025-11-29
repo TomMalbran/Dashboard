@@ -39,15 +39,16 @@ const InputIcon = Styled(Icon)`
 function ChooserInput(props) {
     const {
         inputRef, className, isFocused, isDisabled,
-        id, name, value, placeholder,
+        id, name, value, placeholder, createOption, onCreate,
         onChange, onClear, onFocus, onBlur,
     } = props;
 
 
     // The References
-    const containerRef = React.useRef(null);
-    const optionsRef   = React.useRef(null);
-    const selectedRef  = React.useRef(0);
+    const containerRef   = React.useRef(null);
+    const optionsRef     = React.useRef(null);
+    const selectedIdxRef = React.useRef(-1);
+    const selectedKeyRef = React.useRef("");
 
     // The Current State
     const [ filter,   setFilter ] = React.useState("");
@@ -67,6 +68,12 @@ function ChooserInput(props) {
     }, [ timer ]);
 
 
+    // Sets the Selected Index
+    const setSelectedIndex = () => {
+        selectedIdxRef.current = -1;
+        selectedKeyRef.current = "";
+    };
+
     // Sets the Values
     const setValues = (key) => {
         const pos = values.indexOf(key);
@@ -75,9 +82,10 @@ function ChooserInput(props) {
         } else {
             values.push(key);
         }
+
         onChange(name, values);
         setFilter("");
-        selectedRef.current = 0;
+        setSelectedIndex();
     };
 
     // Handles the Click
@@ -87,23 +95,37 @@ function ChooserInput(props) {
         }
     };
 
+    // Handles the Create
+    const handleCreate = (value) => {
+        if (value !== "__create__") {
+            return false;
+        }
+
+        onCreate();
+        setSelectedIndex();
+        return true;
+    };
+
     // Handles the Add
-    const handleAdd = (e, key) => {
+    const handleAdd = (e, value) => {
+        e.stopPropagation();
         if (isDisabled) {
             return;
         }
-        e.stopPropagation();
-        setValues(key);
+        if (handleCreate(value)) {
+            return;
+        }
+        setValues(value);
         triggerBlur();
     };
 
     // Handles the Remove
-    const handleRemove = (e, key) => {
+    const handleRemove = (e, value) => {
         if (isDisabled) {
             return;
         }
         e.stopPropagation();
-        setValues(key);
+        setValues(value);
         triggerBlur();
     };
 
@@ -118,7 +140,7 @@ function ChooserInput(props) {
         });
         setFocus(true);
         onFocus();
-        selectedRef.current = 0;
+        setSelectedIndex();
     };
 
     // Handles the Blur
@@ -143,18 +165,22 @@ function ChooserInput(props) {
 
     // Handles the Key Down
     const handleKeyDown = (e) => {
+        if (Utils.isSpecialKey(e.keyCode)) {
+            return;
+        }
         if (e.keyCode === KeyCode.DOM_VK_BACK_SPACE && !filter.length && values.length > 0) {
             setValues(values[values.length - 1]);
             e.preventDefault();
         }
 
-        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedRef.current, optionList.length);
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedIdxRef.current, filteredOptions.length);
         if (handled) {
             e.preventDefault();
         }
 
-        selectedRef.current = newIndex;
-        scrollToIndex(selectedRef.current);
+        selectedIdxRef.current = newIndex;
+        selectedKeyRef.current = filteredOptions[newIndex]?.key ?? "";
+        scrollToIndex(newIndex);
         setUpdate(update + 1);
     };
 
@@ -168,8 +194,11 @@ function ChooserInput(props) {
             }
             break;
         case KeyCode.DOM_VK_RETURN:
-            if (optionList[selectedRef.current]) {
-                setValues(optionList[selectedRef.current].key);
+            if (handleCreate(selectedKeyRef.current)) {
+                return;
+            }
+            if (selectedKeyRef.current) {
+                setValues(selectedKeyRef.current);
             }
             break;
         default:
@@ -195,16 +224,24 @@ function ChooserInput(props) {
     const options     = InputType.useOptions(props);
     const values      = !Array.isArray(value) ? [] : value;
     const showOptions = Boolean(hasFocus && options.length);
+    const hasCreate   = Boolean(createOption && onCreate);
 
 
-    // Get the Options List
-    const optionList = React.useMemo(() => {
-        const optionList = options.filter((item) => !Utils.hasValue(values, item.key));
-        if (!filter) {
-            return optionList;
+    // Get the Filtered Options
+    const filteredOptions = React.useMemo(() => {
+        let result = options.filter((item) => !Utils.hasValue(values, item.key));
+        if (filter) {
+            result = Utils.parseSearchResult(result, filter, "value");
         }
-        return Utils.parseSearchResult(optionList, filter, "value");
-    }, [ JSON.stringify(values), JSON.stringify(options), filter ]);
+        if (hasCreate) {
+            result.push({
+                key   : "__create__",
+                value : "__create__",
+                text  : NLS.get(createOption),
+            });
+        }
+        return result;
+    }, [ JSON.stringify(values), JSON.stringify(options), filter, hasCreate ]);
 
     // Get the Chips
     const chips = React.useMemo(() => {
@@ -216,9 +253,12 @@ function ChooserInput(props) {
     }, [ JSON.stringify(values), JSON.stringify(options) ]);
 
 
-    // Do the Render
-    const hasOptions = Boolean(showOptions && optionList.length);
+    // Variables
+    const hasOptions   = Boolean(showOptions && filteredOptions.length);
+    const isOnlyOption = Boolean(filteredOptions.length === 1);
 
+
+    // Do the Render
     return <InputContent
         passedRef={containerRef}
         className={className}
@@ -268,11 +308,13 @@ function ChooserInput(props) {
             width={bounds.width}
             maxHeight={bounds.maxHeight}
         >
-            {optionList.map(({ key, value, text }, index) => <InputOption
+            {filteredOptions.map(({ key, value, text }, index) => <InputOption
                 key={key}
                 className={`input-chooser-${index}`}
+                forCreate={key === "__create__"}
+                isOnlyOption={isOnlyOption}
                 content={text || NLS.get(value)}
-                isSelected={selectedRef.current === index}
+                isSelected={selectedIdxRef.current === index}
                 onMouseDown={(e) => handleAdd(e, key)}
             />)}
         </InputOptions>}
@@ -296,6 +338,8 @@ ChooserInput.propTypes = {
     extraOptions : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     noneText     : PropTypes.string,
     noneValue    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    createOption : PropTypes.string,
+    onCreate     : PropTypes.func,
     onChange     : PropTypes.func,
     onClear      : PropTypes.func,
     onFocus      : PropTypes.func,

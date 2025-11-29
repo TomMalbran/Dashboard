@@ -61,6 +61,7 @@ function SelectInput(props) {
         defaultText, emptyText, noneText, noneValue,
         withCustom, customFirst, customText, customKey,
         options, extraOptions, descriptions, showDescription,
+        createOption, onCreate,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
@@ -86,6 +87,7 @@ function SelectInput(props) {
     const items      = Array.isArray(options)      ? options      : NLS.select(options);
     const extraItems = Array.isArray(extraOptions) ? extraOptions : NLS.select(extraOptions);
     const descItems  = Array.isArray(descriptions) ? descriptions : NLS.select(descriptions);
+    const hasCreate  = Boolean(createOption && onCreate);
 
 
     // Get the Options List
@@ -139,18 +141,28 @@ function SelectInput(props) {
         return result;
     }, [ noneText, noneValue, withCustom, customFirst, customText, customKey, JSON.stringify(items), JSON.stringify(extraItems) ]);
 
-    // Get the Filtered List
-    const filteredList = React.useMemo(() => {
-        if (!filter) {
-            return optionList;
+    // Get the Filtered Options
+    const filteredOptions = React.useMemo(() => {
+        let result = [ ...optionList ];
+        if (filter) {
+            result = Utils.parseSearchResult(result, filter, "message");
         }
-        return Utils.parseSearchResult(optionList, filter, "message");
-    }, [ JSON.stringify(optionList), filter ]);
+        if (hasCreate) {
+            result.push({
+                key         : "create",
+                value       : "__create__",
+                message     : NLS.get(createOption),
+                text        : "",
+                description : "",
+            });
+        }
+        return result;
+    }, [ JSON.stringify(optionList), filter, hasCreate ]);
 
     // Check if there are Filtered Options
     const hasOptions = React.useMemo(() => {
-        return Boolean(showOptions && filteredList.length);
-    }, [ showOptions, filteredList.length ]);
+        return Boolean(showOptions && (filteredOptions.length || hasCreate));
+    }, [ showOptions, filteredOptions.length, hasCreate ]);
 
     // Get the Option Value and Description
     const [ optionValue, optionDesc ] = React.useMemo(() => {
@@ -196,8 +208,8 @@ function SelectInput(props) {
     // Sets the Selected Index
     const setSelectedIndex = (value) => {
         if (!allowMultiple) {
-            selectedIdxRef.current = filteredList.findIndex((option) => String(option.value) === String(value)) ?? -1;
-            selectedValRef.current = filteredList.find((option) => String(option.value) === String(value))?.value ?? "";
+            selectedIdxRef.current = filteredOptions.findIndex((option) => String(option.value) === String(value)) ?? -1;
+            selectedValRef.current = filteredOptions.find((option) => String(option.value) === String(value))?.value ?? "";
         } else {
             selectedIdxRef.current = -1;
             selectedValRef.current = "";
@@ -205,12 +217,12 @@ function SelectInput(props) {
     };
 
     // Sets the Values
-    const setValues = (key) => {
-        const pos = values.indexOf(key);
+    const setValues = (value) => {
+        const pos = values.indexOf(value);
         if (pos > -1) {
             values.splice(pos, 1);
         } else {
-            values.push(key);
+            values.push(value);
         }
         onChange(name, values.length ? values : "");
     };
@@ -280,11 +292,23 @@ function SelectInput(props) {
     // Handles the Select
     const handleSelect = (e, value) => {
         e.stopPropagation();
+        if (handleCreate(value)) {
+            return;
+        }
         if (allowMultiple) {
             setValues(value);
         } else {
             setSelectedIndex(value);
         }
+    };
+
+    const handleCreate = (value) => {
+        if (value !== "__create__") {
+            return false;
+        }
+        onCreate();
+        selectedValRef.current = "";
+        return true;
     };
 
     // Handles the Key Down
@@ -296,7 +320,7 @@ function SelectInput(props) {
             e.preventDefault();
         }
 
-        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedIdxRef.current, filteredList.length);
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedIdxRef.current, filteredOptions.length);
         selectedIdxRef.current = newIndex;
         if (handled) {
             e.preventDefault();
@@ -306,7 +330,7 @@ function SelectInput(props) {
             return;
         }
 
-        selectedValRef.current = filteredList[selectedIdxRef.current]?.value ?? "";
+        selectedValRef.current = filteredOptions[selectedIdxRef.current]?.value ?? "";
         setShowOptions(true);
         scrollToIndex(selectedIdxRef.current, false);
         setUpdate(update + 1);
@@ -323,6 +347,9 @@ function SelectInput(props) {
             break;
 
         case KeyCode.DOM_VK_RETURN:
+            if (handleCreate(selectedValRef.current)) {
+                return;
+            }
             if (!showOptions) {
                 if (onSubmit) {
                     onSubmit();
@@ -331,7 +358,7 @@ function SelectInput(props) {
             }
 
             if (!selectedValRef.current) {
-                selectedValRef.current = filteredList[0]?.value ?? "";
+                selectedValRef.current = filteredOptions[0]?.value ?? "";
             }
             if (allowMultiple && selectedValRef.current) {
                 setValues(selectedValRef.current);
@@ -361,6 +388,7 @@ function SelectInput(props) {
     // More Variables
     const showDisabled   = Boolean(isDisabled || (emptyText && optionList.length === 0));
     const hasDescription = Boolean(!showOptions && showDescription && optionDesc);
+    const isOnlyOption   = Boolean(filteredOptions.length === 1);
 
 
     // Do the Render
@@ -415,9 +443,12 @@ function SelectInput(props) {
             maxHeight={style.maxHeight}
             opacity={style.opacity}
         >
-            {filteredList.map(({ key, value, text, message, description }, index) => <InputOption
+            {filteredOptions.map(({ key, value, text, message, description }, index) => <InputOption
                 key={key}
                 className={`input-option-${index}`}
+                hasCreate={hasCreate}
+                forCreate={value === "__create__"}
+                isOnlyOption={isOnlyOption}
                 content={text || message}
                 description={description}
                 isChecked={values.includes(value)}
@@ -460,6 +491,8 @@ SelectInput.propTypes = {
     customFirst     : PropTypes.bool,
     customText      : PropTypes.string,
     customKey       : PropTypes.string,
+    createOption    : PropTypes.string,
+    onCreate        : PropTypes.func,
     minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     onChange        : PropTypes.func.isRequired,
     onClear         : PropTypes.func,
