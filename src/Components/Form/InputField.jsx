@@ -12,7 +12,6 @@ import InputContainer       from "../Input/InputContainer";
 import InputLabel           from "../Input/InputLabel";
 import InputError           from "../Input/InputError";
 import InputCopy            from "../Input/InputCopy";
-import Button               from "../Form/Button";
 
 
 
@@ -28,12 +27,6 @@ const FieldHelper = Styled.p`
     color: var(--darkest-gray);
 `;
 
-const FieldButton = Styled(Button)`
-    height: var(--input-height);
-    margin-left: var(--main-gap);
-    white-space: nowrap;
-`;
-
 
 
 /**
@@ -45,9 +38,8 @@ function InputField(props) {
     const {
         passedRef, isHidden, className, type, name,
         label, icon, postIcon, prefixText, suffixText, value,
-        button, onClick, error, helperText,
+        error, helperText, width, fullWidth, isRequired,
         onChange, onInput, onFocus, onBlur,
-        width, fullWidth, isRequired,
         autoFocus, withLabel, shrinkLabel, errorBackground,
         suggestID, hasClear, forceClear, hideClear, onClear,
         hasCopy, copyValue, onCopy,
@@ -179,11 +171,6 @@ function InputField(props) {
                 onClear={withClear ? handleClear : undefined}
                 withLabel={withLabel || hasLabel}
             />
-            {!!button && <FieldButton
-                variant="outlined"
-                message={button}
-                onClick={onClick}
-            />}
             <InputCopy
                 isHidden={!hasCopy}
                 copyValue={copyValue}
@@ -241,8 +228,6 @@ InputField.propTypes = {
     onFocus         : PropTypes.func,
     onBlur          : PropTypes.func,
     onSubmit        : PropTypes.func,
-    button          : PropTypes.string,
-    onClick         : PropTypes.func,
     onKeyDown       : PropTypes.func,
     onKeyUp         : PropTypes.func,
     onMedia         : PropTypes.func,
