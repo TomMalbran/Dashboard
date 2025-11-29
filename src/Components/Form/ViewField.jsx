@@ -113,8 +113,10 @@ function ViewField(props) {
 
 
     // Variables
-    const content   = message ? NLS.get(message) : (value === undefined ? "" : String(value));
-    const isLink    = content.startsWith("http");
+    const val       = value === null || value === undefined ? "" : String(value);
+    const content   = message ? NLS.get(message) : val;
+    const href      = content.startsWith("http") ? content : (val.startsWith("http") ? val : "");
+    const isLink    = href !== "";
     const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
     const isText    = !isLink && !isHtml;
     const withLabel = !!label;
@@ -151,7 +153,7 @@ function ViewField(props) {
             {isLink && <div className="inputview-value inputview-link">
                 <HyperLink
                     variant="primary"
-                    href={content}
+                    href={href}
                     message={content}
                     target="_blank"
                 />
