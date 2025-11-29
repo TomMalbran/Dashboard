@@ -104,7 +104,7 @@ function useOptions(props) {
             result.push(extraItem);
         }
         return result;
-    }, [ props.options, props.extraOptions, props.noneText ]);
+    }, [ JSON.stringify(props.options), JSON.stringify(props.extraOptions), props.noneText ]);
 }
 
 
