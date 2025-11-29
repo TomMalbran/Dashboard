@@ -10,11 +10,64 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Container = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
+const Container = Styled.li.attrs(({ hasValue, forValue, hasCreate, forCreate, isOnlyOption, isSelected }) => ({ hasValue, forValue, hasCreate, forCreate, isOnlyOption, isSelected }))`
     margin: 0;
+    color: var(--title-color);
+    background-color: var(--white-color);
+
+    ${(props) => props.hasValue && `
+        scroll-margin-top: 51px;
+    `}
+    ${(props) => props.forValue && `
+        position: sticky;
+        top: 0;
+        font-weight: bold;
+
+        ::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--white-color);
+        }
+    `}
+    ${(props) => (props.forValue && !props.isOnlyOption) && `
+        padding-bottom: 4px;
+        margin-bottom: 4px;
+        border-bottom: 2px solid var(--border-color-light);
+    `}
+
+    ${(props) => props.hasCreate && `
+        scroll-margin-bottom: 51px;
+    `}
+    ${(props) => props.forCreate && `
+        position: sticky;
+        bottom: 0;
+        font-weight: bold;
+        color: var(--primary-color);
+
+        ::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--white-color);
+        }
+    `}
+    ${(props) => (props.forCreate && !props.isOnlyOption) && `
+        margin-top: 4px;
+        padding-top: 4px;
+        border-top: 2px solid var(--border-color-light);
+    `}
+`;
+
+const Content = Styled.div.attrs(({ isSelected }) => ({ isSelected }))`
     padding: 8px;
     font-size: 14px;
-    color: var(--title-color);
     border-radius: var(--border-radius);
     transition: all 0.2s;
     cursor: pointer;
@@ -32,7 +85,7 @@ const Container = Styled.li.attrs(({ isSelected }) => ({ isSelected }))`
     `}
 `;
 
-const Content = Styled.div`
+const Option = Styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
@@ -40,6 +93,9 @@ const Content = Styled.div`
 
 const Text = Styled(Html)`
     flex-grow: 2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `;
 
 const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
@@ -61,7 +117,10 @@ const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
  */
 function InputOption(props) {
     const {
-        className, icon, content, description,
+        isHidden, className,
+        hasValue, forValue,
+        hasCreate, forCreate, isOnlyOption,
+        icon, content, message, description,
         isSelected, hasChecks, isChecked, onMouseDown,
         direction, onClose, children,
     } = props;
@@ -81,33 +140,44 @@ function InputOption(props) {
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     return <>
         <Container
             ref={itemRef}
             className={className}
-            content={content}
-            isSelected={isSelected}
+            hasValue={hasValue}
+            forValue={forValue}
+            hasCreate={hasCreate}
+            forCreate={forCreate}
+            isOnlyOption={isOnlyOption}
             onMouseDown={onMouseDown}
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
         >
-            <Content>
-                <Icon
-                    isHidden={!hasIcon}
-                    icon={iconValue}
-                    size="20"
-                />
-                <Text content={content} />
-                <Icon
-                    isHidden={!hasMenu}
-                    icon="closed"
-                    size="20"
+            <Content isSelected={isSelected}>
+                <Option>
+                    <Icon
+                        isHidden={!hasIcon}
+                        icon={iconValue}
+                        size="20"
+                    />
+                    <Text
+                        content={content}
+                        message={message}
+                    />
+                    <Icon
+                        isHidden={!hasMenu}
+                        icon="closed"
+                        size="20"
+                    />
+                </Option>
+                <Description
+                    content={description}
+                    isSelected={isSelected}
                 />
             </Content>
-            <Description
-                content={description}
-                isSelected={isSelected}
-            />
         </Container>
 
         {hasMenu && <Menu
@@ -129,26 +199,37 @@ function InputOption(props) {
  * @type {object} propTypes
  */
 InputOption.propTypes = {
-    className   : PropTypes.string,
-    icon        : PropTypes.string,
-    content     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    description : PropTypes.string,
-    isSelected  : PropTypes.bool,
-    hasChecks   : PropTypes.bool,
-    isChecked   : PropTypes.bool,
-    onMouseDown : PropTypes.func,
-    direction   : PropTypes.string,
-    onClose     : PropTypes.func,
-    children    : PropTypes.any,
+    isHidden     : PropTypes.bool,
+    className    : PropTypes.string,
+    hasValue     : PropTypes.bool,
+    forValue     : PropTypes.bool,
+    hasCreate    : PropTypes.bool,
+    forCreate    : PropTypes.bool,
+    isOnlyOption : PropTypes.bool,
+    icon         : PropTypes.string,
+    content      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    message      : PropTypes.string,
+    description  : PropTypes.string,
+    isSelected   : PropTypes.bool,
+    hasChecks    : PropTypes.bool,
+    isChecked    : PropTypes.bool,
+    onMouseDown  : PropTypes.func,
+    direction    : PropTypes.string,
+    onClose      : PropTypes.func,
+    children     : PropTypes.any,
 };
-
 
 /**
  * The Default Properties
  * @type {object} defaultProps
  */
 InputOption.defaultProps = {
-    direction : "right",
+    isHidden     : false,
+    className    : "",
+    direction    : "right",
+    hasCreate    : false,
+    forCreate    : false,
+    isOnlyOption : false,
 };
 
 export default InputOption;

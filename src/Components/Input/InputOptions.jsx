@@ -15,11 +15,11 @@ const Backdrop = Styled.div`
     z-index: var(--z-menu);
 `;
 
-const Container = Styled.ul.attrs(({ top, left, width, minWidth, maxHeight, opacity }) => ({ top, left, width, minWidth, maxHeight, opacity }))`
+const Container = Styled.ul.attrs(({ top, left, gap, width, minWidth, maxHeight, opacity }) => ({ top, left, gap, width, minWidth, maxHeight, opacity }))`
     box-sizing: border-box;
     display: block;
     position: fixed;
-    top: ${(props) => `${props.top + 2}px`};
+    top: ${(props) => `${props.top + props.gap}px`};
     left: ${(props) => `${props.left}px`};
     width: ${(props) => `${props.width}px`};
     opacity: ${(props) => props.opacity};
@@ -47,7 +47,7 @@ const Container = Styled.ul.attrs(({ top, left, width, minWidth, maxHeight, opac
  */
 function InputOptions(props) {
     const {
-        passedRef, inputRef, top, left, width, minWidth, maxHeight,
+        passedRef, inputRef, top, left, gap, width, minWidth, maxHeight,
         opacity, onClose, children,
     } = props;
 
@@ -76,6 +76,7 @@ function InputOptions(props) {
             ref={passedRef}
             top={top}
             left={left}
+            gap={gap}
             width={width}
             minWidth={minWidth}
             maxHeight={maxHeight}
@@ -97,6 +98,7 @@ InputOptions.propTypes = {
     inputRef  : PropTypes.object.isRequired,
     top       : PropTypes.number,
     left      : PropTypes.number,
+    gap       : PropTypes.number,
     width     : PropTypes.number,
     minWidth  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     maxHeight : PropTypes.number,
@@ -112,6 +114,7 @@ InputOptions.propTypes = {
 InputOptions.defaultProps = {
     top       : 0,
     left      : 0,
+    gap       : 2,
     width     : 0,
     maxHeight : 0,
     opacity   : 1,
