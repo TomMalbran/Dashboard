@@ -20,6 +20,12 @@ const WIDTH_FOR_MENU = 1000;
  */
 const WIDTH_FOR_DETAILS = 1200;
 
+/**
+ * The width to hide the Details
+ * @constant {number}
+ */
+const WIDTH_FOR_WIDE_DETAILS = 1600;
+
 
 
 /**
@@ -52,6 +58,15 @@ function useIsForDetails() {
     }, [ window.innerWidth ]);
 }
 
+/**
+ * Hook to determine if the current width is for the Wide Details
+ * @returns {boolean}
+ */
+function useIsForWideDetails() {
+    return React.useMemo(() => {
+        return window.innerWidth >= WIDTH_FOR_WIDE_DETAILS;
+    }, [ window.innerWidth ]);
+}
 
 
 
@@ -61,8 +76,10 @@ export default {
     WIDTH_FOR_MOBILE,
     WIDTH_FOR_MENU,
     WIDTH_FOR_DETAILS,
+    WIDTH_FOR_WIDE_DETAILS,
 
     useIsForMobile,
     useIsForMenu,
     useIsForDetails,
+    useIsForWideDetails,
 };
