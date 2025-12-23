@@ -40,7 +40,7 @@ const detailsClose = keyframes`
 `;
 
 // Styles
-const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMenu, showingDetails, openingDetails, closingDetails }) => ({ withTopBar, showingMenu, openingMenu, closingMenu, showingDetails, openingDetails, closingDetails }))`
+const MainContainer = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMenu, showingDetails, openingDetails, closingDetails }) => ({ withTopBar, showingMenu, openingMenu, closingMenu, showingDetails, openingDetails, closingDetails }))`
     height: var(--full-height);
     width: 100vw;
 
@@ -83,6 +83,18 @@ const Div = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, closingMen
         ${(props) => props.closingMenu && css`
             .sidebar, .navigation { animation: ${menuClose} 0.3s ease-out both; }
         `}
+    }
+`;
+
+const DetailsBackdrop = Styled(Backdrop)`
+    @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
+        display: none;
+    }
+`;
+
+const MenuBackdrop = Styled(Backdrop)`
+    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
+        display: none;
     }
 `;
 
@@ -208,7 +220,7 @@ function Container(props) {
     // Do the Render
     const items = Utils.cloneChildren(children, () => ({ withTopBar }));
 
-    return <Div
+    return <MainContainer
         id="container"
         className={className}
         withTopBar={withTopBar}
@@ -220,11 +232,16 @@ function Container(props) {
         closingDetails={closingDetails}
     >
         {items}
-        <Backdrop
-            open={showingMenu || showingDetails}
+
+        <DetailsBackdrop
+            open={showingDetails}
             onClick={handleClose}
         />
-    </Div>;
+        <MenuBackdrop
+            open={showingMenu}
+            onClick={handleClose}
+        />
+    </MainContainer>;
 }
 
 /**
