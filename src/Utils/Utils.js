@@ -191,15 +191,23 @@ function inRef(x, y, ref, scrollTop = 0) {
  * Scrolls to the Bottom
  * @param {React.RefObject<HTMLElement>} ref
  * @param {boolean}                      instant
+ * @param {number=}                      timeout
  * @returns {void}
  */
-function scrollToBottom(ref, instant) {
-    const node = ref.current;
-    if (node) {
-        node.scrollTo({
-            top      : node.scrollHeight - node.offsetHeight,
-            behavior : instant ? "instant" : "smooth",
-        });
+function scrollToBottom(ref, instant, timeout = 0) {
+    const doScroll = () => {
+        if (ref.current) {
+            ref.current.scrollTo({
+                top      : ref.current.scrollHeight - ref.current.offsetHeight,
+                behavior : instant ? "instant" : "smooth",
+            });
+        }
+    };
+
+    if (timeout > 0) {
+        window.setTimeout(() => doScroll(), timeout);
+    } else {
+        doScroll();
     }
 }
 
