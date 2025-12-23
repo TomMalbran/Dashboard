@@ -10,6 +10,7 @@ import InputLabel           from "../Input/InputLabel";
 import InputContainer       from "../Input/InputContainer";
 import InputCopy            from "../Input/InputCopy";
 import HyperLink            from "../Link/HyperLink";
+import MenuLink             from "../Link/MenuLink";
 import IconLink             from "../Link/IconLink";
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
@@ -83,6 +84,20 @@ const FieldLink = Styled(IconLink)`
     margin-left: 4px;
 `;
 
+const FieldButton = Styled(MenuLink)`
+    --link-color: var(--primary-color);
+    --link-hover: var(--primary-color);
+    --link-gap: 2px;
+
+    margin-top: 14px;
+    margin-right: 4px;
+    margin-left: 4px;
+    padding: 2px 6px 2px 2px;
+    font-size: 12px;
+    border-radius: var(--border-radius-small);
+    white-space: nowrap;
+`;
+
 const FieldError = Styled.p`
     font-size: 12px;
     margin: 4px 0 0 4px;
@@ -109,6 +124,7 @@ function ViewField(props) {
         fullWidth, isSmall, noWrap, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
+        showButton, buttonMessage, onButton,
     } = props;
 
 
@@ -121,6 +137,7 @@ function ViewField(props) {
     const isText    = !isLink && !isHtml;
     const withLabel = !!label;
     const hasLink   = Boolean(linkIcon && linkHref);
+    const hasButton = Boolean(showButton && buttonMessage && onButton);
     const hasError  = Boolean(error);
     const hasHelper = !hasError && Boolean(helperText);
     const floatCopy = content.length > 1000 || isHtml;
@@ -178,6 +195,14 @@ function ViewField(props) {
                 isPhone={isPhone}
                 isWhatsApp={isWhatsApp}
             />}
+
+            {hasButton && <FieldButton
+                className="inputview-button"
+                variant="light"
+                icon="add"
+                message={buttonMessage}
+                onClick={onButton}
+            />}
             <InputCopy
                 isHidden={!hasCopy}
                 copyValue={copyValue}
@@ -195,32 +220,35 @@ function ViewField(props) {
  * @type {object} propTypes
  */
 ViewField.propTypes = {
-    isHidden    : PropTypes.bool,
-    showEmpty   : PropTypes.bool,
-    className   : PropTypes.string,
-    viewClass   : PropTypes.string,
-    textColor   : PropTypes.string,
-    label       : PropTypes.string,
-    icon        : PropTypes.string,
-    value       : PropTypes.any,
-    copyValue   : PropTypes.any,
-    message     : PropTypes.string,
-    error       : PropTypes.string,
-    helperText  : PropTypes.string,
-    fullWidth   : PropTypes.bool,
-    isSmall     : PropTypes.bool,
-    noWrap      : PropTypes.bool,
-    isSelected  : PropTypes.bool,
-    linkIcon    : PropTypes.string,
-    linkVariant : PropTypes.string,
-    linkUrl     : PropTypes.string,
-    linkHref    : PropTypes.string,
-    linkTarget  : PropTypes.string,
-    isEmail     : PropTypes.bool,
-    isPhone     : PropTypes.bool,
-    isWhatsApp  : PropTypes.bool,
-    hasCopy     : PropTypes.bool,
-    onClick     : PropTypes.func,
+    isHidden      : PropTypes.bool,
+    showEmpty     : PropTypes.bool,
+    className     : PropTypes.string,
+    viewClass     : PropTypes.string,
+    textColor     : PropTypes.string,
+    label         : PropTypes.string,
+    icon          : PropTypes.string,
+    value         : PropTypes.any,
+    copyValue     : PropTypes.any,
+    message       : PropTypes.string,
+    error         : PropTypes.string,
+    helperText    : PropTypes.string,
+    fullWidth     : PropTypes.bool,
+    isSmall       : PropTypes.bool,
+    noWrap        : PropTypes.bool,
+    isSelected    : PropTypes.bool,
+    linkIcon      : PropTypes.string,
+    linkVariant   : PropTypes.string,
+    linkUrl       : PropTypes.string,
+    linkHref      : PropTypes.string,
+    linkTarget    : PropTypes.string,
+    isEmail       : PropTypes.bool,
+    isPhone       : PropTypes.bool,
+    isWhatsApp    : PropTypes.bool,
+    hasCopy       : PropTypes.bool,
+    onClick       : PropTypes.func,
+    showButton    : PropTypes.bool,
+    buttonMessage : PropTypes.string,
+    onButton      : PropTypes.func,
 };
 
 /**
