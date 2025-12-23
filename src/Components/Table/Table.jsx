@@ -36,7 +36,6 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "32px" : "0px"};
-    --table-scrollbar-height: ${(props) => props.isEditable ? "12px" : "0px"};
 
     --table-checks-width: ${(props) => props.hasChecks ? "28px" : "0px"};
     --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "40px" : "0px"};
@@ -290,11 +289,13 @@ function Table(props) {
 
 
     // Variables
-    const hasRadius    = notFixed && !hasFooter && !hasPaging;
-    const showMenu     = hasActions && Boolean(menuID !== null && menuTop);
-    const hasSorting   = !noSorting && !Utils.isEmpty(sort);
-    const hasChecks    = Boolean(checked && setChecked);
-    const isCheckedAll = hasChecks && elemIDs.length === checked.length;
+    const hasRadius     = notFixed && !hasFooter && !hasPaging;
+    const showMenu      = hasActions && Boolean(menuID !== null && menuTop);
+    const hasSorting    = !noSorting && !Utils.isEmpty(sort);
+    const hasChecks     = Boolean(checked && setChecked);
+    const isCheckedAll  = hasChecks && checked.length === elemIDs.length;
+    const isCheckedSome = hasChecks && checked.length > 0;
+
 
     // Get the Children
     const items = [];
@@ -303,7 +304,8 @@ function Table(props) {
             items.push(React.cloneElement(child, {
                 key, fetch, sort, columns,
                 hasSorting, hasPaging, hasFooter, notFixed,
-                hasChecks, checked, setChecked, hasCheckAll, isCheckedAll, handleCheckAll,
+                hasChecks, checked, setChecked,
+                hasCheckAll, isCheckedAll, isCheckedSome, handleCheckAll,
                 hasActions, isEditable, setShowEdit, handleColWidth,
                 handleRowClick, handleMenuOpen,
             }));

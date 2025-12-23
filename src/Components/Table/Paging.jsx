@@ -18,7 +18,7 @@ const Container = Styled.div`
     padding: 0 4px;
     font-size: 12px;
     background: var(--table-background);
-    border-radius: var(--table-radius-outer);
+    border-radius: var(--table-border-radius);
     box-shadow: 0 0 0 4px var(--content-color);
     z-index: 2;
 `;

@@ -21,12 +21,8 @@ const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
 
     box-sizing: border-box;
     height: var(--table-header-height);
-    border: var(--table-border-outer);
     background: var(--table-background);
-    border-top-right-radius: var(--table-radius-outer);
-    border-top-left-radius: var(--table-radius-outer);
-    border-bottom-right-radius: var(--table-radius-inner);
-    border-bottom-left-radius: var(--table-radius-inner);
+    border-radius: var(--table-border-radius);
 
     ${(props) => !props.isEditable && `
         @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
@@ -38,15 +34,15 @@ const THead = Styled.thead.attrs(({ isEditable }) => ({ isEditable }))`
 const CheckCell = Styled.th`
     padding: 0 0 0 8px;
     background: var(--table-background);
-    border-top-left-radius: var(--table-radius-outer);
-    border-bottom-left-radius: var(--table-radius-inner);
+    border-top-left-radius: var(--table-border-radius);
+    border-bottom-left-radius: var(--table-border-radius);
 `;
 
 const EditCell = Styled.th`
     padding: 0 8px;
     background: var(--table-background);
-    border-top-right-radius: var(--table-radius-outer);
-    border-bottom-right-radius: var(--table-radius-inner);
+    border-top-right-radius: var(--table-border-radius);
+    border-bottom-right-radius: var(--table-border-radius);
 `;
 
 
@@ -58,7 +54,7 @@ const EditCell = Styled.th`
  */
 function TableHead(props) {
     const {
-        hasChecks, hasCheckAll, isCheckedAll, handleCheckAll,
+        hasChecks, hasCheckAll, isCheckedAll, isCheckedSome, handleCheckAll,
         hasActions, isEditable, setShowEdit, handleColWidth,
         hasSorting, sort, fetch, columns, children,
     } = props;
@@ -84,6 +80,7 @@ function TableHead(props) {
                 <CheckboxInput
                     name="checked"
                     isChecked={isCheckedAll}
+                    isIndeterminate={isCheckedSome}
                     onChange={() => handleCheckAll()}
                 />
             </CheckCell>}
@@ -113,6 +110,7 @@ TableHead.propTypes = {
     hasChecks      : PropTypes.bool,
     hasCheckAll    : PropTypes.bool,
     isCheckedAll   : PropTypes.bool,
+    isCheckedSome  : PropTypes.bool,
     handleCheckAll : PropTypes.func,
     hasActions     : PropTypes.bool,
     isEditable     : PropTypes.bool,
@@ -130,12 +128,13 @@ TableHead.propTypes = {
  * @type {object} defaultProps
  */
 TableHead.defaultProps = {
-    hasChecks    : false,
-    hasCheckAll  : false,
-    isCheckedAll : false,
-    hasActions   : false,
-    isEditable   : false,
-    hasSorting   : false,
+    hasChecks     : false,
+    hasCheckAll   : false,
+    isCheckedAll  : false,
+    isCheckedSome : false,
+    hasActions    : false,
+    isEditable    : false,
+    hasSorting    : false,
 };
 
 export default TableHead;

@@ -20,7 +20,7 @@ const TRow = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isS
     }
     td {
         background-color: var(--content-color);
-        border-bottom: var(--table-border-inner);
+        border-bottom: var(--table-border);
     }
 
     .icon-checkbox-on {
@@ -95,7 +95,7 @@ const TRow = Styled.tr.attrs(({ hasHover, hasChecks, hasActions, isEditable, isS
             display: grid;
             position: relative;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            border-bottom: var(--table-border-inner);
+            border-bottom: var(--table-border);
             min-height: 24px;
             padding: 8px 0 8px 4px;
 

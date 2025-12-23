@@ -16,12 +16,8 @@ const TFoot = Styled.tfoot`
     bottom: 0;
     z-index: 2;
 
-    border: var(--table-border-outer);
     background: var(--table-background);
-    border-top-right-radius: var(--table-radius-inner);
-    border-top-left-radius: var(--table-radius-inner);
-    border-bottom-right-radius: var(--table-radius-outer);
-    border-bottom-left-radius: var(--table-radius-outer);
+    border-radius: var(--table-border-radius);
 `;
 
 

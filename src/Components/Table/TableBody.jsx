@@ -12,8 +12,6 @@ import Utils                from "../../Utils/Utils";
 const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notFixed }))`
     box-sizing: border-box;
     width: 100%;
-    border-left: var(--table-border-outer);
-    border-right: var(--table-border-outer);
 
     min-height: calc(
         var(--table-height)
@@ -23,7 +21,6 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
         - var(--table-tabs-height)
         - var(--table-alert-height)
         - var(--table-filter-height)
-        - var(--table-scrollbar-height)
     );
 
     ${(props) => props.notFixed && `
@@ -34,15 +31,12 @@ const TBody = Styled.tbody.attrs(({ hasFooter, notFixed }) => ({ hasFooter, notF
     `}
 
     ${(props) => !props.hasFooter && `
-        border-bottom: var(--table-border-outer);
-        border-bottom-left-radius: var(--table-radius-last);
-        border-bottom-right-radius: var(--table-radius-last);
+        border-bottom-left-radius: var(--table-border-radius);
+        border-bottom-right-radius: var(--table-border-radius);
     `}
 
     @media (max-width: ${Responsive.WIDTH_FOR_MOBILE}px) {
-        border-top: var(--table-border-outer);
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
+        border-radius: var(--table-border-radius);
     }
 `;
 
