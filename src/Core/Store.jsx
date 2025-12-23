@@ -81,14 +81,21 @@ function configureStore(slices = {}) {
 
 /**
  * Combines the Reducers
- * @param {object} slices
+ * @param {object} reducers
  * @returns {Function}
  */
-function combineReducers(slices) {
+function combineReducers(reducers) {
     return (state, action) => {
         const result = { ...state };
-        for (const [ prop, slice ] of Object.entries(slices)) {
-            result[prop] = slice(result[prop], action);
+
+        // If the action was aborted, do not process it
+        if (action.aborted || action.data?.aborted) {
+            return result;
+        }
+
+        // Process each reducer
+        for (const [ slice, reducer ] of Object.entries(reducers)) {
+            result[slice] = reducer(result[slice], action);
         }
         return result;
     };

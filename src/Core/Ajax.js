@@ -3,6 +3,8 @@ import Utils                from "../Utils/Utils";
 
 // Module variables
 let controller = null;
+let wasAborted = false;
+
 let setResult  = null;
 let apiUrl     = "";
 let routeUrl   = "";
@@ -34,9 +36,10 @@ function init(newApiUrl, newRouteUrl, onResult) {
  * @returns {Promise}
  */
 async function ajax(url, options = {}, showResult = true, abortController = null) {
-    let response   = null;
-    let result     = null;
-    const defError = { "form" : "GENERAL_ERROR" };
+    const defError = { form : "GENERAL_ERROR" };
+
+    let response = null;
+    let result   = null;
 
     // To be able to Abort
     if (abortController) {
@@ -52,6 +55,10 @@ async function ajax(url, options = {}, showResult = true, abortController = null
         // @ts-ignore
         response = await fetch(url, options);
     } catch (error) {
+        if (wasAborted) {
+            wasAborted = false;
+            return { aborted : true };
+        }
         throw defError;
     }
 
@@ -121,6 +128,7 @@ async function ajax(url, options = {}, showResult = true, abortController = null
 function abort() {
     if (controller) {
         controller.abort();
+        wasAborted = true;
     }
 }
 
