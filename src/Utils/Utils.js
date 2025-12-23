@@ -1451,7 +1451,7 @@ function getContrastColor(value) {
         blue  = parseInt(value.substring(5, 7), 16);
     }
 
-    if ((red * 0.299) + (green * 0.587) + (blue * 0.114) > 150) {
+    if ((red * 0.299) + (green * 0.587) + (blue * 0.114) > 147) {
         result = "black";
     }
     return result;
