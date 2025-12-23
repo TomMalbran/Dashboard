@@ -15,7 +15,7 @@ const Variant = {
 
 
 // Styles
-const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.h3.attrs(({ variant, centered }) => ({ variant, centered }))`
     margin: 0;
     padding: 16px;
     font-size: 15px;
@@ -33,6 +33,8 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
         text-align: center;
         color: var(--title-color);
     `}
+
+    ${(props) => props.centered && "text-align: center;"}
 `;
 
 
@@ -43,16 +45,20 @@ const H3 = Styled.h3.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function NoneAvailable(props) {
-    const { isHidden, className, variant, message } = props;
+    const { isHidden, className, variant, centered, message } = props;
 
 
     // Do the Render
     if (isHidden) {
         return <React.Fragment />;
     }
-    return <H3 className={className} variant={variant}>
+    return <Container
+        className={className}
+        variant={variant}
+        centered={centered}
+    >
         {NLS.get(message)}
-    </H3>;
+    </Container>;
 }
 
 /**
@@ -62,6 +68,7 @@ function NoneAvailable(props) {
 NoneAvailable.propTypes = {
     isHidden  : PropTypes.bool,
     className : PropTypes.string,
+    centered  : PropTypes.bool,
     message   : PropTypes.string.isRequired,
     variant   : PropTypes.string,
 };
