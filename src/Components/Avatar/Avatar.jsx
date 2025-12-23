@@ -13,6 +13,7 @@ import Utils                from "../../Utils/Utils";
 const Container = Styled.div.attrs(({ size, hasClick }) => ({ size, hasClick }))`
     box-sizing: border-box;
     display: block;
+    flex-shrink: 0;
     width: ${(props) => `${props.size}px`};
     height: ${(props) => `${props.size}px`};
     border: 2px solid black;
