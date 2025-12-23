@@ -83,29 +83,39 @@ function isValueFilled(type, value) {
 }
 
 /**
- * Creates Options
+ * Gets the Options
+ * @param {object} props
+ * @returns {Array}
+ */
+function getOptions(props) {
+    const items      = Array.isArray(props.options)      ? props.options      : NLS.select(props.options);
+    const extraItems = Array.isArray(props.extraOptions) ? props.extraOptions : NLS.select(props.extraOptions);
+    const result     = [];
+
+    if (props.noneText) {
+        const noneValue = props.noneValue ?? 0;
+        result.push({ key : noneValue, value : NLS.get(props.noneText) });
+    }
+    for (const item of items) {
+        result.push(item);
+    }
+    for (const extraItem of extraItems) {
+        result.push(extraItem);
+    }
+    return result;
+}
+
+/**
+ * Memoizes the Options
  * @param {object} props
  * @returns {Array}
  */
 function useOptions(props) {
     return React.useMemo(() => {
-        const items      = Array.isArray(props.options)      ? props.options      : NLS.select(props.options);
-        const extraItems = Array.isArray(props.extraOptions) ? props.extraOptions : NLS.select(props.extraOptions);
-        const result     = [];
-
-        if (props.noneText) {
-            const noneValue = props.noneValue ?? 0;
-            result.push({ key : noneValue, value : NLS.get(props.noneText) });
-        }
-        for (const item of items) {
-            result.push(item);
-        }
-        for (const extraItem of extraItems) {
-            result.push(extraItem);
-        }
-        return result;
+        return getOptions(props);
     }, [ JSON.stringify(props.options), JSON.stringify(props.extraOptions), props.noneText ]);
 }
+
 
 
 
@@ -115,6 +125,7 @@ export default {
     hasClear,
     canShrink,
     isValueFilled,
+    getOptions,
     useOptions,
 
     BUTTONS,
