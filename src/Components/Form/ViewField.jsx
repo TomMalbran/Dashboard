@@ -23,7 +23,7 @@ const FieldLabel = Styled(InputLabel).attrs(({ isSelected }) => ({ isSelected })
     ${(props) => props.isSelected && "background-color: var(--lighter-gray);"}
 `;
 
-const FieldContent = Styled.div.attrs(({ withLabel, isSmall, noWrap, withLink, isSelected }) => ({ withLabel, isSmall, noWrap, withLink, isSelected }))`
+const FieldContent = Styled.div.attrs(({ withLabel, isSmall, maxHeight, noWrap, withLink, isSelected }) => ({ withLabel, isSmall, maxHeight, noWrap, withLink, isSelected }))`
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -58,6 +58,7 @@ const FieldContent = Styled.div.attrs(({ withLabel, isSmall, noWrap, withLink, i
             min-height: calc(var(--input-height) - var(--input-label) + 1px);
         `}
 
+        ${(props) => props.maxHeight && `max-height: ${props.maxHeight}px;`}
         ${(props) => props.noWrap && "white-space: nowrap;"}
         ${(props) => props.withLink && "cursor: pointer;"}
     }
@@ -121,7 +122,7 @@ function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, textColor,
         label, value, copyValue, message, icon,
-        fullWidth, isSmall, noWrap, isSelected, error, helperText,
+        fullWidth, isSmall, maxHeight, noWrap, isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
         showButton, buttonMessage, onButton,
@@ -162,6 +163,7 @@ function ViewField(props) {
             className="inputview-cnt"
             isSmall={isSmall}
             withLabel={withLabel}
+            maxHeight={maxHeight}
             noWrap={noWrap}
             withLink={!!onClick}
             isSelected={isSelected}
@@ -234,6 +236,7 @@ ViewField.propTypes = {
     helperText    : PropTypes.string,
     fullWidth     : PropTypes.bool,
     isSmall       : PropTypes.bool,
+    maxHeight     : PropTypes.number,
     noWrap        : PropTypes.bool,
     isSelected    : PropTypes.bool,
     linkIcon      : PropTypes.string,
