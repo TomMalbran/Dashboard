@@ -60,12 +60,13 @@ function useIsForDetails() {
 
 /**
  * Hook to determine if the current width is for the Wide Details
+ * @param {number=} width
  * @returns {boolean}
  */
-function useIsForWideDetails() {
+function useIsForWideDetails(width = WIDTH_FOR_WIDE_DETAILS) {
     return React.useMemo(() => {
-        return window.innerWidth >= WIDTH_FOR_WIDE_DETAILS;
-    }, [ window.innerWidth ]);
+        return window.innerWidth >= width;
+    }, [ window.innerWidth, width ]);
 }
 
 
