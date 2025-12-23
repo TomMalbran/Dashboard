@@ -1328,7 +1328,14 @@ function shuffleString(string) {
  * @returns {string}
  */
 function convertToSearch(text) {
-    return String(text).trim().toLowerCase()
+    let string = String(text).trim().toLowerCase();
+    if (string[0] === "(" && string[string.length - 1] === ")") {
+        string = string.substring(1, string.length - 1).trim();
+    }
+    if (string[0] === "+") {
+        string = string.substring(1).trim();
+    }
+    return string
         .replaceAll("á", "a")
         .replaceAll("é", "e")
         .replaceAll("í", "i")
