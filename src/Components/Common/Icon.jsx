@@ -47,10 +47,17 @@ function Icon(props) {
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
 
-    // Handles the Tooltip
-    const handleTooltip = () => {
+    // Handles the Mouse Enter
+    const handleMouseEnter = () => {
         if (tooltip) {
             showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
+        }
+    };
+
+    // Handles the Mouse Leave
+    const handleMouseLeave = () => {
+        if (tooltip) {
+            hideTooltip();
         }
     };
 
@@ -68,8 +75,8 @@ function Icon(props) {
         cursor={cursor}
         onClick={onClick}
         onMouseDown={onMouseDown}
-        onMouseEnter={handleTooltip}
-        onMouseLeave={hideTooltip}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
     />;
 }
 
