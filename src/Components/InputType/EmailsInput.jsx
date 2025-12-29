@@ -35,6 +35,7 @@ function EmailsInput(props) {
         isSmall, withBorder, withLabel,
         id, name, value, placeholder, emptyText, searchText,
         options, suggestFetch, suggestParams,
+        showButton, buttonMessage, onButton,
         onChange, onClear, onFocus, onBlur,
     } = props;
 
@@ -116,10 +117,10 @@ function EmailsInput(props) {
     const handleFocus = () => {
         const bounds = Utils.getBounds(containerRef);
         setBounds({
-            top       : bounds.bottom,
+            top       : bounds.bottom + 5,
             left      : bounds.left,
             width     : bounds.width,
-            maxHeight : window.innerHeight - bounds.bottom - 10,
+            maxHeight : window.innerHeight - bounds.bottom - 15,
         });
         onFocus();
         selectedRef.current = 0;
@@ -300,6 +301,9 @@ function EmailsInput(props) {
         isSmall={isSmall}
         onClick={handleClick}
         onClear={onClear}
+        showButton={showButton}
+        buttonMessage={buttonMessage}
+        onButton={onButton}
         withBorder={withBorder}
         withLabel={withLabel}
         withPadding
@@ -380,6 +384,9 @@ EmailsInput.propTypes = {
     onBlur        : PropTypes.func.isRequired,
     suggestFetch  : PropTypes.func,
     suggestParams : PropTypes.object,
+    showButton    : PropTypes.bool,
+    buttonMessage : PropTypes.string,
+    onButton      : PropTypes.func,
 };
 
 /**

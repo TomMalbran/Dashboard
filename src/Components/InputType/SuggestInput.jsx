@@ -12,19 +12,12 @@ import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
 import InputOptions         from "../Input/InputOptions";
 import InputOption          from "../Input/InputOption";
-import MenuLine             from "../Menu/MenuLine";
-import Icon                 from "../Common/Icon";
 
 
 
 // Styles
 const Input = Styled(InputBase).attrs(({ isDisabled }) => ({ isDisabled }))`
     {(props) => !props.isDisabled && "cursor: pointer;"}
-`;
-
-const InputIcon = Styled(Icon)`
-    margin-top: -4px;
-    margin-right: -6px;
 `;
 
 
@@ -36,19 +29,20 @@ const InputIcon = Styled(Icon)`
  */
 function SuggestInput(props) {
     const {
-        inputRef, className, icon, postIcon,
+        inputRef, className, icon,
         isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, name, value, placeholder, emptyText, searchText,
         suggestID, suggestFetch, suggestParams, keepSuggestions,
-        suggestWidth, onChange, onClear, onFocus, onBlur,
+        suggestWidth, createOption, showCreate, onCreate,
+        onChange, onClear, onFocus, onBlur,
     } = props;
 
 
     // The References
-    const containerRef = React.useRef(null);
-    const optionsRef   = React.useRef(null);
-    const selectedRef  = React.useRef(-1);
-    const timerRef     = React.useRef(null);
+    const containerRef   = React.useRef(null);
+    const optionsRef     = React.useRef(null);
+    const selectedIdxRef = React.useRef(-1);
+    const timerRef       = React.useRef(null);
 
     // The Current State
     const [ showOptions, setShowOptions ] = React.useState(false);
@@ -101,7 +95,7 @@ function SuggestInput(props) {
         setSearching(false);
 
         if (newSuggestions && Array.isArray(newSuggestions)) {
-            selectedRef.current = 0;
+            selectedIdxRef.current = -1;
             const parsedSuggestions = Utils.parseSearchResult(newSuggestions, value, "title", false);
             setSuggestions(parsedSuggestions);
         }
@@ -114,7 +108,7 @@ function SuggestInput(props) {
             setSuggestions([]);
         }
 
-        selectedRef.current = 0;
+        selectedIdxRef.current = -1;
         setSearch("");
         setShowOptions(false);
     };
@@ -139,7 +133,7 @@ function SuggestInput(props) {
             maxHeight : window.innerHeight - bounds.bottom - 10,
         });
         onFocus();
-        selectedRef.current = 0;
+        selectedIdxRef.current = -1;
     };
 
     // Handles the Blur
@@ -156,8 +150,20 @@ function SuggestInput(props) {
     // Handles the Select
     const handleSelect = (e, newID, newValue, data) => {
         e.stopPropagation();
+        if (handleCreate(newID)) {
+            return;
+        }
         selectElem(newID, newValue, data);
         setShowOptions(false);
+    };
+
+    // Handles the Create Option
+    const handleCreate = (value) => {
+        if (value !== "__create__") {
+            return false;
+        }
+        onCreate();
+        return true;
     };
 
     // Handles the Input
@@ -171,14 +177,14 @@ function SuggestInput(props) {
             return;
         }
 
-        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedRef.current, suggestions.length);
-        selectedRef.current = newIndex;
+        const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedIdxRef.current, filteredOptions.length);
+        selectedIdxRef.current = newIndex;
         if (handled) {
             e.preventDefault();
         }
 
         setShowOptions(true);
-        scrollToIndex(selectedRef.current, false);
+        scrollToIndex(selectedIdxRef.current, false);
         setUpdate(update + 1);
     };
 
@@ -193,8 +199,8 @@ function SuggestInput(props) {
             break;
 
         case KeyCode.DOM_VK_RETURN:
-            if (suggestions[selectedRef.current]) {
-                const elem = suggestions[selectedRef.current];
+            if (filteredOptions[selectedIdxRef.current]) {
+                const elem = filteredOptions[selectedIdxRef.current];
                 selectElem(elem.id, elem.title, elem);
             }
             break;
@@ -220,13 +226,30 @@ function SuggestInput(props) {
 
 
     // Variables
-    const hasValue        = Boolean(value);
-    const hasSearch       = shouldSearch(search);
-    const showSearch      = Boolean(hasSearch && searching && searchText);
-    const showEmpty       = Boolean(hasSearch && !searching && !suggestions.length && emptyText);
-    const showLine        = Boolean(hasValue && (showSearch || showEmpty || suggestions.length));
-    const showSuggestions = Boolean(suggestions.length && !searching);
-    const hasOptions      = Boolean(showOptions && (hasValue || showSearch || showEmpty || suggestions.length));
+    const hasCreate = Boolean(createOption && onCreate);
+
+    // Get the Filtered Options
+    const filteredOptions = React.useMemo(() => {
+        const result = [ ...suggestions ];
+        if (hasCreate) {
+            result.push({
+                id   : "__create__",
+                text : NLS.get(createOption),
+            });
+        }
+        return result;
+    }, [ JSON.stringify(suggestions), hasCreate ]);
+
+
+    // Variables
+    const hasValue            = Boolean(value);
+    const hasSearch           = shouldSearch(search);
+    const showSearch          = Boolean(hasSearch && searching && searchText);
+    const showEmpty           = Boolean(hasSearch && !searching && !suggestions.length && emptyText);
+    const showLine            = Boolean(hasValue && (showSearch || showEmpty || suggestions.length));
+    const showFilteredOptions = Boolean(filteredOptions.length && !searching);
+    const hasOptions          = Boolean(showOptions && (hasValue || showSearch || showEmpty || filteredOptions.length));
+    const isOnlyOption        = Boolean(filteredOptions.length === 1 && !hasValue);
 
 
     // Do the Render
@@ -234,12 +257,15 @@ function SuggestInput(props) {
         passedRef={containerRef}
         className={className}
         icon={icon}
-        postIcon={postIcon}
+        postIcon="search"
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
         onClick={handleClick}
         onClear={onClear}
+        showButton={showCreate}
+        buttonMessage="GENERAL_CREATE"
+        onButton={onCreate}
         withBorder={withBorder}
         withLabel={withLabel}
         withPadding
@@ -250,18 +276,14 @@ function SuggestInput(props) {
             id={id}
             type="text"
             name={name}
-            value={showOptions ? search : value}
-            placeholder={placeholder}
+            value={showOptions ? search : (value || "")}
+            placeholder={showOptions ? placeholder : ""}
             isDisabled={isDisabled}
             onInput={handleInput}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
-        />
-        <InputIcon
-            icon="search"
-            size="18"
         />
 
         {hasOptions && <InputOptions
@@ -272,16 +294,32 @@ function SuggestInput(props) {
             width={Math.max(suggestWidth ?? 0, bounds.width)}
             maxHeight={bounds.maxHeight}
         >
-            {hasValue && <InputOption content={`<b>${value}</b>`} />}
-            {showLine && <MenuLine />}
-            {showSearch && <InputOption content={NLS.get(searchText)} />}
-            {showEmpty && <InputOption content={NLS.get(emptyText)} />}
+            <InputOption
+                isHidden={!hasValue}
+                content={value}
+                isOnlyOption={!showLine}
+                hasValue={hasValue}
+                hasCreate={hasCreate}
+                forValue
+            />
+            <InputOption
+                isHidden={!showSearch}
+                message={searchText}
+            />
+            <InputOption
+                isHidden={!showEmpty}
+                message={emptyText}
+            />
 
-            {showSuggestions && suggestions.map((elem, index) => <InputOption
+            {showFilteredOptions && filteredOptions.map((elem, index) => <InputOption
                 key={index}
                 className={`input-suggestion-${index}`}
+                hasValue={hasValue}
+                hasCreate={hasCreate}
+                forCreate={elem.id === "__create__"}
+                isOnlyOption={isOnlyOption}
                 content={elem.text}
-                isSelected={selectedRef.current === index}
+                isSelected={selectedIdxRef.current === index}
                 onMouseDown={(e) => handleSelect(e, elem.id, elem.title, elem)}
             />)}
         </InputOptions>}
@@ -308,17 +346,20 @@ SuggestInput.propTypes = {
     emptyText       : PropTypes.string,
     searchText      : PropTypes.string,
     value           : PropTypes.any,
-    onChange        : PropTypes.func.isRequired,
-    onClear         : PropTypes.func,
-    onFocus         : PropTypes.func,
-    onBlur          : PropTypes.func,
-    onSubmit        : PropTypes.func,
     suggestID       : PropTypes.string,
     suggestFetch    : PropTypes.func,
     suggestParams   : PropTypes.object,
     suggestNone     : PropTypes.string,
     suggestWidth    : PropTypes.number,
     keepSuggestions : PropTypes.bool,
+    createOption    : PropTypes.string,
+    showCreate      : PropTypes.bool,
+    onCreate        : PropTypes.func,
+    onChange        : PropTypes.func,
+    onClear         : PropTypes.func,
+    onFocus         : PropTypes.func,
+    onBlur          : PropTypes.func,
+    onSubmit        : PropTypes.func,
 };
 
 /**
