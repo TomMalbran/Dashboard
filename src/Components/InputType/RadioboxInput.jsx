@@ -65,7 +65,6 @@ const Radio = Styled.input`
     }
 
     &:disabled + span {
-        background-color: rgb(245, 245, 245);
         color: rgb(175, 175, 175);
         cursor: not-allowed;
     }
