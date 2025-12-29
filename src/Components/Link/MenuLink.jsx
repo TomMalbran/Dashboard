@@ -23,6 +23,8 @@ const Variant = {
 
 // Styles
 const Link = Styled.a.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
+    --link-gap: 8px;
+
     position: relative;
     display: flex;
     align-items: center;
@@ -48,12 +50,12 @@ const NavLink = Styled(Link)`
     .link-preicon {
         font-size: 1.4em;
         height: 1em;
-        margin-right: 8px;
+        margin-right: var(--link-gap);
     }
     .link-aftericon {
         font-size: 1.4em;
         height: 1em;
-        margin-left: 8px;
+        margin-left: var(--link-gap);
     }
 `;
 
@@ -105,11 +107,11 @@ const OutlinedLink = Styled(Link)`
     }
     .link-preicon {
         font-size: 1.7em;
-        margin-right: 8px;
+        margin-right: var(--link-gap);
     }
     .link-aftericon {
         font-size: 1.7em;
-        margin-left: 8px;
+        margin-left: var(--link-gap);
     }
 
     ${(props) => props.isSelected && "border-color: white;"}
