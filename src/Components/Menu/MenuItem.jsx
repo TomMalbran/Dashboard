@@ -125,10 +125,10 @@ function MenuItem(props) {
         if (url) {
             navigate(uri, target);
         }
-        if (onAction) {
-            onAction(act);
-        } else if (onClick) {
+        if (onClick) {
             onClick();
+        } else if (onAction) {
+            onAction(act);
         }
         if (!dontClose && !hasMenu && onClose) {
             onClose();

@@ -20,13 +20,12 @@ const Variant = {
 
 
 // Styles
-const Backdrop = Styled.div.attrs(({ isVisible, isSubmenu }) => ({ isVisible, isSubmenu }))`
+const Backdrop = Styled.div.attrs(({ isSubmenu }) => ({ isSubmenu }))`
     display: block;
     position: fixed;
     inset: 0;
     z-index: var(--z-menu);
 
-    ${(props) => !props.isVisible && "display: none;"}
     ${(props) => props.isSubmenu && "pointer-events: none;"}
 `;
 
@@ -44,7 +43,10 @@ const Container = Styled.div.attrs(({ isVisible, withPos, isLeft, isRight, width
     overflow-x: hidden;
     pointer-events: all;
 
-    ${(props) => !props.isVisible && "opacity: 0;"}
+    ${(props) => !props.isVisible && `
+        pointer-events: none;
+        opacity: 0;
+    `}
     ${(props) => props.withPos && "transform: none;"}
     ${(props) => props.isLeft  && "left: 7px;"}
     ${(props) => props.isRight && "right: 7px;"}
@@ -81,8 +83,8 @@ const Empty = Styled.li`
  */
 function Menu(props) {
     const {
-        containerRef, className, open, variant, direction, iconHeight,
-        gap, width, targetRef, useBottom,
+        containerRef, className, open, variant, direction,
+        gap, width, targetRef, iconHeight,
         onAction, onClose, onMouseEnter, onMouseLeave,
         withSearch, emptyText, filterText, keyCode,
         isSubmenu, skipValidation, children,
@@ -90,42 +92,14 @@ function Menu(props) {
 
 
     // The References
-    const contentRef = React.useRef(null);
+    // const contentRef = React.useRef(null);
+    const [ contentRef, setContentRef ] = React.useState(null);
 
     // The Current State
     const [ selectedIdx, setSelectedIdx ] = React.useState(-1);
     const [ filter,      setFilter      ] = React.useState("");
     const [ trigger,     setTrigger     ] = React.useState(false);
 
-
-    // Parse the Items
-    const items = React.useMemo(() => {
-        const items = [];
-        let   key   = 0;
-        let   index = 0;
-        for (const child of Utils.getChildren(children)) {
-            const { isHidden, act, title, message, isTitle } = child.props;
-            const titleMsg   = NLS.get(title || "");
-            const contentMsg = NLS.get(message || act?.message || "");
-            const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
-
-            if (!isHidden && !isFiltered) {
-                const itemIndex = isTitle ? -1 : index;
-                items.push(React.cloneElement(child, {
-                    index : itemIndex,
-                    key, selectedIdx, filter, onAction, onClose,
-                    trigger, setTrigger,
-                }));
-
-                if (!isTitle) {
-                    index += 1;
-                }
-                key += 1;
-            }
-        }
-        return items;
-    // }, [ children, filter, selectedIdx, onAction, onClose, trigger ]);
-    }, [ children, filter, selectedIdx, trigger ]);
 
 
     // Remove the filter on Open
@@ -261,8 +235,8 @@ function Menu(props) {
 
     // Scrolls to the Index
     const scrollToIndex = (index) => {
-        if (contentRef.current) {
-            const elem = contentRef.current.querySelector(`.menu-item-${index}`);
+        if (contentRef) {
+            const elem = contentRef.querySelector(`.menu-item-${index}`);
             if (elem) {
                 elem.scrollIntoView({
                     behavior : "instant",
@@ -273,8 +247,36 @@ function Menu(props) {
     };
 
 
+    // Parse the Items
+    const items = React.useMemo(() => {
+        const items = [];
+        let   key   = 0;
+        let   index = 0;
+        for (const child of Utils.getChildren(children)) {
+            const { isHidden, act, title, message, isTitle } = child.props;
+            const titleMsg   = NLS.get(title || "");
+            const contentMsg = NLS.get(message || act?.message || "");
+            const isFiltered = Boolean(filter && !titleMsg.toLocaleLowerCase().includes(filter) && !contentMsg.toLocaleLowerCase().includes(filter));
+
+            if (!isHidden && !isFiltered) {
+                const itemIndex = isTitle ? -1 : index;
+                items.push(React.cloneElement(child, {
+                    index : itemIndex,
+                    key, selectedIdx, filter, onAction, onClose,
+                    trigger, setTrigger,
+                }));
+
+                if (!isTitle) {
+                    index += 1;
+                }
+                key += 1;
+            }
+        }
+        return items;
+    }, [ children, filter, selectedIdx, trigger ]);
+
     // Calculate the Styles
-    const [ isVisible, hasStyles, style, winWidth, forTop ] = React.useMemo(() => {
+    const [ isVisible, hasStyles, style, winWidth, toTop ] = React.useMemo(() => {
         let { top, left, right, bottom, maxHeight } = props;
         let hasStyles = (top || bottom) && (left || right);
 
@@ -282,19 +284,19 @@ function Menu(props) {
         const winHeight = window.innerHeight;
 
         // Wait until the Menu is Open and has a Content
-        if (!open || !contentRef.current) {
+        if (!open || !contentRef) {
             return [ false, false, {}, winWidth, false ];
         }
 
         const style        = {};
         const dir          = direction || "";
-        let   forTop       = dir.includes("top");
-        const forBottom    = dir.includes("bottom");
-        const forLeft      = dir.includes("left");
+        let   toTop        = dir.includes("top");
+        const toBottom     = dir.includes("bottom");
+        const toLeft       = dir.includes("left");
         let   targetHeight = 0;
 
         // Calculate the Bounds of the Menu without Styles
-        const cntBounds   = Utils.getBounds(contentRef);
+        const cntBounds   = contentRef.getBoundingClientRect();
         const boundWidth  = width || cntBounds.width;
         let   boundHeight = cntBounds.height;
         if (maxHeight) {
@@ -306,28 +308,22 @@ function Menu(props) {
             const bounds = Utils.getBounds(targetRef);
             targetHeight = bounds.height;
 
-            if (useBottom) {
-                if (forTop) {
-                    bottom = winHeight - bounds.top + gap;
-                } else if (forBottom) {
-                    bottom = winHeight - bounds.bottom - gap;
-                }
-            } else if (forTop) {
-                top = bounds.top - gap;
-            } else if (forBottom) {
+            if (toTop) {
+                bottom = winHeight - bounds.top + gap;
+            } if (toBottom) {
                 top = bounds.bottom + gap;
             } else {
                 top = bounds.top;
             }
 
-            if (forTop || forBottom) {
-                if (forLeft) {
+            if (toTop || toBottom) {
+                if (toLeft) {
                     right = winWidth - bounds.right;
                 } else {
                     left = bounds.left;
                 }
             } else {
-                if (forLeft) {
+                if (toLeft) {
                     right = winWidth - bounds.left;
                 } else {
                     left = bounds.right;
@@ -338,13 +334,13 @@ function Menu(props) {
 
         if (hasStyles) {
             // Adjust for the size of the Menu
-            if (top && forTop) {
+            if (top && toTop) {
                 top -= boundHeight;
             }
-            if (bottom && forBottom) {
+            if (bottom && toBottom) {
                 bottom -= boundHeight;
             }
-            if (left && forLeft) {
+            if (left && toLeft) {
                 left -= boundWidth;
             }
 
@@ -373,7 +369,7 @@ function Menu(props) {
                             maxHeight = newMaxHeight;
                         } else {
                             top -= (targetHeight + boundHeight + 8);
-                            forTop = true;
+                            toTop = true;
                         }
                     } else {
                         top -= (top + boundHeight) - winHeight;
@@ -414,35 +410,38 @@ function Menu(props) {
                 style.maxHeight = `${winHeight - 16}px`;
             }
         }
-        return [ true, hasStyles, style, winWidth, forTop ];
-    }, [ open, contentRef.current ]);
+        return [ true, hasStyles, style, winWidth, toTop ];
+    }, [ open, contentRef ]);
 
 
     // Variables
     const showSearch       = withSearch && (filter || items.length > 5) && winWidth > Responsive.WIDTH_FOR_MOBILE;
-    const showTopSearch    = showSearch && !forTop;
-    const showBottomSearch = showSearch && forTop;
+    const showTopSearch    = showSearch && !toTop;
+    const showBottomSearch = showSearch && toTop;
     const showEmpty        = Boolean((showSearch || filterText) && !items.length && emptyText);
     const showMenu         = Boolean(open && (items.length || showSearch || showEmpty));
 
 
     // Do the Render
+    if (!showMenu) {
+        return <React.Fragment />;
+    }
     return <Backdrop
-        isVisible={showMenu}
+        className="backdrop"
         isSubmenu={isSubmenu}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseDown={handleClose}
     >
         <Container
-            ref={contentRef}
+            ref={(ref) => setContentRef(ref)}
             className={className}
             isVisible={isVisible}
             withPos={hasStyles}
             isLeft={!hasStyles && variant === Variant.LEFT}
             isRight={!hasStyles && variant === Variant.RIGHT}
             width={width}
-            onClick={handleClick}
+            onMouseDown={handleClick}
             style={style}
         >
             {showTopSearch && <Search>
@@ -502,7 +501,6 @@ Menu.propTypes = {
     gap            : PropTypes.number,
     width          : PropTypes.number,
     maxHeight      : PropTypes.number,
-    useBottom      : PropTypes.bool,
     withSearch     : PropTypes.bool,
     emptyText      : PropTypes.string,
     filterText     : PropTypes.string,
