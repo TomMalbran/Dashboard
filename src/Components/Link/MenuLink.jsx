@@ -22,7 +22,7 @@ const Variant = {
 
 
 // Styles
-const Link = Styled.a.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDisabled }))`
+const Link = Styled.a.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelected, isDisabled, isSmall }))`
     --link-gap: 8px;
 
     position: relative;
@@ -33,13 +33,19 @@ const Link = Styled.a.attrs(({ isSelected, isDisabled }) => ({ isSelected, isDis
     color: var(--link-color, black);
     cursor: pointer;
 
+    ${(props) => props.isSmall && `
+        --link-gap: 2px;
+        border-radius: var(--border-radius-small);
+        font-size: 12px;
+    `}
+
     &:hover, &:focus {
         outline: none;
     }
 `;
 
-const NavLink = Styled(Link)`
-    padding: 9px 12px;
+const NavLink = Styled(Link).attrs(({ isSmall }) => ({ isSmall }))`
+    padding: ${(props) => props.isSmall ? "2px 6px 2px 2px" : "9px 12px"};
     transition: all 0.2s ease-in-out;
 
     &:hover {
@@ -97,6 +103,7 @@ const DarkLink = Styled(NavLink)`
 
 const OutlinedLink = Styled(Link)`
     --link-color: white;
+
     padding: 4px 16px;
     border: 1px solid transparent;
     text-transform: uppercase;
@@ -172,7 +179,8 @@ const Components = {
  */
 function MenuLink(props) {
     const {
-        isHidden, passedRef, variant, className, isSelected, isDisabled, onlyIcon,
+        isHidden, passedRef, variant, className,
+        isSelected, isDisabled, onlyIcon, isSmall,
         target, message, emoji, html, icon, iconColor, afterIcon, amount, badge,
         onMouseEnter, onMouseLeave, children,
     } = props;
@@ -197,6 +205,7 @@ function MenuLink(props) {
         className={`link ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
+        isSmall={isSmall}
         href={Navigate.getUrl(props)}
         target={target}
         onClick={onClick}
@@ -262,6 +271,7 @@ MenuLink.propTypes = {
     isSelected   : PropTypes.bool,
     isDisabled   : PropTypes.bool,
     onlyIcon     : PropTypes.bool,
+    isSmall      : PropTypes.bool,
     dontStop     : PropTypes.bool,
     passedRef    : PropTypes.any,
     children     : PropTypes.any,
@@ -286,6 +296,7 @@ MenuLink.defaultProps = {
     isSelected : false,
     isDisabled : false,
     onlyIcon   : false,
+    isSmall    : false,
     dontStop   : false,
 };
 
