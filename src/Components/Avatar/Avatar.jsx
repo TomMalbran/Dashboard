@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core & Utils
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
 
@@ -45,8 +46,16 @@ function Avatar(props) {
     const {
         passedRef, className, size, name, email, avatar, edition, withReload,
         url, href, target, onClick, defaultValue,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
     } = props;
 
+    const defaultRef = React.useRef();
+    const elementRef = passedRef || defaultRef;
+
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+
+    // Variables
     const hasClick = Boolean(url || href || onClick);
     const uri      = url ? NLS.baseUrl(url) : href;
     const navigate = Navigate.useGotoUrl();
@@ -61,6 +70,13 @@ function Avatar(props) {
             navigate(uri, target);
             e.stopPropagation();
             e.preventDefault();
+        }
+    };
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
         }
     };
 
@@ -84,11 +100,13 @@ function Avatar(props) {
         return <React.Fragment />;
     }
     return <Container
-        ref={passedRef}
+        ref={elementRef}
         className={className}
         size={size}
         hasClick={hasClick}
         onClick={handleClick}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     >
         <Image
             alt={name}
@@ -104,19 +122,23 @@ function Avatar(props) {
  * @type {object} propTypes
  */
 Avatar.propTypes = {
-    passedRef    : PropTypes.any,
-    className    : PropTypes.string,
-    size         : PropTypes.number,
-    name         : PropTypes.string,
-    email        : PropTypes.string,
-    avatar       : PropTypes.string,
-    url          : PropTypes.string,
-    href         : PropTypes.string,
-    target       : PropTypes.string,
-    defaultValue : PropTypes.string,
-    edition      : PropTypes.number,
-    withReload   : PropTypes.bool,
-    onClick      : PropTypes.func,
+    passedRef      : PropTypes.any,
+    className      : PropTypes.string,
+    size           : PropTypes.number,
+    name           : PropTypes.string,
+    email          : PropTypes.string,
+    avatar         : PropTypes.string,
+    url            : PropTypes.string,
+    href           : PropTypes.string,
+    target         : PropTypes.string,
+    defaultValue   : PropTypes.string,
+    edition        : PropTypes.number,
+    withReload     : PropTypes.bool,
+    onClick        : PropTypes.func,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
+    tooltipDelay   : PropTypes.number,
 };
 
 /**
@@ -124,11 +146,15 @@ Avatar.propTypes = {
  * @type {object} defaultProps
  */
 Avatar.defaultProps = {
-    className    : "",
-    size         : 36,
-    target       : "_self",
-    withReload   : false,
-    defaultValue : "mp",
+    className      : "",
+    size           : 36,
+    target         : "_self",
+    withReload     : false,
+    defaultValue   : "mp",
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    tooltipWidth   : 0,
+    tooltipDelay   : 1,
 };
 
 export default Avatar;
