@@ -51,6 +51,7 @@ function Backdrop(props) {
         onClick, onClose, children,
     } = props;
 
+
     // Handles the Click
     const handleClick = (e) => {
         if (onClick) {
@@ -70,7 +71,7 @@ function Backdrop(props) {
 
     // Do the Render
     return <Div
-        className={className}
+        className={`backdrop ${className}`}
         isOpen={open}
         isClosing={isClosing}
         zIndex={zIndex}

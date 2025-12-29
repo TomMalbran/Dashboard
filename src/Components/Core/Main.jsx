@@ -43,7 +43,7 @@ function Main(props) {
     const { className, withNavigation, withDetails, wideDetails, largeDetails, children } = props;
 
     return <Content
-        className={className}
+        className={`main ${className}`}
         withNavigation={withNavigation}
         withDetails={withDetails}
         largeDetails={largeDetails}
