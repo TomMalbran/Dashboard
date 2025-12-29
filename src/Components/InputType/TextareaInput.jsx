@@ -53,7 +53,6 @@ const Textarea = Styled.textarea.attrs(({ withLabel }) => ({ withLabel }))`
     }
     &:disabled {
         color: var(--input-disabled-color);
-        background: white;
     }
     &::placeholder {
         color: var(--darkest-gray);
