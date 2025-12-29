@@ -3,6 +3,8 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import Ajax                 from "../../Core/Ajax";
+import InputType            from "../../Core/InputType";
 import NLS                  from "../../Core/NLS";
 import DateTime             from "../../Utils/DateTime";
 import KeyCode              from "../../Utils/KeyCode";
@@ -81,21 +83,19 @@ function Filter(props) {
     const [ showDates,   setShowDates   ] = React.useState(false);
     const [ datesName,   setDatesName   ] = React.useState("");
     const [ withHour,    setWithHour    ] = React.useState(false);
+    const [ onlyHour,    setOnlyHour    ] = React.useState(false);
     const [ update,      setUpdate      ] = React.useState(0);
 
 
     // Parse the Items
     const childProps = Utils.getChildrenProps(children);
-    const items      = React.useMemo(() => {
-        const items  = {};
-        const fields = {};
+    const [ items, itemList ] = React.useMemo(() => {
+        const items    = {};
+        const itemList = [];
+        const fields   = {};
+
         for (const child of childProps) {
-            let options = [];
-            if (Array.isArray(child.options)) {
-                options = Utils.clone(child.options);
-            } else if (typeof child.options === "string") {
-                options = NLS.select(child.options);
-            }
+            const options = InputType.getOptions(child);
             if (child.type === "period" && options.length) {
                 options.unshift({
                     key   : Period.CUSTOM,
@@ -106,19 +106,23 @@ function Filter(props) {
                 continue;
             }
 
-            items[child.name] = {
+            const item = {
                 key           : child.name,
                 type          : child.type,
                 name          : child.name,
                 icon          : child.icon,
                 message       : NLS.get(child.label),
                 options       : options,
-                allowMultiple : child.allowMultiple,
+                allowMultiple : Boolean(child.allowMultiple),
+                dontClose     : Boolean(child.dontClose),
                 withHour      : Boolean(child.withHour),
+                onlyHour      : child.type === "time",
             };
 
+            itemList.push(item);
+            items[child.name]  = item;
             fields[child.name] = "";
-            if (child.type === "period") {
+            if (child.type === "period" || child.type === "date" || child.type === "time") {
                 if (child.name === "period") {
                     fields.fromDate = "";
                     fields.fromHour = "";
@@ -139,9 +143,19 @@ function Filter(props) {
         }
 
         setData(fields);
-        return items;
+        return [ items, itemList ];
     }, [ JSON.stringify(childProps), JSON.stringify(values) ]);
 
+
+    // Shows the Dates Dialog
+    const showDatesDialog = (name, withHour, onlyHour) => {
+        window.setTimeout(() => {
+            setDatesName(name);
+            setWithHour(withHour);
+            setOnlyHour(onlyHour);
+            setShowDates(true);
+        }, 100);
+    };
 
     // Handles the Update
     const handleUpdate = (name, value) => {
@@ -157,12 +171,8 @@ function Filter(props) {
             return;
         }
 
-        if (item.type === "period" && (!item.options.length || value === Period.CUSTOM)) {
-            window.setTimeout(() => {
-                setDatesName(name);
-                setWithHour(item.withHour);
-                setShowDates(true);
-            }, 100);
+        if ((item.type === "period" && (!item.options.length || value === Period.CUSTOM)) || item.type === "date" || item.type === "time") {
+            showDatesDialog(name, item.withHour, item.onlyHour);
         } else {
             let newData  = {};
             let newValue = value;
@@ -180,6 +190,9 @@ function Filter(props) {
                 if (item.type === "number") {
                     newValue = newValue.replace("#", "");
                 }
+                if (item.type === "toggle") {
+                    newValue = Number(data[name]) === 1 ? 0 : 1;
+                }
                 newData = { ...data, [name] : newValue };
             }
             setData(newData);
@@ -187,7 +200,9 @@ function Filter(props) {
         }
 
         setSearch("");
-        inputRef.current.blur();
+        if (!item.dontClose) {
+            inputRef.current.blur();
+        }
     };
 
     // Handles the Remove
@@ -202,7 +217,7 @@ function Filter(props) {
             const currentValues = data[name] || [];
             const newValues     = currentValues.filter((val) => val !== value);
             newData = { ...data, [name] : newValues };
-        } else if (item.type === "period") {
+        } else if (item.type === "period" || item.type === "date") {
             if (name === "period") {
                 newData = {
                     ...data,
@@ -232,13 +247,14 @@ function Filter(props) {
 
     // Handles the Submit of the Dates Dialog
     const handleDates = (fromDate, fromHour, toDate, toHour) => {
+        const item = items[datesName];
         let newData = {};
         if (datesName === "period") {
             newData = { ...data, fromDate, fromHour, toDate, toHour, period : Period.CUSTOM };
         } else {
             newData = {
                 ...data,
-                [datesName]              : Period.CUSTOM,
+                [datesName]              : item.type === "period" ? Period.CUSTOM : "",
                 [`${datesName}FromDate`] : fromDate,
                 [`${datesName}FromHour`] : fromHour,
                 [`${datesName}ToDate`]   : toDate,
@@ -249,6 +265,14 @@ function Filter(props) {
         setShowDates(false);
         setData(newData);
         handleFilter(newData);
+    };
+
+    // Handles the Click on a Chip
+    const handleChipClick = (name, forDates) => {
+        const item = items[name];
+        if (item && forDates) {
+            showDatesDialog(name, item.withHour, item.onlyHour);
+        }
     };
 
     // Handles the Refresh
@@ -264,6 +288,7 @@ function Filter(props) {
 
     // Handles the Refresh
     const handleFilter = (data) => {
+        Ajax.abort();
         onFilter(data);
     };
 
@@ -271,6 +296,9 @@ function Filter(props) {
     // Returns the Icon for the Item
     const getIcon = (name, value, isSubmenu) => {
         const item = items[name];
+        if (!item) {
+            return "";
+        }
         if (item.type !== "toggle" && !isSubmenu) {
             return item.icon;
         }
@@ -280,7 +308,11 @@ function Filter(props) {
             const currentValues = data[name] || [];
             hasValue = currentValues.includes(value);
         }
-        return hasValue ? "checkbox-on" : "checkbox-off";
+
+        if (item.allowMultiple || item.type === "toggle") {
+            return hasValue ? "checkbox-on" : "checkbox-off";
+        }
+        return hasValue ? "radio-on" : "radio-off";
     };
 
 
@@ -402,9 +434,9 @@ function Filter(props) {
     // Generates the Options
     const optionList = React.useMemo(() => {
         const result = [];
-        for (const item of Object.values(items)) {
+        for (const item of itemList) {
             // Only show a text item if searching
-            if (!item.type || item.type === "text") {
+            if (!item.type || item.type === "text" || item.type === "textarea" || item.type === "email") {
                 if (search) {
                     result.push({
                         ...item,
@@ -433,11 +465,16 @@ function Filter(props) {
                 for (const option of item.options || []) {
                     if (Utils.searchValue(option.value, search)) {
                         result.push({
-                            key   : `${item.name}-${option.key}`,
-                            name  : item.name,
-                            value : option.key,
-                            icon  : item.icon,
-                            text  : `${NLS.get(item.message)} "${option.value}"`,
+                            key           : `${item.name}-${option.key}`,
+                            name          : item.name,
+                            value         : option.key,
+                            icon          : item.icon,
+                            message       : item.message,
+                            text          : `${NLS.get(item.message)} "${option.value}"`,
+                            options       : [],
+                            allowMultiple : false,
+                            dontClose     : false,
+                            withHour      : false,
                         });
                         added = true;
                     }
@@ -452,12 +489,12 @@ function Filter(props) {
                 if (item.type === "toggle") {
                     result.push({ ...item, value : 1 });
                 } else {
-                    result.push(item);
+                    result.push({ ...item, value : "" });
                 }
             }
         }
         return result;
-    }, [ JSON.stringify(items), JSON.stringify(data), search ]);
+    }, [ JSON.stringify(itemList), JSON.stringify(data), search ]);
 
 
     // Generates the Chips
@@ -465,14 +502,17 @@ function Filter(props) {
         const result = [];
         for (const [ name, value ] of Object.entries(data)) {
             const item = items[name];
-            if (!value || !item) {
+            if (!item) {
                 continue;
             }
 
             const values = Array.isArray(value) ? value : [ value ];
             for (const val of values) {
                 let valueName = val;
-                if (item.type === "period" && val === Period.CUSTOM) {
+                let forDates  = false;
+                if ((item.type === "period" && val === Period.CUSTOM) || item.type === "date") {
+                    forDates = true;
+
                     // @ts-ignore
                     let { fromDate, fromHour, toDate, toHour } = data;
                     let fromText = "";
@@ -499,8 +539,23 @@ function Filter(props) {
                     } else if (toText) {
                         valueName = NLS.format("DATE_TO", toText);
                     }
-                } else if (item.options) {
+                } else if (item.type === "time") {
+                    forDates = true;
+                    const fromText = data[`${name}FromHour`] || "";
+                    const toText   = data[`${name}ToHour`]   || "";
+
+                    if (fromText && toText) {
+                        valueName = NLS.format("DATE_RANGE", fromText, toText);
+                    } else if (fromText) {
+                        valueName = NLS.format("DATE_FROM", fromText);
+                    } else if (toText) {
+                        valueName = NLS.format("DATE_TO", toText);
+                    }
+                } else if (val && item.options) {
                     valueName = item.options.find((opt) => opt.key === val)?.value || val;
+                }
+                if (!valueName) {
+                    continue;
                 }
 
                 let message = `<b>${item.message}</b>: ${valueName}`;
@@ -509,10 +564,11 @@ function Filter(props) {
                 }
 
                 result.push({
-                    key     : `${name}-${val}`,
-                    name    : name,
-                    value   : val,
-                    message : message,
+                    key      : `${name}-${val}`,
+                    name     : name,
+                    value    : val,
+                    message  : message,
+                    forDates : forDates,
                 });
             }
         }
@@ -565,9 +621,10 @@ function Filter(props) {
             />
 
             <Chips>
-                {chipList.map(({ key, name, value, message }) => <ChipItem
+                {chipList.map(({ key, name, value, message, forDates }) => <ChipItem
                     key={key}
                     message={message}
+                    onClick={forDates ? () => handleChipClick(name, forDates) : undefined}
                     onClose={() => handleRemove(name, value)}
                 />)}
             </Chips>
@@ -583,21 +640,22 @@ function Filter(props) {
             minWidth={300}
             gap={4}
         >
-            {optionList.map(({ key, name, value, text, message, options }, index) => <InputOption
+            {optionList.map(({ key, name, value, text, message, options, dontClose }, index) => <InputOption
                 key={key}
                 className={`input-option-${index}`}
                 icon={getIcon(name, value, false)}
                 content={text || message}
                 isSelected={selectedRef.current === index}
-                onMouseDown={() => handleSelect(name, value)}
+                onMouseDown={!options.length ? () => handleSelect(name, value) : undefined}
                 onClose={handleClose}
             >
-                {options?.map((option, subIndex) => <MenuItem
+                {options.map((option, subIndex) => <MenuItem
                     key={option.key}
                     icon={getIcon(name, option.key, true)}
                     message={option.value}
                     isSelected={selectedSubRef.current === subIndex}
                     onClick={() => handleSelect(name, option.key)}
+                    dontClose={dontClose}
                 />)}
             </InputOption>)}
         </InputOptions>}
@@ -605,7 +663,9 @@ function Filter(props) {
         <FilterDate
             open={showDates}
             withHour={withHour}
+            onlyHour={onlyHour}
             currData={data}
+            datesName={datesName}
             onSubmit={handleDates}
             onClose={() => setShowDates(false)}
         />

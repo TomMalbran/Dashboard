@@ -4,8 +4,8 @@ import PropTypes            from "prop-types";
 // Dashboard
 import EditDialog           from "../Dialogs/EditDialog";
 import DialogMessage        from "../Dialog/DialogMessage";
+import Columns              from "../Form/Columns";
 import InputField           from "../Form/InputField";
-import InputItem            from "../Form/InputItem";
 
 
 
@@ -15,15 +15,15 @@ import InputItem            from "../Form/InputItem";
  * @returns {React.ReactElement}
  */
 function FilterDate(props) {
-    const { open, withHour, currData, onSubmit, onClose } = props;
+    const { open, withHour, onlyHour, currData, datesName, onSubmit, onClose } = props;
 
 
     // The Initial Data
     const initialData = {
-        fromDate : currData?.fromDate || "",
-        fromHour : currData?.fromHour || "",
-        toDate   : currData?.toDate   || "",
-        toHour   : currData?.toHour   || "",
+        fromDate : "",
+        fromHour : "",
+        toDate   : "",
+        toHour   : "",
     };
 
     // The Current State
@@ -32,7 +32,19 @@ function FilterDate(props) {
 
     // Update the data on Open
     React.useEffect(() => {
-        setData({ ...initialData, ...currData });
+        const newData = {
+            fromDate : currData?.fromDate || "",
+            fromHour : currData?.fromHour || "",
+            toDate   : currData?.toDate   || "",
+            toHour   : currData?.toHour   || "",
+        };
+        if (datesName) {
+            newData.fromDate = currData?.[`${datesName}FromDate`] || "";
+            newData.toDate   = currData?.[`${datesName}ToDate`]   || "";
+            newData.fromHour = currData?.[`${datesName}FromHour`] || "";
+            newData.toHour   = currData?.[`${datesName}ToHour`]   || "";
+        }
+        setData({ ...initialData, ...newData });
     }, [ open ]);
 
     // Handles the Input Change
@@ -48,90 +60,58 @@ function FilterDate(props) {
         onSubmit(data.fromDate, data.fromHour, data.toDate, data.toHour);
     };
 
-    // Is the Form Disabled
-    const isDisabled = React.useMemo(() => {
-        return !data.fromDate && !data.toDate;
-    }, [ data.fromDate, data.toDate ]);
-
 
     // Do the Render
     return <EditDialog
         open={open}
         icon="date-range"
-        title="GENERAL_DATE_RANGE"
-        isDisabled={isDisabled}
+        title={onlyHour ? "GENERAL_HOUR_RANGE" : "GENERAL_DATE_RANGE"}
         onSubmit={handleSubmit}
         onClose={onClose}
         isNarrow
     >
-        <DialogMessage message="GENERAL_DATE_RANGE_FILTER" />
-        <InputField
-            isHidden={withHour}
-            name="fromDate"
-            type="date"
-            label="GENERAL_FROM_DATE"
-            maxValue="2999-12-31"
-            value={data.fromDate}
-            onChange={handleChange}
-            hasClear
-        />
-        <InputField
-            isHidden={withHour}
-            name="toDate"
-            type="date"
-            label="GENERAL_TO_DATE"
-            maxValue="2999-12-31"
-            value={data.toDate}
-            onChange={handleChange}
-            hasClear
-        />
-
-        <InputField
-            isHidden={!withHour}
-            type="double"
-            name="fromDate"
-        >
-            <InputItem
-                type="date"
+        <DialogMessage message={onlyHour ? "GENERAL_HOUR_RANGE_FILTER" : "GENERAL_DATE_RANGE_FILTER"} />
+        <Columns amount={withHour ? 2 : 1}>
+            <InputField
+                isHidden={onlyHour}
                 name="fromDate"
+                type="date"
                 label="GENERAL_FROM_DATE"
                 maxValue="2999-12-31"
                 value={data.fromDate}
                 onChange={handleChange}
                 hasClear
             />
-            <InputItem
-                type="time"
+            <InputField
+                isHidden={!withHour && !onlyHour}
                 name="fromHour"
+                type="time"
                 label="GENERAL_FROM_HOUR"
                 value={data.fromHour}
                 onChange={handleChange}
                 hasClear
             />
-        </InputField>
-        <InputField
-            isHidden={!withHour}
-            type="double"
-            name="toDate"
-        >
-            <InputItem
-                type="date"
+
+            <InputField
+                isHidden={onlyHour}
                 name="toDate"
+                type="date"
                 label="GENERAL_TO_DATE"
                 maxValue="2999-12-31"
                 value={data.toDate}
                 onChange={handleChange}
                 hasClear
             />
-            <InputItem
-                type="time"
+            <InputField
+                isHidden={!withHour && !onlyHour}
                 name="toHour"
+                type="time"
                 label="GENERAL_TO_HOUR"
                 value={data.toHour}
                 onChange={handleChange}
                 hasClear
             />
-        </InputField>
+        </Columns>
     </EditDialog>;
 }
 
@@ -140,11 +120,13 @@ function FilterDate(props) {
  * @type {object} propTypes
  */
 FilterDate.propTypes = {
-    open     : PropTypes.bool.isRequired,
-    withHour : PropTypes.bool.isRequired,
-    currData : PropTypes.object.isRequired,
-    onSubmit : PropTypes.func.isRequired,
-    onClose  : PropTypes.func.isRequired,
+    open      : PropTypes.bool.isRequired,
+    withHour  : PropTypes.bool.isRequired,
+    onlyHour  : PropTypes.bool.isRequired,
+    currData  : PropTypes.object.isRequired,
+    datesName : PropTypes.string,
+    onSubmit  : PropTypes.func.isRequired,
+    onClose   : PropTypes.func.isRequired,
 };
 
 export default FilterDate;
