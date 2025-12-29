@@ -5,6 +5,7 @@ import Styled               from "styled-components";
 // Core
 import Navigate             from "../../Core/Navigate";
 import NLS                  from "../../Core/NLS";
+import Store                from "../../Core/Store";
 
 // Components
 import Icon                 from "../Common/Icon";
@@ -34,7 +35,7 @@ const Link = Styled.a.attrs(({ isSelected, isDisabled, isSmall }) => ({ isSelect
     cursor: pointer;
 
     ${(props) => props.isSmall && `
-        --link-gap: 2px;
+        --link-gap: 4px;
         border-radius: var(--border-radius-small);
         font-size: 12px;
     `}
@@ -182,8 +183,35 @@ function MenuLink(props) {
         isHidden, passedRef, variant, className,
         isSelected, isDisabled, onlyIcon, isSmall,
         target, message, emoji, html, icon, iconColor, afterIcon, amount, badge,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
         onMouseEnter, onMouseLeave, children,
     } = props;
+
+    const defaultRef = React.useRef();
+    const elementRef = passedRef || defaultRef;
+
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+
+    // Handles the Mouse Enter
+    const handleMouseEnter = (e) => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
+        }
+        if (onMouseEnter) {
+            onMouseEnter(e);
+        }
+    };
+
+    // Handles the Mouse Leave
+    const handleMouseLeave = (e) => {
+        if (tooltip) {
+            hideTooltip();
+        }
+        if (onMouseLeave) {
+            onMouseLeave(e);
+        }
+    };
 
 
     // Variables
@@ -201,7 +229,7 @@ function MenuLink(props) {
         return <React.Fragment />;
     }
     return <Component
-        ref={passedRef}
+        ref={elementRef}
         className={`link ${className}`}
         isSelected={isSelected}
         isDisabled={isDisabled}
@@ -209,8 +237,8 @@ function MenuLink(props) {
         href={Navigate.getUrl(props)}
         target={target}
         onClick={onClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
     >
         <Content onlyIcon={onlyIcon}>
             {!!icon && <Icon
@@ -247,34 +275,38 @@ function MenuLink(props) {
  * @type {object} propTypes
  */
 MenuLink.propTypes = {
-    isHidden     : PropTypes.bool,
-    className    : PropTypes.string,
-    variant      : PropTypes.string,
-    message      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    emoji        : PropTypes.string,
-    icon         : PropTypes.string,
-    iconColor    : PropTypes.string,
-    afterIcon    : PropTypes.string,
-    amount       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    badge        : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    html         : PropTypes.string,
-    href         : PropTypes.string,
-    url          : PropTypes.string,
-    target       : PropTypes.string,
-    useBase      : PropTypes.bool,
-    isEmail      : PropTypes.bool,
-    isPhone      : PropTypes.bool,
-    isWhatsApp   : PropTypes.bool,
-    onClick      : PropTypes.func,
-    onMouseEnter : PropTypes.func,
-    onMouseLeave : PropTypes.func,
-    isSelected   : PropTypes.bool,
-    isDisabled   : PropTypes.bool,
-    onlyIcon     : PropTypes.bool,
-    isSmall      : PropTypes.bool,
-    dontStop     : PropTypes.bool,
-    passedRef    : PropTypes.any,
-    children     : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    passedRef      : PropTypes.any,
+    className      : PropTypes.string,
+    variant        : PropTypes.string,
+    message        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    emoji          : PropTypes.string,
+    icon           : PropTypes.string,
+    iconColor      : PropTypes.string,
+    afterIcon      : PropTypes.string,
+    amount         : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge          : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    html           : PropTypes.string,
+    href           : PropTypes.string,
+    url            : PropTypes.string,
+    target         : PropTypes.string,
+    useBase        : PropTypes.bool,
+    isEmail        : PropTypes.bool,
+    isPhone        : PropTypes.bool,
+    isWhatsApp     : PropTypes.bool,
+    onClick        : PropTypes.func,
+    onMouseEnter   : PropTypes.func,
+    onMouseLeave   : PropTypes.func,
+    isSelected     : PropTypes.bool,
+    isDisabled     : PropTypes.bool,
+    onlyIcon       : PropTypes.bool,
+    isSmall        : PropTypes.bool,
+    dontStop       : PropTypes.bool,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
+    tooltipDelay   : PropTypes.number,
+    children       : PropTypes.any,
 };
 
 /**
@@ -282,22 +314,26 @@ MenuLink.propTypes = {
  * @type {object} defaultProps
  */
 MenuLink.defaultProps = {
-    isHidden   : false,
-    className  : "",
-    variant    : Variant.NONE,
-    href       : "#",
-    url        : "",
-    target     : "_self",
-    useBase    : false,
-    isEmail    : false,
-    isPhone    : false,
-    isWhatsApp : false,
-    badge      : 0,
-    isSelected : false,
-    isDisabled : false,
-    onlyIcon   : false,
-    isSmall    : false,
-    dontStop   : false,
+    isHidden       : false,
+    className      : "",
+    variant        : Variant.NONE,
+    href           : "#",
+    url            : "",
+    target         : "_self",
+    useBase        : false,
+    isEmail        : false,
+    isPhone        : false,
+    isWhatsApp     : false,
+    badge          : 0,
+    isSelected     : false,
+    isDisabled     : false,
+    onlyIcon       : false,
+    isSmall        : false,
+    dontStop       : false,
+    tooltip        : "",
+    tooltipVariant : "bottom",
+    tooltipWidth   : 0,
+    tooltipDelay   : 1,
 };
 
 export default MenuLink;
