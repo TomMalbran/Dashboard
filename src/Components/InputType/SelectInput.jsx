@@ -39,11 +39,11 @@ const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
     `}
 `;
 
-const Description = Styled(Html)`
+const Description = Styled(Html).attrs(({ isDisabled }) => ({ isDisabled }))`
     color: var(--font-lightest);
     font-size: 13px;
     padding-top: 4px;
-    cursor: pointer;
+    ${(props) => !props.isDisabled && "cursor: pointer;"}
 `;
 
 
@@ -425,6 +425,7 @@ function SelectInput(props) {
             />
             {hasDescription && <Description
                 content={optionDesc}
+                isDisabled={isDisabled}
             />}
         </Inside>
         <InputIcon
