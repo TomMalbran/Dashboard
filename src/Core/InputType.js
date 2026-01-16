@@ -92,10 +92,15 @@ function getOptions(props) {
     const extraItems = Array.isArray(props.extraOptions) ? props.extraOptions : NLS.select(props.extraOptions);
     const result     = [];
 
+    if (props.anyText) {
+        const anyValue = props.anyValue ?? -1;
+        result.push({ key : anyValue, value : NLS.get(props.anyText) });
+    }
     if (props.noneText) {
         const noneValue = props.noneValue ?? 0;
         result.push({ key : noneValue, value : NLS.get(props.noneText) });
     }
+
     for (const item of items) {
         result.push(item);
     }

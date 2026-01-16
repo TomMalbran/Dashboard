@@ -34,6 +34,8 @@ FilterItem.propTypes = {
     isDisabled    : PropTypes.bool,
     options       : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
     extraOptions  : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    anyText       : PropTypes.string,
+    anyValue      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     noneText      : PropTypes.string,
     noneValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
     defaultText   : PropTypes.string,

@@ -113,6 +113,7 @@ function Filter(props) {
                 icon          : child.icon,
                 message       : NLS.get(child.label),
                 options       : options,
+                anyValue      : child.anyText ? (child.anyValue ?? -1) : 0,
                 allowMultiple : Boolean(child.allowMultiple),
                 dontClose     : Boolean(child.dontClose),
                 withHour      : Boolean(child.withHour),
@@ -178,12 +179,19 @@ function Filter(props) {
             let newValue = value;
 
             if (item.allowMultiple) {
-                const currentValues = data[name] || [];
-                let   newValues     = [];
-                if (currentValues.includes(newValue)) {
-                    newValues = currentValues.filter((currValue) => currValue !== newValue);
+                let currentValues = data[name] || [];
+                let newValues     = [];
+                if (newValue === item.anyValue) {
+                    newValues = [ item.anyValue ];
                 } else {
-                    newValues = [ ...currentValues, newValue ];
+                    if (item.anyValue && currentValues.includes(item.anyValue)) {
+                        currentValues = currentValues.filter((currValue) => currValue !== item.anyValue);
+                    }
+                    if (currentValues.includes(newValue)) {
+                        newValues = currentValues.filter((currValue) => currValue !== newValue);
+                    } else {
+                        newValues = [ ...currentValues, newValue ];
+                    }
                 }
                 newData = { ...data, [name] : newValues };
             } else {
