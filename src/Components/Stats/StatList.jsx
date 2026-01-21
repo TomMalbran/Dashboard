@@ -8,7 +8,7 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
+const Container = Styled.ul.attrs(({ columns }) => ({ columns }))`
     display: grid;
     grid-template-columns: repeat(${(props) => props.columns}, minmax(min-content, 1fr));
     gap: var(--main-gap);
@@ -29,27 +29,25 @@ const Ul = Styled.ul.attrs(({ columns }) => ({ columns }))`
  * @returns {React.ReactElement}
  */
 function StatList(props) {
-    const { isHidden, className, variant, twoLines, children } = props;
-
-
-    if (isHidden) {
-        return <React.Fragment />;
-    }
+    const { isHidden, className, twoLines, children } = props;
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
-        variant, twoLines,
+        twoLines,
     }));
 
 
     // Do the Render
-    return <Ul
-        className={className}
+    if (isHidden || !items.length) {
+        return <React.Fragment />;
+    }
+    return <Container
+        className={`stat-list ${className}`}
         columns={items.length}
     >
         {items}
-    </Ul>;
+    </Container>;
 }
 
 /**
@@ -59,7 +57,6 @@ function StatList(props) {
 StatList.propTypes = {
     isHidden  : PropTypes.bool,
     className : PropTypes.string,
-    variant   : PropTypes.string,
     twoLines  : PropTypes.bool,
     children  : PropTypes.any,
 };

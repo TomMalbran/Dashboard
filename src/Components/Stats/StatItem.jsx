@@ -7,17 +7,10 @@ import NLS                  from "../../Core/NLS";
 import Store                from "../../Core/Store";
 import Utils                from "../../Utils/Utils";
 
-// Variants
-const Variant = {
-    LIGHT    : "light",
-    PRIMARY  : "primary",
-    OUTLINED : "outlined",
-};
-
 
 
 // Styles
-const Li = Styled.li.attrs(({ variant, twoLines, hasClick }) => ({ variant, twoLines, hasClick }))`
+const Container = Styled.li.attrs(({ twoLines, hasClick }) => ({ twoLines, hasClick }))`
     position: relative;
     box-sizing: border-box;
     display: flex;
@@ -31,17 +24,10 @@ const Li = Styled.li.attrs(({ variant, twoLines, hasClick }) => ({ variant, twoL
     border-radius: var(--border-radius);
     overflow: hidden;
 
-    ${(props) => props.variant === Variant.LIGHT && `
-        background-color: var(--light-gray);
-    `}
-    ${(props) => props.variant === Variant.PRIMARY && `
-        background-color: var(--primary-color);
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 15px;
-    `}
-    ${(props) => props.variant === Variant.OUTLINED && `
-        border: 1px solid var(--darker-gray);
-    `}
+    background-color: var(--stats-background);
+    color: var(--stats-color);
+    border: var(--stats-border);
+    border-radius: var(--stats-border-radius);
 
     ${(props) => props.twoLines && `
         flex-direction: column;
@@ -60,13 +46,7 @@ const Value = Styled.span.attrs(({ variant }) => ({ variant }))`
     font-size: 22px;
     font-weight: 400;
     white-space: nowrap;
-
-    ${(props) => props.variant === Variant.PRIMARY && `
-        color: white;
-    `}
-    ${(props) => props.variant === Variant.OUTLINED && `
-        color: var(--primary-color);
-    `}
+    color: var(--stats-color-value);
 `;
 
 
@@ -78,7 +58,7 @@ const Value = Styled.span.attrs(({ variant }) => ({ variant }))`
  */
 function StatItem(props) {
     const {
-        variant, twoLines, message, tooltip, value,
+        twoLines, message, tooltip, value,
         decimals, percent, isPrice, isPercent, onClick,
     } = props;
 
@@ -121,9 +101,8 @@ function StatItem(props) {
 
 
     // Do the Render
-    return <Li
+    return <Container
         ref={elementRef}
-        variant={variant}
         hasClick={!!onClick}
         onClick={handleClick}
         onMouseEnter={handleTooltip}
@@ -132,10 +111,10 @@ function StatItem(props) {
         <Text twoLines={twoLines}>
             {NLS.get(message)}
         </Text>
-        <Value variant={variant}>
+        <Value>
             {content}
         </Value>
-    </Li>;
+    </Container>;
 }
 
 /**
@@ -144,7 +123,6 @@ function StatItem(props) {
  */
 StatItem.propTypes = {
     isHidden  : PropTypes.bool,
-    variant   : PropTypes.string,
     message   : PropTypes.string.isRequired,
     tooltip   : PropTypes.string,
     value     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
@@ -161,12 +139,11 @@ StatItem.propTypes = {
  * @type {object} defaultProps
  */
 StatItem.defaultProps = {
-    decimals   : 0,
-    isHidden   : false,
-    variant    : Variant.LIGHT,
-    twoLines   : false,
-    isPrice    : false,
-    isPercent  : false,
+    decimals  : 0,
+    isHidden  : false,
+    twoLines  : false,
+    isPrice   : false,
+    isPercent : false,
 };
 
 export default StatItem;
