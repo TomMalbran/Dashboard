@@ -90,12 +90,12 @@ function InputField(props) {
     };
 
     // Handles the Clear
-    const handleClear = () => {
-        let params = [ name, "" ];
+    const handleClear = (clearValue = "") => {
+        let params = [ name, clearValue ];
         if (suggestID) {
-            params = [ name, "", suggestID, 0 ];
+            params = [ name, clearValue, suggestID, 0 ];
         } else if (type === "file") {
-            params = [ name, undefined, `${name}Name`, "" ];
+            params = [ name, clearValue, `${name}Name`, "" ];
         }
 
         if (onClear) {

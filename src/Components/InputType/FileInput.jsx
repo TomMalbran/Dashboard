@@ -9,6 +9,8 @@ import Utils                from "../../Utils/Utils";
 // Components
 import InputContent         from "../Input/InputContent";
 import Icon                 from "../Common/Icon";
+import ChipItem             from "../Chip/ChipItem";
+import ChipList             from "../Chip/ChipList";
 
 
 
@@ -49,32 +51,71 @@ function FileInput(props) {
     const {
         inputRef, className, icon, postIcon, isFocused, isDisabled,
         name, value, placeholder, onlyImages, accept, maxSize, withBorder,
-        onChange, onClear, onError, onFocus, onBlur,
+        allowMultiple, onChange, onClear, onError, onFocus, onBlur,
     } = props;
 
 
     // Handles the File Change
     const handleChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
-            if (Utils.isValidFile(file, false, maxSize)) {
-                onChange(name, file, `${name}Name`, file.name);
-            } else if (onError) {
+        if (!e.target.files.length) {
+            return;
+        }
+
+        if (allowMultiple) {
+            const files    = Array.isArray(value) ? value : [];
+            let   newFiles = 0;
+            for (const newFile of e.target.files) {
+                if (!files.filter((elem) => elem.name === newFile.name).length &&
+                    Utils.isValidFile(newFile, false, maxSize)
+                ) {
+                    newFiles += 1;
+                    files.push({
+                        file : newFile,
+                        name : newFile.name,
+                    });
+                }
+            }
+
+            if (newFiles > 0) {
+                onChange(name, files);
+                inputRef.current.value = "";
+            }
+            if (onError && e.target.files.length !== newFiles) {
                 onError(name, NLS.get("GENERAL_ERROR_FILE_SIZE"));
             }
+            return;
         }
+
+        const file = e.target.files[0];
+        if (Utils.isValidFile(file, false, maxSize)) {
+            onChange(name, file, `${name}Name`, file.name);
+            inputRef.current.value = "";
+        } else if (onError) {
+            onError(name, NLS.get("GENERAL_ERROR_FILE_SIZE"));
+        }
+    };
+
+    // Handles the File Remove
+    const handleRemove = (index) => {
+        value.splice(index, 1);
+        onChange(name, value);
     };
 
     // Handles the File Clear
     const handleClear = () => {
         inputRef.current.value = "";
-        onClear();
+        onClear(allowMultiple ? [] : undefined);
     };
 
 
-    // Do the Render
-    const message = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
+    // Variables
+    const multipleFiles = Array.isArray(value) && value.length > 0;
+    const singleFile    = !Array.isArray(value) && !!value;
+    const isEmpty       = !multipleFiles && !singleFile;
+    const message       = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
 
+
+    // Do the Render
     return <InputContent
         inputRef={inputRef}
         className={className}
@@ -89,7 +130,19 @@ function FileInput(props) {
         withLabel
         withClick
     >
-        <InputValue>{value ? value : NLS.get(message)}</InputValue>
+        {multipleFiles && <ChipList>
+            {value.map((file, index) => <ChipItem
+                key={index}
+                variant="outlined"
+                message={file.name}
+                onClick={(e) => e.stopPropagation()}
+                onClose={() => handleRemove(index)}
+            />)}
+        </ChipList>}
+
+        {singleFile && <InputValue>{value}</InputValue>}
+        {isEmpty && <InputValue>{NLS.get(message)}</InputValue>}
+
         <InputIcon
             icon="attachment"
             size="18"
@@ -99,6 +152,7 @@ function FileInput(props) {
             type="file"
             name={name}
             accept={onlyImages ? "image/*" : accept}
+            multiple={allowMultiple}
             onChange={handleChange}
             onFocus={onFocus}
             onBlur={onBlur}
@@ -111,24 +165,25 @@ function FileInput(props) {
  * @type {object} propTypes
  */
 FileInput.propTypes = {
-    inputRef    : PropTypes.any,
-    className   : PropTypes.string,
-    icon        : PropTypes.string,
-    postIcon    : PropTypes.string,
-    isFocused   : PropTypes.bool,
-    isDisabled  : PropTypes.bool,
-    withBorder  : PropTypes.bool,
-    name        : PropTypes.string.isRequired,
-    value       : PropTypes.any,
-    placeholder : PropTypes.string,
-    onlyImages  : PropTypes.bool,
-    accept      : PropTypes.string,
-    maxSize     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onChange    : PropTypes.func.isRequired,
-    onClear     : PropTypes.func,
-    onError     : PropTypes.func,
-    onFocus     : PropTypes.func.isRequired,
-    onBlur      : PropTypes.func.isRequired,
+    inputRef      : PropTypes.any,
+    className     : PropTypes.string,
+    icon          : PropTypes.string,
+    postIcon      : PropTypes.string,
+    isFocused     : PropTypes.bool,
+    isDisabled    : PropTypes.bool,
+    withBorder    : PropTypes.bool,
+    name          : PropTypes.string.isRequired,
+    value         : PropTypes.any,
+    placeholder   : PropTypes.string,
+    onlyImages    : PropTypes.bool,
+    allowMultiple : PropTypes.bool,
+    accept        : PropTypes.string,
+    maxSize       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onChange      : PropTypes.func.isRequired,
+    onClear       : PropTypes.func,
+    onError       : PropTypes.func,
+    onFocus       : PropTypes.func.isRequired,
+    onBlur        : PropTypes.func.isRequired,
 };
 
 /**
@@ -136,13 +191,14 @@ FileInput.propTypes = {
  * @type {object} defaultProps
  */
 FileInput.defaultProps = {
-    className   : "",
-    isFocused   : false,
-    isDisabled  : false,
-    withBorder  : true,
-    placeholder : "",
-    onlyImages  : false,
-    accept      : "",
+    className     : "",
+    isFocused     : false,
+    isDisabled    : false,
+    withBorder    : true,
+    placeholder   : "",
+    onlyImages    : false,
+    allowMultiple : false,
+    accept        : "",
 };
 
 export default FileInput;
