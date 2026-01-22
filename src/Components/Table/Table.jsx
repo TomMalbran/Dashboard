@@ -23,7 +23,7 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, notFixed, isEditable }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, notFixed, isEditable }))`
+const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, notFixed, isEditable, extraSpace }) => ({ inDialog, hasFilter, statsAmount, hasTabs, hasAlert, hasPaging, hasChecks, hasActions, notFixed, isEditable, extraSpace }))`
     ${(props) => props.inDialog ? `
         --table-height: calc(var(--dialog-body) - 2 * var(--main-padding) - 2px);
     ` : `
@@ -36,6 +36,7 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
     --table-tabs-height: ${(props) => props.hasTabs ? "var(--tabs-table)" : "0px"};
     --table-alert-height: ${(props) => props.hasAlert ? "var(--alert-height)" : "0px"};
     --table-paging-height: ${(props) => props.hasPaging ? "32px" : "0px"};
+    --table-extra-space: ${(props) => props.extraSpace ? `${props.extraSpace}px` : "0px"};
 
     --table-checks-width: ${(props) => props.hasChecks ? "28px" : "0px"};
     --table-actions-width: ${(props) => props.hasActions || props.isEditable ? "40px" : "0px"};
@@ -50,6 +51,7 @@ const Wrapper = Styled.div.attrs(({ inDialog, hasFilter, statsAmount, hasTabs, h
             - var(--table-tabs-height)
             - var(--table-alert-height)
             - var(--table-filter-height)
+            - var(--table-extra-space)
         );
     `}
 
@@ -105,7 +107,7 @@ function Table(props) {
         className, sort, fetch, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
         noSorting, notFixed, columnData, onColumnEdit,
-        checked, setChecked, hasCheckAll, children,
+        checked, setChecked, hasCheckAll, extraSpace, children,
     } = props;
 
     // The References
@@ -345,6 +347,7 @@ function Table(props) {
             hasActions={hasActions}
             notFixed={notFixed}
             isEditable={isEditable}
+            extraSpace={extraSpace}
         >
             <Container
                 className={className}
@@ -407,6 +410,7 @@ Table.propTypes = {
     checked      : PropTypes.array,
     setChecked   : PropTypes.func,
     hasCheckAll  : PropTypes.bool,
+    extraSpace   : PropTypes.number,
     children     : PropTypes.any,
 };
 
@@ -427,6 +431,7 @@ Table.defaultProps = {
     notFixed    : false,
     columnData  : [],
     hasCheckAll : false,
+    extraSpace  : 0,
 };
 
 export default Table;
