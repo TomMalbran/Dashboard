@@ -43,7 +43,7 @@ const Text = Styled.span.attrs(({ twoLines }) => ({ twoLines }))`
 `;
 
 const Value = Styled.span.attrs(({ variant }) => ({ variant }))`
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 400;
     white-space: nowrap;
     color: var(--stats-color-value);
@@ -90,9 +90,8 @@ function StatItem(props) {
         content = Utils.formatNumber(value, decimals);
     }
     if (isPrice) {
-        content = `$ ${content}`;
-    }
-    if (isPercent) {
+        content = `$${content}`;
+    } else if (isPercent) {
         content = `${content}%`;
     }
     if (percent) {
