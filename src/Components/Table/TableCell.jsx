@@ -109,7 +109,7 @@ function TableCell(props) {
     const {
         isHidden, message,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
-        className, textColor, circle, hideCircle,
+        className, textColor, circle, circleTooltip, hideCircle,
         colSpan, grow, shrink, width, minWidth, maxWidth, align,
         isSmall, isBold, isTitle, isFlex, isMultiline,
         bigMobile, hideMobile,
@@ -164,7 +164,13 @@ function TableCell(props) {
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
     >
-        {!!circle && !hideCircle && <Circle variant={circle} />}
+        {!!circle && !hideCircle && <Circle
+            variant={circle}
+            tooltip={circleTooltip}
+            tooltipVariant="bottom"
+            tooltipWidth={100}
+            tooltipDelay={0.2}
+        />}
 
         {hasHtml && <Html content={content} />}
         {hasMessage && NLS.get(message)}
@@ -200,6 +206,7 @@ TableCell.propTypes = {
     bigMobile      : PropTypes.bool,
     hideMobile     : PropTypes.bool,
     circle         : PropTypes.string,
+    circleTooltip  : PropTypes.string,
     hideCircle     : PropTypes.bool,
     noSpace        : PropTypes.bool,
     smallSpace     : PropTypes.bool,

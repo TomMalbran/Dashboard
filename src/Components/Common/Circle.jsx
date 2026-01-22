@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import { Semaphore }        from "../../Core/Variants";
+import Store                from "../../Core/Store";
 
 
 
@@ -21,12 +22,18 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
 
     ${(props) => {
         switch (props.variant) {
-        case Semaphore.GREEN:  return "background-color: green;";
-        case Semaphore.YELLOW: return "background-color: yellow;";
-        case Semaphore.RED:    return "background-color: red;";
-        case Semaphore.GRAY:   return "background-color: gray;";
-        case Semaphore.BLUE:   return "background-color: #0747a6;";
-        default: return "";
+        case Semaphore.GREEN:
+            return "background-color: green;";
+        case Semaphore.YELLOW:
+            return "background-color: yellow;";
+        case Semaphore.RED:
+            return "background-color: red;";
+        case Semaphore.GRAY:
+            return "background-color: gray;";
+        case Semaphore.BLUE:
+            return "background-color: #0747a6;";
+        default:
+            return "";
         }
     }}
 `;
@@ -39,13 +46,31 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
  * @returns {React.ReactElement}
  */
 function Circle(props) {
-    const { className, variant } = props;
+    const {
+        className, variant,
+        tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
+    } = props;
+
+    const elementRef = React.useRef();
+
+    const { showTooltip, hideTooltip } = Store.useAction("core");
+
+
+    // Handles the Tooltip
+    const handleTooltip = () => {
+        if (tooltip) {
+            showTooltip(elementRef, tooltipVariant, tooltip, tooltipWidth, tooltipDelay);
+        }
+    };
 
 
     // Do the Render
     return <Span
+        ref={elementRef}
         className={`circle ${className}`}
         variant={variant}
+        onMouseEnter={handleTooltip}
+        onMouseLeave={hideTooltip}
     />;
 }
 
@@ -54,8 +79,12 @@ function Circle(props) {
  * @type {object} propTypes
  */
 Circle.propTypes = {
-    className : PropTypes.string,
-    variant   : PropTypes.string.isRequired,
+    className      : PropTypes.string,
+    variant        : PropTypes.string.isRequired,
+    tooltip        : PropTypes.string,
+    tooltipVariant : PropTypes.string,
+    tooltipWidth   : PropTypes.number,
+    tooltipDelay   : PropTypes.number,
 };
 
 /**
