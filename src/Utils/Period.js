@@ -4,45 +4,68 @@ import DateTime     from "../Utils/DateTime";
 
 
 // Constants
-const SELECT        = "select";
-const TODAY         = "today";
-const YESTERDAY     = "yesterday";
-const LAST_7_DAYS   = "last7Days";
-const LAST_15_DAYS  = "last15Days";
-const LAST_30_DAYS  = "last30Days";
-const LAST_60_DAYS  = "last60Days";
-const LAST_90_DAYS  = "last90Days";
-const LAST_120_DAYS = "last120Days";
-const LAST_YEAR     = "lastYear";
-const THIS_WEEK     = "thisWeek";
-const THIS_MONTH    = "thisMonth";
-const THIS_YEAR     = "thisYear";
-const PAST_WEEK     = "pastWeek";
-const PAST_MONTH    = "pastMonth";
-const PAST_YEAR     = "pastYear";
-const ALL_PERIOD    = "allPeriod";
-const CUSTOM        = "custom";
+const SELECT         = "select";
+const TODAY          = "today";
+const YESTERDAY      = "yesterday";
+const PREV_YESTERDAY = "prevYesterday";
+const TOMORROW       = "tomorrow";
+const NEXT_TOMORROW  = "nextTomorrow";
+
+const LAST_7_DAYS    = "last7Days";
+const LAST_15_DAYS   = "last15Days";
+const LAST_30_DAYS   = "last30Days";
+const LAST_60_DAYS   = "last60Days";
+const LAST_90_DAYS   = "last90Days";
+const LAST_120_DAYS  = "last120Days";
+const LAST_YEAR      = "lastYear";
+
+const THIS_WEEK      = "thisWeek";
+const THIS_MONTH     = "thisMonth";
+const THIS_YEAR      = "thisYear";
+
+const PAST_WEEK      = "pastWeek";
+const PAST_MONTH     = "pastMonth";
+const PAST_YEAR      = "pastYear";
+
+const NEXT_WEEK      = "nextWeek";
+const NEXT_MONTH     = "nextMonth";
+const NEXT_YEAR      = "nextYear";
+
+const ALL_PERIOD     = "allPeriod";
+const CUSTOM         = "custom";
 
 const PERIODS_KEYS = {
-    [SELECT]        : "SELECT",
-    [TODAY]         : "TODAY",
-    [YESTERDAY]     : "YESTERDAY",
-    [LAST_7_DAYS]   : "LAST_7_DAYS",
-    [LAST_15_DAYS]  : "LAST_15_DAYS",
-    [LAST_30_DAYS]  : "LAST_30_DAYS",
-    [LAST_60_DAYS]  : "LAST_60_DAYS",
-    [LAST_90_DAYS]  : "LAST_90_DAYS",
-    [LAST_120_DAYS] : "LAST_120_DAYS",
-    [LAST_YEAR]     : "LAST_YEAR",
-    [THIS_WEEK]     : "THIS_WEEK",
-    [THIS_MONTH]    : "THIS_MONTH",
-    [THIS_YEAR]     : "THIS_YEAR",
-    [PAST_WEEK]     : "PAST_WEEK",
-    [PAST_MONTH]    : "PAST_MONTH",
-    [PAST_YEAR]     : "PAST_YEAR",
-    [ALL_PERIOD]    : "ALL_PERIOD",
-    [CUSTOM]        : "CUSTOM",
+    [SELECT]         : "SELECT",
+    [TODAY]          : "TODAY",
+    [YESTERDAY]      : "YESTERDAY",
+    [PREV_YESTERDAY] : "PREV_YESTERDAY",
+    [TOMORROW]       : "TOMORROW",
+    [NEXT_TOMORROW]  : "NEXT_TOMORROW",
+
+    [LAST_7_DAYS]    : "LAST_7_DAYS",
+    [LAST_15_DAYS]   : "LAST_15_DAYS",
+    [LAST_30_DAYS]   : "LAST_30_DAYS",
+    [LAST_60_DAYS]   : "LAST_60_DAYS",
+    [LAST_90_DAYS]   : "LAST_90_DAYS",
+    [LAST_120_DAYS]  : "LAST_120_DAYS",
+    [LAST_YEAR]      : "LAST_YEAR",
+
+    [THIS_WEEK]      : "THIS_WEEK",
+    [THIS_MONTH]     : "THIS_MONTH",
+    [THIS_YEAR]      : "THIS_YEAR",
+
+    [PAST_WEEK]      : "PAST_WEEK",
+    [PAST_MONTH]     : "PAST_MONTH",
+    [PAST_YEAR]      : "PAST_YEAR",
+
+    [NEXT_WEEK]      : "NEXT_WEEK",
+    [NEXT_MONTH]     : "NEXT_MONTH",
+    [NEXT_YEAR]      : "NEXT_YEAR",
+
+    [ALL_PERIOD]     : "ALL_PERIOD",
+    [CUSTOM]         : "CUSTOM",
 };
+
 const PERIODS_COMPLETE = [
     SELECT,
     TODAY,
@@ -97,6 +120,19 @@ const PERIODS_LAST_TODAY = [
     LAST_90_DAYS,
     LAST_120_DAYS,
 ];
+const PERIODS_PAST_NEXT = [
+    TODAY,
+    YESTERDAY,
+    PREV_YESTERDAY,
+    TOMORROW,
+    NEXT_TOMORROW,
+    THIS_WEEK,
+    THIS_MONTH,
+    PAST_WEEK,
+    PAST_MONTH,
+    NEXT_WEEK,
+    NEXT_MONTH,
+];
 
 
 
@@ -116,6 +152,16 @@ function getFromDate(value) {
     case YESTERDAY:
         date = dateTime.moveDay(-1);
         break;
+    case PREV_YESTERDAY:
+        date = dateTime.moveDay(-2);
+        break;
+    case TOMORROW:
+        date = dateTime.moveDay(1);
+        break;
+    case NEXT_TOMORROW:
+        date = dateTime.moveDay(2);
+        break;
+
     case LAST_7_DAYS:
         date = dateTime.moveDay(-7);
         break;
@@ -137,6 +183,7 @@ function getFromDate(value) {
     case LAST_YEAR:
         date = dateTime.moveYear(-1);
         break;
+
     case THIS_WEEK:
         date = dateTime.toWeekStart();
         break;
@@ -146,14 +193,25 @@ function getFromDate(value) {
     case THIS_YEAR:
         date = dateTime.toYearStart();
         break;
+
     case PAST_WEEK:
-        date = dateTime.toWeekStart().moveDay(-7);
+        date = dateTime.moveDay(-7).toWeekStart();
         break;
     case PAST_MONTH:
         date = dateTime.moveMonth(-1).toMonthStart();
         break;
     case PAST_YEAR:
         date = dateTime.moveYear(-1).toYearStart();
+        break;
+
+    case NEXT_WEEK:
+        date = dateTime.moveDay(7).toWeekStart();
+        break;
+    case NEXT_MONTH:
+        date = dateTime.moveMonth(1).toMonthStart();
+        break;
+    case NEXT_YEAR:
+        date = dateTime.moveYear(1).toYearStart();
         break;
     default:
     }
@@ -177,27 +235,26 @@ function getToDate(value) {
     case YESTERDAY:
         date = dateTime.moveDay(-1);
         break;
+    case PREV_YESTERDAY:
+        date = dateTime.moveDay(-2);
+        break;
+    case TOMORROW:
+        date = dateTime.moveDay(1);
+        break;
+    case NEXT_TOMORROW:
+        date = dateTime.moveDay(2);
+        break;
+
     case LAST_7_DAYS:
-        date = dateTime;
-        break;
     case LAST_15_DAYS:
-        date = dateTime;
-        break;
     case LAST_30_DAYS:
-        date = dateTime;
-        break;
     case LAST_60_DAYS:
-        date = dateTime;
-        break;
     case LAST_90_DAYS:
-        date = dateTime;
-        break;
     case LAST_120_DAYS:
-        date = dateTime;
-        break;
     case LAST_YEAR:
         date = dateTime;
         break;
+
     case THIS_WEEK:
         date = dateTime.toWeekEnd();
         break;
@@ -205,10 +262,11 @@ function getToDate(value) {
         date = dateTime.toMonthEnd();
         break;
     case THIS_YEAR:
-        date = dateTime;
+        date = dateTime.toYearEnd();
         break;
+
     case PAST_WEEK:
-        date = dateTime.toWeekEnd().moveDay(-7);
+        date = dateTime.moveDay(-7).toWeekEnd();
         break;
     case PAST_MONTH:
         date = dateTime.moveMonth(-1).toMonthEnd();
@@ -216,6 +274,17 @@ function getToDate(value) {
     case PAST_YEAR:
         date = dateTime.moveYear(-1).toYearEnd();
         break;
+
+    case NEXT_WEEK:
+        date = dateTime.moveDay(7).toWeekEnd();
+        break;
+    case NEXT_MONTH:
+        date = dateTime.moveMonth(1).toMonthEnd();
+        break;
+    case NEXT_YEAR:
+        date = dateTime.moveYear(1).toYearEnd();
+        break;
+
     case ALL_PERIOD:
         date = dateTime;
         break;
@@ -266,6 +335,14 @@ function getLastSelect(withToday) {
     return withToday ? getSelect(PERIODS_LAST_TODAY) : getSelect(PERIODS_LAST);
 }
 
+/**
+ * Returns a Past/Next Periods Select
+ * @returns {object[]}
+ */
+function getPastNextSelect() {
+    return getSelect(PERIODS_PAST_NEXT);
+}
+
 
 
 // The Public API
@@ -277,10 +354,16 @@ export default {
     getSelect,
     getSimpleSelect,
     getLastSelect,
+    getPastNextSelect,
 
+    // Constants
     SELECT,
     TODAY,
+    PREV_YESTERDAY,
     YESTERDAY,
+    TOMORROW,
+    NEXT_TOMORROW,
+
     LAST_7_DAYS,
     LAST_15_DAYS,
     LAST_30_DAYS,
@@ -288,11 +371,19 @@ export default {
     LAST_90_DAYS,
     LAST_120_DAYS,
     LAST_YEAR,
+
     THIS_WEEK,
     THIS_MONTH,
     THIS_YEAR,
+
     PAST_WEEK,
     PAST_MONTH,
+    PAST_YEAR,
+
+    NEXT_WEEK,
+    NEXT_MONTH,
+    NEXT_YEAR,
+
     ALL_PERIOD,
     CUSTOM,
 };
