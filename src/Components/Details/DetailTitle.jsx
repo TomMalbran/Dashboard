@@ -23,7 +23,7 @@ const Container = Styled.div.attrs(({ hasInternalTabs, isCollapsed }) => ({ hasI
     z-index: 2;
 
     ${(props) => props.hasInternalTabs && `
-        top: calc(var(--tabs-dialog) + 4px);
+        top: var(--details-sticky-top, calc(var(--tabs-dialog) + 4px));
     `}
 
     ${(props) => props.isCollapsed && `
