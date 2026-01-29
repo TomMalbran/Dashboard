@@ -87,13 +87,13 @@ const MainContainer = Styled.div.attrs(({ withTopBar, showingMenu, openingMenu, 
 `;
 
 const DetailsBackdrop = Styled(Backdrop)`
-    @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
+    @media (min-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
         display: none;
     }
 `;
 
 const MenuBackdrop = Styled(Backdrop)`
-    @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
+    @media (min-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: none;
     }
 `;
