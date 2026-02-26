@@ -18,13 +18,25 @@ import Icon                 from "../Common/Icon";
 
 
 // Styles
-const Inside = Styled.div`
+const Inside = Styled.div.attrs(({ inlineDescription }) => ({ inlineDescription }))`
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    gap: 4px;
+
+    ${(props) => props.inlineDescription && `
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    `}
 `;
 
-const Input = Styled(InputBase).attrs(({ isDisabled, hasDescription }) => ({ isDisabled, hasDescription }))`
+const Input = Styled(InputBase).attrs(({ isDisabled, inlineDescription }) => ({ isDisabled, inlineDescription }))`
     ${(props) => !props.isDisabled && "cursor: pointer;"}
-    ${(props) => props.hasDescription && "margin-top: 4px;"}
+    ${(props) => props.inlineDescription && `
+        field-sizing: content;
+        width: auto;
+    `}
 `;
 
 const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
@@ -42,7 +54,6 @@ const InputIcon = Styled(Icon).attrs(({ withLabel }) => ({ withLabel }))`
 const Description = Styled(Html).attrs(({ isDisabled }) => ({ isDisabled }))`
     color: var(--font-lightest);
     font-size: 13px;
-    padding-top: 4px;
     ${(props) => !props.isDisabled && "cursor: pointer;"}
 `;
 
@@ -60,7 +71,7 @@ function SelectInput(props) {
         id, name, placeholder, value, allowMultiple,
         defaultText, emptyText, noneText, noneValue,
         withCustom, customFirst, customText, customKey,
-        options, extraOptions, descriptions, showDescription,
+        options, extraOptions, descriptions, showDescription, inlineDescription,
         createOption, onCreate,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
@@ -406,7 +417,7 @@ function SelectInput(props) {
         withLabel={withLabel}
         withPadding
     >
-        <Inside>
+        <Inside inlineDescription={inlineDescription}>
             <Input
                 inputRef={inputRef}
                 className="input-select"
@@ -421,7 +432,7 @@ function SelectInput(props) {
                 onBlur={handleBlur}
                 onKeyDown={handleKeyDown}
                 onKeyUp={handleKeyUp}
-                hasDescription={hasDescription}
+                inlineDescription={inlineDescription}
             />
             {hasDescription && <Description
                 content={optionDesc}
@@ -452,6 +463,7 @@ function SelectInput(props) {
                 isOnlyOption={isOnlyOption}
                 content={text || message}
                 description={description}
+                inlineDescription={inlineDescription}
                 isChecked={values.includes(value)}
                 isSelected={selectedIdxRef.current === index}
                 onMouseDown={(e) => handleSelect(e, value)}
@@ -466,40 +478,41 @@ function SelectInput(props) {
  * @type {object} propTypes
  */
 SelectInput.propTypes = {
-    inputRef        : PropTypes.any,
-    className       : PropTypes.string,
-    icon            : PropTypes.string,
-    postIcon        : PropTypes.string,
-    isFocused       : PropTypes.bool,
-    isDisabled      : PropTypes.bool,
-    isSmall         : PropTypes.bool,
-    withBorder      : PropTypes.bool,
-    withLabel       : PropTypes.bool,
-    id              : PropTypes.string,
-    name            : PropTypes.string.isRequired,
-    placeholder     : PropTypes.string,
-    value           : PropTypes.any,
-    allowMultiple   : PropTypes.bool,
-    options         : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    extraOptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    descriptions    : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
-    showDescription : PropTypes.bool,
-    defaultText     : PropTypes.string,
-    emptyText       : PropTypes.string,
-    noneText        : PropTypes.string,
-    noneValue       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    withCustom      : PropTypes.bool,
-    customFirst     : PropTypes.bool,
-    customText      : PropTypes.string,
-    customKey       : PropTypes.string,
-    createOption    : PropTypes.string,
-    onCreate        : PropTypes.func,
-    minWidth        : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    onChange        : PropTypes.func.isRequired,
-    onClear         : PropTypes.func,
-    onFocus         : PropTypes.func,
-    onBlur          : PropTypes.func,
-    onSubmit        : PropTypes.func,
+    inputRef          : PropTypes.any,
+    className         : PropTypes.string,
+    icon              : PropTypes.string,
+    postIcon          : PropTypes.string,
+    isFocused         : PropTypes.bool,
+    isDisabled        : PropTypes.bool,
+    isSmall           : PropTypes.bool,
+    withBorder        : PropTypes.bool,
+    withLabel         : PropTypes.bool,
+    id                : PropTypes.string,
+    name              : PropTypes.string.isRequired,
+    placeholder       : PropTypes.string,
+    value             : PropTypes.any,
+    allowMultiple     : PropTypes.bool,
+    options           : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    extraOptions      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    descriptions      : PropTypes.oneOfType([ PropTypes.string, PropTypes.array ]),
+    showDescription   : PropTypes.bool,
+    inlineDescription : PropTypes.bool,
+    defaultText       : PropTypes.string,
+    emptyText         : PropTypes.string,
+    noneText          : PropTypes.string,
+    noneValue         : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    withCustom        : PropTypes.bool,
+    customFirst       : PropTypes.bool,
+    customText        : PropTypes.string,
+    customKey         : PropTypes.string,
+    createOption      : PropTypes.string,
+    onCreate          : PropTypes.func,
+    minWidth          : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    onChange          : PropTypes.func.isRequired,
+    onClear           : PropTypes.func,
+    onFocus           : PropTypes.func,
+    onBlur            : PropTypes.func,
+    onSubmit          : PropTypes.func,
 };
 
 /**

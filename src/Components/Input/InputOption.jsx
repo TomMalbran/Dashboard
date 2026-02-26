@@ -65,7 +65,10 @@ const Container = Styled.li.attrs(({ hasValue, forValue, hasCreate, forCreate, i
     `}
 `;
 
-const Content = Styled.div.attrs(({ isSelected }) => ({ isSelected }))`
+const Content = Styled.div.attrs(({ inlineDescription, isSelected }) => ({ inlineDescription, isSelected }))`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     padding: 8px;
     font-size: 14px;
     border-radius: var(--border-radius);
@@ -75,6 +78,12 @@ const Content = Styled.div.attrs(({ isSelected }) => ({ isSelected }))`
     &:hover {
         background-color: var(--light-gray);
     }
+
+    ${(props) => props.inlineDescription && `
+        flex-direction: row;
+        align-items: baseline;
+        gap: 8px;
+    `}
 
     ${(props) => props.isSelected && `
         background-color: var(--primary-color);
@@ -101,7 +110,6 @@ const Text = Styled(Html)`
 const Description = Styled(Html).attrs(({ isSelected }) => ({ isSelected }))`
     color: var(--font-lightest);
     font-size: 13px;
-    margin-top: 4px;
 
     ${(props) => props.isSelected && `
         color: rgba(255, 255, 255, 0.8);
@@ -120,7 +128,7 @@ function InputOption(props) {
         isHidden, className,
         hasValue, forValue,
         hasCreate, forCreate, isOnlyOption,
-        icon, content, message, description,
+        icon, content, message, description, inlineDescription,
         isSelected, hasChecks, isChecked, onMouseDown,
         direction, onClose, children,
     } = props;
@@ -156,7 +164,10 @@ function InputOption(props) {
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
         >
-            <Content isSelected={isSelected}>
+            <Content
+                inlineDescription={inlineDescription}
+                isSelected={isSelected}
+            >
                 <Option>
                     <Icon
                         isHidden={!hasIcon}
@@ -199,24 +210,25 @@ function InputOption(props) {
  * @type {object} propTypes
  */
 InputOption.propTypes = {
-    isHidden     : PropTypes.bool,
-    className    : PropTypes.string,
-    hasValue     : PropTypes.bool,
-    forValue     : PropTypes.bool,
-    hasCreate    : PropTypes.bool,
-    forCreate    : PropTypes.bool,
-    isOnlyOption : PropTypes.bool,
-    icon         : PropTypes.string,
-    content      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    message      : PropTypes.string,
-    description  : PropTypes.string,
-    isSelected   : PropTypes.bool,
-    hasChecks    : PropTypes.bool,
-    isChecked    : PropTypes.bool,
-    onMouseDown  : PropTypes.func,
-    direction    : PropTypes.string,
-    onClose      : PropTypes.func,
-    children     : PropTypes.any,
+    isHidden          : PropTypes.bool,
+    className         : PropTypes.string,
+    hasValue          : PropTypes.bool,
+    forValue          : PropTypes.bool,
+    hasCreate         : PropTypes.bool,
+    forCreate         : PropTypes.bool,
+    isOnlyOption      : PropTypes.bool,
+    icon              : PropTypes.string,
+    content           : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    message           : PropTypes.string,
+    description       : PropTypes.string,
+    inlineDescription : PropTypes.bool,
+    isSelected        : PropTypes.bool,
+    hasChecks         : PropTypes.bool,
+    isChecked         : PropTypes.bool,
+    onMouseDown       : PropTypes.func,
+    direction         : PropTypes.string,
+    onClose           : PropTypes.func,
+    children          : PropTypes.any,
 };
 
 /**
