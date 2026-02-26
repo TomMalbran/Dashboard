@@ -9,6 +9,7 @@ const OPTIONS = {
     icon       : "",
     message    : "",
 
+    isNone     : false,     // No Action
     isVCCE     : false,     // View, Create, Copy, Edit
     isVCE      : false,     // View, Create, Edit
     isVC       : false,     // View, Create
@@ -42,7 +43,10 @@ const OPTIONS = {
 
 // All the Actions
 const ACTIONS = {
-    "NULL" : { ...OPTIONS },
+    "NULL" : {
+        ...OPTIONS,
+        isNone     : true,
+    },
 
     "VIEW" : {
         ...OPTIONS,
