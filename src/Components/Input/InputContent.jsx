@@ -177,7 +177,7 @@ function InputContent(props) {
             className="input-clear"
             variant="black"
             icon="close"
-            onClick={onClear}
+            onClick={() => onClear()}
             smallInput={isSmall}
             isSmall
         />}
