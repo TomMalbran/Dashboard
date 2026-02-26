@@ -168,6 +168,12 @@ function getTimezone() {
  */
 function setAppearance(appearance) {
     document.querySelector("body").className = `${appearance}-mode`;
+
+    const meta  = document.querySelector('meta[name="theme-color"]');
+    const color = meta.getAttribute(`${appearance}-mode`);
+    if (color) {
+        meta.setAttribute("content", color);
+    }
 }
 
 
