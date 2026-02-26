@@ -51,13 +51,25 @@ const Container = Styled.nav.attrs(({ withTopBar, showDev }) => ({ withTopBar, s
     @media (max-width: ${Responsive.WIDTH_FOR_MENU}px) {
         display: flex;
     }
+
+    @media (display-mode: window-controls-overlay) {
+        padding-left: env(titlebar-area-x, 12px);
+        padding-right: calc(100% - (env(titlebar-area-width, 100%) + env(titlebar-area-x, 12px) - 6px));
+    }
 `;
 
-const Div = Styled.div`
+const Content = Styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 8px;
+`;
+
+const Center = Styled.div`
+    flex-grow: 2;
+
+    -webkit-app-region: drag;
+    app-region: drag;
 `;
 
 const MenuIcon = Styled(BarIcon)`
@@ -113,7 +125,7 @@ function TopBar(props) {
         withTopBar={withTopBar}
         showDev={showDev}
     >
-        <Div>
+        <Content>
             <MenuIcon
                 icon="menu"
                 onClick={openMenu}
@@ -123,9 +135,11 @@ function TopBar(props) {
                 withLink
             />
             {withTitle && <H1>{NLS.get("TITLE")}</H1>}
-        </Div>
+        </Content>
 
-        <Div>
+        <Center />
+
+        <Content>
             {children}
             {showLogout && <BarIcon
                 icon="logout"
@@ -149,7 +163,7 @@ function TopBar(props) {
                 parentName={parentName}
                 menuItems={menuItems}
             />
-        </Div>
+        </Content>
     </Container>;
 }
 
