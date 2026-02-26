@@ -19,12 +19,22 @@ import NLS                  from "../Core/NLS";
 function Initializer(props) {
     const { url, apiUrl, routeUrl, actions, params } = props;
 
-    const { showResult     } = Store.useAction("core");
+    const { error } = Store.useState("core");
+
+    const { showResult, showError } = Store.useAction("core");
     const { setCurrentUser } = Store.useAction("auth");
+
 
     // Show a Result
     const onResult = (variant, message, param) => {
         showResult(variant, message, param);
+    };
+
+    // Show an Error
+    const onError = (url, method, payload, message) => {
+        if (!error.open) {
+            showError(url, method, payload, message);
+        }
     };
 
     // Sets the Current User
@@ -36,13 +46,15 @@ function Initializer(props) {
 
     // Initialize the Modules once
     React.useEffect(() => {
-        Ajax.init(apiUrl, routeUrl, onResult);
+        Ajax.init(apiUrl, routeUrl, onResult, onError);
         Action.init(actions);
         Navigate.init(url, params);
         Auth.init(onUserChange);
         NLS.init(url);
     }, []);
 
+
+    // Do not Render anything
     return <React.Fragment />;
 }
 

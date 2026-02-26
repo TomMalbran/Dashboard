@@ -6,6 +6,7 @@ let controller = null;
 let wasAborted = false;
 
 let setResult  = null;
+let setError   = null;
 let apiUrl     = "";
 let routeUrl   = "";
 
@@ -16,12 +17,14 @@ let routeUrl   = "";
  * @param {string}   newApiUrl
  * @param {string}   newRouteUrl
  * @param {Function} onResult
+ * @param {Function} onError
  * @returns {void}
  */
-function init(newApiUrl, newRouteUrl, onResult) {
+function init(newApiUrl, newRouteUrl, onResult, onError) {
     apiUrl    = newApiUrl;
     routeUrl  = newRouteUrl;
     setResult = onResult;
+    setError  = onError;
 }
 
 
@@ -67,10 +70,14 @@ async function ajax(url, options = {}, showResult = true, abortController = null
         throw defError;
     }
 
+    // Clone the response to preserve the original stream for the fallback
+    const responseClone = response.clone();
+
     // Get the JSON Result
     try {
         result = await response.json();
     } catch (error) {
+        handleError(responseClone, options);
         throw defError;
     }
     if (!result) {
@@ -119,6 +126,24 @@ async function ajax(url, options = {}, showResult = true, abortController = null
 
     // Return just the data
     return result.data;
+}
+
+/**
+ * Handles the Error
+ * @param {Response} response
+ * @param {object}   options
+ * @returns {Promise}
+ */
+async function handleError(response, options) {
+    const message = await response.text();
+    if (!message) {
+        return;
+    }
+
+    const method  = options.method ? options.method.toUpperCase() : "GET";
+    const payload = options.body ? Object.fromEntries(options.body) : {};
+    Object.keys(payload).forEach((key) => key.startsWith("x") && delete payload[key]);
+    setError(response.url, method, payload, message);
 }
 
 /**

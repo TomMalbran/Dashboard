@@ -20,6 +20,13 @@ const initialState = {
         maxWidth  : 0,
         delay     : 0,
     },
+    error       : {
+        open    : false,
+        url     : "",
+        method  : "",
+        payload : {},
+        message : "",
+    },
 };
 
 
@@ -115,6 +122,30 @@ const actions = {
     },
 
     /**
+     * Shows the Error
+     * @param {Function} dispatch
+     * @param {string}   url
+     * @param {string}   method
+     * @param {object}   payload
+     * @param {string}   message
+     * @returns {void}
+     */
+    showError(dispatch, url, method, payload, message) {
+        const error = { open : true, url, method, payload, message };
+        dispatch({ type : "CORE_ERROR", error });
+    },
+
+    /**
+     * Hides the Error
+     * @param {Function} dispatch
+     * @returns {void}
+     */
+    hideError(dispatch) {
+        const error = { ...initialState.error };
+        return dispatch({ type : "CORE_ERROR", error });
+    },
+
+    /**
      * Opens the Menu
      * @param {Function} dispatch
      * @returns {void}
@@ -198,6 +229,11 @@ const reducer = (state = initialState, action = {}) => {
         return {
             ...state,
             tooltip  : action.tooltip,
+        };
+    case "CORE_ERROR":
+        return {
+            ...state,
+            error    : action.error,
         };
 
 
