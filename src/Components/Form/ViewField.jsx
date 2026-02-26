@@ -37,6 +37,7 @@ const FieldContent = Styled.div.attrs(({ withLabel, isSmall, maxHeight, noWrap, 
         width: 100%;
         box-sizing: border-box;
         color: var(--black-color);
+        margin: 0;
         padding: var(--input-padding);
         min-height: calc(var(--input-height) - 2px);
         line-height: 1.5;
@@ -122,7 +123,8 @@ function ViewField(props) {
     const {
         isHidden, showEmpty, className, viewClass, textColor,
         label, value, copyValue, message, icon,
-        fullWidth, isSmall, maxHeight, noWrap, isSelected, error, helperText,
+        fullWidth, isSmall, maxHeight, noWrap, usePre,
+        isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
         showButton, buttonMessage, onButton,
@@ -179,6 +181,7 @@ function ViewField(props) {
             </div>}
             {isHtml && <Html
                 className="inputview-value"
+                variant={usePre ? "pre" : "div"}
                 onClick={onClick}
                 content={content}
             />}
@@ -238,6 +241,7 @@ ViewField.propTypes = {
     isSmall       : PropTypes.bool,
     maxHeight     : PropTypes.number,
     noWrap        : PropTypes.bool,
+    usePre        : PropTypes.bool,
     isSelected    : PropTypes.bool,
     linkIcon      : PropTypes.string,
     linkVariant   : PropTypes.string,
@@ -267,6 +271,7 @@ ViewField.defaultProps = {
     fullWidth  : false,
     isSmall    : false,
     noWrap     : false,
+    usePre     : false,
     isSelected : false,
     linkTarget : "_blank",
     isEmail    : false,
