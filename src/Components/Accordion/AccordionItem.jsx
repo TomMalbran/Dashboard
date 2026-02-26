@@ -89,12 +89,16 @@ const Inside = Styled.div.attrs(({ isLast, maxWidth }) => ({ isLast, maxWidth })
     flex-direction: column;
     flex-grow: 2;
     gap: 24px;
-    width: calc(100% - 48px - 8px);
+    width: calc(100% - 56px);
     padding: 6px 12px 32px 12px;
     transition: 0.3s all;
 
     ${(props) => !props.isLast && "border-bottom: 1px solid var(--border-color-light);"}
     ${(props) => props.maxWidth && `max-width: ${props.maxWidth}px;`}
+
+    @media (max-width: 500px) {
+        width: 100%;
+    }
 `;
 
 const Header = Styled.header.attrs(({ isDisabled }) => ({ isDisabled }))`
