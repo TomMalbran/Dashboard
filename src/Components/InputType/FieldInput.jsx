@@ -51,6 +51,7 @@ const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, wit
     width: 100%;
     display: grid;
     gap: 4px;
+    background-color: var(--content-color);
 
     ${(props) => props.withSort ? `
         grid-template-areas:
@@ -85,8 +86,8 @@ const Title = Styled.h4`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0 8px;
-    font-size: calc(var(--input-font) * 1.1);
+    margin: 0 4px;
+    font-size: var(--input-font);
     color: var(--title-color);
 `;
 
