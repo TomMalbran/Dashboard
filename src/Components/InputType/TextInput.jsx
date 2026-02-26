@@ -38,7 +38,7 @@ const Text = Styled.p.attrs(({ atMaxLength, hasButtons }) => ({ atMaxLength, has
 function TextInput(props) {
     const {
         inputRef, className, icon, postIcon, prefixText, suffixText,
-        isFocused, isDisabled, isSmall, withBorder, withLabel,
+        isFocused, isDisabled, isSmall, withBorder, withLabel, withInsideCnt,
         id, type, name, value, minValue, maxValue,
         placeholder, autoComplete, spellCheck,
         generateCode, codeLength, codeSets,
@@ -94,9 +94,10 @@ function TextInput(props) {
 
 
     // Variables
-    const characters  = String(value || "").length;
-    const atMaxLength = characters > maxLength;
-    const hasButtons  = Boolean((children && children.length) || generateCode);
+    const showMaxLength = Boolean(withInsideCnt && maxLength);
+    const characters    = String(value || "").length;
+    const atMaxLength   = characters > maxLength;
+    const hasButtons    = Boolean((children && children.length) || generateCode);
 
 
     // Do the Render
@@ -136,7 +137,7 @@ function TextInput(props) {
             onKeyUp={handleKeyUp}
         />
         <Children className="inputfield-children">
-            {!!maxLength && <Text
+            {showMaxLength && <Text
                 atMaxLength={atMaxLength}
                 hasButtons={hasButtons}
             >
@@ -158,40 +159,41 @@ function TextInput(props) {
  * @type {object} propTypes
  */
 TextInput.propTypes = {
-    inputRef     : PropTypes.any,
-    className    : PropTypes.string,
-    icon         : PropTypes.string,
-    postIcon     : PropTypes.string,
-    prefixText   : PropTypes.string,
-    suffixText   : PropTypes.string,
-    isFocused    : PropTypes.bool,
-    isDisabled   : PropTypes.bool,
-    isSmall      : PropTypes.bool,
-    withBorder   : PropTypes.bool,
-    withLabel    : PropTypes.bool,
-    id           : PropTypes.string,
-    type         : PropTypes.string.isRequired,
-    name         : PropTypes.string,
-    value        : PropTypes.any,
-    minValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    maxValue     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    placeholder  : PropTypes.string,
-    autoComplete : PropTypes.string,
-    spellCheck   : PropTypes.string,
-    generateCode : PropTypes.bool,
-    codeSets     : PropTypes.string,
-    codeLength   : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    maxLength    : PropTypes.number,
-    onChange     : PropTypes.func,
-    onInput      : PropTypes.func,
-    onPaste      : PropTypes.func,
-    onClear      : PropTypes.func,
-    onFocus      : PropTypes.func,
-    onBlur       : PropTypes.func,
-    onKeyDown    : PropTypes.func,
-    onKeyUp      : PropTypes.func,
-    onSubmit     : PropTypes.func,
-    children     : PropTypes.any,
+    inputRef      : PropTypes.any,
+    className     : PropTypes.string,
+    icon          : PropTypes.string,
+    postIcon      : PropTypes.string,
+    prefixText    : PropTypes.string,
+    suffixText    : PropTypes.string,
+    isFocused     : PropTypes.bool,
+    isDisabled    : PropTypes.bool,
+    isSmall       : PropTypes.bool,
+    withBorder    : PropTypes.bool,
+    withLabel     : PropTypes.bool,
+    withInsideCnt : PropTypes.bool,
+    id            : PropTypes.string,
+    type          : PropTypes.string.isRequired,
+    name          : PropTypes.string,
+    value         : PropTypes.any,
+    minValue      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxValue      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    placeholder   : PropTypes.string,
+    autoComplete  : PropTypes.string,
+    spellCheck    : PropTypes.string,
+    generateCode  : PropTypes.bool,
+    codeSets      : PropTypes.string,
+    codeLength    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxLength     : PropTypes.number,
+    onChange      : PropTypes.func,
+    onInput       : PropTypes.func,
+    onPaste       : PropTypes.func,
+    onClear       : PropTypes.func,
+    onFocus       : PropTypes.func,
+    onBlur        : PropTypes.func,
+    onKeyDown     : PropTypes.func,
+    onKeyUp       : PropTypes.func,
+    onSubmit      : PropTypes.func,
+    children      : PropTypes.any,
 };
 
 /**
