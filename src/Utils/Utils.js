@@ -719,7 +719,17 @@ function jsonToHtml(content) {
     if (!content) {
         return "";
     }
-    return JSON.stringify(content, null, 4).replace(/ /g, "&nbsp;").replace(/\n/g, "<br>");
+
+    return JSON.stringify(content, null, 2)
+        .replace(/\n/g, "<br>")
+        // Blue Keys
+        .replace(/"(\w+)"(?=:)/g, '<span style="color: #2980b9;">"$1"</span>')
+        // Green Values
+        .replace(/:\s*"(.*?)"/g, ': <span style="color: #27ae60;">"$1"</span>')
+        // Orange Numbers
+        .replace(/:\s*(\d+)/g, ': <span style="color: #d35400;">$1</span>')
+        // Purple Booleans
+        .replace(/:\s*(true|false)/g, ': <span style="color: #9b59b6; font-weight: bold;">$1</span>');
 }
 
 /**
