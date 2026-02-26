@@ -14,6 +14,7 @@ const Variant = {
     LI   : "li",
     SPAN : "span",
     DIV  : "div",
+    PRE  : "pre",
 };
 
 
@@ -119,6 +120,14 @@ function Html(props) {
         />;
     case Variant.SPAN:
         return <span
+            className={className}
+            style={style}
+            onClick={onClick}
+            onMouseDown={onMouseDown}
+            dangerouslySetInnerHTML={{ __html }}
+        />;
+    case Variant.PRE:
+        return <pre
             className={className}
             style={style}
             onClick={onClick}
