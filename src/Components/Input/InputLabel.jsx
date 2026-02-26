@@ -13,7 +13,7 @@ const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, isFocused 
     position: absolute;
     top: 6px;
     left: 6px;
-    max-width: calc(100% - 12px);
+    max-width: calc(100% - 22px);
     margin: 0;
     padding: 0 6px;
     line-height: 1;
@@ -39,6 +39,7 @@ const Label = Styled.p.attrs(({ isRequired, withTransform, withValue, isFocused 
     `}
     ${(props) => props.withValue && `
         transform: translateY(0) scale(1);
+        max-width: calc(100% - 10px);
     `}
     ${(props) => props.isFocused && `
         color: var(--input-label-focus);
