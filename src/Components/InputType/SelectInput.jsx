@@ -67,12 +67,12 @@ const Description = Styled(Html).attrs(({ isDisabled }) => ({ isDisabled }))`
 function SelectInput(props) {
     const {
         inputRef, className, icon, postIcon,
-        isFocused, isDisabled, isSmall, withBorder, withLabel, minWidth,
+        isFocused, isDisabled, isSmall, withBorder, withLabel,
         id, name, placeholder, value, allowMultiple,
         defaultText, emptyText, noneText, noneValue,
         withCustom, customFirst, customText, customKey,
         options, extraOptions, descriptions, showDescription, inlineDescription,
-        createOption, onCreate,
+        createOption, onCreate, minWidth, minHeight,
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
@@ -278,9 +278,9 @@ function SelectInput(props) {
         let top       = bounds.bottom;
         let maxHeight = window.innerHeight - bounds.bottom - 10;
 
-        if (top + 100 > window.innerHeight) {
+        if (top + minHeight > window.innerHeight) {
             top       = bounds.top - height - 5;
-            maxHeight = height;
+            maxHeight = 300;
         }
 
         setStyle({ top, left, width, maxHeight, opacity : 1 });
@@ -514,6 +514,7 @@ SelectInput.propTypes = {
     createOption      : PropTypes.string,
     onCreate          : PropTypes.func,
     minWidth          : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    minHeight         : PropTypes.number,
     onChange          : PropTypes.func.isRequired,
     onClear           : PropTypes.func,
     onFocus           : PropTypes.func,
@@ -539,6 +540,7 @@ SelectInput.defaultProps = {
     withCustom  : false,
     customFirst : false,
     customText  : "",
+    minHeight   : 100,
 };
 
 export default SelectInput;
