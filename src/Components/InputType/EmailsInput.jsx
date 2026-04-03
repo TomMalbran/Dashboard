@@ -400,7 +400,7 @@ EmailsInput.defaultProps = {
     isSmall    : false,
     withBorder : true,
     withLabel  : true,
-    searchText : "GENERAL_SEARCHING",
+    searchText : "GENERAL_SEARCHING_DOTS",
 };
 
 export default EmailsInput;

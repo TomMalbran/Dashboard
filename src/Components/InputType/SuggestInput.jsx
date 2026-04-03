@@ -375,7 +375,7 @@ SuggestInput.defaultProps = {
     withLabel    : true,
     placeholder  : "",
     emptyText    : "GENERAL_NONE_RESULTS",
-    searchText   : "GENERAL_SEARCHING",
+    searchText   : "GENERAL_SEARCHING_DOTS",
     suggestWidth : 0,
 };
 
