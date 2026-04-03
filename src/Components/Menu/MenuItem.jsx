@@ -62,6 +62,13 @@ const MenuCircle = Styled(Circle)`
     margin: 0;
 `;
 
+const MenuText = Styled(Html)`
+    flex-grow: 2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+`;
+
 
 
 /**
@@ -80,19 +87,22 @@ function MenuItem(props) {
     } = props;
 
 
+    // The References
+    const itemRef = React.useRef();
+
+    // The Current State
+    const [ menuOpen, setMenuOpen ] = React.useState(false);
+
+
     // Variables
     const act         = Action.get(action);
     const icn         = icon || act.icon;
     const uri         = url ? NLS.baseUrl(url) : href;
     const navigate    = Navigate.useGotoUrl();
     const isSelection = !isDisabled && (isSelected || selectedIdx === index);
+    const hasIcon     = Boolean(icon);
+    const hasCircle   = Boolean(circle);
     const hasMenu     = Boolean(children && children.length);
-
-    // The References
-    const itemRef = React.useRef();
-
-    // The Current State
-    const [ menuOpen, setMenuOpen ] = React.useState(false);
 
 
     // Generates the Content
@@ -149,10 +159,25 @@ function MenuItem(props) {
             onMouseEnter={() => setMenuOpen(true)}
             onMouseLeave={() => setMenuOpen(false)}
         >
-            {!!icn && <Icon icon={icn} size="20" />}
-            {!!circle && <MenuCircle variant={circle} />}
+            <Icon
+                isHidden={!hasIcon}
+                icon={icn}
+                size="20"
+            />
+            <MenuCircle
+                isHidden={!hasCircle}
+                variant={circle}
+            />
             {!!title && <b>{NLS.get(title)}</b>}
-            <Html variant="span" content={content} />
+            <MenuText
+                variant="span"
+                content={content}
+            />
+            <Icon
+                isHidden={!hasMenu}
+                icon="closed"
+                size="20"
+            />
         </Container>
 
         {hasMenu && <Menu
@@ -212,6 +237,7 @@ MenuItem.defaultProps = {
     isSmall    : false,
     dontClose  : false,
     direction  : "right",
+    circle     : "",
 };
 
 export default MenuItem;
