@@ -122,7 +122,13 @@ function SelectInput(props) {
                 description : "",
             });
         }
-        for (const { key, value, description } of items) {
+        for (const item of items) {
+            let itemData = item;
+            if (typeof item === "string") {
+                itemData = { key : item, value : item };
+            }
+            const { key, value, description } = itemData;
+
             result.push({
                 key         : `item-${key}`,
                 value       : key,

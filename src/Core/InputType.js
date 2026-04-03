@@ -102,8 +102,14 @@ function getOptions(props) {
     }
 
     for (const item of items) {
-        result.push(item);
+        if (typeof item === "string") {
+            result.push({ key : item, value : item });
+        }
+        else {
+            result.push(item);
+        }
     }
+
     for (const extraItem of extraItems) {
         result.push(extraItem);
     }
