@@ -84,7 +84,7 @@ const Empty = Styled.li`
 function Menu(props) {
     const {
         containerRef, className, open, variant, direction,
-        gap, width, targetRef, iconHeight,
+        gap, width, targetRef, iconHeight, minHeight,
         onAction, onClose, onMouseEnter, onMouseLeave,
         withSearch, emptyText, filterText, keyCode,
         isSubmenu, skipValidation, children,
@@ -365,7 +365,7 @@ function Menu(props) {
                 } else if (top && boundHeight && top + boundHeight > winHeight) {
                     if (targetHeight) {
                         const newMaxHeight = winHeight - top - 8;
-                        if (newMaxHeight > 160) {
+                        if (newMaxHeight > minHeight) {
                             maxHeight = newMaxHeight;
                         } else {
                             top -= (targetHeight + boundHeight + 8);
@@ -500,6 +500,7 @@ Menu.propTypes = {
     right          : PropTypes.number,
     gap            : PropTypes.number,
     width          : PropTypes.number,
+    minHeight      : PropTypes.number,
     maxHeight      : PropTypes.number,
     withSearch     : PropTypes.bool,
     emptyText      : PropTypes.string,
@@ -526,6 +527,7 @@ Menu.defaultProps = {
     iconHeight     : 0,
     gap            : 0,
     width          : 0,
+    minHeight      : 160,
     maxHeight      : 0,
     withSearch     : false,
     isSubmenu      : false,
