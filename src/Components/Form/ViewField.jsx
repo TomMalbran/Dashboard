@@ -4,6 +4,7 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
+import Utils                from "../../Utils/Utils";
 
 // Components
 import InputLabel           from "../Input/InputLabel";
@@ -134,7 +135,7 @@ function ViewField(props) {
     // Variables
     const val       = value === null || value === undefined ? "" : String(value);
     const content   = message ? NLS.get(message) : val;
-    const href      = content.startsWith("http") ? content : (val.startsWith("http") ? val : "");
+    const href      = Utils.isURL(content) ? content : (Utils.isURL(val) ? val : "");
     const isLink    = href !== "";
     const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
     const isText    = !isLink && !isHtml;

@@ -415,6 +415,15 @@ function makeBreakable(string) {
 }
 
 /**
+ * Returns true if the String is a URL
+ * @param {string} string
+ * @returns {boolean}
+ */
+function isURL(string) {
+    return /^(https?:\/\/|mailto:|tel:|\/)/.test(string);
+}
+
+/**
  * Creates a Slug from a string
  * @param {string} value
  * @returns {string}
@@ -1610,6 +1619,7 @@ export default {
 
     makeShort,
     makeBreakable,
+    isURL,
     createSlug,
     upperCaseToCamelCase,
     upperCaseToPascalCase,
