@@ -224,6 +224,21 @@ function FieldInput(props) {
         }
     };
 
+    // Handles a Paste
+    const handlePaste = (item, index, name, e) => {
+        if (!item.onPaste) {
+            return;
+        }
+
+        const pastedData = e.clipboardData.getData("Text");
+        const value      = item.onPaste(pastedData, name, index);
+        if (value) {
+            partsRef.current.splice(index, 1, value);
+            fieldChanged();
+            e.preventDefault();
+        }
+    };
+
     // Handles a Clear Change
     const handleClear = (item, index, idName) => {
         const value      = partsRef.current[index] ? { ...partsRef.current[index] } : {};
@@ -395,6 +410,7 @@ function FieldInput(props) {
                                 onClear={(name, value, secName, secValue) => {
                                     handleClear(item, index, secName);
                                 }}
+                                onPaste={(e) => handlePaste(item, index, item.name, e)}
                                 onMedia={() => item.onMedia?.(index, item.name)}
                                 withLabel={!!item.label || (!withTitle && index === 0)}
                                 isSmall={!item.label && (withTitle || index > 0)}

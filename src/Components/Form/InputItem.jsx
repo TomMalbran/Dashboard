@@ -57,6 +57,7 @@ InputItem.propTypes = {
     onClear         : PropTypes.func,
     onChange        : PropTypes.func,
     onMedia         : PropTypes.func,
+    onPaste         : PropTypes.func,
     onInput         : PropTypes.func,
     onKeyUp         : PropTypes.func,
     onKeyDown       : PropTypes.func,
