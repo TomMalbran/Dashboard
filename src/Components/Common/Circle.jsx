@@ -9,7 +9,7 @@ import Store                from "../../Core/Store";
 
 
 // Styles
-const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.span.attrs(({ variant }) => ({ variant }))`
     flex-shrink: 0;
     display: inline-block;
     width: 12px;
@@ -47,7 +47,7 @@ const Span = Styled.span.attrs(({ variant }) => ({ variant }))`
  */
 function Circle(props) {
     const {
-        className, variant,
+        isHidden, className, variant,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
     } = props;
 
@@ -65,7 +65,10 @@ function Circle(props) {
 
 
     // Do the Render
-    return <Span
+    if (isHidden) {
+        return <React.Fragment />;
+    }
+    return <Container
         ref={elementRef}
         className={`circle ${className}`}
         variant={variant}
@@ -79,6 +82,7 @@ function Circle(props) {
  * @type {object} propTypes
  */
 Circle.propTypes = {
+    isHidden       : PropTypes.bool,
     className      : PropTypes.string,
     variant        : PropTypes.string.isRequired,
     tooltip        : PropTypes.string,
@@ -92,6 +96,7 @@ Circle.propTypes = {
  * @type {object} defaultProps
  */
 Circle.defaultProps = {
+    isHidden  : false,
     className : "",
 };
 
