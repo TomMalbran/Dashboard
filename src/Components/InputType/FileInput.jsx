@@ -15,6 +15,10 @@ import ChipList             from "../Chip/ChipList";
 
 
 // Styles
+const InputChip = Styled(ChipItem)`
+    padding: 0 4px 0 8px;
+`;
+
 const InputValue = Styled.div`
     flex-grow: 2;
     font-size: var(--input-font);
@@ -76,12 +80,11 @@ function FileInput(props) {
                 }
             }
 
-            if (newFiles > 0) {
-                onChange(name, files);
-                inputRef.current.value = "";
-            }
             if (onError && e.target.files.length !== newFiles) {
                 onError(name, NLS.get("GENERAL_ERROR_FILE_SIZE"));
+            } else if (newFiles > 0) {
+                onChange(name, files);
+                inputRef.current.value = "";
             }
             return;
         }
@@ -131,7 +134,7 @@ function FileInput(props) {
         withClick
     >
         {multipleFiles && <ChipList>
-            {value.map((file, index) => <ChipItem
+            {value.map((file, index) => <InputChip
                 key={index}
                 variant="outlined"
                 message={file.name}

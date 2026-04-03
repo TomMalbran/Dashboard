@@ -8,10 +8,16 @@ import NLS                  from "../../Core/NLS";
 // Components
 import InputContent         from "../Input/InputContent";
 import Icon                 from "../Common/Icon";
+import ChipList             from "../Chip/ChipList";
+import ChipItem             from "../Chip/ChipItem";
 
 
 
 // Styles
+const InputChip = Styled(ChipItem)`
+    padding: 0 4px 0 8px;
+`;
+
 const InputValue = Styled.div`
     flex-grow: 2;
     font-size: var(--input-font);
@@ -36,13 +42,26 @@ const InputIcon = Styled(Icon)`
 function MediaInput(props) {
     const {
         className, icon, postIcon, isFocused, isDisabled,
-        value, placeholder, onlyImages, onClick, onClear,
+        name, value, placeholder, onlyImages,
+        onClick, onChange, onClear,
     } = props;
 
 
-    // Do the Render
-    const message = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
+    // Handles the File Remove
+    const handleRemove = (index) => {
+        value.splice(index, 1);
+        onChange(name, value);
+    };
 
+
+    // Variables
+    const multipleFiles = Array.isArray(value) && value.length > 0;
+    const singleFile    = !Array.isArray(value) && !!value;
+    const isEmpty       = !multipleFiles && !singleFile;
+    const message       = placeholder || (onlyImages ? "GENERAL_SELECT_IMAGE" : "GENERAL_SELECT_FILE");
+
+
+    // Do the Render
     return <InputContent
         className={className}
         icon={icon}
@@ -56,7 +75,19 @@ function MediaInput(props) {
         withLabel
         withClick
     >
-        <InputValue>{value ? value : NLS.get(message)}</InputValue>
+        {multipleFiles && <ChipList>
+            {value.map((file, index) => <InputChip
+                key={index}
+                variant="outlined"
+                message={file}
+                onClick={(e) => e.stopPropagation()}
+                onClose={() => handleRemove(index)}
+            />)}
+        </ChipList>}
+
+        {singleFile && <InputValue>{value}</InputValue>}
+        {isEmpty && <InputValue>{NLS.get(message)}</InputValue>}
+
         <InputIcon
             icon="attachment"
             size="18"
@@ -74,10 +105,12 @@ MediaInput.propTypes = {
     postIcon    : PropTypes.string,
     isFocused   : PropTypes.bool,
     isDisabled  : PropTypes.bool,
+    name        : PropTypes.string.isRequired,
     value       : PropTypes.any,
     placeholder : PropTypes.string,
     onlyImages  : PropTypes.bool,
     onClick     : PropTypes.func,
+    onChange    : PropTypes.func,
     onClear     : PropTypes.func,
 };
 
