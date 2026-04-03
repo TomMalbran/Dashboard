@@ -12,6 +12,7 @@ const WEEK_SECS   = 7 * 24 * 3600;
 /** The formats used in toString */
 const FORMATS = {
     time           : "DATE_TIME",
+    timeSeconds    : "DATE_TIME_SECONDS",
     dayTime        : "DATE_DAY_TIME",
     dayMonth       : "DATE_DAY_MONTH",
     dayMonthShort  : "DATE_DAY_MONTH_SHORT",
