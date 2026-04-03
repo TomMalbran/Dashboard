@@ -56,22 +56,22 @@ const Item = Styled.div.attrs(({ withSort, withRemove, withTitle, withError, wit
     ${(props) => props.withSort ? `
         grid-template-areas:
             ${props.withTitle ? '"title title extra"' : ""}
-            ${props.withError ? '"error error extra"' : ""}
             "sort input remove"
+            ${props.withError ? '"error error error"' : ""}
         ;
-        grid-template-columns: 24px 1fr 24px;
+        grid-template-columns: 16px 1fr 24px;
     ` : (props.withRemove ? `
         grid-template-areas:
             ${props.withTitle ? '"title extra"' : ""}
-            ${props.withError ? '"error extra"' : ""}
             "input remove"
+            ${props.withError ? '"error error"' : ""}
         ;
         grid-template-columns: 1fr 24px;
     ` : `
         grid-template-areas:
             ${props.withTitle ? '"title"' : ""}
-            ${props.withError ? '"error"' : ""}
             "input"
+            ${props.withError ? '"error"' : ""}
         ;
     `)}
 
@@ -135,10 +135,10 @@ const Remove = Styled.div`
 
 const Error = Styled(InputError)`
     grid-area: error;
+    margin-top: 0;
     margin-bottom: 4px;
     text-align: left;
     border-radius: var(--border-radius);
-    padding: 6px 12px;
 `;
 
 
@@ -362,10 +362,7 @@ function FieldInput(props) {
                     {getAfterTitle?.(elem, index)}
                 </Title>}
 
-                <Error
-                    error={getError(index)}
-                    useBackground
-                />
+                <Error error={getError(index)} />
 
                 <Inside className="inputfield-items" columns={columns}>
                     {items.map((item, idx) => {
