@@ -79,8 +79,8 @@ const ErrorHeader = Styled.h3`
     background: var(--error-color);
 `;
 
-const ErrorTitle = Styled.h3`
-    margin-top: 0;
+const ErrorTitle = Styled(Html)`
+    margin: 0;
     color: var(--error-color);
 `;
 
@@ -138,29 +138,32 @@ function Error() {
 
 
     // Parse the Message
-    const [ title, message, filePath, fileName, line, stackLines ] = React.useMemo(() => {
+    const [ title, message, filePath, fileName, line, stackLines, dump ] = React.useMemo(() => {
         if (!error.message) {
-            return [ "", "", "", "", "", []];
+            return [ "", "", "", "", "", [], "" ];
         }
 
         // Parse the Title
         const titleMatch = error.message.match(/<b>(.*?)<\/b>\s*:/);
-        const title      = titleMatch ? `PHP: ${titleMatch[1]}` : "GENERAL_ONE_ERROR";
+        let   title      = titleMatch ? `PHP: ${titleMatch[1]}` : "PHP: Dump";
 
         // Extract the Message, File and Line
-        const mainRegex = /Uncaught Error: (.*?) in (.*?):(\d+)/;
+        const mainRegex = /Uncaught (.*?): (.*?) in (.*?):(\d+)/;
         const match     = error.message.match(mainRegex);
         if (!match) {
-            return [ title, error.message, "", "", "", []];
+            return [ title, "", "", "", "", [], error.message ];
         }
-        const [ , message, filePath, line ] = match;
+        const [ , errorType, message, filePath, line ] = match;
 
+        // Refine the Title
+        title = `${title} (${errorType})`;
+
+        // Extract the File Name
         const segments = filePath.split("/").filter(Boolean);
         const fileName = segments.slice(3).join("/");
 
         // Extract the Stack Trace lines
         const stackLines = [];
-        // const stackRegex = /#(\d+)\s+(.*?):\s+(.*)/g;
         const stackRegex = /#(\d+)\s+(.*?)\((\d+)\):\s+(.*)/g;
         let stackMatch;
         while ((stackMatch = stackRegex.exec(error.message)) !== null) {
@@ -179,12 +182,20 @@ function Error() {
     }, [ error.message ]);
 
 
+    // Variables
+    const hasMessage  = Boolean(message);
+    const hasFilePath = Boolean(filePath);
+    const hasStack    = stackLines.length > 0;
+    const hasDump     = Boolean(dump);
+
+
     // Do the Render
     return <ViewDialog
         open={error.open}
         icon="error"
         title="GENERAL_ONE_ERROR"
         onClose={hideError}
+        zIndex={9999}
         withSpacing
         isWide
     >
@@ -206,28 +217,41 @@ function Error() {
         </Container>
 
         <Container>
-            <ErrorHeader>
-                {title.toUpperCase()}
-            </ErrorHeader>
+            <ErrorHeader>{title}</ErrorHeader>
             <Content>
-                <ErrorTitle>{message}</ErrorTitle>
-                <ErrorLocation>
+                <ErrorTitle
+                    isHidden={!hasMessage}
+                    variant="h3"
+                    content={message}
+                />
+
+                {hasFilePath && <ErrorLocation>
                     <b>IN</b>
                     <ErrorLink href={`vscode://file${filePath}:${line}`}>
                         /{fileName}:{line}
                     </ErrorLink>
-                </ErrorLocation>
+                </ErrorLocation>}
 
-                <Subtitle>Stack Trace</Subtitle>
-                <ErrorStackTrace>
-                    {stackLines.map((step) => <ErrorTrace key={step.id}>
-                        <b>#{step.id}</b>
-                        <span>{step.call}</span><br/>
-                        <ErrorLink href={`vscode://file${step.filePath}:${step.line}`}>
-                            /{step.fileName}:{step.line}
-                        </ErrorLink>
-                    </ErrorTrace>)}
-                </ErrorStackTrace>
+                {hasStack && <>
+                    <Subtitle>Stack Trace</Subtitle>
+                    <ErrorStackTrace>
+                        {stackLines.map((step) => <ErrorTrace key={step.id}>
+                            <b>#{step.id}</b>
+                            <Html
+                                variant="span"
+                                content={step.call}
+                            /><br/>
+                            <ErrorLink href={`vscode://file${step.filePath}:${step.line}`}>
+                                /{step.fileName}:{step.line}
+                            </ErrorLink>
+                        </ErrorTrace>)}
+                    </ErrorStackTrace>
+                </>}
+
+                {hasDump && <RequestPayload
+                    variant="pre"
+                    content={dump}
+                />}
             </Content>
         </Container>
     </ViewDialog>;
