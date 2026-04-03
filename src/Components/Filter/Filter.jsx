@@ -67,7 +67,11 @@ const Chips = Styled(ChipList)`
  * @returns {React.ReactElement}
  */
 function Filter(props) {
-    const { className, icon, message, values, showRefresh, onFilter, children } = props;
+    const {
+        className, icon, message, values, initialValues,
+        showRefresh, onFilter, children,
+    } = props;
+
 
     // The References
     const inputRef       = React.useRef(null);
@@ -290,8 +294,9 @@ function Filter(props) {
 
     // Handles the Clear
     const handleClear = () => {
-        setData({});
-        handleFilter({});
+        const newFilters = initialValues ? { ...initialValues } : {};
+        setData(newFilters);
+        handleFilter(newFilters);
     };
 
     // Handles the Refresh
@@ -685,13 +690,14 @@ function Filter(props) {
  * @type {object} propTypes
  */
 Filter.propTypes = {
-    className   : PropTypes.string,
-    icon        : PropTypes.string,
-    message     : PropTypes.string,
-    values      : PropTypes.object.isRequired,
-    onFilter    : PropTypes.func.isRequired,
-    showRefresh : PropTypes.bool,
-    children    : PropTypes.any,
+    className     : PropTypes.string,
+    icon          : PropTypes.string,
+    message       : PropTypes.string,
+    values        : PropTypes.object.isRequired,
+    initialValues : PropTypes.object,
+    onFilter      : PropTypes.func.isRequired,
+    showRefresh   : PropTypes.bool,
+    children      : PropTypes.any,
 };
 
 /**
