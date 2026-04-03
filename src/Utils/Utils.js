@@ -742,6 +742,29 @@ function jsonToHtml(content) {
 }
 
 /**
+ * Transforms the SQL to HTML
+ * @param {string} sql
+ * @returns {string}
+ */
+function sqlToHtml(sql) {
+    const jumps = [ "FROM", "LEFT JOIN", "UNION", "WHERE", "GROUP BY", "ORDER BY", "LIMIT" ];
+    const words = [
+        "SELECT", "INSERT", "UPDATE", "INTO", "FROM", "UNION", "JOIN", "LEFT", "SET",
+        "WHERE", "GROUP BY", "ORDER BY", "LIMIT", "DESC", "ASC", "SIGNED", "CAST",
+        "CASE WHEN", "IF", " AS ", " ON ", " IN ", " AND ", " OR ", "THEN", "ELSE", "END",
+    ];
+
+    let result = sql;
+    jumps.forEach((word) => {
+        result = result.replace(new RegExp(`(${word})`, "g"), "<br>$1");
+    });
+    words.forEach((word) => {
+        result = result.replace(new RegExp(`(${word})`, "g"), "<b>$1</b>");
+    });
+    return result;
+}
+
+/**
  * Creates an Array of N numbers
  * @param {number}  amount
  * @param {number=} start
@@ -1641,6 +1664,7 @@ export default {
     toSelect,
     stringsToSelect,
     jsonToHtml,
+    sqlToHtml,
     createArrayOf,
     areEqual,
     areObjectsEqual,
