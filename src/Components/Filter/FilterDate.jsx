@@ -38,7 +38,7 @@ function FilterDate(props) {
             toDate   : currData?.toDate   || "",
             toHour   : currData?.toHour   || "",
         };
-        if (datesName) {
+        if (datesName && datesName !== "period") {
             newData.fromDate = currData?.[`${datesName}FromDate`] || "";
             newData.toDate   = currData?.[`${datesName}ToDate`]   || "";
             newData.fromHour = currData?.[`${datesName}FromHour`] || "";
