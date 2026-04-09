@@ -2,11 +2,21 @@
     "compilerOptions": {
         "checkJs"          : true,
         "jsx"              : "react",
-        "target"           : "es2022",
-        "moduleResolution" : "node"
+        "module"           : "esNext",
+        "target"           : "esNext",
+        "moduleResolution" : "bundler",
+        "noImplicitThis"   : false,
+        "noImplicitAny"    : false,
+        "strictNullChecks" : false,
+        "paths"            : {
+            "*" : [
+                "./src/*",
+                "./node_modules/*"
+            ]
+        }
     },
     "exclude": [
-        "**/dist/**",
-        "**/node_modules/**"
+        "node_modules",
+        "**/node_modules/*"
     ]
 }
