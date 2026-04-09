@@ -253,6 +253,10 @@ function Filter(props) {
             newData = { ...data, [name] : "" };
         }
 
+        if (initialValues && initialValues[name]) {
+            newData[name] = initialValues[name];
+        }
+
         setData(newData);
         handleFilter(newData);
     };
@@ -598,6 +602,28 @@ function Filter(props) {
         return false;
     }, [ JSON.stringify(data) ]);
 
+    // Checks if it has any Non Default Filter
+    const hasClear = React.useMemo(() => {
+        for (const [ name, value ] of Object.entries(data)) {
+            if (name === "fromDate" || name === "toDate" || name === "fromHour" || name === "toHour") {
+                continue;
+            }
+
+            if (Array.isArray(value)) {
+                if (value.length) {
+                    return true;
+                }
+                continue;
+            }
+
+            const initialValue = initialValues ? initialValues[name] : undefined;
+            if (value && String(value) !== String(initialValue)) {
+                return true;
+            }
+        }
+        return false;
+    }, [ JSON.stringify(data), JSON.stringify(initialValues) ]);
+
 
     // variables
     const hasRefresh = showRefresh || hasAnyFilter;
@@ -627,7 +653,7 @@ function Filter(props) {
                 onClick={handleRefresh}
             />
             <FilterIcon
-                isHidden={!hasAnyFilter}
+                isHidden={!hasClear}
                 variant="black"
                 icon="filter-clear"
                 onClick={handleClear}
@@ -637,7 +663,9 @@ function Filter(props) {
                 {chipList.map(({ key, name, value, message, forDates }) => <ChipItem
                     key={key}
                     message={message}
-                    onClick={forDates ? () => handleChipClick(name, forDates) : undefined}
+                    canClick={forDates}
+                    onClick={() => handleChipClick(name, forDates)}
+                    canClose={initialValues ? String(initialValues[name]) !== String(value) : true}
                     onClose={() => handleRemove(name, value)}
                 />)}
             </Chips>
@@ -705,9 +733,10 @@ Filter.propTypes = {
  * @type {object} defaultProps
  */
 Filter.defaultProps = {
-    className : "",
-    icon      : "search",
-    message   : "GENERAL_WRITE_TO_SEARCH_FILTER",
+    className     : "",
+    icon          : "search",
+    message       : "GENERAL_WRITE_TO_SEARCH_FILTER",
+    initialValues : {},
 };
 
 export default Filter;

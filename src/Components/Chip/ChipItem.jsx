@@ -19,7 +19,7 @@ const Variant = {
 const Container = Styled.li.attrs(({ variant, hasClick, hasClose, isDisabled }) => ({ variant, hasClick, hasClose, isDisabled }))`
     padding: 2px 8px;
     font-size: 12px;
-    line-height: 1.2;
+    line-height: 18px;
     border-radius: var(--border-radius);
 
     ${(props) => props.variant === Variant.LIGHT && `
@@ -68,8 +68,13 @@ function ChipItem(props) {
     const {
         isHidden, className, variant, icon, iconSize,
         message, secMessage,
-        isDisabled, onClick, onClose,
+        isDisabled, canClick, onClick, canClose, onClose,
     } = props;
+
+
+    // Variables
+    const hasClick = Boolean(canClick && onClick);
+    const hasClose = Boolean(canClose && onClose);
 
 
     // Do the Render
@@ -79,8 +84,8 @@ function ChipItem(props) {
     return <Container
         className={className}
         variant={variant}
-        hasClick={!!onClick}
-        hasClose={!!onClose}
+        hasClick={hasClick}
+        hasClose={hasClose}
         isDisabled={isDisabled}
         onClick={onClick}
     >
@@ -101,7 +106,7 @@ function ChipItem(props) {
             />
         </Content>
 
-        {!!onClose && <IconLink
+        {hasClose && <IconLink
             className="chip-close"
             variant="black"
             icon="close"
@@ -125,7 +130,9 @@ ChipItem.propTypes = {
     message    : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     secMessage : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     isDisabled : PropTypes.bool,
+    canClick   : PropTypes.bool,
     onClick    : PropTypes.func,
+    canClose   : PropTypes.bool,
     onClose    : PropTypes.func,
 };
 
@@ -140,6 +147,8 @@ ChipItem.defaultProps = {
     iconSize   : "16",
     message    : "",
     isDisabled : false,
+    canClick   : true,
+    canClose   : true,
 };
 
 export default ChipItem;
