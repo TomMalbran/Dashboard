@@ -222,13 +222,16 @@ function insertText(ref, message, text) {
     if (!ref.current) {
         return message + text;
     }
-    const start = ref.current.selectionStart;
-    const end   = ref.current.selectionEnd;
-    return (
-        message.substring(0, start) +
-        text +
-        message.substring(end)
-    );
+
+    const start  = ref.current.selectionStart;
+    const end    = ref.current.selectionEnd;
+    const result = message.substring(0, start) + text + message.substring(end);
+
+    ref.current.value = result;
+    ref.current.setSelectionRange(start + text.length, start + text.length);
+    ref.current.focus();
+
+    return result;
 }
 
 /**
@@ -242,15 +245,43 @@ function formatText(ref, message, character) {
     if (!ref.current) {
         return message;
     }
+
     const start = ref.current.selectionStart;
     const end   = ref.current.selectionEnd;
-    return (
-        message.substring(0, start) +
-        character +
-        message.substring(start, end) +
-        character +
-        message.substring(end)
-    );
+
+    const length  = character.length;
+    const selText = message.substring(start, end);
+    const extText = message.substring(start - length, end + length);
+
+    let result   = message;
+    let newStart = start;
+    let newEnd   = end;
+
+    if (selText.length >= 2 * length && selText.startsWith(character) && selText.endsWith(character)) {
+        result   = message.substring(0, start) + message.substring(start + length, end - length) + message.substring(end);
+        newStart = start;
+        newEnd   = end - 2 * length;
+    } else if (extText.length >= 2 * length && extText.startsWith(character) && extText.endsWith(character)) {
+        result   = message.substring(0, start - length) + message.substring(start, end) + message.substring(end + length);
+        newStart = start - length;
+        newEnd   = end - length;
+    } else {
+        result = (
+            message.substring(0, start) +
+            character +
+            message.substring(start, end) +
+            character +
+            message.substring(end)
+        );
+        newStart = start + character.length;
+        newEnd   = end + character.length;
+    }
+
+    ref.current.value = result;
+    ref.current.setSelectionRange(newStart, newEnd);
+    ref.current.focus();
+
+    return result;
 }
 
 /**
