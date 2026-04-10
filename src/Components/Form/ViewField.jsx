@@ -4,7 +4,6 @@ import Styled               from "styled-components";
 
 // Core
 import NLS                  from "../../Core/NLS";
-import Utils                from "../../Utils/Utils";
 
 // Components
 import InputLabel           from "../Input/InputLabel";
@@ -128,27 +127,28 @@ function ViewField(props) {
         isSelected, error, helperText,
         linkIcon, linkVariant, linkUrl, linkHref, linkTarget,
         isEmail, isPhone, isWhatsApp, hasCopy, onClick,
-        showButton, buttonMessage, onButton,
+        showButton, buttonMessage, onButton, children,
     } = props;
 
 
     // Variables
-    const val       = value === null || value === undefined ? "" : String(value);
-    const content   = message ? NLS.get(message) : val;
-    const href      = Utils.isURL(content) ? content : (Utils.isURL(val) ? val : "");
-    const isLink    = href !== "";
-    const isHtml    = !isLink && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
-    const isText    = !isLink && !isHtml;
-    const withLabel = !!label;
-    const hasLink   = Boolean(linkIcon && linkHref);
-    const hasButton = Boolean(showButton && buttonMessage && onButton);
-    const hasError  = Boolean(error);
-    const hasHelper = !hasError && Boolean(helperText);
-    const floatCopy = content.length > 1000 || isHtml;
+    const val         = value === null || value === undefined ? "" : String(value);
+    const content     = message ? NLS.get(message) : val;
+    const href        = content.startsWith("http") ? content : (val.startsWith("http") ? val : "");
+    const hasChildren = Boolean(children && (children.props || children.length > 0));
+    const isLink      = href !== "";
+    const isHtml      = !isLink && !hasChildren && (content.includes("<br>") || content.includes("<b>") || content.includes("<i>"));
+    const isText      = !isLink && !hasChildren && !isHtml;
+    const withLabel   = !!label;
+    const hasLink     = Boolean(linkIcon && linkHref);
+    const hasButton   = Boolean(showButton && buttonMessage && onButton);
+    const hasError    = Boolean(error);
+    const hasHelper   = !hasError && Boolean(helperText);
+    const floatCopy   = content.length > 1000 || isHtml;
 
 
     // Do the Render
-    if (isHidden || (!content && !showEmpty)) {
+    if (isHidden || (!content && !hasChildren && !showEmpty)) {
         return <React.Fragment />;
     }
     return <InputContainer
@@ -172,6 +172,9 @@ function ViewField(props) {
             isSelected={isSelected}
         >
             {!!icon && <FieldIcon icon={icon} />}
+            {hasChildren && <div className="inputview-value">
+                {children}
+            </div>}
             {isLink && <div className="inputview-value inputview-link">
                 <HyperLink
                     variant="primary"
@@ -257,6 +260,7 @@ ViewField.propTypes = {
     showButton    : PropTypes.bool,
     buttonMessage : PropTypes.string,
     onButton      : PropTypes.func,
+    children      : PropTypes.any,
 };
 
 /**
