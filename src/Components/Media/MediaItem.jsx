@@ -22,7 +22,9 @@ const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasA
 
     ${(props) => props.isSelected && `
         border-color: var(--primary-color);
+        outline: 1px solid var(--primary-color);
     `}
+
     ${(props) => props.hasActions && `
         &:hover .media-name {
             transform: translateY(-20px);

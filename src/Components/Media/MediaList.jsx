@@ -15,7 +15,7 @@ import MediaItem            from "../Media/MediaItem";
 
 
 // Styles
-const Div = Styled.div.attrs(({ inDialog, withSpace }) => ({ inDialog, withSpace }))`
+const Container = Styled.div.attrs(({ inDialog, withSpace }) => ({ inDialog, withSpace }))`
     color: var(--media-main-color);
     ${(props) => props.inDialog && `
         min-height: calc(130px * 2 + 8px + 16px + 12px);
@@ -109,6 +109,7 @@ function MediaList(props) {
         if (dist <= 25) {
             return;
         }
+
         const node   = document.querySelector(`.media-item-${dragIndex}`);
         const bounds = node.getBoundingClientRect();
 
@@ -191,7 +192,11 @@ function MediaList(props) {
 
 
     // Do the Render
-    return <Div className={className} inDialog={inDialog} withSpace={withSpace}>
+    return <Container
+        className={className}
+        inDialog={inDialog}
+        withSpace={withSpace}
+    >
         {showLoader && <CircularLoader />}
         {showNone   && <NoneAvailable message="MEDIA_NONE_AVAILABLE" />}
         {showItems  && <>
@@ -212,7 +217,7 @@ function MediaList(props) {
                 })}
             </Section>
         </>}
-    </Div>;
+    </Container>;
 }
 
 /**
