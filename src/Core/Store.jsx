@@ -7,7 +7,7 @@ import CoreStore             from "./Stores/CoreStore";
 
 
 // Variables
-const Context = React.createContext(null);
+const Context = React.createContext([{}, () => {} ]);
 let   actions = {};
 
 

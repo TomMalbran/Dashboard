@@ -5,9 +5,10 @@ import PropTypes            from "prop-types";
 
 /**
  * The Table Action List Component
+ * @param {object} props
  * @returns {React.ReactElement}
  */
-function TableActionList() {
+function TableActionList(props) {
     return <React.Fragment />;
 }
 

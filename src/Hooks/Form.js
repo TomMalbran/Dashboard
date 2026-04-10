@@ -159,7 +159,10 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
             }
         } catch (errors) {
             endLoading();
-            setErrorsInt(errors);
+
+            /** @type {object} */
+            const caughtErrors = errors;
+            setErrorsInt(caughtErrors);
         }
     };
 
