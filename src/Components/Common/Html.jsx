@@ -1,9 +1,12 @@
 import React                from "react";
 import PropTypes            from "prop-types";
+import Styled               from "styled-components";
 
 // Core & Utils
 import NLS                  from "../../Core/NLS";
 import Utils                from "../../Utils/Utils";
+
+
 
 // Variants
 const Variant = {
@@ -17,14 +20,21 @@ const Variant = {
     PRE  : "pre",
 };
 
-
-
 // http://, https://, ftp://
 const urlPattern = /\b(?:https?|ftp):\/\/[a-z0-9-+&@#/%?=~_|!:,.;]*[a-z0-9-+&@#/%=~_|]/gim;
 // www. sans http:// or https://
 const pseudoUrlPattern = /(^|[^/])(www\.[\S]+(\b|$))/gim;
 // Email addresses
 const emailAddressPattern = /[\w.]+@[a-zA-Z_-]+?(?:\.[a-zA-Z]{2,6})+/gim;
+
+
+
+// Styles
+const Code = Styled.pre`
+    white-space: pre-wrap;
+`;
+
+
 
 /**
  * The Html Component
@@ -127,7 +137,7 @@ function Html(props) {
             dangerouslySetInnerHTML={{ __html }}
         />;
     case Variant.PRE:
-        return <pre
+        return <Code
             className={className}
             style={style}
             onClick={onClick}
