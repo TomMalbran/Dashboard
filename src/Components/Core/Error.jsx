@@ -138,21 +138,47 @@ function Error() {
 
 
     // Parse the Message
-    const [ title, message, filePath, fileName, line, stackLines, dump ] = React.useMemo(() => {
+    const { title, message, filePath, fileName, line, stackLines, dump, isSQL } = React.useMemo(() => {
         if (!error.message) {
-            return [ "", "", "", "", "", [], "" ];
+            return { title : "", message : "", filePath : "", fileName : "", line : "", stackLines : [], dump : "", isSQL : false };
         }
 
         // Parse the Title
+        let title = "PHP: Dump";
         const titleMatch = error.message.match(/<b>(.*?)<\/b>\s*:/);
-        let   title      = titleMatch ? `PHP: ${titleMatch[1]}` : "PHP: Dump";
+        if (titleMatch) {
+            title = `PHP: ${titleMatch[1]}`;
+        }
 
-        // Extract the Message, File and Line
+        // Parse a syntax error
+        if (error.message.includes("syntax error")) {
+            const syntaxMatch = error.message.match(/syntax error, (.*?) in (.*?) on line (\d+)/);
+
+            const title    = "PHP: Syntax Error";
+            const message  = syntaxMatch[1];
+            const filePath = syntaxMatch[2];
+            const line     = syntaxMatch[3];
+            const segments = filePath.split("/").filter(Boolean);
+            const fileName = segments.slice(3).join("/");
+
+            return { title, message, filePath, fileName, line, stackLines : [], dump : "", isSQL : false };
+        }
+
+        // Parse an SQL error
+        if (error.message.includes("MySQL Error")) {
+            let   dump  = error.message;
+            const isSQL = dump.includes("SQL");
+            if (isSQL) {
+                title = "PHP: MySQL Error";
+                dump  = Utils.sqlToHtml(dump.replace("MySQL Error: ", "").replace(/\n/g, "<br>"));
+            }
+            return { title, message : "", filePath : "", fileName : "", line : "", stackLines : [], dump, isSQL };
+        }
+
+
+        // Parse an Uncaught Error
         const mainRegex = /Uncaught (.*?): (.*?) in (.*?):(\d+)/;
         const match     = error.message.match(mainRegex);
-        if (!match) {
-            return [ title, "", "", "", "", [], error.message ];
-        }
         const [ , errorType, message, filePath, line ] = match;
 
         // Refine the Title
@@ -178,7 +204,7 @@ function Error() {
             });
         }
 
-        return [ title, message, filePath, fileName, line, stackLines ];
+        return { title, message, filePath, fileName, line, stackLines, dump : "", isSQL : false };
     }, [ error.message ]);
 
 
@@ -187,6 +213,7 @@ function Error() {
     const hasFilePath = Boolean(filePath);
     const hasStack    = stackLines.length > 0;
     const hasDump     = Boolean(dump);
+    const dumpVariant = isSQL ? "div" : "pre";
 
 
     // Do the Render
@@ -249,7 +276,7 @@ function Error() {
                 </>}
 
                 {hasDump && <RequestPayload
-                    variant="pre"
+                    variant={dumpVariant}
                     content={dump}
                 />}
             </Content>
