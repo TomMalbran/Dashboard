@@ -47,9 +47,9 @@ function InputField(props) {
 
 
     // The References
-    const fieldRef     = React.useRef();
+    const fieldRef     = React.useRef(null);
     const inputRef     = passedRef || fieldRef;
-    const containerRef = React.useRef();
+    const containerRef = React.useRef(null);
 
     // The Current State
     const [ timer,     setTimer ] = React.useState(null);

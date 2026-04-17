@@ -130,7 +130,7 @@ function RadioInput(props) {
 
 
     // The References
-    const inputRef  = React.useRef();
+    const inputRef  = React.useRef(null);
 
     // Variables
     const valString = String(value);

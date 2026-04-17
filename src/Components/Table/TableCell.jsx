@@ -116,7 +116,7 @@ function TableCell(props) {
         noSpace, smallSpace, indent, isEditable, children,
     } = props;
 
-    const elementRef = React.useRef();
+    const elementRef = React.useRef(null);
 
     const { showTooltip, hideTooltip } = Store.useAction("core");
 

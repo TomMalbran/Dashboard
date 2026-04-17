@@ -120,7 +120,7 @@ function IconLink(props) {
         onMouseDown, onMouseUp, onTouchEnd,
     } = props;
 
-    const defaultRef = React.useRef();
+    const defaultRef = React.useRef(null);
     const elementRef = passedRef || defaultRef;
 
     const onClick    = Navigate.useLink(props);

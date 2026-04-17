@@ -187,7 +187,7 @@ function MenuLink(props) {
         onMouseEnter, onMouseLeave, children,
     } = props;
 
-    const defaultRef = React.useRef();
+    const defaultRef = React.useRef(null);
     const elementRef = passedRef || defaultRef;
 
     const { showTooltip, hideTooltip } = Store.useAction("core");

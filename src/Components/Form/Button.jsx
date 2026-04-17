@@ -254,7 +254,7 @@ function Button(props) {
         tooltip, tooltipVariant, children,
     } = props;
 
-    const defaultRef = React.useRef();
+    const defaultRef = React.useRef(null);
     const elementRef = passedRef || defaultRef;
 
     const onClick    = Navigate.useClick(props);

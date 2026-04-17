@@ -23,7 +23,7 @@ function TableRow(props) {
     } = props;
 
     // The References
-    const linkRef = React.useRef();
+    const linkRef = React.useRef(null);
 
 
     // Handles the Row Click

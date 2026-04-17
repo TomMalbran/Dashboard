@@ -62,7 +62,7 @@ function StatItem(props) {
         decimals, percent, isPrice, isPercent, onClick,
     } = props;
 
-    const elementRef = React.useRef();
+    const elementRef = React.useRef(null);
     const { showTooltip, hideTooltip } = Store.useAction("core");
 
     // Handles the Tooltip

@@ -49,7 +49,7 @@ function Avatar(props) {
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
     } = props;
 
-    const defaultRef = React.useRef();
+    const defaultRef = React.useRef(null);
     const elementRef = passedRef || defaultRef;
 
     const { showTooltip, hideTooltip } = Store.useAction("core");

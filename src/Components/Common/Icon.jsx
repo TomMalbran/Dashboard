@@ -42,7 +42,7 @@ function Icon(props) {
         onClick, onMouseDown,
     } = props;
 
-    const elementRef = React.useRef();
+    const elementRef = React.useRef(null);
 
     const { showTooltip, hideTooltip } = Store.useAction("core");
 

@@ -67,7 +67,7 @@ function NavigationItem(props) {
     } = props;
 
     const isSelect   = Navigate.useSelect();
-    const elementRef = React.useRef();
+    const elementRef = React.useRef(null);
 
     const { closeMenu, showTooltip, hideTooltip } = Store.useAction("core");
 

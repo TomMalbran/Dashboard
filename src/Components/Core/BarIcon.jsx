@@ -81,7 +81,7 @@ function BarIcon(props) {
 
 
     // Variables
-    const defaultRef = React.useRef();
+    const defaultRef = React.useRef(null);
     const elementRef = passedRef || defaultRef;
 
     const onClick    = Navigate.useClick(props);

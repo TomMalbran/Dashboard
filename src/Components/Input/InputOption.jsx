@@ -135,7 +135,7 @@ function InputOption(props) {
 
 
     // The References
-    const itemRef = React.useRef();
+    const itemRef = React.useRef(null);
 
     // The Current State
     const [ menuOpen, setMenuOpen ] = React.useState(false);

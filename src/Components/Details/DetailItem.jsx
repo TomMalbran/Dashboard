@@ -55,7 +55,7 @@ function DetailItem(props) {
     } = props;
 
     const navigate   = Navigate.useClick(props);
-    const elementRef = React.useRef();
+    const elementRef = React.useRef(null);
 
     const { showTooltip, hideTooltip } = Store.useAction("core");
 

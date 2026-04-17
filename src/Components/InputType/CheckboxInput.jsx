@@ -87,7 +87,7 @@ function CheckboxInput(props) {
 
 
     // The References
-    const fieldRef = React.useRef();
+    const fieldRef = React.useRef(null);
     const checkRef = inputRef || fieldRef;
 
 

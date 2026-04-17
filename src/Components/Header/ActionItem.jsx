@@ -27,8 +27,8 @@ function ActionItem(props) {
     } = props;
 
     // The References
-    const buttonRef = React.useRef();
-    const actionRef = React.useRef();
+    const buttonRef = React.useRef(null);
+    const actionRef = React.useRef(null);
 
     // The Current State
     const [ menuOpen, setMenuOpen ] = React.useState(false);

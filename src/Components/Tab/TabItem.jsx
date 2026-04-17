@@ -108,7 +108,7 @@ function TabItem(props) {
 
 
     // The References
-    const elementRef = React.useRef();
+    const elementRef = React.useRef(null);
 
     // Variables
     const id         = url ? NLS.url(url) : (value || index);

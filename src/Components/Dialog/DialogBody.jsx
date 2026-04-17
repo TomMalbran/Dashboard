@@ -71,7 +71,7 @@ function DialogBody(props) {
     } = props;
 
     // The References
-    const defaultRef = React.useRef();
+    const defaultRef = React.useRef(null);
     const elementRef = passedRef || defaultRef;
 
 
