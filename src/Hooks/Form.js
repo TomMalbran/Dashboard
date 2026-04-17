@@ -157,12 +157,9 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
             if (onSubmit) {
                 onSubmit(response);
             }
-        } catch (errors) {
+        } catch (/** @type {object} */ errors) {
             endLoading();
-
-            /** @type {object} */
-            const caughtErrors = errors;
-            setErrorsInt(caughtErrors);
+            setErrorsInt(errors);
         }
     };
 
