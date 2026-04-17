@@ -782,7 +782,8 @@ function sqlToHtml(sql) {
     const words = [
         "SELECT", "INSERT", "UPDATE", "INTO", "FROM", "UNION", "JOIN", "LEFT", "SET",
         "WHERE", "GROUP BY", "ORDER BY", "LIMIT", "DESC", "ASC", "SIGNED", "CAST",
-        "CASE WHEN", "IF", " AS ", " ON ", " IN ", " AND ", " OR ", "THEN", "ELSE", "END",
+        "CASE WHEN", "IFNULL", "ISNULL", "COUNT", "SUM", "IF", " AS ", " ON ", " IN ",
+        " AND ", " OR ", "THEN", "ELSE", "END",
     ];
 
     let result = sql;
