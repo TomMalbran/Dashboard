@@ -32,7 +32,7 @@ const Content = Styled.section`
  */
 function DetailList(props) {
     const {
-        isHidden, className, hasInternalTabs, icon, message, isBeta,
+        isHidden, className, icon, message, isBeta,
         collapsible, action, onAction, canEdit, editIcon, editTooltip, children,
     } = props;
 
@@ -79,7 +79,6 @@ function DetailList(props) {
             icon={icon}
             message={message}
             isBeta={isBeta}
-            hasInternalTabs={hasInternalTabs}
             collapsible={collapsible}
             isCollapsed={isCollapsed}
             action={action}
@@ -100,19 +99,18 @@ function DetailList(props) {
  * @type {object} propTypes
  */
 DetailList.propTypes = {
-    isHidden        : PropTypes.bool,
-    className       : PropTypes.string,
-    icon            : PropTypes.string,
-    message         : PropTypes.string,
-    isBeta          : PropTypes.bool,
-    hasInternalTabs : PropTypes.bool,
-    collapsible     : PropTypes.string,
-    action          : PropTypes.string,
-    canEdit         : PropTypes.bool,
-    editIcon        : PropTypes.string,
-    editTooltip     : PropTypes.string,
-    onAction        : PropTypes.func,
-    children        : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    icon        : PropTypes.string,
+    message     : PropTypes.string,
+    isBeta      : PropTypes.bool,
+    collapsible : PropTypes.string,
+    action      : PropTypes.string,
+    canEdit     : PropTypes.bool,
+    editIcon    : PropTypes.string,
+    editTooltip : PropTypes.string,
+    onAction    : PropTypes.func,
+    children    : PropTypes.any,
 };
 
 /**

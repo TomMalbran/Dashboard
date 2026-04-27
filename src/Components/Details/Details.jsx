@@ -14,7 +14,9 @@ import CircularLoader       from "../Loader/CircularLoader";
 
 
 // Styles
-const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternalTabs, withBorder, stickyBottom }) => ({ isInside, isWide, isLarge, hasExternalTabs, withBorder, stickyBottom }))`
+const Container = Styled.section.attrs(({ isInside, isWide, isLarge, hasExternalTabs, hasInternalTabs, withBorder, stickyBottom }) => ({ isInside, isWide, isLarge, hasExternalTabs, hasInternalTabs, withBorder, stickyBottom }))`
+    --details-title-top: ${(props) => props.hasInternalTabs ? "var(--details-sticky-top)" : "0px"};
+
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -113,9 +115,9 @@ function Details(props) {
     const showContent = !isLoading && !hasError && !isEmpty;
 
     let items = children;
-    if (hasInternalTabs || collapsible || canEdit || onAction) {
+    if (collapsible || canEdit || onAction) {
         items = Utils.cloneChildren(children, (child) => ({
-            hasInternalTabs, collapsible, onAction,
+            collapsible, onAction,
             canEdit : canEdit || child.props.canEdit,
         }));
     }
@@ -131,6 +133,7 @@ function Details(props) {
         isWide={isWide}
         isLarge={isLarge}
         hasExternalTabs={hasExternalTabs}
+        hasInternalTabs={hasInternalTabs}
         withBorder={withBorder}
         stickyBottom={stickyBottom}
     >

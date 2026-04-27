@@ -13,18 +13,14 @@ import Beta                 from "../Common/Beta";
 
 
 // Styles
-const Container = Styled.div.attrs(({ hasInternalTabs, isCollapsed }) => ({ hasInternalTabs, isCollapsed }))`
+const Container = Styled.div.attrs(({ isCollapsed }) => ({ isCollapsed }))`
     position: sticky;
-    top: 0;
+    top: var(--details-title-top);
     padding: 6px 0;
     padding-top: var(--details-spacing);
     background-color: var(--content-color);
     border-bottom: 1px solid var(--border-color-light);
     z-index: 2;
-
-    ${(props) => props.hasInternalTabs && `
-        top: var(--details-sticky-top, calc(var(--tabs-dialog) + 4px));
-    `}
 
     ${(props) => props.isCollapsed && `
         border-bottom: none;
@@ -74,9 +70,9 @@ const Title = Styled.div`
 function DetailTitle(props) {
     const {
         isHidden, className, icon, message, isBeta,
-        hasInternalTabs, collapsible, isCollapsed,
-        action, canEdit, editIcon, editTooltip,
-        onAction, onClose, onClick,
+        collapsible, isCollapsed,
+        canEdit, editIcon, editTooltip,
+        action, onAction, onClose, onClick,
     } = props;
 
 
@@ -95,7 +91,6 @@ function DetailTitle(props) {
     }
     return <Container
         className={`details-title ${className}`}
-        hasInternalTabs={hasInternalTabs}
         isCollapsed={isCollapsed}
     >
         <Inside onClick={onClick} isCollapsible={isCollapsible}>
@@ -138,21 +133,20 @@ function DetailTitle(props) {
  * @type {object} propTypes
  */
 DetailTitle.propTypes = {
-    isHidden        : PropTypes.bool,
-    className       : PropTypes.string,
-    icon            : PropTypes.string,
-    message         : PropTypes.string,
-    isBeta          : PropTypes.bool,
-    hasInternalTabs : PropTypes.bool,
-    collapsible     : PropTypes.string,
-    isCollapsed     : PropTypes.bool,
-    action          : PropTypes.string,
-    canEdit         : PropTypes.bool,
-    editIcon        : PropTypes.string,
-    editTooltip     : PropTypes.string,
-    onAction        : PropTypes.func,
-    onClose         : PropTypes.func,
-    onClick         : PropTypes.func,
+    isHidden    : PropTypes.bool,
+    className   : PropTypes.string,
+    icon        : PropTypes.string,
+    message     : PropTypes.string,
+    isBeta      : PropTypes.bool,
+    collapsible : PropTypes.string,
+    isCollapsed : PropTypes.bool,
+    action      : PropTypes.string,
+    canEdit     : PropTypes.bool,
+    editIcon    : PropTypes.string,
+    editTooltip : PropTypes.string,
+    onAction    : PropTypes.func,
+    onClose     : PropTypes.func,
+    onClick     : PropTypes.func,
 };
 
 /**
