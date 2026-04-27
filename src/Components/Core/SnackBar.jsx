@@ -8,25 +8,49 @@ import NLS                  from "../../Core/NLS";
 // Components
 import Button               from "../Form/Button";
 import IconLink             from "../Link/IconLink";
+import Html                 from "../Common/Html";
 
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ zIndex }) => ({ zIndex }))`
     box-sizing: border-box;
     position: fixed;
     left: 50%;
     top: 8px;
-    display: flex;
+    width: max-content;
+    max-width: 600px;
+    display: grid;
+    grid-template-areas: "message button close";
+    grid-template-columns: 1fr auto auto;
     align-items: center;
     gap: var(--main-gap);
-    color: #fff;
     padding: 8px 8px 8px 16px;
+    color: #fff;
     background-color: var(--black-color);
     border-radius: var(--border-radius-medium);
-    white-space: nowrap;
     transform: translate(-50%);
-    z-index: 2;
+    z-index: ${(props) => props.zIndex || 2};
+
+    @media (max-width: 616px) {
+        max-width: 96vw;
+    }
+    @media (max-width: 400px) {
+        grid-template-areas: "message close" "button close";
+        grid-template-columns: 1fr auto;
+    }
+`;
+
+const Content = Styled(Html)`
+    grid-area: message;
+`;
+
+const Accept = Styled(Button)`
+    grid-area: button;
+`;
+
+const Close = Styled(IconLink)`
+    grid-area: close;
 `;
 
 
@@ -39,7 +63,7 @@ const Container = Styled.div`
 function SnackBar(props) {
     const {
         isHidden, message, buttonText,
-        autoClose, onAccept, onClose,
+        autoClose, zIndex, onAccept, onClose,
     } = props;
 
     // The References
@@ -107,16 +131,20 @@ function SnackBar(props) {
     if (!isVisible) {
         return <React.Fragment />;
     }
-    return <Container>
-        {NLS.get(message)}
-        <Button
+    return <Container zIndex={zIndex}>
+        <Content
+            message={NLS.get(message)}
+            addBreaks
+            formatText
+        />
+        <Accept
             isHidden={!showAccept}
             variant="primary"
             message={buttonText}
             onClick={handleAccept}
             isSmall
         />
-        <IconLink
+        <Close
             variant="white"
             icon="close"
             onClick={handleClose}
@@ -134,6 +162,7 @@ SnackBar.propTypes = {
     message    : PropTypes.string,
     buttonText : PropTypes.string,
     autoClose  : PropTypes.number,
+    zIndex     : PropTypes.number,
     onAccept   : PropTypes.func,
     onClose    : PropTypes.func,
 };
