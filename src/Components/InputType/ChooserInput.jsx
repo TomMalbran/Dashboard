@@ -221,10 +221,9 @@ function ChooserInput(props) {
 
 
     // Variables
-    const options     = InputType.useOptions(props);
-    const values      = !Array.isArray(value) ? [] : value;
-    const showOptions = Boolean(hasFocus && options.length);
-    const hasCreate   = Boolean(createOption && onCreate);
+    const options   = InputType.useOptions(props);
+    const values    = !Array.isArray(value) ? [] : value;
+    const hasCreate = Boolean(createOption && onCreate);
 
 
     // Get the Filtered Options
@@ -254,6 +253,7 @@ function ChooserInput(props) {
 
 
     // Variables
+    const showOptions  = Boolean(hasFocus && filteredOptions.length);
     const hasOptions   = Boolean(showOptions && filteredOptions.length);
     const isOnlyOption = Boolean(filteredOptions.length === 1);
 
