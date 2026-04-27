@@ -19,12 +19,14 @@ const Container = Styled.div`
 `;
 
 const Content = Styled.div`
+    display: flex;
+    flex-direction: column;
     padding: var(--main-gap);
+    gap: var(--main-gap);
 `;
 
 const Subtitle = Styled.h4`
-    margin: 0;
-    padding-bottom: calc(var(--main-gap) / 2);
+    margin: 0 0 calc(0px - var(--main-gap) / 2) 0;
 `;
 
 
@@ -52,23 +54,13 @@ const RequestUrl = Styled.p`
     margin: 0 0 var(--main-gap) 0;
     padding: var(--main-gap);
     border-left: 4px solid var(--success-color);
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius);
     font-family: monospace;
     background: var(--lightest-gray);
 
     b {
         margin-right: 6px;
     }
-`;
-
-const RequestPayload = Styled(Html)`
-    margin: 0;
-    padding: var(--main-gap);
-    font-size: var(--font-size);
-    line-height: 1.5;
-    border-radius: var(--border-radius-small);
-    background: var(--lightest-gray);
-    overflow-x: auto;
 `;
 
 
@@ -80,14 +72,24 @@ const ErrorHeader = Styled.h3`
 `;
 
 const ErrorTitle = Styled(Html)`
-    margin: 0;
     color: var(--error-color);
 `;
 
+const ErrorDump = Styled(Html)`
+    margin: 0;
+    padding: var(--main-gap);
+    font-size: var(--font-size);
+    line-height: 1.5;
+    border-radius: var(--border-radius);
+    background: var(--lightest-gray);
+    overflow-x: auto;
+`;
+
 const ErrorLocation = Styled.p`
+    margin: 0;
     padding: var(--main-gap);
     border-left: 4px solid var(--error-color);
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius);
     font-family: monospace;
     background: var(--lightest-gray);
 
@@ -150,6 +152,20 @@ function Error() {
             title = `PHP: ${titleMatch[1]}`;
         }
 
+        // Parse a Fatal Error
+        if (error.message.includes("Fatal error")) {
+            const fatalMatch = error.message.match(/Fatal error:\s*(.*?) in (.*?) on line (\d+)/);
+
+            const title    = "PHP: Fatal Error";
+            const dump     = fatalMatch[1];
+            const filePath = fatalMatch[2];
+            const line     = fatalMatch[3];
+            const segments = filePath.split("/").filter(Boolean);
+            const fileName = segments.slice(3).join("/");
+
+            return { title, message : "", filePath, fileName, line, stackLines : [], dump, isSQL : false };
+        }
+
         // Parse a syntax error
         if (error.message.includes("syntax error")) {
             const syntaxMatch = error.message.match(/syntax error, (.*?) in (.*?) on line (\d+)/);
@@ -166,45 +182,45 @@ function Error() {
 
         // Parse an SQL error
         if (error.message.includes("MySQL Error")) {
-            let   dump  = error.message;
-            const isSQL = dump.includes("SQL");
-            if (isSQL) {
-                title = "PHP: MySQL Error";
-                dump  = Utils.sqlToHtml(dump.replace("MySQL Error: ", "").replace(/\n/g, "<br>"));
-            }
-            return { title, message : "", filePath : "", fileName : "", line : "", stackLines : [], dump, isSQL };
+            const title = "PHP: MySQL Error";
+            const dump  = Utils.sqlToHtml(error.message.replace("MySQL Error: ", "").replace(/\n/g, "<br>"));
+            return { title, message : "", filePath : "", fileName : "", line : "", stackLines : [], dump, isSQL : true };
         }
-
 
         // Parse an Uncaught Error
-        const mainRegex = /Uncaught (.*?): (.*?) in (.*?):(\d+)/;
-        const match     = error.message.match(mainRegex);
-        const [ , errorType, message, filePath, line ] = match;
+        if (error.message.includes("Uncaught")) {
+            const mainRegex = /Uncaught (.*?): (.*?) in (.*?):(\d+)/;
+            const match     = error.message.match(mainRegex);
+            const [ , errorType, message, filePath, line ] = match;
 
-        // Refine the Title
-        title = `${title} (${errorType})`;
+            // Refine the Title
+            title = `${title} (${errorType})`;
 
-        // Extract the File Name
-        const segments = filePath.split("/").filter(Boolean);
-        const fileName = segments.slice(3).join("/");
+            // Extract the File Name
+            const segments = filePath.split("/").filter(Boolean);
+            const fileName = segments.slice(3).join("/");
 
-        // Extract the Stack Trace lines
-        const stackLines = [];
-        const stackRegex = /#(\d+)\s+(.*?)\((\d+)\):\s+(.*)/g;
-        let stackMatch;
-        while ((stackMatch = stackRegex.exec(error.message)) !== null) {
-            const segments = stackMatch[2].split("/").filter(Boolean);
+            // Extract the Stack Trace lines
+            const stackLines = [];
+            const stackRegex = /#(\d+)\s+(.*?)\((\d+)\):\s+(.*)/g;
+            let stackMatch;
+            while ((stackMatch = stackRegex.exec(error.message)) !== null) {
+                const segments = stackMatch[2].split("/").filter(Boolean);
 
-            stackLines.push({
-                id       : stackMatch[1],
-                filePath : stackMatch[2],
-                fileName : segments.slice(3).join("/"),
-                line     : stackMatch[3],
-                call     : stackMatch[4],
-            });
+                stackLines.push({
+                    id       : stackMatch[1],
+                    filePath : stackMatch[2],
+                    fileName : segments.slice(3).join("/"),
+                    line     : stackMatch[3],
+                    call     : stackMatch[4],
+                });
+            }
+            return { title, message, filePath, fileName, line, stackLines, dump : "", isSQL : false };
         }
 
-        return { title, message, filePath, fileName, line, stackLines, dump : "", isSQL : false };
+        // Default Parsing (for dumps and other errors)
+        const dump = error.message;
+        return { title, message : "", filePath : "", fileName : "", line : "", stackLines : [], dump, isSQL : false };
     }, [ error.message ]);
 
 
@@ -236,7 +252,7 @@ function Error() {
                 <RequestUrl>{error.url}</RequestUrl>
 
                 <Subtitle>Payload / Parameters</Subtitle>
-                <RequestPayload
+                <ErrorDump
                     variant="pre"
                     content={Utils.jsonToHtml(error.payload)}
                 />
@@ -246,11 +262,15 @@ function Error() {
         <Container>
             <ErrorHeader>{title}</ErrorHeader>
             <Content>
-                <ErrorTitle
-                    isHidden={!hasMessage}
+                {hasMessage && <ErrorTitle
                     variant="h3"
                     content={message}
-                />
+                />}
+
+                {hasDump && <ErrorDump
+                    variant={dumpVariant}
+                    content={dump}
+                />}
 
                 {hasFilePath && <ErrorLocation>
                     <b>IN</b>
@@ -274,11 +294,6 @@ function Error() {
                         </ErrorTrace>)}
                     </ErrorStackTrace>
                 </>}
-
-                {hasDump && <RequestPayload
-                    variant={dumpVariant}
-                    content={dump}
-                />}
             </Content>
         </Container>
     </ViewDialog>;
