@@ -72,6 +72,7 @@ const ErrorHeader = Styled.h3`
 `;
 
 const ErrorTitle = Styled(Html)`
+    margin: 0;
     color: var(--error-color);
 `;
 
@@ -145,15 +146,8 @@ function Error() {
             return { title : "", message : "", filePath : "", fileName : "", line : "", stackLines : [], dump : "", isSQL : false };
         }
 
-        // Parse the Title
-        let title = "PHP: Dump";
-        const titleMatch = error.message.match(/<b>(.*?)<\/b>\s*:/);
-        if (titleMatch) {
-            title = `PHP: ${titleMatch[1]}`;
-        }
-
         // Parse a Fatal Error
-        if (error.message.includes("Fatal error")) {
+        if (error.message.includes("Fatal error") && !error.message.includes("Uncaught")) {
             const fatalMatch = error.message.match(/Fatal error:\s*(.*?) in (.*?) on line (\d+)/);
 
             const title    = "PHP: Fatal Error";
@@ -189,16 +183,16 @@ function Error() {
 
         // Parse an Uncaught Error
         if (error.message.includes("Uncaught")) {
-            const mainRegex = /Uncaught (.*?): (.*?) in (.*?):(\d+)/;
+            const mainRegex = /Uncaught (.*?): (.*?) in \/(.*?):(\d+)/;
             const match     = error.message.match(mainRegex);
             const [ , errorType, message, filePath, line ] = match;
 
             // Refine the Title
-            title = `${title} (${errorType})`;
+            const title = `PHP: Uncaught Error (${errorType})`;
 
             // Extract the File Name
             const segments = filePath.split("/").filter(Boolean);
-            const fileName = segments.slice(3).join("/");
+            const fileName = segments.slice(5).join("/");
 
             // Extract the Stack Trace lines
             const stackLines = [];
@@ -210,7 +204,7 @@ function Error() {
                 stackLines.push({
                     id       : stackMatch[1],
                     filePath : stackMatch[2],
-                    fileName : segments.slice(3).join("/"),
+                    fileName : segments.slice(5).join("/"),
                     line     : stackMatch[3],
                     call     : stackMatch[4],
                 });
@@ -219,7 +213,8 @@ function Error() {
         }
 
         // Default Parsing (for dumps and other errors)
-        const dump = error.message;
+        const title = "PHP: Dump";
+        const dump  = error.message;
         return { title, message : "", filePath : "", fileName : "", line : "", stackLines : [], dump, isSQL : false };
     }, [ error.message ]);
 
@@ -274,7 +269,7 @@ function Error() {
 
                 {hasFilePath && <ErrorLocation>
                     <b>IN</b>
-                    <ErrorLink href={`vscode://file${filePath}:${line}`}>
+                    <ErrorLink href={`vscode://file/${filePath}:${line}`}>
                         /{fileName}:{line}
                     </ErrorLink>
                 </ErrorLocation>}
