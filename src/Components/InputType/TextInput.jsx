@@ -3,12 +3,16 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core & Utils
+import NLS                  from "../../Core/NLS";
+import InputType            from "../../Core/InputType";
 import KeyCode              from "../../Utils/KeyCode";
 import Utils                from "../../Utils/Utils";
 
 // Components
 import InputContent         from "../Input/InputContent";
 import InputBase            from "../Input/InputBase";
+import InputOptions         from "../Input/InputOptions";
+import InputOption          from "../Input/InputOption";
 import IconLink             from "../Link/IconLink";
 
 
@@ -48,6 +52,48 @@ function TextInput(props) {
     } = props;
 
 
+    // The References
+    const containerRef   = React.useRef(null);
+    const optionsRef     = React.useRef(null);
+    const selectedIdxRef = React.useRef(-1);
+    const selectedValRef = React.useRef("");
+
+    // The Current State
+    const [ showOptions, setShowOptions ] = React.useState(false);
+    const [ timer,       setTimer       ] = React.useState(null);
+    const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
+    const [ update,      setUpdate      ] = React.useState(0);
+
+
+    // Clear the Timer
+    React.useEffect(() => {
+        return () => {
+            if (timer) {
+                window.clearTimeout(timer);
+            }
+        };
+    }, [ timer ]);
+
+    // Update the Selected Index on Value Change
+    React.useEffect(() => {
+        if (showOptions) {
+            setSelectedIndex(value);
+            setUpdate(update + 1);
+        }
+    }, [ value ]);
+
+    // Sets the Selected Index
+    const setSelectedIndex = (value) => {
+        if (value) {
+            selectedIdxRef.current = options.findIndex((option) => String(option.value) === String(value)) ?? -1;
+            selectedValRef.current = options.find((option) => String(option.value) === String(value))?.value ?? "";
+        } else {
+            selectedIdxRef.current = -1;
+            selectedValRef.current = "";
+        }
+    };
+
+
     // Returns the Value
     const getValue = (e) => {
         const text = String(e.target.value);
@@ -69,8 +115,58 @@ function TextInput(props) {
         }
     };
 
+    // Handles the Select
+    const handleSelect = (e, value) => {
+        e.stopPropagation();
+        onChange(name, value);
+    };
+
+    // Handles the Click
+    const handleClick = () => {
+        if (!showOptions) {
+            inputRef.current.focus();
+            setShowOptions(true);
+        }
+    };
+
+    // Handles the Focus
+    const handleFocus = () => {
+        const bounds = Utils.getBounds(containerRef);
+        setBounds({
+            top       : bounds.bottom,
+            left      : bounds.left,
+            width     : bounds.width,
+            maxHeight : window.innerHeight - bounds.bottom - 10,
+        });
+        setShowOptions(true);
+        setSelectedIndex(value);
+        onFocus();
+    };
+
+    // Handles the Blur
+    const handleBlur = () => {
+        setTimer(window.setTimeout(() => {
+            setShowOptions(false);
+            setTimer(null);
+            onBlur();
+        }, 200));
+    };
+
     // Handles the Key Down
     const handleKeyDown = (e) => {
+        if (showOptions) {
+            if (Utils.isSpecialKey(e.keyCode)) {
+                return;
+            }
+            const [ newIndex, handled ] = Utils.handleKeyNavigation(e.keyCode, selectedIdxRef.current, options.length);
+            if (handled) {
+                e.preventDefault();
+                selectedIdxRef.current = newIndex;
+                selectedValRef.current = options[newIndex]?.value;
+                setUpdate(update + 1);
+            }
+        }
+
         if (onKeyDown) {
             onKeyDown(e);
         }
@@ -78,9 +174,28 @@ function TextInput(props) {
 
     // Handles the Key Up
     const handleKeyUp = (e) => {
-        if (e.keyCode === KeyCode.DOM_VK_RETURN && onSubmit) {
-            onSubmit();
+        switch (e.keyCode) {
+        case KeyCode.DOM_VK_ESCAPE:
+            if (showOptions) {
+                setShowOptions(false);
+                e.stopPropagation();
+            }
+            break;
+        case KeyCode.DOM_VK_RETURN:
+            if (!showOptions) {
+                if (onSubmit) {
+                    onSubmit();
+                }
+                return;
+            }
+            if (showOptions && selectedValRef.current) {
+                handleSelect(e, selectedValRef.current);
+            }
+            inputRef.current.blur();
+            break;
+        default:
         }
+
         if (onKeyUp) {
             onKeyUp(e);
         }
@@ -99,9 +214,13 @@ function TextInput(props) {
     const atMaxLength   = characters > maxLength;
     const hasButtons    = Boolean((children && children.length) || generateCode);
 
+    const options       = InputType.useOptions(props);
+    const hasOptions    = Boolean(showOptions && options.length);
+
 
     // Do the Render
     return <InputContent
+        passedRef={containerRef}
         inputRef={inputRef}
         className={className}
         icon={icon}
@@ -111,6 +230,7 @@ function TextInput(props) {
         isFocused={isFocused}
         isDisabled={isDisabled}
         isSmall={isSmall}
+        onClick={handleClick}
         onClear={onClear}
         withBorder={withBorder}
         withLabel={withLabel}
@@ -131,8 +251,8 @@ function TextInput(props) {
             onChange={handleChange}
             onInput={handleInput}
             onPaste={onPaste}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
         />
@@ -151,6 +271,24 @@ function TextInput(props) {
                 isSmall
             />}
         </Children>
+
+        {hasOptions && <InputOptions
+            passedRef={optionsRef}
+            inputRef={inputRef}
+            top={bounds.top}
+            left={bounds.left}
+            width={bounds.width}
+            maxHeight={bounds.maxHeight}
+            withBackdrop={false}
+        >
+            {options.map(({ key, value }, index) => <InputOption
+                key={key}
+                className={`input-chooser-${index}`}
+                content={NLS.get(value)}
+                isSelected={selectedIdxRef.current === index}
+                onMouseDown={(e) => handleSelect(e, value)}
+            />)}
+        </InputOptions>}
     </InputContent>;
 }
 

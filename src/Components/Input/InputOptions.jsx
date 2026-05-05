@@ -8,18 +8,19 @@ import Utils                from "../../Utils/Utils";
 
 
 // Styles
-const Backdrop = Styled.div`
+const Backdrop = Styled.div.attrs(({ hide }) => ({ hide }))`
     display: block;
     position: fixed;
     inset: 0;
     z-index: var(--z-menu);
+
+    ${(props) => props.hide && "pointer-events: none;"}
 `;
 
-const Container = Styled.ul.attrs(({ top, left, gap, width, minWidth, maxHeight, opacity }) => ({ top, left, gap, width, minWidth, maxHeight, opacity }))`
+const Container = Styled.ul.attrs(({ top, bottom, left, gap, width, minWidth, maxHeight, opacity }) => ({ top, bottom, left, gap, width, minWidth, maxHeight, opacity }))`
     box-sizing: border-box;
     display: block;
     position: fixed;
-    top: ${(props) => `${props.top + props.gap}px`};
     left: ${(props) => `${props.left}px`};
     width: ${(props) => `${props.width}px`};
     opacity: ${(props) => props.opacity};
@@ -34,6 +35,8 @@ const Container = Styled.ul.attrs(({ top, left, gap, width, minWidth, maxHeight,
     pointer-events: all;
     overflow: auto;
 
+    ${(props) => props.top && `top: ${props.top + props.gap}px`};
+    ${(props) => props.bottom && `bottom: ${props.bottom - props.gap}px`};
     ${(props) => props.minWidth && `min-width: ${props.minWidth}px`};
     ${(props) => props.maxHeight && `max-height: ${props.maxHeight}px`};
 `;
@@ -47,13 +50,17 @@ const Container = Styled.ul.attrs(({ top, left, gap, width, minWidth, maxHeight,
  */
 function InputOptions(props) {
     const {
-        passedRef, inputRef, top, left, gap, width, minWidth, maxHeight,
+        passedRef, inputRef, withBackdrop,
+        top, bottom, left, gap, width, minWidth, maxHeight,
         opacity, onClose, children,
     } = props;
 
 
     // Handles the Options Close
     const handleClose = (e) => {
+        if (!withBackdrop) {
+            return;
+        }
         const inOptions = Utils.inRef(e.clientX, e.clientY, passedRef);
         const inInput   = Utils.inRef(e.clientX, e.clientY, inputRef);
 
@@ -71,10 +78,14 @@ function InputOptions(props) {
 
 
     // Do the Render
-    return <Backdrop onMouseDown={handleClose}>
+    return <Backdrop
+        onMouseDown={handleClose}
+        hide={!onClose}
+    >
         <Container
             ref={passedRef}
             top={top}
+            bottom={bottom}
             left={left}
             gap={gap}
             width={width}
@@ -94,17 +105,19 @@ function InputOptions(props) {
  * @type {object} propTypes
  */
 InputOptions.propTypes = {
-    passedRef : PropTypes.object.isRequired,
-    inputRef  : PropTypes.object.isRequired,
-    top       : PropTypes.number,
-    left      : PropTypes.number,
-    gap       : PropTypes.number,
-    width     : PropTypes.number,
-    minWidth  : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    maxHeight : PropTypes.number,
-    opacity   : PropTypes.number,
-    onClose   : PropTypes.func,
-    children  : PropTypes.any,
+    passedRef    : PropTypes.object.isRequired,
+    inputRef     : PropTypes.object.isRequired,
+    withBackdrop : PropTypes.bool,
+    top          : PropTypes.number,
+    bottom       : PropTypes.number,
+    left         : PropTypes.number,
+    gap          : PropTypes.number,
+    width        : PropTypes.number,
+    minWidth     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    maxHeight    : PropTypes.number,
+    opacity      : PropTypes.number,
+    onClose      : PropTypes.func,
+    children     : PropTypes.any,
 };
 
 /**
@@ -112,12 +125,12 @@ InputOptions.propTypes = {
  * @type {object} defaultProps
  */
 InputOptions.defaultProps = {
-    top       : 0,
-    left      : 0,
-    gap       : 2,
-    width     : 0,
-    maxHeight : 0,
-    opacity   : 1,
+    withBackdrop : true,
+    left         : 0,
+    gap          : 2,
+    width        : 0,
+    maxHeight    : 0,
+    opacity      : 1,
 };
 
 export default InputOptions;
