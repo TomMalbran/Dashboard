@@ -76,7 +76,7 @@ function SelectInput(props) {
         onChange, onClear, onFocus, onBlur, onSubmit,
     } = props;
 
-    const initStyle = { top : 0, left : 0, width : 0, maxHeight : 0, opacity : 0 };
+    const initStyle = { top : 0, bottom : undefined, left : 0, width : 0, maxHeight : 0, opacity : 0 };
 
     // The References
     const containerRef   = React.useRef(null);
@@ -269,21 +269,21 @@ function SelectInput(props) {
 
         const node    = containerRef.current.closest(".inputfield-double") || containerRef.current;
         const bounds  = node.getBoundingClientRect();
-        const options = optionsRef.current.getBoundingClientRect();
 
         const left    = bounds.left;
         const width   = bounds.width;
-        const height  = options.height;
 
         let top       = bounds.bottom;
+        let bottom    = undefined;
         let maxHeight = window.innerHeight - bounds.bottom - 10;
 
         if (top + minHeight > window.innerHeight) {
-            top       = bounds.top - height - 5;
+            top       = undefined;
+            bottom    = window.innerHeight - bounds.top + 5;
             maxHeight = 300;
         }
 
-        setStyle({ top, left, width, maxHeight, opacity : 1 });
+        setStyle({ top, bottom, left, width, maxHeight, opacity : 1 });
         scrollToIndex(selectedIdxRef.current, true);
     }, [ hasOptions, optionsRef.current ]);
 
@@ -319,6 +319,7 @@ function SelectInput(props) {
         }
     };
 
+    // Handles the Create
     const handleCreate = (value) => {
         if (value !== "__create__") {
             return false;
@@ -455,6 +456,7 @@ function SelectInput(props) {
             passedRef={optionsRef}
             inputRef={inputRef}
             top={style.top}
+            bottom={style.bottom}
             left={style.left}
             width={style.width}
             minWidth={minWidth}
