@@ -324,7 +324,7 @@ function Table(props) {
 
     // Do the Render
     if (isLoading) {
-        return <CircularLoader top={40} />;
+        return <CircularLoader topSpace={40} />;
     }
     if (!hasContent && none) {
         return <div>

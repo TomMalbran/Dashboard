@@ -40,7 +40,7 @@ const loaderDots = keyframes`
 `;
 
 // Styles
-const Container = Styled.div.attrs(({ variant, isTiny, isSmall, withSpacing, top }) => ({ variant, isTiny, isSmall, withSpacing, top }))`
+const Container = Styled.div.attrs(({ variant, isTiny, isSmall, withSpacing, topSpace }) => ({ variant, isTiny, isSmall, withSpacing, topSpace }))`
     --loader-size: ${(props) => props.isTiny ? "18px" : (props.isSmall ? "24px" : "64px")};
     --loader-border-width: ${(props) => props.isTiny ? "2px" : (props.isSmall ? "3px" : "6px")};
 
@@ -63,7 +63,7 @@ const Container = Styled.div.attrs(({ variant, isTiny, isSmall, withSpacing, top
     ${(props) => props.withSpacing ? `
         padding: 32px;
     ` : `
-        padding-top: ${props.top}px;
+        padding-top: ${props.topSpace}px;
     `}
 `;
 
@@ -121,7 +121,7 @@ const Text = Styled(Html)`
 function CircularLoader(props) {
     const {
         isHidden, className, variant, message,
-        isTiny, isSmall, withSpacing, top,
+        isTiny, isSmall, withSpacing, topSpace,
     } = props;
 
 
@@ -138,7 +138,7 @@ function CircularLoader(props) {
         isTiny={isTiny}
         isSmall={isSmall}
         withSpacing={withSpacing}
-        top={top}
+        topSpace={topSpace}
     >
         <Ring>
             <div />
@@ -162,7 +162,7 @@ CircularLoader.propTypes = {
     isTiny      : PropTypes.bool,
     isSmall     : PropTypes.bool,
     withSpacing : PropTypes.bool,
-    top         : PropTypes.number,
+    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 };
 
 /**
@@ -177,7 +177,7 @@ CircularLoader.defaultProps = {
     isTiny      : false,
     isSmall     : false,
     withSpacing : false,
-    top         : 0,
+    topSpace    : 0,
 };
 
 export default CircularLoader;

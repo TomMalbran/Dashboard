@@ -57,7 +57,7 @@ function Content(props) {
     // Render the Loading
     if (isLoading) {
         return <Section className={className} ref={passedRef}>
-            <CircularLoader top={40} />
+            <CircularLoader topSpace={40} />
         </Section>;
     }
 
