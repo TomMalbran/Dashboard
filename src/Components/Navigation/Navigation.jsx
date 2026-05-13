@@ -50,7 +50,7 @@ const Collapse = Styled(IconLink)`
     position: absolute;
     top: 22px;
     left: calc(var(--navigation-width) - var(--link-size) / 2);
-    z-index: 1;
+    z-index: 4;
     border: 1px solid var(--border-color-light);
     background-color: var(--content-color);
 `;
