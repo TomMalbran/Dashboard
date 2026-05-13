@@ -35,13 +35,6 @@ const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs }) => 
         }
     `};
 
-    ::-webkit-scrollbar:vertical {
-        border-left: none !important;
-    }
-    ::-webkit-scrollbar:horizontal {
-        border-top: none !important;
-    }
-
     @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
         display: block;
     }

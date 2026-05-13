@@ -38,13 +38,6 @@ const Container = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpac
         overflow: auto;
     `}
 
-    ::-webkit-scrollbar:vertical {
-        border-left: none !important;
-    }
-    ::-webkit-scrollbar:horizontal {
-        border-top: none !important;
-    }
-
     @media (max-width: 500px) {
         --dialog-padding: 16px;
 
