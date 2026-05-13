@@ -9,18 +9,21 @@ import Store                from "../../Core/Store";
 
 // Components
 import MenuLink             from "../Link/MenuLink";
-import Icon                 from "../Common/Icon";
+import IconLink             from "../Link/IconLink";
 
 
 
 // Styles
-const Content = Styled.div`
+const Content = Styled.div.attrs(({ hideActions }) => ({ hideActions }))`
     position: relative;
     margin-bottom: 4px;
 
-    &:hover > .nav-actions {
-        display: flex;
-    }
+    ${(props) => props.hideActions && `
+        &:hover > .nav-actions {
+            display: flex;
+            background-color: var(--navigation-hover, rgba(0, 0, 0, 0.1));
+        }
+    `}
 `;
 
 const NavMenu = Styled(MenuLink)`
@@ -31,25 +34,18 @@ const NavMenu = Styled(MenuLink)`
     --link-selected-color: var(--navigation-selected-color, var(--link-color));
 `;
 
-const NavActions = Styled.div`
-    display: none;
+const NavActions = Styled.div.attrs(({ hideActions }) => ({ hideActions }))`
+    display: ${(props) => props.hideActions ? "none" : "flex"};
     justify-content: center;
     position: absolute;
     top: 50%;
     right: 4px;
-    background-color: var(--navigation-hover, rgba(0, 0, 0, 0.1));
     border-radius: var(--border-radius);
     transform: translateY(-50%);
 
     .icon {
         padding: 2px;
     }
-`;
-
-const NavIcon = Styled(Icon)`
-    padding: 4px;
-    font-size: 1.2em;
-    cursor: pointer;
 `;
 
 
@@ -61,9 +57,9 @@ const NavIcon = Styled(Icon)`
  */
 function NavigationItem(props) {
     const {
-        className, message, html, url, href, emoji, icon, iconColor, amount, badge,
+        className, message, html, url, href, emoji, icon, iconColor, afterIcon, amount, badge,
         elemID, isSelected, isDisabled, smallNav, onAction, onClick, onClose, noClose,
-        canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
+        hideActions, canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
     const isSelect   = Navigate.useSelect();
@@ -127,7 +123,7 @@ function NavigationItem(props) {
 
     // Do the Render
     return <li>
-        <Content>
+        <Content hideActions={hideActions}>
             <NavMenu
                 passedRef={elementRef}
                 variant="light"
@@ -141,6 +137,7 @@ function NavigationItem(props) {
                 emoji={emoji}
                 icon={icon}
                 iconColor={iconColor}
+                afterIcon={afterIcon}
                 amount={amount}
                 badge={badge}
                 onlyIcon={smallNav}
@@ -148,22 +145,33 @@ function NavigationItem(props) {
                 onMouseLeave={hideTooltip}
             />
 
-            {hasActions && <NavActions className="nav-actions">
-                {canCollapse && <NavIcon
+            {hasActions && <NavActions
+                className="nav-actions"
+                hideActions={hideActions}
+            >
+                {canCollapse && <IconLink
+                    variant="black"
                     icon={isCollapsed ? "closed" : "open"}
                     onClick={(e) => handleAction(e, "COLLAPSE")}
+                    isSmall
                 />}
-                {collapseOnSelect && <NavIcon
+                {collapseOnSelect && <IconLink
+                    variant="black"
                     icon={selected ? "closed" : "open"}
                     onClick={handleClick}
+                    isSmall
                 />}
-                {canEdit && <NavIcon
+                {canEdit && <IconLink
+                    variant="black"
                     icon="edit"
                     onClick={(e) => handleAction(e, "EDIT")}
+                    isSmall
                 />}
-                {canDelete && <NavIcon
+                {canDelete && <IconLink
+                    variant="error"
                     icon="delete"
                     onClick={(e) => handleAction(e, "DELETE")}
+                    isSmall
                 />}
             </NavActions>}
         </Content>
@@ -186,6 +194,7 @@ NavigationItem.propTypes = {
     emoji            : PropTypes.string,
     icon             : PropTypes.string,
     iconColor        : PropTypes.string,
+    afterIcon        : PropTypes.string,
     amount           : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     badge            : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     elemID           : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
@@ -193,6 +202,7 @@ NavigationItem.propTypes = {
     onAction         : PropTypes.func,
     onClose          : PropTypes.func,
     noClose          : PropTypes.bool,
+    hideActions      : PropTypes.bool,
     canEdit          : PropTypes.bool,
     canDelete        : PropTypes.bool,
     canCollapse      : PropTypes.bool,
@@ -211,6 +221,7 @@ NavigationItem.propTypes = {
 NavigationItem.defaultProps = {
     isHidden         : false,
     className        : "",
+    hideActions      : false,
     canEdit          : false,
     canDelete        : false,
     canCollapse      : false,
