@@ -8,10 +8,23 @@ import Navigate             from "../../Core/Navigate";
 
 // Components
 import MenuLink             from "../Link/MenuLink";
+import IconLink             from "../Link/IconLink";
 
 
 
 // Styles
+const Content = Styled.div.attrs(({ hideActions }) => ({ hideActions }))`
+    position: relative;
+    margin-bottom: 4px;
+
+    ${(props) => props.hideActions && `
+        &:hover > .subnav-actions {
+            display: flex;
+            background-color: var(--navigation-hover, rgba(0, 0, 0, 0.1));
+        }
+    `}
+`;
+
 const NavMenu = Styled(MenuLink)`
     --link-color: var(--navigation-color, var(--title-color));
     --link-background: var(--navigation-hover, rgba(0, 0, 0, 0.1));
@@ -30,6 +43,20 @@ const NavMenu = Styled(MenuLink)`
     }
 `;
 
+const NavActions = Styled.div.attrs(({ hideActions }) => ({ hideActions }))`
+    display: ${(props) => props.hideActions ? "none" : "flex"};
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    border-radius: var(--border-radius);
+    transform: translateY(-50%);
+
+    .icon {
+        padding: 2px;
+    }
+`;
+
 
 
 /**
@@ -40,7 +67,8 @@ const NavMenu = Styled(MenuLink)`
 function SubNavigationItem(props) {
     const {
         action, isSelected, message, url, href, emoji, icon, iconColor, afterIcon,
-        amount, badge, onAction, onClick, onClose, children,
+        amount, badge, onAction, onClick, onClose,
+        hideActions, canEdit, canDelete, elemID, children,
     } = props;
 
 
@@ -53,10 +81,10 @@ function SubNavigationItem(props) {
 
     // Handles the Click
     const handleClick = (e) => {
-        if (onAction) {
-            onAction(act);
-        } else if (onClick) {
+        if (onClick) {
             onClick(e);
+        } else if (onAction) {
+            onAction(act);
         }
         if (onClose) {
             onClose(e);
@@ -65,22 +93,55 @@ function SubNavigationItem(props) {
         e.stopPropagation();
     };
 
+    // Handles the Action
+    const handleAction = (e, action) => {
+        if (onAction) {
+            onAction(Action.get(action), elemID);
+        }
+        e.stopPropagation();
+        e.preventDefault();
+    };
+
+
+    // Variables
+    const hasActions = canEdit || canDelete;
+
 
     // Do the Render
     return <li>
-        <NavMenu
-            variant="light"
-            isSelected={isSelected}
-            message={cnt}
-            href={url ? menuUrl : href}
-            emoji={emoji}
-            icon={icn}
-            iconColor={iconColor}
-            afterIcon={afterIcon}
-            onClick={handleClick}
-            amount={amount}
-            badge={badge}
-        />
+        <Content hideActions={hideActions}>
+            <NavMenu
+                variant="light"
+                isSelected={isSelected}
+                message={cnt}
+                href={url ? menuUrl : href}
+                emoji={emoji}
+                icon={icn}
+                iconColor={iconColor}
+                afterIcon={afterIcon}
+                onClick={handleClick}
+                amount={amount}
+                badge={badge}
+            />
+
+            {hasActions && <NavActions
+                className="subnav-actions"
+                hideActions={hideActions}
+            >
+                {canEdit && <IconLink
+                    variant="black"
+                    icon="edit"
+                    onClick={(e) => handleAction(e, "EDIT")}
+                    isTiny
+                />}
+                {canDelete && <IconLink
+                    variant="error"
+                    icon="delete"
+                    onClick={(e) => handleAction(e, "DELETE")}
+                    isTiny
+                />}
+            </NavActions>}
+        </Content>
         {children}
     </li>;
 }
@@ -90,22 +151,26 @@ function SubNavigationItem(props) {
  * @type {object} propTypes
  */
 SubNavigationItem.propTypes = {
-    isHidden   : PropTypes.bool,
-    action     : PropTypes.string,
-    message    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    url        : PropTypes.string,
-    href       : PropTypes.string,
-    emoji      : PropTypes.string,
-    icon       : PropTypes.string,
-    iconColor  : PropTypes.string,
-    afterIcon  : PropTypes.string,
-    amount     : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    badge      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
-    onAction   : PropTypes.func,
-    onClick    : PropTypes.func,
-    onClose    : PropTypes.func,
-    isSelected : PropTypes.bool,
-    children   : PropTypes.any,
+    isHidden    : PropTypes.bool,
+    action      : PropTypes.string,
+    message     : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    url         : PropTypes.string,
+    href        : PropTypes.string,
+    emoji       : PropTypes.string,
+    icon        : PropTypes.string,
+    iconColor   : PropTypes.string,
+    afterIcon   : PropTypes.string,
+    amount      : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    badge       : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    onAction    : PropTypes.func,
+    onClick     : PropTypes.func,
+    onClose     : PropTypes.func,
+    isSelected  : PropTypes.bool,
+    hideActions : PropTypes.bool,
+    canEdit     : PropTypes.bool,
+    canDelete   : PropTypes.bool,
+    elemID      : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    children    : PropTypes.any,
 };
 
 /**
