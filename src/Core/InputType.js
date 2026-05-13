@@ -83,6 +83,19 @@ function isValueFilled(type, value) {
 }
 
 /**
+ * Returns true if there is a value
+ * @param {string} type
+ * @param {*}      value
+ * @returns {boolean}
+ */
+function hasValue(type, value) {
+    if (type === NUMBER && Utils.isNumeric(value)) {
+        return Boolean(Number(value));
+    }
+    return isValueFilled(type, value);
+}
+
+/**
  * Gets the Options
  * @param {object} props
  * @returns {Array}
@@ -136,6 +149,7 @@ export default {
     hasClear,
     canShrink,
     isValueFilled,
+    hasValue,
     getOptions,
     useOptions,
 
