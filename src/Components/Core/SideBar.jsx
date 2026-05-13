@@ -161,7 +161,7 @@ function SideBar(props) {
             onClick={closeMenu}
             isSmall
         />}
-        <Div>
+        <Div className="sidebar-top">
             <BarLogo
                 logo={logo}
                 withLink
@@ -176,7 +176,7 @@ function SideBar(props) {
             />}
             {children}
         </Div>
-        <Div>
+        <Div className="sidebar-bottom">
             {!!message && <Name>{NLS.get(message)}</Name>}
             {!!onLogout && <BarIcon
                 icon="logout"
