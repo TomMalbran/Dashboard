@@ -31,7 +31,7 @@ import Utils                from "../Utils/Utils";
  * @property {(...args: any[]) => any} handleSubmit
  * @returns {FormType}
  */
-function useForm(slice, initialData, edit = null, onSubmit = null, startInLoading = true, open = true) {
+function useForm(slice, initialData, edit = undefined, onSubmit = undefined, startInLoading = true, open = true) {
     const { loaders                } = Store.useState("core");
     const { startLoader, endLoader } = Store.useAction("core");
 
@@ -42,7 +42,7 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
         initialErrors[key] = "";
     }
 
-    const [ data,   setDataInt   ] = React.useState({ ...initialData });
+    const [ data,   setDataInt   ] = React.useState(Utils.clone(initialData));
     const [ errors, setErrorsInt ] = React.useState({ ...initialErrors });
 
     // Reset the Loader
@@ -69,8 +69,8 @@ function useForm(slice, initialData, edit = null, onSubmit = null, startInLoadin
     };
 
     // Resets the Data
-    const resetData = () => {
-        setDataInt({ ...initialData });
+    const resetData = (fields) => {
+        setDataInt({ ...Utils.clone(initialData), ...fields });
     };
 
 
