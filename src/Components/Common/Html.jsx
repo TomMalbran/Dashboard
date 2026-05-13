@@ -61,7 +61,7 @@ function Html(props) {
     if (addLinks) {
         __html = __html
             .replace(urlPattern, (match) => {
-                const text = breakEmail ? Utils.makeBreakable(match) : match;
+                const text = (breakEmail ? Utils.makeBreakable(match) : match).replace(/&/g, "&amp;");
                 return `<a href="${match}" target="_blank">${text}</a>`;
             })
             .replace(pseudoUrlPattern, (match, p1, p2) => {
