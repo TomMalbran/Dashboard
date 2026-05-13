@@ -182,16 +182,14 @@ function TextInput(props) {
             }
             break;
         case KeyCode.DOM_VK_RETURN:
-            if (!showOptions) {
-                if (onSubmit) {
-                    onSubmit();
+            if (!hasOptions && onSubmit) {
+                onSubmit();
+            } else if (hasOptions) {
+                if (selectedValRef.current) {
+                    handleSelect(e, selectedValRef.current);
                 }
-                return;
+                inputRef.current.blur();
             }
-            if (showOptions && selectedValRef.current) {
-                handleSelect(e, selectedValRef.current);
-            }
-            inputRef.current.blur();
             break;
         default:
         }
