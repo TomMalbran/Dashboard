@@ -212,19 +212,58 @@ function scrollToBottom(ref, instant, timeout = 0) {
 }
 
 /**
+ * Returns the Caret Position
+ * @param {HTMLInputElement|HTMLTextAreaElement} inputElement
+ * @returns {{top: number, bottom: number, left: number}}
+ */
+function getCaretPosition(inputElement) {
+    const { selectionStart, value } = inputElement;
+    const styles = window.getComputedStyle(inputElement);
+
+    // Create a temporary span to measure text width
+    const ghost = document.createElement("span");
+
+    // Copy essential styles for accuracy
+    ghost.style.font       = styles.font;
+    ghost.style.padding    = styles.padding;
+    ghost.style.border     = styles.border;
+    ghost.style.whiteSpace = "pre";
+    ghost.style.visibility = "hidden";
+    ghost.style.position   = "absolute";
+
+    // Measure text from start to cursor
+    ghost.textContent = value.substring(0, selectionStart);
+    document.body.appendChild(ghost);
+
+    const textWidth = ghost.getBoundingClientRect().width;
+    document.body.removeChild(ghost);
+
+    // Get input's position relative to the viewport
+    const rect = inputElement.getBoundingClientRect();
+
+    return {
+        top    : rect.top + window.scrollY,
+        bottom : rect.bottom + window.scrollY,
+        left   : rect.left + window.scrollX + textWidth,
+    };
+}
+
+/**
  * Inserts an Text in the given Message
  * @param {React.RefObject<HTMLInputElement>} ref
  * @param {string}                            message
  * @param {string}                            text
+ * @param {number=}                           from
+ * @param {number=}                           to
  * @returns {string}
  */
-function insertText(ref, message, text) {
+function insertText(ref, message, text, from = 0, to = 0) {
     if (!ref.current) {
         return message + text;
     }
 
-    const start  = ref.current.selectionStart;
-    const end    = ref.current.selectionEnd;
+    const start  = from || ref.current.selectionStart;
+    const end    = to   || ref.current.selectionEnd;
     const result = message.substring(0, start) + text + message.substring(end);
 
     ref.current.value = result;
@@ -239,42 +278,48 @@ function insertText(ref, message, text) {
  * @param {React.RefObject<HTMLInputElement>} ref
  * @param {string}                            message
  * @param {string}                            character
+ * @param {string=}                           endCharacter
  * @returns {string}
  */
-function formatText(ref, message, character) {
+function formatText(ref, message, character, endCharacter) {
     if (!ref.current) {
         return message;
     }
 
+    const startChar = character;
+    const endChar   = endCharacter || character;
+    const startLen  = startChar.length;
+    const endLen    = endChar.length;
+    const fullLen   = startLen + endLen;
+
     const start = ref.current.selectionStart;
     const end   = ref.current.selectionEnd;
 
-    const length  = character.length;
     const selText = message.substring(start, end);
-    const extText = message.substring(start - length, end + length);
+    const extText = message.substring(start - startLen, end + endLen);
 
     let result   = message;
     let newStart = start;
     let newEnd   = end;
 
-    if (selText.length >= 2 * length && selText.startsWith(character) && selText.endsWith(character)) {
-        result   = message.substring(0, start) + message.substring(start + length, end - length) + message.substring(end);
+    if (selText.length >= fullLen && selText.startsWith(startChar) && selText.endsWith(endChar)) {
+        result   = message.substring(0, start) + message.substring(start + startLen, end - endLen) + message.substring(end);
         newStart = start;
-        newEnd   = end - 2 * length;
-    } else if (extText.length >= 2 * length && extText.startsWith(character) && extText.endsWith(character)) {
-        result   = message.substring(0, start - length) + message.substring(start, end) + message.substring(end + length);
-        newStart = start - length;
-        newEnd   = end - length;
+        newEnd   = end - fullLen;
+    } else if (extText.length >= fullLen && extText.startsWith(startChar) && extText.endsWith(endChar)) {
+        result   = message.substring(0, start - startLen) + message.substring(start, end) + message.substring(end + endLen);
+        newStart = start - startLen;
+        newEnd   = end - endLen;
     } else {
         result = (
             message.substring(0, start) +
-            character +
+            startChar +
             message.substring(start, end) +
-            character +
+            endChar +
             message.substring(end)
         );
-        newStart = start + character.length;
-        newEnd   = end + character.length;
+        newStart = start + startLen;
+        newEnd   = end + startLen;
     }
 
     ref.current.value = result;
@@ -443,15 +488,6 @@ function makeShort(value, length) {
 function makeBreakable(string) {
     // Inject zero-width space character (U+200B or &#8203) near (. or _ or - or @) to allow line breaking there
     return string.replace(new RegExp("(?<!\\/)(\\.|_|@|-|\\?|/)", "g"), "$1" + "\u200B");
-}
-
-/**
- * Returns true if the String is a URL
- * @param {string} string
- * @returns {boolean}
- */
-function isURL(string) {
-    return /^(https?:\/\/|mailto:|tel:|\/)/.test(string);
 }
 
 /**
@@ -763,7 +799,7 @@ function jsonToHtml(content) {
     return JSON.stringify(content, null, 2)
         .replace(/\n/g, "<br>")
         // Blue Keys
-        .replace(/"(\w+)"(?=:)/g, '<span style="color: #2980b9;">"$1"</span>')
+        .replace(/"([\w-]+)"(?=:)/g, '<span style="color: #2980b9;">"$1"</span>')
         // Green Values
         .replace(/:\s*"(.*?)"/g, ': <span style="color: #27ae60;">"$1"</span>')
         // Orange Numbers
@@ -1177,13 +1213,27 @@ function useSubSelectList(loading, itemIDs, subItemIDs, options, idsPerItem, sub
  * @returns {boolean}
  */
 function isSpecialKey(keyCode) {
-    const specialKeys = [
+    return [
         KeyCode.DOM_VK_ESCAPE, KeyCode.DOM_VK_TAB,
         KeyCode.DOM_VK_SHIFT, KeyCode.DOM_VK_CONTROL,
         KeyCode.DOM_VK_META, KeyCode.DOM_VK_ALT,
         KeyCode.DOM_VK_RETURN, KeyCode.DOM_VK_ENTER,
-    ];
-    return specialKeys.includes(keyCode);
+    ].includes(keyCode);
+}
+
+/**
+ * Returns true if the Key is handled by the code
+ * @param {number} keyCode
+ * @returns {boolean}
+ */
+function isKeyHandled(keyCode) {
+    return [
+        KeyCode.DOM_VK_UP,      KeyCode.DOM_VK_DOWN,
+        KeyCode.DOM_VK_LEFT,    KeyCode.DOM_VK_RIGHT,
+        KeyCode.DOM_VK_HOME,    KeyCode.DOM_VK_END,
+        KeyCode.DOM_VK_PAGE_UP, KeyCode.DOM_VK_PAGE_DOWN,
+        KeyCode.DOM_VK_RETURN,  KeyCode.DOM_VK_ESCAPE,
+    ].includes(keyCode);
 }
 
 /**
@@ -1658,6 +1708,7 @@ export default {
     inBounds,
     inRef,
     scrollToBottom,
+    getCaretPosition,
     insertText,
     formatText,
     hasSelection,
@@ -1674,7 +1725,6 @@ export default {
 
     makeShort,
     makeBreakable,
-    isURL,
     createSlug,
     upperCaseToCamelCase,
     upperCaseToPascalCase,
@@ -1719,6 +1769,7 @@ export default {
     useSelectList,
     useSubSelectList,
     isSpecialKey,
+    isKeyHandled,
     handleKeyNavigation,
 
     getGravatarUrl,
