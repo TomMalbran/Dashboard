@@ -26,6 +26,7 @@ const Child = Styled.div`
     justify-content: flex-end;
     align-items: center;
     flex-shrink: 0;
+    gap: 8px;
 
     .tab-item {
         margin-bottom: 0;
