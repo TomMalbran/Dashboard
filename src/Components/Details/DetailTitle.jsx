@@ -71,8 +71,9 @@ function DetailTitle(props) {
     const {
         isHidden, className, icon, message, isBeta,
         collapsible, isCollapsed,
-        canEdit, editIcon, editTooltip,
-        action, onAction, onClose, onClick,
+        viewAction, canView, viewIcon, viewTooltip,
+        action, canEdit, editIcon, editTooltip,
+        onAction, onClose, onClick,
     } = props;
 
 
@@ -80,9 +81,10 @@ function DetailTitle(props) {
     const isCollapsible   = Boolean(collapsible);
     const hasPreCollapse  = Boolean(isCollapsible && !icon);
     const hasPreIcon      = Boolean(icon);
-    const hasPostAction   = Boolean(action && onAction && canEdit);
+    const hasPostEdit     = Boolean(action && onAction && canEdit);
+    const hasPostView     = Boolean(viewAction && onAction && canView);
     const hasPostClose    = Boolean(onClose);
-    const hasPostCollapse = Boolean(isCollapsible && !hasPostAction && !hasPostClose && icon);
+    const hasPostCollapse = Boolean(isCollapsible && !hasPostView && !hasPostEdit && !hasPostClose && icon);
 
 
     // Do the Render
@@ -106,11 +108,19 @@ function DetailTitle(props) {
                 <Beta isHidden={!isBeta} />
             </Title>
 
-            {hasPostAction && <IconLink
+            {hasPostView && <IconLink
+                variant="black"
+                icon={viewIcon}
+                tooltip={viewTooltip}
+                onClick={(e) => onAction(e, viewAction)}
+                isSmall
+            />}
+
+            {hasPostEdit && <IconLink
                 variant="black"
                 icon={editIcon}
                 tooltip={editTooltip}
-                onClick={onAction}
+                onClick={(e) => onAction(e, action)}
                 isSmall
             />}
             {hasPostClose && <IconLink
@@ -140,6 +150,10 @@ DetailTitle.propTypes = {
     isBeta      : PropTypes.bool,
     collapsible : PropTypes.string,
     isCollapsed : PropTypes.bool,
+    viewAction  : PropTypes.string,
+    canView     : PropTypes.bool,
+    viewIcon    : PropTypes.string,
+    viewTooltip : PropTypes.string,
     action      : PropTypes.string,
     canEdit     : PropTypes.bool,
     editIcon    : PropTypes.string,
