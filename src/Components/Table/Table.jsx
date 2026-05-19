@@ -257,8 +257,8 @@ function Table(props) {
         }
 
         if (child.type === TableBody) {
-            hasContent = child.props.children && child.props.children.length > 0;
-            const tableRows = Utils.toArray(child.props.children);
+            const tableRows = Utils.getChildren(child.props.children);
+            hasContent = tableRows.length > 0;
             for (const tableRow of tableRows) {
                 elemIDs.push(tableRow.props.elemID);
             }
@@ -272,7 +272,7 @@ function Table(props) {
         }
 
         if (child.type === TableActionList) {
-            for (const tableAction of Utils.toArray(child.props.children)) {
+            for (const tableAction of Utils.getChildren(child.props.children)) {
                 const action = { ...tableAction.props };
                 action.act = Action.get(action.action);
                 if (!action.isHidden && ((action.act.isCCED && child.props.canEdit) || !action.act.isCCED)) {
