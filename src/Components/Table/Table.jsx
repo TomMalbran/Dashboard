@@ -233,7 +233,7 @@ function Table(props) {
                     const colData   = Utils.getValue(columnData, "id", tableHead.props.field);
                     const colIndex  = Utils.getIndex(columnData, "id", tableHead.props.field);
                     const position  = colIndex !== null ? colIndex : columnData.length + index;
-                    const width     = colData.width || 200;
+                    const width     = colData.width || Number(tableHead.props.width) || 200;
                     const isVisible = !tableHead.props.isHidden && (!!colData.isVisible || (!columnData.length && !!tableHead.props.isDefault));
 
                     data.isHidden = !isVisible;
