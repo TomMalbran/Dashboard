@@ -800,12 +800,19 @@ function jsonToHtml(content) {
         .replace(/\n/g, "<br>")
         // Blue Keys
         .replace(/"([\w-]+)"(?=:)/g, '<span style="color: #2980b9;">"$1"</span>')
-        // Green Values
-        .replace(/:\s*"(.*?)"/g, ': <span style="color: #27ae60;">"$1"</span>')
-        // Orange Numbers
-        .replace(/:\s*(\d+)/g, ': <span style="color: #d35400;">$1</span>')
-        // Purple Booleans
-        .replace(/:\s*(true|false)/g, ': <span style="color: #9b59b6; font-weight: bold;">$1</span>');
+        // Highlight values safely in one pass
+        .replace(/:\s*("(?:\\"|[^"])*"|\d+|true|false)/g, function(match, value) {
+            // Green Strings
+            if (value.startsWith('"')) {
+                return `: <span style="color: #27ae60;">${value}</span>`;
+            }
+            // Purple Booleans
+            if (value === "true" || value === "false") {
+                return `: <span style="color: #9b59b6; font-weight: bold;">${value}</span>`;
+            }
+            // Orange Numbers
+            return `: <span style="color: #d35400;">${value}</span>`;
+        });
 }
 
 /**
