@@ -9,6 +9,7 @@ import NLS                  from "../../Core/NLS";
 
 // Components
 import Icon                 from "../Common/Icon";
+import Amount               from "../Common/Amount";
 import Badge                from "../Common/Badge";
 
 
@@ -70,17 +71,6 @@ const EditIcon = Styled(ItemIcon)`
 
 const DeleteIcon = Styled(ItemIcon)`
     right: 2px;
-`;
-
-const Amount = Styled.span`
-    box-sizing: border-box;
-    min-width: 14px;
-    margin-left: 4px;
-    padding: 0 4px;
-    font-size: 10px;
-    line-height: 14px;
-    border-radius: var(--border-radius-small);
-    background-color: rgba(0, 0, 0, 0.07);
 `;
 
 const TabBadge = Styled(Badge)`

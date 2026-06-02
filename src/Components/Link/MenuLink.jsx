@@ -10,6 +10,7 @@ import Store                from "../../Core/Store";
 // Components
 import Icon                 from "../Common/Icon";
 import Html                 from "../Common/Html";
+import Amount               from "../Common/Amount";
 import Badge                from "../Common/Badge";
 
 // Variants
@@ -145,17 +146,6 @@ const Emoji = Styled.div`
     font-size: 1.4em;
     line-height: 1em;
     margin-right: 8px;
-`;
-
-const Amount = Styled.span`
-    box-sizing: border-box;
-    min-width: 14px;
-    margin-left: 8px;
-    padding: 0 4px;
-    font-size: 10px;
-    line-height: 14px;
-    border-radius: var(--border-radius-small);
-    background-color: rgba(0, 0, 0, 0.07);
 `;
 
 const MenuBadge = Styled(Badge)`
