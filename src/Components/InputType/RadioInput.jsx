@@ -21,15 +21,21 @@ const tick = keyframes`
 `;
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     --radio-outer: var(--input-radio-outer, 20px);
     --radio-inner: var(--input-radio-inner, 12px);
 
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: ${(props) => `repeat(${props.columns}, 1fr)`};
     gap: 8px;
     margin-top: 4px;
     margin-bottom: 4px;
+    width: 100%;
+
+    @media (max-width: 400px) {
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 const Label = Styled.label.attrs(({ isDisabled }) => ({ isDisabled }))`
@@ -124,7 +130,7 @@ function RadioInput(props) {
     const {
         className, isFocused, isDisabled,
         name, value, options, withIcons, iconSize,
-        withCustom, customText,
+        withCustom, customText, columns,
         onChange, onFocus, onBlur,
     } = props;
 
@@ -180,7 +186,7 @@ function RadioInput(props) {
         withPadding
         withLabel
     >
-        <Container>
+        <Container columns={columns}>
             {items.map(({ key, value }) => <Label
                 key={key}
                 isDisabled={isDisabled}
@@ -242,6 +248,7 @@ RadioInput.propTypes = {
     withCustom : PropTypes.bool,
     customText : PropTypes.string,
     customKey  : PropTypes.string,
+    columns    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
 };
 
 /**
@@ -257,6 +264,7 @@ RadioInput.defaultProps = {
     customText : "",
     customKey  : "",
     withCustom : false,
+    columns    : 1,
 };
 
 export default RadioInput;
