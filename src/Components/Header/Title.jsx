@@ -62,7 +62,7 @@ const Text = Styled.span`
  * @returns {React.ReactElement}
  */
 function Title(props) {
-    const { icon, emoji, message, fallback, href } = props;
+    const { icon, iconColor, emoji, message, fallback, href, backIcon } = props;
 
 
     // Variables
@@ -75,7 +75,7 @@ function Title(props) {
     return <Container className="title">
         {isLink && <IconLink
             variant="light"
-            icon="back"
+            icon={backIcon}
             href={href}
             isSmall
         />}
@@ -84,6 +84,7 @@ function Title(props) {
         </TitleEmoji>}
         {isIcon && <TitleIcon
             icon={icon}
+            color={iconColor}
         />}
         <Text>{message ? NLS.get(message) : NLS.get(fallback)}</Text>
     </Container>;
@@ -94,11 +95,21 @@ function Title(props) {
  * @type {object} propTypes
  */
 Title.propTypes = {
-    icon     : PropTypes.string.isRequired,
-    emoji    : PropTypes.string,
-    message  : PropTypes.string,
-    fallback : PropTypes.string,
-    href     : PropTypes.string,
+    icon      : PropTypes.string,
+    iconColor : PropTypes.string,
+    emoji     : PropTypes.string,
+    message   : PropTypes.string,
+    fallback  : PropTypes.string,
+    href      : PropTypes.string,
+    backIcon  : PropTypes.string,
+};
+
+/**
+ * The Default Properties
+ * @type {object} defaultProps
+ */
+Title.defaultProps = {
+    backIcon : "back",
 };
 
 export default Title;

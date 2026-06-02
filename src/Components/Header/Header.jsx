@@ -18,6 +18,7 @@ const Container = Styled.header`
     height: var(--header-height);
     padding: var(--header-padding);
     gap: var(--main-padding);
+    overflow: hidden;
 `;
 
 const Child = Styled.div`
@@ -42,7 +43,8 @@ const Child = Styled.div`
  */
 function Header(props) {
     const {
-        isHidden, className, icon, emoji, message, fallback, href,
+        isHidden, className, icon, iconColor, emoji,
+        message, fallback, href, backIcon,
         subTitle, subCircle, children,
     } = props;
 
@@ -54,10 +56,12 @@ function Header(props) {
     return <Container className={className}>
         <Title
             icon={icon}
+            iconColor={iconColor}
             emoji={emoji}
             message={message}
             fallback={fallback}
             href={href}
+            backIcon={backIcon}
         />
         <Subtitle
             message={subTitle}
@@ -76,11 +80,13 @@ function Header(props) {
 Header.propTypes = {
     isHidden  : PropTypes.bool,
     className : PropTypes.string,
-    icon      : PropTypes.string.isRequired,
+    icon      : PropTypes.string,
+    iconColor : PropTypes.string,
     emoji     : PropTypes.string,
     message   : PropTypes.string.isRequired,
     fallback  : PropTypes.string,
     href      : PropTypes.string,
+    backIcon  : PropTypes.string,
     subTitle  : PropTypes.string,
     subCircle : PropTypes.string,
     children  : PropTypes.any,
