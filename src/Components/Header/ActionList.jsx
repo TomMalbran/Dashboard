@@ -63,6 +63,11 @@ function ActionList(props) {
         return <React.Fragment />;
     }
     return <Container className={className}>
+        {canCreate && <ActionItem
+            action="CREATE"
+            message={createName}
+            onAction={onAction}
+        />}
         {canFilter && <ActionItem
             action="FILTER"
             onAction={onAction}
@@ -75,11 +80,6 @@ function ActionList(props) {
         />}
         {canImport && <ActionItem
             action="IMPORT"
-            onAction={onAction}
-        />}
-        {canCreate && <ActionItem
-            action="CREATE"
-            message={createName}
             onAction={onAction}
         />}
         {items}
