@@ -47,6 +47,7 @@ function EditDialog(props) {
         isWide={isWide}
         isLoading={isLoading}
         dontClose={dontClose}
+        dontBackClose
         aside={aside}
     >
         <DialogHeader message={title} icon={icon} />

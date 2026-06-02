@@ -82,7 +82,7 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
 function Dialog(props) {
     const {
         open, className, isLoading, width, isWide, isNarrow, noTab,
-        zIndex, dontClose, onClose, aside, hasFooter, children,
+        zIndex, dontClose, dontBackClose, onClose, aside, hasFooter, children,
     } = props;
 
 
@@ -95,6 +95,14 @@ function Dialog(props) {
     const [ opened,    setOpened  ] = React.useState(false);
     const [ isClosing, setClosing ] = React.useState(false);
 
+
+    // Handles the Dialog Close from the Backdrop
+    const handleBackClose = () => {
+        if (dontBackClose) {
+            return;
+        }
+        handleClose();
+    };
 
     // Handles the Dialog Close
     const handleClose = () => {
@@ -194,7 +202,7 @@ function Dialog(props) {
         zIndex={zIndex}
         hasFooter={withFooter}
         isClosing={isClosing}
-        onClose={handleClose}
+        onClose={handleBackClose}
     >
         <Content
             ref={contentRef}
@@ -221,19 +229,20 @@ function Dialog(props) {
  * @type {object} propTypes
  */
 Dialog.propTypes = {
-    open      : PropTypes.bool,
-    className : PropTypes.string,
-    dontClose : PropTypes.bool,
-    onClose   : PropTypes.func.isRequired,
-    zIndex    : PropTypes.number,
-    width     : PropTypes.number,
-    isWide    : PropTypes.bool,
-    isNarrow  : PropTypes.bool,
-    noTab     : PropTypes.bool,
-    isLoading : PropTypes.bool,
-    hasFooter : PropTypes.bool,
-    aside     : PropTypes.any,
-    children  : PropTypes.any,
+    open          : PropTypes.bool,
+    className     : PropTypes.string,
+    dontClose     : PropTypes.bool,
+    dontBackClose : PropTypes.bool,
+    onClose       : PropTypes.func.isRequired,
+    zIndex        : PropTypes.number,
+    width         : PropTypes.number,
+    isWide        : PropTypes.bool,
+    isNarrow      : PropTypes.bool,
+    noTab         : PropTypes.bool,
+    isLoading     : PropTypes.bool,
+    hasFooter     : PropTypes.bool,
+    aside         : PropTypes.any,
+    children      : PropTypes.any,
 };
 
 /**
@@ -241,14 +250,15 @@ Dialog.propTypes = {
  * @type {object} defaultProps
  */
 Dialog.defaultProps = {
-    className : "",
-    open      : false,
-    dontClose : false,
-    zIndex    : 0,
-    isWide    : false,
-    isNarrow  : false,
-    noTab     : false,
-    isLoading : false,
+    className     : "",
+    open          : false,
+    dontClose     : false,
+    dontBackClose : false,
+    zIndex        : 0,
+    isWide        : false,
+    isNarrow      : false,
+    noTab         : false,
+    isLoading     : false,
 };
 
 export default Dialog;
