@@ -27,16 +27,16 @@ const Title = Styled.h3`
  * @returns {React.ReactElement}
  */
 function InfoItem(props) {
-    const { label, message } = props;
+    const { className, label, message, textColor } = props;
 
 
     // Do the Render
     if (!message) {
         return <React.Fragment />;
     }
-    return <Container>
+    return <Container className={className}>
         <Title>{NLS.get(label)}</Title>
-        {NLS.get(message)}
+        <span className={`${textColor ? `text-${textColor}` : ""}`}>{NLS.get(message)}</span>
     </Container>;
 }
 
@@ -45,9 +45,11 @@ function InfoItem(props) {
  * @type {object} propTypes
  */
 InfoItem.propTypes = {
-    isHidden : PropTypes.bool,
-    label    : PropTypes.string.isRequired,
-    message  : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    isHidden  : PropTypes.bool,
+    className : PropTypes.string,
+    label     : PropTypes.string.isRequired,
+    message   : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    textColor : PropTypes.string,
 };
 
 /**
