@@ -58,6 +58,13 @@ const FieldContent = Styled.div.attrs(({ withLabel, isSmall, maxHeight, noWrap, 
         ${(props) => (!props.withLabel && props.isSmall) && `
             min-height: calc(var(--input-height) - var(--input-label) + 1px);
         `}
+        ${(props) => props.noWrap && `
+            white-space: nowrap;
+            min-width: 0;
+            flex-grow: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        `}
 
         ${(props) => props.maxHeight && `max-height: ${props.maxHeight}px;`}
         ${(props) => props.noWrap && "white-space: nowrap;"}
@@ -154,6 +161,7 @@ function ViewField(props) {
     return <InputContainer
         className={`inputview ${className}`}
         fullWidth={fullWidth}
+        hasError={hasError}
     >
         {withLabel && <FieldLabel
             className="inputview-label"
