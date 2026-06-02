@@ -36,9 +36,10 @@ function init(newApiUrl, newRouteUrl, onResult, onError) {
  * @param {object=}          options
  * @param {boolean=}         showResult
  * @param {AbortController=} abortController
+ * @param {boolean=}         skipAbort
  * @returns {Promise}
  */
-async function ajax(url, options = {}, showResult = true, abortController = null) {
+async function ajax(url, options = {}, showResult = true, abortController = null, skipAbort = false) {
     const defError = { form : "GENERAL_ERROR" };
 
     let response = null;
@@ -47,7 +48,7 @@ async function ajax(url, options = {}, showResult = true, abortController = null
     // To be able to Abort
     if (abortController) {
         options.signal = abortController.signal;
-    } else if (window.AbortController) {
+    } else if (!skipAbort && window.AbortController) {
         controller     = new window.AbortController();
         options.signal = controller.signal;
     }
@@ -246,9 +247,10 @@ async function get(route, params = {}, showResult = true, abortController = null
  * @param {object=}          params
  * @param {boolean=}         showResult
  * @param {AbortController=} abortController
+ * @param {boolean=}         skipAbort
  * @returns {Promise}
  */
-function post(route, params = {}, showResult = true, abortController = null) {
+function post(route, params = {}, showResult = true, abortController = null, skipAbort = false) {
     const url          = baseUrl(route);
     const accessToken  = Auth.getAccessToken();
     const refreshToken = Auth.getRefreshToken();
@@ -271,7 +273,7 @@ function post(route, params = {}, showResult = true, abortController = null) {
     if (timezone) {
         body.append("xTimezone", timezone);
     }
-    return ajax(url, { method : "post", body }, showResult, abortController);
+    return ajax(url, { method : "post", body }, showResult, abortController, skipAbort);
 }
 
 /**
