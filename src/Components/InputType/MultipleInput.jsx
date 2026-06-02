@@ -21,8 +21,9 @@ const Container = Styled.div.attrs(({ columns }) => ({ columns }))`
     margin-bottom: 4px;
     width: 100%;
 
-    @media (max-width: 500px) {
-        display: block;
+    @media (max-width: 400px) {
+        display: flex;
+        flex-direction: column;
     }
 `;
 
