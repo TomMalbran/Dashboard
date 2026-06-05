@@ -840,6 +840,14 @@ class DateTime {
     }
 
     /**
+     * Returns the position of the day in the month as a text
+     * @returns {string}
+     */
+    getDayPosition() {
+        return dayToPosition(this.day);
+    }
+
+    /**
      * Returns the day difference between the Current Day and the given one
      * @param {DateTime=} otherDate
      * @returns {number}
@@ -1354,6 +1362,17 @@ function dayToShortName(day) {
 }
 
 /**
+ * Returns the position of the day in the month
+ * @param {number} day
+ * @returns {string}
+ */
+function dayToPosition(day) {
+    const index     = Math.ceil(day / 7) - 1;
+    const positions = NLS.get("DATE_DAY_POSITIONS");
+    return positions[index] || "";
+}
+
+/**
  * Returns the month name for a given month
  * @param {number=} month - A possible month number (starting from 1)
  * @returns {string}
@@ -1432,6 +1451,7 @@ export default {
 
     dayToName,
     dayToShortName,
+    dayToPosition,
     monthToName,
     getMonthDays,
     getHourSelect,
