@@ -104,7 +104,7 @@ const Container = Styled.table.attrs(({ isEditable, totalWidth, hasRadius, hasSc
  */
 function Table(props) {
     const {
-        className, sort, fetch, isLoading, none, hideEmpty,
+        isHidden, className, sort, fetch, isLoading, none, hideEmpty,
         noClick, inDialog, hasFilter, statsAmount, hasTabs, hasAlert,
         noSorting, notFixed, columnData, onColumnEdit,
         checked, setChecked, hasCheckAll, extraSpace, children,
@@ -323,6 +323,9 @@ function Table(props) {
 
 
     // Do the Render
+    if (isHidden) {
+        return <React.Fragment />;
+    }
     if (isLoading) {
         return <CircularLoader topSpace={40} />;
     }
@@ -391,6 +394,7 @@ function Table(props) {
  * @type {object} propTypes
  */
 Table.propTypes = {
+    isHidden     : PropTypes.bool,
     className    : PropTypes.string,
     fetch        : PropTypes.func,
     sort         : PropTypes.object,
@@ -419,6 +423,7 @@ Table.propTypes = {
  * @type {object} defaultProps
  */
 Table.defaultProps = {
+    isHidden    : false,
     className   : "",
     sort        : {},
     none        : "",
