@@ -26,7 +26,7 @@ const Message = Styled(DialogMessage)`
  */
 function EditDialog(props) {
     const {
-        open, title, icon, message, className, isLoading,
+        open, title, icon, message, className, isLoading, loadingMessage,
         width, isNarrow, isWide, minHeight, fullHeight,
         noOverflow, withSpacing, bigSpacing,
         error, isDisabled, dontClose, noAutoFocus,
@@ -46,6 +46,7 @@ function EditDialog(props) {
         isNarrow={isNarrow}
         isWide={isWide}
         isLoading={isLoading}
+        loadingMessage={loadingMessage}
         dontClose={dontClose}
         dontBackClose
         aside={aside}
@@ -100,6 +101,7 @@ EditDialog.propTypes = {
     dontClose        : PropTypes.bool,
     onClose          : PropTypes.func.isRequired,
     isLoading        : PropTypes.bool,
+    loadingMessage   : PropTypes.string,
     isDisabled       : PropTypes.bool,
     noAutoFocus      : PropTypes.bool,
     width            : PropTypes.number,

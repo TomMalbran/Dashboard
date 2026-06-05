@@ -58,7 +58,8 @@ const Container = Styled.main.attrs(({ isLoading, isCentered, isNarrow, withSpac
  */
 function DialogBody(props) {
     const {
-        className, isLoading, isCentered, isNarrow, bigSpacing, withSpacing,
+        className, isLoading, loadingMessage,
+        isCentered, isNarrow, bigSpacing, withSpacing,
         noOverflow, minHeight, fullHeight, hideFooter,
         passedRef, onScroll, children,
     } = props;
@@ -91,7 +92,9 @@ function DialogBody(props) {
         noOverflow={noOverflow}
         onScroll={handleScroll}
     >
-        {isLoading ? <CircularLoader /> : children}
+        {isLoading ? <CircularLoader
+            message={loadingMessage}
+        /> : children}
     </Container>;
 }
 
@@ -100,19 +103,20 @@ function DialogBody(props) {
  * @type {object} propTypes
  */
 DialogBody.propTypes = {
-    passedRef   : PropTypes.any,
-    className   : PropTypes.string,
-    isLoading   : PropTypes.bool,
-    isCentered  : PropTypes.bool,
-    isNarrow    : PropTypes.bool,
-    withSpacing : PropTypes.bool,
-    bigSpacing  : PropTypes.bool,
-    minHeight   : PropTypes.number,
-    fullHeight  : PropTypes.bool,
-    noOverflow  : PropTypes.bool,
-    hideFooter  : PropTypes.bool,
-    onScroll    : PropTypes.func,
-    children    : PropTypes.any,
+    passedRef      : PropTypes.any,
+    className      : PropTypes.string,
+    isLoading      : PropTypes.bool,
+    loadingMessage : PropTypes.string,
+    isCentered     : PropTypes.bool,
+    isNarrow       : PropTypes.bool,
+    withSpacing    : PropTypes.bool,
+    bigSpacing     : PropTypes.bool,
+    minHeight      : PropTypes.number,
+    fullHeight     : PropTypes.bool,
+    noOverflow     : PropTypes.bool,
+    hideFooter     : PropTypes.bool,
+    onScroll       : PropTypes.func,
+    children       : PropTypes.any,
 };
 
 /**

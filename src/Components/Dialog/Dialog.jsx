@@ -81,8 +81,9 @@ const Content = Styled.dialog.attrs(({ width, isWide, isNarrow, hasTabs, isClosi
  */
 function Dialog(props) {
     const {
-        open, className, isLoading, width, isWide, isNarrow, noTab,
-        zIndex, dontClose, dontBackClose, onClose, aside, hasFooter, children,
+        open, className, isLoading, loadingMessage,
+        width, isWide, isNarrow, noTab, zIndex, aside,
+        dontClose, dontBackClose, onClose, hasFooter, children,
     } = props;
 
 
@@ -190,7 +191,8 @@ function Dialog(props) {
             withFooter = true;
         }
         items.push(React.cloneElement(child, {
-            key, isLoading, isNarrow, dontClose, onClose : handleClose,
+            key, isLoading, loadingMessage, isNarrow, dontClose,
+            onClose : handleClose,
         }));
     }
 
@@ -229,20 +231,21 @@ function Dialog(props) {
  * @type {object} propTypes
  */
 Dialog.propTypes = {
-    open          : PropTypes.bool,
-    className     : PropTypes.string,
-    dontClose     : PropTypes.bool,
-    dontBackClose : PropTypes.bool,
-    onClose       : PropTypes.func.isRequired,
-    zIndex        : PropTypes.number,
-    width         : PropTypes.number,
-    isWide        : PropTypes.bool,
-    isNarrow      : PropTypes.bool,
-    noTab         : PropTypes.bool,
-    isLoading     : PropTypes.bool,
-    hasFooter     : PropTypes.bool,
-    aside         : PropTypes.any,
-    children      : PropTypes.any,
+    open           : PropTypes.bool,
+    className      : PropTypes.string,
+    dontClose      : PropTypes.bool,
+    dontBackClose  : PropTypes.bool,
+    onClose        : PropTypes.func.isRequired,
+    zIndex         : PropTypes.number,
+    width          : PropTypes.number,
+    isWide         : PropTypes.bool,
+    isNarrow       : PropTypes.bool,
+    noTab          : PropTypes.bool,
+    isLoading      : PropTypes.bool,
+    loadingMessage : PropTypes.string,
+    hasFooter      : PropTypes.bool,
+    aside          : PropTypes.any,
+    children       : PropTypes.any,
 };
 
 /**
