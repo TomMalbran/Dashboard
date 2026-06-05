@@ -16,7 +16,7 @@ import TabList              from "../Tab/TabList";
 
 
 // Styles
-const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs }) => ({ withDetails, wideDetails, hasTabs }))`
+const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs, centered }) => ({ withDetails, wideDetails, hasTabs, centered }))`
     flex-grow: 1;
     padding: 0 var(--main-padding) var(--main-padding);
     overflow: auto;
@@ -33,6 +33,12 @@ const Section = Styled.section.attrs(({ withDetails, wideDetails, hasTabs }) => 
             grid-column: 2 / 2;
             grid-row: 1 / 3;
         }
+    `};
+
+    ${(props) => props.centered && `
+        display: flex;
+        justify-content: center;
+        align-items: center;
     `};
 
     @media (max-width: ${Responsive.WIDTH_FOR_DETAILS}px) {
@@ -56,7 +62,11 @@ function Content(props) {
 
     // Render the Loading
     if (isLoading) {
-        return <Section className={className} ref={passedRef}>
+        return <Section
+            ref={passedRef}
+            className={className}
+            centered
+        >
             <CircularLoader topSpace={40} />
         </Section>;
     }
