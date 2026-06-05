@@ -32,8 +32,8 @@ const Container = Styled.div.attrs(({ withLabel }) => ({ withLabel }))`
         }
 
         .inputfield:first-child::after {
-            top: calc(-2px - var(--input-label));
-            bottom: calc(-2px - var(--input-vert-padding));
+            top: calc(0px - var(--input-label));
+            bottom: calc(0px - var(--input-vert-padding));
             right: -8px;
         }
     ` : `
