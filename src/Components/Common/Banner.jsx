@@ -13,7 +13,7 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Container = Styled.div.attrs(({ variant, topSpace, bottomSpace }) => ({ variant, topSpace, bottomSpace }))`
+const Container = Styled.div.attrs(({ variant, topSpace, bottomSpace, inlineChildren }) => ({ variant, topSpace, bottomSpace, inlineChildren }))`
     position: relative;
     gap: 8px;
     padding: 12px 16px;
@@ -24,23 +24,37 @@ const Container = Styled.div.attrs(({ variant, topSpace, bottomSpace }) => ({ va
     ${(props) => props.variant === Outcome.SUCCESS && `
         background-color: hsl(170, 61%, 96%);
         border-color: var(--success-color);
-        .icon {
+        .banner-icon {
             color: var(--success-color);
         }
     `}
     ${(props) => props.variant === Outcome.WARNING && `
         background-color: hsl(43, 100%, 96%);
         border-color: var(--warning-color);
-        .icon {
+        .banner-icon {
             color: var(--warning-color);
         }
     `}
     ${(props) => props.variant === Outcome.ERROR && `
         background-color: hsl(0, 62%, 97%);
         border-color: var(--error-color);
-        .icon {
+        .banner-icon {
             color: var(--error-color);
         }
+    `}
+    ${(props) => props.variant === Outcome.INFO && `
+        border-color: var(--border-color-light);
+        .banner-icon {
+            color: var(--primary-color);
+        }
+    `}
+
+    ${(props) => props.inlineChildren && `
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
     `}
 
     ${(props) => props.topSpace && `margin-top: ${props.topSpace}px;`}
@@ -53,8 +67,9 @@ const Content = Styled.div`
     gap: 8px;
 `;
 
-const Children = Styled.div`
-    padding: 12px 0 0 28px;
+const Children = Styled.div.attrs(({ inlineChildren }) => ({ inlineChildren }))`
+    ${(props) => !props.inlineChildren && "padding: 12px 0 0 28px;"}
+
     :empty {
         display: none;
     }
@@ -70,7 +85,7 @@ const Children = Styled.div`
 function Banner(props) {
     const {
         isHidden, className, variant, message,
-        topSpace, bottomSpace, children,
+        topSpace, bottomSpace, inlineChildren, children,
     } = props;
 
 
@@ -84,7 +99,7 @@ function Banner(props) {
         case Outcome.ERROR:
             return "error";
         default:
-            return "";
+            return "info";
         }
     }, [ variant ]);
 
@@ -98,12 +113,17 @@ function Banner(props) {
         variant={variant}
         topSpace={topSpace}
         bottomSpace={bottomSpace}
+        inlineChildren={inlineChildren}
     >
         <Content>
-            <Icon icon={icon} size="20" />
+            <Icon
+                className="banner-icon"
+                icon={icon}
+                size="20"
+            />
             <Html>{NLS.get(message)}</Html>
         </Content>
-        <Children>
+        <Children inlineChildren={inlineChildren}>
             {children}
         </Children>
     </Container>;
@@ -114,13 +134,14 @@ function Banner(props) {
  * @type {object} propTypes
  */
 Banner.propTypes = {
-    isHidden    : PropTypes.bool,
-    className   : PropTypes.string,
-    variant     : PropTypes.string.isRequired,
-    message     : PropTypes.string.isRequired,
-    topSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    bottomSpace : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
-    children    : PropTypes.any,
+    isHidden       : PropTypes.bool,
+    className      : PropTypes.string,
+    variant        : PropTypes.string.isRequired,
+    message        : PropTypes.string.isRequired,
+    topSpace       : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    bottomSpace    : PropTypes.oneOfType([ PropTypes.string, PropTypes.number ]),
+    inlineChildren : PropTypes.bool,
+    children       : PropTypes.any,
 };
 
 /**

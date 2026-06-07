@@ -33,4 +33,5 @@ export const Outcome = {
     SUCCESS : "success",
     WARNING : "warning",
     ERROR   : "error",
+    INFO    : "info",
 };
