@@ -3,6 +3,7 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
+import { Outcome }          from "../../Core/Variants";
 import NLS                  from "../../Core/NLS";
 
 // Components
@@ -13,26 +14,40 @@ import Html                 from "../Common/Html";
 
 
 // Styles
-const Container = Styled.div.attrs(({ zIndex }) => ({ zIndex }))`
+const Container = Styled.div.attrs(({ variant, zIndex }) => ({ variant, zIndex }))`
     box-sizing: border-box;
     position: fixed;
     left: 50%;
     top: 8px;
     width: max-content;
-    max-width: 600px;
+    max-width: 700px;
     display: grid;
     grid-template-areas: "message button close";
     grid-template-columns: 1fr auto auto;
     align-items: center;
     gap: var(--main-gap);
-    padding: 8px 8px 8px 16px;
+    padding: 12px 12px 12px 16px;
     color: #fff;
     background-color: var(--black-color);
     border-radius: var(--border-radius-medium);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     transform: translate(-50%);
-    z-index: ${(props) => props.zIndex || 2};
+    z-index: ${(props) => props.zIndex || "var(--z-snackbar, 2)"};
 
-    @media (max-width: 616px) {
+    ${(props) => props.variant === Outcome.SUCCESS && `
+        background-color: var(--success-color);
+    `}
+    ${(props) => props.variant === Outcome.WARNING && `
+        background-color: var(--warning-color);
+    `}
+    ${(props) => props.variant === Outcome.ERROR && `
+        background-color: var(--error-color);
+    `}
+    ${(props) => props.variant === Outcome.INFO && `
+        background-color: var(--primary-color);
+    `}
+
+    @media (max-width: 716px) {
         max-width: 96vw;
     }
     @media (max-width: 400px) {
@@ -62,7 +77,7 @@ const Close = Styled(IconLink)`
  */
 function SnackBar(props) {
     const {
-        isHidden, message, buttonText,
+        isHidden, className, variant, message, buttonText,
         autoClose, zIndex, onAccept, onClose,
     } = props;
 
@@ -131,7 +146,11 @@ function SnackBar(props) {
     if (!isVisible) {
         return <React.Fragment />;
     }
-    return <Container zIndex={zIndex}>
+    return <Container
+        className={className}
+        variant={variant}
+        zIndex={zIndex}
+    >
         <Content
             message={NLS.get(message)}
             addBreaks
@@ -139,9 +158,10 @@ function SnackBar(props) {
         />
         <Accept
             isHidden={!showAccept}
-            variant="primary"
+            variant="white"
             message={buttonText}
             onClick={handleAccept}
+            inLowerCase
             isSmall
         />
         <Close
@@ -159,12 +179,23 @@ function SnackBar(props) {
  */
 SnackBar.propTypes = {
     isHidden   : PropTypes.bool,
+    className  : PropTypes.string,
+    variant    : PropTypes.string,
     message    : PropTypes.string,
     buttonText : PropTypes.string,
     autoClose  : PropTypes.number,
     zIndex     : PropTypes.number,
     onAccept   : PropTypes.func,
     onClose    : PropTypes.func,
+};
+
+/**
+ * The Default Properties
+ * @type {object} defaultProps
+ */
+SnackBar.defaultProps = {
+    isHidden  : false,
+    className : "",
 };
 
 export default SnackBar;
