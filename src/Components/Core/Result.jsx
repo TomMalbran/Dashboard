@@ -42,7 +42,7 @@ const Content = Styled.div.attrs(({ variant, isClosing }) => ({ variant, isClosi
     padding: 12px 40px 12px 24px;
     color: white;
     font-weight: 400;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-medium);
     z-index: 1000;
     transform: translateX(200px);
     opacity: 0;
