@@ -30,7 +30,7 @@ const Container = Styled(InputContent).attrs(({ withLabel }) => ({ withLabel }))
 const Content = Styled.div.attrs(({ hideOverflow }) => ({ hideOverflow }))`
     box-sizing: border-box;
     width: 100%;
-    border-radius: var(--border-radius);
+    border-radius: var(--input-border-radius, var(--border-radius));
     ${(props) => props.hideOverflow && "overflow: hidden;"}
 `;
 

@@ -8,7 +8,7 @@ const EditorStyle = createGlobalStyle`
     .tox-tinymce.tox-tinymce {
         font-family: var(--main-font);
         border: 1px solid var(--input-border-color);
-        border-radius: var(--border-radius);
+        border-radius: var(--input-border-radius, var(--border-radius));
     }
     .editorfield-error .tox-tinymce {
         border-color: var(--error-color);
