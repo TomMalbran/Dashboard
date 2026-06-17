@@ -21,8 +21,9 @@ import MenuLine             from "../Menu/MenuLine";
  */
 function ActionItem(props) {
     const {
-        action, variant, isSmall, isLoading, withMark, message, icon,
-        onClick, onAction, direction, menuGap, badge,
+        action, variant, isSmall, isLoading,
+        withMark, message, icon, onlyIcon, badge,
+        onClick, onAction, direction, menuGap,
         tooltip, tooltipVariant, children,
     } = props;
 
@@ -86,6 +87,19 @@ function ActionItem(props) {
     };
 
 
+    // Generates the Message
+    const buttonMessage = React.useMemo(() => {
+        if (onlyIcon) {
+            return "";
+        }
+        if (message) {
+            return message;
+        }
+        const act = Action.get(action);
+        return act.message;
+    }, [ message, action, onlyIcon ]);
+
+
     // Do the Render
     if (!showMenu && !action && !onClick) {
         return <React.Fragment />;
@@ -96,7 +110,7 @@ function ActionItem(props) {
         <Button
             passedRef={buttonRef}
             variant={variant}
-            message={message || act.message}
+            message={buttonMessage}
             tooltip={tooltip}
             tooltipVariant={tooltipVariant}
             icon={icon || act.icon}
@@ -142,6 +156,7 @@ ActionItem.propTypes = {
     action         : PropTypes.string,
     message        : PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     icon           : PropTypes.string,
+    onlyIcon       : PropTypes.bool,
     tooltip        : PropTypes.string,
     tooltipVariant : PropTypes.string,
     onClick        : PropTypes.func,
