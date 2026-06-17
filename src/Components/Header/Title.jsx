@@ -38,6 +38,7 @@ const TitleEmoji = Styled.div`
     width: 24px;
     height: 24px;
     line-height: 1;
+    flex-shrink: 0;
 `;
 
 const TitleIcon = Styled(Icon)`
@@ -46,6 +47,7 @@ const TitleIcon = Styled(Icon)`
     justify-content: center;
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
 `;
 
 const Text = Styled.span`
