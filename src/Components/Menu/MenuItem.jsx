@@ -20,7 +20,7 @@ import Html                 from "../Common/Html";
 const Container = Styled.li.attrs(({ isSelected, isDisabled, isSmall, leftSpace }) => ({ isSelected, isDisabled, isSmall, leftSpace }))`
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     width: auto;
     min-width: 50px;
     margin: 0;
@@ -162,7 +162,7 @@ function MenuItem(props) {
             <Icon
                 isHidden={!hasIcon}
                 icon={icn}
-                size="20"
+                size="18"
             />
             <MenuCircle
                 isHidden={!hasCircle}
@@ -176,7 +176,7 @@ function MenuItem(props) {
             <Icon
                 isHidden={!hasMenu}
                 icon="closed"
-                size="20"
+                size="18"
             />
         </Container>
 
