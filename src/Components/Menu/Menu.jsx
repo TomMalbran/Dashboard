@@ -37,7 +37,7 @@ const Container = Styled.div.attrs(({ isVisible, withPos, isLeft, isRight, width
     padding: 8px;
     transform: translateY(-26px);
     background-color: var(--white-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-medium);
     box-shadow: var(--box-shadow);
     max-width: calc(100vw - var(--main-padding) * 2);
     overflow-x: hidden;
