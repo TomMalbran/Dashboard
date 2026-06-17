@@ -279,7 +279,7 @@ function Button(props) {
     const smallRadius = Boolean(isSmall && !icon && !afterIcon);
 
     return <Btn
-        ref={passedRef}
+        ref={elementRef}
         className={`btn ${className}`}
         variant={variant}
         disabled={isDisabled}
