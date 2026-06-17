@@ -55,6 +55,8 @@ FilterItem.propTypes = {
     hideClear     : PropTypes.bool,
     shrinkLabel   : PropTypes.bool,
     withHour      : PropTypes.bool,
+    prefix        : PropTypes.string,
+    suffix        : PropTypes.string,
     onChange      : PropTypes.func,
     children      : PropTypes.any,
 };

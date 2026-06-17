@@ -14,6 +14,7 @@ import Utils                from "../../Utils/Utils";
 // Components
 import FilterField          from "./FilterField";
 import FilterDate           from "./FilterDate";
+import FilterRange          from "./FilterRange";
 import ChipList             from "../Chip/ChipList";
 import ChipItem             from "../Chip/ChipItem";
 import InputOptions         from "../Input/InputOptions";
@@ -24,22 +25,30 @@ import IconLink             from "../Link/IconLink";
 
 
 // Styles
-const Container = Styled.div`
+const Container = Styled.div.attrs(({ isNarrow }) => ({ isNarrow }))`
     display: flex;
     gap: calc(var(--main-gap) / 2);
     box-sizing: border-box;
-    height: var(--filter-input-size);
+    height: calc(var(--filter-input-height) + 2px);
     margin: 0 0 var(--main-gap) 0;
     padding: 1px;
+    width: 100%;
+
+    ${(props) => props.isNarrow && "overflow: auto;"}
+`;
+
+const Content = Styled.div`
+    display: flex;
+    gap: calc(var(--main-gap) / 2);
 `;
 
 const Search = Styled(FilterField)`
     flex-shrink: 0;
-    width: 300px;
+    width: var(--filter-input-width, 300px);
 `;
 
 const FilterIcon = Styled(IconLink)`
-    --link-size: calc(var(--filter-input-size) - 8px);
+    --link-size: calc(var(--filter-input-height) - 8px);
     --link-radius: var(--border-radius);
     --link-background: var(--filter-input-hover);
 
@@ -48,15 +57,15 @@ const FilterIcon = Styled(IconLink)`
     background-color: var(--filter-input-background);
 `;
 
-const Chips = Styled(ChipList)`
+const Chips = Styled(ChipList).attrs(({ isNarrow }) => ({ isNarrow }))`
     flex-grow: 2;
     flex-wrap: nowrap;
     margin-left: calc(var(--main-gap) / 2);
-    overflow: auto;
 
     li {
         white-space: nowrap;
     }
+    ${(props) => !props.isNarrow && "overflow: auto;"}
 `;
 
 
@@ -74,21 +83,41 @@ function Filter(props) {
 
 
     // The References
+    const containerRef   = React.useRef(null);
+    const contentRef     = React.useRef(null);
     const inputRef       = React.useRef(null);
     const optionsRef     = React.useRef(null);
     const selectedRef    = React.useRef(-1);
     const selectedSubRef = React.useRef(-1);
 
     // The Current State
+    const [ isNarrow,     setIsNarrow   ] = React.useState(false);
     const [ search,      setSearch      ] = React.useState("");
     const [ data,        setData        ] = React.useState({});
     const [ showOptions, setShowOptions ] = React.useState(false);
     const [ bounds,      setBounds      ] = React.useState({ top : 0, left : 0, width : 0, maxHeight : 0 });
     const [ showDates,   setShowDates   ] = React.useState(false);
-    const [ datesName,   setDatesName   ] = React.useState("");
-    const [ withHour,    setWithHour    ] = React.useState(false);
-    const [ onlyHour,    setOnlyHour    ] = React.useState(false);
+    const [ showRange,   setShowRange   ] = React.useState(false);
+    const [ editItem,    setEditItem    ] = React.useState({ name : "", message : "", withHour : false, onlyHour : false, prefix : "", suffix : "" });
     const [ update,      setUpdate      ] = React.useState(0);
+
+
+    // Detect if the Filter is Narrow
+    React.useEffect(() => {
+        const observer = new ResizeObserver(() => {
+            if (!containerRef.current || !contentRef.current) {
+                return;
+            }
+            const containerBounds = containerRef.current.getBoundingClientRect();
+            const contentBounds   = contentRef.current.getBoundingClientRect();
+            setIsNarrow(containerBounds.width < contentBounds.width);
+        });
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+        return () => observer.disconnect();
+    }, []);
 
 
     // Parse the Items
@@ -122,6 +151,8 @@ function Filter(props) {
                 dontClose     : Boolean(child.dontClose),
                 withHour      : Boolean(child.withHour),
                 onlyHour      : child.type === "time",
+                prefix        : child.prefix,
+                suffix        : child.suffix,
             };
 
             itemList.push(item);
@@ -139,6 +170,9 @@ function Filter(props) {
                     fields[`${child.name}ToDate`]   = "";
                     fields[`${child.name}ToHour`]   = "";
                 }
+            } else if (child.type === "range") {
+                fields[`${child.name}From`] = "";
+                fields[`${child.name}To`]   = "";
             }
         }
         if (values) {
@@ -153,13 +187,19 @@ function Filter(props) {
 
 
     // Shows the Dates Dialog
-    const showDatesDialog = (name, withHour, onlyHour) => {
+    const showDatesDialog = (name, item) => {
         window.setTimeout(() => {
-            setDatesName(name);
-            setWithHour(withHour);
-            setOnlyHour(onlyHour);
+            setEditItem(item);
             setShowDates(true);
-        }, 100);
+        }, 500);
+    };
+
+    // Shows the Range Dialog
+    const showRangeDialog = (name, item) => {
+        window.setTimeout(() => {
+            setEditItem(item);
+            setShowRange(true);
+        }, 500);
     };
 
     // Handles the Update
@@ -177,7 +217,9 @@ function Filter(props) {
         }
 
         if ((item.type === "period" && (!item.options.length || value === Period.CUSTOM)) || item.type === "date" || item.type === "time") {
-            showDatesDialog(name, item.withHour, item.onlyHour);
+            showDatesDialog(name, item);
+        } else if (item.type === "range") {
+            showRangeDialog(name, item);
         } else {
             let newData  = {};
             let newValue = value;
@@ -249,6 +291,12 @@ function Filter(props) {
                     [`${name}ToHour`]   : "",
                 };
             }
+        } else if (item.type === "range") {
+            newData = {
+                ...data,
+                [`${name}From`] : "",
+                [`${name}To`]   : "",
+            };
         } else {
             newData = { ...data, [name] : "" };
         }
@@ -263,18 +311,18 @@ function Filter(props) {
 
     // Handles the Submit of the Dates Dialog
     const handleDates = (fromDate, fromHour, toDate, toHour) => {
-        const item = items[datesName];
+        const item = items[editItem.name];
         let newData = {};
-        if (datesName === "period") {
+        if (editItem.name === "period") {
             newData = { ...data, fromDate, fromHour, toDate, toHour, period : Period.CUSTOM };
         } else {
             newData = {
                 ...data,
-                [datesName]              : item.type === "period" ? Period.CUSTOM : "",
-                [`${datesName}FromDate`] : fromDate,
-                [`${datesName}FromHour`] : fromHour,
-                [`${datesName}ToDate`]   : toDate,
-                [`${datesName}ToHour`]   : toHour,
+                [editItem.name]              : item.type === "period" ? Period.CUSTOM : "",
+                [`${editItem.name}FromDate`] : fromDate,
+                [`${editItem.name}FromHour`] : fromHour,
+                [`${editItem.name}ToDate`]   : toDate,
+                [`${editItem.name}ToHour`]   : toHour,
             };
         }
 
@@ -283,11 +331,25 @@ function Filter(props) {
         handleFilter(newData);
     };
 
+    // Handles the Submit of the Range Dialog
+    const handleRange = (fromValue, toValue) => {
+        const newData = {
+            ...data,
+            [`${editItem.name}From`] : fromValue,
+            [`${editItem.name}To`]   : toValue,
+        };
+        setShowRange(false);
+        setData(newData);
+        handleFilter(newData);
+    };
+
     // Handles the Click on a Chip
-    const handleChipClick = (name, forDates) => {
+    const handleChipClick = (name, forDates, forRange) => {
         const item = items[name];
         if (item && forDates) {
-            showDatesDialog(name, item.withHour, item.onlyHour);
+            showDatesDialog(name, item);
+        } else if (item && forRange) {
+            showRangeDialog(name, item);
         }
     };
 
@@ -527,6 +589,8 @@ function Filter(props) {
             for (const val of values) {
                 let valueName = val;
                 let forDates  = false;
+                let forRange  = false;
+
                 if ((item.type === "period" && val === Period.CUSTOM) || item.type === "date") {
                     forDates = true;
 
@@ -550,11 +614,11 @@ function Filter(props) {
                     }
 
                     if (fromText && toText) {
-                        valueName = NLS.format("DATE_RANGE", fromText, toText);
+                        valueName = NLS.format("GENERAL_RANGE_DATES", fromText, toText);
                     } else if (fromText) {
-                        valueName = NLS.format("DATE_FROM", fromText);
+                        valueName = NLS.format("GENERAL_RANGE_FROM", fromText);
                     } else if (toText) {
-                        valueName = NLS.format("DATE_TO", toText);
+                        valueName = NLS.format("GENERAL_RANGE_TO", toText);
                     }
                 } else if (item.type === "time") {
                     forDates = true;
@@ -562,11 +626,25 @@ function Filter(props) {
                     const toText   = data[`${name}ToHour`]   || "";
 
                     if (fromText && toText) {
-                        valueName = NLS.format("DATE_RANGE", fromText, toText);
+                        valueName = NLS.format("GENERAL_RANGE_DATES", fromText, toText);
                     } else if (fromText) {
-                        valueName = NLS.format("DATE_FROM", fromText);
+                        valueName = NLS.format("GENERAL_RANGE_FROM", fromText);
                     } else if (toText) {
-                        valueName = NLS.format("DATE_TO", toText);
+                        valueName = NLS.format("GENERAL_RANGE_TO", toText);
+                    }
+                } else if (item.type === "range") {
+                    forRange = true;
+                    const fromValue = data[`${name}From`] || "";
+                    const toValue   = data[`${name}To`]   || "";
+                    const fromText  = [ item.prefix, fromValue, item.suffix ].join("");
+                    const toText    = [ item.prefix, toValue,   item.suffix ].join("");
+
+                    if (fromValue && toValue) {
+                        valueName = NLS.format("GENERAL_RANGE", fromText, toText);
+                    } else if (fromValue) {
+                        valueName = NLS.format("GENERAL_RANGE_FROM", fromText);
+                    } else if (toValue) {
+                        valueName = NLS.format("GENERAL_RANGE_TO", toText);
                     }
                 } else if (val && item.options) {
                     valueName = item.options.find((opt) => opt.key === val)?.value || val;
@@ -586,6 +664,7 @@ function Filter(props) {
                     value    : val,
                     message  : message,
                     forDates : forDates,
+                    forRange : forRange,
                 });
             }
         }
@@ -632,39 +711,45 @@ function Filter(props) {
 
     // Do the Render
     return <>
-        <Container className={className}>
-            <Search
-                passedRef={inputRef}
-                type="text"
-                name="search"
-                icon={icon}
-                placeholder={message}
-                value={search}
-                onUpdate={handleUpdate}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onKeyDown={handleKeyDown}
-                onKeyUp={handleKeyUp}
-            />
-            <FilterIcon
-                isHidden={!hasRefresh}
-                variant="black"
-                icon="refresh"
-                onClick={handleRefresh}
-            />
-            <FilterIcon
-                isHidden={!hasClear}
-                variant="black"
-                icon="filter-clear"
-                onClick={handleClear}
-            />
+        <Container
+            ref={containerRef}
+            className={className}
+            isNarrow={isNarrow}
+        >
+            <Content ref={contentRef}>
+                <Search
+                    passedRef={inputRef}
+                    type="text"
+                    name="search"
+                    icon={icon}
+                    placeholder={message}
+                    value={search}
+                    onUpdate={handleUpdate}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    onKeyDown={handleKeyDown}
+                    onKeyUp={handleKeyUp}
+                />
+                <FilterIcon
+                    isHidden={!hasRefresh}
+                    variant="black"
+                    icon="refresh"
+                    onClick={handleRefresh}
+                />
+                <FilterIcon
+                    isHidden={!hasClear}
+                    variant="black"
+                    icon="filter-clear"
+                    onClick={handleClear}
+                />
+            </Content>
 
-            <Chips>
-                {chipList.map(({ key, name, value, message, forDates }) => <ChipItem
+            <Chips isNarrow={isNarrow}>
+                {chipList.map(({ key, name, value, message, forDates, forRange }) => <ChipItem
                     key={key}
                     message={message}
-                    canClick={forDates}
-                    onClick={() => handleChipClick(name, forDates)}
+                    canClick={forDates || forRange}
+                    onClick={() => handleChipClick(name, forDates, forRange)}
                     canClose={initialValues ? String(initialValues[name]) !== String(value) : true}
                     onClose={() => handleRemove(name, value)}
                 />)}
@@ -703,12 +788,22 @@ function Filter(props) {
 
         <FilterDate
             open={showDates}
-            withHour={withHour}
-            onlyHour={onlyHour}
             currData={data}
-            datesName={datesName}
+            datesName={editItem.name}
+            withHour={editItem.withHour}
+            onlyHour={editItem.onlyHour}
             onSubmit={handleDates}
             onClose={() => setShowDates(false)}
+        />
+        <FilterRange
+            open={showRange}
+            currData={data}
+            name={editItem.name}
+            label={editItem.message}
+            prefix={editItem.prefix}
+            suffix={editItem.suffix}
+            onSubmit={handleRange}
+            onClose={() => setShowRange(false)}
         />
     </>;
 }
