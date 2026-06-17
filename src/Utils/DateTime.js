@@ -447,10 +447,11 @@ class DateTime {
 
     /**
      * Gives a string format to the Date depending on date
+     * @param {boolean=} withToday
      * @returns {string}
      */
-    toShortString() {
-        if (this.isToday) {
+    toShortString(withToday = true) {
+        if (withToday && this.isToday) {
             return this.toString("time");
         }
         if (this.isThisYear) {
@@ -1299,11 +1300,12 @@ function formatMedium(date) {
 /**
  * Formats the given date as a Short String
  * @param {(number|string|Date)} date
+ * @param {boolean=}             withToday
  * @returns {string}
  */
-function formatShort(date) {
+function formatShort(date, withToday = true) {
     if (date) {
-        return new DateTime(date).toShortString();
+        return new DateTime(date).toShortString(withToday);
     }
     return "";
 }
