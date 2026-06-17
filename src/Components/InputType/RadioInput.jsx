@@ -200,7 +200,10 @@ function RadioInput(props) {
                     disabled={isDisabled}
                 />
                 <Span />
-                {withIcons && <Iconography icon={key} size={iconSize} />}
+                {withIcons && <Iconography
+                    icon={key.toLowerCase()}
+                    size={iconSize}
+                />}
                 <Text>{NLS.get(value)}</Text>
             </Label>)}
             {withCustom && <Label>
