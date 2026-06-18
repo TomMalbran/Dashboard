@@ -16,7 +16,7 @@ import PromptDialog         from "../Dialogs/PromptDialog";
 // Styles
 const Container = Styled.div`
     background-color: var(--dropzone-background);
-    border-radius: var(--border-radius);
+    border-radius: var(--dropzone-border-radius, var(--border-radius));
     text-align: center;
     padding: var(--main-padding);
     color: var(--black-color);

@@ -15,7 +15,7 @@ import IconLink             from "../Link/IconLink";
 const Div = Styled.div.attrs(({ isSelected, hasActions }) => ({ isSelected, hasActions }))`
     position: relative;
     border: var(--media-border-width) solid var(--media-border-color);
-    border-radius: var(--border-radius);
+    border-radius: var(--media-border-radius, var(--border-radius));
     background-color: var(--media-background, var(--white-color));
     overflow: hidden;
     cursor: pointer;
@@ -43,9 +43,11 @@ const MediaElem = Styled.div.attrs(({ isTransparent }) => ({ isTransparent }))`
     overflow: hidden;
 
     img {
+        display: block;
         margin: 0 auto;
-        max-width: 96px;
-        max-height: 96px;
+        max-width: calc(100% - 12px);
+        max-height: calc(100% - 12px);
+        border-radius: var(--border-radius);
     }
 
     ${(props) => props.isTransparent && `

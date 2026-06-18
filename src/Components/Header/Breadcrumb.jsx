@@ -63,6 +63,7 @@ const Link = Styled(HyperLink)`
 
     &:hover {
         background: var(--dark-gray);
+        color: var(--title-color);
     }
     &:hover::after {
         border-left-color: var(--dark-gray);
