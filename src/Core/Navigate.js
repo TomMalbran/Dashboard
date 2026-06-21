@@ -243,17 +243,17 @@ function getWhatsApp(whatsapp) {
 function useNavigate() {
     const navigate = useRouteNavigate();
 
-    return (url) => {
+    return (url, replace = false) => {
         if (!url || url === "#") {
             return false;
         }
 
         if (url.startsWith(appUrl)) {
-            navigate(url.replace(appUrl, "/"));
+            navigate(url.replace(appUrl, "/"), { replace });
             return true;
         }
         if (!url.startsWith("http")) {
-            navigate(url);
+            navigate(url, { replace });
             return true;
         }
         return false;
@@ -270,6 +270,19 @@ function useGoto() {
     return (...args) => {
         const url = NLS.baseUrl(...args);
         navigate(url);
+    };
+}
+
+/**
+ * Goes to the given URL replacing the current one
+ * @returns {Function}
+ */
+function useGotoReplace() {
+    const navigate = useNavigate();
+
+    return (...args) => {
+        const url = NLS.baseUrl(...args);
+        navigate(url, true);
     };
 }
 
@@ -415,6 +428,7 @@ export default {
     getWhatsApp,
 
     useGoto,
+    useGotoReplace,
     useGotoUrl,
     useClick,
     useLink,
