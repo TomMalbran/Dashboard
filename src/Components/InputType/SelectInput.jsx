@@ -165,16 +165,17 @@ function SelectInput(props) {
             result = Utils.parseSearchResult(result, filter, "message");
         }
         if (hasCreate) {
+            const text   = NLS.get(createOption);
             result.push({
                 key         : "create",
                 value       : "__create__",
-                message     : NLS.get(createOption),
+                message     : filter ? `${text} "${filter}"` : text,
                 text        : "",
                 description : "",
             });
         }
         return result;
-    }, [ JSON.stringify(optionList), filter, hasCreate ]);
+    }, [ JSON.stringify(optionList), filter, hasCreate, filter ]);
 
     // Check if there are Filtered Options
     const hasOptions = React.useMemo(() => {
@@ -324,7 +325,8 @@ function SelectInput(props) {
         if (value !== "__create__") {
             return false;
         }
-        onCreate();
+
+        onCreate(filter);
         selectedValRef.current = "";
         return true;
     };

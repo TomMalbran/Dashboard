@@ -162,7 +162,7 @@ function SuggestInput(props) {
         if (value !== "__create__") {
             return false;
         }
-        onCreate();
+        onCreate(search);
         return true;
     };
 
@@ -265,7 +265,7 @@ function SuggestInput(props) {
         onClear={onClear}
         showButton={showCreate}
         buttonMessage="GENERAL_CREATE"
-        onButton={onCreate}
+        onButton={() => onCreate(search)}
         withBorder={withBorder}
         withLabel={withLabel}
         withPadding

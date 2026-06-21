@@ -101,7 +101,7 @@ function ChooserInput(props) {
             return false;
         }
 
-        onCreate();
+        onCreate(filter);
         setSelectedIndex();
         return true;
     };
@@ -233,10 +233,11 @@ function ChooserInput(props) {
             result = Utils.parseSearchResult(result, filter, "value");
         }
         if (hasCreate) {
+            const text = NLS.get(createOption);
             result.push({
                 key   : "__create__",
                 value : "__create__",
-                text  : NLS.get(createOption),
+                text  : filter ? `${text} "${filter}"` : text,
             });
         }
         return result;
