@@ -31,7 +31,7 @@ const Variant = {
 
 
 // Styles
-const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, inLowerCase, isLoading, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, inLowerCase, isLoading, withMark, withIcon, onlyIcon, smallRadius }))`
+const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, inLowerCase, noWrap, isLoading, withMark, withIcon, onlyIcon, smallRadius }) => ({ variant, isSmall, fullWidth, inLowerCase, noWrap, isLoading, withMark, withIcon, onlyIcon, smallRadius }))`
     --button-color: var(--black-color);
     --button-border: black;
     --button-background: black;
@@ -67,6 +67,12 @@ const Btn = Styled.button.attrs(({ variant, isSmall, fullWidth, inLowerCase, isL
     ${(props) => props.inLowerCase && `
         text-transform: none;
         font-size: ${props.isSmall ? "12px" : "14px"};
+    `}
+
+    ${(props) => props.noWrap && `
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     `}
 
     ${(props) => props.onlyIcon && `
@@ -249,7 +255,7 @@ const BtnBadge = Styled(Badge)`
 function Button(props) {
     const {
         passedRef, isHidden, className, variant,
-        isDisabled, isSmall, fullWidth, inLowerCase, isLoading,
+        isDisabled, isSmall, fullWidth, inLowerCase, noWrap, isLoading,
         icon, afterIcon, message, badge, withMark,
         tooltip, tooltipVariant, children,
     } = props;
@@ -286,6 +292,7 @@ function Button(props) {
         isSmall={isSmall}
         fullWidth={fullWidth}
         inLowerCase={inLowerCase}
+        noWrap={noWrap}
         isLoading={isLoading}
         withMark={withMark}
         withIcon={withIcon}
@@ -330,6 +337,7 @@ Button.propTypes = {
     isSmall        : PropTypes.bool,
     fullWidth      : PropTypes.bool,
     inLowerCase    : PropTypes.bool,
+    noWrap         : PropTypes.bool,
     isLoading      : PropTypes.bool,
     badge          : PropTypes.number,
     withMark       : PropTypes.bool,
