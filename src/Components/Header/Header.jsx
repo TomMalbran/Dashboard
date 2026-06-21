@@ -67,7 +67,7 @@ function Header(props) {
             message={subTitle}
             circle={subCircle}
         />
-        <Child>
+        <Child className="header-child">
             {children}
         </Child>
     </Container>;
