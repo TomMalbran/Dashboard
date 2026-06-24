@@ -30,8 +30,13 @@ const FieldContent = Styled.div.attrs(({ withLabel, isSmall, maxHeight, noWrap, 
     font-size: var(--input-font);
     background-color: var(--content-color);
     border: 1px solid var(--input-border);
-    border-radius: var(--input-border-radius, var(--border-radius));
     transition: all 0.2s;
+
+    ${(props) => props.isSmall ? `
+        border-radius: var(--input-border-radius-small, var(--border-radius));
+    ` : `
+        border-radius: var(--input-border-radius, var(--border-radius));
+    `}
 
     .inputview-value {
         width: 100%;
@@ -44,7 +49,6 @@ const FieldContent = Styled.div.attrs(({ withLabel, isSmall, maxHeight, noWrap, 
         overflow: auto;
 
         ${(props) => props.isSelected && `
-            border-radius: var(--input-border-radius, var(--border-radius));
             background-color: var(--lighter-gray);
         `}
         ${(props) => props.isSmall && `

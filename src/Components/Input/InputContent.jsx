@@ -24,7 +24,12 @@ const Container = Styled.div.attrs(({ isFocused, isDisabled, isSmall, withBorder
     ${(props) => props.withBorder && `
         background-color: var(--content-color);
         min-height: var(--input-height);
-        border-radius: var(--input-border-radius, var(--border-radius));
+
+        ${props.isSmall ? `
+            border-radius: var(--input-border-radius-small, var(--border-radius));
+        ` : `
+            border-radius: var(--input-border-radius, var(--border-radius));
+        `}
 
         ${props.dashedBorder ? `
             border: 2px dashed var(--input-border);
