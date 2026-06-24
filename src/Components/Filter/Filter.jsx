@@ -43,6 +43,8 @@ const Content = Styled.div`
 `;
 
 const Search = Styled(FilterField)`
+    --input-border-radius: var(--filter-border-radius, var(--input-border-radius));
+
     flex-shrink: 0;
     width: var(--filter-input-width, 300px);
 `;
