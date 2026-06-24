@@ -165,7 +165,7 @@ function TableCell(props) {
         onMouseLeave={hideTooltip}
     >
         {!!circle && !hideCircle && <Circle
-            variant={circle}
+            color={circle}
             tooltip={circleTooltip}
             tooltipVariant="bottom"
             tooltipWidth={100}

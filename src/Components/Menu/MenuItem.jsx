@@ -166,7 +166,7 @@ function MenuItem(props) {
             />
             <MenuCircle
                 isHidden={!hasCircle}
-                variant={circle}
+                color={circle}
             />
             {!!title && <b>{NLS.get(title)}</b>}
             <MenuText

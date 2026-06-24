@@ -52,7 +52,7 @@ function Subtitle(props) {
         return <React.Fragment />;
     }
     return <H3 className="subtitle" withBorder={withBorder}>
-        {!!circle && <SubCircle variant={circle} />}
+        {!!circle && <SubCircle color={circle} />}
         {NLS.get(message)}
     </H3>;
 }

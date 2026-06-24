@@ -14,18 +14,6 @@ export const Brightness = {
 };
 
 /**
- * The Semaphore Variants
- * @constant {object}
- */
-export const Semaphore = {
-    GREEN  : "green",
-    YELLOW : "yellow",
-    RED    : "red",
-    GRAY   : "gray",
-    BLUE   : "blue",
-};
-
-/**
  * The Outcome Variants
  * @constant {object}
  */

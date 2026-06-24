@@ -3,13 +3,12 @@ import PropTypes            from "prop-types";
 import Styled               from "styled-components";
 
 // Core
-import { Semaphore }        from "../../Core/Variants";
 import Store                from "../../Core/Store";
 
 
 
 // Styles
-const Container = Styled.span.attrs(({ variant }) => ({ variant }))`
+const Container = Styled.span.attrs(({ color }) => ({ color }))`
     flex-shrink: 0;
     display: inline-block;
     width: 12px;
@@ -18,24 +17,8 @@ const Container = Styled.span.attrs(({ variant }) => ({ variant }))`
     margin-right: 8px;
     border: 1px solid var(--border-color-dark);
     border-radius: 50%;
+    background-color: ${(props) => props.color};
     vertical-align: middle;
-
-    ${(props) => {
-        switch (props.variant) {
-        case Semaphore.GREEN:
-            return "background-color: green;";
-        case Semaphore.YELLOW:
-            return "background-color: yellow;";
-        case Semaphore.RED:
-            return "background-color: red;";
-        case Semaphore.GRAY:
-            return "background-color: gray;";
-        case Semaphore.BLUE:
-            return "background-color: #0747a6;";
-        default:
-            return "";
-        }
-    }}
 `;
 
 
@@ -47,7 +30,7 @@ const Container = Styled.span.attrs(({ variant }) => ({ variant }))`
  */
 function Circle(props) {
     const {
-        isHidden, className, variant,
+        isHidden, className, color,
         tooltip, tooltipVariant, tooltipWidth, tooltipDelay,
     } = props;
 
@@ -71,7 +54,7 @@ function Circle(props) {
     return <Container
         ref={elementRef}
         className={`circle ${className}`}
-        variant={variant}
+        color={color}
         onMouseEnter={handleTooltip}
         onMouseLeave={hideTooltip}
     />;
@@ -84,7 +67,7 @@ function Circle(props) {
 Circle.propTypes = {
     isHidden       : PropTypes.bool,
     className      : PropTypes.string,
-    variant        : PropTypes.string.isRequired,
+    color          : PropTypes.string.isRequired,
     tooltip        : PropTypes.string,
     tooltipVariant : PropTypes.string,
     tooltipWidth   : PropTypes.number,
