@@ -57,9 +57,12 @@ const NavActions = Styled.div.attrs(({ hideActions }) => ({ hideActions }))`
  */
 function NavigationItem(props) {
     const {
-        className, message, html, url, href, emoji, icon, iconColor, afterIcon, amount, badge,
-        elemID, isSelected, isDisabled, smallNav, onAction, onClick, onClose, noClose,
-        hideActions, canEdit, canDelete, canCollapse, isCollapsed, collapseOnSelect, children,
+        className, message, html, url, href, emoji,
+        icon, iconColor, afterIcon, amount, badge,
+        elemID, isSelected, useExact, isDisabled, smallNav,
+        onAction, onClick, onClose, noClose,
+        hideActions, canEdit, canDelete,
+        canCollapse, isCollapsed, collapseOnSelect, children,
     } = props;
 
     const isSelect   = Navigate.useSelect();
@@ -74,7 +77,7 @@ function NavigationItem(props) {
             return isSelected;
         }
         if (url) {
-            return isSelect(url);
+            return isSelect(url, false, useExact);
         }
         return false;
     };
@@ -209,6 +212,7 @@ NavigationItem.propTypes = {
     isCollapsed      : PropTypes.bool,
     collapseOnSelect : PropTypes.bool,
     isSelected       : PropTypes.bool,
+    useExact         : PropTypes.bool,
     isDisabled       : PropTypes.bool,
     smallNav         : PropTypes.bool,
     children         : PropTypes.any,

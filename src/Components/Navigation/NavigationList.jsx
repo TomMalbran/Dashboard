@@ -34,12 +34,12 @@ const Title = Styled.li`
  * @returns {React.ReactElement}
  */
 function NavigationList(props) {
-    const { isHidden, className, message, onAction, onClose, children } = props;
+    const { isHidden, className, message, useExact, onAction, onClose, children } = props;
 
 
     // Clone the Children
     const items = Utils.cloneChildren(children, () => ({
-        onAction, onClose,
+        useExact, onAction, onClose,
     }));
 
 
@@ -64,6 +64,7 @@ NavigationList.propTypes = {
     className : PropTypes.string,
     message   : PropTypes.string,
     variant   : PropTypes.string,
+    useExact  : PropTypes.bool,
     onAction  : PropTypes.func,
     onClose   : PropTypes.func,
     children  : PropTypes.any,

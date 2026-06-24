@@ -161,10 +161,13 @@ function useSelect() {
     const path      = usePath();
     const childPath = useChildPath();
 
-    return (url, startsWith) => {
+    return (url, startsWith, useExact) => {
         const route = NLS.url(url);
         if (startsWith) {
             return path.startsWith(`/${route}`);
+        }
+        if (useExact) {
+            return childPath === route;
         }
         return childPath.startsWith(route);
     };
