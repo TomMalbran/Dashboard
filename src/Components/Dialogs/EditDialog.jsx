@@ -58,7 +58,7 @@ function EditDialog(props) {
             fullHeight={fullHeight}
             noOverflow={noOverflow}
             withSpacing={withSpacing}
-            bigSpacing={bigSpacing}
+            bigSpacing={isLoading || bigSpacing}
         >
             <Message variant="h3" message={message} />
             <Form
