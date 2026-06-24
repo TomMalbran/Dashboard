@@ -15,12 +15,20 @@ import MediaItem            from "../Media/MediaItem";
 
 
 // Styles
-const Container = Styled.div.attrs(({ inDialog, withSpace }) => ({ inDialog, withSpace }))`
+const Container = Styled.div.attrs(({ inDialog, withSpace, isLoading }) => ({ inDialog, withSpace, isLoading }))`
     color: var(--media-main-color);
+
     ${(props) => props.inDialog && `
         min-height: calc(130px * 2 + 8px + 16px + 12px);
     `}
     ${(props) => props.withSpace && "padding-top: 24px;"}
+
+    ${(props) => props.isLoading && `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    `}
 `;
 
 const Section = Styled.section`
@@ -40,7 +48,7 @@ const Section = Styled.section`
  */
 function MediaList(props) {
     const {
-        className, onAction, onDrop, isLoading,
+        className, isLoading, onAction, onDrop,
         canEdit, canSelect, canDrag, inDialog, withSpace,
         selectedPath, selectedPaths, items, path,
     } = props;
@@ -110,7 +118,11 @@ function MediaList(props) {
             return;
         }
 
-        const node   = document.querySelector(`.media-item-${dragIndex}`);
+        const node = document.querySelector(`.media-item-${dragIndex}`);
+        if (!node) {
+            return;
+        }
+
         const bounds = node.getBoundingClientRect();
 
         setMoving(true);
@@ -145,7 +157,11 @@ function MediaList(props) {
 
         for (const [ index, elem ] of items.entries()) {
             if (elem.isBack || elem.isDir) {
-                const node   = document.querySelector(`.media-item-${index}`);
+                const node = document.querySelector(`.media-item-${index}`);
+                if (!node) {
+                    continue;
+                }
+
                 const bounds = node.getBoundingClientRect();
                 if (Utils.inBounds(e.clientX, e.clientY, bounds)) {
                     onDrop(items[dragIndex], elem);
@@ -196,6 +212,7 @@ function MediaList(props) {
         className={className}
         inDialog={inDialog}
         withSpace={withSpace}
+        isLoading={showLoader}
     >
         {showLoader && <CircularLoader />}
         {showNone   && <NoneAvailable message="MEDIA_NONE_AVAILABLE" />}
